@@ -1,0 +1,114 @@
+<!--?xml version="1.0" encoding="UTF-8" standalone="yes"?-->
+<svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny" width="3cm" height="3cm"
+     viewBox="-12 -22 24 24">
+
+
+    <g transform="translate(0,-1)" opacity="1">
+        <path id="girl_long_hair2" opacity="0.0" d="M 0 -8 l -4 0 l 0 8 l 8 0 l 0 -8"
+              style="fill:#3a2107;stroke:#000000;stroke-width:0.1mm; stroke-cap:round;"></path>
+        <path id="girl_hair6b" opacity="0.0" d="M 0 -8 l -4 0 l 0 8 l 8 0 l 0 -8"
+              style="fill:#3a2107;stroke:#000000;stroke-width:0.1mm; stroke-cap:round;"></path>
+        <g id="girl_ears">
+            <ellipse cx="5.25" cy="-11.25" rx="0.80" ry="1.5"
+                     style="fill:#e3cebb;stroke:#000000;stroke-width:0.1mm; stroke-cap:round;"></ellipse>
+            <ellipse cx="-5.25" cy="-11.25" rx="0.80" ry="1.5"
+                     style="fill:#e3cebb;stroke:#000000;stroke-width:0.1mm; stroke-cap:round;"></ellipse>
+        </g>
+        <path id="girl_body" d="M 0 2 l -10 0 q 0 -4 4 -4 q 4 0 4 -2 l 0 -2 l 4 0 l 0 2 q 0 2 4 2 q 4 0 4 4 l -10 0"
+              style="fill:#e3cebb;stroke:#000000;stroke-width:0.1mm; stroke-cap:round;"></path>
+
+        <path id="girl_shirt" d="M 0 2 l -10 0 q 0 -4 4 -4 q 6 4 12 0 q 4 0 4 4 l -10 0"
+              style="fill:#f6f5f4;stroke:#000000;stroke-width:0.1mm; stroke-cap:round;"></path>
+
+
+        <g transform="translate(0,3)">
+            <path id="head_girl_thin" opacity="0.0"
+                  d="M 0 -7 l 0  0  q -2 0 -5 -6 l  0 -2 q 1 -6 4 -6 l  2  0 q 3 0 4  6 l  0  2 q -3 6  -5  6"
+                  style="fill:#e3cebb;stroke:#000000;stroke-width:0.1mm; stroke-cap:round;"></path>
+            <path id="head_girl_standard" opacity="1.0"
+                  d="M 0  -7 l 0  0  q -3 0 -5 -6 l  0 -2 q 1 -6   4 -6 l  2  0 q 3 0   4  6 l  0  2 q -2 6  -5  6"
+                  style="fill:#e3cebb;stroke:#000000;stroke-width:0.1mm; stroke-cap:round;"></path>
+            <path id="head_girl_large" opacity="0.0"
+                  d="M 0  -7 l 0  0  q -4 0 -5 -6 l  0 -2 q 1 -6   4 -6 l  2  0 q 3 0   4  6 l  0  2 q -1 6  -5  6"
+                  style="fill:#e3cebb;stroke:#000000;stroke-width:0.1mm; stroke-cap:round;"></path>
+
+            <path id="girl_hair1" opacity="1.0" d="M 0 -20
+                    l -1 -1
+                    l -3 4
+                    l -3 2
+                    l 0 -1
+                    l 1 -2
+                    l 2 -4
+                    l 2 -1
+                    l 2 3
+
+                    l -1 -1
+                    l 3 -2
+                    l 6 5
+                    l 0 2
+                    l -4 0
+                    l -4 -4
+
+              " style="fill:#3a2107;stroke:#000000;stroke-width:0.1mm; stroke-cap:round;"></path>
+
+
+
+
+            <ellipse cx="-2.75" cy="-14.05" rx="1.80" ry="1.5" style="fill:#cdab8f;stroke:#none;"></ellipse>
+            <ellipse cx="2.75" cy="-14.05" rx="1.80" ry="1.5" style="fill:#cdab8f;stroke:#none;"></ellipse>
+
+            <g id="girls_eyes" opacity="0">
+                <animate attributeName="opacity" values="1" begin="1s" dur="0.5s" eventvalue="onmouseover"
+                         repeatCount="indefinite"></animate>
+                <ellipse cx="-2.5" cy="-14" rx="1" ry="0.5" style="fill:#F0F0F0;stroke:#none;"></ellipse>
+                <ellipse cx="2.5" cy="-14" rx="1" ry="0.5" style="fill:#F0F0F0;stroke:#none;"></ellipse>
+
+                <ellipse cx="-2.5" cy="-14" rx="0.5" ry="0.5" style="fill:#433120;stroke:#none;"></ellipse>
+                <ellipse cx="2.5" cy="-14" rx="0.5" ry="0.5" style="fill:#433120;stroke:#none;"></ellipse>
+                <ellipse cx="-2.5" cy="-14" rx="0.25" ry="0.25" style="fill:#202020;stroke:#none;"></ellipse>
+                <ellipse cx="2.5" cy="-14" rx="0.25" ry="0.25" style="fill:#202020;stroke:#none;"></ellipse>
+
+            </g>
+
+
+            <ellipse id="girl_nose" cx="0" cy="-11" rx="1.1" ry="0.35" style="fill:#cdab8f;stroke:#none;"></ellipse>
+
+
+            <path id="girl_mouth1" opacity="1.0" d="M 0 -9.5
+                    l -0.25 -0.25
+                    l -1.25 0.5
+                    l 1.5 0.5
+                    l 1.5 -0.5
+                    l -1.25 -0.5
+                    l -0.25 0.25
+
+
+              " style="fill:#cdab8f;stroke:none;stroke-width:0.1mm; stroke-cap:round;"></path>
+
+
+
+        </g>
+
+
+        <!--    <rect x="-7" y="-4" width="4" height="3" style="fill:#deddda;stroke:#none;"/>-->
+        <!--    <rect x="-2" y="-4" width="4" height="3" style="fill:#deddda;stroke:#none;"/>-->
+        <!--    <rect x="+3" y="-4" width="4" height="3" style="fill:#deddda;stroke:#none;"/>-->
+
+
+    </g>
+
+    <rect x="-8" y="-0.65" width="16" opacity="0" height="1.5" style="fill:#deddda;stroke:#none;"></rect>
+    <rect x="5" y="-1.5" width="2.5" opacity="0" height="2.5" style="fill:#f6f5f4;stroke:#none;"></rect>
+
+
+    <text class="words" x="0" y="-24" font-size="3" font-family="Roboto" text-anchor="middle">
+
+    </text>
+
+
+
+    <text x="12" y="-18" font-size="1" font-family="Roboto" text-anchor="end">
+        Vocals
+    </text>
+
+</svg>

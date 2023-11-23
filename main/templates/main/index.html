@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{%  load static %}
+
+{% block main %}
+{% endblock main %}
+
+{% block custom_js %}
+<script>
+    _.defer(function () {
+        let co = new Main()
+        let or = new Orologio('#d3area',co);
+        or.perform();
+        co.perform();
+        co.revealUniverse();
+    });
+</script>
+{% endblock custom_js %}

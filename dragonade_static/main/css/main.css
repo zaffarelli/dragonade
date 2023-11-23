@@ -1,0 +1,190 @@
+/*
+@mixin panel {
+  background: $panel_background;
+  color: $panel_color;
+  border: 1px solid $panel_border;
+  border-radius: 3px;
+  padding: 3px;
+  box-shadow: 0 0 3px $panel_shadow;
+  font-family: Roboto;
+  font-size: 10pt;
+}
+*/
+.hidden {
+  display: none !important; }
+
+.shownflex {
+  display: flex !important; }
+
+.shown {
+  display: block !important; }
+
+span.past {
+  color: darkslateblue; }
+
+span.future {
+  color: darkmagenta; }
+
+.front_message {
+  display: block;
+  font-size: 1.5em;
+  color: black;
+  width: 25%;
+  margin: 0;
+  margin-left: auto;
+  margin-right: auto; }
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #777777;
+  color: #F0F0F0; }
+  body .world {
+    margin-top: 0;
+    z-index: 5;
+    position: absolute;
+    color: #F0F0F0;
+    font-family: Neucha;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: stretch;
+    align-content: stretch;
+    align-items: stretch;
+    gap: 1px;
+    padding: 0; }
+    body .world .spare_left {
+      order: 1;
+      flex: 1 0 10%; }
+    body .world .spare_right {
+      order: 3;
+      flex: 1 0 10%; }
+    body .world .corpus {
+      width: auto;
+      flex: 8 0 80%;
+      order: 2;
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: stretch;
+      align-content: stretch;
+      align-items: stretch;
+      gap: 0 0; }
+      body .world .corpus .stacked {
+        order: 2;
+        flex: 8 1 80%;
+        text-align: center; }
+        body .world .corpus .stacked.top {
+          order: 1;
+          flex: 2 1 10%; }
+        body .world .corpus .stacked.bottom {
+          order: 3;
+          flex: 2 1 10%; }
+
+.container {
+  border: 1px solid black;
+  border-radius: 5px;
+  background: #606060;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: space-between;
+  align-content: stretch;
+  gap: 5px; }
+  .container .roster {
+    font-family: Neucha;
+    border: 1px solid #303030;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 5px;
+    background: #102030;
+    display: flex;
+    flex-flow: column wrap;
+    flex: 0 1 300px;
+    justify-content: flex-start;
+    align-items: stretch;
+    align-content: stretch;
+    gap: 1px; }
+    .container .roster .roster_line {
+      display: flex;
+      margin: 0;
+      padding: 0;
+      flex-flow: row wrap;
+      justify-content: flex-start;
+      align-items: stretch;
+      align-content: stretch;
+      flex: 0 1 2em;
+      gap: 1px; }
+      .container .roster .roster_line .label {
+        display: block;
+        background: #202020;
+        color: #C0C0C0;
+        order: 1;
+        flex: 1 1 4rem;
+        margin: 0;
+        padding: 0; }
+      .container .roster .roster_line .info {
+        display: block;
+        background: #505050;
+        color: #F0F0F0;
+        order: 2;
+        flex: 1 1 5rem;
+        margin: 0;
+        padding: 0; }
+    .container .roster .roster_pack {
+      display: flex;
+      margin: 0;
+      padding: 0;
+      flex-flow: row wrap;
+      justify-content: flex-start;
+      align-items: stretch;
+      align-content: stretch;
+      flex: 0 1 auto;
+      gap: 2px; }
+      .container .roster .roster_pack .roster_block {
+        border-radius: 3px;
+        display: flex;
+        margin: 0;
+        padding: 0;
+        flex-flow: column wrap;
+        justify-content: flex-start;
+        align-items: stretch;
+        align-content: stretch;
+        border: 1px solid #303030;
+        flex: 1 1 auto; }
+        .container .roster .roster_pack .roster_block .roster_row {
+          display: flex;
+          margin: 0;
+          padding: 0;
+          flex-flow: line wrap;
+          justify-content: flex-start;
+          align-items: space-between;
+          align-content: stretch;
+          border: 1px solid #606060;
+          flex: 1 0 20px;
+          background: yellow; }
+          .container .roster .roster_pack .roster_block .roster_row .label {
+            display: block;
+            background: #202020;
+            color: #C0C0C0;
+            order: 1;
+            flex: 1 0 2rem;
+            margin: 0;
+            padding: 0; }
+          .container .roster .roster_pack .roster_block .roster_row .info {
+            display: block;
+            background: #505050;
+            color: #F0F0F0;
+            order: 2;
+            flex: 1 0 2rem;
+            margin: 0;
+            padding: 0; }
+
+#d3area {
+  background: transparent;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000; }
+
+/*# sourceMappingURL=main.css.map */

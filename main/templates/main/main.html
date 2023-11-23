@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{%  load static %}
+
+
+{% block main %}
+{% endblock main %}
+
+
+{% block custom_js %}
+<script>
+    _.defer(function () {
+        let co = new Main()
+        co.perform();
+        co.revealUI();
+    });
+</script>
+{% endblock custom_js %}

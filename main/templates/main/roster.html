@@ -1,0 +1,73 @@
+{% load static %}
+{% load dragonade_filters %}
+
+<div class="roster" id="{{a.rid}}">
+
+
+    <!--    {{a}}-->
+    <div class="roster_line"><span class="label">Nom</span><span class="info">{{a.name}}</span></div>
+    <div class="roster_line"><span class="label">Entrance</span><span class="info">{{a.misc.entrance}}</span></div>
+    <div class="roster_line"><span class="label">Rêve</span><span class="info">#{{a.dream}}</span></div>
+
+
+    <div class="roster_pack">
+        <div class="roster_block">
+            <div class="roster_row">
+                <span class="label">AGI</span>
+                <span class="info">{{a.attributes.AGI|colorize_val|safe}}</span>
+            </div>
+            <div class="roster_row">
+                <span class="label">CON</span>
+                <span class="info">{{a.attributes.CON|colorize_val|safe}}</span>
+            </div>
+            <div class="roster_row">
+                <span class="label">FOR</span>
+                <span class="info">{{a.attributes.FOR|colorize_val|safe}}</span>
+            </div>
+            <div class="roster_row">
+                <span class="label">TAI</span>
+                <span class="info">{{a.attributes.TAI|colorize_val|safe}}</span>
+            </div>
+        </div>
+        <div class="roster_block">
+            <div class="roster_row">
+                <span class="label">EMP</span>
+                <span class="info">{{a.attributes.EMP|colorize_val|safe}}</span>
+            </div>
+            <div class="roster_row">
+                <span class="label">ODG</span>
+                <span class="info">{{a.attributes.ODG|colorize_val|safe}}</span>
+            </div>
+            <div class="roster_row">
+                <span class="label">OUI</span>
+                <span class="info">{{a.attributes.OUI|colorize_val|safe}}</span>
+            </div>
+            <div class="roster_row">
+                <span class="label">VUE</span>
+                <span class="info">{{a.attributes.VUE|colorize_val|safe}}</span>
+            </div>
+        </div>
+        <div class="roster_block">
+            <div class="roster_row">
+                <span class="label">APP</span>
+                <span class="info">{{a.attributes.APP|colorize_val|safe}}</span>
+            </div>
+            <div class="roster_row">
+                <span class="label">DEX</span>
+                <span class="info">{{a.attributes.DEX|colorize_val|safe}}</span>
+            </div>
+            <div class="roster_row">
+                <span class="label">INT</span>
+                <span class="info">{{a.attributes.INT|colorize_val|safe}}</span>
+            </div>
+            <div class="roster_row">
+                <span class="label">VOL</span>
+                <span class="info">{{a.attributes.VOL|colorize_val|safe}}</span>
+            </div>
+        </div>
+
+
+    </div>
+        <div class="roster_line"><span class="label">Indice</span><span class="info">{{a.misc.indice}}</span></div>
+
+</div>

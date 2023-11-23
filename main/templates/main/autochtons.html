@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{%  load static %}
+
+{% block main %}
+    <div class="container">
+    {% for x in characters %}
+    {% include "main/roster.html" with a=x%}
+    {% endfor %}
+    </div>
+{% endblock main %}
+
+
+{% block custom_js %}
+<script>
+    _.defer(function () {
+        let co = new Main()
+        co.perform();
+        co.revealUI();
+    });
+</script>
+{% endblock custom_js %}
