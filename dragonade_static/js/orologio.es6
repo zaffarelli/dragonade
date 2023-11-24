@@ -7,6 +7,7 @@ class Orologio{
 
     init() {
         let me = this;
+        me.hourOverride = 666;
         me.debug = true;
         me.quickDelay = 0.47 * 1000;
         me.slowDelay = 30 * 1000;
@@ -59,6 +60,22 @@ class Orologio{
             .style('fill','#B0A7A7')
         ;
 
+        me.circleback.append("text")
+            .attr("id","ZeHour")
+            .attr("x",me.step*7.2)
+            .attr("y",me.step*7.2)
+            .attr("dy",(me.fontsize/2)+"pt")
+            .style('stroke','#202020')
+            .style('stroke-linecap','round')
+            .style('stroke-width','1pt')
+            .style('fill','#303030')
+            .style('font-family','Neucha' )
+            .style('font-size',(me.fontsize*2)+'pt' )
+            .style('text-anchor','middle' )
+            .text("")
+        ;
+
+
         me.circleback.append("circle")
              .attr("id","outercircle")
             .attr("cx",0)
@@ -67,6 +84,7 @@ class Orologio{
             .style('stroke','#101010')
             .style('stroke-width','1pt')
             .style('fill','#B0A7A7')
+            .attr('opacity',0.5)
         ;
         me.circleback.append("circle")
             .attr("cx",0)
@@ -75,6 +93,7 @@ class Orologio{
             .style('stroke','#101010')
             .style('stroke-width','0.25pt')
             .style('fill','#D0C7C7')
+            .attr('opacity',0.75)
         ;
         me.circleback.append("circle")
             .attr("cx",0)
@@ -197,10 +216,18 @@ class Orologio{
             .style('cursor','pointer')
             //.style('opacity',0.25)
             .on('mouseover', (e, d) => {
-                me.svg.select('#ic_'+d).style('stroke','#A02020');
+                if (d == 11){
+                    me.svg.select('#ic_'+d)
+//                         .style('stroke','#A02020')
+                        .style('stroke-width','5pt')
+                    ;
+                }
             })
             .on('mouseout',  (e, d) => {
-                me.svg.select('#ic_'+d).style('stroke','#273030');
+                me.svg.selectAll('.imagecircle')
+                    .style('stroke','#273030')
+                    .style('stroke-width','1pt')
+                    ;
             })
 
 
@@ -279,13 +306,16 @@ class Orologio{
             .style('fill','#7F8080')
             .style('stroke','#101010')
             .style('stroke-width','0.75pt')
-            .on('mouseover', (e, d) => {
-                console.log("over ["+d+"]");
-                d3.selectAll(".linker").attr('fill',"#A02020");
-            })
-            .on('mouseout',  (e, d) => {
-                console.log("out ["+d+"]");
-                $("#rect_"+(d)).attr('fill',"#7F8080");
+            .style('cursor','pointer')
+            .on('click', (e, d) => {
+                console.log("Hour override ["+me.hourOverride+"]");
+                if (me.hourOverride == (d+2)*2){
+                    me.hourOverride = 666;
+                }else{
+                    me.hourOverride = (d+2)*2;
+                }
+                clearInterval(me.intervalSlow);
+                me.intervalSlow = setInterval(function() {me.updateSlow();},me.quickDelay);
             })
         ;
 
@@ -476,6 +506,9 @@ class Orologio{
         let me = this;
         let d = new Date();
         let hours = d.getHours();
+        if (me.hourOverride != 666){
+            hours = me.hourOverride;
+        }
         let hoursAngle = 360 * (Math.ceil(hours/2-2)/12)
         let hoursAngleO = 360 * (Math.ceil((hours+12)/2-2)/12)
         let hoursAngleF1 = 360 * (Math.ceil((hours+8)/2-2)/12)
@@ -502,6 +535,28 @@ class Orologio{
         let secondsAngle = 360 * (seconds/60)
         d3.select("#minutes_arm").attr('transform',"rotate("+minutesAngle+")")
         d3.select("#seconds_arm").attr('transform',"rotate("+secondsAngle+")")
+        d3.select("#ZeHour").text(d => {
+            if (me.hourOverride/2 - 2 != 331){
+                return me.hourOverride/2 - 2;
+            }else{
+                return "-"
+            }
+        });
+        if (me.hourOverride/2 - 2 == 331){
+            d3.select("#hours_main").style('fill', '#202020');
+            d3.select("#hours_opposition").style('fill', '#505050');
+            d3.select("#hours_fav1").style('fill', '#303030');
+            d3.select("#hours_fav2").style('fill', '#303030');
+            d3.select("#hours_def1").style('fill', '#707070');
+            d3.select("#hours_def2").style('fill', '#707070');
+        }else{
+            d3.select("#hours_main").style('fill', '#20A020');
+            d3.select("#hours_opposition").style('fill', '#A05050');
+            d3.select("#hours_fav1").style('fill', '#30A030');
+            d3.select("#hours_fav2").style('fill', '#30A030');
+            d3.select("#hours_def1").style('fill', '#A07070');
+            d3.select("#hours_def2").style('fill', '#A07070');
+        }
         clearInterval(me.intervalQuick);
         me.intervalQuick = setInterval(function() {me.updateQuick();},me.quickDelay);
     }

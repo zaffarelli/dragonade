@@ -84,6 +84,7 @@ class Orologio{
             .style('stroke','#101010')
             .style('stroke-width','1pt')
             .style('fill','#B0A7A7')
+            .attr('opacity',0.5)
         ;
         me.circleback.append("circle")
             .attr("cx",0)
@@ -92,6 +93,7 @@ class Orologio{
             .style('stroke','#101010')
             .style('stroke-width','0.25pt')
             .style('fill','#D0C7C7')
+            .attr('opacity',0.75)
         ;
         me.circleback.append("circle")
             .attr("cx",0)

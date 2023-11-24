@@ -88,7 +88,7 @@ $plate_color: lighten($panel_color,10%);
 }
 */
 @mixin body_background {
-  //background: transparent url('../colorful-grunge-texture-10.jpg') fixed; // 100% 100% no-repeat fixed;
+  background: transparent url('') fixed; // 100% 100% no-repeat fixed;
   //background: $body_background;
   //background-image: linear-gradient(to bottom right, grayscale($theme3), $theme3);
   background: grayscale($theme3);
@@ -106,6 +106,15 @@ $plate_color: lighten($panel_color,10%);
   //top:-500px !important;
   //left:-500px !important;
 }
+
+.shownflex{
+    display:flex !important;
+}
+
+.shown{
+    display:block !important;
+}
+
 
 
 span.past{

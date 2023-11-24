@@ -15,10 +15,12 @@ CHARACTER_STATISTICS = {
     ],
     'SECONDAIRES': [
         {"NAME": "TIR", "TEXT": "Tir", "COMPUTE": "basic_mean,DEX,VUE"},
-        {"NAME": "LAN", "TEXT": "Lancer", "COMPUTE": "basic_mean,TIR,FOR"},
         {"NAME": "MEL", "TEXT": "Mêlée", "COMPUTE": "basic_mean,FOR,AGI"},
         {"NAME": "DER", "TEXT": "Dérobade", "COMPUTE": "dero_mean,TAI,AGI"},
-        {"NAME": "REV", "TEXT": "Rêve", "COMPUTE": "basic_mean,CON,EMP,APP"}
+        {"NAME": "LAN", "TEXT": "Lancer", "COMPUTE": "basic_mean,TIR,FOR"},
+        {"NAME": "REV", "TEXT": "Rêve", "COMPUTE": "basic_mean,CON,EMP,APP"},
+        {"NAME": "VIE", "TEXT": "Points de Vie", "COMPUTE": "basic_sum,CON,TAI"},
+        {"NAME": "FAT", "TEXT": "Fatigue", "COMPUTE": "basic_mean,CON,VOL"}
     ],
     'COMPETENCES': {
         'MARTIALES': {

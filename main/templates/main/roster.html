@@ -1,73 +1,62 @@
 {% load static %}
 {% load dragonade_filters %}
 
-<div class="roster" id="{{a.rid}}">
-
-
-    <!--    {{a}}-->
-    <div class="roster_line"><span class="label">Nom</span><span class="info">{{a.name}}</span></div>
-    <div class="roster_line"><span class="label">Entrance</span><span class="info">{{a.misc.entrance}}</span></div>
-    <div class="roster_line"><span class="label">Rêve</span><span class="info">#{{a.dream}}</span></div>
-
-
-    <div class="roster_pack">
-        <div class="roster_block">
-            <div class="roster_row">
-                <span class="label">AGI</span>
-                <span class="info">{{a.attributes.AGI|colorize_val|safe}}</span>
-            </div>
-            <div class="roster_row">
-                <span class="label">CON</span>
-                <span class="info">{{a.attributes.CON|colorize_val|safe}}</span>
-            </div>
-            <div class="roster_row">
-                <span class="label">FOR</span>
-                <span class="info">{{a.attributes.FOR|colorize_val|safe}}</span>
-            </div>
-            <div class="roster_row">
-                <span class="label">TAI</span>
-                <span class="info">{{a.attributes.TAI|colorize_val|safe}}</span>
-            </div>
-        </div>
-        <div class="roster_block">
-            <div class="roster_row">
-                <span class="label">EMP</span>
-                <span class="info">{{a.attributes.EMP|colorize_val|safe}}</span>
-            </div>
-            <div class="roster_row">
-                <span class="label">ODG</span>
-                <span class="info">{{a.attributes.ODG|colorize_val|safe}}</span>
-            </div>
-            <div class="roster_row">
-                <span class="label">OUI</span>
-                <span class="info">{{a.attributes.OUI|colorize_val|safe}}</span>
-            </div>
-            <div class="roster_row">
-                <span class="label">VUE</span>
-                <span class="info">{{a.attributes.VUE|colorize_val|safe}}</span>
-            </div>
-        </div>
-        <div class="roster_block">
-            <div class="roster_row">
-                <span class="label">APP</span>
-                <span class="info">{{a.attributes.APP|colorize_val|safe}}</span>
-            </div>
-            <div class="roster_row">
-                <span class="label">DEX</span>
-                <span class="info">{{a.attributes.DEX|colorize_val|safe}}</span>
-            </div>
-            <div class="roster_row">
-                <span class="label">INT</span>
-                <span class="info">{{a.attributes.INT|colorize_val|safe}}</span>
-            </div>
-            <div class="roster_row">
-                <span class="label">VOL</span>
-                <span class="info">{{a.attributes.VOL|colorize_val|safe}}</span>
-            </div>
-        </div>
-
-
+<div class="sheet" id="{{a.id}}">
+    <div class="box label">Nom</div><div class="box info">{{a.name}}</div>
+    <div class="box label">Entrance</div><div class="box info">{{a.misc.entrance}}</div>
+    <div class="box label">Rêve</div><div class="box info">{{a.dream}}</div>
+    <div class="box label sub">Physique</div>
+    <div class="box subset">
+        <div class="box label nw">AGI</div>
+        <div class="box info nw editable" action="inc_dec" id="{{a.id}}__AGI">{{a.attributes.AGI|colorize_val|safe}}</div>
+        <div class="box label ne">CON</div>
+        <div class="box info ne editable" action="inc_dec" id="{{a.id}}__CON">{{a.attributes.CON|colorize_val|safe}}</div>
+        <div class="box label sw">FOR</div>
+        <div class="box info sw editable" action="inc_dec" id="{{a.id}}__FOR">{{a.attributes.FOR|colorize_val|safe}}</div>
+        <div class="box label se">TAI</div>
+        <div class="box info se editable" action="inc_dec" id="{{a.id}}__TAI">{{a.attributes.TAI|colorize_val|safe}}</div>
     </div>
-        <div class="roster_line"><span class="label">Indice</span><span class="info">{{a.misc.indice}}</span></div>
+    <div class="box label sub">Sensoriel</div>
+    <div class="box subset">
+        <div class="box label nw">EMP</div>
+        <div class="box info nw editable" action="inc_dec" id="{{a.id}}__EMP">{{a.attributes.EMP|colorize_val|safe}}</div>
+        <div class="box label ne">ODG</div>
+        <div class="box info ne editable" action="inc_dec" id="{{a.id}}__ODG">{{a.attributes.ODG|colorize_val|safe}}</div>
+        <div class="box label sw">OUI</div>
+        <div class="box info sw editable" action="inc_dec" id="{{a.id}}__OUI">{{a.attributes.OUI|colorize_val|safe}}</div>
+        <div class="box label se">VUE</div>
+        <div class="box info se editable" action="inc_dec" id="{{a.id}}__VUE">{{a.attributes.VUE|colorize_val|safe}}</div>
+    </div>
+    <div class="box label sub">Ame</div>
+    <div class="box subset">
+        <div class="box label nw">APP</div>
+        <div class="box info nw editable" action="inc_dec" id="{{a.id}}__APP">{{a.attributes.APP|colorize_val|safe}}</div>
+        <div class="box label ne">DEX</div>
+        <div class="box info ne editable" action="inc_dec" id="{{a.id}}__DEX">{{a.attributes.DEX|colorize_val|safe}}</div>
+        <div class="box label sw">INT</div>
+        <div class="box info sw editable" action="inc_dec" id="{{a.id}}__INT">{{a.attributes.INT|colorize_val|safe}}</div>
+        <div class="box label se">VOL</div>
+        <div class="box info se editable" action="inc_dec" id="{{a.id}}__VOL">{{a.attributes.VOL|colorize_val|safe}}</div>
+    </div>
+    <div class="box label">Indice</div><div class="box info">{{a.misc.indice}}</div>
 
+    <div class="box label sub">Secondaires</div>
+    <div class="box subset">
+        <div class="box label nw">TIR</div>
+        <div class="box info nw">{{a.attributes.TIR|colorize_val|safe}}</div>
+        <div class="box label ne">LAN</div>
+        <div class="box info ne">{{a.attributes.LAN|colorize_val|safe}}</div>
+        <div class="box label sw">MEL</div>
+        <div class="box info sw">{{a.attributes.MEL|colorize_val|safe}}</div>
+        <div class="box label se">DER</div>
+        <div class="box info se">{{a.attributes.DER|colorize_val|safe}}</div>
+    </div>
+    <div class="box label">VIE</div><div class="box info">{{a.attributes.VIE}}</div>
+    <div class="box label">FAT</div><div class="box info">{{a.attributes.FAT}} ({{a.misc.pf}})</div>
+    <div class="box label">+dom</div><div class="box info">{{a.misc.dom}}</div>
+    <div class="box label">sus</div><div class="box info">{{a.misc.sust}}</div>
+    <div class="box label">Seuil CON</div><div class="box info">{{a.misc.sc}}</div>
+    <div class="box label">Encombrement</div><div class="box info">{{a.misc.enc}}</div>
 </div>
+
+
