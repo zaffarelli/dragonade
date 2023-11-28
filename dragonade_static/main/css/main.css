@@ -40,155 +40,104 @@ span.future {
   background: transparent;
   display: flex;
   flex-flow: row wrap;
-  justify-content: center;
-  align-items: space-between;
+  justify-content: flex-start;
   align-content: stretch;
+  align-items: flex-start;
+  flex: 0 0 auto;
   gap: 5px; }
   .container .roster {
-    font-family: Neucha;
-    border: 1px solid #303030;
-    border-radius: 5px;
-    margin: 10px;
-    padding: 5px;
-    background: #102030;
+    background: transparent;
     display: flex;
-    flex-flow: column wrap;
-    flex: 0 1 300px;
-    justify-content: flex-start;
-    align-items: stretch;
-    align-content: stretch;
-    gap: 1px; }
-    .container .roster .roster_line {
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-content: space-evenly;
+    align-items: center;
+    gap: 5px; }
+    .container .roster .sheet {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-column-gap: 1px; }
-      .container .roster .roster_line .label {
-        display: block;
-        background: #202020;
-        color: #C0C0C0;
-        order: 1;
-        flex: 0 4 4rem;
-        margin: 0;
-        padding: 0; }
-      .container .roster .roster_line .lazy {
-        display: block;
-        background: #202020;
-        color: #C0C0C0;
-        order: 3;
-        flex: 1 1 1rem;
-        margin: 0;
-        padding: 0; }
-      .container .roster .roster_line .info {
-        display: block;
-        background: #505050;
-        color: #F0F0F0;
-        order: 2;
-        flex: 3 0 4rem;
-        margin: 0;
-        padding: 0; }
-    .container .roster .roster_pack {
-      display: flex;
-      margin: 0;
-      padding: 0;
-      flex-flow: row wrap;
-      justify-content: flex-start;
-      align-items: stretch;
-      align-content: stretch;
-      flex: 0 1 auto;
-      gap: 2px; }
-      .container .roster .roster_pack .roster_block {
-        border-radius: 3px;
-        display: flex;
-        margin: 0;
-        padding: 0;
-        flex-flow: column wrap;
-        justify-content: flex-start;
-        align-items: stretch;
-        align-content: stretch;
-        border: 1px solid #303030;
-        flex: 1 1 auto; }
-        .container .roster .roster_pack .roster_block .roster_row {
-          display: flex;
-          margin: 0;
+      flex: 0 0 auto;
+      font-family: Neucha;
+      font-size: 10pt;
+      border: 1px solid #707070;
+      border-radius: 5px;
+      margin: 10px;
+      padding: 5px;
+      gap: 2px;
+      box-shadow: 0 0 16px #101010;
+      background: #301020; }
+      .container .roster .sheet .box {
+        border-radius: 1px;
+        padding: 1px;
+        border: 2px solid transparent; }
+        .container .roster .sheet .box.label {
+          background-color: #404040; }
+        .container .roster .sheet .box.info {
+          background: #303030;
+          color: #F0F0F0; }
+          .container .roster .sheet .box.info.editable:hover {
+            border-color: orangered; }
+      .container .roster .sheet.skills {
+        background: #301020;
+        grid-template-columns: 150px 75px;
+        grid-template-rows: repeat(6, 1.5em); }
+        .container .roster .sheet.skills .label {
+          grid-column: 1 / span 1; }
+        .container .roster .sheet.skills .info {
+          grid-column: 2 / span 1; }
+        .container .roster .sheet.skills .header {
+          grid-column: 1 / span 2; }
+      .container .roster .sheet.base {
+        grid-template-columns: 50px 50px 50px 50px 75px 75px 75px 75px;
+        grid-template-rows: repeat(10, 1.5em); }
+        .container .roster .sheet.base .header {
+          grid-column: 1 / span 8; }
+        .container .roster .sheet.base .label {
+          grid-column: 1 / span 4; }
+          .container .roster .sheet.base .label.sub {
+            grid-row: span 2;
+            align-self: stretch;
+            vertical-align: middle; }
+          .container .roster .sheet.base .label.nw {
+            grid-column: 1 / span 1; }
+          .container .roster .sheet.base .label.ne {
+            grid-column: 3 / span 1; }
+          .container .roster .sheet.base .label.sw {
+            grid-column: 1 / span 1; }
+          .container .roster .sheet.base .label.se {
+            grid-column: 3 / span 1; }
+        .container .roster .sheet.base .info {
+          grid-column: 5 / span 4; }
+          .container .roster .sheet.base .info.nw {
+            grid-column: 2 / span 1; }
+          .container .roster .sheet.base .info.ne {
+            grid-column: 4 / span 1; }
+          .container .roster .sheet.base .info.sw {
+            grid-column: 2 / span 1; }
+          .container .roster .sheet.base .info.se {
+            grid-column: 4 / span 1; }
+        .container .roster .sheet.base .subset {
+          border: 1px solid #404040;
+          gap: 1px;
           padding: 0;
-          flex-flow: line wrap;
-          justify-content: flex-start;
-          align-items: space-between;
-          align-content: stretch;
-          border: 1px solid #606060;
-          flex: 1 0 20px;
-          background: yellow; }
-          .container .roster .roster_pack .roster_block .roster_row .label {
-            display: block;
-            background: #202020;
-            color: #C0C0C0;
-            order: 1;
-            flex: 1 1 2rem;
-            margin: 0;
-            padding: 0; }
-          .container .roster .roster_pack .roster_block .roster_row .info {
-            display: block;
-            background: #505050;
-            color: #F0F0F0;
-            order: 2;
-            flex: 1 2rem;
-            margin: 0;
-            padding: 0; }
-  .container .sheet {
-    display: grid;
-    font-family: Neucha;
-    font-size: 10pt;
-    border: 1px solid #707070;
-    border-radius: 5px;
-    box-shadow: 0 0 16px #C0C0C0;
-    background: #102030;
-    margin: 10px;
-    padding: 5px;
-    gap: 2px;
-    grid-template-columns: [a] 75px [b] 75px [c] 75px [d] 75px [e] 75px [f] 75px [g] 75px [h] 75px;
-    grid-template-rows: repeat(16, 1.5em); }
-    .container .sheet .box {
-      border-radius: 1px;
-      padding: 1px; }
-  .container .label {
-    background-color: #404040;
-    grid-column: a / span 4; }
-    .container .label.sub {
-      grid-row: span 2;
-      align-self: stretch;
-      vertical-align: middle; }
-    .container .label.nw {
-      grid-column: e / span 1; }
-    .container .label.ne {
-      grid-column: g / span 1; }
-    .container .label.sw {
-      grid-column: e / span 1; }
-    .container .label.se {
-      grid-column: g / span 1; }
-  .container .info {
-    background-color: #606060;
-    color: #F0F0F0;
-    grid-column: e / span 4; }
-    .container .info.nw {
-      grid-column: f / span 1; }
-    .container .info.ne {
-      grid-column: h / span 1; }
-    .container .info.sw {
-      grid-column: f / span 1; }
-    .container .info.se {
-      grid-column: h / span 1; }
-    .container .info.editable {
-      border: 2px ridge orangered;
-      background: black; }
-  .container .subset {
-    border: 1px solid #404040;
-    gap: 1px;
-    padding: 0;
-    grid-column: e / span 4;
-    grid-row: span 2;
-    display: grid;
-    grid-template-columns: subgrid;
-    grid-template-rows: subgrid; }
+          grid-column: 5 / span 4;
+          grid-row: span 2;
+          display: grid;
+          grid-template-columns: subgrid;
+          grid-template-rows: subgrid; }
+
+.minisheet {
+  display: block;
+  font-family: Fredoka;
+  font-size: 10pt;
+  border: 1px solid #707070;
+  border-radius: 5px;
+  box-shadow: 0 0 16px #202020;
+  background: #102030;
+  padding: 5px;
+  flex: 0 1 110px; }
+  .minisheet.mark {
+    background: #302010;
+    box-shadow: 0 0 16px #808080; }
 
 body {
   margin: 0;
@@ -198,6 +147,7 @@ body {
   color: #F0F0F0; }
   body .world {
     margin-top: 0;
+    margin-bottom: 0;
     z-index: 5;
     position: absolute;
     color: #F0F0F0;
@@ -214,30 +164,29 @@ body {
     padding: 0; }
     body .world .spare_left {
       order: 1;
-      flex: 1 0 10%; }
+      flex: 1 0 20%;
+      background: #10203070; }
     body .world .spare_right {
       order: 3;
-      flex: 1 0 10%; }
+      flex: 0 0 20%;
+      background: #10203070;
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-around;
+      align-content: flex-end;
+      align-items: space-between;
+      gap: 3px;
+      padding: 3px; }
     body .world .corpus {
       width: auto;
-      flex: 8 0 80%;
+      flex: 8 1 auto;
       order: 2;
-      display: flex;
-      flex-flow: column nowrap;
-      justify-content: stretch;
-      align-content: stretch;
-      align-items: stretch;
-      gap: 0 0; }
+      overflow: auto;
+      background: #FFCC2230; }
       body .world .corpus .stacked {
-        order: 2;
-        flex: 8 1 80%;
+        order: 1;
+        flex: 8 1 auto;
         text-align: center; }
-        body .world .corpus .stacked.top {
-          order: 1;
-          flex: 2 1 10%; }
-        body .world .corpus .stacked.bottom {
-          order: 3;
-          flex: 2 1 10%; }
 
 #d3area {
   background: transparent;

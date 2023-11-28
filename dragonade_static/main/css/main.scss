@@ -10,7 +10,9 @@ body {
   }
 
   & .world {
+
     margin-top: 0;
+    margin-bottom: 0;
     z-index: 5;
     position: absolute;
     color: $body_color;
@@ -20,7 +22,7 @@ body {
     height: 100%;
 
     top: 0;
-     display: flex;
+    display: flex;
     flex-flow: row nowrap;
     justify-content: stretch;
     align-content: stretch;
@@ -30,48 +32,39 @@ body {
 
     & .spare_left{
       order: 1;
-      flex: 1 0 10%;
-      //background:red;
+      flex: 1 0 20%;
+      background:#10203070;
     }
 
     & .spare_right{
+
       order: 3;
-      flex: 1 0 10%;
-      //background:blue;
+      flex: 0 0 20%;
+      background:#10203070;
+
+      display:flex;
+      flex-flow:row wrap;
+      justify-content: space-around;
+      align-content:flex-end;
+      align-items:space-between;
+      gap:3px;
+      padding:3px;
 
     }
 
     & .corpus {
       width: auto;
-      flex: 8 0 80%;
+      flex: 8 1 auto;
       order: 2;
-
-      display: flex;
-      flex-flow: column nowrap;
-      justify-content: stretch;
-      align-content: stretch;
-      align-items: stretch;
-      gap: 0 0;
-
+      overflow:auto;
+      background:#FFCC2230;
 
       & .stacked {
-        order: 2;
-        flex: 8 1 80%;
-        //background: yellow;
+        order: 1;
+        flex: 8 1 auto;
         text-align:center;
 
-        &.top {
-          order: 1;
-          flex: 2 1 10%;
-          //background: orange;
-        }
 
-        &.bottom {
-          order: 3;
-          flex: 2 1 10%;
-          //background: brown;
-
-        }
       }
     }
   }

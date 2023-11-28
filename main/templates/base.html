@@ -21,21 +21,29 @@
     {% endfor %}
         <link rel='stylesheet' type='text/css' href='{% sass_src "main/css/main.scss" %}'/>
 </head>
-<body style="background:transparent url({% static 'main/images/back.jpg' %}) fixed;">
-<div class="universe hidden"><div id="d3area"></div></div>
+<body style="background:transparent url({% static 'main/images/back7.jpg' %}) fixed; opacity: 0.95;">
+<img src="static/main/svg/dragonade_logo.svg" style="position:fixed; height:80%">
+<div class="universe hidden">
+
+    <div id="d3area"></div>
+</div>
 <div class="world hidden">
-    <div class="spare_left"></div>
+
+    <div class="spare_left">
+        {% block west %}
+        {% endblock west %}
+    </div>
     <div class="corpus">
-        <div class="stacked top"></div>
         <div class="stacked">
         {% block main %}
         {% endblock main %}
         </div>
-        <div class="stacked bottom"></div>
-        {% block javascript %}
-        {% endblock javascript %}
+
     </div>
-    <div class="spare_right"></div>
+    <div class="spare_right">
+        {% block east %}
+        {% endblock east %}
+    </div>
 </div>
 
 <div id="overlay" class="hidden">

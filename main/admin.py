@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from main.models import Autochton, AutochtonAdmin, Traveller, TravellerAdmin
+from main.models.autochtons import Autochton, AutochtonAdmin
+from main.models.travellers import Traveller, TravellerAdmin
 
 
 admin.site.register(Autochton, AutochtonAdmin)

@@ -1,12 +1,25 @@
 {% extends "base.html" %}
 {%  load static %}
 
+{% block east %}
+
+{% for x in characters %}
+{% include "main/mini.html" with a=x%}
+{% endfor %}
+
+{% endblock east %}
+
+
 {% block main %}
-    <div class="container">
+<div class="container">
     {% for x in characters %}
-    {% include "main/roster.html" with a=x%}
-    {% endfor %}
+
+    <div class="roster" id="roster_{{x.id}}">
+        {% include "main/roster.html" with a=x%}
     </div>
+
+    {% endfor %}
+</div>
 {% endblock main %}
 
 
