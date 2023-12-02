@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="93.765663mm"
+   height="19.406736mm"
+   viewBox="0 0 93.765663 19.406736"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="layer1"
+     transform="translate(-28.310411,-56.091666)">
+    <g
+       id="g191"
+       transform="matrix(0.26458333,0,0,0.26458333,-74.047033,50.0981)">
+      <a
+         id="a1"
+         transform="translate(-2.016129,15.536227)">
+        <g
+           id="g1">
+          <rect
+             style="font-variation-settings:'wght' 700;fill:#d5d5d5;fill-opacity:0.467766;fill-rule:evenodd;stroke:none;stroke-width:0.755905;paint-order:markers fill stroke"
+             id="rect190"
+             width="335.89905"
+             height="28.439411"
+             x="398.12436"
+             y="44.591896"
+             ry="3.4562051" />
+          <text
+             xml:space="preserve"
+             style="font-weight:600;font-size:32px;line-height:1.25;font-family:Montserrat;-inkscape-font-specification:'Montserrat, Semi-Bold';font-variant-caps:small-caps;fill:#ffffff;fill-opacity:0.705402"
+             x="389.71414"
+             y="50.429123"
+             id="text190"><tspan
+               id="tspan190"
+               x="389.71414"
+               y="50.429123"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:56px;font-family:Griffy;-inkscape-font-specification:'Griffy, @wght=400';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;font-variation-settings:'wght' 400;fill:#ffffff;fill-opacity:0.705402">DRAGONADE</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-weight:600;font-size:32px;line-height:1.25;font-family:Montserrat;-inkscape-font-specification:'Montserrat, Semi-Bold';font-variant-caps:small-caps;fill:#ffffff;fill-opacity:0.705402"
+             x="546.01636"
+             y="75.238243"
+             id="text191"><tspan
+               id="tspan191"
+               x="546.01636"
+               y="75.238243"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;font-family:Euphorigenic;-inkscape-font-specification:'Euphorigenic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:0.705402">Le Portail du Coint</tspan></text>
+        </g>
+      </a>
+    </g>
+  </g>
+</svg>

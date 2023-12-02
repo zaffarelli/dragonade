@@ -26,6 +26,7 @@ def autochtons(request):
         datum = x.toJson()
         characters.append(datum)
     context['characters'] = characters
+    context['title'] = "Les Autochtones"
     # print(context)
     return render(request, 'main/autochtons.html', context=context)
 

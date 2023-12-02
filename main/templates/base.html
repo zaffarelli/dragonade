@@ -22,15 +22,14 @@
         <link rel='stylesheet' type='text/css' href='{% sass_src "main/css/main.scss" %}'/>
 </head>
 <body style="background:transparent url({% static 'main/images/back7.jpg' %}) fixed; opacity: 0.95;">
-<img src="static/main/svg/dragonade_logo.svg" style="position:fixed; height:80%">
 <div class="universe hidden">
-
+    <img src="static/main/svg/dragonade_logo.svg" style="position:fixed; height:80%">
     <div id="d3area"></div>
 </div>
 <div class="world hidden">
-
     <div class="spare_left">
         {% block west %}
+        <img src="static/main/svg/dragonade_logo.svg" style="position:fixed; height:80%">
         {% endblock west %}
     </div>
     <div class="corpus">

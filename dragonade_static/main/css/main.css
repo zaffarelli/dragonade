@@ -49,9 +49,9 @@ span.future {
     background: transparent;
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-evenly;
-    align-content: space-evenly;
-    align-items: center;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: baseline;
     gap: 5px; }
     .container .roster .sheet {
       display: grid;
@@ -64,7 +64,7 @@ span.future {
       padding: 5px;
       gap: 2px;
       box-shadow: 0 0 16px #101010;
-      background: #301020; }
+      background: #101030; }
       .container .roster .sheet .box {
         border-radius: 1px;
         padding: 1px;
@@ -74,21 +74,28 @@ span.future {
         .container .roster .sheet .box.info {
           background: #303030;
           color: #F0F0F0; }
-          .container .roster .sheet .box.info.editable:hover {
-            border-color: orangered; }
+          .container .roster .sheet .box.info.editable {
+            cursor: pointer; }
+            .container .roster .sheet .box.info.editable .btn_edit.minus:hover {
+              color: lime; }
+            .container .roster .sheet .box.info.editable .btn_edit.plus:hover {
+              color: orangered; }
       .container .roster .sheet.skills {
-        background: #301020;
         grid-template-columns: 150px 75px;
-        grid-template-rows: repeat(6, 1.5em); }
+        grid-template-rows: repeat(6, 1.5em);
+        order: 2; }
         .container .roster .sheet.skills .label {
           grid-column: 1 / span 1; }
         .container .roster .sheet.skills .info {
           grid-column: 2 / span 1; }
         .container .roster .sheet.skills .header {
           grid-column: 1 / span 2; }
+        .container .roster .sheet.skills.martiales {
+          order: 5; }
       .container .roster .sheet.base {
-        grid-template-columns: 50px 50px 50px 50px 75px 75px 75px 75px;
-        grid-template-rows: repeat(10, 1.5em); }
+        grid-template-columns: 50px 25px 25px 50px 75px 75px 75px 75px;
+        grid-template-rows: repeat(10, 1.5em);
+        order: 1; }
         .container .roster .sheet.base .header {
           grid-column: 1 / span 8; }
         .container .roster .sheet.base .label {
@@ -105,6 +112,17 @@ span.future {
             grid-column: 1 / span 1; }
           .container .roster .sheet.base .label.se {
             grid-column: 3 / span 1; }
+          .container .roster .sheet.base .label.full {
+            grid-column: 1 / span 8; }
+          .container .roster .sheet.base .label.left {
+            grid-column: 1 / span 4;
+            grid-row: 1 / span 2; }
+          .container .roster .sheet.base .label.mid {
+            grid-column: 5  / span 2;
+            grid-row: 1 / span 2; }
+          .container .roster .sheet.base .label.right {
+            grid-column: 7  / span 2;
+            grid-row: 1 / span 2; }
         .container .roster .sheet.base .info {
           grid-column: 5 / span 4; }
           .container .roster .sheet.base .info.nw {
@@ -124,6 +142,15 @@ span.future {
           display: grid;
           grid-template-columns: subgrid;
           grid-template-rows: subgrid; }
+        .container .roster .sheet.base .triset {
+          border: 1px solid #404040;
+          gap: 1px;
+          padding: 0;
+          grid-column: 1 / span 8;
+          grid-row: span 2;
+          display: grid;
+          grid-template-columns: subgrid;
+          grid-template-rows: subgrid; }
 
 .minisheet {
   display: block;
@@ -132,11 +159,11 @@ span.future {
   border: 1px solid #707070;
   border-radius: 5px;
   box-shadow: 0 0 16px #202020;
-  background: #102030;
+  background: #101030;
   padding: 5px;
   flex: 0 1 110px; }
   .minisheet.mark {
-    background: #302010;
+    background: #103020;
     box-shadow: 0 0 16px #808080; }
 
 body {
@@ -152,37 +179,43 @@ body {
     position: absolute;
     color: #F0F0F0;
     font-family: Neucha;
-    width: 100%;
-    height: 100%;
+    width: 99%;
+    height: 99%;
     top: 0;
     display: flex;
     flex-flow: row nowrap;
     justify-content: stretch;
-    align-content: stretch;
+    align-content: flex-center;
     align-items: stretch;
-    gap: 1px;
-    padding: 0; }
+    gap: 10px;
+    padding: 5px; }
     body .world .spare_left {
       order: 1;
-      flex: 1 0 20%;
-      background: #10203070; }
+      flex: 0 0 20%;
+      background: #80808020;
+      display: flex;
+      flex-flow: column wrap;
+      justify-content: space-between;
+      align-content: stretch;
+      align-items: stretch;
+      gap: 10px; }
     body .world .spare_right {
       order: 3;
       flex: 0 0 20%;
-      background: #10203070;
+      background: #80808020;
       display: flex;
-      flex-flow: row wrap;
+      flex-flow: column wrap;
       justify-content: space-around;
-      align-content: flex-end;
-      align-items: space-between;
-      gap: 3px;
-      padding: 3px; }
+      align-content: stretch;
+      align-items: stretch;
+      gap: 10px; }
     body .world .corpus {
       width: auto;
       flex: 8 1 auto;
       order: 2;
       overflow: auto;
-      background: #FFCC2230; }
+      background: #80808020;
+      border-radius: 10px; }
       body .world .corpus .stacked {
         order: 1;
         flex: 8 1 auto;
@@ -193,5 +226,67 @@ body {
   width: 100vw;
   height: 100vh;
   z-index: 10000; }
+
+.title {
+  order: 1;
+  flex: 0 0 auto;
+  background: #301020c0;
+  text-align: center;
+  border-radius: 20px;
+  border: 1px solid #605060;
+  padding: 10px; }
+
+.middle {
+  order: 2;
+  flex: 1 1 auto;
+  background: #301020c0;
+  border-radius: 20px;
+  border: 1px solid #605060;
+  padding: 10px; }
+
+.menu {
+  background: #301020c0;
+  order: 3;
+  flex: 0 0 auto;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-content: flex-end;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 10px;
+  padding-bottom: 30px;
+  border-radius: 5px;
+  border-radius: 20px;
+  border: 1px solid #605060; }
+  .menu .menu_entry {
+    border-radius: 5px;
+    border: 2px solid #808080;
+    flex: 0 0 80px;
+    background: #3060F040;
+    text-align: center; }
+    .menu .menu_entry img {
+      height: 1cm; }
+    .menu .menu_entry.off {
+      background: #303030C0; }
+    .menu .menu_entry:hover {
+      background: #3060F0C0;
+      cursor: pointer; }
+
+.list {
+  background: #301020c0;
+  order: 3;
+  flex: 0 0 auto;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-content: flex-end;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 10px;
+  padding-bottom: 30px;
+  border-radius: 5px;
+  border-radius: 20px;
+  border: 1px solid #605060; }
 
 /*# sourceMappingURL=main.css.map */

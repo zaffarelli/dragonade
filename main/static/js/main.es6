@@ -45,11 +45,12 @@ class Main{
         let me = this;
         me.registerEditables();
         me.registerSheets();
+        me.registerLinks();
     }
 
     registerEditables(){
         let me = this;
-        $('.editable').off().on('click', function(e){
+        $('.btn_edit').off().on('click', function(e){
             e.preventDefault();
             e.stopPropagation();
             let action = $(this).attr('action');
@@ -59,16 +60,19 @@ class Main{
             console.log(id);
             if (action == "inc_dec"){
                 let params = id.split("__");
-                if (params.length > 2){
+                if (params.length > 3){
                     if (e.ctrlKey){
-                        change = 'plus';
-                        console.log("Ctrl key")
-
+                        change = params[3];
                     }
-                    else if (e.shiftKey){
-                        change = 'minus'
-                        console.log("Shift key");
-                    }
+//                     if (params[3] == 'plus'){
+//                         change = 'plus';
+//                         console.log("Ctrl key")
+//
+//                     }
+//                     else if (e.shiftKey){
+//                         change = 'minus'
+//                         console.log("Shift key");
+//                     }
                     let data = params[0]+"__"+params[1]+"__"+params[2]+"__"+change;
                     if (change != ''){
                         $.ajax({
@@ -84,6 +88,13 @@ class Main{
                             dataType: 'json',
                             success: function (answer) {
                                 $('#roster_'+answer.id).html(answer.new_roster);
+                                $("#ssa_"+answer.id).addClass('hidden');
+                                $("#sss_"+answer.id).removeClass('hidden');
+                                $("#ssm_"+answer.id).removeClass('hidden');
+                                $("#ssg_"+answer.id).removeClass('hidden');
+                                $("#ssp_"+answer.id).removeClass('hidden');
+                                $("#ssc_"+answer.id).removeClass('hidden');
+                                $("#ssd_"+answer.id).removeClass('hidden');
                                 me.registerActions();
                             },
                             error: function (answer) {
@@ -113,15 +124,38 @@ class Main{
             $('.sheet.skills').addClass('hidden');
             $('.minisheet').removeClass('mark');
             $(this).addClass('mark');
-            $("#sss_"+id).removeClass('hidden');
-            $("#ssm_"+id).removeClass('hidden');
-            $("#ssg_"+id).removeClass('hidden');
-            $("#ssp_"+id).removeClass('hidden');
-            $("#ssc_"+id).removeClass('hidden');
-            $("#ssd_"+id).removeClass('hidden');
+            $("#ssa_"+id).removeClass('hidden');
             $("#sb_"+id).removeClass('hidden');
             me.registerActions();
         });
+        $('.skill_switch').off().on('click', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            let miniid = $(this).attr('id');
+            let words = miniid.split('_');
+            let id = words[0];
+            $("#ssa_"+id).toggleClass('hidden');
+            $("#sss_"+id).toggleClass('hidden');
+            $("#ssm_"+id).toggleClass('hidden');
+            $("#ssg_"+id).toggleClass('hidden');
+            $("#ssp_"+id).toggleClass('hidden');
+            $("#ssc_"+id).toggleClass('hidden');
+            $("#ssd_"+id).toggleClass('hidden');
+            me.registerActions();
+        });
     }
+
+    registerLinks(){
+        let me = this;
+        $('.link').off().on('click', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            let link_to = $(this).attr('link_to');
+            if (link_to != ""){
+                window.location = link_to;
+            }
+        });
+    }
+
 
 }

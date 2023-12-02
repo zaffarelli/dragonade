@@ -75,6 +75,15 @@ $plate_color: lighten($panel_color,10%);
 //$very_dark_plate: darken($dark_plate, 5%);
 //$focus_color: #22C0F0;
 
+$bkg_filter0:#80808070;
+$bkg_filter1:#80808020;
+$bkg_filter2:#301020c0;
+
+$bkg0:#301020;
+$bkg1:#103020;
+$bkg2:#101030;
+
+
 /*
 @mixin panel {
   background: $panel_background;
@@ -98,6 +107,8 @@ $plate_color: lighten($panel_color,10%);
 
 
 }
+
+
 
 .hidden {
   display: none !important;

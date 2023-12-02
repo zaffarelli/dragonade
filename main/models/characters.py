@@ -14,20 +14,21 @@ class Character(models.Model):
     name = models.CharField(max_length=256)
     rid = models.CharField(max_length=256, default="", blank=True)
     randomize = models.BooleanField(default=False, blank=True)
-    titre = models.CharField(max_length=256, default="", blank=True)
-    groupe = models.CharField(max_length=256, default="", blank=True)
-    equipe = models.CharField(max_length=256, default="", blank=True)
+    title = models.CharField(max_length=256, default="", blank=True)
+    group = models.CharField(max_length=256, default="", blank=True)
+    team = models.CharField(max_length=256, default="", blank=True)
     factions = models.CharField(max_length=256, default="", blank=True)
     entrance = models.CharField(max_length=256, default="", blank=True)
-    attributes = models.CharField(max_length=64, default="3 3 3 3 3 3 3 3 3 3 3 3", blank=True)
-    martiales = models.CharField(max_length=128, default="", blank=True)
-    generales = models.CharField(max_length=128, default="", blank=True)
-    particulieres = models.CharField(max_length=128, default="", blank=True)
-    specialisees = models.CharField(max_length=128, default="", blank=True)
-    connaissances = models.CharField(max_length=128, default="", blank=True)
-    draconiques = models.CharField(max_length=128, default="", blank=True)
     birthhour = models.IntegerField(default=0, blank=True)
     updater = models.TextField(max_length=4096, default='{}', blank=True)
+
+    attributes = models.CharField(max_length=64, default="", blank=True)
+    skills_weapons = models.CharField(max_length=128, default="", blank=True)
+    skills_generic = models.CharField(max_length=128, default="", blank=True)
+    skills_peculiar = models.CharField(max_length=128, default="", blank=True)
+    skills_specialized = models.CharField(max_length=128, default="", blank=True)
+    skills_knowledge = models.CharField(max_length=128, default="", blank=True)
+    skills_draconic = models.CharField(max_length=128, default="", blank=True)
     indice = models.IntegerField(default=0, blank=True)
     data = {}
 
@@ -65,28 +66,63 @@ class Character(models.Model):
             result = True
             val = self.value_for(att)
             ref = self.index_for(att)
-            # print(self.data)
-            # print("appincdec", val, ref, att, chg)
             val += offset
-            if ref == "ATTRIBUTS":
+            # print(self.data['skills']['weapons'][att], val, att, ref)
+            if ref == "ATTRIBUTES":
                 self.data['attributes'][att] = val
-                self.updateAttributes()
-                self.save()
             else:
-                pass
-                # self.data['GENERALES'][att] = val
+                self.data['skills'][ref.lower()][att] = val
 
+            self.updateFromStruct()
+            self.save()
         return result
 
-    def updateAttributes(self):
-        attributes_list = []
-        for k in CHARACTER_STATISTICS['ATTRIBUTS']:
-            attributes_list.append(f"{self.data['attributes'][k['NAME']]}")
-        self.attributes = " ".join(attributes_list)
+    def updateFromStruct(self):
+        list = []
+        for k in CHARACTER_STATISTICS['ATTRIBUTES']['LIST']:
+            list.append(f"{self.data['attributes'][k['NAME']]}")
+        self.attributes = " ".join(list)
+
+        for key, category in CHARACTER_STATISTICS['SKILLS'].items():
+            list = []
+            for k in category['LIST']:
+                # print("++++++++++++++++++++++++",key, k['NAME'])
+                vs = f"{self.data['skills'][key.lower()][k['NAME']]}"
+                list.append(vs)
+            setattr(self, f"skills_{key.lower()}", " ".join(list))
+
+        # skills_list = []
+        # for k in CHARACTER_STATISTICS['COMPETENCES']['MARTIALES']['LISTE']:
+        #     skills_list.append(f"{self.data['skills']['MARTIALES']}")
+        # self.martiales = " ".join(skills_list)
+        #
+        # skills_list = []
+        # for k in CHARACTER_STATISTICS['COMPETENCES']['GENERALES']['LISTE']:
+        #     skills_list.append(f"{self.data['skills']['GENERALES']}")
+        # self.generales = " ".join(skills_list)
+        #
+        # skills_list = []
+        # for k in CHARACTER_STATISTICS['COMPETENCES']['PARTICULIERES']['LISTE']:
+        #     skills_list.append(f"{self.data['skills']['PARTICULIERES']}")
+        # self.particulieres = " ".join(skills_list)
+        #
+        # skills_list = []
+        # for k in CHARACTER_STATISTICS['COMPETENCES']['SPECIALISEES']['LISTE']:
+        #     skills_list.append(f"{self.data['skills']['SPECIALISEES']}")
+        # self.specialisees = " ".join(skills_list)
+        #
+        # skills_list = []
+        # for k in CHARACTER_STATISTICS['COMPETENCES']['CONNAISSANCES']['LISTE']:
+        #     skills_list.append(f"{self.data['skills']['CONNAISSANCES']}")
+        # self.connaissances = " ".join(skills_list)
+        #
+        # skills_list = []
+        # for k in CHARACTER_STATISTICS['COMPETENCES']['DRACONIQUES']['LISTE']:
+        #     skills_list.append(f"{self.data['skills']['DRACONIQUES']}")
+        # self.draconiques = " ".join(skills_list)
 
     def fix(self):
         self.make_rid()
-        self.initialize()
         if self.birthhour == 0:
             self.birthhour = random.randrange(1, 12)
         self.export_to_json()
@@ -98,58 +134,73 @@ class Character(models.Model):
         from main.utils.ref_dragonade import ATTRIBUTE_CREA
         self.indice = 0
         for a in self.data['attributes']:
-            print(a, self.data['attributes'][a])
             self.indice += ATTRIBUTE_CREA[f"{self.data['attributes'][a]}"]
 
-    def ref_to_chr(self, src_ref, src_chr, tgt_chr):
-        # src_ref: the path to the set in the structure. Example: COMPETENCES/GENERALES to reah struct['COMPETENCES']['GENERALES']
-        # src_chr: where the basic info os located. Example: self.generales
-        # tgt_chr: the location in the json (example: self.data['skills']
-        if len(src_chr) > 0:
-            transversal = src_ref.split(' ')
-            last = ''
+    def ref_to_struct(self, src_ref):
+        """        
+        :param src_ref: source reference among the user filled properties of the instance 
+        :return: nothing / works directly on the instance
+        Examples: - self.attributes --> self.data['attributes']
+                  - self.skills_generic --> self.data['skills']['generic']
+        """
+        if len(src_ref) > 0:
+            transversal = src_ref.split('_')
             src_struct = CHARACTER_STATISTICS
             for p in transversal:
                 src_struct = src_struct[p]
-                last = p
-            # Let's count with c
-            c = 0
-            for v in src_chr.split(' '):
-                key = src_struct
-                if c < len(key['LISTE']):
-                    self.data[tgt_chr][last][key['LISTE'][c]['NAME']] = int(v) if int(v) > 0 else int(key['DEFAUT'])
-                c += 1
+            if len(transversal) == 1:
+                # Attributes
+                cnt = 0
+                list = getattr(self, transversal[0].lower()).split(' ')
+                for item in src_struct['LIST']:
+                    self.data[transversal[0].lower()][item['NAME']] = int(list[cnt]) if cnt<len(list) else src_struct['DEFAULT']
+                    cnt += 1
+            elif len(transversal) == 2:
+                # Skills
+                cnt = 0
+                list = getattr(self, src_ref.lower()).split(' ')
+                for item in src_struct['LIST']:
+                    self.data[transversal[0].lower()][transversal[1].lower()][item['NAME']] = int(list[cnt]) if cnt<len(list) else src_struct['DEFAULT']
+                    cnt += 1
 
     def export_to_json(self):
         self.data['rid'] = self.rid
         self.data['id'] = self.id
         self.data['name'] = self.name
         self.data['attributes'] = {}
-        self.data['skills'] = {'MARTIALES':{},'GENERALES':{},'PARTICULIERES':{},'SPECIALISEES':{},'CONNAISSANCES':{},'DRACONIQUES':{}}
+        self.data['skills'] = {'weapons': {}, 'generic': {}, 'peculiar': {}, 'specialized': {}, 'knowledge': {},
+                               'draconic': {}}
+        self.data['secondaries'] = {}
         self.data['misc'] = {}
         self.data['type'] = self.type
-        c = 0
-        for a in self.attributes.split(' '):
-            if c < len(CHARACTER_STATISTICS['ATTRIBUTS']):
-                self.data['attributes'][CHARACTER_STATISTICS['ATTRIBUTS'][c]['NAME']] = int(a)
-            else:
-                print("Attributes overflow")
-            c += 1
-        self.ref_to_chr('COMPETENCES MARTIALES', self.martiales, 'skills')
-        self.ref_to_chr('COMPETENCES GENERALES', self.generales, 'skills')
-        self.ref_to_chr('COMPETENCES PARTICULIERES', self.particulieres, 'skills')
-        self.ref_to_chr('COMPETENCES SPECIALISEES', self.specialisees, 'skills')
-        self.ref_to_chr('COMPETENCES CONNAISSANCES', self.connaissances, 'skills')
-        self.ref_to_chr('COMPETENCES DRACONIQUES', self.draconiques, 'skills')
-        for k in CHARACTER_STATISTICS['SECONDAIRES']:
+
+        # The initialize function must implement controls to stay safe if data exists
+        self.initialize()
+
+
+        self.ref_to_struct('ATTRIBUTES')
+        self.ref_to_struct('SKILLS_WEAPONS')
+        self.ref_to_struct('SKILLS_GENERIC')
+        self.ref_to_struct('SKILLS_PECULIAR')
+        self.ref_to_struct('SKILLS_SPECIALIZED')
+        self.ref_to_struct('SKILLS_KNOWLEDGE')
+        self.ref_to_struct('SKILLS_DRACONIC')
+
+        for k in CHARACTER_STATISTICS['SECONDARIES']:
+            val, errors = self.calcCompute(k['COMPUTE'])
+            if len(errors) == 0:
+                self.data['secondaries'][k['NAME']] = val
+
+        for k in CHARACTER_STATISTICS['MISCELLANEOUS']:
             val, errors = self.calcCompute(k['COMPUTE'])
             if len(errors) == 0:
                 self.data['misc'][k['NAME']] = val
+
         self.data['misc']['entrance'] = self.entrance
         self.data['misc']['indice'] = self.indice
-        self.data['misc']['groupe'] = self.groupe
-        self.data['misc']['equipe'] = self.equipe
-        self.data['misc']['titre'] = self.titre
+        self.data['misc']['groupe'] = self.group
+        self.data['misc']['team'] = self.team
+        self.data['misc']['title'] = self.title
         self.data['birthhour'] = self.birthhour
         x = self.data['misc']['FAT']
         pf = 0
@@ -158,6 +209,7 @@ class Character(models.Model):
                 pf += x
                 x -= 1
         self.data['misc']['pf'] = pf
+#        self.json_dump()
 
     def calcCompute(self, str):
         result = -1
@@ -178,12 +230,9 @@ class Character(models.Model):
         else:
             errors.append(f"Wrong computation line formatting for [{str}]")
         if len(errors) == 0:
-            print("params:", params)
             for att in params:
                 v = self.value_for(att)
-                print("v:", att, v)
                 param_values.append(v)
-            print("param_values:", param_values)
             if 'dero_mean' == funky:
                 result = self.dero_mean(param_values)
             elif 'basic_mean' == funky:
@@ -202,7 +251,6 @@ class Character(models.Model):
     def basic_mean(args):
         result = 0
         total = 0
-        print("args:", args)
         for a in args:
             total += a
         if len(args) > 0:
@@ -245,7 +293,7 @@ class Character(models.Model):
 
     def import_from_json(self, jsonstring):
         struct = json.loads(jsonstring)
-        print(struct)
+
 
     def toJson(self):
         self.export_to_json()
@@ -260,25 +308,36 @@ class Character(models.Model):
     def value_for(self, str):
         from main.utils.ref_dragonade import CHARACTER_STATISTICS
         result = -1
-        for k in CHARACTER_STATISTICS['ATTRIBUTS']:
+        for k in CHARACTER_STATISTICS['ATTRIBUTES']['LIST']:
             if k['NAME'] == str:
                 if str in self.data['attributes']:
                     result = self.data['attributes'][str]
         if result == -1:
-            for k in CHARACTER_STATISTICS['SECONDAIRES']:
+            for k in CHARACTER_STATISTICS['SECONDARIES']:
                 if k['NAME'] == str:
                     if str in self.data['attributes']:
                         result = self.data['attributes'][str]
-        print("result:", result)
+        if result == -1:
+            for k in CHARACTER_STATISTICS['MISCELLANEOUS']:
+                if k['NAME'] == str:
+                    if str in self.data['misc']:
+                        result = self.data['misc'][str]
+        for key, value in CHARACTER_STATISTICS['SKILLS'].items():
+            for i in value['LIST']:
+                if i['NAME'] == str:
+                    result = self.data['skills'][key.lower()][str]
         return result
 
     def index_for(self, str):
         from main.utils.ref_dragonade import CHARACTER_STATISTICS
         result = ""
-        print(str, CHARACTER_STATISTICS['ATTRIBUTS'])
-        for k in CHARACTER_STATISTICS['ATTRIBUTS']:
+        for k in CHARACTER_STATISTICS['ATTRIBUTES']['LIST']:
             if k['NAME'] == str:
-                result = "ATTRIBUTS"
+                result = "ATTRIBUTES"
+        for key, value in CHARACTER_STATISTICS['SKILLS'].items():
+            for i in value['LIST']:
+                if i['NAME'] == str:
+                    result = key
         return result
 
     def json_dump(self):
@@ -294,30 +353,13 @@ class Character(models.Model):
         from main.utils.ref_dragonade import CHARACTER_STATISTICS
         if len(self.attributes) == 0:
             list = []
-            for att in CHARACTER_STATISTICS['ATTRIBUTS']:
+            for att in CHARACTER_STATISTICS['ATTRIBUTES']:
                 list.append("4")
             self.attributes = " ".join(list)
-
-        for k, cat in CHARACTER_STATISTICS['COMPETENCES'].items():
-            print("Initialize: ", k, cat)
+        for k, cat in CHARACTER_STATISTICS['SKILLS'].items():
             list = []
-            for item in cat['LISTE']:
-                list.append(f"{cat['DEFAUT']}")
-            if len(self.martiales) == 0:
-                if 'MARTIALES' == k:
-                    self.martiales = " ".join(list)
-            if len(self.generales) == 0:
-                if 'GENERALES' == k:
-                    self.generales = " ".join(list)
-            if len(self.particulieres) == 0:
-                if 'PARTICULIERES' == k:
-                    self.particulieres = " ".join(list)
-            if len(self.specialisees) == 0:
-                if 'SPECIALISEES' == k:
-                    self.specialisees = " ".join(list)
-            if len(self.connaissances) == 0:
-                if 'CONNAISSANCES' == k:
-                    self.connaissances = " ".join(list)
-            if len(self.draconiques) == 0:
-                if 'DRACONIQUES' == k:
-                    self.draconiques = " ".join(list)
+            for item in cat['LIST']:
+                list.append(f"{cat['DEFAULT']}")
+            tgt_property = f"skills_{k.lower()}"
+            if len(getattr(self, tgt_property)) == 0:
+                setattr(self, tgt_property, " ".join(list))

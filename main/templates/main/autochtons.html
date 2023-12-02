@@ -1,24 +1,35 @@
 {% extends "base.html" %}
 {%  load static %}
 
+
+{% block west %}
+    {% include "main/menu.html" with title=title %}
+{% endblock west %}
+
+
 {% block east %}
 
-{% for x in characters %}
-{% include "main/mini.html" with a=x%}
-{% endfor %}
 
+<div class="middle">
+</div>
+
+
+    <div class="list">
+    {% for x in characters %}
+        {% include "main/mini.html" with a=x%}
+    {% endfor %}
+    </div>
 {% endblock east %}
 
 
 {% block main %}
 <div class="container">
     {% for x in characters %}
-
     <div class="roster" id="roster_{{x.id}}">
         {% include "main/roster.html" with a=x%}
     </div>
-
     {% endfor %}
+    <div class="#svg_area"></div>
 </div>
 {% endblock main %}
 

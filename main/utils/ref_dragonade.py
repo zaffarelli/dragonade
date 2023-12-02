@@ -1,23 +1,28 @@
 CHARACTER_STATISTICS = {
-    'ATTRIBUTS': [
-        {'NAME': 'AGI', 'TEXT': 'Agilité'},
-        {'NAME': 'CON', 'TEXT': 'Constitution'},
-        {'NAME': 'FOR', 'TEXT': 'Force'},
-        {'NAME': 'TAI', 'TEXT': 'Taille'},
-        {'NAME': 'EMP', 'TEXT': 'Empathie'},
-        {'NAME': 'ODG', 'TEXT': 'Odorat/Goût'},
-        {'NAME': 'OUI', 'TEXT': 'Ouïe'},
-        {'NAME': 'VUE', 'TEXT': 'Vue'},
-        {'NAME': 'APP', 'TEXT': 'Apparence'},
-        {'NAME': 'DEX', 'TEXT': 'Dextérité'},
-        {'NAME': 'INT', 'TEXT': 'Intelligence'},
-        {'NAME': 'VOL', 'TEXT': 'Volonté'}
-    ],
-    'SECONDAIRES': [
+    "ATTRIBUTES": {
+        "DEFAULT": 3,
+        "LIST":[
+            {"NAME": "AGI", "TEXT": "Agilité"},
+            {"NAME": "CON", "TEXT": "Constitution"},
+            {"NAME": "FOR", "TEXT": "Force"},
+            {"NAME": "TAI", "TEXT": "Taille"},
+            {"NAME": "EMP", "TEXT": "Empathie"},
+            {"NAME": "ODG", "TEXT": "Odorat/Goût"},
+            {"NAME": "OUI", "TEXT": "Ouïe"},
+            {"NAME": "VUE", "TEXT": "Vue"},
+            {"NAME": "APP", "TEXT": "Apparence"},
+            {"NAME": "DEX", "TEXT": "Dextérité"},
+            {"NAME": "INT", "TEXT": "Intelligence"},
+            {"NAME": "VOL", "TEXT": "Volonté"}
+        ]
+    },
+    "SECONDARIES": [
         {"NAME": "TIR", "TEXT": "Tir", "COMPUTE": "basic_mean,DEX;VUE"},
         {"NAME": "MEL", "TEXT": "Mêlée", "COMPUTE": "basic_mean,FOR;AGI"},
         {"NAME": "DER", "TEXT": "Dérobade", "COMPUTE": "dero_mean,TAI;AGI"},
-        {"NAME": "LAN", "TEXT": "Lancer", "COMPUTE": "basic_mean,TIR;FOR"},
+        {"NAME": "LAN", "TEXT": "Lancer", "COMPUTE": "basic_mean,TIR;FOR"}
+    ],
+    "MISCELLANEOUS": [
         {"NAME": "REV", "TEXT": "Rêve", "COMPUTE": "basic_mean,CON;EMP;APP"},
         {"NAME": "VIE", "TEXT": "Points de Vie", "COMPUTE": "basic_sum,CON;TAI"},
         {"NAME": "FAT", "TEXT": "Fatigue", "COMPUTE": "basic_mean,CON;VOL"},
@@ -26,45 +31,45 @@ CHARACTER_STATISTICS = {
         {"NAME": "SCO", "TEXT": "Seuil Con", "COMPUTE": "from_table_mean,CON,tbSCO"},
         {"NAME": "ENC", "TEXT": "Encombrement", "COMPUTE": "precise_mean,TAI,FOR"}
     ],
-    'COMPETENCES': {
-        'MARTIALES': {
-            "DEFAUT": 0,
-            "LISTE": [
-                {"NAME": "MAR_01", "TEXT": "Arbalète"},
-                {"NAME": "MAR_02", "TEXT": "Arc"},
-                {"NAME": "MAR_03", "TEXT": "Bâton"},
-                {"NAME": "MAR_04", "TEXT": "Bouclier Léger"},
-                {"NAME": "MAR_05", "TEXT": "Bouclier Moyen"},
-                {"NAME": "MAR_06", "TEXT": "Bouclier Lourd"},
-                {"NAME": "MAR_07", "TEXT": "Corps-à-corps"},
-                {"NAME": "MAR_08", "TEXT": "Dague"},
-                {"NAME": "MAR_09", "TEXT": "Double Dragonne"},
-                {"NAME": "MAR_10", "TEXT": "Dragonne"},
-                {"NAME": "MAR_11", "TEXT": "Esparlongue"},
-                {"NAME": "MAR_12", "TEXT": "Esquive"},
-                {"NAME": "MAR_13", "TEXT": "Epée Bâtarde"},
-                {"NAME": "MAR_14", "TEXT": "Epée Cyane"},
-                {"NAME": "MAR_15", "TEXT": "Epée Gnome"},
-                {"NAME": "MAR_16", "TEXT": "Epée Sorde"},
-                {"NAME": "MAR_17", "TEXT": "Fléau Léger"},
-                {"NAME": "MAR_18", "TEXT": "Fléau Lourd"},
-                {"NAME": "MAR_19", "TEXT": "Fouet"},
-                {"NAME": "MAR_20", "TEXT": "Fronde"},
-                {"NAME": "MAR_21", "TEXT": "Gourdin"},
-                {"NAME": "MAR_22", "TEXT": "Grande Hache"},
-                {"NAME": "MAR_23", "TEXT": "Hâche de Bataille"},
-                {"NAME": "MAR_24", "TEXT": "Hachette"},
-                {"NAME": "MAR_25", "TEXT": "Arme d'Hast"},
-                {"NAME": "MAR_26", "TEXT": "Javeline"},
-                {"NAME": "MAR_27", "TEXT": "Javelot"},
-                {"NAME": "MAR_28", "TEXT": "Lance courte"},
-                {"NAME": "MAR_29", "TEXT": "Massette"},
-                {"NAME": "MAR_30", "TEXT": "Masse Lourde"}
+    "SKILLS": {
+        "WEAPONS": {
+            "DEFAULT": 0,
+            "LIST": [
+                {"NAME": "WEA_01", "TEXT": "Arbalète"},
+                {"NAME": "WEA_02", "TEXT": "Arc"},
+                {"NAME": "WEA_03", "TEXT": "Bâton"},
+                {"NAME": "WEA_04", "TEXT": "Bouclier Léger"},
+                {"NAME": "WEA_05", "TEXT": "Bouclier Moyen"},
+                {"NAME": "WEA_06", "TEXT": "Bouclier Lourd"},
+                {"NAME": "WEA_07", "TEXT": "Corps-à-corps"},
+                {"NAME": "WEA_08", "TEXT": "Dague"},
+                {"NAME": "WEA_09", "TEXT": "Double Dragonne"},
+                {"NAME": "WEA_10", "TEXT": "Dragonne"},
+                {"NAME": "WEA_11", "TEXT": "Esparlongue"},
+                {"NAME": "WEA_12", "TEXT": "Esquive"},
+                {"NAME": "WEA_13", "TEXT": "Epée Bâtarde"},
+                {"NAME": "WEA_14", "TEXT": "Epée Cyane"},
+                {"NAME": "WEA_15", "TEXT": "Epée Gnome"},
+                {"NAME": "WEA_16", "TEXT": "Epée Sorde"},
+                {"NAME": "WEA_17", "TEXT": "Fléau Léger"},
+                {"NAME": "WEA_18", "TEXT": "Fléau Lourd"},
+                {"NAME": "WEA_19", "TEXT": "Fouet"},
+                {"NAME": "WEA_20", "TEXT": "Fronde"},
+                {"NAME": "WEA_21", "TEXT": "Gourdin"},
+                {"NAME": "WEA_22", "TEXT": "Grande Hache"},
+                {"NAME": "WEA_23", "TEXT": "Hache de Bataille"},
+                {"NAME": "WEA_24", "TEXT": "Hachette"},
+                {"NAME": "WEA_25", "TEXT": "Arme d'Hast"},
+                {"NAME": "WEA_26", "TEXT": "Javeline"},
+                {"NAME": "WEA_27", "TEXT": "Javelot"},
+                {"NAME": "WEA_28", "TEXT": "Lance courte"},
+                {"NAME": "WEA_29", "TEXT": "Massette"},
+                {"NAME": "WEA_30", "TEXT": "Masse Lourde"}
             ]
         },
-        'GENERALES': {
-            "DEFAUT": -1,
-            "LISTE": [
+        "GENERIC": {
+            "DEFAULT": -1,
+            "LIST": [
                 {"NAME": "GEN_01", "TEXT": "Bricolage"},
                 {"NAME": "GEN_02", "TEXT": "Chant"},
                 {"NAME": "GEN_03", "TEXT": "Concentration"},
@@ -80,31 +85,31 @@ CHARACTER_STATISTICS = {
                 {"NAME": "GEN_13", "TEXT": "Vigilance"}
             ]
         },
-        'PARTICULIERES': {
-            "DEFAUT": -2,
-            "LISTE": [
-                {"NAME": "PAR_01", "TEXT": "Charpenterie"},
-                {"NAME": "PAR_02", "TEXT": "Comédie"},
-                {"NAME": "PAR_03", "TEXT": "Commerce"},
-                {"NAME": "PAR_04", "TEXT": "Couture"},
-                {"NAME": "PAR_05", "TEXT": "Equitation"},
-                {"NAME": "PAR_06", "TEXT": "Maçonnerie"},
-                {"NAME": "PAR_07", "TEXT": "Musique"},
-                {"NAME": "PAR_08", "TEXT": "Pickpocket"},
-                {"NAME": "PAR_09", "TEXT": "Survie (Cité)"},
-                {"NAME": "PAR_10", "TEXT": "Survie (Désert)"},
-                {"NAME": "PAR_11", "TEXT": "Survie (Extérieur)"},
-                {"NAME": "PAR_12", "TEXT": "Survie (Forêt)"},
-                {"NAME": "PAR_13", "TEXT": "Survie (Glaces)"},
-                {"NAME": "PAR_14", "TEXT": "Survie (Marais)"},
-                {"NAME": "PAR_15", "TEXT": "Survie (Montagne)"},
-                {"NAME": "PAR_16", "TEXT": "Survie (Sous-Sol)"},
-                {"NAME": "PAR_17", "TEXT": "Travestissement"}
+        "PECULIAR": {
+            "DEFAULT": -2,
+            "LIST": [
+                {"NAME": "PEC_01", "TEXT": "Charpenterie"},
+                {"NAME": "PEC_02", "TEXT": "Comédie"},
+                {"NAME": "PEC_03", "TEXT": "Commerce"},
+                {"NAME": "PEC_04", "TEXT": "Couture"},
+                {"NAME": "PEC_05", "TEXT": "Equitation"},
+                {"NAME": "PEC_06", "TEXT": "Maçonnerie"},
+                {"NAME": "PEC_07", "TEXT": "Musique"},
+                {"NAME": "PEC_08", "TEXT": "Pickpocket"},
+                {"NAME": "PEC_09", "TEXT": "Survie (Cité)"},
+                {"NAME": "PEC_10", "TEXT": "Survie (Désert)"},
+                {"NAME": "PEC_11", "TEXT": "Survie (Extérieur)"},
+                {"NAME": "PEC_12", "TEXT": "Survie (Forêt)"},
+                {"NAME": "PEC_13", "TEXT": "Survie (Glaces)"},
+                {"NAME": "PEC_14", "TEXT": "Survie (Marais)"},
+                {"NAME": "PEC_15", "TEXT": "Survie (Montagne)"},
+                {"NAME": "PEC_16", "TEXT": "Survie (Sous-Sol)"},
+                {"NAME": "PEC_17", "TEXT": "Travestissement"}
             ]
         },
-        'SPECIALISEES': {
-            "DEFAUT": -3,
-            "LISTE": [
+        "SPECIALIZED": {
+            "DEFAULT": -3,
+            "LIST": [
                 {"NAME": "SPE_01", "TEXT": "Acrobatie"},
                 {"NAME": "SPE_02", "TEXT": "Chirurgie"},
                 {"NAME": "SPE_03", "TEXT": "Jeu"},
@@ -117,23 +122,23 @@ CHARACTER_STATISTICS = {
                 {"NAME": "SPE_10", "TEXT": "Serrurerie"}
             ]
         },
-        'CONNAISSANCES': {
-            "DEFAUT": -4,
-            "LISTE": [
-                {"NAME": "CON_01", "TEXT": "Alchimie"},
-                {"NAME": "CON_02", "TEXT": "Architecture"},
-                {"NAME": "CON_03", "TEXT": "Astrologie"},
-                {"NAME": "CON_05", "TEXT": "Botanique"},
-                {"NAME": "CON_06", "TEXT": "Ecriture"},
-                {"NAME": "CON_07", "TEXT": "Légendes"},
-                {"NAME": "CON_08", "TEXT": "Mathématiques"},
-                {"NAME": "CON_09", "TEXT": "Médecine"},
-                {"NAME": "CON_10", "TEXT": "Zoologie"}
+        "KNOWLEDGE": {
+            "DEFAULT": -4,
+            "LIST": [
+                {"NAME": "KNO_01", "TEXT": "Alchimie"},
+                {"NAME": "KNO_02", "TEXT": "Architecture"},
+                {"NAME": "KNO_03", "TEXT": "Astrologie"},
+                {"NAME": "KNO_05", "TEXT": "Botanique"},
+                {"NAME": "KNO_06", "TEXT": "Ecriture"},
+                {"NAME": "KNO_07", "TEXT": "Légendes"},
+                {"NAME": "KNO_08", "TEXT": "Mathématiques"},
+                {"NAME": "KNO_09", "TEXT": "Médecine"},
+                {"NAME": "KNO_10", "TEXT": "Zoologie"}
             ]
         },
-        'DRACONIQUES': {
-            "DEFAUT": -5,
-            "LISTE": [
+        "DRACONIC": {
+            "DEFAULT": -5,
+            "LIST": [
                 {"NAME": "DRA_01", "TEXT": "Contemplatif"},
                 {"NAME": "DRA_02", "TEXT": "Destructif"},
                 {"NAME": "DRA_03", "TEXT": "Dynamique"},
@@ -170,9 +175,9 @@ ATTRIBUTE_CREA = {
 }
 
 TABLES = {  # 0    1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20
-    'tbDOM': [-10, -1, -1, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7],
-    'tbSUS': [2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7],
-    'tbSCO': [2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 8, 8]
+    "tbDOM": [-10, -1, -1, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7],
+    "tbSUS": [2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7],
+    "tbSCO": [2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 8, 8]
 }
 
 QualiteDesActions = [
@@ -194,5 +199,5 @@ Difficultes = [
 ]
 
 ARMES = [
-    {"NAME": "Arme d'Hast", "ATT_REF": "MEL", "COMP_REF": "MAR_01", "DOM": 3, "INIT": "P1"}
+    {"NAME": "Arme d'Hast", "ATT_REF": "MEL", "COMP_REF": "WEA_01", "DOM": 3, "INIT": "P1"}
 ]

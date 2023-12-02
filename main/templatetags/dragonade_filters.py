@@ -12,7 +12,13 @@ def colorize_val(value):
         elif value >= 7:
             str = f'<span style="color:orangered;">{value}</span>'
         elif value >= 5:
+            str = f'<span style="color:orange;">{value}</span>'
+        elif value >= 5:
             str = f'<span style="color:yellow;">{value}</span>'
+        elif value >= 4:
+            str = f'<span style="color:yellowgreen;">{value}</span>'
+        elif value >= 3:
+            str = f'<span style="color:green;">{value}</span>'
     return str
 
 
@@ -49,28 +55,28 @@ def as_skill(value):
     from main.utils.ref_dragonade import CHARACTER_STATISTICS
     str = value
     words = value.split('_')
-    if words[0] == 'MAR':
-        for ref in CHARACTER_STATISTICS['COMPETENCES']['MARTIALES']['LISTE']:
+    if words[0] == 'WEA':
+        for ref in CHARACTER_STATISTICS['SKILLS']['WEAPONS']['LIST']:
             if ref['NAME'] == value:
                 str = ref['TEXT']
     if words[0] == 'GEN':
-        for ref in CHARACTER_STATISTICS['COMPETENCES']['GENERALES']['LISTE']:
+        for ref in CHARACTER_STATISTICS['SKILLS']['GENERIC']['LIST']:
             if ref['NAME'] == value:
                 str = ref['TEXT']
-    if words[0] == 'PAR':
-        for ref in CHARACTER_STATISTICS['COMPETENCES']['PARTICULIERES']['LISTE']:
+    if words[0] == 'PEC':
+        for ref in CHARACTER_STATISTICS['SKILLS']['PECULIAR']['LIST']:
             if ref['NAME'] == value:
                 str = ref['TEXT']
     if words[0] == 'SPE':
-        for ref in CHARACTER_STATISTICS['COMPETENCES']['SPECIALISEES']['LISTE']:
+        for ref in CHARACTER_STATISTICS['SKILLS']['SPECIALIZED']['LIST']:
             if ref['NAME'] == value:
                 str = ref['TEXT']
-    if words[0] == 'CON':
-        for ref in CHARACTER_STATISTICS['COMPETENCES']['CONNAISSANCES']['LISTE']:
+    if words[0] == 'KNO':
+        for ref in CHARACTER_STATISTICS['SKILLS']['KNOWLEDGE']['LIST']:
             if ref['NAME'] == value:
                 str = ref['TEXT']
     if words[0] == 'DRA':
-        for ref in CHARACTER_STATISTICS['COMPETENCES']['DRACONIQUES']['LISTE']:
+        for ref in CHARACTER_STATISTICS['SKILLS']['DRACONIC']['LIST']:
             if ref['NAME'] == value:
                 str = ref['TEXT']
     return str
@@ -82,3 +88,61 @@ def check_hidden(value):
     if int(value) < 1:
         str = ' hidden'
     return str
+
+
+@register.filter(name='as_att_subset_position')
+def as_att_subset_position(value):
+    result = ""
+    if value in ["AGI", "EMP", "APP", "TIR"]:
+        result = "nw"
+    if value in ["CON", "ODG", "DEX", "LAN"]:
+        result = "ne"
+    if value in ["FOR", "OUI", "INT", "MEL"]:
+        result = "sw"
+    if value in ["TAI", "VUE", "VOL", "DER"]:
+        result = "se"
+    return result
+
+
+@register.filter(name='modulo_of_four')
+def modulo_of_four(value):
+    result = False
+    if isinstance(value, int):
+        result = (value % 4 == 1)
+    return result
+
+
+@register.filter(name='modulo_of_four_is_0')
+def modulo_of_four_is_0(value):
+    result = False
+    if isinstance(value, int):
+        result = (value % 4 == 0)
+    return result
+
+
+@register.filter(name='modulo_of_four_is_3')
+def modulo_of_four_is_3(value):
+    result = False
+    if isinstance(value, int):
+        result = (value % 4 == 3)
+    return result
+
+
+@register.filter(name='as_attribute_sub_group')
+def as_attribute_sub_group(value):
+    result = ""
+    if value in ["AGI"]:
+        result = "Physique"
+    if value in ["EMP"]:
+        result = "Sensoriel"
+    if value in ["APP"]:
+        result = "Âme"
+    return result
+
+
+@register.filter(name='off_if_blank')
+def hidden_if_blank(value):
+    result = ""
+    if len(value) == 0:
+        result = "off"
+    return result
