@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib import admin
 from django.conf import settings
 from main.utils.ref_dragonade import CHARACTER_STATISTICS
+from main.utils.mechanics import as_rid
 import math
 import random
 import json
@@ -21,6 +22,13 @@ class Character(models.Model):
     entrance = models.CharField(max_length=256, default="", blank=True)
     birthhour = models.IntegerField(default=0, blank=True)
     updater = models.TextField(max_length=4096, default='{}', blank=True)
+    is_female = models.BooleanField(default=False, blank=True)
+    is_lefty = models.BooleanField(default=False, blank=True)
+    age = models.PositiveIntegerField(default=20, blank=True)
+    height = models.PositiveIntegerField(default=160, blank=True)
+    weight = models.PositiveIntegerField(default=50, blank=True)
+    place = models.CharField(max_length=256, default="", blank=True)
+
 
     attributes = models.CharField(max_length=64, default="", blank=True)
     skills_weapons = models.CharField(max_length=128, default="", blank=True)
@@ -37,18 +45,7 @@ class Character(models.Model):
 
     def make_rid(self):
         if self.name is not None:
-            self.rid = self.name \
-                .replace('é', 'e') \
-                .replace('è', 'e') \
-                .replace('ê', 'e') \
-                .replace(' ', '_') \
-                .replace('-', '_') \
-                .replace('ç', 'c') \
-                .replace('à', 'a') \
-                .replace('ô', 'o') \
-                .replace('ù', 'u') \
-                .replace('û', 'u') \
-                .upper()
+            self.rid = as_rid(self.name)
 
     @property
     def type(self):
@@ -91,35 +88,7 @@ class Character(models.Model):
                 list.append(vs)
             setattr(self, f"skills_{key.lower()}", " ".join(list))
 
-        # skills_list = []
-        # for k in CHARACTER_STATISTICS['COMPETENCES']['MARTIALES']['LISTE']:
-        #     skills_list.append(f"{self.data['skills']['MARTIALES']}")
-        # self.martiales = " ".join(skills_list)
-        #
-        # skills_list = []
-        # for k in CHARACTER_STATISTICS['COMPETENCES']['GENERALES']['LISTE']:
-        #     skills_list.append(f"{self.data['skills']['GENERALES']}")
-        # self.generales = " ".join(skills_list)
-        #
-        # skills_list = []
-        # for k in CHARACTER_STATISTICS['COMPETENCES']['PARTICULIERES']['LISTE']:
-        #     skills_list.append(f"{self.data['skills']['PARTICULIERES']}")
-        # self.particulieres = " ".join(skills_list)
-        #
-        # skills_list = []
-        # for k in CHARACTER_STATISTICS['COMPETENCES']['SPECIALISEES']['LISTE']:
-        #     skills_list.append(f"{self.data['skills']['SPECIALISEES']}")
-        # self.specialisees = " ".join(skills_list)
-        #
-        # skills_list = []
-        # for k in CHARACTER_STATISTICS['COMPETENCES']['CONNAISSANCES']['LISTE']:
-        #     skills_list.append(f"{self.data['skills']['CONNAISSANCES']}")
-        # self.connaissances = " ".join(skills_list)
-        #
-        # skills_list = []
-        # for k in CHARACTER_STATISTICS['COMPETENCES']['DRACONIQUES']['LISTE']:
-        #     skills_list.append(f"{self.data['skills']['DRACONIQUES']}")
-        # self.draconiques = " ".join(skills_list)
+
 
     def fix(self):
         self.make_rid()
@@ -173,6 +142,7 @@ class Character(models.Model):
         self.data['secondaries'] = {}
         self.data['misc'] = {}
         self.data['type'] = self.type
+        self.data['features'] = {}
 
         # The initialize function must implement controls to stay safe if data exists
         self.initialize()
@@ -201,6 +171,14 @@ class Character(models.Model):
         self.data['misc']['groupe'] = self.group
         self.data['misc']['team'] = self.team
         self.data['misc']['title'] = self.title
+
+        self.data['features']['gender'] = "Féminin" if self.is_female else "Masculin"
+        self.data['features']['lefty'] = "Gaucher" if self.is_lefty else "Droitier"
+        self.data['features']['age'] = self.age
+
+
+
+
         self.data['birthhour'] = self.birthhour
         x = self.data['misc']['FAT']
         pf = 0

@@ -20,6 +20,7 @@
         align-items: baseline;
         gap: 5px;
 
+
         & .sheet {
             display: grid;
             flex: 0 0 auto;
@@ -106,6 +107,12 @@
 
                     &.full{
                         grid-column: 1 / span 8;
+
+                        &.large{
+                            font-size:2em;
+                            grid-row: span 2;
+                        }
+
                     }
 
 

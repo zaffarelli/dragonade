@@ -1,7 +1,7 @@
 CHARACTER_STATISTICS = {
     "ATTRIBUTES": {
         "DEFAULT": 3,
-        "LIST":[
+        "LIST": [
             {"NAME": "AGI", "TEXT": "Agilité"},
             {"NAME": "CON", "TEXT": "Constitution"},
             {"NAME": "FOR", "TEXT": "Force"},
@@ -198,6 +198,38 @@ Difficultes = [
     {"NAME": "TD", "TEXT": "Très Difficile", "COEF": 5}
 ]
 
-ARMES = [
-    {"NAME": "Arme d'Hast", "ATT_REF": "MEL", "COMP_REF": "WEA_01", "DOM": 3, "INIT": "P1"}
-]
+
+GEAR_CAT = (
+    ("gen", "generique"),
+    ("wea", "armement"),
+    ("pro", "protection"),
+    ("con", "consomable"),
+)
+
+STRESS_COEFF = 3
+
+
+def stress_cost(v1: int, v2: int, d: int):
+    """
+    Stress points cost per upgrade
+    Example : Generatif (default-5) from -2 up to 4 costs 117 stress pts
+    :param v1: actual value (ex: -2)
+    :param v2: wanted value (ex: 4)
+    :param d: default category value (ex: -5)
+    :return: number of pts
+    """
+    if v1 < d: # starting value cannot be below default value
+        v1 = d
+    if v1 > v2: # final value must be supperior to start value
+        v2 = v1 + 1
+    step0 = (v1 - d)
+    steps = sumorial(v2 - v1)
+    return (steps + (v2 - v1) * step0) * STRESS_COEFF
+
+
+def sumorial(n: int):
+    # it factorial with + instead of *...
+    if n == 0:
+        return 0 # neutral in addition
+    else:
+        return n + sumorial(n - 1)

@@ -7,16 +7,20 @@
         <span class="skill_card" id="{{a.id}}_card"><i class="fa fa-file"></i></span>
         BASE
     </div>
-    <div class="box label">Nom</div>
-    <div class="box info">{{a.name}}</div>
+    <div class="box label full large">{{a.name}}</div>
     <div class="box label full">{{a.misc.entrance}}</div>
 
     <div class="box triset">
-        <div class="box label left">Rêve #{{a.dream|large_id}}</div>
+        <div class="box label left">{{a.dream}}</div>
         <div class="box label mid"><img src="{{a.birthhour|as_draconichour|safe}} " height="30px"/></div>
         <div class="box label right">Indice:<br/>{{a.misc.indice}}</div>
     </div>
 
+    <div class="box triset">
+        <div class="box label left">{{a.features.age}} ans</div>
+        <div class="box label mid">{{a.features.gender}}</div>
+        <div class="box label right">{{a.features.lefty}}</div>
+    </div>
 
 
 
@@ -44,7 +48,7 @@
         <div class="box info se">{{a.secondaries.DER|colorize_val|safe}}</div>
     </div>
 
-    <div class="box label sub">A</div>
+    <div class="box label sub">Dérivées</div>
     <div class="box subset">
         <div class="box label nw">VIE</div>
         <div class="box info nw">{{a.misc.VIE}}</div>
@@ -55,7 +59,7 @@
         <div class="box label se"></div>
         <div class="box info se"></div>
     </div>
-    <div class="box label sub">B</div>
+    <div class="box label sub">Modificateurs</div>
     <div class="box subset">
         <div class="box label nw">+dom</div>
         <div class="box info nw">{{a.misc.DOM|signed}}</div>

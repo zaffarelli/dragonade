@@ -22,11 +22,26 @@ def autochtons(request):
     from main.models.autochtons import Autochton
     context = prepare_index(request)
     characters = []
-    for x in Autochton.objects.all().order_by("birthhour"):
+    for x in Autochton.objects.all().order_by("dream"):
         datum = x.toJson()
+        datum['text'] = x.name
         characters.append(datum)
     context['characters'] = characters
     context['title'] = "Les Autochtones"
+    # print(context)
+    return render(request, 'main/autochtons.html', context=context)
+
+
+def travellers(request):
+    from main.models.travellers import Traveller
+    context = prepare_index(request)
+    characters = []
+    for x in Traveller.objects.all().order_by("player"):
+        datum = x.toJson()
+        datum['text'] = x.name
+        characters.append(datum)
+    context['characters'] = characters
+    context['title'] = "Les Voyageurs"
     # print(context)
     return render(request, 'main/autochtons.html', context=context)
 
@@ -39,7 +54,7 @@ def inc_dec(request):
             answer = {}
             new_roster = ''
             params = request.POST.get('params').split('__')
-            print(params)
+            # print(params)
             if len(params) == 4:
                 class_name = params[0]
                 id = int(params[1])
@@ -55,6 +70,21 @@ def inc_dec(request):
             answer['change_result'] = change_result
             answer['new_roster'] = new_roster
 
-
         return JsonResponse(answer)
     return Http404
+
+
+def maps(request):
+    context = prepare_index(request)
+    context['title'] = "Cartes & Plans"
+    return render(request, 'main/autochtons.html', context=context)
+
+
+def papers(request):
+    context = prepare_index(request)
+    context['papers'] = []
+    context['papers'].append({"name": "Table de Stress", "CODE": "STRESS_TABLE", "ID": 101})
+    context['papers'].append({"name": "Qualité des Actions", "CODE": "QUALITY_TABLE", "ID": 102})
+    context['papers'].append({"name": "Table d'encaissement", "CODE": "SOAK_TABLE", "ID": 103})
+    context['title'] = "Aides de Jeu"
+    return render(request, 'main/papers.html', context=context)

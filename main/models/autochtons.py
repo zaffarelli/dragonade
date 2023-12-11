@@ -6,9 +6,11 @@ import math
 import random
 import json
 from main.models.characters import Character
+from main.models.dreams import Dream
+
 
 class Autochton(Character):
-    dream = models.PositiveIntegerField(default=0, blank=True)
+    dream = models.ForeignKey(Dream, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return f"a_{self.rid}"
@@ -26,11 +28,15 @@ class Autochton(Character):
 
     def export_to_json(self):
         super().export_to_json()
-        self.data['dream'] = self.dream
+        self.data['dream'] = f"{self.dream.title} [{self.dream.subtitle}]" if self.dream else "---"
         return self.data
 
 
+
 class AutochtonAdmin(admin.ModelAdmin):
-    ordering = ['dream', 'name']
-    list_display = ['name', 'entrance', 'rid', "randomize", 'dream', 'json']
-    list_editable = ['dream', "randomize", 'entrance']
+    from main.utils.mechanics import refix
+    ordering = ['name']
+    list_display = ['name', 'is_female',"age", 'entrance', 'rid', 'dream' ]
+    list_editable = ['dream', 'entrance', 'age', 'is_female']
+    list_filter = ['dream']
+    actions = [refix]

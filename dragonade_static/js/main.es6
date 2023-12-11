@@ -46,6 +46,7 @@ class Main{
         me.registerEditables();
         me.registerSheets();
         me.registerLinks();
+        me.registerPapers();
     }
 
     registerEditables(){
@@ -143,6 +144,22 @@ class Main{
             $("#ssd_"+id).toggleClass('hidden');
             me.registerActions();
         });
+    }
+
+
+    registerPapers(){
+        let me = this;
+        $('.paper_mini').off().on('click', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            let miniid = $(this).attr('id');
+            let words = miniid.split('_');
+            let id = words[0];
+            $(".paper").addClass('hidden');
+            $("#paper_"+id).removeClass('hidden');
+            me.registerActions();
+        });
+
     }
 
     registerLinks(){

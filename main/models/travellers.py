@@ -24,5 +24,7 @@ class Traveller(Character):
 
 
 class TravellerAdmin(admin.ModelAdmin):
+    from main.utils.mechanics import refix
     ordering = ['name']
     list_display = ['name', 'entrance', 'rid', 'player', 'json']
+    actions = [refix]

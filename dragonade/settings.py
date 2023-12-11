@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'compressor',
+    # 'compressor',
     'sass_processor',
     'fontawesomefree'
 ]
@@ -110,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Paris'
 
 USE_I18N = True
 
@@ -130,7 +130,7 @@ MEDIA_ROOT = 'dragonade_media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-VERSION = "0.2.0"
+VERSION = "0.8.0"
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',

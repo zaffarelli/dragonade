@@ -201,6 +201,8 @@ class Orologio{
             .attr("xlink:href", function(d) {
                 if (d == 11){
                     return "autochtons";
+                }else if (d==4){
+                    return "travellers";
                 }
             })
             .append("circle")
@@ -211,14 +213,19 @@ class Orologio{
             .attr("r",2*me.step/3)
             .style('stroke','#273030')
             .style('stroke-linecap','round')
-            .style('stroke-width','1.0pt')
+            .style('stroke-width',d => {
+                if ([4,5,11].includes(d)){
+                    return '2pt';
+                }
+                return '1pt';
+            })
             .style('fill','transparent')
             .style('cursor','pointer')
             //.style('opacity',0.25)
             .on('mouseover', (e, d) => {
-                if (d == 11){
+                if ([4,5,11].includes(d)){
                     me.svg.select('#ic_'+d)
-//                         .style('stroke','#A02020')
+                         .style('stroke','#A02020')
                         .style('stroke-width','5pt')
                     ;
                 }
@@ -226,7 +233,7 @@ class Orologio{
             .on('mouseout',  (e, d) => {
                 me.svg.selectAll('.imagecircle')
                     .style('stroke','#273030')
-                    .style('stroke-width','1pt')
+//                     .style('stroke-width','1pt')
                     ;
             })
 
@@ -372,23 +379,7 @@ class Orologio{
     drawArms(){
         let me = this;
         me.arms = me.svg.append('g');
-        me.arms.append("path")
-            .attr('id','minutes_arm')
-            .attr("d",d => {
-                let p = ""
-                p += "M 0,-16 ";
-                p += "m 5,0 l -5,-10 -5,10 5,-3 5,3 z";
-                p += "M 0,-10 ";
-                p += "l 1,-3 -1,-2 -1,2 1,3 z";
-                let str = me.createPath(p,me.step / 20);
-                return str;
-                })
-            .style('stroke','#202020')
-            .style('stroke-linecap','round')
-            .style('stroke-width','1pt')
-            .style('fill','#F08040')
-            .style('opacity',0.9)
-        ;
+
 
         me.arms.append("path")
             .attr('id','hours_main')
@@ -475,12 +466,48 @@ class Orologio{
 
 
         me.arms.append("path")
+            .attr('id','real_hours_arm')
+            .attr("d",d => {
+                let p = ""
+                p += "M 0,-45 ";
+                p += "m 5,0 l -5,-10 -5,10 5,-3 5,3 z";
+                p += "M 0,-5 ";
+                p += "l 1,-3 -1,-2 -1,2 1,3 z";
+                let str = me.createPath(p,me.step / 20);
+                return str;
+                })
+            .style('stroke','#202020')
+            .style('stroke-linecap','round')
+            .style('stroke-width','1pt')
+            .style('fill','#708080')
+            .style('opacity',0.9)
+        ;
+
+        me.arms.append("path")
+            .attr('id','minutes_arm')
+            .attr("d",d => {
+                let p = ""
+                p += "M 0,-30 ";
+                p += "m 5,0 l -5,-10 -5,10 5,-3 5,3 z";
+                p += "M 0,-10 ";
+                p += "l 1,-3 -1,-2 -1,2 1,3 z";
+                let str = me.createPath(p,me.step / 20);
+                return str;
+                })
+            .style('stroke','#202020')
+            .style('stroke-linecap','round')
+            .style('stroke-width','1pt')
+            .style('fill','#808070')
+            .style('opacity',0.9)
+        ;
+
+        me.arms.append("path")
             .attr('id','seconds_arm')
             .attr("d",d => {
                 let p = ""
-                p += "M 0,-36 ";
+                p += "M 0,-20 ";
                 p += "m 5,0 l -5,-10 -5,10 5,-3 5,3 z";
-                p += "M 0,-50 ";
+                p += "M 0,-15 ";
                 p += "l 1,-3 -1,-2 -1,2 1,3 z";
                 let str = me.createPath(p,me.step / 20);
                 return str;
@@ -488,7 +515,7 @@ class Orologio{
             .style('stroke','#101010')
             .style('stroke-linecap','round')
             .style('stroke-width','1pt')
-            .style('fill','#F0C040')
+            .style('fill','#807080')
             .style('opacity',0.9)
         ;
 
@@ -529,10 +556,13 @@ class Orologio{
     updateQuick(){
         let me = this;
         let d = new Date();
+        let hours = d.getHours()-3;
         let minutes = d.getMinutes();
         let seconds = d.getSeconds();
+        let hoursAngle = 360 * (hours/60)
         let minutesAngle = 360 * (minutes/60)
         let secondsAngle = 360 * (seconds/60)
+        d3.select("#real_hours_arm").attr('transform',"rotate("+hoursAngle+")")
         d3.select("#minutes_arm").attr('transform',"rotate("+minutesAngle+")")
         d3.select("#seconds_arm").attr('transform',"rotate("+secondsAngle+")")
         d3.select("#ZeHour").text(d => {

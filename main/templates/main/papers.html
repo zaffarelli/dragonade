@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{%  load static %}
+
+
+{% block west %}
+    {% include "main/menu.html" with title=title %}
+{% endblock west %}
+
+
+{% block east %}
+    <div class="middle">
+    </div>
+    <div class="list">
+    {% for x in papers %}
+        {% include "main/mini.html" with a=x%}
+    {% endfor %}
+    </div>
+{% endblock east %}
+
+
+{% block main %}
+<div class="container">
+    aaa
+    {% for x in papers %}
+        {{k}}{{v}}
+        <div class="svg_area paper hidden" id="paper_{{x.ID}}">
+            {{p.text}}
+        </div>
+    {% endfor %}
+
+</div>
+{% endblock main %}
+
+
+{% block custom_js %}
+<script>
+    _.defer(function () {
+        let co = new Main()
+        co.perform();
+        co.revealUI();
+    });
+</script>
+{% endblock custom_js %}
