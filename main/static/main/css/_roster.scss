@@ -1,14 +1,15 @@
 .container{
     border:1px solid transparent;
     border-radius:5px;
-    background:transparent;
     display:flex;
-    flex-flow: row wrap;
-    justify-content: flex-start;
+    flex-flow: column wrap;
+    justify-content: stretch;
     align-content: stretch;
-    align-items: flex-start;
-    flex:0 0 auto;
+    align-items: stretch;
     gap: 5px;
+    margin:0;
+    height:100%;
+    border: 1px solid transparent;
 
 
     & .roster{

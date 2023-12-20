@@ -1,5 +1,7 @@
 class Main{
     constructor(){
+        this.pa = new Paper(this)
+        this.tables = []
     }
 
     prepareAjax() {
@@ -46,7 +48,7 @@ class Main{
         me.registerEditables();
         me.registerSheets();
         me.registerLinks();
-        me.registerPapers();
+        me.registerMiniItems();
     }
 
     registerEditables(){
@@ -119,14 +121,15 @@ class Main{
             e.preventDefault();
             e.stopPropagation();
             let miniid = $(this).attr('id');
-            let words = miniid.split('_');
-            let id = words[0];
-            $('.sheet.base').addClass('hidden');
-            $('.sheet.skills').addClass('hidden');
+            let words = miniid.split('__');
+            let id = words[1];
+            $('.roster .sheet').addClass('hidden');
+            //$('.sheet.skills').addClass('hidden');
             $('.minisheet').removeClass('mark');
             $(this).addClass('mark');
-            $("#ssa_"+id).removeClass('hidden');
-            $("#sb_"+id).removeClass('hidden');
+            $("#roster_"+id+" .sheet").removeClass('hidden');
+            console.log("#roster_"+id+".sheet")
+            //$("#sb_"+id).removeClass('hidden');
             me.registerActions();
         });
         $('.skill_switch').off().on('click', function(e){
@@ -147,16 +150,22 @@ class Main{
     }
 
 
-    registerPapers(){
+    registerMiniItems(){
         let me = this;
-        $('.paper_mini').off().on('click', function(e){
+        $('.mini').off().on('click', function(e){
             e.preventDefault();
             e.stopPropagation();
             let miniid = $(this).attr('id');
-            let words = miniid.split('_');
-            let id = words[0];
-            $(".paper").addClass('hidden');
-            $("#paper_"+id).removeClass('hidden');
+            let code = $(this).attr('code');
+            let words = miniid.split('__');
+            let id = words[1];
+            console.log("mini click!")
+            $(".item").addClass('hidden');
+            $(".mini").removeClass('mark');
+            $("#mini__"+id).addClass('mark');
+            $("#item__"+id).removeClass('hidden');
+
+            me.pa.perform("#item__"+id,code);
             me.registerActions();
         });
 

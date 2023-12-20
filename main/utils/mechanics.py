@@ -1,4 +1,4 @@
-FONTSET = ['Quicksand', 'Fredoka', 'Neucha', 'Syne+Mono', 'Abel', 'Satisfy', 'Acme', 'Roboto', 'Hubballi', 'Gruppo']
+FONTSET = ['Quicksand', 'Fredoka', 'Neucha', 'Syne+Mono', 'Abel', 'Satisfy', 'Acme', 'Roboto', 'Hubballi', 'Gruppo', "Are+You+Serious"]
 
 
 def is_ajax(request):

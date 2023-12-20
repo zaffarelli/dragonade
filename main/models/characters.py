@@ -29,7 +29,6 @@ class Character(models.Model):
     weight = models.PositiveIntegerField(default=50, blank=True)
     place = models.CharField(max_length=256, default="", blank=True)
 
-
     attributes = models.CharField(max_length=64, default="", blank=True)
     skills_weapons = models.CharField(max_length=128, default="", blank=True)
     skills_generic = models.CharField(max_length=128, default="", blank=True)
@@ -88,8 +87,6 @@ class Character(models.Model):
                 list.append(vs)
             setattr(self, f"skills_{key.lower()}", " ".join(list))
 
-
-
     def fix(self):
         self.make_rid()
         if self.birthhour == 0:
@@ -100,10 +97,11 @@ class Character(models.Model):
         self.json_dump()
 
     def calc_indice(self):
-        from main.utils.ref_dragonade import ATTRIBUTE_CREA
+        from main.utils.ref_dragonade import ATTRIBUTE_CREA, stress_cost
         self.indice = 0
         for a in self.data['attributes']:
-            self.indice += ATTRIBUTE_CREA[f"{self.data['attributes'][a]}"]
+            # self.indice += ATTRIBUTE_CREA[f"{self.data['attributes'][a]}"]
+            self.indice += stress_cost(0, self.data['attributes'][a], -5)
 
     def ref_to_struct(self, src_ref):
         """        
@@ -122,14 +120,16 @@ class Character(models.Model):
                 cnt = 0
                 list = getattr(self, transversal[0].lower()).split(' ')
                 for item in src_struct['LIST']:
-                    self.data[transversal[0].lower()][item['NAME']] = int(list[cnt]) if cnt<len(list) else src_struct['DEFAULT']
+                    self.data[transversal[0].lower()][item['NAME']] = int(list[cnt]) if cnt < len(list) else src_struct[
+                        'DEFAULT']
                     cnt += 1
             elif len(transversal) == 2:
                 # Skills
                 cnt = 0
                 list = getattr(self, src_ref.lower()).split(' ')
                 for item in src_struct['LIST']:
-                    self.data[transversal[0].lower()][transversal[1].lower()][item['NAME']] = int(list[cnt]) if cnt<len(list) else src_struct['DEFAULT']
+                    self.data[transversal[0].lower()][transversal[1].lower()][item['NAME']] = int(
+                        list[cnt]) if cnt < len(list) else src_struct['DEFAULT']
                     cnt += 1
 
     def export_to_json(self):
@@ -146,7 +146,6 @@ class Character(models.Model):
 
         # The initialize function must implement controls to stay safe if data exists
         self.initialize()
-
 
         self.ref_to_struct('ATTRIBUTES')
         self.ref_to_struct('SKILLS_WEAPONS')
@@ -176,9 +175,6 @@ class Character(models.Model):
         self.data['features']['lefty'] = "Gaucher" if self.is_lefty else "Droitier"
         self.data['features']['age'] = self.age
 
-
-
-
         self.data['birthhour'] = self.birthhour
         x = self.data['misc']['FAT']
         pf = 0
@@ -187,7 +183,8 @@ class Character(models.Model):
                 pf += x
                 x -= 1
         self.data['misc']['pf'] = pf
-#        self.json_dump()
+
+    #        self.json_dump()
 
     def calcCompute(self, str):
         result = -1
@@ -271,7 +268,6 @@ class Character(models.Model):
 
     def import_from_json(self, jsonstring):
         struct = json.loads(jsonstring)
-
 
     def toJson(self):
         self.export_to_json()

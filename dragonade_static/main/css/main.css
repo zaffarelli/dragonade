@@ -37,14 +37,15 @@ span.future {
 .container {
   border: 1px solid transparent;
   border-radius: 5px;
-  background: transparent;
   display: flex;
-  flex-flow: row wrap;
-  justify-content: flex-start;
+  flex-flow: column wrap;
+  justify-content: stretch;
   align-content: stretch;
-  align-items: flex-start;
-  flex: 0 0 auto;
-  gap: 5px; }
+  align-items: stretch;
+  gap: 5px;
+  margin: 0;
+  height: 100%;
+  border: 1px solid transparent; }
   .container .roster {
     background: transparent;
     display: flex;
@@ -169,13 +170,23 @@ span.future {
     background: #103020;
     box-shadow: 0 0 16px #808080; }
 
-.svg_area {
-  flex: 1 1 30vw;
+.item {
   color: #101010;
   background: #F0F0F0;
   border: 1px solid black;
   border-radius: 5px;
-  height: 30vh; }
+  flex: 1 1 auto; }
+
+.mini {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  background: #301020;
+  cursor: pointer; }
+  .mini:hover {
+    background: #103020; }
+  .mini.mark {
+    background: #101030; }
 
 body {
   margin: 0;
@@ -226,11 +237,16 @@ body {
       order: 2;
       overflow: auto;
       background: #80808020;
-      border-radius: 10px; }
+      border-radius: 10px;
+      border: 1px solid transparent; }
       body .world .corpus .stacked {
         order: 1;
         flex: 8 1 auto;
-        text-align: center; }
+        text-align: center;
+        border: 2px solid green;
+        margin-top: 0;
+        margin-bottom: 0;
+        height: auto; }
 
 #d3area {
   background: transparent;

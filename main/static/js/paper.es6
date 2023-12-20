@@ -1,32 +1,38 @@
 class Paper{
-    constructor(parent,co) {
-        this.parent = parent;
+    constructor(co) {
         this.co = co;
-        this.init();
     }
 
-    init() {
+    init(parent) {
         let me = this;
+        me.parent = parent;
         me.debug = true;
-        me.version = "1.0.0";
-        me.step = 10;
+        me.version = "0.5";
+        me.supertitle = "";
+        me.step = 50;
+        me.fontSize = 0.3*me.step + "pt";
         // Drawing Size
-        me.width = me.step * 21
-        me.height = me.step * 29.7
-        me.ox = 0.5
-        me.ox = 0.8
+        me.height = me.step * 21.0
+        me.width = me.step * 29.7
+        me.ox = 0.85
+        me.oy = 0.5
         // View Size
         me.w = parseInt($(me.parent).css('width'));
         me.h = parseInt($(me.parent).css('height'));
-
         me.fontsize = me.step / 4 ;
         me.light = [0.70,0.4,0,0,0,0,0,0.40,0.70,0.90,1,0.90];
         d3.select(me.parent).selectAll("svg").remove();
-        me.svg = d3.select(me.parent).append("svg")
-            .attr("viewBox", -me.w/2 +" "+ -me.h/2 +" "+ me.w + " " + me.h)
+        me.vis = d3.select(me.parent).append("svg")
+            .attr("viewBox", "0 0 " + me.w + " " + me.h)
             .attr("width", me.w)
-            .attr("height", me.h)
-            ;
+            .attr("height", me.h);
+        me.svg = me.vis.append('g')
+            .attr("id", me.code)
+            .attr("width", me.width)
+            .attr("height", me.height)
+            .append("svg:g")
+            .attr("transform", "translate(0,0)")
+        ;
     }
 
     createPath(str,u){
@@ -48,555 +54,585 @@ class Paper{
 
     drawBack(){
         let me = this;
-        me.circleback = me.svg.append('g')
+        me.back = me.svg.append('g')
             .attr("class","circlebacks")
             .append("g")
+           // .attr("transform","translate("+(-me.step*21/2)+","+(-me.step*29.7/2)+")")
         ;
-        me.circleback.append("circle")
-            .attr("id","circleout")
-            .attr("cx",me.step*7.2)
-            .attr("cy",me.step*7.2)
-            .attr("r",me.step)
-            .style('stroke-width','1.5pt')
-            .style('stroke','#101010')
-            .style('fill','#B0A7A7')
-        ;
-
-        me.circleback.append("text")
-            .attr("id","ZeHour")
-            .attr("x",me.step*7.2)
-7            .attr("y",me.step*7.2)
-            .attr("dy",(me.fontsize/2)+"pt")
-            .style('stroke','#202020')
-            .style('stroke-linecap','round')
+        me.back.append("rect")
+            .attr("id","pagerect")
+            .attr("x",me.ox*me.step)
+            .attr("y",me.oy*me.step)
+            .attr("width",me.width )
+            .attr("height",me.height )
             .style('stroke-width','1pt')
-            .style('fill','#303030')
-            .style('font-family','Neucha' )
-            .style('font-size',(me.fontsize*2)+'pt' )
-            .style('text-anchor','middle' )
-            .text("")
-        ;
-
-
-        me.circleback.append("circle")
-             .attr("id","outercircle")
-            .attr("cx",0)
-            .attr("cy",0)
-            .attr("r",me.step*8)
-            .style('stroke','#101010')
-            .style('stroke-width','1pt')
-            .style('fill','#B0A7A7')
+            .style('stroke-dasharray','2 3')
+            .style('stroke','#606060')
+            .style('fill','#F0F0F0')
             .attr('opacity',0.5)
         ;
-        me.circleback.append("circle")
-            .attr("cx",0)
-            .attr("cy",0)
-            .attr("r",me.step*6)
-            .style('stroke','#101010')
-            .style('stroke-width','0.25pt')
-            .style('fill','#D0C7C7')
-            .attr('opacity',0.75)
+
+        if (me.debug == true) {
+            me.xunits = 28;
+            me.yunits = 20;
+
+            let verticals = me.back.append('g')
+                .attr('class', 'verticals')
+                .selectAll("g")
+                .data(d3.range(1, me.xunits+2, 1));
+            verticals.enter()
+                .append('line')
+                .attr('x1', function (d) {
+                    return (d+me.ox) * me.step
+                })
+                .attr('x2', function (d) {
+                    return (d+me.ox) * me.step
+                })
+                .attr('y1', me.oy*me.step)
+                .attr('y2', (me.oy+me.yunits+1) * me.step)
+                .style('fill', 'transparent')
+                .style('stroke', '#90a090')
+                .style('stroke-dasharray', '3 7')
+                .style('stroke-width', '0.25pt');
+            let horizontals = me.back.append('g')
+                .attr('class', 'horizontals')
+                .selectAll("g")
+                .data(d3.range(1, me.yunits+2, 1));
+            horizontals.enter()
+                .append('line')
+                .attr('x1', me.ox * me.step)
+                .attr('x2', (me.ox+me.xunits+1) * me.step)
+                .attr('y1', function (d) {
+                    return (d+me.oy) * me.step
+                })
+                .attr('y2', function (d) {
+                    return (d+me.oy) * me.step
+                })
+                .style('fill', 'transparent')
+                .style('stroke', '#90a090')
+                .style('stroke-dasharray', '3 5')
+                .style('stroke-width', '0.25pt');
+
+        }
+        me.back.append('text')
+            .attr("x", me.step*3)
+            .attr("y", me.step*21)
+            .style("text-anchor","middle")
+            .style("font-family","Are You Serious")
+            .style("font-size",me.step+"pt")
+            .style("fill","#101010")
+            .style("stroke","#808080")
+            .style("stroke-width","0.25pt")
+            .text(me.supertitle)
         ;
-        me.circleback.append("circle")
-            .attr("cx",0)
-            .attr("cy",0)
-            .attr("r",me.step*5)
-            .style('stroke','#606060')
-            .style('stroke-width','1pt')
-            .style('stroke-dasharray','1 1')
-            .style('fill','transparent')
-//            .style('opacity',0.50)
-        ;
-        me.circleback.append("circle")
-            .attr("cx",0)
-            .attr("cy",0)
-            .attr("r",me.step*4)
-            .style('stroke','#606060')
-            .style('stroke-width','1pt')
-            //.style('stroke-dasharray','5 2')
-            .style('fill','transparent')
-         //   .style("fill-opacity",0.1)
-        ;
-        me.circleback.append("circle")
-            .attr("cx",0)
-            .attr("cy",0)
-            .attr("r",me.step*3)
-            .style('stroke','#101010')
-            .style('stroke-dasharray','5 5')
-            .style('stroke-width','1pt')
-            .style('fill','transparent')
-        ;
-        me.circleback.append("circle")
-            .attr("cx",0)
-            .attr("cy",0)
-            .attr("r",me.step*2)
-            .style('stroke','#101010')
-            .style('stroke-dasharray','1 1')
-            .style('stroke-width','1pt')
-            .style('fill','transparent')
-        ;
-        me.circleback.append("circle")
-            .attr("id","smallcentralcircle")
-            .attr("cx",0)
-            .attr("cy",0)
-            .attr("r",me.step*0.125)
-            .style('stroke','#101010')
-            .style('stroke-width','1pt')
-            .style('fill','transparent')
-        ;
+
     }
 
-    drawPerHour(){
+    paperX(x){
         let me = this;
-        me.ticks = me.svg.append('g')
-            .selectAll('.ticks')
-            .data([0,1,2,3,4,5,6,7,8,9,10,11])
-            ;
-        me.ticks_g = me.ticks.enter().append("g")
-            .attr("class","ticks")
-            .attr("transform",d=> 'rotate('+ (d-3)*30 +')')
-            ;
-
-        me.ticks_g.append("line")
-            .attr("x1",me.step*5.70)
-            .attr("y1",0)
-            .attr("x2",me.step*6.5)
-            .attr("y2",0)
-            .style('stroke','#202020')
-            .style('stroke-linecap','round')
-            .style('stroke-width','1pt')
-            .style('fill','transparent')
-        ;
-
-        me.ticks_g.append("line")
-            .attr("x1",me.step*1.90)
-            .attr("y1",0)
-            .attr("x2",me.step*2.10)
-            .attr("y2",0)
-            .style('stroke','#202020')
-            .style('stroke-linecap','round')
-            .style('stroke-width','1pt')
-            .style('fill','transparent')
-        ;
-        me.ticks_g.append("line")
-            .attr("x1",me.step*4)
-            .attr("y1",0)
-            .attr("x2",me.step*4.30)
-            .attr("y2",0)
-            .style('stroke','#202020')
-            .style('stroke-linecap','round')
-            .style('stroke-width','1.0pt')
-            .style('fill','transparent')
-        ;
-        me.ticks_g.append("line")
-            .attr("x1",me.step*2.25)
-            .attr("y1",0)
-            .attr("x2",me.step*2.75)
-            .attr("y2",0)
-            .style('stroke','#202020')
-            .style('stroke-linecap','round')
-            .style('stroke-width','3.0pt')
-            .style('fill','transparent')
-        ;
-
-        me.ticks_g.append("a")
-            .attr("xlink:href", function(d) {
-                if (d == 11){
-                    return "autochtons";
-                }else if (d==4){
-                    return "travellers";
-                }
-            })
-            .append("circle")
-            .attr("class","imagecircle")
-            .attr("id",d => "ic_"+d)
-            .attr("cx",me.step*7.15)
-            .attr("cy",0)
-            .attr("r",2*me.step/3)
-            .style('stroke','#273030')
-            .style('stroke-linecap','round')
-            .style('stroke-width',d => {
-                if ([4,5,11].includes(d)){
-                    return '2pt';
-                }
-                return '1pt';
-            })
-            .style('fill','transparent')
-            .style('cursor','pointer')
-            //.style('opacity',0.25)
-            .on('mouseover', (e, d) => {
-                if ([4,5,11].includes(d)){
-                    me.svg.select('#ic_'+d)
-                         .style('stroke','#A02020')
-                        .style('stroke-width','5pt')
-                    ;
-                }
-            })
-            .on('mouseout',  (e, d) => {
-                me.svg.selectAll('.imagecircle')
-                    .style('stroke','#273030')
-//                     .style('stroke-width','1pt')
-                    ;
-            })
-
-
-        ;
-        me.ticks_g.append("circle")
-            .attr("class","daylight")
-            .attr("cx",me.step*3)
-            .attr("cy",0)
-            .attr("r",me.step/8)
-            .style('stroke','#202020')
-            .style('stroke-linecap','round')
-            .style('stroke-width','1pt')
-            .style('fill', "#406080")
-            .style('fill-opacity', d => me.light[d])
-        ;
-        me.ticks_g.append("circle")
-            .attr("id",d => "polar_"+(d+1))
-            .attr("cx",me.step*5)
-            .attr("cy",0)
-            .attr("r",4*me.step/6)
-            .style('stroke','#202020')
-            .style('stroke-linecap','round')
-            .style('stroke-width','1pt')
-            .style('fill','transparent')
-            .style('fill-opacity', d => me.light[d])
-        ;
-
-
-        me.ticks_g.append("text")
-            .attr("x",0)
-            .attr("y",0)
-            .attr("dy",(me.fontsize/2)+"pt")
-            .style('stroke','#202020')
-            .style('stroke-linecap','round')
-            .style('stroke-width','1pt')
-            .style('fill','#303030')
-            .style('font-family','Neucha' )
-            .style('font-size',(me.fontsize)+'pt' )
-            .style('text-anchor','middle' )
-            .text(d => d+1)
-            .attr("transform",d => {
-                let adeg = (d-2)*30;
-                let arad = (adeg/360)*2*Math.PI;
-                let a = Math.cos(arad)*me.step*3.75;
-                let b = Math.sin(arad)*me.step*3.75;
-                let str = 'rotate('+ -(d-3)*30 +') translate('+a+','+b+')'
-                return(str)
-                }
-            )
-        ;
-        me.ticks_g.append("image")
-            .attr("id",d => "hd_"+d)
-            .attr("xlink:href",d => "/static/main/svg/hd_"+(d+1)+".svg")
-            .attr("width",me.fontsize*3)
-            .attr("height",me.fontsize*3)
-            .attr("x",-me.fontsize*1.5)
-            .attr("y",-me.fontsize*1.5)
-            .attr("transform",d => {
-                let adeg = (d-2)*30;
-                let arad = (adeg/360)*2*Math.PI;
-                let a = Math.cos(arad)*(me.step*6.75+me.fontsize*1.5);
-                let b = Math.sin(arad)*(me.step*6.75+me.fontsize*1.5);
-                let str = 'rotate('+ -(d-3)*30 +') translate('+a+','+b+')'
-                return(str)
-            })
-        ;
-
-        // Hours
-        me.ticks_g.append("rect")
-            .attr("id",d => "rect_"+(d))
-            .attr("class","linker")
-            .attr("x",-7+me.step*6.0)
-            .attr("y",-7)
-            .attr("width",14)
-            .attr("height",14)
-            .style('fill','#7F8080')
-            .style('stroke','#101010')
-            .style('stroke-width','0.75pt')
-            .style('cursor','pointer')
-            .on('click', (e, d) => {
-                console.log("Hour override ["+me.hourOverride+"]");
-                if (me.hourOverride == (d+2)*2){
-                    me.hourOverride = 666;
-                }else{
-                    me.hourOverride = (d+2)*2;
-                }
-                clearInterval(me.intervalSlow);
-                me.intervalSlow = setInterval(function() {me.updateSlow();},me.quickDelay);
-            })
-        ;
-
-        me.ticks.exit().remove();
-
+        let val = me.localx + x
+        val = val * me.localstep;
+        return val;
     }
 
-    drawPerRealHour(){
+    paperY(y){
         let me = this;
-        me.realhours = me.svg.append('g')
-            .selectAll('.ticks')
-            .data([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23])
-            .enter()
-            ;
-        me.realhours_g = me.realhours.append("g")
-            .attr("class","ticks")
-            .attr("transform",d=> 'rotate('+ (d-11)*15 +')')
-            ;
-
-        me.realhours_g.append("line")
-            .attr("x1",me.step*4.1)
-            .attr("y1",0)
-            .attr("x2",me.step*4.2)
-            .attr("y2",0)
-            .style('stroke','#202020')
-            .style('stroke-linecap','round')
-            .style('stroke-width','1pt')
-            .style('fill','transparent')
-        ;
-        me.realhours_g.append("text")
-            .attr("x",0)
-            .attr("y",0)
-            .attr("dy",(me.fontsize/4)+"pt")
-            .style('stroke','#202020')
-            .style('stroke-linecap','round')
-            .style('stroke-width','0.5pt')
-            .style('fill','#303030')
-            .style('font-family','Neucha' )
-            .style('font-size',(me.fontsize/2)+'pt' )
-            .style('text-anchor','middle' )
-            .text(d => d+"h00")
-            .attr("transform",d => {
-                let adeg = (d-11)*15;
-                let arad = (adeg/360)*2*Math.PI;
-                let a = Math.cos(arad)*me.step*3.3;
-                let b = Math.sin(arad)*me.step*3.3;
-                let str = 'rotate('+ -(d-11)*15 +') translate('+a+','+b+')'
-                return(str)
-                }
-            )
-        ;
+        let val = me.localy + y;
+        val = val * me.localstepy;
+        return val;
     }
 
-    drawArms(){
+
+
+
+    drawTable(tb=undefined, options){
         let me = this;
-        me.arms = me.svg.append('g');
+        let title = "";
+        let object_values = false;
+        let column_width = 1.9;
+        let row_header_width = 2;
+        let even_odd = false;
+        let rows_header = "";
+        // Dimension of the table
+        let local_width = 0;
+        let local_height = 0;
+        let rowlen = 0;
+        let collen = 0;
+        let x = 0;
+        let y = 0;
+        let cols = [];
+        let rows = [];
+        let cell_width = 2;
+        let cell_widths = [];
+        let cell_height = 1;
+        let cell_format = [];
+        me.localx = me.ox + 3;
+        me.localy = me.oy + 2;
 
 
-        me.arms.append("path")
-            .attr('id','hours_main')
-            .attr("d",d => {
-                let str = me.createPath("M -4,-46 l 4,-9 4,9 -4,-2 -2 1 z",me.step / 10);
-                return str;
-                })
-            .style('stroke','#202020')
-            .style('stroke-linecap','round')
-            .style('stroke-width','1pt')
-            .style('fill','#20A020')
-            .style('fill-opacity',0.75)
-            .on('mouseover',(e,x) => {
-                console.log("z,p,zpzf")
-            });
+
+        if (tb){
+            if ("title" in tb){
+                title = tb["title"]
+            }
+            if ("options" in tb){
+                if ("column_width" in tb["options"]){
+                    column_width = tb["options"]["column_width"];
+                }
+                if ("object_values" in tb["options"]){
+                    object_values = tb["options"]["object_values"];
+                }
+                if ("rows_header" in tb["options"]){
+                   rows_header = tb["options"]["rows_header"];
+                }
+                if ("row_header_width" in tb["options"]){
+                    row_header_width = tb["options"]["row_header_width"];
+                }
+                if ("even_odd" in tb["options"]){
+                    even_odd = tb["options"]["even_odd"];
+                }
+                if ("cell_width" in tb["options"]){
+                    cell_width = tb["options"]["cell_width"];
+                }
+                if ("cell_widths" in tb["options"]){
+                    cell_widths = tb["options"]["cell_widths"];
+                }
+                if ("cell_format" in tb["options"]){
+                    cell_format = tb["options"]["cell_format"];
+                }
+                if ("cell_height" in tb["options"]){
+                    cell_height = tb["options"]["cell_height"];
+                }
+            }
+            if ("cols" in tb){
+                rowlen = tb["cols"].length;
+                cols = tb["cols"]
+            }
+            if ("rows" in tb){
+                collen = tb["rows"].length;
+                rows = tb["rows"]
+            }
+            if ("x" in options){
+                x = options["x"];
+                me.localx += options["x"];
+            }
+            if ("y" in options){
+                y = options["y"];
+                me.localy += options["y"];
+            }
+
+        }
+        let table = me.back.append('g').attr('id',title)
+            .attr("transform","translate("+(me.step*0.5)+","+(me.step*1)+")")
+        me.localstep = me.step/2;
+        me.localstepy = me.step/2*cell_height;
+        me.localfontSize = 0.3*me.localstep;
+        let columns = table.append('g')
+            .attr('class','table_columns')
+            .selectAll('.table_col')
+            .data(cols)
+        let cols_in = columns.enter();
+        let cols_out = columns.exit().remove();
+        let col = cols_in.append('g').attr('class','table_col');
+        col.append('rect')
+            .attr("x", (d,i) => {
+                let w = (i%rowlen)*cell_width;
+                if (cell_widths.length > 0){
+                    x = 0;
+                    w = 0;
+                    while(x < i%rowlen){
+                        w += cell_widths[x]
+                        x += 1;
+                    }
+                }
+                return me.paperX(w)
+            })
+            .attr("y", (d,i) => me.paperY(-1))
+            .attr("rx", me.localstep/8)
+            .attr("ry", me.localstep/8)
+            .attr("width",(d,i) => {
+                let res = 0;
+                if (object_values){
+                    res = me.localstep*d["width"]*3
+                }else {
+                    res = me.localstep*cell_width
+                    if (cell_widths.length > 0){
+                        res = me.localstep*cell_widths[i%rowlen]
+                        console.log(res)
+                    }
+                }
+                return res
+            })
+            .attr("height",me.localstep*cell_height)
+            .attr("stroke","#C0C0C0")
+            .attr("stroke-width","0.5pt")
+            .style("fill","#F0F0F0")
+        ;
+        col.append('text')
+            .attr("y", (d,i) => me.paperY(-0.5))
+            .attr("x", (d,i) => me.textx(d,i,rowlen,cell_width,cell_widths))
+            .attr("dy",me.localfontSize*cell_height)
+            .style("text-anchor","middle")
+            .style("font-family","Neucha")
+            .style("font-size",me.localfontSize+"pt")
+            .style("fill","#101010")
+            .style("stroke","#808080")
+            .style("stroke-width","0.25pt")
+            .text((d,i) => d)
         ;
 
-        me.arms.append("path")
-            .attr('id','hours_fav1')
-            .attr("d",d => {
-                let str = me.createPath("M -4,-46 l 4,-9 4,9 -4,-2 -2 1 z",me.step / 10);
-                return str;
-                })
-            .style('stroke','#202020')
-            .style('stroke-linecap','round')
-            .style('stroke-width','1pt')
-            .style('fill','#20A020')
-            .style('fill-opacity',0.25)
+        if ("col_back_header" in tb){
+            let cbhs = table.append('g')
+                .attr('class','table_columns')
+                .selectAll('.table_colbh')
+                .data(tb['col_back_header'])
+            let cbh_in = cbhs.enter();
+            let cbh_out = cbhs.exit().remove();
+            let cbh = cbh_in.append('g').attr('class','table_colbh');
+            cbh.append('rect')
+                .attr("x", (d,i) => me.paperX((i%rowlen)*2))
+                .attr("y", (d,i) => me.paperY(collen))
+                .attr("rx", me.localstep/4)
+                .attr("ry", me.localstep/4)
+                .attr("width",me.localstep*1.9)
+                .attr("height",me.localstep*0.8)
+                .attr("stroke","#606060")
+                .attr("stroke-width","0.5pt")
+                .style("fill","#F0F0F0")
+            ;
+            cbh.append('text')
+                .attr("x", (d,i) => me.paperX((i%rowlen)*2+1))
+                .attr("y", (d,i) => me.paperY(collen+1-0.5))
+                .style("text-anchor","middle")
+                .style("font-family","Neucha")
+                .style("font-size",me.localfontSize+"pt")
+                .style("fill","#101010")
+                .style("stroke","#808080")
+                .style("stroke-width","0.25pt")
+                .text((d,i) => d)
+            ;
+        }
+
+        if ("row_back_header" in tb){
+            let rbhs = table.append('g')
+                .attr('class','table_columns')
+                .selectAll('.table_rowbh')
+                .data(tb['row_back_header'])
+            let rbh_in = rbhs.enter();
+            let rbh_out = rbhs.exit().remove();
+            let rbh = rbh_in.append('g').attr('class','table_rowbh');
+            rbh.append('rect')
+                .attr("x", (d,i) => me.paperX((rowlen)*2))
+                .attr("y", (d,i) => me.paperY(i))
+                .attr("rx", me.localstep/4)
+                .attr("ry", me.localstep/4)
+                .attr("width",me.localstep*1.9)
+                .attr("height",me.localstep*0.8)
+                .attr("stroke","#606060")
+                .attr("stroke-width","0.5pt")
+                .style("fill","#F0F0F0")
+            ;
+            rbh.append('text')
+                .attr("x", (d,i) => me.paperX((rowlen)*2+1))
+                .attr("y", (d,i) => me.paperY(i+0.5))
+                .style("text-anchor","middle")
+                .style("font-family","Neucha")
+                .style("font-size",me.localfontSize+"pt")
+                .style("fill","#101010")
+                .style("stroke","#808080")
+                .style("stroke-width","0.25pt")
+                .text((d,i) => d)
+            ;
+        }
+
+
+        if (rows_header != ""){
+
+            let k = table.append('g');
+            k.append('rect')
+                .attr("x", (d,i) => me.paperX(-2))
+                .attr("y", (d,i) => me.paperY(-1))
+                .attr("rx", me.localstep/4)
+                .attr("ry", me.localstep/4)
+                .attr("width",me.localstep*1.9)
+                .attr("height",me.localstep*0.8)
+                .attr("stroke","#A06060")
+                .attr("stroke-width","0.5pt")
+                .style("fill","#F0F0F0")
+            ;
+            k.append('text')
+                .attr("x", (d,i) => me.paperX(-1))
+                .attr("y", (d,i) => me.paperY(-.5))
+                .style("text-anchor","middle")
+                .style("font-family","Neucha")
+                .style("font-size",me.localfontSize+"pt")
+                .style("fill","#101010")
+                .style("stroke","#808080")
+                .style("stroke-width","0.25pt")
+                .text((d,i) => rows_header)
+            ;
+        }
+
+
+
+        let rowxs = table.append('g')
+            .attr('class','table_rows')
+            .selectAll('.table_row')
+            .data(tb['rows'])
+        let rows_in = rowxs.enter();
+        let rows_out = rowxs.exit().remove();
+        let row = rows_in.append('g').attr('class','table_row');
+        row.append('rect')
+            .attr("x", (d,i) => me.paperX(-1*row_header_width)+2)
+            .attr("y", (d,i) => me.paperY(i))
+
+            .attr("rx", me.localstep/8)
+            .attr("ry", me.localstep/8)
+            .attr("width", (d,i) => {
+                let result = me.localstep*row_header_width*0.95
+                return result
+            })
+            .attr("height",me.localstep*cell_height)
+            .attr("stroke","#C0C0C0")
+            .attr("stroke-width","0.5pt")
+            .attr("fill", (d,i) => {
+                let color = "#F0F0F0";
+//                 if (even_odd){
+//                     if (i%2==0){
+//                         color = "#FFFFFF";
+//                     }else{
+//                         color = "#EEEEFE";
+//                     }
+//                 }
+                return color;
+            })
+        ;
+        row.append('text')
+            .attr("x", (d,i) => me.paperX(-1*row_header_width+row_header_width/2))
+            //.attr("y", (d,i) => me.paperY(i+0.5))
+            .attr("y", (d,i) => me.texty(d,i,1,cell_width,cell_widths))
+            .attr("dy",me.localfontSize*1.2)
+            .style("text-anchor","middle")
+            .style("font-family","Neucha")
+            .style("font-size",me.localfontSize+"pt")
+            .style("fill","#101010")
+            .style("stroke","#808080")
+            .style("stroke-width","0.25pt")
+            .text((d,i) => d)
         ;
 
-        me.arms.append("path")
-            .attr('id','hours_fav2')
-            .attr("d",d => {
-                let str = me.createPath("M -4,-46 l 4,-9 4,9 -4,-2 -2 1 z",me.step / 10);
-                return str;
-                })
-            .style('stroke','#202020')
-            .style('stroke-linecap','round')
-            .style('stroke-width','1pt')
-            .style('fill','#20A020')
-            .style('fill-opacity',0.25)
+
+        let cells = table.append('g')
+            .attr('class','table_cells')
+            .selectAll('.table_cell')
+            .data(tb['values'])
+        let cells_in = cells.enter();
+        let cells_out = cells.exit().remove();
+        let cell = cells_in.append('g').attr("id", (d,i) => i).attr('class','table_cell');
+        cell.append('rect')
+            .attr("x", (d,i) => me.rectx(d,i,rowlen,cell_width,cell_widths))
+            .attr("y", (d,i) => me.recty(d,i,rowlen,cell_width,cell_widths))
+            .attr("width",(d,i) => me.wfx(d,i,rowlen,cell_width,cell_widths))
+            .attr("height",me.localstep*cell_height)
+            .attr("fill", (d,i) => {
+                let color = "#FFFFFF";
+                if (even_odd){
+                    if (parseInt(i/rowlen)%2==0){
+                        color = "#FFFFFF";
+                    }else{
+                        color = "#EEEEFE";
+                    }
+                }
+                if (object_values){
+                    color = d["color"];
+                }
+                return color;
+            })
+            .attr("stroke","#C0C0C0")
+            .attr("stroke-width","0.5pt")
         ;
+        cell.append('text')
+            .attr("x", (d,i) => me.textx(d,i,rowlen,cell_width,cell_widths))
+            .attr("y", (d,i) => me.texty(d,i,rowlen,cell_width,cell_widths))
+            .attr("dy",me.localfontSize*1.2)
+            .style("text-anchor","middle")
+            .style("font-family","Neucha")
+            .style("font-size",me.localfontSize+"pt")
+            .text((d,i) => {
+                let result = d;
+                if (object_values){
+                    result = d["text"]
+                }
+                if (cell_format.length > 0){
+                    if (cell_format[i%rowlen] == "sols"){
+                        let a = parseInt(d);
+                        let b = (d-parseInt(d))*100;
+                        result = ""
+                        if (a>0)
+                            result += ""+parseInt(a)+"s";
+                        if (b>0)
+                            result += " "+parseInt(b)+"d";
 
-
-        me.arms.append("path")
-            .attr('id','hours_def1')
-            .attr("d",d => {
-                let str = me.createPath("M -4,-46 l 4,-9 4,9 -4,-2 -2 1 z",me.step / 10);
-                return str;
-                })
-            .style('stroke','#202020')
-            .style('stroke-linecap','round')
-            .style('stroke-width','1pt')
-            .style('fill','#A02020')
-            .style('fill-opacity',0.25)
+                    }
+                    if (cell_format[i%rowlen] == "enc"){
+                        if (d==0)
+                            result = "-";
+                    }
+                }
+                return result;
+            })
+//             .attr("opacity",0.25)
         ;
-
-        me.arms.append("path")
-            .attr('id','hours_def2')
-            .attr("d",d => {
-                let str = me.createPath("M -4,-46 l 4,-9 4,9 -4,-2 -2 1 z",me.step / 10);
-                return str;
-                })
-            .style('stroke','#202020')
-            .style('stroke-linecap','round')
-            .style('stroke-width','1pt')
-            .style('fill','#A02020')
-            .style('fill-opacity',0.25)
+        table.append('text')
+            .attr("x", (d,i) => {
+                let result = me.paperX(rowlen)
+                if (object_values){
+                    result += me.localstep * 3.5
+                }
+                return result
+            })
+            .attr("y", (d,i) => me.paperY(-1.5))
+            .style("text-anchor","middle")
+            .style("font-family","Are You Serious")
+            .style("font-size",me.localfontSize*3+"pt")
+            .style("fill","#101010")
+            .style("stroke","#606060")
+            .style("stroke-width","0.25pt")
+            .text(title)
         ;
-
-        me.arms.append("path")
-            .attr('id','hours_opposition')
-            .attr("d",d => {
-                let str = me.createPath("M -4,-46 l 4,-9 4,9 -4,-2 -2 1 z",me.step / 10);
-                return str;
-                })
-            .style('stroke','#202020')
-            .style('stroke-linecap','round')
-            .style('stroke-width','1pt')
-            .style('fill','#A02020')
-            .style('fill-opacity',0.5)
-        ;
-
-
-
-        me.arms.append("path")
-            .attr('id','real_hours_arm')
-            .attr("d",d => {
-                let p = ""
-                p += "M 0,-45 ";
-                p += "m 5,0 l -5,-10 -5,10 5,-3 5,3 z";
-                p += "M 0,-5 ";
-                p += "l 1,-3 -1,-2 -1,2 1,3 z";
-                let str = me.createPath(p,me.step / 20);
-                return str;
-                })
-            .style('stroke','#202020')
-            .style('stroke-linecap','round')
-            .style('stroke-width','1pt')
-            .style('fill','#708080')
-            .style('opacity',0.9)
-        ;
-
-        me.arms.append("path")
-            .attr('id','minutes_arm')
-            .attr("d",d => {
-                let p = ""
-                p += "M 0,-30 ";
-                p += "m 5,0 l -5,-10 -5,10 5,-3 5,3 z";
-                p += "M 0,-10 ";
-                p += "l 1,-3 -1,-2 -1,2 1,3 z";
-                let str = me.createPath(p,me.step / 20);
-                return str;
-                })
-            .style('stroke','#202020')
-            .style('stroke-linecap','round')
-            .style('stroke-width','1pt')
-            .style('fill','#808070')
-            .style('opacity',0.9)
-        ;
-
-        me.arms.append("path")
-            .attr('id','seconds_arm')
-            .attr("d",d => {
-                let p = ""
-                p += "M 0,-20 ";
-                p += "m 5,0 l -5,-10 -5,10 5,-3 5,3 z";
-                p += "M 0,-15 ";
-                p += "l 1,-3 -1,-2 -1,2 1,3 z";
-                let str = me.createPath(p,me.step / 20);
-                return str;
-                })
-            .style('stroke','#101010')
-            .style('stroke-linecap','round')
-            .style('stroke-width','1pt')
-            .style('fill','#807080')
-            .style('opacity',0.9)
-        ;
-
+        return table;
     }
+
+    rectx(d,i,rowlen,cell_width,cell_widths){
+        let me = this;
+        let x = 0;
+        let w = 0;
+        if (cell_widths.length > 0){
+            while(x < i%rowlen){
+                w += cell_widths[x]
+                x += 1;
+            }
+        }
+        return me.paperX(w)
+    }
+
+    recty(d,i,rowlen,cell_width,cell_widths){
+        let me = this;
+        return me.paperY(parseInt(i/rowlen))
+    }
+
+    wfx(d,i,rowlen,cell_width,cell_widths){
+        let me = this;
+        let res = 0;
+        res = me.localstep*cell_width
+        if (cell_widths.length > 0){
+            res = me.localstep*cell_widths[i%rowlen]
+        }
+        return res
+    }
+
+    height(d,i,rowlen,cell_width,cell_widths){
+        let me = this;
+    }
+
+    textx(d,i,rowlen,cell_width,cell_widths){
+        let me = this;
+        let idx = 0;
+        let x = 0;
+        if (cell_widths.length > 0){
+            while(idx < i%rowlen){
+                x += cell_widths[idx]
+                idx += 1;
+            }
+            x += cell_widths[i%rowlen]/2;
+        }
+        return me.paperX(x)
+    }
+
+    texty(d,i,rowlen,cell_width,cell_widths){
+        let me = this;
+        return me.paperY(parseInt(i/rowlen))
+    }
+
 
     drawAll(){
         let me = this;
-        me.drawBack();
-        me.drawPerHour();
-        me.drawPerRealHour();
-        me.drawArms();
-    }
+        if (me.code == "SCREEN1"){
+            me.supertitle = "Ecran n°1"
+            me.drawBack();
+            me.drawTable(me.co.tables["STRESS_TABLE"],{"even_odd":true});
+            me.drawTable(me.co.tables["QUALITY_TABLE"],{"x":17, "y":0, "row_header_width": 3,"even_odd":true});
+            me.drawTable(me.co.tables["SOAK_TABLE"],{"x":34, "y":0});
+            me.drawTable(me.co.tables["PDOM_TABLE"],{"x":48, "y":0});
+            me.drawTable(me.co.tables["SUS_TABLE"],{"x":48, "y":15});
+            me.drawTable(me.co.tables["SCON_TABLE"],{"x":53, "y":0});
+        }else if (me.code == "SCREEN2"){
+            me.supertitle = "Ecran n°2"
+            me.drawBack();
 
-    updateSlow(){
-        let me = this;
-        let d = new Date();
-        let hours = d.getHours();
-        if (me.hourOverride != 666){
-            hours = me.hourOverride;
-        }
-        let hoursAngle = 360 * (Math.ceil(hours/2-2)/12)
-        let hoursAngleO = 360 * (Math.ceil((hours+12)/2-2)/12)
-        let hoursAngleF1 = 360 * (Math.ceil((hours+8)/2-2)/12)
-        let hoursAngleF2 = 360 * (Math.ceil((hours-8)/2-2)/12)
-        let hoursAngleD1 = 360 * (Math.ceil((hours+6)/2-2)/12)
-        let hoursAngleD2 = 360 * (Math.ceil((hours-6)/2-2)/12)
-        d3.select("#hours_main").attr('transform',"rotate("+hoursAngle+")")
-        d3.select("#hours_fav1").attr('transform',"rotate("+hoursAngleF1+")")
-        d3.select("#hours_fav2").attr('transform',"rotate("+hoursAngleF2+")")
-        d3.select("#hours_opposition").attr('transform',"rotate("+hoursAngleO+")")
-        d3.select("#hours_def1").attr('transform',"rotate("+hoursAngleD1+")")
-        d3.select("#hours_def2").attr('transform',"rotate("+hoursAngleD2+")")
+        }else if (me.code == "SCREEN3"){
+            me.supertitle = "Ecran n°3"
+            me.drawBack();
+            me.drawTable(me.co.tables["COMP_GENERIC_TABLE"],{"even_odd":true, "x":8, "y":0});
+            me.drawTable(me.co.tables["COMP_WEAPONS_TABLE"],{"even_odd":true, "x":0, "y":0});
+            me.drawTable(me.co.tables["COMP_PECULIAR_TABLE"],{"even_odd":true, "x":8, "y":16});
+            me.drawTable(me.co.tables["COMP_SPECIALIZED_TABLE"],{"even_odd":true, "x":16, "y":0});
+            me.drawTable(me.co.tables["COMP_KNOWLEDGE_TABLE"],{"even_odd":true, "x":16, "y":13});
+            me.drawTable(me.co.tables["COMP_DRACONIC_TABLE"],{"even_odd":true, "x":16, "y":25});
 
-        clearInterval(me.intervalSlow);
-        me.intervalSlow = setInterval(function() {me.updateSlow();},me.slowDelay);
-    }
+        }else if (me.code == "SCREEN4"){
+            me.supertitle = "Ecran n°4"
+            me.drawBack();
+            me.drawTable(me.co.tables["GEAR_TABLE_BAG"],{"x":-1, "y":0});
+            me.drawTable(me.co.tables["GEAR_TABLE_LAI"],{"x":-1, "y":22});
+            me.drawTable(me.co.tables["GEAR_TABLE_JUT"],{"x":-1, "y":42});
+            me.drawTable(me.co.tables["GEAR_TABLE_VEL"],{"x":-1, "y":55});
 
-    updateQuick(){
-        let me = this;
-        let d = new Date();
-        let hours = d.getHours()-3;
-        let minutes = d.getMinutes();
-        let seconds = d.getSeconds();
-        let hoursAngle = 360 * (hours/60)
-        let minutesAngle = 360 * (minutes/60)
-        let secondsAngle = 360 * (seconds/60)
-        d3.select("#real_hours_arm").attr('transform',"rotate("+hoursAngle+")")
-        d3.select("#minutes_arm").attr('transform',"rotate("+minutesAngle+")")
-        d3.select("#seconds_arm").attr('transform',"rotate("+secondsAngle+")")
-        d3.select("#ZeHour").text(d => {
-            if (me.hourOverride/2 - 2 != 331){
-                return me.hourOverride/2 - 2;
-            }else{
-                return "-"
-            }
-        });
-        if (me.hourOverride/2 - 2 == 331){
-            d3.select("#hours_main").style('fill', '#202020');
-            d3.select("#hours_opposition").style('fill', '#505050');
-            d3.select("#hours_fav1").style('fill', '#303030');
-            d3.select("#hours_fav2").style('fill', '#303030');
-            d3.select("#hours_def1").style('fill', '#707070');
-            d3.select("#hours_def2").style('fill', '#707070');
+            me.drawTable(me.co.tables["GEAR_TABLE_ECR"],{"x":10, "y":0});
+            me.drawTable(me.co.tables["GEAR_TABLE_FEU"],{"x":10, "y":14});
+            me.drawTable(me.co.tables["GEAR_TABLE_CUI"],{"x":10, "y":28});
+            me.drawTable(me.co.tables["GEAR_TABLE_OUT"],{"x":10, "y":51});
+
+            me.drawTable(me.co.tables["GEAR_TABLE_HBD"],{"x":21, "y":0});
+            me.drawTable(me.co.tables["GEAR_TABLE_SOI"],{"x":21, "y":12});
+            me.drawTable(me.co.tables["GEAR_TABLE_JOU"],{"x":21, "y":24});
+            me.drawTable(me.co.tables["GEAR_TABLE_LOC"],{"x":21, "y":42});
+
+            me.drawTable(me.co.tables["GEAR_TABLE_SUS"],{"x":32, "y":0});
+            me.drawTable(me.co.tables["GEAR_TABLE_HBS"],{"x":32, "y":12});
+            me.drawTable(me.co.tables["GEAR_TABLE_RED"],{"x":32, "y":26});
+            me.drawTable(me.co.tables["GEAR_TABLE_SEL"],{"x":32, "y":42});
+
+            me.drawTable(me.co.tables["GEAR_TABLE_MEL"],{"x":43, "y":0});
+            me.drawTable(me.co.tables["GEAR_TABLE_TIR"],{"x":43, "y":30});
+            me.drawTable(me.co.tables["GEAR_TABLE_LAN"],{"x":43, "y":37});
+            me.drawTable(me.co.tables["GEAR_TABLE_AMU"],{"x":43, "y":48});
+
+
         }else{
-            d3.select("#hours_main").style('fill', '#20A020');
-            d3.select("#hours_opposition").style('fill', '#A05050');
-            d3.select("#hours_fav1").style('fill', '#30A030');
-            d3.select("#hours_fav2").style('fill', '#30A030');
-            d3.select("#hours_def1").style('fill', '#A07070');
-            d3.select("#hours_def2").style('fill', '#A07070');
+            me.drawBack();
+            //if (me.co.tables.length > 0){
+                let data = me.co.tables[me.code];
+                me.drawTable(data,{});
+            //}
         }
-        clearInterval(me.intervalQuick);
-        me.intervalQuick = setInterval(function() {me.updateQuick();},me.quickDelay);
     }
 
-    perform(){
+    zoomActivate() {
         let me = this;
-        me.co.revealWorld();
-        me.drawAll();
+        me.zoom = d3.zoom()
+            .scaleExtent([0.25, 4])
+            .on('zoom', function (event) {
+                me.svg.attr('transform', event.transform)
+            });
+        me.vis.call(me.zoom);
+    }
 
+    perform(parent,code){
+        let me = this;
+        me.init(parent);
+        me.code = code;
+        me.drawAll();
+        me.zoomActivate();
     }
 }

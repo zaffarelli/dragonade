@@ -6,7 +6,9 @@ from main.utils.ref_dragonade import GEAR_CAT
 
 
 class Equipment(models.Model):
-    name = models.CharField(default="", max_length=256, blank=True)
+    class Meta:
+        ordering = ['name']
+    name = models.CharField(default="", max_length=256)
     rid = models.CharField(default="xxx", max_length=256, blank=True)
     category = models.CharField(default="gen", max_length=3, choices=GEAR_CAT)
     plus_dom = models.IntegerField(default=0, null=True, blank=True)
@@ -19,6 +21,8 @@ class Equipment(models.Model):
     enc = models.FloatField(default=0.1, blank=True)
     description = models.TextField(default="", max_length=1024, blank=True)
     price = models.FloatField(default=0.1, blank=True)
+    quantity = models.FloatField(default=0.1, blank=True)
+
 
     def fix(self):
         self.rid = as_rid(f"{self.name}_{self.category}")
@@ -29,13 +33,24 @@ class Equipment(models.Model):
 
 
 
+def cat_from_first(modeladmin, request, queryset):
+    if len(queryset)>2:
+        cat = ""
+        for item in queryset:
+            if cat == "":
+                cat = item.category
+            else:
+                item.category = cat
+                item.save()
+    short_description = "Category from the first item"
+
 
 class EquipmentAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ['category', 'related_attribute', 'name']
     list_display = ["name", "category", "plus_dom", "plus_dom_2m", "force_min", "prot", "malus_armure", "related_skill",
-                    "related_attribute", "enc"]
-    list_editable = ["category", "plus_dom", "plus_dom_2m", "prot", "force_min", "malus_armure", "related_skill",
-                     "related_attribute", "enc"]
+                    "related_attribute", "enc", "price"]
+    list_editable = ["category",  "enc", "price"]
     list_filter = ["category", "related_attribute", "related_skill"]
-    actions = [refix]
+    actions = [refix, cat_from_first]
+

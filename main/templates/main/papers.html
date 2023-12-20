@@ -11,8 +11,8 @@
     <div class="middle">
     </div>
     <div class="list">
-    {% for x in papers %}
-        {% include "main/mini.html" with a=x%}
+    {% for x in data %}
+        {% include "main/mini.html" with a=x addclass="paper" %}
     {% endfor %}
     </div>
 {% endblock east %}
@@ -20,14 +20,9 @@
 
 {% block main %}
 <div class="container">
-    aaa
-    {% for x in papers %}
-        {{k}}{{v}}
-        <div class="svg_area paper hidden" id="paper_{{x.ID}}">
-            {{p.text}}
-        </div>
+    {% for x in data %}
+        <div class="item hidden" id="item__{{x.id}}" code="{{x.code}}"></div>
     {% endfor %}
-
 </div>
 {% endblock main %}
 
@@ -36,6 +31,9 @@
 <script>
     _.defer(function () {
         let co = new Main()
+        {% for x in data %}
+        co.tables["{{x.code}}"] = {{x.data|safe}};
+        {% endfor %}
         co.perform();
         co.revealUI();
     });

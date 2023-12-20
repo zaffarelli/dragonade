@@ -34,6 +34,7 @@ CHARACTER_STATISTICS = {
     "SKILLS": {
         "WEAPONS": {
             "DEFAULT": 0,
+            "NAME": "Martiales",
             "LIST": [
                 {"NAME": "WEA_01", "TEXT": "Arbalète"},
                 {"NAME": "WEA_02", "TEXT": "Arc"},
@@ -69,6 +70,7 @@ CHARACTER_STATISTICS = {
         },
         "GENERIC": {
             "DEFAULT": -1,
+            "NAME": "Génériques",
             "LIST": [
                 {"NAME": "GEN_01", "TEXT": "Bricolage"},
                 {"NAME": "GEN_02", "TEXT": "Chant"},
@@ -87,6 +89,7 @@ CHARACTER_STATISTICS = {
         },
         "PECULIAR": {
             "DEFAULT": -2,
+            "NAME": "Particulières",
             "LIST": [
                 {"NAME": "PEC_01", "TEXT": "Charpenterie"},
                 {"NAME": "PEC_02", "TEXT": "Comédie"},
@@ -109,6 +112,7 @@ CHARACTER_STATISTICS = {
         },
         "SPECIALIZED": {
             "DEFAULT": -3,
+            "NAME": "Spécialisées",
             "LIST": [
                 {"NAME": "SPE_01", "TEXT": "Acrobatie"},
                 {"NAME": "SPE_02", "TEXT": "Chirurgie"},
@@ -124,6 +128,7 @@ CHARACTER_STATISTICS = {
         },
         "KNOWLEDGE": {
             "DEFAULT": -4,
+            "NAME": "Connaissances",
             "LIST": [
                 {"NAME": "KNO_01", "TEXT": "Alchimie"},
                 {"NAME": "KNO_02", "TEXT": "Architecture"},
@@ -138,6 +143,7 @@ CHARACTER_STATISTICS = {
         },
         "DRACONIC": {
             "DEFAULT": -5,
+            "NAME": "Draconiques",
             "LIST": [
                 {"NAME": "DRA_01", "TEXT": "Contemplatif"},
                 {"NAME": "DRA_02", "TEXT": "Destructif"},
@@ -180,30 +186,91 @@ TABLES = {  # 0    1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16
     "tbSCO": [2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 8, 8]
 }
 
+import math
+
 QualiteDesActions = [
-    {"NAME": "CRITIQUE", "TEXT": "Réussite Critique", "BasePts": 4, "COEF": 4},
-    {"NAME": "SIGNIFICATIVE", "TEXT": "Réussite Significative", "BasePts": 3, "COEF": 3},
-    {"NAME": "PARTICULIERE", "TEXT": "Réussite Particulière", "BasePts": 2, "COEF": 2},
-    {"NAME": "REUSSITE", "TEXT": "Réussite", "BasePts": 1, "COEF": 1},
-    {"NAME": "ECHEC", "TEXT": "Echec", "BasePts": -1, "COEF": 1},
-    {"NAME": "NOTABLE", "TEXT": "Echec Notable", "BasePts": -2, "COEF": 0.5},
-    {"NAME": "TOTAL", "TEXT": "Echec Total", "BasePts": -4, "COEF": 0}
+    {"NAME": "CRITIQUE", "TEXT": "Réussite Critique", "BasePts": 4, "COEF": 4, "formula": lambda x: x * 4},
+    {"NAME": "SIGNIFICATIVE", "TEXT": "Réussite Significative", "BasePts": 3, "COEF": 3, "formula": lambda x: x * 3},
+    {"NAME": "PARTICULIERE", "TEXT": "Réussite Particulière", "BasePts": 2, "COEF": 2, "formula": lambda x: x * 2},
+    {"NAME": "REUSSITE", "TEXT": "Réussite", "BasePts": 1, "COEF": 1, "formula": lambda x: x},
+    {"NAME": "ECHEC", "TEXT": "Echec", "BasePts": -1, "COEF": 1, "formula": lambda x: x - 1},
+    {"NAME": "NOTABLE", "TEXT": "Echec Notable", "BasePts": -2, "COEF": 0.5, "formula": lambda x: math.ceil(x / 2 - 1)},
+    {"NAME": "TOTAL", "TEXT": "Echec Total", "BasePts": -4, "COEF": 0, "formula": lambda x: 0}
 ]
 
 Difficultes = [
-    {"NAME": "TF", "TEXT": "Très facile", "COEF": 1},
-    {"NAME": "FA", "TEXT": "Facile", "COEF": 2},
-    {"NAME": "NO", "TEXT": "Normale", "COEF": 3},
-    {"NAME": "DI", "TEXT": "Difficile", "COEF": 4},
-    {"NAME": "TD", "TEXT": "Très Difficile", "COEF": 5}
+    {"NAME": "TF", "TEXT": "Très facile", "COEF": 1, "VALUE": 5},
+    {"NAME": "FA", "TEXT": "Facile", "COEF": 2, "VALUE": 10},
+    {"NAME": "NO", "TEXT": "Normale", "COEF": 3, "VALUE": 15},
+    {"NAME": "DI", "TEXT": "Difficile", "COEF": 4, "VALUE": 20},
+    {"NAME": "TD", "TEXT": "Très Difficile", "COEF": 5, "VALUE": 25}
 ]
 
 
+def action_quality_json():
+    import json
+    table = {
+        "title": "Qualité des Actions",
+        "cols": [],
+        "rows": [],
+        "values": [],
+        "col_back_header": [],
+        "row_back_header": [],
+        "options": {"even_odd": True, "cell_widths": [2, 2, 2, 2, 2], "cell_height": 0.8}
+    }
+    cols = []
+    rows = []
+    values = []
+    for q in QualiteDesActions:
+        rows.append(q["NAME"])
+    for d in Difficultes:
+        cols.append(d["TEXT"])
+    for q in QualiteDesActions:
+        for d in Difficultes:
+            values.append(q["formula"](d["VALUE"]))
+    cbh = []
+    rbh = []
+    for q in QualiteDesActions:
+        rbh.append(q["BasePts"])
+    for d in Difficultes:
+        cbh.append(d["COEF"])
+
+    table["cols"] = cols
+    table["rows"] = rows
+    table["values"] = values
+    table["col_back_header"] = cbh
+    table["row_back_header"] = rbh
+    print(table)
+    return json.dumps(table)
+
+
 GEAR_CAT = (
-    ("gen", "generique"),
-    ("wea", "armement"),
-    ("pro", "protection"),
-    ("con", "consomable"),
+    # ("gen", "generique"),
+    # ("wea", "armement"),
+    # ("pro", "protection"),
+    # ("con", "consomable"),
+    ("---", "Unsorted"),
+    ("bag", "Cuirs & Bagages"),
+    ("jut", "Jute, Fils & Cordes"),
+    ("lai", "Laine & lin"),
+    ("vel", "Velours & Soies"),
+    ("feu", "Feux"),
+    ("cui", "Poterie, Cuisine"),
+    ("out", "Outillage"),
+    ("soi", "Soins"),
+    ("ecr", "Ecriture"),
+    ("jou", "Jouer"),
+    ("loc", "Locomotion"),
+    ("sus", "Sustentation"),
+    ("hbs", "Herbes de Soins"),
+    ("hbd", "Herbes Diverses"),
+    ("ReD", "Remèdes & Antidotes"),
+    ("sel", "Sels Alchimiques"),
+    ("mel", "Armes de Mêlée"),
+    ("tir", "Armes de Tir"),
+    ("lan", "Armes de Lancer"),
+    ("amu", "Armures"),
+
 )
 
 STRESS_COEFF = 3
@@ -218,9 +285,9 @@ def stress_cost(v1: int, v2: int, d: int):
     :param d: default category value (ex: -5)
     :return: number of pts
     """
-    if v1 < d: # starting value cannot be below default value
+    if v1 < d:  # starting value cannot be below default value
         v1 = d
-    if v1 > v2: # final value must be supperior to start value
+    if v1 > v2:  # final value must be supperior to start value
         v2 = v1 + 1
     step0 = (v1 - d)
     steps = sumorial(v2 - v1)
@@ -230,6 +297,173 @@ def stress_cost(v1: int, v2: int, d: int):
 def sumorial(n: int):
     # it factorial with + instead of *...
     if n == 0:
-        return 0 # neutral in addition
+        return 0  # neutral in addition
     else:
         return n + sumorial(n - 1)
+
+
+def stress_table_json():
+    import json
+    table = {
+        "title": "Table de Stress",
+        "cols": [-5, -4, -3, -2, -1, 0],
+        "rows": [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+        "values": [],
+        "options": {"even_odd": True, "cell_widths": [2, 2, 2, 2, 2, 2], "cell_height": 0.8}
+    }
+    values = []
+    for row in table["rows"]:
+        for col in table["cols"]:
+            if col >= row:
+                value = "-"
+            else:
+                value = f"{(row - col) * STRESS_COEFF}"
+            values.append(value)
+    table["values"] = values
+    return json.dumps(table)
+
+
+def soak_table_json():
+    import json
+    table = {
+        "title": "Table d'Encaissement",
+        "cols": ["Blessure"],
+        "rows": [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2],
+        "values": [],
+        "options": {"column_width": 1, "object_values": True, "cell_widths": [2]}
+    }
+    values = []
+    c = "#FFFFFF"
+    for x in table["rows"]:
+        if x > 23:
+            b = "Critique"
+            c = "#EEEEEE"
+            w = 2.5
+        elif x > 19:
+            b = "Grave"
+            c = "#DDDDDD"
+            w = 2
+        elif x > 13:
+            b = "Légère"
+            c = "#CCCCCC"
+            w = 1.5
+        else:
+            b = "Contusion"
+            c = "#BBBBBB"
+            w = 1
+        values.append({"text": b, "color": c, "width": w})
+    table['values'] = values
+    return json.dumps(table)
+
+
+def pdom_table_json():
+    import json
+    import math
+    table = {
+        "title": "+dom",
+        "cols": ["+dom"],
+        "rows": [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2],
+        "values": [],
+        "options": {"rows_header": "(TAI+FOR)/2", "cell_widths": [2], "cell_height": 0.5,"even_odd": True}
+    }
+    values = []
+    for val in table["rows"]:
+        value = f"{(math.floor((val + 2) / 3) - 2)}"
+        values.append(value)
+    table["values"] = values
+    return json.dumps(table)
+
+
+def sus_table_json():
+    import json
+    import math
+    table = {
+        "title": "sust.",
+        "cols": ["sus"],
+        "rows": [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2],
+        "values": [],
+        "options": {"rows_header": "CON", "cell_widths": [2], "cell_height": 0.5,"even_odd": True}
+    }
+    values = []
+    for val in table["rows"]:
+        value = f"{math.floor((val + 4) / 4) + 1}"
+        values.append(value)
+    table["values"] = values
+    return json.dumps(table)
+
+
+def scon_table_json():
+    import json
+    import math
+    table = {
+        "title": "sc.",
+        "cols": ["SC"],
+        "rows": [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2],
+        "values": [],
+        "options": {"rows_header": "CON", "cell_widths": [2], "cell_height": 0.5,"even_odd": True}
+    }
+    values = []
+    for val in table["rows"]:
+        value = f"{math.floor((val + 3) / 3) + 1}"
+        values.append(value)
+    table["values"] = values
+    return json.dumps(table)
+
+
+def comp_table_json(cat=""):
+    import json
+    table = {
+        "title": f"{CHARACTER_STATISTICS["SKILLS"][cat]["NAME"]}",
+        "cols": ["Compétence"],
+        "rows": [],
+        "values": [],
+        "options": {"cell_widths": [4], "cell_height": 1, "rows_header": CHARACTER_STATISTICS["SKILLS"][cat]["DEFAULT"],
+                    "even_odd": True}
+    }
+    rows = []
+    values = []
+    for c in CHARACTER_STATISTICS["SKILLS"][cat]["LIST"]:
+        rows.append(f"{c['NAME']}")
+        values.append(f"{c['TEXT']}")
+    table["rows"] = rows
+    table["values"] = values
+    return json.dumps(table)
+
+
+def gear_table_json(cat=""):
+    import json
+    title = "Matériel"
+    for x in GEAR_CAT:
+        if x[0] == cat:
+            title = x[1]
+            break
+    table = {
+        "title": f"{title.title()}",
+        "cols": ["Equipement", "Enc", "Prix"],
+        "rows": [],
+        "values": [],
+        "options": {"cell_widths": [6, 1, 2], "cell_format": ["", "enc", "sols"], "cell_height": 0.5, "even_odd": True}
+    }
+    rows = []
+    values = []
+    from main.models.equipment import Equipment
+    for c in Equipment.objects.filter(category=cat):
+        rows.append(f"{c.id}")
+        values.append(f"{c.name}")
+        values.append(f"{c.enc}")
+        values.append(f"{c.price}")
+    table["rows"] = rows
+    table["values"] = values
+    return json.dumps(table)
+
+
+def load_from_file():
+    from main.models.equipment import Equipment
+    with open('main/utils/equipement.csv') as f:
+        lines = f.readlines()
+        for line in lines:
+            # print(line)
+            e = Equipment()
+            e.name = line
+            e.category = '---'
+            e.save()

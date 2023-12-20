@@ -63,13 +63,16 @@ body {
       overflow:auto;
       background:$bkg_filter1;
       border-radius:10px;
+      border:1px solid transparent;
 
       & .stacked {
         order: 1;
         flex: 8 1 auto;
         text-align:center;
-
-
+        border:2px solid green;
+        margin-top:0;
+        margin-bottom:0;
+        height:auto;
       }
     }
   }

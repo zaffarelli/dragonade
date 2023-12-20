@@ -12,7 +12,10 @@
     </div>
     <div class="list">
     {% for x in characters %}
-        {% include "main/mini.html" with a=x%}
+        <div class="minisheet" id="mini__{{x.id}}" code="{{x.code}}" title="{{x.code}}">
+            {{x.name}}
+        </div>
+
     {% endfor %}
     </div>
 {% endblock east %}
