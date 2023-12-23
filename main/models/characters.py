@@ -97,11 +97,22 @@ class Character(models.Model):
         self.json_dump()
 
     def calc_indice(self):
-        from main.utils.ref_dragonade import ATTRIBUTE_CREA, stress_cost
+        from main.utils.ref_dragonade import ATTRIBUTE_CREA, stress_cost, skill_cost
         self.indice = 0
         for a in self.data['attributes']:
             # self.indice += ATTRIBUTE_CREA[f"{self.data['attributes'][a]}"]
-            self.indice += stress_cost(0, self.data['attributes'][a], -5)
+            self.indice += stress_cost(-5, self.data['attributes'][a], -5)
+        total_skill_cost = 0;
+        for skill_cat in self.data['skills']:
+            print(self.data['skills'][skill_cat])
+            for k,v in self.data['skills'][skill_cat].items():
+                print(k,v)
+
+                c, txt = skill_cost(k, v)
+                if c > -1:
+                    total_skill_cost += c
+                    print(txt)
+        self.indice += total_skill_cost
 
     def ref_to_struct(self, src_ref):
         """        

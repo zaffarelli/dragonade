@@ -1,3 +1,6 @@
+import math
+import json
+
 CHARACTER_STATISTICS = {
     "ATTRIBUTES": {
         "DEFAULT": 3,
@@ -17,19 +20,23 @@ CHARACTER_STATISTICS = {
         ]
     },
     "SECONDARIES": [
-        {"NAME": "TIR", "TEXT": "Tir", "COMPUTE": "basic_mean,DEX;VUE"},
-        {"NAME": "MEL", "TEXT": "Mêlée", "COMPUTE": "basic_mean,FOR;AGI"},
-        {"NAME": "DER", "TEXT": "Dérobade", "COMPUTE": "dero_mean,TAI;AGI"},
-        {"NAME": "LAN", "TEXT": "Lancer", "COMPUTE": "basic_mean,TIR;FOR"}
+        {"NAME": "TIR", "TEXT": "Tir", "COMPUTE": "basic_mean,DEX;VUE", "RATIONALE": " (DEX + VUE) / 2"},
+        {"NAME": "MEL", "TEXT": "Mêlée", "COMPUTE": "basic_mean,FOR;AGI", "RATIONALE": " (FOR + AGI) / 2"},
+        {"NAME": "DER", "TEXT": "Dérobade", "COMPUTE": "dero_mean,TAI;AGI", "RATIONALE": " (12 - TAI + AGI) / 2"},
+        {"NAME": "LAN", "TEXT": "Lancer", "COMPUTE": "basic_mean,TIR;FOR", "RATIONALE": " (TIR + FOR) / 2"}
     ],
     "MISCELLANEOUS": [
-        {"NAME": "REV", "TEXT": "Rêve", "COMPUTE": "basic_mean,CON;EMP;APP"},
-        {"NAME": "VIE", "TEXT": "Points de Vie", "COMPUTE": "basic_sum,CON;TAI"},
-        {"NAME": "FAT", "TEXT": "Fatigue", "COMPUTE": "basic_mean,CON;VOL"},
-        {"NAME": "DOM", "TEXT": "+dom", "COMPUTE": "from_table_mean,TAI;FOR,tbDOM"},
-        {"NAME": "SUS", "TEXT": "Sustentation", "COMPUTE": "from_table_mean,TAI,tbSUS"},
-        {"NAME": "SCO", "TEXT": "Seuil Con", "COMPUTE": "from_table_mean,CON,tbSCO"},
-        {"NAME": "ENC", "TEXT": "Encombrement", "COMPUTE": "precise_mean,TAI,FOR"}
+        {"NAME": "REV", "TEXT": "Rêve", "COMPUTE": "basic_mean,CON;EMP;APP", "RATIONALE": " (CON + EMP + APP) / 3"},
+        {"NAME": "VIE", "TEXT": "Points de Vie", "COMPUTE": "basic_sum,CON;TAI", "RATIONALE": " CON + TAI"},
+        {"NAME": "FAT", "TEXT": "Fatigue", "COMPUTE": "basic_mean,CON;VOL", "RATIONALE": " (CON + VOL) / 2"},
+        {"NAME": "DOM", "TEXT": "+dom", "COMPUTE": "from_table_mean,TAI;FOR,tbDOM",
+         "RATIONALE": " ArrondiBas((FOR + 2) / 3) - 2"},
+        {"NAME": "SUS", "TEXT": "Sustentation", "COMPUTE": "from_table_mean,TAI,tbSUS",
+         "RATIONALE": " ArrondiBas((CON + 4) / 4) + 1"},
+        {"NAME": "SCO", "TEXT": "Seuil Con", "COMPUTE": "from_table_mean,CON,tbSCO",
+         "RATIONALE": "ArrondiBas((CON + 3) / 3) + 1"},
+        {"NAME": "ENC", "TEXT": "Encombrement", "COMPUTE": "precise_mean,TAI,FOR",
+         "RATIONALE": " (TAI + FOR) / 2 [garder une décimale]"}
     ],
     "SKILLS": {
         "WEAPONS": {
@@ -154,8 +161,22 @@ CHARACTER_STATISTICS = {
             ]
         }
     }
-
 }
+
+
+def skill_cost(skill, value):
+    cost = -1
+    comment = ""
+    for cat in CHARACTER_STATISTICS['SKILLS']:
+        for s in CHARACTER_STATISTICS['SKILLS'][cat]["LIST"]:
+            d = CHARACTER_STATISTICS['SKILLS'][cat]['DEFAULT']
+            if s['NAME'] == skill:
+                if value > d:
+                    cost = stress_cost(d, value, d)
+                    comment = f"- {skill:6} [{d:3}]: {d:3} => {value:2} = {cost:5}"
+                    break
+    return cost, comment
+
 
 ATTRIBUTE_CREA = {
     "1": 0,
@@ -186,8 +207,6 @@ TABLES = {  # 0    1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16
     "tbSCO": [2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 8, 8]
 }
 
-import math
-
 QualiteDesActions = [
     {"NAME": "CRITIQUE", "TEXT": "Réussite Critique", "BasePts": 4, "COEF": 4, "formula": lambda x: x * 4},
     {"NAME": "SIGNIFICATIVE", "TEXT": "Réussite Significative", "BasePts": 3, "COEF": 3, "formula": lambda x: x * 3},
@@ -206,49 +225,7 @@ Difficultes = [
     {"NAME": "TD", "TEXT": "Très Difficile", "COEF": 5, "VALUE": 25}
 ]
 
-
-def action_quality_json():
-    import json
-    table = {
-        "title": "Qualité des Actions",
-        "cols": [],
-        "rows": [],
-        "values": [],
-        "col_back_header": [],
-        "row_back_header": [],
-        "options": {"even_odd": True, "cell_widths": [2, 2, 2, 2, 2], "cell_height": 0.8}
-    }
-    cols = []
-    rows = []
-    values = []
-    for q in QualiteDesActions:
-        rows.append(q["NAME"])
-    for d in Difficultes:
-        cols.append(d["TEXT"])
-    for q in QualiteDesActions:
-        for d in Difficultes:
-            values.append(q["formula"](d["VALUE"]))
-    cbh = []
-    rbh = []
-    for q in QualiteDesActions:
-        rbh.append(q["BasePts"])
-    for d in Difficultes:
-        cbh.append(d["COEF"])
-
-    table["cols"] = cols
-    table["rows"] = rows
-    table["values"] = values
-    table["col_back_header"] = cbh
-    table["row_back_header"] = rbh
-    print(table)
-    return json.dumps(table)
-
-
 GEAR_CAT = (
-    # ("gen", "generique"),
-    # ("wea", "armement"),
-    # ("pro", "protection"),
-    # ("con", "consomable"),
     ("---", "Unsorted"),
     ("bag", "Cuirs & Bagages"),
     ("jut", "Jute, Fils & Cordes"),
@@ -274,6 +251,42 @@ GEAR_CAT = (
 )
 
 STRESS_COEFF = 3
+
+
+def action_quality_json():
+    table = {
+        "title": "Qualité des Actions",
+        "cols": [],
+        "rows": [],
+        "values": [],
+        "col_back_header": [],
+        "row_back_header": [],
+        "options": {"even_odd": True, "cell_widths": [2, 2, 2, 2, 2], "cell_height": 0.8, "row_header_width": 4}
+    }
+    cols = []
+    rows = []
+    values = []
+    for q in QualiteDesActions:
+        rows.append(q["NAME"])
+    for d in Difficultes:
+        cols.append(d["TEXT"])
+    for q in QualiteDesActions:
+        for d in Difficultes:
+            values.append(q["formula"](d["VALUE"]))
+    cbh = []
+    rbh = []
+    for q in QualiteDesActions:
+        rbh.append(q["BasePts"])
+    for d in Difficultes:
+        cbh.append(d["COEF"])
+
+    table["cols"] = cols
+    table["rows"] = rows
+    table["values"] = values
+    table["col_back_header"] = cbh
+    table["row_back_header"] = rbh
+    print(table)
+    return json.dumps(table)
 
 
 def stress_cost(v1: int, v2: int, d: int):
@@ -303,7 +316,6 @@ def sumorial(n: int):
 
 
 def stress_table_json():
-    import json
     table = {
         "title": "Table de Stress",
         "cols": [-5, -4, -3, -2, -1, 0],
@@ -324,7 +336,6 @@ def stress_table_json():
 
 
 def soak_table_json():
-    import json
     table = {
         "title": "Table d'Encaissement",
         "cols": ["Blessure"],
@@ -357,14 +368,12 @@ def soak_table_json():
 
 
 def pdom_table_json():
-    import json
-    import math
     table = {
         "title": "+dom",
         "cols": ["+dom"],
         "rows": [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2],
         "values": [],
-        "options": {"rows_header": "(TAI+FOR)/2", "cell_widths": [2], "cell_height": 0.5,"even_odd": True}
+        "options": {"rows_header": "(TAI+FOR)/2", "cell_widths": [2], "cell_height": 0.5, "even_odd": True}
     }
     values = []
     for val in table["rows"]:
@@ -375,14 +384,12 @@ def pdom_table_json():
 
 
 def sus_table_json():
-    import json
-    import math
     table = {
         "title": "sust.",
         "cols": ["sus"],
         "rows": [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2],
         "values": [],
-        "options": {"rows_header": "CON", "cell_widths": [2], "cell_height": 0.5,"even_odd": True}
+        "options": {"rows_header": "CON", "cell_widths": [2], "cell_height": 0.5, "even_odd": True}
     }
     values = []
     for val in table["rows"]:
@@ -393,14 +400,12 @@ def sus_table_json():
 
 
 def scon_table_json():
-    import json
-    import math
     table = {
-        "title": "sc.",
-        "cols": ["SC"],
+        "title": "sco.",
+        "cols": ["SCO"],
         "rows": [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2],
         "values": [],
-        "options": {"rows_header": "CON", "cell_widths": [2], "cell_height": 0.5,"even_odd": True}
+        "options": {"rows_header": "CON", "cell_widths": [2], "cell_height": 0.5, "even_odd": True}
     }
     values = []
     for val in table["rows"]:
@@ -411,13 +416,13 @@ def scon_table_json():
 
 
 def comp_table_json(cat=""):
-    import json
     table = {
         "title": f"{CHARACTER_STATISTICS["SKILLS"][cat]["NAME"]}",
         "cols": ["Compétence"],
         "rows": [],
         "values": [],
-        "options": {"cell_widths": [4], "cell_height": 1, "rows_header": CHARACTER_STATISTICS["SKILLS"][cat]["DEFAULT"],
+        "options": {"cell_widths": [4], "cell_height": 0.75,
+                    "rows_header": CHARACTER_STATISTICS["SKILLS"][cat]["DEFAULT"],
                     "even_odd": True}
     }
     rows = []
@@ -431,7 +436,6 @@ def comp_table_json(cat=""):
 
 
 def gear_table_json(cat=""):
-    import json
     title = "Matériel"
     for x in GEAR_CAT:
         if x[0] == cat:
@@ -452,6 +456,42 @@ def gear_table_json(cat=""):
         values.append(f"{c.name}")
         values.append(f"{c.enc}")
         values.append(f"{c.price}")
+    table["rows"] = rows
+    table["values"] = values
+    return json.dumps(table)
+
+
+def secondaries_table_json():
+    table = {
+        "title": f"Secondaires",
+        "cols": ["Formule"],
+        "rows": [],
+        "values": [],
+        "options": {"cell_widths": [7], "cell_height": 0.7, "even_odd": True, "rows_header": "Attr."}
+    }
+    rows = []
+    values = []
+    for c in CHARACTER_STATISTICS["SECONDARIES"]:
+        rows.append(f"{c['NAME']}")
+        values.append(f"{c['RATIONALE']}")
+    table["rows"] = rows
+    table["values"] = values
+    return json.dumps(table)
+
+
+def miscellaneous_table_json():
+    table = {
+        "title": f"Divers",
+        "cols": ["Formule"],
+        "rows": [],
+        "values": [],
+        "options": {"cell_widths": [7], "cell_height": 0.7, "even_odd": True, "rows_header": "Attr."}
+    }
+    rows = []
+    values = []
+    for c in CHARACTER_STATISTICS["MISCELLANEOUS"]:
+        rows.append(f"{c['NAME']}")
+        values.append(f"{c['RATIONALE']}")
     table["rows"] = rows
     table["values"] = values
     return json.dumps(table)

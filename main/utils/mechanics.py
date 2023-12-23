@@ -1,4 +1,4 @@
-FONTSET = ['Quicksand', 'Fredoka', 'Neucha', 'Syne+Mono', 'Abel', 'Satisfy', 'Acme', 'Roboto', 'Hubballi', 'Gruppo', "Are+You+Serious"]
+FONTSET = ["Neucha", "Are+You+Serious", "Fredoka"]
 
 
 def is_ajax(request):
@@ -51,7 +51,6 @@ MENU_ENTRIES = [
      "TEXT": "La liste des autochtones (PNJs)"},
     {"IDX": 12, "NAME": "Chateau-Dormant", "LINK": "", "SVG_REF": "_12.svg", "TEXT": ""}
 ]
-
 
 
 def refix(modeladmin, request, queryset):

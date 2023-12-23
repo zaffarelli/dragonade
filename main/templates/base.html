@@ -14,13 +14,13 @@
     <script type="text/javascript" src='{% static "js/main.es6" %}'></script>
     <script type="text/javascript" src='{% static "js/paper.es6" %}'></script>
     <script type="text/javascript" src='{% static "js/orologio.es6" %}'></script>
-    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=Roboto">
-    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=Anybody">
-    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=Cutive+Mono">
-    {% for font in fontset %}
+<!--    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=Roboto">-->
+<!--    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=Anybody">-->
+<!--    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=Cutive+Mono">-->
+    {% for font in config.fontset %}
         <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family={{ font }}">
     {% endfor %}
-        <link rel='stylesheet' type='text/css' href='{% sass_src "main/css/main.scss" %}'/>
+    <link rel='stylesheet' type='text/css' href='{% sass_src "main/css/main.scss" %}'/>
 </head>
 <body style="background:transparent url({% static 'main/images/back7.jpg' %}) fixed; opacity: 0.95;">
 <div class="universe hidden">

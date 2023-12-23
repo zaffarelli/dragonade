@@ -1,6 +1,8 @@
 class Main{
-    constructor(){
-        this.pa = new Paper(this)
+    constructor(config){
+        this.config = config;
+
+        this.pa = new Paper(this,config)
         this.tables = []
     }
 

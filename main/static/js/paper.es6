@@ -1,6 +1,7 @@
 class Paper{
-    constructor(co) {
+    constructor(co,config) {
         this.co = co;
+        this.config = config
     }
 
     init(parent) {
@@ -34,6 +35,75 @@ class Paper{
             .attr("transform", "translate(0,0)")
         ;
     }
+
+
+
+    formatXml(xml) {
+        let formatted = '';
+        xml = xml.replace(/[\u00A0-\u2666]/g, function (c) {
+            return '&#' + c.charCodeAt(0) + ';';
+        })
+        let reg = /(>)(<)(\/*)/g;
+        /**/
+        xml = xml.replace(reg, '$1\r\n$2$3');
+        let pad = 0;
+        jQuery.each(xml.split('\r\n'), function (index, node) {
+            let indent = 0;
+            if (node.match(/.+<\/\w[^>]*>$/)) {
+                indent = 0;
+            } else if (node.match(/^<\/\w/)) {
+                if (pad != 0) {
+                    pad -= 1;
+                }
+            } else if (node.match(/^<\w[^>]*[^\/]>.*$/)) {
+                indent = 1;
+            } else {
+                indent = 0;
+            }
+
+            let padding = '';
+            for (let i = 0; i < pad; i++) {
+                padding += '  ';
+            }
+
+            formatted += padding + node + '\r\n';
+            pad += indent;
+        });
+
+        return formatted;
+    }
+
+
+    saveSVG() {
+        let me = this;
+        me.svg.selectAll('.do_not_print').attr('opacity', 0);
+        let base_svg = d3.select("#d3area svg").html();
+        let flist = '<style>';
+        for (let f of me.config['fontset']) {
+            flist += '@import url("https://fonts.googleapis.com/css2?family=' + f + '");';
+        }
+        flist += '</style>';
+        let lpage = "";
+        let exportable_svg = '<?xml version="1.0" encoding="ISO-8859-1" ?> \
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"> \
+<svg class="fics_sheet" \
+xmlns="http://www.w3.org/2000/svg" version="1.1" \
+xmlns:xlink="http://www.w3.org/1999/xlink"> \
+' + flist + base_svg + '</svg>';
+
+        if (me.page == 0) {
+            lpage = "_recto";
+        } else {
+            lpage = "_verso"
+        }
+        let fname = me.data['rid'] + lpage + ".svg"
+        let nuke = document.createElement("a");
+        nuke.href = 'data:application/octet-stream;base64,' + btoa(me.formatXml(exportable_svg));
+        nuke.setAttribute("download", fname);
+        nuke.click();
+        me.svg.selectAll('.do_not_print').attr('opacity', 1);
+    }
+
 
     createPath(str,u){
         // Do not forget spaces between entities in str !!
@@ -269,7 +339,7 @@ class Paper{
             .style("fill","#F0F0F0")
         ;
         col.append('text')
-            .attr("y", (d,i) => me.paperY(-0.5))
+            .attr("y", (d,i) => me.paperY(-0.75))
             .attr("x", (d,i) => me.textx(d,i,rowlen,cell_width,cell_widths))
             .attr("dy",me.localfontSize*cell_height)
             .style("text-anchor","middle")
@@ -294,7 +364,19 @@ class Paper{
                 .attr("y", (d,i) => me.paperY(collen))
                 .attr("rx", me.localstep/4)
                 .attr("ry", me.localstep/4)
-                .attr("width",me.localstep*1.9)
+                .attr("width",(d,i) => {
+                    let res = 0;
+                    if (object_values){
+                        res = me.localstep*d["width"]*3
+                    }else {
+                        res = me.localstep*cell_width
+                        if (cell_widths.length > 0){
+                            res = me.localstep*cell_widths[i%rowlen]
+                            console.log(res)
+                        }
+                    }
+                    return res
+                })
                 .attr("height",me.localstep*0.8)
                 .attr("stroke","#606060")
                 .attr("stroke-width","0.5pt")
@@ -347,22 +429,21 @@ class Paper{
 
 
         if (rows_header != ""){
-
             let k = table.append('g');
             k.append('rect')
-                .attr("x", (d,i) => me.paperX(-2))
+                .attr("x", (d,i) => me.paperX(-1*row_header_width)+2)
                 .attr("y", (d,i) => me.paperY(-1))
-                .attr("rx", me.localstep/4)
-                .attr("ry", me.localstep/4)
-                .attr("width",me.localstep*1.9)
-                .attr("height",me.localstep*0.8)
-                .attr("stroke","#A06060")
+                .attr("rx", me.localstep/8)
+                .attr("ry", me.localstep/8)
+                .attr("width",me.localstep*row_header_width*0.95)
+                .attr("height",me.localstep*cell_height)
+                .attr("stroke","#C0C0C0")
                 .attr("stroke-width","0.5pt")
                 .style("fill","#F0F0F0")
             ;
             k.append('text')
                 .attr("x", (d,i) => me.paperX(-1))
-                .attr("y", (d,i) => me.paperY(-.5))
+                .attr("y", (d,i) => me.paperY(0-0.4))
                 .style("text-anchor","middle")
                 .style("font-family","Neucha")
                 .style("font-size",me.localfontSize+"pt")
@@ -372,8 +453,6 @@ class Paper{
                 .text((d,i) => rows_header)
             ;
         }
-
-
 
         let rowxs = table.append('g')
             .attr('class','table_rows')
@@ -566,12 +645,14 @@ class Paper{
             me.drawTable(me.co.tables["PDOM_TABLE"],{"x":48, "y":0});
             me.drawTable(me.co.tables["SUS_TABLE"],{"x":48, "y":15});
             me.drawTable(me.co.tables["SCON_TABLE"],{"x":53, "y":0});
-        }else if (me.code == "SCREEN2"){
-            me.supertitle = "Ecran n°2"
+            me.drawTable(me.co.tables["SECONDARIES_TABLE"],{"x":48, "y":25});
+            me.drawTable(me.co.tables["MISC_TABLE"],{"x":48, "y":35});
+        }else if (me.code == "SCREEN4"){
+            me.supertitle = "Ecran n°4"
             me.drawBack();
 
-        }else if (me.code == "SCREEN3"){
-            me.supertitle = "Ecran n°3"
+        }else if (me.code == "SCREEN2"){
+            me.supertitle = "Ecran n°2"
             me.drawBack();
             me.drawTable(me.co.tables["COMP_GENERIC_TABLE"],{"even_odd":true, "x":8, "y":0});
             me.drawTable(me.co.tables["COMP_WEAPONS_TABLE"],{"even_odd":true, "x":0, "y":0});
@@ -580,8 +661,11 @@ class Paper{
             me.drawTable(me.co.tables["COMP_KNOWLEDGE_TABLE"],{"even_odd":true, "x":16, "y":13});
             me.drawTable(me.co.tables["COMP_DRACONIC_TABLE"],{"even_odd":true, "x":16, "y":25});
 
-        }else if (me.code == "SCREEN4"){
-            me.supertitle = "Ecran n°4"
+
+
+
+        }else if (me.code == "SCREEN3"){
+            me.supertitle = "Ecran n°3"
             me.drawBack();
             me.drawTable(me.co.tables["GEAR_TABLE_BAG"],{"x":-1, "y":0});
             me.drawTable(me.co.tables["GEAR_TABLE_LAI"],{"x":-1, "y":22});
