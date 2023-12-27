@@ -1,13 +1,13 @@
-class Paper{
+class Carta extends Modulo {
     constructor(co,config) {
-        this.co = co;
-        this.config = config
+        super(co,config);
+        this.name = "Carta";
     }
 
     init(parent) {
+        super.init();
         let me = this;
         me.parent = parent;
-        me.debug = true;
         me.version = "0.5";
         me.supertitle = "";
         me.step = 50;
@@ -712,7 +712,14 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
         me.vis.call(me.zoom);
     }
 
+   register(){
+        super.register();
+        let me = this;
+        me.co.axiomaticPerformers.push(me);
+    }
+
     perform(parent,code){
+        super.perform();
         let me = this;
         me.init(parent);
         me.code = code;

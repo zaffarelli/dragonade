@@ -10,18 +10,25 @@ from main.utils.ref_dragonade import stress_table_json,action_quality_json, soak
 
 def prepare_index(request):
     d = datetime.now()
-    context = {'config': {'fontset': FONTSET} }
+    context = {
+        'config': {
+            'fontset': FONTSET,
+            'modules': []
+        }
+    }
     return context
 
 
 def index(request):
     context = prepare_index(request)
+    context['config']['modules'].append('orologio')
     return render(request, 'main/index.html', context=context)
 
 
 def autochtons(request):
     from main.models.autochtons import Autochton
     context = prepare_index(request)
+    context['config']['modules'].append('papers')
     characters = []
     for x in Autochton.objects.all().order_by("dream"):
         datum = x.toJson()
@@ -127,6 +134,8 @@ def papers(request):
     context['data'].append({"name": "Ecran volet 5", "code": "SCREEN5", "id": 670, "data": {}})
 
     context['title'] = "Aides de Jeu"
+    context['config']['modules'].append('carta')
+
     return render(request, 'main/papers.html', context=context)
 
 def load(request):

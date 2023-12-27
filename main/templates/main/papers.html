@@ -30,7 +30,7 @@
 {% block custom_js %}
 <script>
     _.defer(function () {
-        let co = new Main({{config|safe}})
+        let co = new Chiaroscuro({{config|safe}})
         {% for x in data %}
         co.tables["{{x.code}}"] = {{x.data|safe}};
         {% endfor %}

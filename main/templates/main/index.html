@@ -7,11 +7,8 @@
 {% block custom_js %}
 <script>
     _.defer(function () {
-        let co = new Main()
-        let or = new Orologio('#d3area',co);
-        or.perform();
+        let co = new Chiaroscuro({{config|safe}})
         co.perform();
-        co.revealUniverse();
     });
 </script>
 {% endblock custom_js %}

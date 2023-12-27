@@ -27670,7 +27670,7 @@ paper-plane:
     - 6.3.0
     - 6.4.0
     - 6.5.0
-  label: Paper Plane
+  label: Carta Plane
   search:
     terms:
       - air
@@ -38778,7 +38778,7 @@ toilet-paper:
     - 6.3.0
     - 6.4.0
     - 6.5.0
-  label: Toilet Paper
+  label: Toilet Carta
   search:
     terms:
       - bathroom
@@ -38812,7 +38812,7 @@ toilet-paper-slash:
     - 6.3.0
     - 6.4.0
     - 6.5.0
-  label: Toilet Paper Slash
+  label: Toilet Carta Slash
   search:
     terms:
       - bathroom
