@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{%  load static %}
+
+{% block east %}
+    {% include "main/menu.html" with title=title %}
+{% endblock east %}
+
+
+{% block main %}
+{% endblock main %}
+
+{% block custom_js %}
+<script>
+    _.defer(function () {
+        let co = new Chiaroscuro({{config|safe}})
+        co.perform();
+    });
+</script>
+{% endblock custom_js %}

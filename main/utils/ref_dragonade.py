@@ -17,27 +17,40 @@ CHARACTER_STATISTICS = {
             {"NAME": "DEX", "TEXT": "Dextérité"},
             {"NAME": "INT", "TEXT": "Intelligence"},
             {"NAME": "VOL", "TEXT": "Volonté"}
-        ]
+        ],
+        "KNOWN": ["AGI","CON","FOR","TAI","EMP","ODG","OUI", "VUE","APP","DEX","INT","VOL"]
+        
     },
-    "SECONDARIES": [
-        {"NAME": "TIR", "TEXT": "Tir", "COMPUTE": "basic_mean,DEX;VUE", "RATIONALE": " (DEX + VUE) / 2"},
-        {"NAME": "MEL", "TEXT": "Mêlée", "COMPUTE": "basic_mean,FOR;AGI", "RATIONALE": " (FOR + AGI) / 2"},
-        {"NAME": "DER", "TEXT": "Dérobade", "COMPUTE": "dero_mean,TAI;AGI", "RATIONALE": " (12 - TAI + AGI) / 2"},
-        {"NAME": "LAN", "TEXT": "Lancer", "COMPUTE": "basic_mean,TIR;FOR", "RATIONALE": " (TIR + FOR) / 2"}
-    ],
-    "MISCELLANEOUS": [
-        {"NAME": "REV", "TEXT": "Rêve", "COMPUTE": "basic_mean,CON;EMP;APP", "RATIONALE": " (CON + EMP + APP) / 3"},
-        {"NAME": "VIE", "TEXT": "Points de Vie", "COMPUTE": "basic_sum,CON;TAI", "RATIONALE": " CON + TAI"},
-        {"NAME": "FAT", "TEXT": "Fatigue", "COMPUTE": "basic_mean,CON;VOL", "RATIONALE": " (CON + VOL) / 2"},
-        {"NAME": "DOM", "TEXT": "+dom", "COMPUTE": "from_table_mean,TAI;FOR,tbDOM",
-         "RATIONALE": " ArrondiBas((FOR + 2) / 3) - 2"},
-        {"NAME": "SUS", "TEXT": "Sustentation", "COMPUTE": "from_table_mean,TAI,tbSUS",
-         "RATIONALE": " ArrondiBas((CON + 4) / 4) + 1"},
-        {"NAME": "SCO", "TEXT": "Seuil Con", "COMPUTE": "from_table_mean,CON,tbSCO",
-         "RATIONALE": "ArrondiBas((CON + 3) / 3) + 1"},
-        {"NAME": "ENC", "TEXT": "Encombrement", "COMPUTE": "precise_mean,TAI,FOR",
-         "RATIONALE": " (TAI + FOR) / 2 [garder une décimale]"}
-    ],
+    "SECONDARIES": { 
+        "LIST":[
+            {"NAME": "TIR", "TEXT": "Tir", "COMPUTE": "basic_mean,DEX;VUE", "RATIONALE": " (DEX + VUE) / 2"},
+            {"NAME": "MEL", "TEXT": "Mêlée", "COMPUTE": "basic_mean,FOR;AGI", "RATIONALE": " (FOR + AGI) / 2"},
+            {"NAME": "DER", "TEXT": "Dérobade", "COMPUTE": "dero_mean,TAI;AGI", "RATIONALE": " (12 - TAI + AGI) / 2"},
+            {"NAME": "LAN", "TEXT": "Lancer", "COMPUTE": "basic_mean,TIR;FOR", "RATIONALE": " (TIR + FOR) / 2"}
+        ],
+        "KNOWN": ["DER","LAN","MEL","TIR"]
+    },
+    "MISCELLANEOUS": {
+        "LIST":[
+            {"NAME": "REV", "TEXT": "Rêve", "COMPUTE": "basic_mean,CON;EMP;APP", "RATIONALE": " (CON + EMP + APP) / 3"},
+            {"NAME": "VIE", "TEXT": "Points de Vie", "COMPUTE": "basic_sum,CON;TAI", "RATIONALE": " CON + TAI"},
+            {"NAME": "FAT", "TEXT": "Fatigue", "COMPUTE": "basic_mean,CON;VOL", "RATIONALE": " (CON + VOL) / 2"},
+            {"NAME": "DOM", "TEXT": "+dom", "COMPUTE": "from_table_mean,TAI;FOR,tbDOM","RATIONALE": " ArrondiBas((FOR + 2) / 3) - 2"},
+            {"NAME": "SUS", "TEXT": "Sustentation", "COMPUTE": "from_table_mean,TAI,tbSUS","RATIONALE": " ArrondiBas((CON + 4) / 4) + 1"},
+            {"NAME": "SCO", "TEXT": "Seuil Con", "COMPUTE": "from_table_mean,CON,tbSCO","RATIONALE": "ArrondiBas((CON + 3) / 3) + 1"},
+            {"NAME": "ENC", "TEXT": "Encombrement", "COMPUTE": "precise_mean,TAI,FOR","RATIONALE": " (TAI + FOR) / 2 [garder une décimale]"}
+        ],
+        "KNOWN":["REV","VIE","FAT","DOM","SUS","SCO","ENC"]
+    },
+    "FEATURES": {
+        "LIST":[
+            {"NAME": "HEI", "TEXT": "Hauteur en centimètres", "COMPUTE": "user_choice", "RATIONALE":"-"},
+            {"NAME": "WEI", "TEXT": "Poids en kilogrammes", "COMPUTE": "user_choice", "RATIONALE":"-"}
+        ],
+        "KNOWN":
+            ["HEI","WEI"]
+    },
+
     "SKILLS": {
         "WEAPONS": {
             "DEFAULT": 0,
@@ -73,7 +86,12 @@ CHARACTER_STATISTICS = {
                 {"NAME": "WEA_28", "TEXT": "Lance courte"},
                 {"NAME": "WEA_29", "TEXT": "Massette"},
                 {"NAME": "WEA_30", "TEXT": "Masse Lourde"}
-            ]
+            ],
+            "KNOWN": [
+                "WEA_O1","WEA_02","WEA_O3","WEA_04","WEA_O5","WEA_06","WEA_O7","WEA_08","WEA_O9","WEA_10",
+                "WEA_11","WEA_12","WEA_13","WEA_14","WEA_15","WEA_16","WEA_17","WEA_18","WEA_19","WEA_20",
+                "WEA_21","WEA_22","WEA_23","WEA_24","WEA_25","WEA_26","WEA_27","WEA_28","WEA_29","WEA_30"
+            ]               
         },
         "GENERIC": {
             "DEFAULT": -1,
@@ -92,7 +110,11 @@ CHARACTER_STATISTICS = {
                 {"NAME": "GEN_11", "TEXT": "Sculpture"},
                 {"NAME": "GEN_12", "TEXT": "Séduction"},
                 {"NAME": "GEN_13", "TEXT": "Vigilance"}
-            ]
+            ], 
+            "KNOWN": [
+                "GEN_O1","GEN_02","GEN_O3","GEN_04","GEN_O5","GEN_06","GEN_O7","GEN_08","GEN_O9","GEN_10",
+                "GEN_11","GEN_12","GEN_13"
+            ]   
         },
         "PECULIAR": {
             "DEFAULT": -2,
@@ -115,6 +137,10 @@ CHARACTER_STATISTICS = {
                 {"NAME": "PEC_15", "TEXT": "Survie (Montagne)"},
                 {"NAME": "PEC_16", "TEXT": "Survie (Sous-Sol)"},
                 {"NAME": "PEC_17", "TEXT": "Travestissement"}
+            ],
+            "KNOWN": [
+                "PEC_O1", "PEC_02", "PEC_O3", "PEC_04", "PEC_O5", "PEC_06", "PEC_O7", "PEC_08", "PEC_O9", "PEC_10",
+                "PEC_11", "PEC_12", "PEC_13", "PEC_14", "PEC_15", "PEC_16", "PEC_17"
             ]
         },
         "SPECIALIZED": {
@@ -131,6 +157,9 @@ CHARACTER_STATISTICS = {
                 {"NAME": "SPE_08", "TEXT": "Navigation"},
                 {"NAME": "SPE_09", "TEXT": "Orfèvrerie"},
                 {"NAME": "SPE_10", "TEXT": "Serrurerie"}
+            ],
+            "KNOWN": [
+                "SPE_O1", "SPE_02", "SPE_O3", "SPE_04", "SPE_O5", "SPE_06", "SPE_O7", "SPE_08", "SPE_O9", "SPE_10"             
             ]
         },
         "KNOWLEDGE": {
@@ -146,6 +175,9 @@ CHARACTER_STATISTICS = {
                 {"NAME": "KNO_08", "TEXT": "Mathématiques"},
                 {"NAME": "KNO_09", "TEXT": "Médecine"},
                 {"NAME": "KNO_10", "TEXT": "Zoologie"}
+            ],
+            "KNOWN": [
+                "KNO_O1", "KNO_02", "KNO_O3", "KNO_04", "KNO_O5", "KNO_06", "KNO_O7", "KNO_08", "KNO_O9", "KNO_10"
             ]
         },
         "DRACONIC": {
@@ -158,6 +190,9 @@ CHARACTER_STATISTICS = {
                 {"NAME": "DRA_04", "TEXT": "Génératif"},
                 {"NAME": "DRA_05", "TEXT": "Mnémonique"},
                 {"NAME": "DRA_06", "TEXT": "Statique"}
+            ],
+            "KNOWN": [
+                "DRA_O1", "DRA_02", "DRA_O3", "DRA_04", "DRA_O5", "DRA_06"
             ]
         }
     }
@@ -507,3 +542,21 @@ def load_from_file():
             e.name = line
             e.category = '---'
             e.save()
+
+def tai_guidelines(tai):
+    base_average_weight = 56
+    base_average_height = 150
+    # lowest_weight_ratio = 0.9
+    # highest_weight_ratio = 1.1
+    # lowest_height_ratio = 0.85
+    # highest_height_ratio = 1.15
+    weight_ratio = 1.06
+    height_ratio = 1.025
+    height = base_average_height
+    weight = base_average_weight
+    for x in range(2,tai):
+        height *= height_ratio
+        weight *= weight_ratio
+    height = math.ceil(height)
+    weight = math.ceil(weight)
+    return f"TAI={tai}: H={height} / W={weight}"

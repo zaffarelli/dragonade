@@ -3,56 +3,62 @@
 <head>
     <meta charset='utf-8'/>
     <meta name='viewport' content='width=device-width, initial-scale=1'/>
-    <title>{% block title %}Dragonade{% endblock %}</title>
+    <title>{% block title %}Dragonade{% endblock %} [{{version}}]</title>
     {% load static %}
     {% load sass_tags %}
     <link rel='icon' type="image/svg+xml" href='{% static "main/favicon.svg" %}'>
     <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js" integrity="sha512-M7nHCiNUOwFt6Us3r8alutZLm9qMt4s9951uo8jqO4UwJ1hziseL6O3ndFyigx6+LREfZqnhHxYjKRJ8ZQ69DQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script type="text/javascript" src='{% static "js/chiaroscuro.es6" %}'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"
+            integrity="sha512-M7nHCiNUOwFt6Us3r8alutZLm9qMt4s9951uo8jqO4UwJ1hziseL6O3ndFyigx6+LREfZqnhHxYjKRJ8ZQ69DQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script type="text/javascript" src='{% static "js/modulo.es6" %}'></script>
+    <script type="text/javascript" src='{% static "js/trumps.es6" %}'></script>
     <script type="text/javascript" src='{% static "js/carta.es6" %}'></script>
     <script type="text/javascript" src='{% static "js/orologio.es6" %}'></script>
-<!--    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=Roboto">-->
-<!--    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=Anybody">-->
-<!--    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=Cutive+Mono">-->
+    <script type="text/javascript" src='{% static "js/chiaroscuro.es6" %}'></script>
+    <!--    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=Roboto">-->
+    <!--    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=Anybody">-->
+    <!--    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=Cutive+Mono">-->
     {% for font in config.fontset %}
-        <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family={{ font }}">
+    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family={{ font }}">
     {% endfor %}
     <link rel='stylesheet' type='text/css' href='{% sass_src "main/css/main.scss" %}'/>
 </head>
 <body style="background:transparent url({% static 'main/images/back7.jpg' %}) fixed; opacity: 0.95;">
-<div class="universe hidden">
-    <img src="static/main/svg/dragonade_logo.svg" style="position:fixed; height:80%">
-    <div id="d3area"></div>
-</div>
-<div class="world hidden">
-    <div class="spare_left">
-        {% block west %}
-        <img src="static/main/svg/dragonade_logo.svg" style="position:fixed; height:80%">
-        {% endblock west %}
-    </div>
-    <div class="corpus">
-<!--        <div class="stacked">-->
-        {% block main %}
-        {% endblock main %}
-<!--        </div>-->
+<!--<div class="universe hidden">-->
 
-    </div>
+<!--    <div id="d3area"></div>-->
+
+<!--</div>-->
+<div class="world hidden">
     <div class="spare_right">
         {% block east %}
+        <!--        <img src="static/main/svg/dragonade_logo.svg" style="position:fixed; height:80%">-->
         {% endblock east %}
+
     </div>
+    <div class="corpus">
+        <!--        <div class="stacked">-->
+        {% block main %}
+        {% endblock main %}
+        <!--        </div>-->
+        <div id="d3area"></div>
+
+    </div>
+    <!--    <div class="spare_left">-->
+
+    <!--    </div>-->
 </div>
 
 <div id="overlay" class="hidden">
     <div id="dialog"></div>
 </div>
 
-        {% block custom_js %}
-        {% endblock custom_js %}
+{% block custom_js %}
+{% endblock custom_js %}
 
 </body>
 </html>

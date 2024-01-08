@@ -10,29 +10,54 @@
     <div class="box label full large">{{a.name}}</div>
     <div class="box label full">{{a.misc.entrance}}</div>
 
+
+    <div class="box label sub"></div>
+    <div class="box subset">
+        <div class="box label nw">Age</div>
+        <div class="box info nw">{{a.features.age}} ans</div>
+        <div class="box label ne">Sexe</div>
+        <div class="box info ne">{{a.features.gender}}</div>
+        <div class="box label sw">Main Forte</div>
+        <div class="box info sw">{{a.features.lefty|genderize|safe}}</div>
+        <div class="box label se"></div>
+        <div class="box info se"></div>
+    </div>
+    <div class="box label sub">{{a.features.tai_guideline}}</div>
+    <div class="box subset">
+        <div class="box label nw">Taille</div>
+        <div class="box info nw">{{a.features.height}}</div>
+        <div class="box label ne">Poids</div>
+        <div class="box info ne">{{a.features.weight}}</div>
+        <div class="box label sw">IMC</div>
+        <div class="box info sw">{{a.features.imc}}</div>
+        <div class="box label se">TGL</div>
+        <div class="box info se"></div>
+    </div>
+
+
     <div class="box triset">
         <div class="box label left">{{a.dream}}</div>
         <div class="box label mid"><img src="{{a.birthhour|as_draconichour|safe}} " height="30px"/></div>
-        <div class="box label right">Indice:<br/>{{a.misc.indice}}</div>
+        <div class="box label right">Total Attributes:<br/>{{a.misc.total_attributes}}</div>
     </div>
+
 
     <div class="box triset">
-        <div class="box label left">{{a.features.age}} ans</div>
-        <div class="box label mid">{{a.features.gender}}</div>
-        <div class="box label right">{{a.features.lefty}}</div>
+        <div class="box label left">Indice:<BR/>{{a.misc.indice}}</div>
+        <div class="box label mid">Indice Attributs:<BR/>{{a.misc.indice_a}}</div>
+        <div class="box label right">Indice Compétences:<BR/>{{a.misc.indice_s}}</div>
     </div>
-
 
 
     {% for att,v in a.attributes.items %}
-        {% if forloop.counter0|modulo_of_four_is_0 %}
-            <div class="box label sub">{{att|as_attribute_sub_group}}</div>
-            <div class="box subset">
+    {% if forloop.counter0|modulo_of_four_is_0 %}
+    <div class="box label sub">{{att|as_attribute_sub_group}}</div>
+    <div class="box subset">
         {% endif %}
         {% include "main/attribute_lines.html" with a=a att=att v=v %}
         {% if forloop.counter0|modulo_of_four_is_3 %}
-            </div>
-        {% endif %}
+    </div>
+    {% endif %}
     {% endfor %}
 
 
@@ -56,8 +81,8 @@
         <div class="box info ne">{{a.misc.FAT}} ({{a.misc.pf}})</div>
         <div class="box label sw">REVE</div>
         <div class="box info sw">{{a.misc.REV|colorize_val|safe}}</div>
-        <div class="box label se"></div>
-        <div class="box info se"></div>
+        <div class="box label se">SRE</div>
+        <div class="box info se">{{a.misc.sre}} [{{a.misc.tre|colorize_val|safe}}]</div>
     </div>
     <div class="box label sub">Modificateurs</div>
     <div class="box subset">

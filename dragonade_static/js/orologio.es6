@@ -18,7 +18,7 @@ class Orologio extends Modulo {
         me.h = parseInt($(me.parent).css('height'));
         me.step = me.w / 32;
         me.fontsize = me.step / 4;
-        me.light = [0.70, 0.4, 0, 0, 0, 0, 0, 0.40, 0.70, 0.90, 1, 0.90];
+        me.light = [0,0.70, 0.4, 0, 0, 0, 0, 0, 0.40, 0.70, 0.90, 1, 0.90];
         d3.select(me.parent).selectAll("svg").remove();
         me.svg = d3.select(me.parent).append("svg")
             .attr("viewBox", -me.w / 2 + " " + -me.h / 2 + " " + me.w + " " + me.h)
@@ -148,11 +148,14 @@ class Orologio extends Modulo {
         let me = this;
         me.ticks = me.svg.append('g')
             .selectAll('.ticks')
-            .data([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+            //.data([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+            .data(me.config["menu_entries"])
         ;
+        const angular_offset = 2;
         me.ticks_g = me.ticks.enter().append("g")
             .attr("class", "ticks")
-            .attr("transform", d => 'rotate(' + (d - 3) * 30 + ')')
+            .attr("id", (d) => "tick_"+d.IDX)
+            .attr("transform", d => 'rotate(' + (d.IDX - (angular_offset+1)) * 30 + ')')
         ;
 
         me.ticks_g.append("line")
@@ -197,48 +200,6 @@ class Orologio extends Modulo {
             .style('fill', 'transparent')
         ;
 
-        me.ticks_g.append("a")
-            .attr("xlink:href", function (d) {
-                if (d == 11) {
-                    return "autochtons";
-                } else if (d == 4) {
-                    return "travellers";
-                }
-            })
-            .append("circle")
-            .attr("class", "imagecircle")
-            .attr("id", d => "ic_" + d)
-            .attr("cx", me.step * 7.15)
-            .attr("cy", 0)
-            .attr("r", 2 * me.step / 3)
-            .style('stroke', '#273030')
-            .style('stroke-linecap', 'round')
-            .style('stroke-width', d => {
-                if ([4, 5, 11].includes(d)) {
-                    return '2pt';
-                }
-                return '1pt';
-            })
-            .style('fill', 'transparent')
-            .style('cursor', 'pointer')
-            //.style('opacity',0.25)
-            .on('mouseover', (e, d) => {
-                if ([4, 5, 11].includes(d)) {
-                    me.svg.select('#ic_' + d)
-                        .style('stroke', '#A02020')
-                        .style('stroke-width', '5pt')
-                    ;
-                }
-            })
-            .on('mouseout', (e, d) => {
-                me.svg.selectAll('.imagecircle')
-                    .style('stroke', '#273030')
-//                     .style('stroke-width','1pt')
-                ;
-            })
-
-
-        ;
         me.ticks_g.append("circle")
             .attr("class", "daylight")
             .attr("cx", me.step * 3)
@@ -248,10 +209,10 @@ class Orologio extends Modulo {
             .style('stroke-linecap', 'round')
             .style('stroke-width', '1pt')
             .style('fill', "#406080")
-            .style('fill-opacity', d => me.light[d])
+            .style('fill-opacity', d => me.light[d.IDX])
         ;
         me.ticks_g.append("circle")
-            .attr("id", d => "polar_" + (d + 1))
+            .attr("id", d => "polar_" + (d.IDX))
             .attr("cx", me.step * 5)
             .attr("cy", 0)
             .attr("r", 4 * me.step / 6)
@@ -259,9 +220,87 @@ class Orologio extends Modulo {
             .style('stroke-linecap', 'round')
             .style('stroke-width', '1pt')
             .style('fill', 'transparent')
-            .style('fill-opacity', d => me.light[d])
+            .style('fill-opacity', d => me.light[d.IDX])
         ;
 
+        // Orologio menu links
+        me.menu_link = me.ticks_g.append("a")
+            .attr("xlink:href", function (d) {
+                let str = d.LINK
+                if (str.length>0){
+                    return d.LINK;
+                }
+            })
+
+            .attr('id', d => "link_"+d.IDX)
+        ;
+        me.menu_link.append("circle")
+            .attr("class", "imagecircle")
+            .attr("id", d => "ic_" + (d.IDX))
+            .attr("cx", me.step * 7.15)
+            .attr("cy", 0)
+            .attr("r", 2 * me.step / 3)
+            .style('stroke', '#273030')
+            .style('stroke-linecap', 'round')
+            .style('stroke-width', d => {
+                let str = d.LINK
+                if (str.length>0){
+                    return '2pt';
+                }
+                return '1pt';
+            })
+            .style('fill', 'transparent')
+            .style('cursor', (d,i ) => {
+                let l = d.LINK
+                if (l.length>0){
+                    return "pointer";
+                }
+                return "default";
+             })
+            //.style('opacity',0.25)
+            .on('mouseover', (e, d) => {
+                let str = d.LINK
+                if (str.length>0){
+                    me.svg.select('#ic_' + (d.IDX))
+                        .style('stroke', '#A02020')
+                        .style('stroke-width', '5pt')
+                    ;
+                }
+                me.softLog(d.LINK+" --> "+d.NAME)
+            })
+            .on('mouseout', (e, d) => {
+                me.svg.selectAll('.imagecircle')
+                    .style('stroke', '#273030')
+                    .style('stroke-width','1pt')
+                ;
+            })
+
+
+//             .attr("transform", d => {
+//                 let adeg = (d.IDX - angular_offset) * 30;
+//                 let arad = (adeg / 360) * 2 * Math.PI;
+//                 let a = Math.cos(arad) * (me.step * 6.75 + me.fontsize * 1.5);
+//                 let b = Math.sin(arad) * (me.step * 6.75 + me.fontsize * 1.5);
+//                 let str = 'rotate(' + -(d.IDX - (angular_offset+1)) * 30 + ') translate(' + a + ',' + b + ')'
+//                 return (str)
+//             })
+         ;
+        me.menu_link.append("image")
+            .attr("id", d => "hd_" + (d.IDX))
+            .attr("xlink:href", d => "/static/main/svg/hd"+d.SVG_REF )
+            .attr("width", me.fontsize * 3)
+            .attr("height", me.fontsize * 3)
+            .attr("x", -me.fontsize * 1.5)
+            .attr("y", -me.fontsize * 1.5)
+            .attr("transform", d => {
+                let adeg = (d.IDX - (angular_offset+1) ) * 30;
+                let arad = (adeg / 360) * 2 * Math.PI;
+                let a = Math.cos(arad) * (me.step * 6.75 + me.fontsize * 1.5);
+                let b = Math.sin(arad) * (me.step * 6.75 + me.fontsize * 1.5);
+                let str = 'rotate(' + -(d.IDX - ((angular_offset)+1)) * 30 + ') translate(' + a + ',' + b + ')'
+                return (str)
+            })
+        ;
 
         me.ticks_g.append("text")
             .attr("x", 0)
@@ -274,37 +313,21 @@ class Orologio extends Modulo {
             .style('font-family', 'Neucha')
             .style('font-size', (me.fontsize) + 'pt')
             .style('text-anchor', 'middle')
-            .text(d => d + 1)
+            .text(d => d.IDX)
             .attr("transform", d => {
-                    let adeg = (d - 2) * 30;
+                    let adeg = (d.IDX - angular_offset) * 30;
                     let arad = (adeg / 360) * 2 * Math.PI;
                     let a = Math.cos(arad) * me.step * 3.75;
                     let b = Math.sin(arad) * me.step * 3.75;
-                    let str = 'rotate(' + -(d - 3) * 30 + ') translate(' + a + ',' + b + ')'
+                    let str = 'rotate(' + -(d.IDX - (angular_offset+1)) * 30 + ') translate(' + a + ',' + b + ')'
                     return (str)
                 }
             )
         ;
-        me.ticks_g.append("image")
-            .attr("id", d => "hd_" + d)
-            .attr("xlink:href", d => "/static/main/svg/hd_" + (d + 1) + ".svg")
-            .attr("width", me.fontsize * 3)
-            .attr("height", me.fontsize * 3)
-            .attr("x", -me.fontsize * 1.5)
-            .attr("y", -me.fontsize * 1.5)
-            .attr("transform", d => {
-                let adeg = (d - 2) * 30;
-                let arad = (adeg / 360) * 2 * Math.PI;
-                let a = Math.cos(arad) * (me.step * 6.75 + me.fontsize * 1.5);
-                let b = Math.sin(arad) * (me.step * 6.75 + me.fontsize * 1.5);
-                let str = 'rotate(' + -(d - 3) * 30 + ') translate(' + a + ',' + b + ')'
-                return (str)
-            })
-        ;
 
         // Hours
         me.ticks_g.append("rect")
-            .attr("id", d => "rect_" + (d))
+            .attr("id", d => "rect_" + (d.IDX))
             .attr("class", "linker")
             .attr("x", -7 + me.step * 6.0)
             .attr("y", -7)
@@ -316,10 +339,10 @@ class Orologio extends Modulo {
             .style('cursor', 'pointer')
             .on('click', (e, d) => {
                 me.softLog("Hour override [" + me.hourOverride + "]");
-                if (me.hourOverride == (d + 2) * 2) {
+                if (me.hourOverride == (d.IDX + angular_offset) * 2) {
                     me.hourOverride = 666;
                 } else {
-                    me.hourOverride = (d + 2) * 2;
+                    me.hourOverride = (d.IDX + angular_offset) * 2;
                 }
                 clearInterval(me.intervalSlow);
                 me.intervalSlow = setInterval(function () {
@@ -609,6 +632,7 @@ class Orologio extends Modulo {
         me.init();
 
         me.co.revealUniverse();
+        //me.co.revealUI();
         me.drawAll();
         me.intervalQuick = setInterval(function () {
             me.updateQuick();
@@ -619,3 +643,7 @@ class Orologio extends Modulo {
         }, me.quickDelay);
     }
 }
+
+
+
+

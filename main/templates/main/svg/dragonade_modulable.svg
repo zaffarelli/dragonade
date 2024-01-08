@@ -47,7 +47,7 @@
                id="tspan191"
                x="546.01636"
                y="75.238243"
-               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;font-family:Euphorigenic;-inkscape-font-specification:'Euphorigenic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:0.705402">{{title}}</tspan></text>
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;font-family:Euphorigenic;-inkscape-font-specification:'Euphorigenic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:0.705402">{{title}} {{version}}</tspan></text>
         </g>
       </a>
     </g>

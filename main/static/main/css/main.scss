@@ -101,31 +101,67 @@ body {
     order:2;
     flex: 1 1 auto;
     background:$bkg_filter2;
-    border-radius:20px;
+
+    border-radius:5px;
     border: 1px solid #605060;
-   padding:10px;
+    padding:5px;
+    display:flex;
+    flex:column wrap;
+    justify-content: flex-end;
+    align-content: flex-end;
+    align-items: stretch;
+
+    & .options{
+        flex: 1 1 auto;
+        background: $sub_box;
+        border-radius:5px;
+        border: 1px solid #909090;
+        padding:5px;
+        text-align:center;
+
+    }
+}
+
+#target_ed, #ed{
+    display:block;
+    width:60ex;
+    height:6em;
+    margin:10px;
+    background:#00000070;
+    border:1px groove white;
+    padding:5px;
+    border-radius:2px 5px 2px 5px;
+    color:white;
+}
+
+button{
+    display:block;
+    width:60ex;
+    height:2.6em;
+    margin:10px;
 }
 
 .menu{
     background:$bkg_filter2;
-    order:3;
+    order:5;
     flex: 0 0 auto;
     display:flex;
     flex-flow:row wrap;
     justify-content: space-around;
     align-content: flex-end;
     align-items: flex-start;
-    gap:3px;
+    gap:6px 20px;
     padding:10px;
-    padding-bottom:30px;
+    //padding-bottom:20px;
     border-radius:5px;
-    border-radius:20px;
+    border-radius:10px;
     border: 1px solid #605060;
     & .menu_entry{
         border-radius:5px;
         border: 2px solid #808080;
-        flex: 0 0 80px;
-        background:#3060F040;
+        padding:5px;
+        flex: 0 0 50px;
+        background:#603040;
         text-align:center;
         & img{
             height:1cm;
@@ -145,17 +181,28 @@ body {
 
 .list{
     background:$bkg_filter2;
-    order:3;
-    flex: 0 0 auto;
+    order:4;
+    flex: 0 1 auto;
     display:flex;
     flex-flow:row wrap;
-    justify-content: space-around;
-    align-content: flex-end;
-    align-items: flex-start;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: stretch;
     gap:3px;
     padding:10px;
-    padding-bottom:30px;
     border-radius:5px;
-    border-radius:20px;
     border: 1px solid #605060;
+    overflow-y:scroll;
+}
+
+
+.cardback{
+    &.selected_for_reveal{
+        &.verso{
+            fill:#A02020;
+        }
+        &.recto{
+            stroke:#A02020;
+        }
+    }
 }

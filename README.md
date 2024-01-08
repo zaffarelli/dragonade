@@ -135,3 +135,7 @@ Voici l'application Dragonade !!!
   "dream": 6
 }
 ```
+
+```
+=0+SI(E5>=1;J5;I5)+SI(E5>=2;K5;I5)+SI(E5>=3;L5;I5)+SI(E5>=4;M5;I5)+SI(E5>=5;N5;I5)+SI(E5>=7;O5;I5)+SI(E5>=8;P5;I5)+SI(E5>=9;Q5;I5)+SI(E5>=10;R5;I5)+SI(E5>=11;S5;I5)+SI(E5>=12;T5;I5)+SI(E5>=13;U5;I5)+SI(E5>=14;V5;I5)
+```

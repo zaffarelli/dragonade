@@ -2,23 +2,17 @@
 {%  load static %}
 
 
-{% block west %}
-    {% include "main/menu.html" with title=title %}
-{% endblock west %}
-
-
 {% block east %}
+{% include "main/menu.html" with title=title %}
 
 
-<div class="middle">
-</div>
 
 
-    <div class="list">
+<div class="list">
     {% for x in characters %}
-        {% include "main/mini.html" with a=x%}
+    {% include "main/mini.html" with a=x%}
     {% endfor %}
-    </div>
+</div>
 {% endblock east %}
 
 

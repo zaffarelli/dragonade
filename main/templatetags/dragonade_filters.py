@@ -146,3 +146,12 @@ def hidden_if_blank(value):
     if len(value) == 0:
         result = "off"
     return result
+
+@register.filter(name='genderize')
+def genderize(value):
+    result = value
+    if value.lower() == "droitier":
+        result = "Droitière"
+    elif value.lower() == "geucher":
+        result = "Gauchère"
+    return result

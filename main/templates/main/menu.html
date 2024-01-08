@@ -5,13 +5,11 @@
     {% include "main/dragonade_title.html" with title=title %}
 </div>
 
-<div class="middle">
-</div>
 
 <div class="menu">
     {% for m in menu_entries %}
-        <div class="menu_entry link {{m.LINK|off_if_blank}}"  title="{{m.NAME}}: {{m.TEXT}}" link_to="{{m.LINK}}">
-            <img src="static/main/svg/hdw{{m.SVG_REF}}"/>
-        </div>
+    <div class="menu_entry link {{m.LINK|off_if_blank}}" title="{{m.NAME}}: {{m.TEXT}}" link_to="{{m.LINK}}">
+        <img src="static/main/svg/hdw{{m.SVG_REF}}" height="30px"/>
+    </div>
     {% endfor %}
 </div>

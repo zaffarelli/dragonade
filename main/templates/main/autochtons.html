@@ -2,14 +2,13 @@
 {%  load static %}
 
 
-{% block west %}
-    {% include "main/menu.html" with title=title %}
-{% endblock west %}
+
 
 
 {% block east %}
-    <div class="middle">
-    </div>
+    {% include "main/menu.html" with title=title %}
+    {% include "main/characters_options.html"%}
+
     <div class="list">
     {% for x in characters %}
         <div class="minisheet" id="mini__{{x.id}}" code="{{x.code}}" title="{{x.code}}">

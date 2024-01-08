@@ -13,6 +13,10 @@ class Chiaroscuro {
             let mod = new Carta(this, config);
             mod.register();
         }
+        if (config["modules"].includes("trumps") == true) {
+            let mod = new Trumps(this, config);
+            mod.register();
+        }
         this.tables = []
     }
 
@@ -59,11 +63,12 @@ class Chiaroscuro {
     revealUniverse() {
         let me = this;
         console.log("Reveal Universe");
-        $('.world').removeClass('shownflex');
+        $('.world').addClass('shownflex');
+        $('.world').removeClass('hidden');
         $('.universe').removeClass('hidden');
 
-        $('.world').addClass('hidden');
-        $('.universe').addClass('shown');
+        //$('.world').addClass('hidden');
+        //$('.universe').addClass('shown');
 
     }
 
@@ -92,15 +97,6 @@ class Chiaroscuro {
                     if (e.ctrlKey) {
                         change = params[3];
                     }
-//                     if (params[3] == 'plus'){
-//                         change = 'plus';
-//                         console.log("Ctrl key")
-//
-//                     }
-//                     else if (e.shiftKey){
-//                         change = 'minus'
-//                         console.log("Shift key");
-//                     }
                     let data = params[0] + "__" + params[1] + "__" + params[2] + "__" + change;
                     if (change != '') {
                         $.ajax({
@@ -130,6 +126,19 @@ class Chiaroscuro {
                             },
                         });
                     }
+
+                } else {
+                    console.log("Wrong parameters number...")
+                }
+            } else if (action == "value") {
+                let params = id.split("__");
+                if (params.length > 3) {
+                    if (e.ctrlKey) {
+                        change = params[3];
+                    }
+                    let data = params[0] + "__" + params[1] + "__" + params[2] + "__" + change;
+                    $("#target_ed").html(data);
+                    $("#ed").html(params[0]);
 
                 } else {
                     console.log("Wrong parameters number...")
