@@ -1,5 +1,6 @@
 from django.urls import re_path
-from main.views import index, autochtons, inc_dec, travellers, maps, papers, card_reveal, value_pop, value_push
+from main.views.generic import index, autochtons,  travellers, maps, papers, card_reveal, draconis_artes
+from main.views.chiaroscuro import inc_dec, value_pop, value_push
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -11,6 +12,7 @@ urlpatterns = [
     re_path(r'^maps$', maps, name='maps'),
     re_path(r'^papers$', papers, name='papers'),
     re_path(r'^card_reveal$', card_reveal, name='card_reveal'),
+    re_path(r'^draconis_artes$', draconis_artes, name='draconis_artes'),
     re_path(r'^ajax/inc_dec$', inc_dec, name='inc_dec'),
     re_path(r'^ajax/value_pop$', value_pop, name='value_pop'),
     re_path(r'^ajax/value_push$', value_push, name='value_push')

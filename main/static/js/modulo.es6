@@ -27,6 +27,11 @@ class Modulo {
         console.log(me.name+" Registered");
     }
 
+    resizeEvent(){
+        let me = this;
+        console.log(me.name+" received resizeEvent ");
+    }
+
     perform() {
         let me = this;
         console.log(me.name+" Perform");

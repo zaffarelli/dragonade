@@ -1,0 +1,24 @@
+{% load static %}
+{% load dragonade_filters %}
+
+<div class="roster">
+    <div class="spell base">
+        <div class="box header">{{i.category}} </div>
+        <div class="box label full large">{{i.name}}</div>
+        <div class="box label large">Charge Draconiques</div>
+        <div class="box info large">{{i.ground_charge|as_ground_charge|safe}} {{i.hour_charge|as_hour_charge|safe}} {{i.emanation_charge|as_emanation_charge|safe}} {{i.consistency_charge|as_consistency_charge|safe}} {{i.elemental_charge|as_elemental_charge|safe}}</div>
+        <div class="box label sub">Métriques</div>
+        <div class="box subset">
+            <div class="box label nw">Diff</div>
+            <div class="box info nw">{{i.diff}}</div>
+            <div class="box label ne">Pts de Rêve</div>
+            <div class="box info ne">{{i.dps}}</div>
+            <div class="box label sw">Jet</div>
+            <div class="box info sw">REV+{{i.roll}}</div>
+            <div class="box label se">Voie</div>
+            <div class="box info se">{{i.path}}</div>
+        </div>
+        <div class="box label large">Description</div>
+        <div class="box info large">{{i.description}}</div>
+    </div>
+</div>

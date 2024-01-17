@@ -15,50 +15,47 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script type="text/javascript" src='{% static "js/modulo.es6" %}'></script>
-    <script type="text/javascript" src='{% static "js/trumps.es6" %}'></script>
-    <script type="text/javascript" src='{% static "js/carta.es6" %}'></script>
+    <script type="text/javascript" src='{% static "js/risorse.es6" %}'></script>
+    <script type="text/javascript" src='{% static "js/carte.es6" %}'></script>
     <script type="text/javascript" src='{% static "js/orologio.es6" %}'></script>
     <script type="text/javascript" src='{% static "js/chiaroscuro.es6" %}'></script>
-    <!--    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=Roboto">-->
-    <!--    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=Anybody">-->
-    <!--    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=Cutive+Mono">-->
     {% for font in config.fontset %}
-    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family={{ font }}">
+        <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family={{ font }}">
     {% endfor %}
     <link rel='stylesheet' type='text/css' href='{% sass_src "main/css/main.scss" %}'/>
 </head>
-<body style="background:transparent url({% static 'main/images/back7.jpg' %}) fixed; opacity: 0.95;">
-<!--<div class="universe hidden">-->
-
-<!--    <div id="d3area"></div>-->
-
-<!--</div>-->
+<body otyle="background:transparent url({% static 'main/images/back7.jpg' %}) fixed; opacity: 0.95;">
 <div class="world hidden">
-    <div class="spare_right">
-        {% block east %}
-        <!--        <img src="static/main/svg/dragonade_logo.svg" style="position:fixed; height:80%">-->
-        {% endblock east %}
-
-    </div>
     <div class="corpus">
-        <!--        <div class="stacked">-->
         {% block main %}
         {% endblock main %}
-        <!--        </div>-->
-        <div id="d3area"></div>
-
     </div>
-    <!--    <div class="spare_left">-->
-
-    <!--    </div>-->
+    <div class="spare_right">
+        {% block east %}
+        {% endblock east %}
+    </div>
+    <div class="showhide eye hidden" target="spare_right">
+        <i class="fa fa-eye"></i>
+    </div>
 </div>
 
 <div id="overlay" class="hidden">
-    <div id="dialog"></div>
+    {% block overlay %}
+    {% endblock overlay %}
 </div>
 
-{% block custom_js %}
-{% endblock custom_js %}
+
+<script>
+    _.defer(function () {
+        let co = new Chiaroscuro({{config|safe}})
+        {% block before_perform %}
+        {% endblock before_perform %}
+        co.perform();
+        {% block after_perform %}
+        {% endblock after_perform %}
+    });
+</script>
+
 
 </body>
 </html>

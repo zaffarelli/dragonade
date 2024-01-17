@@ -451,6 +451,7 @@ def scon_table_json():
 
 
 def comp_table_json(cat=""):
+    print(cat,)
     table = {
         "title": f"{CHARACTER_STATISTICS["SKILLS"][cat]["NAME"]}",
         "cols": ["Compétence"],
@@ -506,7 +507,7 @@ def secondaries_table_json():
     }
     rows = []
     values = []
-    for c in CHARACTER_STATISTICS["SECONDARIES"]:
+    for c in CHARACTER_STATISTICS["SECONDARIES"]["LIST"]:
         rows.append(f"{c['NAME']}")
         values.append(f"{c['RATIONALE']}")
     table["rows"] = rows
@@ -524,7 +525,7 @@ def miscellaneous_table_json():
     }
     rows = []
     values = []
-    for c in CHARACTER_STATISTICS["MISCELLANEOUS"]:
+    for c in CHARACTER_STATISTICS["MISCELLANEOUS"]["LIST"]:
         rows.append(f"{c['NAME']}")
         values.append(f"{c['RATIONALE']}")
     table["rows"] = rows

@@ -1,205 +1,179 @@
-.container{
-    border:1px solid transparent;
-    border-radius:5px;
+
+.roster{
+    background:transparent;
     display:flex;
-    flex-flow: column wrap;
-    justify-content: stretch;
-    align-content: stretch;
-    align-items: stretch;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: baseline;
     gap: 5px;
-    margin:0;
-    height:100%;
-    border: 1px solid transparent;
 
-
-    & .roster{
-        background:transparent;
-        display:flex;
-        flex-flow: row wrap;
-        justify-content: flex-start;
-        align-content: flex-start;
-        align-items: baseline;
-        gap: 5px;
-
-
-        & .sheet {
-            display: grid;
-            flex: 0 0 auto;
-            font-family:Neucha;
-            font-size:$roster_font_height;
-            border:1px solid #707070;
-            border-radius:5px;
-            margin:10px;
-            padding:5px;
-            gap: 2px;
-            box-shadow: 0 0 16px #101010;
-            background:$bkg2;
-
-            & .box {
-                border-radius: 1px;
-                padding: 1px;
-                border:2px solid transparent;
-                &.label{
-                    background-color: #404040;
-                }
-                &.info{
-                    background:#303030;
-                    color: #F0F0F0;
-                    &.editable{
-                        cursor:pointer;
-                        & .btn_edit{
-                            &.minus:hover{
-                                color:lime;
-                            }
-                            &.plus:hover{
-                                color:orangered;
-                            }
-                            &.value{
-                                display:inline-block;
-                                border:2px solid black;
-                                width:4ex;
-                                text-align:center;
-                                &:hover{
-                                    background:black;
-                                }
-                            }
-                        }
-                   }
-                }
-            }
-
-            &.skills{
-                grid-template-columns: 150px 75px;
-                grid-template-rows: repeat(6,1.5em);
-                order:2;
-                & .label {
-                    grid-column: 1 / span 1;
-
-                }
-                & .info {
-                    grid-column: 2 / span 1;
-                }
-                & .header {
-                    grid-column: 1 / span 2;
-                }
-                &.martiales{
-                    order:5;
-                }
-            }
-
-            &.base{
-                grid-template-columns: 50px 25px 25px 50px 75px 75px 75px 75px;
-                grid-template-rows: repeat(10,1.5em);
-                order:1;
-                & .header {
-                    grid-column: 1 / span 8;
-                }
-
-                & .label {
-                    grid-column: 1 / span 4;
-                    &.sub{
-                        grid-row: span 2;
-                        align-self:stretch;
-                        vertical-align:middle;
-                    }
-                    &.nw{
-                        grid-column: 1 / span 1;
-                    }
-                    &.ne{
-                        grid-column: 3 / span 1;
-                    }
-                    &.sw{
-                        grid-column: 1 / span 1;
-                    }
-                    &.se{
-                        grid-column: 3 / span 1;
-                    }
-
-                    &.full{
-                        grid-column: 1 / span 8;
-
-                        &.large{
-                            font-size:2em;
-                            grid-row: span 2;
-                        }
-
-                    }
-
-
-
-                    &.left{
-                        grid-column: 1 / span 4;
-                        grid-row: 1 / span 2;
-                    }
-                    &.mid{
-                        grid-column: 5  / span 2;
-                        grid-row: 1 / span 2;
-                    }
-                    &.right{
-                        grid-column: 7  / span 2;
-                        grid-row: 1 / span 2;
-                    }
-
-                }
-                & .info {
-                    grid-column: 5 / span 4 ;
-                    &.nw{
-                        grid-column: 2 / span 1;
-                    }
-                    &.ne{
-                        grid-column: 4 / span 1;
-                    }
-                    &.sw{
-                        grid-column: 2 / span 1;
-                    }
-                    &.se{
-                        grid-column: 4 / span 1;
-                    }
-                }
-
-                & .subset{
-                    border:1px solid #404040;
-                    gap: 1px;
-                    padding:0;
-                    grid-column: 5 / span 4;
-                    grid-row: span 2;
-                    display: grid;
-                    grid-template-columns: subgrid;
-                    grid-template-rows: subgrid;
-                }
-
-               & .triset{
-                    border:1px solid #404040;
-                    gap: 1px;
-                    padding:0;
-                    grid-column: 1 / span 8;
-                    grid-row: span 2;
-                    display: grid;
-
-                    grid-template-columns: subgrid;
-                    grid-template-rows: subgrid;
-               }
-
-            }
-        }
-
-    }
-
-
-}
-
-.minisheet{
-        display:block;
-        font-family:Fredoka;
+    & .sheet, & .spell {
+        display: grid;
+        flex: 0 0 auto;
+        font-family:Neucha;
         font-size:$roster_font_height;
         border:1px solid #707070;
         border-radius:5px;
-        box-shadow: 0 0 16px #202020;
-        background:$standard_box;
+        margin:10px;
         padding:5px;
-        flex: 0 1 220px;
-        &.mark{
-            background:$active_box;
-            box-shadow: 0 0 16px #604060;
+        gap: 2px;
+        box-shadow: 0 0 16px #101010;
+        background:$bkg2;
+
+        & .box {
+            border-radius: 1px;
+            padding: 1px;
+            border:2px solid transparent;
+            &.label{
+                background-color: #404040;
+            }
+            &.info{
+                background:#303030;
+                color: #F0F0F0;
+                &.editable{
+                    cursor:pointer;
+                    & .btn_edit{
+                        &.minus:hover{
+                            color:lime;
+                        }
+                        &.plus:hover{
+                            color:orangered;
+                        }
+                        &.value{
+                            display:inline-block;
+                            border:2px solid black;
+                            width:4ex;
+                            text-align:center;
+                            &:hover{
+                                background:black;
+                            }
+                        }
+                    }
+               }
+            }
         }
+
+        &.skills{
+            grid-template-columns: 150px 75px;
+            grid-template-rows: repeat(6,1.5em);
+            order:2;
+            & .label {
+                grid-column: 1 / span 1;
+
+            }
+            & .info {
+                grid-column: 2 / span 1;
+            }
+            & .header {
+                grid-column: 1 / span 2;
+            }
+            &.martiales{
+                order:5;
+            }
+        }
+
+        &.base{
+            grid-template-columns: 50px 25px 25px 50px 75px 75px 75px 75px;
+            grid-template-rows: repeat(10,1.5em);
+            order:1;
+            flex: 0 1 auto;
+            & .header {
+                grid-column: 1 / span 8;
+            }
+
+            & .label {
+                grid-column: 1 / span 4;
+                &.sub{
+                    grid-row: span 2;
+                    align-self:stretch;
+                    vertical-align:middle;
+                }
+                &.nw{
+                    grid-column: 1 / span 1;
+                }
+                &.ne{
+                    grid-column: 3 / span 1;
+                }
+                &.sw{
+                    grid-column: 1 / span 1;
+                }
+                &.se{
+                    grid-column: 3 / span 1;
+                }
+
+                &.full{
+                    grid-column: 1 / span 8;
+
+                    &.large{
+                        font-size:2em;
+                        grid-row: span 2;
+                    }
+
+                }
+
+                &.left{
+                    grid-column: 1 / span 4;
+                    grid-row: 1 / span 2;
+                }
+                &.mid{
+                    grid-column: 5  / span 2;
+                    grid-row: 1 / span 2;
+                }
+                &.right{
+                    grid-column: 7  / span 2;
+                    grid-row: 1 / span 2;
+                }
+            }
+            & .info {
+                grid-column: 5 / span 4 ;
+                &.nw{
+                    grid-column: 2 / span 1;
+                }
+                &.ne{
+                    grid-column: 4 / span 1;
+                }
+                &.sw{
+                    grid-column: 2 / span 1;
+                }
+                &.se{
+                    grid-column: 4 / span 1;
+                }
+
+            }
+            & .large{
+                grid-row: span 4;
+            }
+
+            & .subset{
+                border:1px solid #404040;
+                gap: 1px;
+                padding:0;
+                grid-column: 5 / span 4;
+                grid-row: span 2;
+                display: grid;
+                grid-template-columns: subgrid;
+                grid-template-rows: subgrid;
+            }
+
+           & .triset{
+                border:1px solid #404040;
+                gap: 1px;
+                padding:0;
+                grid-column: 1 / span 8;
+                grid-row: span 2;
+                display: grid;
+
+                grid-template-columns: subgrid;
+                grid-template-rows: subgrid;
+           }
+       }
     }
+
+    & .spell{
+    }
+
+}
+
+
+

@@ -6,8 +6,14 @@ $theme1: #1d1f1f;
 $theme2: #94550a;
 $theme3: #e18c0c;
 $session_board: #89807B;
+$shadow_color: #402040;
 
-//$body_background: grayscale(darken($theme3,10%));
+
+@mixin body_background{
+    background: $body_background;
+    color: $body_color;
+    font-family:Neucha;
+}
 
 
 
@@ -67,13 +73,6 @@ $env_text: black;
 $roster_font_height: 10pt;
 
 $plate_color: lighten($panel_color,10%);
-//$plate_highlight: #FFFFFF;
-//$plate: #3a343e;
-//$plate_shadow: #101010;
-//$plate_selected: complement($panel_background);
-//$dark_plate: darken($plate, 5%);
-//$very_dark_plate: darken($dark_plate, 5%);
-//$focus_color: #22C0F0;
 
 $bkg_filter0:#80808070;
 $bkg_filter1:#80808020;
@@ -83,48 +82,6 @@ $bkg0:#301020;
 $bkg1:#103020;
 $bkg2:#101030;
 
-
-/*
-@mixin panel {
-  background: $panel_background;
-  color: $panel_color;
-  border: 1px solid $panel_border;
-  border-radius: 3px;
-  padding: 3px;
-  box-shadow: 0 0 3px $panel_shadow;
-  font-family: Roboto;
-  font-size: 10pt;
-}
-*/
-@mixin body_background {
-  background: transparent url('') fixed; // 100% 100% no-repeat fixed;
-  //background: $body_background;
-  //background-image: linear-gradient(to bottom right, grayscale($theme3), $theme3);
-  background: grayscale($theme3);
-  //background: repeating-linear-gradient(#e66465, #e66465 20px, #9198e5 20px, #9198e5 25px);
-  color: $body_color;
-
-
-
-}
-
-
-
-.hidden {
-  display: none !important;
-  //width:0 !important;
-  //height:0 !important;
-  //top:-500px !important;
-  //left:-500px !important;
-}
-
-.shownflex{
-    display:flex !important;
-}
-
-.shown{
-    display:block !important;
-}
 
 
 
@@ -151,3 +108,32 @@ span.future{
 $active_box: #60404070;
 $standard_box: #30101070;
 $sub_box: #40101070;
+
+
+@mixin btn_look{
+    background: #C0C0C0;
+    border-radius:3px;
+    border:1px solid #808080;
+    color: #101010;
+    font-family: Neucha;
+    width:90ex;
+    display:inline-block;
+}
+
+
+
+.btn{
+    @include btn_look
+}
+
+
+@mixin dragonade_panel{
+    margin: 0;
+    padding:5px;
+    border:2px solid #C0C0C070;
+    border-radius:5px;
+    background: $standard_box;
+    box-shadow: 0 0 3px $shadow_color;
+    color:white;
+    font-family: Neucha;
+}

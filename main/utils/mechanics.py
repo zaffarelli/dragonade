@@ -43,7 +43,7 @@ MENU_ENTRIES = [
     {"IDX": 4, "NAME": "Couronne", "LINK": "travellers", "SVG_REF": "_4.svg", "TEXT": "La liste des voyageurs (PJs)"},
     {"IDX": 5, "NAME": "Dragon", "LINK": "index", "SVG_REF": "_5.svg", "TEXT": "Retour au Portail..."},
     {"IDX": 6, "NAME": "Epees", "LINK": "", "SVG_REF": "_6.svg", "TEXT": "Références & Règles..."},
-    {"IDX": 7, "NAME": "Lyre", "LINK": "", "SVG_REF": "_7.svg", "TEXT": "Magie Draconique..."},
+    {"IDX": 7, "NAME": "Lyre", "LINK": "draconis_artes", "SVG_REF": "_7.svg", "TEXT": "Arts Draconiques..."},
     {"IDX": 8, "NAME": "Serpent", "LINK": "", "SVG_REF": "_8.svg", "TEXT": "Monstres..."},
     {"IDX": 9, "NAME": "Poisson-Acrobate", "LINK": "card_reveal", "SVG_REF": "_9.svg", "TEXT": "Révélation de Cartes"},
     {"IDX": 10, "NAME": "Araignee", "LINK": "", "SVG_REF": "_10.svg", "TEXT": ""},

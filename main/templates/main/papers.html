@@ -2,39 +2,21 @@
 {%  load static %}
 
 
-{% block east %}
-    {% include "main/menu.html" with title=title %}
-
-    <div class="list">
-        {% for x in data %}
-        {% include "main/mini.html" with a=x addclass="paper" %}
-        {% endfor %}
-    </div>
-
-<div class="middle">
-</div>
-
-{% endblock east %}
-
-
 {% block main %}
-<div class="container">
-    {% for x in data %}
-    <div class="item hidden" id="item__{{x.id}}" code="{{x.code}}"></div>
-    {% endfor %}
-</div>
+<div id="svg_area"></div>
 {% endblock main %}
 
 
-{% block custom_js %}
-<script>
-    _.defer(function () {
-        let co = new Chiaroscuro({{config|safe}})
-        {% for x in data %}
-        co.tables["{{x.code}}"] = {{x.data|safe}};
+{% block east %}
+    {% include "main/menu.html" with title=title %}
+    <div class="middle"></div>
+    <div class="list">
+        {% for k,v in config.data.items %}
+            {% include "main/objects/mini.html" with a=v addclass="paper" %}
         {% endfor %}
-        co.perform();
-        co.revealUI();
-    });
-</script>
-{% endblock custom_js %}
+    </div>
+{% endblock east %}
+
+
+
+

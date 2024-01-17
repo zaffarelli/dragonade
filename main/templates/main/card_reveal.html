@@ -3,17 +3,11 @@
 
 {% block east %}
     {% include "main/menu.html" with title=title %}
+    <div class="middle"></div>
 {% endblock east %}
 
 
 {% block main %}
+    <div id="svg_area"></div>
 {% endblock main %}
 
-{% block custom_js %}
-<script>
-    _.defer(function () {
-        let co = new Chiaroscuro({{config|safe}})
-        co.perform();
-    });
-</script>
-{% endblock custom_js %}

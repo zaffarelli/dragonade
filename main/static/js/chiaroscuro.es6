@@ -9,12 +9,12 @@ class Chiaroscuro {
             let mod = new Orologio(this, config);
             mod.register();
         }
-        if (config["modules"].includes("carta") == true) {
-            let mod = new Carta(this, config);
+        if (config["modules"].includes("carte") == true) {
+            let mod = new Carte(this, config);
             mod.register();
         }
-        if (config["modules"].includes("trumps") == true) {
-            let mod = new Trumps(this, config);
+        if (config["modules"].includes("risorse") == true) {
+            let mod = new Risorse(this, config);
             mod.register();
         }
         this.tables = []
@@ -79,6 +79,7 @@ class Chiaroscuro {
         me.registerSheets();
         me.registerLinks();
         me.registerMiniItems();
+        me.registerShowHide();
     }
 
     registerEditables() {
@@ -193,12 +194,15 @@ class Chiaroscuro {
             let code = $(this).attr('code');
             let words = miniid.split('__');
             let id = words[1];
-            console.log("mini click!")
+            console.log("mini item click!")
             $(".item").addClass('hidden');
             $(".mini").removeClass('mark');
             $("#mini__" + id).addClass('mark');
             $("#item__" + id).removeClass('hidden');
-            me.axiomaticPerformers.forEach( (m) => m.perform("#item__" + id, code) );
+            me.axiomaticPerformers.forEach( (m) => {
+                console.log(m.name)
+                m.perform(code)
+            });
 
             //me.pa.perform("#item__" + id, code);
             me.registerActions();
@@ -218,22 +222,54 @@ class Chiaroscuro {
         });
     }
 
+    registerShowHide() {
+        let me = this;
+        $('.showhide').off().on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            let tgt = $(this).attr("target");
+            if ($(this).hasClass("times")){
+                $("."+tgt).addClass("hidden");
+                $(".showhide.eye").removeClass("hidden");
+                $(".corpus").css("right","0");
+                me.resizeEvent();
+            }else if ($(this).hasClass("eye")){
+                $("."+tgt).removeClass("hidden");
+                $(".showhide.eye").addClass("hidden");
+                $(".corpus").css("right","30vw");
+                me.resizeEvent();
+            }
+        });
+    }
+
+    resizeEvent(){
+        let me= this;
+        _.forEach(me.modules,
+                (m) => {
+                    m.resizeEvent();
+                }
+            );
+    }
+
+
     perform() {
         let me = this;
         let no_global = true
         me.prepareAjax();
         me.registerActions();
-
+        //window.addEventListener('resize',resizeEvent);
         console.log("Global Perform");
         _.forEach(me.globalPerformers,
             (m) => {
                 m.perform();
                 no_global = false;
             }
+
         );
         if (no_global){
             me.revealUI();
         }
+        //me.resizeEvent();
     }
 
 }

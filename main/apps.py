@@ -6,8 +6,8 @@ class MainConfig(AppConfig):
     name = 'main'
 
     def ready(self):
-        pass
         import main.signals.autochtons
         import main.signals.travellers
         import main.signals.dreams
         import main.signals.equipement
+        import main.signals.draconic_arts
