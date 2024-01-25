@@ -28,13 +28,13 @@
     <div class="box label sub">{{a.features.tai_guideline}}</div>
     <div class="box subset">
         <div class="box label nw">Taille</div>
-        <div class="box info nw">
+        <div class="box info nw editable">
             <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__HEIGHT__value" srcval="{{a.features.HEIGHT|encoded_z|safe}}">
             {{a.features.HEIGHT}}
             </span>
         </div>
         <div class="box label ne">Poids</div>
-        <div class="box info ne">
+        <div class="box info ne editable">
             <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__WEIGHT__value" srcval="{{a.features.WEIGHT|encoded_z|safe}}">
             {{a.features.WEIGHT}}
             </span>

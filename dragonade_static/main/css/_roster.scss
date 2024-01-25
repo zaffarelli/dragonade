@@ -42,7 +42,6 @@
                         }
                         &.value{
                             display:inline-block;
-                            border:3px solid brown;
                             width:4ex;
                             text-align:center;
                             &:hover{
@@ -75,7 +74,6 @@
 
         &.magic, &.weapons{
             grid-template-columns: 75px 150px;
-            //grid-template-rows: repeat(6,1.5em);
             order:2;
             & .label {
                 grid-column: 1 / span 1;
@@ -188,6 +186,16 @@
     }
 
     & .spell{
+    }
+
+    & .box.info.editable{
+        & .btn_edit{
+            &.value{
+                border:2px solid brown;
+                border-radius:3px;
+                cursor:crosshair;
+           }
+        }
     }
 
 }
