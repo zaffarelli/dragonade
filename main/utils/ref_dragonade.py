@@ -44,11 +44,11 @@ CHARACTER_STATISTICS = {
     },
     "FEATURES": {
         "LIST":[
-            {"NAME": "HEI", "TEXT": "Hauteur en centimètres", "COMPUTE": "user_choice", "RATIONALE":"-"},
-            {"NAME": "WEI", "TEXT": "Poids en kilogrammes", "COMPUTE": "user_choice", "RATIONALE":"-"}
+            {"NAME": "HEIGHT", "TEXT": "Hauteur en centimètres", "COMPUTE": "user_choice", "RATIONALE":"-"},
+            {"NAME": "WEIGHT", "TEXT": "Poids en kilogrammes", "COMPUTE": "user_choice", "RATIONALE":"-"}
         ],
         "KNOWN":
-            ["HEI","WEI"]
+            ["HEIGHT","WEIGHT"]
     },
 
     "SKILLS": {
@@ -85,12 +85,14 @@ CHARACTER_STATISTICS = {
                 {"NAME": "WEA_27", "TEXT": "Javelot"},
                 {"NAME": "WEA_28", "TEXT": "Lance courte"},
                 {"NAME": "WEA_29", "TEXT": "Massette"},
-                {"NAME": "WEA_30", "TEXT": "Masse Lourde"}
+                {"NAME": "WEA_30", "TEXT": "Masse Lourde"},
+                {"NAME": "WEA_31", "TEXT": "Pugilat"}
             ],
             "KNOWN": [
-                "WEA_O1","WEA_02","WEA_O3","WEA_04","WEA_O5","WEA_06","WEA_O7","WEA_08","WEA_O9","WEA_10",
+                "WEA_01","WEA_02","WEA_03","WEA_04","WEA_05","WEA_06","WEA_07","WEA_08","WEA_09","WEA_10",
                 "WEA_11","WEA_12","WEA_13","WEA_14","WEA_15","WEA_16","WEA_17","WEA_18","WEA_19","WEA_20",
-                "WEA_21","WEA_22","WEA_23","WEA_24","WEA_25","WEA_26","WEA_27","WEA_28","WEA_29","WEA_30"
+                "WEA_21","WEA_22","WEA_23","WEA_24","WEA_25","WEA_26","WEA_27","WEA_28","WEA_29","WEA_30",
+                "WEA_31"
             ]               
         },
         "GENERIC": {
@@ -112,7 +114,7 @@ CHARACTER_STATISTICS = {
                 {"NAME": "GEN_13", "TEXT": "Vigilance"}
             ], 
             "KNOWN": [
-                "GEN_O1","GEN_02","GEN_O3","GEN_04","GEN_O5","GEN_06","GEN_O7","GEN_08","GEN_O9","GEN_10",
+                "GEN_01","GEN_02","GEN_03","GEN_04","GEN_05","GEN_06","GEN_07","GEN_08","GEN_09","GEN_10",
                 "GEN_11","GEN_12","GEN_13"
             ]   
         },
@@ -139,7 +141,7 @@ CHARACTER_STATISTICS = {
                 {"NAME": "PEC_17", "TEXT": "Travestissement"}
             ],
             "KNOWN": [
-                "PEC_O1", "PEC_02", "PEC_O3", "PEC_04", "PEC_O5", "PEC_06", "PEC_O7", "PEC_08", "PEC_O9", "PEC_10",
+                "PEC_01", "PEC_02", "PEC_03", "PEC_04", "PEC_05", "PEC_06", "PEC_07", "PEC_08", "PEC_09", "PEC_10",
                 "PEC_11", "PEC_12", "PEC_13", "PEC_14", "PEC_15", "PEC_16", "PEC_17"
             ]
         },
@@ -159,7 +161,7 @@ CHARACTER_STATISTICS = {
                 {"NAME": "SPE_10", "TEXT": "Serrurerie"}
             ],
             "KNOWN": [
-                "SPE_O1", "SPE_02", "SPE_O3", "SPE_04", "SPE_O5", "SPE_06", "SPE_O7", "SPE_08", "SPE_O9", "SPE_10"             
+                "SPE_01", "SPE_02", "SPE_03", "SPE_04", "SPE_05", "SPE_06", "SPE_07", "SPE_08", "SPE_09", "SPE_10"
             ]
         },
         "KNOWLEDGE": {
@@ -177,7 +179,7 @@ CHARACTER_STATISTICS = {
                 {"NAME": "KNO_10", "TEXT": "Zoologie"}
             ],
             "KNOWN": [
-                "KNO_O1", "KNO_02", "KNO_O3", "KNO_04", "KNO_O5", "KNO_06", "KNO_O7", "KNO_08", "KNO_O9", "KNO_10"
+                "KNO_01", "KNO_02", "KNO_03", "KNO_04", "KNO_05", "KNO_06", "KNO_07", "KNO_08", "KNO_09", "KNO_10"
             ]
         },
         "DRACONIC": {
@@ -192,7 +194,7 @@ CHARACTER_STATISTICS = {
                 {"NAME": "DRA_06", "TEXT": "Statique"}
             ],
             "KNOWN": [
-                "DRA_O1", "DRA_02", "DRA_O3", "DRA_04", "DRA_O5", "DRA_06"
+                "DRA_01", "DRA_02", "DRA_03", "DRA_04", "DRA_05", "DRA_06"
             ]
         }
     }
@@ -451,14 +453,13 @@ def scon_table_json():
 
 
 def comp_table_json(cat=""):
-    print(cat,)
     table = {
-        "title": f"{CHARACTER_STATISTICS["SKILLS"][cat]["NAME"]}",
+        "title": CHARACTER_STATISTICS["SKILLS"][cat.upper()]["LIST"]["NAME"],
         "cols": ["Compétence"],
         "rows": [],
         "values": [],
         "options": {"cell_widths": [4], "cell_height": 0.75,
-                    "rows_header": CHARACTER_STATISTICS["SKILLS"][cat]["DEFAULT"],
+                    "rows_header": CHARACTER_STATISTICS["SKILLS"][cat.upper()]["DEFAULT"],
                     "even_odd": True}
     }
     rows = []

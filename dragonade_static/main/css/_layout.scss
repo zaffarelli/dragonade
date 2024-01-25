@@ -109,29 +109,38 @@ body {
 
     & .options{
         @include dragonade_panel;
-        order:1;
-        flex: 1 1 auto;
+        margin:auto;
+        display:block;
+
+
         text-align:center;
     }
 }
 
 #target_ed, #ed{
     display:block;
-    width:60ex;
+    width:50ex;
     height:6em;
-    margin:10px;
+    margin:auto;
     background:#00000070;
-    border:1px groove white;
+    border:1px groove #F0F0F0;
     padding:5px;
-    border-radius:2px 5px 2px 5px;
+    border-radius:5px;
     color:white;
 }
 
-button{
+#target_ed{
+    border-color:#101010;
+    height:1.2em;
+}
+
+.btn{
     display:block;
-    width:60ex;
-    height:2.6em;
-    margin:10px;
+    margin:auto;
+    width:20ex;
+    height:1.2em;
+    padding:5px;
+    border-radius:5px;
 }
 
 .menu{
@@ -143,17 +152,17 @@ button{
     justify-content: space-around;
     align-items: stretch;
     align-content: flex-end;
-    gap:0 40px;
+    gap:0 10px;
 
     & .menu_entry{
         border-radius:5px;
         border: 2px solid #808080;
         padding:5px;
-        flex: 0 0 50px;
+        flex: 0 0 30px;
         background:#603040;
         text-align:center;
         & img{
-            height:1cm;
+            height:0.8cm;
         }
         &.off{
             background:#303030C0;

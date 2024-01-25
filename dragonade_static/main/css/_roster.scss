@@ -42,7 +42,7 @@
                         }
                         &.value{
                             display:inline-block;
-                            border:2px solid black;
+                            border:3px solid brown;
                             width:4ex;
                             text-align:center;
                             &:hover{
@@ -73,7 +73,24 @@
             }
         }
 
-        &.base{
+        &.magic, &.weapons{
+            grid-template-columns: 75px 150px;
+            //grid-template-rows: repeat(6,1.5em);
+            order:2;
+            & .label {
+                grid-column: 1 / span 1;
+
+            }
+            & .info {
+                grid-column: 2 / span 1;
+            }
+            & .header {
+                grid-column: 1 / span 2;
+            }
+        }
+
+
+        &.base, &.magic, &.weapons {
             grid-template-columns: 50px 25px 25px 50px 75px 75px 75px 75px;
             grid-template-rows: repeat(10,1.5em);
             order:1;

@@ -76,6 +76,7 @@ class Chiaroscuro {
     registerActions() {
         let me = this;
         me.registerEditables();
+        me.registerValuePush();
         me.registerSheets();
         me.registerLinks();
         me.registerMiniItems();
@@ -113,13 +114,8 @@ class Chiaroscuro {
                             dataType: 'json',
                             success: function (answer) {
                                 $('#roster_' + answer.id).html(answer.new_roster);
-                                $("#ssa_" + answer.id).addClass('hidden');
-                                $("#sss_" + answer.id).removeClass('hidden');
-                                $("#ssm_" + answer.id).removeClass('hidden');
-                                $("#ssg_" + answer.id).removeClass('hidden');
-                                $("#ssp_" + answer.id).removeClass('hidden');
-                                $("#ssc_" + answer.id).removeClass('hidden');
-                                $("#ssd_" + answer.id).removeClass('hidden');
+                                $(".for_display_" + answer.id).addClass('hidden');
+                                $(".for_edit_" + answer.id).removeClass('hidden');
                                 me.registerActions();
                             },
                             error: function (answer) {
@@ -133,14 +129,18 @@ class Chiaroscuro {
                 }
             } else if (action == "value") {
                 let params = id.split("__");
+                let bvalue = $(this).attr("srcval");
+                console.log(bvalue)
+                let value = window.atob(bvalue);
+                console.log(value)
                 if (params.length > 3) {
                     if (e.ctrlKey) {
                         change = params[3];
                     }
                     let data = params[0] + "__" + params[1] + "__" + params[2] + "__" + change;
-                    $("#target_ed").html(data);
-                    $("#ed").html(params[0]);
-
+                    $("#target_ed").val(data);
+                    $("#ed").val(value);
+                    me.registerActions();
                 } else {
                     console.log("Wrong parameters number...")
                 }
@@ -149,6 +149,45 @@ class Chiaroscuro {
             }
         });
     }
+
+    registerValuePush() {
+        let me = this;
+        $('#valuepush_ed').off().on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            let new_value = $('#ed').val()
+            console.log(new_value)
+            let refs = $("#target_ed").val();
+
+
+            $.ajax({
+                url: 'ajax/value_push',
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: {
+                    "new_value": window.btoa(new_value),
+                    "refs": refs
+                },
+                dataType: 'json',
+                success: function (answer) {
+                    $('#roster_' + answer.id).html(answer.new_roster);
+                    $(".for_display_" + answer.id).addClass('hidden');
+                    $(".for_edit_" + answer.id).removeClass('hidden');
+                    $("#target_ed").val("");
+                    $("#ed").val("");
+                    me.registerActions();
+                },
+                error: function (answer) {
+                    console.error('Error... ' + answer);
+                },
+            });
+        });
+    }
+
+
 
     registerSheets() {
         let me = this;
@@ -165,6 +204,8 @@ class Chiaroscuro {
             $("#roster_" + id + " .sheet").removeClass('hidden');
             console.log("#roster_" + id + ".sheet")
             //$("#sb_"+id).removeClass('hidden');
+            $(".for_display_" + id).removeClass('hidden');
+            $(".for_edit_" + id).addClass('hidden');
             me.registerActions();
         });
         $('.skill_switch').off().on('click', function (e) {
@@ -173,13 +214,8 @@ class Chiaroscuro {
             let miniid = $(this).attr('id');
             let words = miniid.split('_');
             let id = words[0];
-            $("#ssa_" + id).toggleClass('hidden');
-            $("#sss_" + id).toggleClass('hidden');
-            $("#ssm_" + id).toggleClass('hidden');
-            $("#ssg_" + id).toggleClass('hidden');
-            $("#ssp_" + id).toggleClass('hidden');
-            $("#ssc_" + id).toggleClass('hidden');
-            $("#ssd_" + id).toggleClass('hidden');
+            $(".for_display_" + id).toggleClass('hidden');
+            $(".for_edit_" + id).toggleClass('hidden');
             me.registerActions();
         });
     }
@@ -199,6 +235,8 @@ class Chiaroscuro {
             $(".mini").removeClass('mark');
             $("#mini__" + id).addClass('mark');
             $("#item__" + id).removeClass('hidden');
+            $(".for_display_" + id).removeClass('hidden');
+            $(".for_edit_" + id).addClass('hidden');
             me.axiomaticPerformers.forEach( (m) => {
                 console.log(m.name)
                 m.perform(code)

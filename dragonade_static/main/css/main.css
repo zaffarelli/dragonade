@@ -68,7 +68,6 @@ span.future {
             color: orangered; }
           .roster .sheet .box.info.editable .btn_edit.value, .roster .spell .box.info.editable .btn_edit.value {
             display: inline-block;
-            border: 2px solid black;
             width: 4ex;
             text-align: center; }
             .roster .sheet .box.info.editable .btn_edit.value:hover, .roster .spell .box.info.editable .btn_edit.value:hover {
@@ -85,54 +84,63 @@ span.future {
         grid-column: 1 / span 2; }
       .roster .sheet.skills.martiales, .roster .spell.skills.martiales {
         order: 5; }
-    .roster .sheet.base, .roster .spell.base {
+    .roster .sheet.magic, .roster .sheet.weapons, .roster .spell.magic, .roster .spell.weapons {
+      grid-template-columns: 75px 150px;
+      order: 2; }
+      .roster .sheet.magic .label, .roster .sheet.weapons .label, .roster .spell.magic .label, .roster .spell.weapons .label {
+        grid-column: 1 / span 1; }
+      .roster .sheet.magic .info, .roster .sheet.weapons .info, .roster .spell.magic .info, .roster .spell.weapons .info {
+        grid-column: 2 / span 1; }
+      .roster .sheet.magic .header, .roster .sheet.weapons .header, .roster .spell.magic .header, .roster .spell.weapons .header {
+        grid-column: 1 / span 2; }
+    .roster .sheet.base, .roster .sheet.magic, .roster .sheet.weapons, .roster .spell.base, .roster .spell.magic, .roster .spell.weapons {
       grid-template-columns: 50px 25px 25px 50px 75px 75px 75px 75px;
       grid-template-rows: repeat(10, 1.5em);
       order: 1;
       flex: 0 1 auto; }
-      .roster .sheet.base .header, .roster .spell.base .header {
+      .roster .sheet.base .header, .roster .sheet.magic .header, .roster .sheet.weapons .header, .roster .spell.base .header, .roster .spell.magic .header, .roster .spell.weapons .header {
         grid-column: 1 / span 8; }
-      .roster .sheet.base .label, .roster .spell.base .label {
+      .roster .sheet.base .label, .roster .sheet.magic .label, .roster .sheet.weapons .label, .roster .spell.base .label, .roster .spell.magic .label, .roster .spell.weapons .label {
         grid-column: 1 / span 4; }
-        .roster .sheet.base .label.sub, .roster .spell.base .label.sub {
+        .roster .sheet.base .label.sub, .roster .sheet.magic .label.sub, .roster .sheet.weapons .label.sub, .roster .spell.base .label.sub, .roster .spell.magic .label.sub, .roster .spell.weapons .label.sub {
           grid-row: span 2;
           align-self: stretch;
           vertical-align: middle; }
-        .roster .sheet.base .label.nw, .roster .spell.base .label.nw {
+        .roster .sheet.base .label.nw, .roster .sheet.magic .label.nw, .roster .sheet.weapons .label.nw, .roster .spell.base .label.nw, .roster .spell.magic .label.nw, .roster .spell.weapons .label.nw {
           grid-column: 1 / span 1; }
-        .roster .sheet.base .label.ne, .roster .spell.base .label.ne {
+        .roster .sheet.base .label.ne, .roster .sheet.magic .label.ne, .roster .sheet.weapons .label.ne, .roster .spell.base .label.ne, .roster .spell.magic .label.ne, .roster .spell.weapons .label.ne {
           grid-column: 3 / span 1; }
-        .roster .sheet.base .label.sw, .roster .spell.base .label.sw {
+        .roster .sheet.base .label.sw, .roster .sheet.magic .label.sw, .roster .sheet.weapons .label.sw, .roster .spell.base .label.sw, .roster .spell.magic .label.sw, .roster .spell.weapons .label.sw {
           grid-column: 1 / span 1; }
-        .roster .sheet.base .label.se, .roster .spell.base .label.se {
+        .roster .sheet.base .label.se, .roster .sheet.magic .label.se, .roster .sheet.weapons .label.se, .roster .spell.base .label.se, .roster .spell.magic .label.se, .roster .spell.weapons .label.se {
           grid-column: 3 / span 1; }
-        .roster .sheet.base .label.full, .roster .spell.base .label.full {
+        .roster .sheet.base .label.full, .roster .sheet.magic .label.full, .roster .sheet.weapons .label.full, .roster .spell.base .label.full, .roster .spell.magic .label.full, .roster .spell.weapons .label.full {
           grid-column: 1 / span 8; }
-          .roster .sheet.base .label.full.large, .roster .spell.base .label.full.large {
+          .roster .sheet.base .label.full.large, .roster .sheet.magic .label.full.large, .roster .sheet.weapons .label.full.large, .roster .spell.base .label.full.large, .roster .spell.magic .label.full.large, .roster .spell.weapons .label.full.large {
             font-size: 2em;
             grid-row: span 2; }
-        .roster .sheet.base .label.left, .roster .spell.base .label.left {
+        .roster .sheet.base .label.left, .roster .sheet.magic .label.left, .roster .sheet.weapons .label.left, .roster .spell.base .label.left, .roster .spell.magic .label.left, .roster .spell.weapons .label.left {
           grid-column: 1 / span 4;
           grid-row: 1 / span 2; }
-        .roster .sheet.base .label.mid, .roster .spell.base .label.mid {
+        .roster .sheet.base .label.mid, .roster .sheet.magic .label.mid, .roster .sheet.weapons .label.mid, .roster .spell.base .label.mid, .roster .spell.magic .label.mid, .roster .spell.weapons .label.mid {
           grid-column: 5  / span 2;
           grid-row: 1 / span 2; }
-        .roster .sheet.base .label.right, .roster .spell.base .label.right {
+        .roster .sheet.base .label.right, .roster .sheet.magic .label.right, .roster .sheet.weapons .label.right, .roster .spell.base .label.right, .roster .spell.magic .label.right, .roster .spell.weapons .label.right {
           grid-column: 7  / span 2;
           grid-row: 1 / span 2; }
-      .roster .sheet.base .info, .roster .spell.base .info {
+      .roster .sheet.base .info, .roster .sheet.magic .info, .roster .sheet.weapons .info, .roster .spell.base .info, .roster .spell.magic .info, .roster .spell.weapons .info {
         grid-column: 5 / span 4; }
-        .roster .sheet.base .info.nw, .roster .spell.base .info.nw {
+        .roster .sheet.base .info.nw, .roster .sheet.magic .info.nw, .roster .sheet.weapons .info.nw, .roster .spell.base .info.nw, .roster .spell.magic .info.nw, .roster .spell.weapons .info.nw {
           grid-column: 2 / span 1; }
-        .roster .sheet.base .info.ne, .roster .spell.base .info.ne {
+        .roster .sheet.base .info.ne, .roster .sheet.magic .info.ne, .roster .sheet.weapons .info.ne, .roster .spell.base .info.ne, .roster .spell.magic .info.ne, .roster .spell.weapons .info.ne {
           grid-column: 4 / span 1; }
-        .roster .sheet.base .info.sw, .roster .spell.base .info.sw {
+        .roster .sheet.base .info.sw, .roster .sheet.magic .info.sw, .roster .sheet.weapons .info.sw, .roster .spell.base .info.sw, .roster .spell.magic .info.sw, .roster .spell.weapons .info.sw {
           grid-column: 2 / span 1; }
-        .roster .sheet.base .info.se, .roster .spell.base .info.se {
+        .roster .sheet.base .info.se, .roster .sheet.magic .info.se, .roster .sheet.weapons .info.se, .roster .spell.base .info.se, .roster .spell.magic .info.se, .roster .spell.weapons .info.se {
           grid-column: 4 / span 1; }
-      .roster .sheet.base .large, .roster .spell.base .large {
+      .roster .sheet.base .large, .roster .sheet.magic .large, .roster .sheet.weapons .large, .roster .spell.base .large, .roster .spell.magic .large, .roster .spell.weapons .large {
         grid-row: span 4; }
-      .roster .sheet.base .subset, .roster .spell.base .subset {
+      .roster .sheet.base .subset, .roster .sheet.magic .subset, .roster .sheet.weapons .subset, .roster .spell.base .subset, .roster .spell.magic .subset, .roster .spell.weapons .subset {
         border: 1px solid #404040;
         gap: 1px;
         padding: 0;
@@ -141,7 +149,7 @@ span.future {
         display: grid;
         grid-template-columns: subgrid;
         grid-template-rows: subgrid; }
-      .roster .sheet.base .triset, .roster .spell.base .triset {
+      .roster .sheet.base .triset, .roster .sheet.magic .triset, .roster .sheet.weapons .triset, .roster .spell.base .triset, .roster .spell.magic .triset, .roster .spell.weapons .triset {
         border: 1px solid #404040;
         gap: 1px;
         padding: 0;
@@ -150,6 +158,10 @@ span.future {
         display: grid;
         grid-template-columns: subgrid;
         grid-template-rows: subgrid; }
+  .roster .box.info.editable .btn_edit.value {
+    border: 2px solid brown;
+    border-radius: 3px;
+    cursor: crosshair; }
 
 body {
   margin: 0;
@@ -255,26 +267,32 @@ body {
     box-shadow: 0 0 3px #402040;
     color: white;
     font-family: Neucha;
-    order: 1;
-    flex: 1 1 auto;
+    margin: auto;
+    display: block;
     text-align: center; }
 
 #target_ed, #ed {
   display: block;
-  width: 60ex;
+  width: 50ex;
   height: 6em;
-  margin: 10px;
+  margin: auto;
   background: #00000070;
-  border: 1px groove white;
+  border: 1px groove #F0F0F0;
   padding: 5px;
-  border-radius: 2px 5px 2px 5px;
+  border-radius: 5px;
   color: white; }
 
-button {
+#target_ed {
+  border-color: #101010;
+  height: 1.2em; }
+
+.btn {
   display: block;
-  width: 60ex;
-  height: 2.6em;
-  margin: 10px; }
+  margin: auto;
+  width: 20ex;
+  height: 1.2em;
+  padding: 5px;
+  border-radius: 5px; }
 
 .menu {
   margin: 0;
@@ -292,16 +310,16 @@ button {
   justify-content: space-around;
   align-items: stretch;
   align-content: flex-end;
-  gap: 0 40px; }
+  gap: 0 10px; }
   .menu .menu_entry {
     border-radius: 5px;
     border: 2px solid #808080;
     padding: 5px;
-    flex: 0 0 50px;
+    flex: 0 0 30px;
     background: #603040;
     text-align: center; }
     .menu .menu_entry img {
-      height: 1cm; }
+      height: 0.8cm; }
     .menu .menu_entry.off {
       background: #303030C0; }
     .menu .menu_entry:hover {

@@ -18,7 +18,18 @@
             <div class="box label se">Voie</div>
             <div class="box info se">{{i.path}}</div>
         </div>
+        <div class="box label sub"></div>
+        <div class="box subset">
+            <div class="box label nw">Portée</div>
+            <div class="box info nw">{{i.range}}</div>
+            <div class="box label ne">Durée</div>
+            <div class="box info ne">{{i.duration}}</div>
+            <div class="box label sw">Résistance</div>
+            <div class="box info sw"></div>
+            <div class="box label se">Source</div>
+            <div class="box info se">{{i.source}}</div>
+        </div>
         <div class="box label large">Description</div>
-        <div class="box info large">{{i.description}}</div>
+        <div class="box info large">{{i.description}} <br/>{i.source}</div>
     </div>
 </div>

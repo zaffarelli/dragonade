@@ -39,71 +39,10 @@ class Carte extends Modulo {
 
 
 
-    formatXml(xml) {
-        let formatted = '';
-        xml = xml.replace(/[\u00A0-\u2666]/g, function (c) {
-            return '&#' + c.charCodeAt(0) + ';';
-        })
-        let reg = /(>)(<)(\/*)/g;
-        /**/
-        xml = xml.replace(reg, '$1\r\n$2$3');
-        let pad = 0;
-        jQuery.each(xml.split('\r\n'), function (index, node) {
-            let indent = 0;
-            if (node.match(/.+<\/\w[^>]*>$/)) {
-                indent = 0;
-            } else if (node.match(/^<\/\w/)) {
-                if (pad != 0) {
-                    pad -= 1;
-                }
-            } else if (node.match(/^<\w[^>]*[^\/]>.*$/)) {
-                indent = 1;
-            } else {
-                indent = 0;
-            }
-
-            let padding = '';
-            for (let i = 0; i < pad; i++) {
-                padding += '  ';
-            }
-
-            formatted += padding + node + '\r\n';
-            pad += indent;
-        });
-
-        return formatted;
-    }
 
 
-    saveSVG() {
-        let me = this;
-        me.svg.selectAll('.do_not_print').attr('opacity', 0);
-        let base_svg = d3.select("#d3area svg").html();
-        let flist = '<style>';
-        for (let f of me.config['fontset']) {
-            flist += '@import url("https://fonts.googleapis.com/css2?family=' + f + '");';
-        }
-        flist += '</style>';
-        let lpage = "";
-        let exportable_svg = '<?xml version="1.0" encoding="ISO-8859-1" ?> \
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"> \
-<svg class="fics_sheet" \
-xmlns="http://www.w3.org/2000/svg" version="1.1" \
-xmlns:xlink="http://www.w3.org/1999/xlink"> \
-' + flist + base_svg + '</svg>';
 
-        if (me.page == 0) {
-            lpage = "_recto";
-        } else {
-            lpage = "_verso"
-        }
-        let fname = me.data['rid'] + lpage + ".svg"
-        let nuke = document.createElement("a");
-        nuke.href = 'data:application/octet-stream;base64,' + btoa(me.formatXml(exportable_svg));
-        nuke.setAttribute("download", fname);
-        nuke.click();
-        me.svg.selectAll('.do_not_print').attr('opacity', 1);
-    }
+
 
 
     createPath(str,u){
@@ -143,12 +82,15 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
             .attr('opacity',0.5)
         ;
 
+
+        me.drawPrint();
+
         if (me.debug == true) {
             me.xunits = 28;
             me.yunits = 20;
 
             let verticals = me.back.append('g')
-                .attr('class', 'verticals')
+                .attr('class', 'verticals do_not_print')
                 .selectAll("g")
                 .data(d3.range(1, me.xunits+2, 1));
             verticals.enter()
@@ -166,7 +108,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
                 .style('stroke-dasharray', '3 7')
                 .style('stroke-width', '0.25pt');
             let horizontals = me.back.append('g')
-                .attr('class', 'horizontals')
+                .attr('class', 'horizontals do_not_print')
                 .selectAll("g")
                 .data(d3.range(1, me.yunits+2, 1));
             horizontals.enter()
@@ -641,6 +583,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
         let me = this;
         return me.paperY(parseInt(i/rowlen))
     }
+
+
 
 
     drawAll(){

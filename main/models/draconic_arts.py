@@ -115,6 +115,7 @@ class SpellRoll(models.IntegerChoices):
                 {"NAME": "DRA_06", "TEXT": "Statique"}
 """
 
+
 class Spell(models.Model):
     name = models.CharField(default="", max_length=256)
     rid = models.CharField(default="xxx", max_length=256, blank=True)
@@ -213,10 +214,11 @@ class Spell(models.Model):
 class SpellAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ["name"]
-    list_display = ["name" ,"roll" ,"original_casting_cost", "conversion", "ground_charge", "str_charges",
-                     "path", "ref", "category", "source"]
-    list_editable = ["original_casting_cost","roll" , "ground_charge", "path", "ref", "category", "source" ]
-    list_filter = ["path", "category","diff","dps","ref", "original_casting_cost", "ground_charge", "elemental_charge", "emanation_charge",
-                   "consistency_charge", "hour_charge"]
+    list_display = ["name", "roll", "original_casting_cost", "conversion", "ground_charge", "str_charges",
+                    "path", "ref", "category", "source"]
+    list_editable = ["original_casting_cost", "roll", "ground_charge", "path", "ref", "category", "source"]
+    list_filter = ["path", "category", "diff", "dps", "ref", "original_casting_cost", "ground_charge",
+                   "elemental_charge", "emanation_charge",
+                   "consistency_charge", "hour_charge", "source"]
     search_fields = ["name", "description"]
     actions = [refix]

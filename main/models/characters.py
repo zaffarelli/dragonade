@@ -15,6 +15,7 @@ class Character(models.Model):
     rid = models.CharField(max_length=256, default="", blank=True)
     randomize = models.BooleanField(default=False, blank=True)
     title = models.CharField(max_length=256, default="", blank=True)
+    aka = models.CharField(max_length=256, default="", blank=True)
     group = models.CharField(max_length=256, default="", blank=True)
     team = models.CharField(max_length=256, default="", blank=True)
     factions = models.CharField(max_length=256, default="", blank=True)
@@ -63,24 +64,27 @@ class Character(models.Model):
             offset = 1
         elif chg == 'minus':
             offset = -1
+
         if offset:
             val = self.value_for(att)
             val += offset
             result = self.overwrite_for(att, val)
+            #print(self.name, att, chg, ":", result)
             if result:
                 self.updateFromStruct()
                 self.save()
         return result
 
-    def applyValuePop(self, att):
-        self.export_to_json()
-        result = ""
-        offset = 0
-        result = self.value_for(att)
-        return result
+    # def applyValuePop(self, att):
+    #     self.export_to_json()
+    #     result = ""
+    #     offset = 0
+    #     result = self.value_for(att)
+    #     return result
 
     def applyValuePush(self, att, val):
         self.export_to_json()
+        # print("Name:",self.name,att,val)
         result = self.overwrite_for(att, val)
         if result:
             self.updateFromStruct()
@@ -96,10 +100,13 @@ class Character(models.Model):
         for key, category in CHARACTER_STATISTICS['SKILLS'].items():
             list = []
             for k in category['LIST']:
-                print("++++++++++++++++++++++++", key, k['NAME'])
+                # print("++++++++++++++++++++++++", key, k['NAME'])
                 vs = f"{self.data['skills'][key.lower()][k['NAME']]}"
                 list.append(vs)
             setattr(self, f"skills_{key.lower()}", " ".join(list))
+
+        self.height = int(self.data['features']['HEIGHT'])
+        self.weight = int(self.data['features']['WEIGHT'])
 
     def fix(self):
         self.make_rid()
@@ -122,7 +129,7 @@ class Character(models.Model):
             self.total_attributes += self.data['attributes'][a]
         self.indice_skills = 0
         for skill_cat in self.data['skills']:
-            print(self.data['skills'][skill_cat])
+            # print(self.data['skills'][skill_cat])
             for k, v in self.data['skills'][skill_cat].items():
                 # print(k,v)
                 c, txt = skill_cost(k, v)
@@ -188,7 +195,7 @@ class Character(models.Model):
         self.ref_to_struct('SKILLS_DRACONIC')
 
         for k in CHARACTER_STATISTICS['SECONDARIES']['LIST']:
-            print(k)
+            # print(k)
             val, errors = self.calcCompute(k['COMPUTE'])
             if len(errors) == 0:
                 self.data['secondaries'][k['NAME']] = val
@@ -209,8 +216,8 @@ class Character(models.Model):
         self.data['misc']['sre'] = self.sre
         self.data['misc']['tre'] = self.tre
 
-        self.data['features']['height'] = self.height
-        self.data['features']['weight'] = self.weight
+        self.data['features']['HEIGHT'] = self.height
+        self.data['features']['WEIGHT'] = self.weight
         self.data['features']['imc'] = self.imc
         self.data['features']['tai_guideline'] = self.tai_guideline
 
@@ -337,9 +344,10 @@ class Character(models.Model):
         # from main.utils.ref_dragonade import CHARACTER_STATISTICS
         result = False
         where = self.index_for(str)
+        print("where:",where,"str:",str,"val:",val)
         if len(where) > 0:
             words = where.split(':')
-            print("OVERWRITE_FOR", words)
+            # print("OVERWRITE_FOR", words)
             if len(words) == 1:
                 self.data[words[0].lower()][str] = val
                 result = True
@@ -350,27 +358,30 @@ class Character(models.Model):
 
     def index_for(self, str):
         from main.utils.ref_dragonade import CHARACTER_STATISTICS
-        result = ""
         if str.upper() in CHARACTER_STATISTICS['ATTRIBUTES']['KNOWN']:
-            result += "ATTRIBUTES"
+            result = "ATTRIBUTES"
         elif str.upper() in CHARACTER_STATISTICS['SKILLS']['WEAPONS']['KNOWN']:
-            result += "SKILLS:WEAPONS"
+            result = "SKILLS:WEAPONS"
         elif str.upper() in CHARACTER_STATISTICS['SKILLS']['GENERIC']['KNOWN']:
-            result += "SKILLS:GENERIC"
+            result = "SKILLS:GENERIC"
         elif str.upper() in CHARACTER_STATISTICS['SKILLS']['PECULIAR']['KNOWN']:
-            result += "SKILLS:PECULIAR"
+            result = "SKILLS:PECULIAR"
         elif str.upper() in CHARACTER_STATISTICS['SKILLS']['SPECIALIZED']['KNOWN']:
-            result += "SKILLS:SPECIALIZED"
+            result = "SKILLS:SPECIALIZED"
         elif str.upper() in CHARACTER_STATISTICS['SKILLS']['KNOWLEDGE']['KNOWN']:
-            result += "SKILLS:KNOWLEDGE"
+            result = "SKILLS:KNOWLEDGE"
         elif str.upper() in CHARACTER_STATISTICS['SKILLS']['DRACONIC']['KNOWN']:
-            result += "SKILLS:DRACONIC"
+            result = "SKILLS:DRACONIC"
         elif str.upper() in CHARACTER_STATISTICS['SECONDARIES']['KNOWN']:
-            result += "SECONDARIES"
+            result = "SECONDARIES"
         elif str.upper() in CHARACTER_STATISTICS['MISCELLANEOUS']['KNOWN']:
-            result += "MISCELLANEOUS"
+            result = "MISCELLANEOUS"
         elif str.upper() in CHARACTER_STATISTICS['FEATURES']['KNOWN']:
-            result += "FEATURES"
+            result = "FEATURES"
+        else:
+            #print(f"Index_for {str.upper()} was not found [{result}]")
+            #print(CHARACTER_STATISTICS['SKILLS']['PECULIAR']['KNOWN'])
+            result = ""
         return result
 
     def json_dump(self):

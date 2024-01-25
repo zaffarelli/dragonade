@@ -193,3 +193,11 @@ def as_elemental_charge(value):
     if value>0:
         result = f'<div class="minicard" title="{value}"><img src="static/main/svg/ed_{value}.svg" style="display:inline-block; width:30px;"></div>'
     return result
+
+@register.filter(name='encoded_z')
+def encoded_z(value):
+    import base64
+    x = base64.b64encode(bytes(str(value),'utf-8'))
+    y = str(x).replace("b'","").replace("'","")
+    #print(value,y,type(x))
+    return y

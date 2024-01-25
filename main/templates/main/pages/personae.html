@@ -12,7 +12,7 @@
     <div class="list">
     {% for x in characters %}
         <div class="minisheet" id="mini__{{x.id}}" code="{{x.code}}" title="{{x.code}}">
-            {{x.name}}
+            {{x.name}} (id:{{x.id}})
         </div>
 
     {% endfor %}
