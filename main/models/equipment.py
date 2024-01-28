@@ -14,6 +14,8 @@ class Equipment(models.Model):
     plus_dom = models.IntegerField(default=0, null=True, blank=True)
     plus_dom_2m = models.IntegerField(default=0, null=True, blank=True)
     prot = models.IntegerField(default=0, null=True, blank=True)
+    cover = models.CharField(default="", max_length=64, blank=True)
+    materiaux = models.CharField(default="", max_length=64, blank=True)
     related_skill = models.CharField(default="", max_length=8, blank=True)
     related_attribute = models.CharField(default="", max_length=8, blank=True)
     malus_armure = models.IntegerField(default=0, null=True, blank=True)
@@ -22,7 +24,10 @@ class Equipment(models.Model):
     description = models.TextField(default="", max_length=1024, blank=True)
     price = models.FloatField(default=0.1, blank=True)
     quantity = models.FloatField(default=0.1, blank=True)
-
+    mod_ini = models.IntegerField(default=0, blank=True)
+    mod_dom = models.IntegerField(default=0, blank=True)
+    mod_att = models.IntegerField(default=0, blank=True)
+    special = models.BooleanField(default=False, blank=True)
 
     def fix(self):
         self.rid = as_rid(f"{self.name}_{self.category}")
@@ -48,9 +53,10 @@ def cat_from_first(modeladmin, request, queryset):
 class EquipmentAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ['category', 'related_attribute', 'name']
-    list_display = ["name", "category", "plus_dom", "plus_dom_2m", "force_min", "prot", "malus_armure", "related_skill",
+    list_display = ["name", "rid", "cover", "materiaux", "plus_dom", "plus_dom_2m", "force_min", "prot", "malus_armure", "related_skill",
                     "related_attribute", "enc", "price"]
-    list_editable = ["category",  "enc", "price"]
-    list_filter = ["category", "related_attribute", "related_skill"]
+    list_editable = [ "cover", "materiaux",  "prot", "malus_armure"]
+    list_filter = ["category", "related_attribute", "related_skill", "special"]
+    search_fields = ['name']
     actions = [refix, cat_from_first]
 

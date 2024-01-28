@@ -13,11 +13,12 @@ class Carte extends Modulo {
         me.supertitle = "";
         me.step = 50;
         me.fontSize = 0.3*me.step + "pt";
+        me.basefont = "Wellfleet";
         // Drawing Size
         me.height = me.step * 21.0
         me.width = me.step * 29.7
-        me.ox = 0.85
-        me.oy = 0.5
+        me.ox = 0
+        me.oy = 0
         // View Size
         me.w = parseInt($(me.parent).css('width'));
         me.h = parseInt($(me.parent).css('height'));
@@ -104,7 +105,7 @@ class Carte extends Modulo {
                 .attr('y1', me.oy*me.step)
                 .attr('y2', (me.oy+me.yunits+1) * me.step)
                 .style('fill', 'transparent')
-                .style('stroke', '#90a090')
+                .style('stroke', '#101010')
                 .style('stroke-dasharray', '3 7')
                 .style('stroke-width', '0.25pt');
             let horizontals = me.back.append('g')
@@ -122,21 +123,23 @@ class Carte extends Modulo {
                     return (d+me.oy) * me.step
                 })
                 .style('fill', 'transparent')
-                .style('stroke', '#90a090')
+                .style('stroke', '#101010')
                 .style('stroke-dasharray', '3 5')
                 .style('stroke-width', '0.25pt');
 
         }
         me.back.append('text')
-            .attr("x", me.step*3)
-            .attr("y", me.step*21)
-            .style("text-anchor","middle")
-            .style("font-family","Are You Serious")
-            .style("font-size",me.step+"pt")
+            .attr("x", me.step*0.5)
+            .attr("y", me.step*20)
+            .attr("dy", 2*me.step/3)
+            .style("text-anchor","start")
+            .style("font-family","Astloch")
+            //.style("font-family","Henny Penny")
+            .style("font-size",me.step/2+"pt")
             .style("fill","#101010")
             .style("stroke","#808080")
             .style("stroke-width","0.25pt")
-            .text(me.supertitle)
+            .text("Dragonade - "+me.supertitle)
         ;
 
     }
@@ -156,11 +159,46 @@ class Carte extends Modulo {
     }
 
 
+    drawCross(x,y){
+        let me = this;
+        let offset = 3;
+        let cross = me.back.append('g')
+            .attr('class', 'do_not_print')
+        cross.append('line')
+            .attr('x1', x)
+            .attr('x2', x)
+            .attr('y1', y-offset)
+            .attr('y2', y+offset)
+            .style('fill', 'transparent')
+            .style('stroke', '#A02020')
+            .style('stroke-width', '2pt')
+        ;
+        cross.append('line')
+            .attr('x1',x-offset)
+            .attr('x2', x+offset)
+            .attr('y1', y )
+            .attr('y2', y )
+            .style('fill', '#A02020')
+            .style('stroke', '#A02020')
+            .style('stroke-width', '2pt')
+        ;
+        cross.append('text')
+            .attr("x", x+offset*5)
+            .attr("y", y+offset*5)
+            .style("text-anchor","middle")
+            .style("font-family","Wellfleet")
+            .style("font-size","6pt")
+            .style("fill","#A02020")
+            .style("stroke","#202020")
+            .style("stroke-width","0.25pt")
+            .text(x+"/"+y)
+        ;
 
+    }
 
     drawTable(src, options){
         let me = this;
-        console.log(src)
+//         console.log(src)
         let tb = JSON.parse(src["data"]);
         let title = "";
         let object_values = false;
@@ -181,15 +219,17 @@ class Carte extends Modulo {
         let cell_widths = [];
         let cell_height = 1;
         let cell_format = [];
-        me.localx = me.ox + 3;
-        me.localy = me.oy + 2;
+        me.localx = me.ox + 0;
+        me.localy = me.oy + 0;
+
+        let offsetx = 1;
+        let offsety = 1;
 
 
         console.log(tb)
         console.log("---")
         console.log(tb["data"])
         console.log("===")
-
 
 
         if (tb){
@@ -243,11 +283,12 @@ class Carte extends Modulo {
             }
 
         }
+
         let table = me.back.append('g').attr('id',title)
-            .attr("transform","translate("+(me.step*0.5)+","+(me.step*1)+")")
+            .attr("transform","translate("+(me.step*offsetx)+","+(me.step*offsety)+")")
         me.localstep = me.step/2;
         me.localstepy = me.step/2*cell_height;
-        me.localfontSize = 0.3*me.localstep;
+        me.localfontSize = 0.2*me.localstep;
         let columns = table.append('g')
             .attr('class','table_columns')
             .selectAll('.table_col')
@@ -292,9 +333,10 @@ class Carte extends Modulo {
         col.append('text')
             .attr("y", (d,i) => me.paperY(-0.75))
             .attr("x", (d,i) => me.textx(d,i,rowlen,cell_width,cell_widths))
-            .attr("dy",me.localfontSize*cell_height)
+            .attr("dy",me.localfontSize*cell_height+"pt")
+            //.attr("dy",me.localfontSize*1.75+"pt")
             .style("text-anchor","middle")
-            .style("font-family","Neucha")
+            .style("font-family",me.basefont)
             .style("font-size",me.localfontSize+"pt")
             .style("fill","#101010")
             .style("stroke","#808080")
@@ -313,8 +355,8 @@ class Carte extends Modulo {
             cbh.append('rect')
                 .attr("x", (d,i) => me.paperX((i%rowlen)*2))
                 .attr("y", (d,i) => me.paperY(collen))
-                .attr("rx", me.localstep/4)
-                .attr("ry", me.localstep/4)
+                .attr("rx", me.localstep/6)
+                .attr("ry", me.localstep/6)
                 .attr("width",(d,i) => {
                     let res = 0;
                     if (object_values){
@@ -329,7 +371,7 @@ class Carte extends Modulo {
                     return res
                 })
                 .attr("height",me.localstep*0.8)
-                .attr("stroke","#606060")
+                .attr("stroke","#C0C0C0")
                 .attr("stroke-width","0.5pt")
                 .style("fill","#F0F0F0")
             ;
@@ -337,7 +379,7 @@ class Carte extends Modulo {
                 .attr("x", (d,i) => me.paperX((i%rowlen)*2+1))
                 .attr("y", (d,i) => me.paperY(collen+1-0.5))
                 .style("text-anchor","middle")
-                .style("font-family","Neucha")
+                .style("font-family",me.basefont)
                 .style("font-size",me.localfontSize+"pt")
                 .style("fill","#101010")
                 .style("stroke","#808080")
@@ -357,11 +399,11 @@ class Carte extends Modulo {
             rbh.append('rect')
                 .attr("x", (d,i) => me.paperX((rowlen)*2))
                 .attr("y", (d,i) => me.paperY(i))
-                .attr("rx", me.localstep/4)
-                .attr("ry", me.localstep/4)
+                .attr("rx", me.localstep/6)
+                .attr("ry", me.localstep/6)
                 .attr("width",me.localstep*1.9)
                 .attr("height",me.localstep*0.8)
-                .attr("stroke","#606060")
+                .attr("stroke","#C0C0C0")
                 .attr("stroke-width","0.5pt")
                 .style("fill","#F0F0F0")
             ;
@@ -369,7 +411,7 @@ class Carte extends Modulo {
                 .attr("x", (d,i) => me.paperX((rowlen)*2+1))
                 .attr("y", (d,i) => me.paperY(i+0.5))
                 .style("text-anchor","middle")
-                .style("font-family","Neucha")
+                .style("font-family",me.basefont)
                 .style("font-size",me.localfontSize+"pt")
                 .style("fill","#101010")
                 .style("stroke","#808080")
@@ -396,7 +438,7 @@ class Carte extends Modulo {
                 .attr("x", (d,i) => me.paperX(-1))
                 .attr("y", (d,i) => me.paperY(0-0.4))
                 .style("text-anchor","middle")
-                .style("font-family","Neucha")
+                .style("font-family",me.basefont)
                 .style("font-size",me.localfontSize+"pt")
                 .style("fill","#101010")
                 .style("stroke","#808080")
@@ -426,7 +468,7 @@ class Carte extends Modulo {
             .attr("stroke","#C0C0C0")
             .attr("stroke-width","0.5pt")
             .attr("fill", (d,i) => {
-                let color = "#F0F0F0";
+                let color = "#f0f0f0";
 //                 if (even_odd){
 //                     if (i%2==0){
 //                         color = "#FFFFFF";
@@ -441,12 +483,12 @@ class Carte extends Modulo {
             .attr("x", (d,i) => me.paperX(-1*row_header_width+row_header_width/2))
             //.attr("y", (d,i) => me.paperY(i+0.5))
             .attr("y", (d,i) => me.texty(d,i,1,cell_width,cell_widths))
-            .attr("dy",me.localfontSize*1.2)
+            .attr("dy",me.localfontSize*1.75+"pt")
             .style("text-anchor","middle")
-            .style("font-family","Neucha")
+            .style("font-family",me.basefont)
             .style("font-size",me.localfontSize+"pt")
-            .style("fill","#101010")
-            .style("stroke","#808080")
+            .style("fill","#401040")
+            .style("stroke","#802080")
             .style("stroke-width","0.25pt")
             .text((d,i) => d)
         ;
@@ -484,9 +526,9 @@ class Carte extends Modulo {
         cell.append('text')
             .attr("x", (d,i) => me.textx(d,i,rowlen,cell_width,cell_widths))
             .attr("y", (d,i) => me.texty(d,i,rowlen,cell_width,cell_widths))
-            .attr("dy",me.localfontSize*1.2)
+            .attr("dy",me.localfontSize*1.75+"pt")
             .style("text-anchor","middle")
-            .style("font-family","Neucha")
+            .style("font-family",me.basefont)
             .style("font-size",me.localfontSize+"pt")
             .text((d,i) => {
                 let result = d;
@@ -523,13 +565,18 @@ class Carte extends Modulo {
             })
             .attr("y", (d,i) => me.paperY(-1.5))
             .style("text-anchor","middle")
-            .style("font-family","Are You Serious")
-            .style("font-size",me.localfontSize*3+"pt")
+            //.style("font-family","Are You Serious")
+            //.style("font-family","Smythe")
+            .style("font-family","Griffy")
+            .style("font-size",me.localfontSize*2+"pt")
             .style("fill","#101010")
             .style("stroke","#606060")
             .style("stroke-width","0.25pt")
             .text(title)
         ;
+        if (me.debug){
+            me.drawCross(me.paperX(0),me.paperY(0))
+        }
         return table;
     }
 
@@ -585,41 +632,492 @@ class Carte extends Modulo {
     }
 
 
+    drawRosters(src,options){
+        let me = this;
+        let rw = 9;
+        let rh = 19;
+        let x = 0;
+        let y = 0;
+        me.ss_lists = {};
+        me.weapons_lists = {};
+        me.armors_lists = {};
+        me.spells_lists = {};
+        me.shortcuts_lists = {};
+        let tb = src["data"];
+        me.localx = me.ox;
+        me.localy = me.oy;
+        if ("x" in options) {
+            x = options["x"];
+            me.localx = me.ox + options["x"];
+        }
+
+        if ("y" in options){
+            y = options["y"];
+            me.localy = me.oy + options["y"];
+        }
+
+        let subtb = tb.slice(0,3);
+        if (options["start"] == 3){
+            subtb = tb.slice(3,6);
+        }
+        me.localstep = me.step;
+        me.localstepy = me.localstep;
+        me.localfontSize = "8"
+
+
+        let rosters = me.back.append("g")
+            .attr('class', 'screen_rosters')
+            .selectAll("screen_roster")
+            .data(subtb)
+            ;
+
+        let roster_in = rosters.enter()
+            .append("g")
+            .attr("class","screen_roster")
+            .attr("id", (d,i) => {
+                me.ss_lists[d["rid"]] = d["skills_summary"];
+                me.weapons_lists[d["rid"]] = d["features"]["weapons"];
+                me.armors_lists[d["rid"]] = d["features"]["armors"];
+                me.spells_lists[d["rid"]] = d["features"]["spells"];
+                me.shortcuts_lists[d["rid"]] = d["features"]["shortcuts"];
+                return "screen_roster_"+i
+            });
+        roster_in.append('rect')
+            .attr('x', (d,i) => me.paperX(i*(rw+0.5)) )
+            .attr('y', (d,i) => me.paperY(0))
+            .attr('rx', "10pt")
+            .attr('ry', "10pt")
+            .attr("width",rw*me.localstep)
+            .attr("height",rh*me.localstep)
+            .style("fill","white")
+            .style("stroke","#101010")
+            .style("stroke-width","2pt")
+            ;
+        roster_in.append('text')
+            .attr('x', (d,i) => me.paperX(i*(rw+0.5)+4.5) )
+            .attr('y', (d,i) => me.paperY(0+0.5) )
+            .style("font-family","Griffy")
+            .style("text-anchor","middle")
+            .style("font-size",me.localfontSize*2+"pt")
+            .style("fill","#101010")
+            .style("stroke","#303030")
+            .style("stroke-width","0.25pt")
+            .text((d,i)=>d["name"])
+            ;
+
+        me.append_value_to(roster_in,2,0.5,"player",{"rw":rw,"label":false})
+
+
+        roster_in.append('circle')
+            .attr('cx', (d,i) => me.paperX(i*(rw+0.5)+0.5) )
+            .attr('cy', (d,i) => me.paperY(0) )
+            .attr("r",me.step/8)
+            .style("fill",(d,i) => d["color"])
+            .style("stroke","#101010")
+            .style("stroke-width","1pt")
+            ;
+
+        roster_in.append('circle')
+            .attr('cx', (d,i) => me.paperX(i*(rw+0.5)+(rw-0.5)) )
+            .attr('cy', (d,i) => me.paperY(0) )
+            .attr("r",me.step/8)
+            .style("fill","white")
+            .style("stroke","#101010")
+            .style("stroke-width","1pt")
+            ;
+
+
+        let xo = 0.25;
+        let yo = 0;
+        let framed = {"width":"3pt","color":"#104080"}
+        me.append_value_to(roster_in,xo+0.5,yo+1,"AGI",{"rw":rw,"label":true, "framed" : framed})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"attributes.AGI",{"rw":rw,"label":false})
+        xo += 1
+        me.append_value_to(roster_in,xo+0.5,yo+1,"CON",{"rw":rw,"label":true, "framed" : framed})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"attributes.CON",{"rw":rw,"label":false})
+        xo -= 1
+        yo += 0.8
+        me.append_value_to(roster_in,xo+0.5,yo+1,"FOR",{"rw":rw,"label":true, "framed" : framed})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"attributes.FOR",{"rw":rw,"label":false})
+        xo += 1
+        me.append_value_to(roster_in,xo+0.5,yo+1,"TAI",{"rw":rw,"label":true, "framed" : framed})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"attributes.TAI",{"rw":rw,"label":false})
+
+
+        xo = 2.25;
+        yo = 0;
+        framed = {"width":"3pt","color":"#108040"}
+        me.append_value_to(roster_in,xo+0.5,yo+1,"EMP",{"rw":rw,"label":true, "framed" : framed})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"attributes.EMP",{"rw":rw,"label":false})
+        xo += 1
+        me.append_value_to(roster_in,xo+0.5,yo+1,"ODG",{"rw":rw,"label":true, "framed" : framed})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"attributes.ODG",{"rw":rw,"label":false})
+        xo -= 1
+        yo += 0.8;
+        me.append_value_to(roster_in,xo+0.5,yo+1,"OUI",{"rw":rw,"label":true, "framed" : framed})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"attributes.OUI",{"rw":rw,"label":false})
+        xo += 1
+        me.append_value_to(roster_in,xo+0.5,yo+1,"VUE",{"rw":rw,"label":true, "framed" : framed})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"attributes.VUE",{"rw":rw,"label":false})
+
+        xo = 0.25;
+        yo = 1.6;
+        framed = {"width":"3pt","color":"#804010"}
+        me.append_value_to(roster_in,xo+0.5,yo+1,"APP",{"rw":rw,"label":true, "framed" : framed})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"attributes.APP",{"rw":rw,"label":false})
+        xo += 1
+        me.append_value_to(roster_in,xo+0.5,yo+1,"DEX",{"rw":rw,"label":true, "framed" : framed})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"attributes.DEX",{"rw":rw,"label":false})
+        xo -= 1
+        yo += 0.8;
+        me.append_value_to(roster_in,xo+0.5,yo+1,"INT",{"rw":rw,"label":true, "framed" : framed})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"attributes.INT",{"rw":rw,"label":false})
+        xo += 1
+        me.append_value_to(roster_in,xo+0.5,yo+1,"VOL",{"rw":rw,"label":true, "framed" : framed})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"attributes.VOL",{"rw":rw,"label":false})
+
+        xo = 2.25;
+        yo = 1.6;
+        me.append_value_to(roster_in,xo+0.5,yo+1,"DER",{"rw":rw,"label":true})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"secondaries.DER",{"rw":rw,"label":false})
+        xo += 1
+        me.append_value_to(roster_in,xo+0.5,yo+1,"LAN",{"rw":rw,"label":true})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"secondaries.LAN",{"rw":rw,"label":false})
+        xo -= 1
+        yo += 0.8
+        me.append_value_to(roster_in,xo+0.5,yo+1,"MEL",{"rw":rw,"label":true})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"secondaries.MEL",{"rw":rw,"label":false})
+        xo += 1
+        me.append_value_to(roster_in,xo+0.5,yo+1,"TIR",{"rw":rw,"label":true})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"secondaries.TIR",{"rw":rw,"label":false})
+
+        xo = 0.25;
+        yo = 3.2;
+        me.append_value_to(roster_in,xo+0.5,yo+1,"FABLE",{"rw":rw,"label":true})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"misc.FAB",{"rw":rw,"label":false})
+        xo += 1
+        me.append_value_to(roster_in,xo+0.5,yo+1,"FAT",{"rw":rw,"label":true})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"misc.FAT",{"rw":rw,"label":false})
+        xo += 1
+        me.append_value_to(roster_in,xo+0.5,yo+1,"ENC",{"rw":rw,"label":true})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"misc.ENC",{"rw":rw,"label":false})
+        xo += 1
+        me.append_value_to(roster_in,xo+0.5,yo+1,"+PROT",{"rw":rw,"label":true})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"misc.PROT",{"rw":rw,"label":false})
+
+        xo = 0.25;
+        yo = 4.0;
+        me.append_value_to(roster_in,xo+0.5,yo+1,"SONGE",{"rw":rw,"label":true})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"misc.SON",{"rw":rw,"label":false})
+        xo += 1
+        me.append_value_to(roster_in,xo+0.5,yo+1,"SCO",{"rw":rw,"label":true})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"misc.SCO",{"rw":rw,"label":false})
+        xo += 1
+        me.append_value_to(roster_in,xo+0.5,yo+1,"SUS",{"rw":rw,"label":true})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"misc.SUS",{"rw":rw,"label":false})
+        xo += 1
+        me.append_value_to(roster_in,xo+0.5,yo+1,"+DOM",{"rw":rw,"label":true})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"misc.DOM",{"rw":rw,"label":false})
+
+        xo = 0.25;
+        yo = 4.8;
+        framed = {"width":"3pt","color":"#404040"}
+        me.append_value_to(roster_in,xo+0.5,yo+1,"REVE",{"rw":rw,"label":true, framed})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"misc.REV",{"rw":rw,"label":false})
+        xo += 1;
+        me.append_value_to(roster_in,xo+0.5,yo+1,"VIE",{"rw":rw,"label":true, framed})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"misc.VIE",{"rw":rw,"label":false})
+
+
+        xo = 5;
+        yo = 0.2;
+        me.append_value_to(roster_in,xo+0.5,yo+1,"IG",{"rw":rw,"label":true,  framed})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"misc.indice",{"rw":rw,"label":false})
+
+        xo = 6.25;
+        me.append_value_to(roster_in,xo+0.5,yo+1,"IA",{"rw":rw,"label":true})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"misc.indice_a",{"rw":rw,"label":false})
+
+        xo = 7.5;
+        me.append_value_to(roster_in,xo+0.5,yo+1,"IS",{"rw":rw,"label":true, "ta":"middle"})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"misc.indice_s",{"rw":rw,"label":false})
+
+
+        xo = 5;
+        yo += 0.8;
+        me.append_value_to(roster_in,xo+0.5,yo+1,"SEXE",{"rw":rw,"label":true})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"features.gender",{"rw":rw,"label":false})
+
+        xo = 6.25;
+        me.append_value_to(roster_in,xo+0.5,yo+1,"MAIN",{"rw":rw,"label":true})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"features.lefty",{"rw":rw,"label":false})
+
+        xo = 7.5;
+        me.append_value_to(roster_in,xo+0.5,yo+1,"Âge",{"rw":rw,"label":true, "ta":"middle"})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"features.age",{"rw":rw,"label":false})
+
+
+        xo = 5
+        yo += 0.8;
+        me.append_value_to(roster_in,xo+0.5,yo+1,"Taille (cm)",{"rw":rw,"label":true, "ta":"middle"})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"features.HEIGHT",{"rw":rw,"label":false})
+
+        xo = 6.25;
+        me.append_value_to(roster_in,xo+0.5,yo+1,"Poids (kg)",{"rw":rw,"label":true, "ta":"middle"})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"features.WEIGHT",{"rw":rw,"label":false})
+
+        xo = 7.5;
+        me.append_value_to(roster_in,xo+0.5,yo+1,"Destinée",{"rw":rw,"label":true, "ta":"middle"})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"destiny",{"rw":rw,"label":false})
+
+
+
+
+
+        roster_in.append("g")
+            .attr("class","skills_summary")
+            .attr("id",(d,i) => "ss_for_"+d["rid"])
+            ;
+        me.append_list_to(me.ss_lists,{"rw":rw,"title":"COMPETENCES","target":"#ss_for_"})
+
+
+        roster_in.append("g")
+            .attr("class","weapons_summary")
+            .attr("id",(d,i) => "weapons_for_"+d["rid"])
+            ;
+        me.append_wlist_to(me.weapons_lists,{"rw":rw,"title":"ARMES","target":"#weapons_for_"})
+
+        roster_in.append("g")
+            .attr("class","armors_summary")
+            .attr("id",(d,i) => "armors_for_"+d["rid"])
+            ;
+        me.append_alist_to(me.armors_lists,{"rw":rw,"title":"ARMURES","target":"#armors_for_"})
+
+
+        roster_in.append("g")
+            .attr("class","spells_summary")
+            .attr("id",(d,i) => "spells_for_"+d["rid"])
+            ;
+        me.append_slist_to(me.spells_lists,{"rw":rw,"title":"ARTS DRACONIQUES","target":"#spells_for_"})
+
+        roster_in.append("g")
+            .attr("class","shortcuts")
+            .attr("id",(d,i) => "shortcut_"+d["rid"])
+            ;
+        me.append_sclist_to(me.shortcuts_lists,{"rw":rw,"title":"JETS","target":"#shortcut_"})
+
+
+
+        let roster_out = rosters.exit().remove();
+    }
+
+    append_value_to(tgt,x,y,str,options){
+        let me = this;
+        let ta = "middle"
+        if ("ta" in options){
+            ta = options["ta"]
+        }
+        let stk = "#808080"
+        if ("bold" in options){
+            stk = "#101010"
+        }
+        tgt.append('text')
+            .attr('x', (d,i) => me.paperX(i*(options["rw"]+0.5)+x) )
+            .attr('y', (d,i) => me.paperY(0+0.5+y) )
+            .style("font-family","Wellfleet")
+            .style("text-anchor",ta)
+            .style("font-size",me.localfontSize+"pt")
+            .style("fill","#101010")
+            .style("stroke",stk)
+            .style("stroke-width","0.25pt")
+            .text((d,i)=>{
+
+                let struct = d;
+                let answer = d[str]
+                if (("label" in options) && (options["label"] == true)){
+                    answer = str
+                }else{
+                    let words = str.split(".");
+                    if (words.length>1){
+                        words.forEach((k) => {
+                            //console.log(k)
+                            if (k in struct){
+                                struct = struct[k]
+                            }
+                        })
+                        answer = struct
+                    }
+                }
+                return answer
+            })
+        ;
+        if ("framed" in options){
+            tgt.append('rect')
+                .attr('x', (d,i) => me.paperX(i*(options["rw"]+0.5)+x-0.4) )
+                .attr('y', (d,i) => me.paperY(0+0.5+y-0.25) )
+                .attr("width",me.localstep*0.8)
+                .attr("height",me.localstep*0.6)
+                .style("fill","transparent")
+                .style("stroke",options['framed']['color'])
+                .style("stroke-width",options['framed']['width'])
+            ;
+        }
+    }
+
+    append_list_to(list,options){
+        let me = this;
+        let xoffset = 0
+        _.forEach(list, (v,k) => {
+            let roster_in = d3.select(options["target"]+k);
+            let xo = me.ox + 4.5 + xoffset * (options["rw"] + 0.5);
+            let yo = me.oy + 7  ;
+            me.append_value_to(roster_in,xo+0.25,yo-0.5,options["title"],{"rw":options['rw'],"label":true, "ta":"start", "bold":true})
+            v.forEach((x,i) => {
+                me.append_value_to(roster_in,xo+0.25,yo,x["text"]+" ("+x["category"]+")" ,{"rw":options['rw'],"label":true, "ta":"start"})
+                me.append_value_to(roster_in,xo+3.75,yo,x["value"],{"rw":options['rw'],"label":true, "ta":"middle"})
+                yo += 0.25;
+                if (i%5==4){
+                    yo += 0.10;
+                }
+            });
+            xoffset += 1;
+        });
+    }
+
+    append_wlist_to(list,options){
+        let me = this;
+        let xoffset = 0
+        _.forEach(list, (v,k) => {
+            let roster_in = d3.select(options["target"]+k);
+            let xo = me.ox + xoffset * (options["rw"] + 0.5);
+            let yo = me.oy + 7  ;
+            me.append_value_to(roster_in,xo+0.25,yo,options["title"],{"rw":options['rw'],"label":true, "ta":"start", "bold":true})
+            me.append_value_to(roster_in,xo+3.30,yo,"INI",{"rw":options['rw'],"label":true, "ta":"middle"})
+            me.append_value_to(roster_in,xo+3.80,yo,"VAL",{"rw":options['rw'],"label":true, "ta":"middle"})
+            let previous_cat = "";
+            v.forEach((x,i) => {
+                if (previous_cat != x["category"]){
+                    yo += 0.25;
+                    previous_cat = x["category"]
+                }
+                me.append_value_to(roster_in,xo+0.25,yo,x["name"]+"("+x["+dom_1"]+"/"+x["+dom_2"]+")" ,{"rw":options['rw'],"label":true, "ta":"start", "bold":true})
+                me.append_value_to(roster_in,xo+3.30,yo,x["init"],{"rw":options['rw'],"label":true, "ta":"middle"})
+                me.append_value_to(roster_in,xo+3.80,yo,x["score"],{"rw":options['rw'],"label":true, "ta":"middle"})
+                yo += 0.25;
+                if (i%3==2){
+                    yo += 0.10 ;
+                }
+            });
+            xoffset += 1;
+        });
+    }
+
+    append_alist_to(list,options){
+        let me = this;
+        let xoffset = 0
+        _.forEach(list, (v,k) => {
+            let roster_in = d3.select(options["target"]+k);
+            let xo = me.ox + xoffset * (options["rw"] + 0.5);
+            let yo = me.oy + 10  ;
+            me.append_value_to(roster_in,xo+0.25,yo,options["title"],{"rw":options['rw'],"label":true, "ta":"start", "bold":true})
+            me.append_value_to(roster_in,xo+3.30,yo,"MA",{"rw":options['rw'],"label":true, "ta":"middle"})
+            me.append_value_to(roster_in,xo+3.80,yo,"PROT",{"rw":options['rw'],"label":true, "ta":"middle"})
+            yo += 0.25;
+            v.forEach((x,i) => {
+                me.append_value_to(roster_in,xo+0.25,yo,x["name"] ,{"rw":options['rw'],"label":true, "ta":"start"})
+                me.append_value_to(roster_in,xo+3.30,yo,x["malus_armure"],{"rw":options['rw'],"label":true, "ta":"middle"})
+                me.append_value_to(roster_in,xo+3.80,yo,x["prot"],{"rw":options['rw'],"label":true, "ta":"middle"})
+                yo += 0.25;
+            });
+            xoffset += 1;
+        });
+
+    }
+
+    append_slist_to(list,options){
+        let me = this;
+        let xoffset = 0
+        _.forEach(list, (v,k) => {
+            let roster_in = d3.select(options["target"]+k);
+            let xo = me.ox + xoffset * (options["rw"] + 0.5);
+            let yo = me.oy + 12  ;
+            me.append_value_to(roster_in,xo+0.25,yo,options["title"],{"rw":options['rw'],"label":true, "ta":"start", "bold":true})
+            me.append_value_to(roster_in,xo+3.30,yo,"PdR",{"rw":options['rw'],"label":true, "ta":"middle"})
+            me.append_value_to(roster_in,xo+3.80,yo,"DIFF",{"rw":options['rw'],"label":true, "ta":"middle"})
+            me.append_value_to(roster_in,xo+4.30,yo,"Roll",{"rw":options['rw'],"label":true, "ta":"middle"})
+            yo += 0.25;
+            v.forEach((x,i) => {
+
+                me.append_value_to(roster_in,xo+0.25,yo,x["name"] ,{"rw":options['rw'],"label":true, "ta":"start"})
+                me.append_value_to(roster_in,xo+3.30,yo,x["dps"],{"rw":options['rw'],"label":true, "ta":"middle"})
+                me.append_value_to(roster_in,xo+3.80,yo,x["diff"],{"rw":options['rw'],"label":true, "ta":"middle"})
+                me.append_value_to(roster_in,xo+4.30,yo,x["roll"],{"rw":options['rw'],"label":true, "ta":"middle"})
+                yo += 0.25;
+            });
+            if (v.length == 0){
+                me.append_value_to(roster_in,xo+0.25,yo,"-",{"rw":options['rw'],"label":true, "ta":"start"})
+            }
+            xoffset += 1;
+        });
+    }
+
+    append_sclist_to(list,options){
+        let me = this;
+        let xoffset = 0
+        _.forEach(list, (v,k) => {
+            let roster_in = d3.select(options["target"]+k);
+            let xo = me.ox + 4.5 + xoffset * (options["rw"] + 0.5);
+            let yo = me.oy + 4  ;
+            me.append_value_to(roster_in,xo+0.25,yo,options["title"],{"rw":options['rw'],"label":true, "ta":"start", "bold":true})
+            me.append_value_to(roster_in,xo+3.75,yo,"Score",{"rw":options['rw'],"label":true, "ta":"middle"})
+
+            yo += 0.25;
+            v.forEach((x,i) => {
+                me.append_value_to(roster_in,xo+0.25,yo,x["roll"] ,{"rw":options['rw'],"label":true, "ta":"start"})
+                me.append_value_to(roster_in,xo+3.75,yo,x["val"],{"rw":options['rw'],"label":true, "ta":"middle"})
+                yo += 0.25;
+            });
+            xoffset += 1;
+        });
+    }
 
 
     drawAll(){
         let me = this;
-        console.log(me.code)
         if (me.code == "SCREEN1"){
-            me.supertitle = "Ecran n°1"
+            me.supertitle = "Ecran volet 1"
             me.drawBack();
             me.drawTable(me.config.data["STRESS_TABLE"],{"even_odd":true});
-            me.drawTable(me.config.data["QUALITY_TABLE"],{"x":17, "y":0, "row_header_width": 3,"even_odd":true});
-            me.drawTable(me.config.data["SOAK_TABLE"],{"x":34, "y":0});
+            me.drawTable(me.config.data["QUALITY_TABLE"],{"x":19, "y":0, "row_header_width": 3,"even_odd":true});
+            me.drawTable(me.config.data["SOAK_TABLE"],{"x":36, "y":0});
             me.drawTable(me.config.data["PDOM_TABLE"],{"x":48, "y":0});
             me.drawTable(me.config.data["SUS_TABLE"],{"x":48, "y":15});
             me.drawTable(me.config.data["SCON_TABLE"],{"x":53, "y":0});
-            me.drawTable(me.config.data["SECONDARIES_TABLE"],{"x":48, "y":25});
-            me.drawTable(me.config.data["MISC_TABLE"],{"x":48, "y":35});
-        }else if (me.code == "SCREEN4"){
-            me.supertitle = "Ecran n°4"
+
+            me.drawTable(me.config.data["COMP_WEAPONS_TABLE"],{"even_odd":true, "x":15, "y":13});
+            me.drawTable(me.config.data["COMP_GENERIC_TABLE"],{"even_odd":true, "x":22, "y":13});
+            me.drawTable(me.config.data["COMP_PECULIAR_TABLE"],{"even_odd":true, "x":22, "y":30});
+            me.drawTable(me.config.data["COMP_SPECIALIZED_TABLE"],{"even_odd":true, "x":29, "y":13});
+            me.drawTable(me.config.data["COMP_KNOWLEDGE_TABLE"],{"even_odd":true, "x":29, "y":26});
+            me.drawTable(me.config.data["COMP_DRACONIC_TABLE"],{"even_odd":true, "x":29, "y":38});
+
+            me.drawTable(me.config.data["SECONDARIES_TABLE"],{"x":2, "y":34});
+            me.drawTable(me.config.data["MISC_TABLE"],{"x":2, "y":41});
+
+        }else if (me.code == "SCREEN3"){
+            me.supertitle = "Ecran n°3"
             me.drawBack();
+            me.drawRosters(me.config.data["TRAVELLERS"],{"x":1, "y":1, "start":3});
 
         }else if (me.code == "SCREEN2"){
             me.supertitle = "Ecran n°2"
             me.drawBack();
-            me.drawTable(me.config.data["COMP_GENERIC_TABLE"],{"even_odd":true, "x":8, "y":0});
-            me.drawTable(me.config.data["COMP_WEAPONS_TABLE"],{"even_odd":true, "x":0, "y":0});
-            me.drawTable(me.config.data["COMP_PECULIAR_TABLE"],{"even_odd":true, "x":8, "y":16});
-            me.drawTable(me.config.data["COMP_SPECIALIZED_TABLE"],{"even_odd":true, "x":16, "y":0});
-            me.drawTable(me.config.data["COMP_KNOWLEDGE_TABLE"],{"even_odd":true, "x":16, "y":13});
-            me.drawTable(me.config.data["COMP_DRACONIC_TABLE"],{"even_odd":true, "x":16, "y":25});
+            me.drawRosters(me.config.data["TRAVELLERS"],{"x":1, "y":1, "start":0});
 
 
 
-
-        }else if (me.code == "SCREEN3"){
-            me.supertitle = "Ecran n°3"
+        }else if (me.code == "SCREEN4"){
+            me.supertitle = "Ecran n°4"
             me.drawBack();
             me.drawTable(me.config.data["GEAR_TABLE_BAG"],{"x":-1, "y":0});
             me.drawTable(me.config.data["GEAR_TABLE_LAI"],{"x":-1, "y":22});

@@ -30,17 +30,19 @@ CHARACTER_STATISTICS = {
         ],
         "KNOWN": ["DER","LAN","MEL","TIR"]
     },
-    "MISCELLANEOUS": {
+    "MISC": {
         "LIST":[
-            {"NAME": "REV", "TEXT": "Rêve", "COMPUTE": "basic_mean,CON;EMP;APP", "RATIONALE": " (CON + EMP + APP) / 3"},
+            {"NAME": "FAB", "TEXT": "Rêve", "COMPUTE": "basic_mean,CON;EMP;APP", "RATIONALE": " (CON + EMP + APP) / 3"},
             {"NAME": "VIE", "TEXT": "Points de Vie", "COMPUTE": "basic_sum,CON;TAI", "RATIONALE": " CON + TAI"},
             {"NAME": "FAT", "TEXT": "Fatigue", "COMPUTE": "basic_mean,CON;VOL", "RATIONALE": " (CON + VOL) / 2"},
             {"NAME": "DOM", "TEXT": "+dom", "COMPUTE": "from_table_mean,TAI;FOR,tbDOM","RATIONALE": " ArrondiBas((FOR + 2) / 3) - 2"},
             {"NAME": "SUS", "TEXT": "Sustentation", "COMPUTE": "from_table_mean,TAI,tbSUS","RATIONALE": " ArrondiBas((CON + 4) / 4) + 1"},
             {"NAME": "SCO", "TEXT": "Seuil Con", "COMPUTE": "from_table_mean,CON,tbSCO","RATIONALE": "ArrondiBas((CON + 3) / 3) + 1"},
-            {"NAME": "ENC", "TEXT": "Encombrement", "COMPUTE": "precise_mean,TAI,FOR","RATIONALE": " (TAI + FOR) / 2 [garder une décimale]"}
+            {"NAME": "ENC", "TEXT": "Encombrement", "COMPUTE": "precise_mean,TAI,FOR","RATIONALE": " (TAI + FOR)  [garder une décimale]"},
+            {"NAME": "SON", "TEXT": "Songe", "COMPUTE": "user_choice", "RATIONALE":"-"},
+            {"NAME": "REV", "TEXT": "Fable", "COMPUTE": "user_choice", "RATIONALE":"-"}
         ],
-        "KNOWN":["REV","VIE","FAT","DOM","SUS","SCO","ENC"]
+        "KNOWN":["FAB","VIE","FAT","DOM","SUS","SCO","ENC","SON","REV"]
     },
     "FEATURES": {
         "LIST":[
@@ -107,15 +109,16 @@ CHARACTER_STATISTICS = {
                 {"NAME": "GEN_06", "TEXT": "Danse"},
                 {"NAME": "GEN_07", "TEXT": "Dessin"},
                 {"NAME": "GEN_08", "TEXT": "Discrétion"},
-                {"NAME": "GEN_09", "TEXT": "Escalade"},
-                {"NAME": "GEN_10", "TEXT": "Saut"},
-                {"NAME": "GEN_11", "TEXT": "Sculpture"},
-                {"NAME": "GEN_12", "TEXT": "Séduction"},
-                {"NAME": "GEN_13", "TEXT": "Vigilance"}
+                {"NAME": "GEN_09", "TEXT": "Eloquence"},
+                {"NAME": "GEN_10", "TEXT": "Escalade"},
+                {"NAME": "GEN_11", "TEXT": "Saut"},
+                {"NAME": "GEN_12", "TEXT": "Sculpture"},
+                {"NAME": "GEN_13", "TEXT": "Séduction"},
+                {"NAME": "GEN_14", "TEXT": "Vigilance"}
             ], 
             "KNOWN": [
                 "GEN_01","GEN_02","GEN_03","GEN_04","GEN_05","GEN_06","GEN_07","GEN_08","GEN_09","GEN_10",
-                "GEN_11","GEN_12","GEN_13"
+                "GEN_11","GEN_12","GEN_13","GEN_14"
             ]   
         },
         "PECULIAR": {
@@ -200,6 +203,15 @@ CHARACTER_STATISTICS = {
     }
 }
 
+
+SHORTCUTS = [
+    ["Vue + Vigilance","VUE","GEN_14"],
+    ["Ouïe + Concentration","OUI","GEN_03"],
+    ["Empathie + Séduction","EMP","GEN_13"],
+    ["Dérobade + Esquive","DER","WEA_12"],
+    ["Volonté + Concentration","VOL","GEN_03"],
+    ["Rêve + Contemplatif","REV","DRA_01"]
+]
 
 def skill_cost(skill, value):
     cost = -1
@@ -322,7 +334,6 @@ def action_quality_json():
     table["values"] = values
     table["col_back_header"] = cbh
     table["row_back_header"] = rbh
-    print(table)
     return json.dumps(table)
 
 
@@ -454,7 +465,7 @@ def scon_table_json():
 
 def comp_table_json(cat=""):
     table = {
-        "title": CHARACTER_STATISTICS["SKILLS"][cat.upper()]["LIST"]["NAME"],
+        "title": CHARACTER_STATISTICS["SKILLS"][cat.upper()]["NAME"],
         "cols": ["Compétence"],
         "rows": [],
         "values": [],
@@ -526,7 +537,7 @@ def miscellaneous_table_json():
     }
     rows = []
     values = []
-    for c in CHARACTER_STATISTICS["MISCELLANEOUS"]["LIST"]:
+    for c in CHARACTER_STATISTICS["MISC"]["LIST"]:
         rows.append(f"{c['NAME']}")
         values.append(f"{c['RATIONALE']}")
     table["rows"] = rows
@@ -539,7 +550,6 @@ def load_from_file():
     with open('main/utils/equipement.csv') as f:
         lines = f.readlines()
         for line in lines:
-            # print(line)
             e = Equipment()
             e.name = line
             e.category = '---'

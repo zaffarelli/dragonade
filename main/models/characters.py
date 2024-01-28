@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib import admin
 from django.conf import settings
-from main.utils.ref_dragonade import CHARACTER_STATISTICS, tai_guidelines
+from main.utils.ref_dragonade import CHARACTER_STATISTICS, tai_guidelines, SHORTCUTS
 from main.utils.mechanics import as_rid
 import math
 import random
@@ -11,6 +11,7 @@ import json
 class Character(models.Model):
     class Meta:
         abstract = True
+
     name = models.CharField(max_length=256)
     rid = models.CharField(max_length=256, default="", blank=True)
     randomize = models.BooleanField(default=False, blank=True)
@@ -21,7 +22,7 @@ class Character(models.Model):
     factions = models.CharField(max_length=256, default="", blank=True)
     entrance = models.CharField(max_length=256, default="", blank=True)
     birthhour = models.IntegerField(default=0, blank=True)
-    updater = models.TextField(max_length=4096, default='{}', blank=True)
+    updater = models.TextField(max_length=8192, default='{}', blank=True)
     is_female = models.BooleanField(default=False, blank=True)
     is_lefty = models.BooleanField(default=False, blank=True)
     age = models.PositiveIntegerField(default=20, blank=True)
@@ -41,8 +42,13 @@ class Character(models.Model):
     indice_skills = models.IntegerField(default=0, blank=True)
     tai_guideline = models.CharField(max_length=128, default="", blank=True)
     total_attributes = models.IntegerField(default=0, blank=True)
-    sre = models.IntegerField(default=0, blank=True)
-    tre = models.IntegerField(default=0, blank=True)
+    songe = models.IntegerField(default=0, blank=True)
+    reve = models.IntegerField(default=0, blank=True)
+    prot = models.IntegerField(default=0, blank=True)
+    color = models.CharField(max_length=9, default="#202020", blank=True)
+    gamers_team = models.BooleanField(default=False, blank=True)
+    gear = models.TextField(max_length=1024, default="", blank=True)
+    spells = models.TextField(max_length=1024, default="", blank=True)
     data = {}
 
     def __str__(self):
@@ -69,22 +75,13 @@ class Character(models.Model):
             val = self.value_for(att)
             val += offset
             result = self.overwrite_for(att, val)
-            #print(self.name, att, chg, ":", result)
             if result:
                 self.updateFromStruct()
                 self.save()
         return result
 
-    # def applyValuePop(self, att):
-    #     self.export_to_json()
-    #     result = ""
-    #     offset = 0
-    #     result = self.value_for(att)
-    #     return result
-
     def applyValuePush(self, att, val):
         self.export_to_json()
-        # print("Name:",self.name,att,val)
         result = self.overwrite_for(att, val)
         if result:
             self.updateFromStruct()
@@ -100,13 +97,14 @@ class Character(models.Model):
         for key, category in CHARACTER_STATISTICS['SKILLS'].items():
             list = []
             for k in category['LIST']:
-                # print("++++++++++++++++++++++++", key, k['NAME'])
                 vs = f"{self.data['skills'][key.lower()][k['NAME']]}"
                 list.append(vs)
             setattr(self, f"skills_{key.lower()}", " ".join(list))
 
         self.height = int(self.data['features']['HEIGHT'])
         self.weight = int(self.data['features']['WEIGHT'])
+        self.tre = int(self.data['misc']['tre'])
+        self.songe = int(self.data['misc']['SON'])
 
     def fix(self):
         self.make_rid()
@@ -129,18 +127,14 @@ class Character(models.Model):
             self.total_attributes += self.data['attributes'][a]
         self.indice_skills = 0
         for skill_cat in self.data['skills']:
-            # print(self.data['skills'][skill_cat])
             for k, v in self.data['skills'][skill_cat].items():
-                # print(k,v)
                 c, txt = skill_cost(k, v)
                 if c > -1:
                     self.indice_skills += c
-                    # print(txt)
-
         self.indice_attributes = int(self.indice_attributes / 3)
         self.indice_skills = int(self.indice_skills / 3)
         self.indice = self.indice_attributes + self.indice_skills
-        self.tre = self.sre + self.data['misc']['REV']
+        self.reve = self.data['misc']['SON'] + self.data['misc']['FAB']
 
     def ref_to_struct(self, src_ref):
         """        
@@ -171,7 +165,21 @@ class Character(models.Model):
                         list[cnt]) if cnt < len(list) else src_struct['DEFAULT']
                     cnt += 1
 
+    def skills_summary(self):
+        all = []
+        for kc, vc in self.data['skills'].items():
+            default = CHARACTER_STATISTICS["SKILLS"][kc.upper()]["DEFAULT"]
+            for ks, vs in vc.items():
+                if vs > default:
+                    for r in CHARACTER_STATISTICS["SKILLS"][kc.upper()]["LIST"]:
+                        if r['NAME'] == ks:
+                            all.append({'value': vs, 'category': CHARACTER_STATISTICS["SKILLS"][kc.upper()]['NAME'][:4],
+                                        'text': r["TEXT"]})
+        sorted_all = sorted(all, key=lambda k: k['value'], reverse=True)
+        return sorted_all
+
     def export_to_json(self):
+        self.data = {}
         self.data['rid'] = self.rid
         self.data['id'] = self.id
         self.data['name'] = self.name
@@ -195,12 +203,11 @@ class Character(models.Model):
         self.ref_to_struct('SKILLS_DRACONIC')
 
         for k in CHARACTER_STATISTICS['SECONDARIES']['LIST']:
-            # print(k)
             val, errors = self.calcCompute(k['COMPUTE'])
             if len(errors) == 0:
                 self.data['secondaries'][k['NAME']] = val
 
-        for k in CHARACTER_STATISTICS['MISCELLANEOUS']['LIST']:
+        for k in CHARACTER_STATISTICS['MISC']['LIST']:
             val, errors = self.calcCompute(k['COMPUTE'])
             if len(errors) == 0:
                 self.data['misc'][k['NAME']] = val
@@ -213,8 +220,9 @@ class Character(models.Model):
         self.data['misc']['groupe'] = self.group
         self.data['misc']['team'] = self.team
         self.data['misc']['title'] = self.title
-        self.data['misc']['sre'] = self.sre
-        self.data['misc']['tre'] = self.tre
+        self.data['misc']['SON'] = self.songe
+        self.data['misc']['REV'] = self.reve
+        self.data['misc']['PROT'] = self.prot
 
         self.data['features']['HEIGHT'] = self.height
         self.data['features']['WEIGHT'] = self.weight
@@ -225,7 +233,13 @@ class Character(models.Model):
         self.data['features']['lefty'] = "Gaucher" if self.is_lefty else "Droitier"
         self.data['features']['age'] = self.age
 
+        self.data['features']['weapons'] = self.gear_to_weapons()
+        self.data['features']['armors'] = self.gear_to_armors()
+        self.data['features']['spells'] = self.collect_spells()
+        self.data['features']['shortcuts'] = self.shortcuts()
+
         self.data['birthhour'] = self.birthhour
+        self.data['color'] = self.color
         x = self.data['misc']['FAT']
         pf = 0
         if x > 0:
@@ -233,7 +247,76 @@ class Character(models.Model):
                 pf += x
                 x -= 1
         self.data['misc']['pf'] = pf
+        self.data["skills_summary"] = self.skills_summary()
+
         self.json_dump()
+        # return self.data
+
+    def gear_to_weapons(self):
+        from main.models.equipment import Equipment
+        list = []
+        weapons = Equipment.objects.filter(category__in=['mel', 'tir', 'lan'], rid__in=self.gear.split(" ")).order_by(
+            "category")
+        for weapon in weapons:
+            stat = self.value_for(weapon.category.upper())
+            half_stat = int(math.ceil(stat / 2))
+            skill = self.value_for(weapon.related_skill.upper())
+            print(stat,skill)
+            list.append({
+                "name": weapon.name,
+                "category": weapon.category,
+                "+dom_1": weapon.mod_dom + weapon.plus_dom if weapon.plus_dom>0 else "-",
+                "+dom_2": weapon.mod_dom + weapon.plus_dom_2m if weapon.plus_dom_2m>0 else "-",
+                "init": half_stat+skill+weapon.mod_ini,
+                "score": stat+skill+weapon.mod_att
+            })
+        return list
+
+    def gear_to_armors(self):
+        from main.models.equipment import Equipment
+        list = []
+        armors = Equipment.objects.filter(prot__gte=1, rid__in=self.gear.split(" ")).order_by("materiaux")
+        for armor in armors:
+            list.append({
+                "name": armor.name,
+                "prot": armor.prot,
+                "cover": armor.cover,
+                "materiaux": armor.materiaux,
+                "malus_armure": armor.malus_armure
+            })
+            if self.prot<armor.prot:
+                self.prot = armor.prot
+        return list
+
+    def collect_spells(self):
+        from main.models.draconic_arts import Spell
+        list = []
+        spells = Spell.objects.filter(rid__in=self.spells.split(" ")).order_by("category")
+        for spell in spells:
+            roll = self.value_for(f"DRA_{spell.roll:02}")
+            roll +=  self.value_for(f"FAB")
+            list.append({
+                "name": spell.name,
+                "roll": roll,
+                "diff": spell.diff,
+                "dps": spell.dps,
+                "category": spell.category,
+                "path": spell.path
+            })
+        return list
+
+    def shortcuts(self):
+        list = []
+        for sc in SHORTCUTS:
+            attr = self.value_for(sc[1])
+            skill =  self.value_for(sc[2])
+            print(sc, attr, skill)
+            list.append({
+                "roll": sc[0],
+                "val": attr+skill
+            })
+        return list
+
 
     def calcCompute(self, str):
         result = -1
@@ -297,7 +380,7 @@ class Character(models.Model):
         for a in args:
             total += a
         if len(args) > 0:
-            result = math.ceil(10 * total / len(args)) / 10
+            result = math.ceil(10 * total ) / 10
         return result
 
     @staticmethod
@@ -330,7 +413,7 @@ class Character(models.Model):
 
     def value_for(self, str):
         # from main.utils.ref_dragonade import CHARACTER_STATISTICS
-        result = -1
+        result = -1000
         where = self.index_for(str)
         if len(where) > 0:
             words = where.split(':')
@@ -341,13 +424,10 @@ class Character(models.Model):
         return result
 
     def overwrite_for(self, str, val):
-        # from main.utils.ref_dragonade import CHARACTER_STATISTICS
         result = False
         where = self.index_for(str)
-        print("where:",where,"str:",str,"val:",val)
         if len(where) > 0:
             words = where.split(':')
-            # print("OVERWRITE_FOR", words)
             if len(words) == 1:
                 self.data[words[0].lower()][str] = val
                 result = True
@@ -374,13 +454,11 @@ class Character(models.Model):
             result = "SKILLS:DRACONIC"
         elif str.upper() in CHARACTER_STATISTICS['SECONDARIES']['KNOWN']:
             result = "SECONDARIES"
-        elif str.upper() in CHARACTER_STATISTICS['MISCELLANEOUS']['KNOWN']:
-            result = "MISCELLANEOUS"
+        elif str.upper() in CHARACTER_STATISTICS['MISC']['KNOWN']:
+            result = "MISC"
         elif str.upper() in CHARACTER_STATISTICS['FEATURES']['KNOWN']:
             result = "FEATURES"
         else:
-            #print(f"Index_for {str.upper()} was not found [{result}]")
-            #print(CHARACTER_STATISTICS['SKILLS']['PECULIAR']['KNOWN'])
             result = ""
         return result
 

@@ -57,7 +57,7 @@ def value_push(request):
             # print(new_value)
             value = base64.b64decode(new_value)
             value = str(value).replace("b'","").replace("'","")
-            print("Value to push => ",value)
+            # print("Value to push => ",value)
             if len(params) >= 3:
                 class_name = params[0]
                 id = params[1]

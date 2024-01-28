@@ -1,4 +1,4 @@
-FONTSET = ["Neucha", "Are+You+Serious", "Fredoka", "Griffy"]
+FONTSET = ["Neucha", "Are+You+Serious", "Fredoka", "Griffy", "Miltonian", "Henny+Penny", "Astloch", "Mountains of Christmas", "Emilys Candy", "Mystery Quest", "Smythe", "Marhey", "Wellfleet"]
 
 
 def is_ajax(request):
@@ -16,6 +16,9 @@ def as_rid(str):
             .replace('ë', 'e') \
             .replace(' ', '') \
             .replace('-', '') \
+            .replace('+', '') \
+            .replace('/', '') \
+            .replace('\\', '') \
             .replace('ç', 'c') \
             .replace('à', 'a') \
             .replace('â', 'a') \
@@ -27,6 +30,10 @@ def as_rid(str):
             .replace('î', 'i') \
             .replace("'", '') \
             .replace('"', '') \
+            .replace('(', '_') \
+            .replace(')', '') \
+            .replace('[', '_') \
+            .replace(']', '') \
             .upper()
         if len(w) > 3:
             list.append(w[:3])

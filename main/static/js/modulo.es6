@@ -9,14 +9,16 @@ class Modulo {
 
     drawPrint(){
         let me = this;
+        let offsetx = -2;
+        let offsety = 0;
         me.back.append("rect")
             .attr("id","print_artefact")
             .attr("class","do_not_print")
-            .attr("x",-me.ox*me.step)
-            .attr("y",me.oy*me.step)
+            .attr("x",(me.ox+offsetx+0.5)*me.step)
+            .attr("y",(me.oy+offsety)*me.step)
             .attr("ry","5pt")
             .attr("rx","5pt")
-            .attr("width",me.step/2 )
+            .attr("width",me.step )
             .attr("height",me.step/2 )
             .attr('opacity',1)
             .style('stroke-width','2pt')
@@ -30,8 +32,8 @@ class Modulo {
         me.back.append("text")
             .attr("id","print_artefact")
             .attr("class","do_not_print")
-            .attr("x",-me.ox*me.step+0.25*me.step)
-            .attr("y",me.oy*me.step)
+            .attr("x",(me.ox+offsetx+1)*me.step)
+            .attr("y",(me.oy+offsety)*me.step)
             .attr("dy",me.step/3)
             .attr('opacity',1)
             .style('stroke-width','0.25pt')
@@ -39,7 +41,7 @@ class Modulo {
             .style('fill','#101010')
             .style("text-anchor","middle")
             .style("font-size","8pt")
-            .style("font-family","Neucha")
+            .style("font-family","Smythe")
             .text("Save")
         ;
     }

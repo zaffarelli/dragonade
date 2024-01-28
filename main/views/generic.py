@@ -64,14 +64,13 @@ def travellers(request):
     from main.models.travellers import Traveller
     context = prepare_context(request)
     characters = []
-    for x in Traveller.objects.all().order_by("player"):
+    for x in Traveller.objects.all().order_by("-player"):
         datum = x.toJson()
         datum['text'] = x.name
         datum['type'] = "traveller"
         characters.append(datum)
     context['characters'] = characters
     context['title'] = "Les Voyageurs"
-    # print(context)
     return render(request, 'main/pages/personae.html', context=context)
 
 
@@ -111,7 +110,19 @@ def papers(request):
     for cat in Equipment.objects.order_by().values('category').distinct():
         context['config']['data'][f"GEAR_TABLE_{cat['category'].upper()}"] = {"name": f"Equipement {x}", "code": f"GEAR_TABLE_{cat['category'].upper()}", "id": 300+x, "data": gear_table_json(cat['category'])}
         x += 1
-        print(x,cat)
+
+    from main.models.travellers import Traveller
+    import json
+    characters = []
+    datum = {}
+    for t in Traveller.objects.filter(gamers_team=True).order_by("player"):
+        t.export_to_json()
+        datum = t.data
+        datum['text'] = t.name
+        datum['type'] = "traveller"
+        characters.append(datum)
+    context['config']['data']["TRAVELLERS"] = {"name": "Travellers", "code": "TRAVELLERS", "id": 300, "data": characters}
+
 
 
 
@@ -140,6 +151,5 @@ def draconis_artes(request):
     spells = []
     for i in Spell.objects.exclude(source__exact="-").order_by("name"):
         spells.append(i.export_to_json())
-    print(spells)
     context['spells'] = spells
     return render(request, 'main/pages/draconis_artes.html', context=context)

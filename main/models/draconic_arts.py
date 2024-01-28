@@ -214,7 +214,7 @@ class Spell(models.Model):
 class SpellAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ["name"]
-    list_display = ["name", "roll", "original_casting_cost", "conversion", "ground_charge", "str_charges",
+    list_display = ["name","rid", "roll", "original_casting_cost", "conversion", "ground_charge", "str_charges",
                     "path", "ref", "category", "source"]
     list_editable = ["original_casting_cost", "roll", "ground_charge", "path", "ref", "category", "source"]
     list_filter = ["path", "category", "diff", "dps", "ref", "original_casting_cost", "ground_charge",

@@ -10,6 +10,7 @@ from main.models.characters import Character
 
 class Traveller(Character):
     player = models.CharField(max_length=128, default="", blank=True)
+    destiny = models.PositiveIntegerField(default=0, blank=True)
 
     def __str__(self):
         return f"v_{self.rid}"
@@ -17,6 +18,7 @@ class Traveller(Character):
     def export_to_json(self):
         super().export_to_json()
         self.data['player'] = self.player
+        self.data['destiny'] = self.destiny
         return self.data
 
     def fix(self):
@@ -26,5 +28,6 @@ class Traveller(Character):
 class TravellerAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ['name']
-    list_display = ['name', 'entrance', 'rid', 'player', 'json']
+    list_display = ['name', 'rid', 'player', 'gear', 'spells', 'destiny']
+    list_editable = ['gear', 'spells', 'destiny']
     actions = [refix]
