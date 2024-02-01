@@ -53,11 +53,11 @@ def value_push(request):
             new_roster = ''
             params = request.POST.get('refs').split('__')
             new_value = request.POST.get('new_value')
-            # print(params)
-            # print(new_value)
+            print(params)
+            print(new_value)
             value = base64.b64decode(new_value)
             value = str(value).replace("b'","").replace("'","")
-            # print("Value to push => ",value)
+            print("Value to push => ",value)
             if len(params) >= 3:
                 class_name = params[0]
                 id = params[1]
@@ -69,7 +69,7 @@ def value_push(request):
                     item = Traveller.objects.get(id=id)
                     cando = True
                 if cando:
-
+                    print("success!!")
                     change_result = item.applyValuePush(attribute, value)
                     context = {'a': item.toJson()}
                     template = get_template('main/objects/roster.html')

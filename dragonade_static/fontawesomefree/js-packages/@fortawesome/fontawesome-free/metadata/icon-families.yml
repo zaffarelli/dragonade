@@ -33939,7 +33939,7 @@ paper-plane:
         style: solid
       - family: classic
         style: regular
-  label: Carta Plane
+  label: Paper Plane
   search:
     terms:
       - air
@@ -47522,7 +47522,7 @@ toilet-paper:
     pro:
       - family: classic
         style: solid
-  label: Toilet Carta
+  label: Toilet Paper
   search:
     terms:
       - bathroom
@@ -47561,7 +47561,7 @@ toilet-paper-slash:
     pro:
       - family: classic
         style: solid
-  label: Toilet Carta Slash
+  label: Toilet Paper Slash
   search:
     terms:
       - bathroom

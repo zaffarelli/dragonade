@@ -436,7 +436,7 @@ class Carte extends Modulo {
             ;
             k.append('text')
                 .attr("x", (d,i) => me.paperX(-1))
-                .attr("y", (d,i) => me.paperY(0-0.4))
+                .attr("y", (d,i) => me.paperY(0))
                 .style("text-anchor","middle")
                 .style("font-family",me.basefont)
                 .style("font-size",me.localfontSize+"pt")
@@ -483,10 +483,16 @@ class Carte extends Modulo {
             .attr("x", (d,i) => me.paperX(-1*row_header_width+row_header_width/2))
             //.attr("y", (d,i) => me.paperY(i+0.5))
             .attr("y", (d,i) => me.texty(d,i,1,cell_width,cell_widths))
-            .attr("dy",me.localfontSize*1.75+"pt")
+            .attr("dy",me.localfontSize*1.25+"pt")
             .style("text-anchor","middle")
             .style("font-family",me.basefont)
-            .style("font-size",me.localfontSize+"pt")
+            .style("font-size",(d,i) => {
+                let answer = me.localfontSize+"pt";
+                if ("smallrid" in options){
+                    answer = me.localfontSize/2+"pt";
+                }
+                return answer;
+            })
             .style("fill","#401040")
             .style("stroke","#802080")
             .style("stroke-width","0.25pt")
@@ -526,7 +532,7 @@ class Carte extends Modulo {
         cell.append('text')
             .attr("x", (d,i) => me.textx(d,i,rowlen,cell_width,cell_widths))
             .attr("y", (d,i) => me.texty(d,i,rowlen,cell_width,cell_widths))
-            .attr("dy",me.localfontSize*1.75+"pt")
+            .attr("dy",me.localfontSize*1.25+"pt")
             .style("text-anchor","middle")
             .style("font-family",me.basefont)
             .style("font-size",me.localfontSize+"pt")
@@ -657,8 +663,8 @@ class Carte extends Modulo {
         }
 
         let subtb = tb.slice(0,3);
-        if (options["start"] == 3){
-            subtb = tb.slice(3,6);
+        if ("start" in options){
+            subtb = tb.slice(options["start"],options["start"]+3);
         }
         me.localstep = me.step;
         me.localstepy = me.localstep;
@@ -706,6 +712,7 @@ class Carte extends Modulo {
             ;
 
         me.append_value_to(roster_in,2,0.5,"player",{"rw":rw,"label":false})
+        me.append_value_to(roster_in,0.5,0.5,"misc.entrance",{"rw":rw,"label":false, "ta":"start"})
 
 
         roster_in.append('circle')
@@ -729,7 +736,7 @@ class Carte extends Modulo {
 
         let xo = 0.25;
         let yo = 0;
-        let framed = {"width":"3pt","color":"#104080"}
+        let framed = {"width":"1pt","color":"#104080"}
         me.append_value_to(roster_in,xo+0.5,yo+1,"AGI",{"rw":rw,"label":true, "framed" : framed})
         me.append_value_to(roster_in,xo+0.5,yo+1.25,"attributes.AGI",{"rw":rw,"label":false})
         xo += 1
@@ -746,7 +753,7 @@ class Carte extends Modulo {
 
         xo = 2.25;
         yo = 0;
-        framed = {"width":"3pt","color":"#108040"}
+        framed = {"width":"1pt","color":"#108040"}
         me.append_value_to(roster_in,xo+0.5,yo+1,"EMP",{"rw":rw,"label":true, "framed" : framed})
         me.append_value_to(roster_in,xo+0.5,yo+1.25,"attributes.EMP",{"rw":rw,"label":false})
         xo += 1
@@ -762,7 +769,7 @@ class Carte extends Modulo {
 
         xo = 0.25;
         yo = 1.6;
-        framed = {"width":"3pt","color":"#804010"}
+        framed = {"width":"1pt","color":"#804010"}
         me.append_value_to(roster_in,xo+0.5,yo+1,"APP",{"rw":rw,"label":true, "framed" : framed})
         me.append_value_to(roster_in,xo+0.5,yo+1.25,"attributes.APP",{"rw":rw,"label":false})
         xo += 1
@@ -830,17 +837,18 @@ class Carte extends Modulo {
 
 
         xo = 5;
-        yo = 0.2;
-        me.append_value_to(roster_in,xo+0.5,yo+1,"IG",{"rw":rw,"label":true,  framed})
+        yo = 0;
+        framed = {"width":"2pt","color":"#804080"}
+        me.append_value_to(roster_in,xo+0.5,yo+1,"IPG",{"rw":rw,"label":true,  framed})
         me.append_value_to(roster_in,xo+0.5,yo+1.25,"misc.indice",{"rw":rw,"label":false})
 
         xo = 6.25;
-        me.append_value_to(roster_in,xo+0.5,yo+1,"IA",{"rw":rw,"label":true})
-        me.append_value_to(roster_in,xo+0.5,yo+1.25,"misc.indice_a",{"rw":rw,"label":false})
+//         me.append_value_to(roster_in,xo+0.5,yo+1,"IA",{"rw":rw,"label":true})
+//         me.append_value_to(roster_in,xo+0.5,yo+1.25,"misc.indice_a",{"rw":rw,"label":false})
 
         xo = 7.5;
-        me.append_value_to(roster_in,xo+0.5,yo+1,"IS",{"rw":rw,"label":true, "ta":"middle"})
-        me.append_value_to(roster_in,xo+0.5,yo+1.25,"misc.indice_s",{"rw":rw,"label":false})
+//         me.append_value_to(roster_in,xo+0.5,yo+1,"IS",{"rw":rw,"label":true, "ta":"middle"})
+//         me.append_value_to(roster_in,xo+0.5,yo+1.25,"misc.indice_s",{"rw":rw,"label":false})
 
 
         xo = 5;
@@ -921,6 +929,17 @@ class Carte extends Modulo {
         if ("bold" in options){
             stk = "#101010"
         }
+        if ("framed" in options){
+            tgt.append('rect')
+                .attr('x', (d,i) => me.paperX(i*(options["rw"]+0.5)+x-0.4) )
+                .attr('y', (d,i) => me.paperY(0+0.5+y-0.25) )
+                .attr("width",me.localstep*0.8)
+                .attr("height",me.localstep*0.6)
+                .style("fill","#F0F0F0")
+                .style("stroke",options['framed']['color'])
+                .style("stroke-width",options['framed']['width'])
+            ;
+        }
         tgt.append('text')
             .attr('x', (d,i) => me.paperX(i*(options["rw"]+0.5)+x) )
             .attr('y', (d,i) => me.paperY(0+0.5+y) )
@@ -951,17 +970,7 @@ class Carte extends Modulo {
                 return answer
             })
         ;
-        if ("framed" in options){
-            tgt.append('rect')
-                .attr('x', (d,i) => me.paperX(i*(options["rw"]+0.5)+x-0.4) )
-                .attr('y', (d,i) => me.paperY(0+0.5+y-0.25) )
-                .attr("width",me.localstep*0.8)
-                .attr("height",me.localstep*0.6)
-                .style("fill","transparent")
-                .style("stroke",options['framed']['color'])
-                .style("stroke-width",options['framed']['width'])
-            ;
-        }
+
     }
 
     append_list_to(list,options){
@@ -980,6 +989,9 @@ class Carte extends Modulo {
                     yo += 0.10;
                 }
             });
+            if (v.length == 0){
+                me.append_value_to(roster_in,xo+0.25,yo,"-",{"rw":options['rw'],"label":true, "ta":"start"})
+            }
             xoffset += 1;
         });
     }
@@ -1008,6 +1020,9 @@ class Carte extends Modulo {
                     yo += 0.10 ;
                 }
             });
+            if (v.length == 0){
+                me.append_value_to(roster_in,xo+0.25,yo,"-",{"rw":options['rw'],"label":true, "ta":"start"})
+            }
             xoffset += 1;
         });
     }
@@ -1029,6 +1044,9 @@ class Carte extends Modulo {
                 me.append_value_to(roster_in,xo+3.80,yo,x["prot"],{"rw":options['rw'],"label":true, "ta":"middle"})
                 yo += 0.25;
             });
+            if (v.length == 0){
+                me.append_value_to(roster_in,xo+0.25,yo,"-",{"rw":options['rw'],"label":true, "ta":"start"})
+            }
             xoffset += 1;
         });
 
@@ -1103,48 +1121,57 @@ class Carte extends Modulo {
 
             me.drawTable(me.config.data["SECONDARIES_TABLE"],{"x":2, "y":34});
             me.drawTable(me.config.data["MISC_TABLE"],{"x":2, "y":41});
-
-        }else if (me.code == "SCREEN3"){
-            me.supertitle = "Ecran n°3"
-            me.drawBack();
-            me.drawRosters(me.config.data["TRAVELLERS"],{"x":1, "y":1, "start":3});
-
         }else if (me.code == "SCREEN2"){
             me.supertitle = "Ecran n°2"
             me.drawBack();
             me.drawRosters(me.config.data["TRAVELLERS"],{"x":1, "y":1, "start":0});
-
-
-
+        }else if (me.code == "SCREEN3"){
+            me.supertitle = "Ecran n°3"
+            me.drawBack();
+            me.drawRosters(me.config.data["TRAVELLERS"],{"x":1, "y":1, "start":3});
         }else if (me.code == "SCREEN4"){
             me.supertitle = "Ecran n°4"
             me.drawBack();
-            me.drawTable(me.config.data["GEAR_TABLE_BAG"],{"x":-1, "y":0});
-            me.drawTable(me.config.data["GEAR_TABLE_LAI"],{"x":-1, "y":22});
-            me.drawTable(me.config.data["GEAR_TABLE_JUT"],{"x":-1, "y":42});
-            me.drawTable(me.config.data["GEAR_TABLE_VEL"],{"x":-1, "y":55});
+            me.drawTable(me.config.data["GEAR_TABLE_BAG"],{"x":-1, "y":0, "smallrid":true});
+            me.drawTable(me.config.data["GEAR_TABLE_LAI"],{"x":-1, "y":22, "smallrid":true});
+            me.drawTable(me.config.data["GEAR_TABLE_JUT"],{"x":-1, "y":42, "smallrid":true});
+            me.drawTable(me.config.data["GEAR_TABLE_VEL"],{"x":-1, "y":55, "smallrid":true});
 
-            me.drawTable(me.config.data["GEAR_TABLE_ECR"],{"x":10, "y":0});
-            me.drawTable(me.config.data["GEAR_TABLE_FEU"],{"x":10, "y":14});
-            me.drawTable(me.config.data["GEAR_TABLE_CUI"],{"x":10, "y":28});
-            me.drawTable(me.config.data["GEAR_TABLE_OUT"],{"x":10, "y":51});
+            me.drawTable(me.config.data["GEAR_TABLE_ECR"],{"x":10, "y":0, "smallrid":true});
+            me.drawTable(me.config.data["GEAR_TABLE_FEU"],{"x":10, "y":14, "smallrid":true});
+            me.drawTable(me.config.data["GEAR_TABLE_CUI"],{"x":10, "y":28, "smallrid":true});
+            me.drawTable(me.config.data["GEAR_TABLE_OUT"],{"x":10, "y":51, "smallrid":true});
 
-            me.drawTable(me.config.data["GEAR_TABLE_HBD"],{"x":21, "y":0});
-            me.drawTable(me.config.data["GEAR_TABLE_SOI"],{"x":21, "y":12});
-            me.drawTable(me.config.data["GEAR_TABLE_JOU"],{"x":21, "y":24});
-            me.drawTable(me.config.data["GEAR_TABLE_LOC"],{"x":21, "y":42});
+            me.drawTable(me.config.data["GEAR_TABLE_HBD"],{"x":21, "y":0, "smallrid":true});
+            me.drawTable(me.config.data["GEAR_TABLE_SOI"],{"x":21, "y":12, "smallrid":true});
+            me.drawTable(me.config.data["GEAR_TABLE_JOU"],{"x":21, "y":24, "smallrid":true});
+            me.drawTable(me.config.data["GEAR_TABLE_LOC"],{"x":21, "y":42, "smallrid":true});
 
-            me.drawTable(me.config.data["GEAR_TABLE_SUS"],{"x":32, "y":0});
-            me.drawTable(me.config.data["GEAR_TABLE_HBS"],{"x":32, "y":12});
-            me.drawTable(me.config.data["GEAR_TABLE_RED"],{"x":32, "y":26});
-            me.drawTable(me.config.data["GEAR_TABLE_SEL"],{"x":32, "y":42});
+            me.drawTable(me.config.data["GEAR_TABLE_SUS"],{"x":32, "y":0, "smallrid":true});
+            me.drawTable(me.config.data["GEAR_TABLE_HBS"],{"x":32, "y":12, "smallrid":true});
+            me.drawTable(me.config.data["GEAR_TABLE_RED"],{"x":32, "y":26, "smallrid":true});
+            me.drawTable(me.config.data["GEAR_TABLE_SEL"],{"x":32, "y":42, "smallrid":true});
 
-            me.drawTable(me.config.data["GEAR_TABLE_MEL"],{"x":43, "y":0});
-            me.drawTable(me.config.data["GEAR_TABLE_TIR"],{"x":43, "y":30});
-            me.drawTable(me.config.data["GEAR_TABLE_LAN"],{"x":43, "y":37});
-            me.drawTable(me.config.data["GEAR_TABLE_AMU"],{"x":43, "y":48});
-
-
+            me.drawTable(me.config.data["GEAR_TABLE_MEL"],{"x":43, "y":0, "smallrid":true});
+            me.drawTable(me.config.data["GEAR_TABLE_TIR"],{"x":43, "y":30, "smallrid":true});
+            me.drawTable(me.config.data["GEAR_TABLE_LAN"],{"x":43, "y":37, "smallrid":true});
+            me.drawTable(me.config.data["GEAR_TABLE_AMU"],{"x":43, "y":48, "smallrid":true});
+        }else if (me.code == "SCREEN5"){
+            me.supertitle = "Ecran n°5"
+            me.drawBack();
+            me.drawRosters(me.config.data["AUTOCHTONS"],{"x":1, "y":1, "start":0});
+        }else if (me.code == "SCREEN6"){
+            me.supertitle = "Ecran n°6"
+            me.drawBack();
+            me.drawRosters(me.config.data["AUTOCHTONS"],{"x":1, "y":1, "start":3});
+        }else if (me.code == "SCREEN7"){
+            me.supertitle = "Ecran n°7"
+            me.drawBack();
+            me.drawRosters(me.config.data["AUTOCHTONS"],{"x":1, "y":1, "start":6});
+        }else if (me.code == "SCREEN8"){
+            me.supertitle = "Ecran n°8"
+            me.drawBack();
+            me.drawRosters(me.config.data["AUTOCHTONS"],{"x":1, "y":1, "start":9});
         }else{
             me.drawBack();
             //if (me.co.tables.length > 0){

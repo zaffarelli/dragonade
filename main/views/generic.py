@@ -107,14 +107,12 @@ def papers(request):
 
     from main.models.equipment import Equipment
     x = 1
-    for cat in Equipment.objects.order_by().values('category').distinct():
+    for cat in Equipment.objects.filter(special=False).values('category').distinct():
         context['config']['data'][f"GEAR_TABLE_{cat['category'].upper()}"] = {"name": f"Equipement {x}", "code": f"GEAR_TABLE_{cat['category'].upper()}", "id": 300+x, "data": gear_table_json(cat['category'])}
         x += 1
 
     from main.models.travellers import Traveller
-    import json
     characters = []
-    datum = {}
     for t in Traveller.objects.filter(gamers_team=True).order_by("player"):
         t.export_to_json()
         datum = t.data
@@ -123,15 +121,25 @@ def papers(request):
         characters.append(datum)
     context['config']['data']["TRAVELLERS"] = {"name": "Travellers", "code": "TRAVELLERS", "id": 300, "data": characters}
 
+    from main.models.autochtons import Autochton
+    characters = []
+    for t in Autochton.objects.filter(spotlight=True).order_by("indice"):
+        t.export_to_json()
+        datum = t.data
+        datum['text'] = t.name
+        datum['type'] = "autochton"
+        characters.append(datum)
+    context['config']['data']["AUTOCHTONS"] = {"name": "Autochtons", "code": "AUTOCHTONS", "id": 301, "data": characters}
 
+    context['config']['data']["SCREEN1"] = {"name": "Ecran volet 1", "code": "SCREEN1", "id": 671, "data": {}}
+    context['config']['data']["SCREEN2"] = {"name": "Ecran volet 2", "code": "SCREEN2", "id": 672, "data": {}}
+    context['config']['data']["SCREEN3"] = {"name": "Ecran volet 3", "code": "SCREEN3", "id": 673, "data": {}}
+    context['config']['data']["SCREEN4"] = {"name": "Ecran volet 4", "code": "SCREEN4", "id": 674, "data": {}}
 
-
-    context['config']['data']["SCREEN1"] = {"name": "Ecran volet 1", "code": "SCREEN1", "id": 666, "data": {}}
-    context['config']['data']["SCREEN2"] = {"name": "Ecran volet 2", "code": "SCREEN2", "id": 667, "data": {}}
-    context['config']['data']["SCREEN3"] = {"name": "Ecran volet 3", "code": "SCREEN3", "id": 668, "data": {}}
-    context['config']['data']["SCREEN4"] = {"name": "Ecran volet 4", "code": "SCREEN4", "id": 669, "data": {}}
-    context['config']['data']["SCREEN5"] = {"name": "Ecran volet 5", "code": "SCREEN5", "id": 670, "data": {}}
-
+    context['config']['data']["SCREEN5"] = {"name": "Autochtones 1", "code": "SCREEN5", "id": 675, "data": {}}
+    context['config']['data']["SCREEN6"] = {"name": "Autochtones 2", "code": "SCREEN6", "id": 676, "data": {}}
+    context['config']['data']["SCREEN7"] = {"name": "Autochtones 3", "code": "SCREEN7", "id": 677, "data": {}}
+    context['config']['data']["SCREEN8"] = {"name": "Autochtones 4", "code": "SCREEN8", "id": 678, "data": {}}
     context['title'] = "Aides de Jeu"
     context['config']['modules'].append('carte')
 

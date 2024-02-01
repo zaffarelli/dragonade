@@ -11,7 +11,11 @@
         BASE
     </div>
     <div class="box label full large">{{a.name}}</div>
-    <div class="box label full">{{a.misc.entrance}}</div>
+    <div class="box label full editable" >
+
+    <span class="box info se btn_edit value" action="value" id="{{a.type}}__{{a.id}}__entrance__value" srcval="{{a.misc.entrance|encoded_z|safe}}">&nbsp;{{a.misc.entrance|colorize_val|safe}}&nbsp;</span>
+
+    </div>
 
 
     <div class="box label sub"></div>
@@ -93,7 +97,9 @@
         <div class="box label sw">FABLE</div>
         <div class="box info sw">{{a.misc.FAB|colorize_val|safe}}</div>
         <div class="box label se">SONGE</div>
-        <div class="box info se">{{a.misc.SON}}</div>
+        <div class="box info se editable">
+        <span class="box info se btn_edit value" action="value" id="{{a.type}}__{{a.id}}__SON__value" srcval="{{a.misc.SON|encoded_z|safe}}">&nbsp;{{a.misc.SON|colorize_val|safe}}&nbsp;</span>
+        </div>
     </div>
     <div class="box label sub"></div>
     <div class="box subset">

@@ -40,9 +40,10 @@ CHARACTER_STATISTICS = {
             {"NAME": "SCO", "TEXT": "Seuil Con", "COMPUTE": "from_table_mean,CON,tbSCO","RATIONALE": "ArrondiBas((CON + 3) / 3) + 1"},
             {"NAME": "ENC", "TEXT": "Encombrement", "COMPUTE": "precise_mean,TAI,FOR","RATIONALE": " (TAI + FOR)  [garder une décimale]"},
             {"NAME": "SON", "TEXT": "Songe", "COMPUTE": "user_choice", "RATIONALE":"-"},
-            {"NAME": "REV", "TEXT": "Fable", "COMPUTE": "user_choice", "RATIONALE":"-"}
+            {"NAME": "REV", "TEXT": "Fable", "COMPUTE": "user_choice", "RATIONALE":"-"},
+            {"NAME": "entrance", "TEXT": "Entrée", "COMPUTE": "user_choice", "RATIONALE":"-"}
         ],
-        "KNOWN":["FAB","VIE","FAT","DOM","SUS","SCO","ENC","SON","REV"]
+        "KNOWN":["FAB","VIE","FAT","DOM","SUS","SCO","ENC","SON","REV","entrance"]
     },
     "FEATURES": {
         "LIST":[
@@ -499,8 +500,8 @@ def gear_table_json(cat=""):
     rows = []
     values = []
     from main.models.equipment import Equipment
-    for c in Equipment.objects.filter(category=cat):
-        rows.append(f"{c.id}")
+    for c in Equipment.objects.filter(category=cat,special=False):
+        rows.append(f"{c.rid}")
         values.append(f"{c.name}")
         values.append(f"{c.enc}")
         values.append(f"{c.price}")

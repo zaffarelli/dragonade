@@ -1,0 +1,35 @@
+{% load static %}
+
+<div>
+    <h1>Parallaxe</h1>
+
+    <form id="parallax">
+        <input type="text" name="message"/>
+        <button type="submit">Submit</button>
+    </form>
+    <div id="info"></div>
+
+    <script type="text/javascript">
+        let url = `ws://localhost:8083/ws/socket-server/`;
+        const chatSocket = new WebSocket(url)
+        chatSocket.onmessage = function(e){
+            let data = JSON.parse(e.data)
+            console.log("Data:",data)
+            if (data.type === "info"){
+                $("#info").prepend(
+                `<div>
+                    <p>${data.message}</p>
+                </div>`
+                )
+            }
+        }
+        $("#parallax").off().on('submit', (e) => {
+            e.preventDefault();
+            let message = e.target.message.value
+            chatSocket.send(JSON.stringify({
+                'message':message
+            }))
+        })
+        $("#parallax").reset()
+    </script>
+</div>

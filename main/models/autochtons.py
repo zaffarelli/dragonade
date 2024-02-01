@@ -11,12 +11,13 @@ from main.models.dreams import Dream
 
 class Autochton(Character):
     dream = models.ForeignKey(Dream, null=True, blank=True, on_delete=models.SET_NULL)
+    spotlight = models.BooleanField(default=False, blank=True)
 
     def __str__(self):
         return f"a_{self.rid}"
 
     def initial_randomize(self):
-        x = ["5", "5", "5", "4", "4", "4", "4", "4", "4", "4", "3", "3"]
+        x = ["4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4"]
         random.shuffle(x)
         self.attributes = " ".join(x)
 
@@ -36,8 +37,8 @@ class Autochton(Character):
 class AutochtonAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ['factions','group','team','name']
-    list_display = ['name', 'title','aka', 'is_female',"age", 'team','group', 'dream' ]
-    list_editable = ['dream', 'title','aka','team','group', 'age', 'is_female']
+    list_display = ['name', 'title','aka',"spotlight", 'is_female',"age", 'team','group', 'dream' ]
+    list_editable = ['dream', "spotlight",'title','aka','team','group', 'age', 'is_female']
     list_filter = ['dream','group','team','factions']
     search_fields = ['name','title','factions','aka']
     actions = [refix]
