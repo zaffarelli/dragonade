@@ -1,7 +1,7 @@
 {% load static %}
 {% load dragonade_filters %}
 
-<table class='skillstable {{a.type}}' id="ss_{{a.id}}">
+<table class='skillstable {{a.type.lower}}' id="ss_{{a.id}}">
     <tr>
 <td rowspan="3">
 <div class="sheet base" id="sb_{{a.id}}">
@@ -12,9 +12,7 @@
     </div>
     <div class="box label full large">{{a.name}}</div>
     <div class="box label full editable" >
-
-    <span class="box info se btn_edit value" action="value" id="{{a.type}}__{{a.id}}__entrance__value" srcval="{{a.misc.entrance|encoded_z|safe}}">&nbsp;{{a.misc.entrance|colorize_val|safe}}&nbsp;</span>
-
+        <span class="box info se btn_edit value" action="value" id="{{a.type}}__{{a.id}}__ENTRANCE__value" srcval="{{a.misc.entrance|encoded_z|safe}}">&nbsp;{{a.misc.entrance}}&nbsp;</span>
     </div>
 
 
@@ -128,14 +126,12 @@
 
 <div class="sheet weapons" >
     <div class="box header" style="text-align:left;">ARMES</div>
-    <div class="box label">libellé</div>
-    <div class="box info">données</div>
+    {% include "main/objects/weapons.html"%}
 </div>
 
 <div class="sheet magic" >
     <div class="box header" style="text-align:left;">MAGIE</div>
-    <div class="box label">libellé</div>
-    <div class="box info">données</div>
+    {% include "main/objects/spells.html"%}
 </div>
 
 

@@ -1,13 +1,18 @@
 class Risorse extends Modulo {
     constructor(co,config) {
         super(co,config);
+        this.gdr = false
         this.name = "Risorse";
         this.parent = "#svg_area";
+        if ("gdr" in config){
+            this.gdr = true;
+        }
     }
 
     init() {
         super.init();
         let me = this;
+
         me.co.revealUI();
         me.selection = [];
         me.step = 50;
@@ -21,17 +26,19 @@ class Risorse extends Modulo {
         let boundingBox = document.querySelector("#svg_area").getBoundingClientRect();
         me.w = parseInt($(me.parent).css('width'));
         me.h = parseInt($(me.parent).css('height'));
-        console.log(boundingBox);
-        me.fontsize = me.step / 4 ;
 
+        me.fontsize = me.step / 4 ;
+        me.cardset = []
 
 
         d3.select(me.parent).selectAll("svg").remove();
         me.vis = d3.select(me.parent).append("svg")
+            .attr("class", "vis")
             .attr("viewBox", "0 0 " + me.w + " " + me.h)
             .attr("width", me.w)
             .attr("height", me.h);
         me.svg = me.vis.append('g')
+            .attr("class", "svg")
             .attr("id", me.code)
             .attr("width", me.width)
             .attr("height", me.height)
@@ -134,72 +141,72 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
             .append("g")
            // .attr("transform","translate("+(-me.step*21/2)+","+(-me.step*29.7/2)+")")
         ;
-        me.back.append("rect")
-            .attr("id","pagerect")
-            .attr("x",me.ox*me.step)
-            .attr("y",me.oy*me.step)
-            .attr("width",me.width )
-            .attr("height",me.height )
-            .style('stroke-width','1pt')
-            .style('stroke-dasharray','2 3')
-            .style('stroke','#606060')
-            .style('fill','#F0F0F0')
-            .attr('opacity',0.5)
-        ;
+//         me.back.append("rect")
+//             .attr("id","pagerect")
+//             .attr("x",me.ox*me.step)
+//             .attr("y",me.oy*me.step)
+//             .attr("width",me.width )
+//             .attr("height",me.height )
+//             .style('stroke-width','1pt')
+//             .style('stroke-dasharray','2 3')
+//             .style('stroke','#606060')
+//             .style('fill','#F0F0F0')
+//             .attr('opacity',0.5)
+//         ;
 
-        if (me.debug == true) {
-            me.xunits = 28;
-            me.yunits = 20;
-
-            let verticals = me.back.append('g')
-                .attr('class', 'verticals')
-                .selectAll("g")
-                .data(d3.range(1, me.xunits+2, 1));
-            verticals.enter()
-                .append('line')
-                .attr('x1', function (d) {
-                    return (d+me.ox) * me.step
-                })
-                .attr('x2', function (d) {
-                    return (d+me.ox) * me.step
-                })
-                .attr('y1', me.oy*me.step)
-                .attr('y2', (me.oy+me.yunits+1) * me.step)
-                .style('fill', 'transparent')
-                .style('stroke', '#90a090')
-                .style('stroke-dasharray', '3 7')
-                .style('stroke-width', '0.25pt');
-            let horizontals = me.back.append('g')
-                .attr('class', 'horizontals')
-                .selectAll("g")
-                .data(d3.range(1, me.yunits+2, 1));
-            horizontals.enter()
-                .append('line')
-                .attr('x1', me.ox * me.step)
-                .attr('x2', (me.ox+me.xunits+1) * me.step)
-                .attr('y1', function (d) {
-                    return (d+me.oy) * me.step
-                })
-                .attr('y2', function (d) {
-                    return (d+me.oy) * me.step
-                })
-                .style('fill', 'transparent')
-                .style('stroke', '#90a090')
-                .style('stroke-dasharray', '3 5')
-                .style('stroke-width', '0.25pt');
-
-        }
-        me.back.append('text')
-            .attr("x", me.step*3)
-            .attr("y", me.step*21)
-            .style("text-anchor","middle")
-            .style("font-family","Are You Serious")
-            .style("font-size",me.step+"pt")
-            .style("fill","#101010")
-            .style("stroke","#808080")
-            .style("stroke-width","0.25pt")
-            .text(me.supertitle)
-        ;
+//         if (me.debug == true) {
+//             me.xunits = 28;
+//             me.yunits = 20;
+//
+//             let verticals = me.back.append('g')
+//                 .attr('class', 'verticals')
+//                 .selectAll("g")
+//                 .data(d3.range(1, me.xunits+2, 1));
+//             verticals.enter()
+//                 .append('line')
+//                 .attr('x1', function (d) {
+//                     return (d+me.ox) * me.step
+//                 })
+//                 .attr('x2', function (d) {
+//                     return (d+me.ox) * me.step
+//                 })
+//                 .attr('y1', me.oy*me.step)
+//                 .attr('y2', (me.oy+me.yunits+1) * me.step)
+//                 .style('fill', 'transparent')
+//                 .style('stroke', '#90a090')
+//                 .style('stroke-dasharray', '3 7')
+//                 .style('stroke-width', '0.25pt');
+//             let horizontals = me.back.append('g')
+//                 .attr('class', 'horizontals')
+//                 .selectAll("g")
+//                 .data(d3.range(1, me.yunits+2, 1));
+//             horizontals.enter()
+//                 .append('line')
+//                 .attr('x1', me.ox * me.step)
+//                 .attr('x2', (me.ox+me.xunits+1) * me.step)
+//                 .attr('y1', function (d) {
+//                     return (d+me.oy) * me.step
+//                 })
+//                 .attr('y2', function (d) {
+//                     return (d+me.oy) * me.step
+//                 })
+//                 .style('fill', 'transparent')
+//                 .style('stroke', '#90a090')
+//                 .style('stroke-dasharray', '3 5')
+//                 .style('stroke-width', '0.25pt');
+//
+//         }
+//         me.back.append('text')
+//             .attr("x", me.step*3)
+//             .attr("y", me.step*21)
+//             .style("text-anchor","middle")
+//             .style("font-family","Are You Serious")
+//             .style("font-size",me.step+"pt")
+//             .style("fill","#101010")
+//             .style("stroke","#808080")
+//             .style("stroke-width","0.25pt")
+//             .text(me.supertitle)
+//         ;
 
     }
 
@@ -310,7 +317,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
     zoomActivate() {
         let me = this;
         me.zoom = d3.zoom()
-            .scaleExtent([0.25, 4])
+            .scaleExtent([0.25, 1])
             .on('zoom', function (event) {
                 me.svg.attr('transform', event.transform)
             });
@@ -325,35 +332,36 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
 
     drawAll(){
         let me = this;
+        me.drawBack();
         let dataset = [
-            {"idx": 1,"pts":2, "name":"Sanctuaire", "svg":"tm_1.svg", "category": "Terres Médianes", "color": "#C040D0", "row":1, "hidden":1},
-            {"idx": 2,"pts":2, "name":"Désert", "svg":"tm_2.svg", "category": "Terres Médianes", "color": "#C040D0", "row":1, "hidden":1},
-            {"idx": 3,"pts":2, "name":"Monts", "svg":"tm_3.svg", "category": "Terres Médianes", "color": "#C040D0", "row":1, "hidden":1},
-            {"idx": 4,"pts":2, "name":"Cité", "svg":"tm_4.svg", "category": "Terres Médianes", "color": "#C040D0", "row":1, "hidden":1},
-            {"idx": 5,"pts":2, "name":"Forêt", "svg":"tm_5.svg", "category": "Terres Médianes", "color": "#C040D0", "row":1, "hidden":1},
-            {"idx": 6,"pts":2, "name":"Plaine", "svg":"tm_6.svg", "category": "Terres Médianes", "color": "#C040D0", "row":1, "hidden":1},
-            {"idx": 7,"pts":2, "name":"Colline", "svg":"tm_7.svg", "category": "Terres Médianes", "color": "#C040D0", "row":1, "hidden":1},
-            {"idx": 8,"pts":2, "name":"Pont", "svg":"tm_8.svg", "category": "Terres Médianes", "color": "#C040D0", "row":1, "hidden":1},
-            {"idx": 9,"pts":2, "name":"Fleuve", "svg":"tm_9.svg", "category": "Terres Médianes", "color": "#C040D0", "row":1, "hidden":1},
-            {"idx": 10,"pts":2, "name":"Lac", "svg":"tm_10.svg", "category": "Terres Médianes", "color": "#C040D0", "row":1, "hidden":1},
-            {"idx": 11,"pts":2, "name":"Marais", "svg":"tm_11.svg", "category": "Terres Médianes", "color": "#C040D0", "row":1, "hidden":1},
-            {"idx": 12,"pts":2, "name":"Désolation", "svg":"tm_12.svg", "category": "Terres Médianes", "color": "#C040D0", "row":1, "hidden":1},
-            {"idx": 13,"pts":2, "name":"Gouffre", "svg":"tm_13.svg", "category": "Terres Médianes", "color": "#C040D0", "row":1, "hidden":1},
-            {"idx": 14,"pts":2, "name":"Nécropole", "svg":"tm_14.svg", "category": "Terres Médianes", "color": "#C040D0", "row":1, "hidden":1},
+            {"idx": 1,"pts":2, "name":"Sanctuaire", "svg":"tm_1.svg", "category": "Terres Médianes", "color": "#F0D080", "row":1, "hidden":1},
+            {"idx": 2,"pts":2, "name":"Désert", "svg":"tm_2.svg", "category": "Terres Médianes", "color": "#F0D080", "row":1, "hidden":1},
+            {"idx": 3,"pts":2, "name":"Monts", "svg":"tm_3.svg", "category": "Terres Médianes", "color": "#F0D080", "row":1, "hidden":1},
+            {"idx": 4,"pts":2, "name":"Cité", "svg":"tm_4.svg", "category": "Terres Médianes", "color": "#F0D080", "row":1, "hidden":1},
+            {"idx": 5,"pts":2, "name":"Forêt", "svg":"tm_5.svg", "category": "Terres Médianes", "color": "#F0D080", "row":1, "hidden":1},
+            {"idx": 6,"pts":2, "name":"Plaine", "svg":"tm_6.svg", "category": "Terres Médianes", "color": "#F0D080", "row":1, "hidden":1},
+            {"idx": 7,"pts":2, "name":"Colline", "svg":"tm_7.svg", "category": "Terres Médianes", "color": "#F0D080", "row":1, "hidden":1},
+            {"idx": 8,"pts":2, "name":"Pont", "svg":"tm_8.svg", "category": "Terres Médianes", "color": "#F0D080", "row":1, "hidden":1},
+            {"idx": 9,"pts":2, "name":"Fleuve", "svg":"tm_9.svg", "category": "Terres Médianes", "color": "#F0D080", "row":1, "hidden":1},
+            {"idx": 10,"pts":2, "name":"Lac", "svg":"tm_10.svg", "category": "Terres Médianes", "color": "#F0D080", "row":1, "hidden":1},
+            {"idx": 11,"pts":2, "name":"Marais", "svg":"tm_11.svg", "category": "Terres Médianes", "color": "#F0D080", "row":1, "hidden":1},
+            {"idx": 12,"pts":2, "name":"Désolation", "svg":"tm_12.svg", "category": "Terres Médianes", "color": "#F0D080", "row":1, "hidden":1},
+            {"idx": 13,"pts":2, "name":"Gouffre", "svg":"tm_13.svg", "category": "Terres Médianes", "color": "#F0D080", "row":1, "hidden":1},
+            {"idx": 14,"pts":2, "name":"Nécropole", "svg":"tm_14.svg", "category": "Terres Médianes", "color": "#F0D080", "row":1, "hidden":1},
 
 
-            {"idx": 1,"pts":4, "name":"Vaisseau", "svg":"hd_1.svg", "category": "Heures Draconiques", "color": "#0000D0", "row":2, "hidden":1},
-            {"idx": 2,"pts":4, "name":"Sirène", "svg":"hd_2.svg", "category": "Heures Draconiques", "color": "#0000D0", "row":2, "hidden":1},
-            {"idx": 3,"pts":4, "name":"Faucon", "svg":"hd_3.svg", "category": "Heures Draconiques", "color": "#0000D0", "row":2, "hidden":1},
-            {"idx": 4,"pts":4, "name":"Couronne", "svg":"hd_4.svg", "category": "Heures Draconiques", "color": "#0000D0", "row":2, "hidden":1},
-            {"idx": 5,"pts":4, "name":"Dragon", "svg":"hd_5.svg", "category": "Heures Draconiques", "color": "#0000D0", "row":2, "hidden":1},
-            {"idx": 6,"pts":4, "name":"Epées", "svg":"hd_6.svg", "category": "Heures Draconiques", "color": "#0000D0", "row":2, "hidden":1},
-            {"idx": 7,"pts":4, "name":"Lyre", "svg":"hd_7.svg", "category": "Heures Draconiques", "color": "#0000D0", "row":2, "hidden":1},
-            {"idx": 8,"pts":4, "name":"Serpent", "svg":"hd_8.svg", "category": "Heures Draconiques", "color": "#0000D0", "row":2, "hidden":1},
-            {"idx": 9,"pts":4, "name":"Poisson Acrobate", "svg":"hd_9.svg", "category": "Heures Draconiques", "color": "#0000D0", "row":2, "hidden":1},
-            {"idx": 10,"pts":4, "name":"Araignée", "svg":"hd_10.svg", "category": "Heures Draconiques", "color": "#0000D0", "row":2, "hidden":1},
-            {"idx": 11,"pts":4, "name":"Roseau", "svg":"hd_11.svg", "category": "Heures Draconiques", "color": "#0000D0", "row":2, "hidden":1},
-            {"idx": 12,"pts":4, "name":"Chateau Dormant", "svg":"hd_12.svg", "category": "Heures Draconiques", "color": "#0000D0", "row":2, "hidden":1},
+            {"idx": 1,"pts":4, "name":"Vaisseau", "svg":"hd_1.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 2,"pts":4, "name":"Sirène", "svg":"hd_2.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 3,"pts":4, "name":"Faucon", "svg":"hd_3.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 4,"pts":4, "name":"Couronne", "svg":"hd_4.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 5,"pts":4, "name":"Dragon", "svg":"hd_5.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 6,"pts":4, "name":"Epées", "svg":"hd_6.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 7,"pts":4, "name":"Lyre", "svg":"hd_7.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 8,"pts":4, "name":"Serpent", "svg":"hd_8.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 9,"pts":4, "name":"Poisson Acrobate", "svg":"hd_9.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 10,"pts":4, "name":"Araignée", "svg":"hd_10.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 11,"pts":4, "name":"Roseau", "svg":"hd_11.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 12,"pts":4, "name":"Chateau Dormant", "svg":"hd_12.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
 
 
             {"idx": 1,"pts":1, "name":"Humeur", "svg":"cd_1.svg", "category": "Consistances Draconiques", "color": "#F0D080", "row":3, "hidden":1},
@@ -364,107 +372,81 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
             {"idx": 6,"pts":3, "name":"Amas", "svg":"cd_6.svg", "category": "Consistances Draconiques", "color": "#F0D080", "row":3, "hidden":1},
             {"idx": 7,"pts":4, "name":"Cristal", "svg":"cd_7.svg", "category": "Consistances Draconiques", "color": "#F0D080", "row":3, "hidden":1},
 
-            {"idx": 1,"pts":1, "name":"Ondée", "svg":"em_1.svg", "category": "Emanations Draconiques", "color": "#00D000", "row":4, "hidden":1},
-            {"idx": 2,"pts":2, "name":"Flux", "svg":"em_2.svg", "category": "Emanations Draconiques", "color": "#00D000", "row":4, "hidden":1},
-            {"idx": 3,"pts":3, "name":"Courant", "svg":"em_3.svg", "category": "Emanations Draconiques", "color": "#00D000", "row":4, "hidden":1},
-            {"idx": 4,"pts":4, "name":"Vague", "svg":"em_4.svg", "category": "Emanations Draconiques", "color": "#00D000", "row":4, "hidden":1},
-            {"idx": 5,"pts":5, "name":"Marée", "svg":"em_5.svg", "category": "Emanations Draconiques", "color": "#00D000", "row":4, "hidden":1},
-            {"idx": 6,"pts":6, "name":"Ras", "svg":"em_6.svg", "category": "Emanations Draconiques", "color": "#00D000", "row":4, "hidden":1},
-            {"idx": 7,"pts":7, "name":"Déferlante", "svg":"em_7.svg", "category": "Emanations Draconiques", "color": "#00D000", "row":4, "hidden":1},
+            {"idx": 1,"pts":1, "name":"Ondée", "svg":"em_1.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
+            {"idx": 2,"pts":2, "name":"Flux", "svg":"em_2.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
+            {"idx": 3,"pts":3, "name":"Courant", "svg":"em_3.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
+            {"idx": 4,"pts":4, "name":"Vague", "svg":"em_4.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
+            {"idx": 5,"pts":5, "name":"Marée", "svg":"em_5.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
+            {"idx": 6,"pts":6, "name":"Ras", "svg":"em_6.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
+            {"idx": 7,"pts":7, "name":"Déferlante", "svg":"em_7.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
 
-            {"idx": 1,"pts":1, "name":"Eau", "svg":"ed_1.svg", "category": "Eléments Draconiques", "color": "#D00000", "row":5, "hidden":1},
-            {"idx": 2,"pts":1, "name":"Feu", "svg":"ed_2.svg", "category": "Eléments Draconiques", "color": "#D00000", "row":5, "hidden":1},
-            {"idx": 3,"pts":1, "name":"Terre", "svg":"ed_3.svg", "category": "Eléments Draconiques", "color": "#D00000", "row":5, "hidden":1},
-            {"idx": 4,"pts":1, "name":"Air", "svg":"ed_4.svg", "category": "Eléments Draconiques", "color": "#D00000", "row":5, "hidden":1},
-            {"idx": 5,"pts":1, "name":"Bois", "svg":"ed_5.svg", "category": "Eléments Draconiques", "color": "#D00000", "row":5, "hidden":1},
-            {"idx": 6,"pts":1, "name":"Métal", "svg":"ed_6.svg", "category": "Eléments Draconiques", "color": "#D00000", "row":5, "hidden":1},
-            {"idx": 7,"pts":1, "name":"Septième", "svg":"ed_7.svg", "category": "Eléments Draconiques", "color": "#D00000", "row":5, "hidden":1},
+            {"idx": 1,"pts":1, "name":"Eau", "svg":"ed_1.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
+            {"idx": 2,"pts":1, "name":"Feu", "svg":"ed_2.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
+            {"idx": 3,"pts":1, "name":"Terre", "svg":"ed_3.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
+            {"idx": 4,"pts":1, "name":"Air", "svg":"ed_4.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
+            {"idx": 5,"pts":1, "name":"Bois", "svg":"ed_5.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
+            {"idx": 6,"pts":1, "name":"Métal", "svg":"ed_6.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
+            {"idx": 7,"pts":1, "name":"Septième", "svg":"ed_7.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
 
 
-            {"idx": 1,"pts":0, "name":"Conviction", "svg":"sp.svg", "category": "Spécial", "color": "#D00050", "row":6, "hidden":1},
-            {"idx": 2,"pts":0, "name":"Intuition", "svg":"sp.svg", "category": "Spéial", "color": "#D00050", "row":6, "hidden":1},
-            {"idx": 3,"pts":0, "name":"Révélation", "svg":"sp.svg", "category": "Spécial", "color": "#D00050", "row":6, "hidden":1},
+            {"idx": 1,"pts":0, "name":"Conviction", "svg":"sp.svg", "category": "Spécial", "color": "#A02020", "row":6, "hidden":1},
+            {"idx": 2,"pts":0, "name":"Intuition", "svg":"sp.svg", "category": "Spécial", "color": "#A02020", "row":6, "hidden":1},
+            {"idx": 3,"pts":0, "name":"Révélation", "svg":"sp.svg", "category": "Spécial", "color": "#A02020", "row":6, "hidden":1},
         ]
         me.drawCardSet(dataset);
     }
 
-    resizeEvent(){
-        let me = this;
-        let width = $(me.parent).width;
-        let height = $(me.parent).height;
-        me.vis.attr('width', width);
-        me.vis.attr('height', height);
 
-    }
 
     drawCardSet(set){
         let me = this;
         let cnt = set.length;
-        let teta = (Math.PI*2)/cnt;
-        let radius = 45
+        let teta = (Math.PI*2)/(cnt);
+        let radius = 20
         // Standard position
         set.forEach(function(v,k){
-             v["x"] = (v["idx"]-1)*8+1;
-             v["y"] = 5 + (v["row"]-1)*12;
-//             v["x"] = 0 + Math.cos(teta*k)*(radius*3);
-//             v["y"] = 0 + Math.sin(teta*k)*(radius*2);
+            if (me.gdr == true){
+                v["x"] = (v["idx"]-1)*8+1;
+                v["y"] = 5 + (v["row"]-1)*12;
+                v["hidden"] = 0;
+            }else{
+               v["x"] = 10+Math.cos(teta*k)*(radius*3);
+               v["y"] = 10+Math.sin(teta*k)*(radius*2);
+            }
+            console.log(k,v["x"],v["y"])
             v["number"] = k;
             console.log(teta)
-
             v["code_name"] = v["row"]+"_"+v["idx"];
             v["spot"] = 0;
         });
-        me.drawCards(set);
+        me.cardset = set;
+        me.drawCards();
     }
 
 
-    drawCards(dataset){
+
+
+    drawCards(){
         let me = this;
-
-//             let verticals = me.back.append('g')
-//                 .attr('class', 'verticals')
-//                 .selectAll("g")
-//                 .data(d3.range(1, me.xunits+2, 1));
-//             verticals.enter()
-//                 .append('line')
-//
-
-        me.trumps = me.svg.append('g')
+        me.risorse = me.svg.append('g')
             .attr("class", "trumps")
             .selectAll("g")
-            .data(dataset)
+            .data(me.cardset)
         ;
-        me.trump_in = me.trumps.enter();
-        me.trump = me.trump_in.append('g')
+        me.risorsa_in = me.risorse.enter();
+        me.risorsa_out = me.risorse.exit().remove();
+
+        me.risorsa = me.risorsa_in.append('g')
             .attr("class", "trump")
             .attr("id", d => "trump__"+d["code_name"])
             .on("click", (e,d) => {
 
                 if (e.ctrlKey){
-                    if (e.shiftKey){
-                        // Show All
-                        d3.selectAll(".trump .verso").attr("opacity",0.0);
-                        d3.selectAll(".trump .recto").attr("opacity",1.0);
-                    }else{
-                        // Reveal THIS
-                        d3.selectAll("#trump__"+d["code_name"]+" .verso").attr("opacity",0.0);
-                        d3.selectAll("#trump__"+d["code_name"]+" .recto").attr("opacity",1.0);
-
-                        me.refreshSelection(d["code_name"]);
-
-
-                    }
+                    d3.selectAll(".trump .verso").attr("opacity",(d) => 1);
+                    d3.selectAll(".trump .recto").attr("opacity",(d) => 0)
                 }else{
-                    // Hide All
-                    d3.selectAll(".trump")
-                        .attr("x", d => (d["idx"]-1)*8+1 )
-                        .attr("y", d => 5 + (d["row"]-1)*12 )
-                        .attr("transform", d => "translate( "+ d["x"] * me.step +","+ d["y"] * me.step + ")" )
-                    ;
-                    d3.selectAll(".trump .verso").attr("opacity",1.0);
-                    d3.selectAll(".trump .recto").attr("opacity",0.0)
-                    me.selection = [];
-                    me.revealling = false;
+                    d3.selectAll(".trump .verso").attr("opacity",(d) => d['hidden'] == 1 ? 1 : 0);
+                    d3.selectAll(".trump .recto").attr("opacity",(d) => d['hidden'] == 1 ? 0 : 1)
                     ;
                 }
              })
@@ -474,7 +456,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
                 }
             })
             .attr("transform", d => "translate( "+ d["x"] * me.step +","+ d["y"] * me.step + ")" )
-        me.trump.append('rect')
+        me.risorsa.append('rect')
                 .attr('class','cardback recto')
                 .attr('rx',me.step*0.5)
                 .attr('ry',me.step*0.5)
@@ -485,7 +467,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
                 .style('stroke-width', '5pt')
                 ;
 
-        me.trump.append("image")
+        me.risorsa.append("image")
                 .attr('class','recto')
                 .attr("xlink:href", d => "/static/main/svg/"+d["svg"] )
                 .attr("width", me.step*4)
@@ -494,7 +476,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
                 .attr("y", d => (3) * me.step)
                 ;
 
-        me.trump.append("text")
+        me.risorsa.append("text")
                 .attr('class','recto')
                 .attr("width", me.step*4)
                 .attr("height", me.step * 4)
@@ -509,22 +491,22 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
                 .text(d => d['idx'])
             ;
 
-        me.trump.append("text")
+        me.risorsa.append("text")
                 .attr('class','recto')
                 .attr("width", me.step*4)
                 .attr("height", me.step * 4)
                 .attr("x", d => (5.75) * me.step)
                 .attr("y", d => (10.5) * me.step)
                 .style("text-anchor","end")
-                .style("font-family","Are You Serious")
+                .style("font-family","Smythe")
                 .style("font-size",me.step*0.8+"pt")
                 .style("fill","#a02020")
                 .style("stroke","#808080")
                 .style("stroke-width","0.5pt")
                 .text(d => d['pts']+"r")
-        me.trump.append("text")
+        me.risorsa.append("text")
                 .attr('class','recto')
-                .attr("x", d => (0.5) * me.step)
+                .attr("x", d => (1) * me.step)
                 .attr("y", d => (0.5) * me.step)
                 .style("text-anchor","start")
                 .style("font-family","Neucha")
@@ -536,7 +518,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
                 .attr("transform",d => "rotate("+90+","+(0.5) * me.step+","+(0.25) * me.step+")")
               ;
 
-        me.trump.append("text")
+        me.risorsa.append("text")
                 .attr('class','recto')
                 .attr("width", me.step*4)
                 .attr("height", me.step * 4)
@@ -557,7 +539,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
                 })
 
 
-        me.trump.append("text")
+        me.risorsa.append("text")
                 .attr('class','recto')
                 .attr("width", me.step*4)
                 .attr("height", me.step * 4)
@@ -580,19 +562,19 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
 
 
 
-        me.trump.append('rect')
+        me.risorsa.append('rect')
                 .attr('class','recto')
-                .attr('x',d => (0.5) * me.step)
-                .attr('y',d => (10) * me.step)
-                .attr('width',me.step*0.5)
-                .attr('height',me.step*0.5)
+                .attr('x',d => (0.6) * me.step)
+                .attr('y',d => (0.5) * me.step)
+                .attr('width',me.step*0.25)
+                .attr('height',me.step*10)
                 .style('fill', d => d["color"])
                 .style('fill-opacity', 0.80)
                 .style('stroke', '#808080')
                 .style('stroke-width', '1pt')
                 ;
 
-        me.trump.append('rect')
+        me.risorsa.append('rect')
                 .attr('class','cardback verso')
                 .attr('rx',me.step*0.5)
                 .attr('ry',me.step*0.5)
@@ -604,7 +586,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
                 .attr("opacity", d => d["hidden"])
         ;
 
-        me.trump.append("image")
+        me.risorsa.append("image")
                 .attr('class','verso')
                 .attr("xlink:href", "/static/main/svg/dragonade_logo.svg")
                 .attr("width", me.step*5)
@@ -613,8 +595,9 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
                  .attr("y", d => 1 * me.step)
                 .attr("opacity", d => d["hidden"])
         ;
-        me.trump_out = me.trumps.exit().remove();
 
+        me.drawCross(0,10*me.step)
+        me.drawCross(10*me.step,0)
     }
 
     refreshSelection(code_name){
@@ -646,6 +629,83 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
         me.revealling = true;
     }
 
+
+    updateCards(){
+       let me = this;
+       //me.risorsa_update = me.risorse.update();
+       d3.selectAll(".trump .verso").attr("opacity",(d) => 1);
+       d3.selectAll(".trump .recto").attr("opacity",(d) => 0)
+       d3.selectAll(".trump")
+            .transition()
+            .duration(2000)
+            .ease(d3.easeCubicInOut)
+            .attr("transform", d => "translate( "+ d["x"] * me.step +","+ d["y"] * me.step + ")")
+            .delay(250)
+            ;
+
+    }
+
+
+
+
+
+    action(type,str){
+        let me = this;
+        if (me.gdr == false){
+            let cards = str.split(" ");
+            let row = 1
+            let col = 1
+            let cnt = me.cardset.length;
+            let colhidden = 1 + Math.floor(Math.random()*cnt) % cnt;
+            let teta = (Math.PI*2)/(cnt - cards.length);
+            let radius = 20
+            console.log("Type:",type)
+            if (type==="select"){
+                _.map(me.cardset, (c) => {
+                    let rowstr = `${row}`;
+                    if (cards[`${row-1}`] == "0"){
+                        row += 1
+                    }else{
+                        if ((c["row"] == rowstr) && (c["idx"] == cards[`${row-1}`])){
+                            c["hidden"] = 0
+                            c["x"] = (col-1)*8-5;
+                            c["y"] = 0 + (1)*12;
+                            row += 1
+                            col += 1
+                            console.log("=> ",rowstr,cards[row],c["row"],c["idx"])
+                        }else{
+                            c["hidden"] = 1
+                            c["x"] = 10+Math.cos(teta*colhidden)*(radius*3);
+                            c["y"] = 10+Math.sin(teta*colhidden)*(radius*2);
+                            colhidden += 1
+                        }
+                    }
+                });
+                me.updateCards();
+
+            }else{
+                console.log("I'm here!!")
+                d3.selectAll(".trump .verso")
+                    .attr("opacity",(d) => {
+                        let val = 0.0
+                        if (d['hidden'] == 1){
+                            console.log("verso:", d.name, "is visible");
+                            val = 1.0
+                        }
+                        return val;
+                    });
+                d3.selectAll(".trump .recto")
+                    .attr("opacity",(d) => {
+                        let val = 0.0
+                        if (d['hidden'] == 0){
+                            console.log("recto:", d.name, "is visible");
+                            val = 1.0
+                        }
+                        return val;
+                    });
+            }
+        }
+    }
 
     perform(){
         super.perform();

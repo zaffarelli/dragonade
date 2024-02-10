@@ -2,7 +2,7 @@ class Orologio extends Modulo {
     constructor(co, config) {
         super(co,config)
         this.name = "Orologio";
-        this.parent = "#d3area";
+        this.parent = "#svg_area";
     }
 
     init() {
@@ -11,20 +11,46 @@ class Orologio extends Modulo {
         me.hourOverride = 666;
         me.quickDelay = 0.47 * 1000;
         me.slowDelay = 30 * 1000;
-        me.version = "1.0.0";
-        me.width = parseInt($(me.parent).css("width"), 10);
-        me.height = parseInt($(me.parent).css("height"), 10);
+        me.version = "1.2.0";
+        //me.width = parseInt($(me.parent).css("width"), 10);
+        //me.height = parseInt($(me.parent).css("height"), 10);
+        me.width = 3000;
+        me.height = 2000;
+//         me.w = parseInt($(me.parent).css('width'));
+//         me.h = parseInt($(me.parent).css('height'));
+//
+        let boundingBox = document.querySelector("#svg_area").getBoundingClientRect();
         me.w = parseInt($(me.parent).css('width'));
         me.h = parseInt($(me.parent).css('height'));
-        me.step = me.w / 32;
+
+
+
+        me.step = me.width / 32;
         me.fontsize = me.step / 4;
         me.light = [0,0.70, 0.4, 0, 0, 0, 0, 0, 0.40, 0.70, 0.90, 1, 0.90];
+//         d3.select(me.parent).selectAll("svg").remove();
+//         me.svg = d3.select(me.parent).append("svg")
+//             .attr("viewBox", -me.w / 2 + " " + -me.h / 2 + " " + me.w + " " + me.h)
+//             .attr("width", me.w)
+//             .attr("height", me.h)
+//         ;
+
         d3.select(me.parent).selectAll("svg").remove();
-        me.svg = d3.select(me.parent).append("svg")
+        me.vis = d3.select(me.parent).append("svg")
+            .attr("class", "vis")
             .attr("viewBox", -me.w / 2 + " " + -me.h / 2 + " " + me.w + " " + me.h)
             .attr("width", me.w)
-            .attr("height", me.h)
+            .attr("height", me.h);
+
+        me.svg = me.vis.append('g')
+            .attr("class", "svg")
+            .attr("id", "orologio")
+            .attr("width", me.width)
+            .attr("height", me.height)
+            .append("svg:g")
+            .attr("transform", "translate("+me.w/2+","+me.h/2+")")
         ;
+
     }
 
     createPath(str, u) {
@@ -46,7 +72,9 @@ class Orologio extends Modulo {
 
     drawBack() {
         let me = this;
-        me.circleback = me.svg.append('g')
+        me.back = me.svg.append('g');
+        me.drawCross(0,0)
+        me.circleback = me.back.append('g')
             .attr("class", "circlebacks")
             .append("g")
         ;
@@ -146,7 +174,7 @@ class Orologio extends Modulo {
 
     drawPerHour() {
         let me = this;
-        me.ticks = me.svg.append('g')
+        me.ticks = me.back.append('g')
             .selectAll('.ticks')
             //.data([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
             .data(me.config["menu_entries"])
@@ -357,7 +385,7 @@ class Orologio extends Modulo {
 
     drawPerRealHour() {
         let me = this;
-        me.realhours = me.svg.append('g')
+        me.realhours = me.back.append('g')
             .selectAll('.ticks')
             .data([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23])
             .enter()
@@ -625,6 +653,17 @@ class Orologio extends Modulo {
         me.co.globalPerformers.push(me);
     }
 
+    zoomActivate() {
+        let me = this;
+        me.zoom = d3.zoom()
+            .scaleExtent([0.25, 4])
+            .on('zoom', function (event) {
+                me.svg.attr('transform', event.transform)
+            });
+        me.vis.call(me.zoom);
+    }
+
+
     perform() {
         super.perform();
         let me = this;
@@ -634,6 +673,7 @@ class Orologio extends Modulo {
         me.co.revealUniverse();
         //me.co.revealUI();
         me.drawAll();
+        me.zoomActivate();
         me.intervalQuick = setInterval(function () {
             me.updateQuick();
         }, me.quickDelay);

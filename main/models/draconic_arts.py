@@ -117,6 +117,8 @@ class SpellRoll(models.IntegerChoices):
 
 
 class Spell(models.Model):
+    class Meta:
+        ordering = ["-spell_ready",'name']
     name = models.CharField(default="", max_length=256)
     rid = models.CharField(default="xxx", max_length=256, blank=True)
     alternative_names = models.CharField(default="", max_length=512, blank=True)
@@ -146,7 +148,7 @@ class Spell(models.Model):
     source = models.CharField(default="-", max_length=64, blank=True)
 
     roll = models.PositiveIntegerField(default=SpellRoll.NONE, choices=SpellRoll.choices, blank=True)
-
+    spell_ready = models.BooleanField(default=False, blank=True)
     data = {}
 
     def fix(self):
@@ -213,11 +215,11 @@ class Spell(models.Model):
 
 class SpellAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
-    ordering = ["name"]
-    list_display = ["name","rid", "roll", "original_casting_cost", "conversion", "ground_charge", "str_charges",
+    ordering = ["-spell_ready","name"]
+    list_display = ["name","rid", "spell_ready", "roll", "original_casting_cost", "conversion", "ground_charge", "str_charges",
                     "path", "ref", "category", "source"]
-    list_editable = ["original_casting_cost", "roll", "ground_charge", "path", "ref", "category", "source"]
-    list_filter = ["path", "category", "diff", "dps", "ref", "original_casting_cost", "ground_charge",
+    list_editable = ["original_casting_cost", "roll","spell_ready", "ground_charge", "path", "ref", "category", "source"]
+    list_filter = ["spell_ready","path", "category", "diff", "dps", "ref", "original_casting_cost", "ground_charge",
                    "elemental_charge", "emanation_charge",
                    "consistency_charge", "hour_charge", "source"]
     search_fields = ["name", "description"]

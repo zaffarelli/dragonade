@@ -82,7 +82,7 @@ body {
     border-radius: 10px;
     z-index:40;
     & svg{
-        fill:#503050;
+        border:3px solid #303050;
     }
 }
 
@@ -178,12 +178,11 @@ body {
 .list{
     @include dragonade_panel;
     order:4;
-    flex: 0 0 30vh;
+    flex: 0 0 10vh;
     display:flex;
     flex-flow:row wrap;
     justify-content: flex-start;
-    align-content: stretch;
-    align-items: stretch;
+    align-content: space-around;
     gap:3px;
     & .minisheet{
         flex: 1 1 25ex;
@@ -241,7 +240,7 @@ table.skillstable{
 
 }
 
-.minisheet{
+.paginator,.minisheet{
         display:block;
         font-family:Fredoka;
         font-size:$roster_font_height;
@@ -251,11 +250,24 @@ table.skillstable{
         background:$standard_box;
         padding:5px;
         flex: 0 1 auto;
+        order:3;
         &.mark{
             background:$active_box;
             box-shadow: 0 0 16px #604060;
         }
     }
+
+.paginator{
+    //align-self: center;
+    background:#301010;
+    &.previous{
+        order:1;
+    }
+    &.next{
+        order:2;
+    }
+}
+
 
 
 .minicard {
@@ -317,4 +329,13 @@ div.showhide.eye{
     color:white;
 
 
+}
+
+
+.svg {
+    border:3px solid blue;
+}
+
+.vis {
+    border:3px solid green;
 }

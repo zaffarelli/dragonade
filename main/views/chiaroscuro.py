@@ -1,7 +1,7 @@
 from django.http import JsonResponse, Http404, HttpResponse
 from django.template.loader import get_template
 from django.views.decorators.csrf import csrf_exempt
-from main.utils.mechanics import is_ajax
+from main.utils.mechanics import is_ajax, zaff_decode
 import base64
 
 
@@ -53,11 +53,9 @@ def value_push(request):
             new_roster = ''
             params = request.POST.get('refs').split('__')
             new_value = request.POST.get('new_value')
-            print(params)
-            print(new_value)
-            value = base64.b64decode(new_value)
-            value = str(value).replace("b'","").replace("'","")
-            print("Value to push => ",value)
+            value = zaff_decode(new_value)
+            print("New value     =>",new_value)
+            print("Value to push =>",value)
             if len(params) >= 3:
                 class_name = params[0]
                 id = params[1]

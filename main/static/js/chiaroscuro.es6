@@ -1,3 +1,6 @@
+const ZAFF_MATCHES = [['é', 'WeA_'], ['é', 'WeG_'], ['à', 'WeG_'], ['ï', 'WiT_'], ['ë', 'WeT_'], ['ä', 'WaT_'],
+    ['ù', 'WuG_'],['ç', 'WcC_'], ['ô', 'WoC_'], ['ê', 'WeC_'], ['â', 'WaC_'], [' ', 'Wsp_'], ["'", 'Wsq_'], ['"', 'Wdq_']]
+
 class Chiaroscuro {
     constructor(config) {
         this.config = config;
@@ -17,7 +20,34 @@ class Chiaroscuro {
             let mod = new Risorse(this, config);
             mod.register();
         }
+        if (config["modules"].includes("piani") == true) {
+            let mod = new Piani(this, config);
+            mod.register();
+        }
         this.tables = []
+    }
+
+    prepareWebSocket(){
+        let me = this;
+        $("#parallax_reveal").off().on('submit', (e) => {
+            e.preventDefault();
+            let message = e.target.message.value
+            me.chatSocket.send(JSON.stringify({
+                'type':'reveal',
+                'message':message
+            }))
+            return false;
+        })
+        $("#parallax_select").off().on('submit', (e) => {
+            e.preventDefault();
+            let message = e.target.message.value
+            let message_type = e.target.message.value
+            me.chatSocket.send(JSON.stringify({
+                'type':'select',
+                'message':message
+            }))
+            return false;
+        })
     }
 
     softLog(name, txt) {
@@ -81,6 +111,7 @@ class Chiaroscuro {
         me.registerLinks();
         me.registerMiniItems();
         me.registerShowHide();
+        me.registerPaginator();
     }
 
     registerEditables() {
@@ -91,14 +122,12 @@ class Chiaroscuro {
             let action = $(this).attr('action');
             let id = $(this).attr('id');
             let change = ''
-            console.log(action);
-            console.log(id);
             if (action == "inc_dec") {
                 let params = id.split("__");
                 if (params.length > 3) {
-                    if (e.ctrlKey) {
+                    //if (e.ctrlKey) {
                         change = params[3];
-                    }
+                    //}
                     let data = params[0] + "__" + params[1] + "__" + params[2] + "__" + change;
                     if (change != '') {
                         $.ajax({
@@ -129,17 +158,27 @@ class Chiaroscuro {
                 }
             } else if (action == "value") {
                 let params = id.split("__");
-                let bvalue = $(this).attr("srcval");
-                console.log(bvalue)
-                let value = window.atob(bvalue);
-                console.log(value)
+                let value = $(this).attr("srcval");
+
+                let pvalue = me.zaff_decode(value)
+
+                //let pvalue = window.atob(bvalue);
+//                  let cvalue = pvalue.replace(/[\u00A0-\u9999<>\&]/g, function(i) {
+//                      return '&#'+i.charCodeAt(0)+';';
+//                  });
+                //let value = he.unescape(pvalue,{'strict':true})
+                //console.log("bvalue:",bvalue)
+                console.log("value:",value)
+//                 console.log("cvalue:",cvalue)
+                //console.log("value: ",value)
                 if (params.length > 3) {
                     if (e.ctrlKey) {
                         change = params[3];
                     }
                     let data = params[0] + "__" + params[1] + "__" + params[2] + "__" + change;
                     $("#target_ed").val(data);
-                    $("#ed").val(value);
+                    $("#ed").val(pvalue);
+                    $("#echo").html(value);
                     me.registerActions();
                 } else {
                     console.log("Wrong parameters number...")
@@ -157,6 +196,8 @@ class Chiaroscuro {
             e.stopPropagation();
             let new_value = $('#ed').val()
             console.log(new_value)
+            let value = me.zaff_encode(new_value)
+            console.log("zvalue",value)
             let refs = $("#target_ed").val();
 
 
@@ -168,7 +209,7 @@ class Chiaroscuro {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 data: {
-                    "new_value": window.btoa(new_value),
+                    "new_value": value,
                     "refs": refs
                 },
                 dataType: 'json',
@@ -187,6 +228,34 @@ class Chiaroscuro {
         });
     }
 
+    registerPaginator() {
+        let me = this;
+        $('.paginator').off().on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("paginator")
+            let page = $(this).attr("page")
+            $.ajax({
+                url: 'ajax/paginator',
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: {
+                    "page": page
+                },
+                dataType: 'json',
+                success: function (answer) {
+                    $('.list').html(answer.html);
+                    me.registerActions();
+                },
+                error: function (answer) {
+                    console.error('Error... ' + answer);
+                },
+            });
+        });
+    }
 
 
     registerSheets() {
@@ -201,6 +270,8 @@ class Chiaroscuro {
             //$('.sheet.skills').addClass('hidden');
             $('.minisheet').removeClass('mark');
             $(this).addClass('mark');
+            $(".roster").addClass('hidden');
+            $("#roster_" + id).removeClass('hidden');
             $("#roster_" + id + " .sheet").removeClass('hidden');
             console.log("#roster_" + id + ".sheet")
             //$("#sb_"+id).removeClass('hidden');
@@ -214,6 +285,8 @@ class Chiaroscuro {
             let miniid = $(this).attr('id');
             let words = miniid.split('_');
             let id = words[0];
+            $(".roster").addClass('hidden');
+            $("#roster_" + id).removeClass('hidden');
             $(".for_display_" + id).toggleClass('hidden');
             $(".for_edit_" + id).toggleClass('hidden');
             me.registerActions();
@@ -238,7 +311,7 @@ class Chiaroscuro {
             $(".for_display_" + id).removeClass('hidden');
             $(".for_edit_" + id).addClass('hidden');
             me.axiomaticPerformers.forEach( (m) => {
-                console.log(m.name)
+                console.log(`Sending code ${code} to axiomatic performer [${m.name}].`)
                 m.perform(code)
             });
 
@@ -289,10 +362,35 @@ class Chiaroscuro {
             );
     }
 
+    dispatchMessage(type,message){
+        let me = this;
+        _.forEach(me.globalPerformers,
+            (m) => {
+                m.action(type,message);
+            }
+        );
+
+    }
 
     perform() {
         let me = this;
         let no_global = true
+        let url = `ws://192.168.0.25:8083/ws/socket-server/`;
+        me.chatSocket = new WebSocket(url)
+        me.chatSocket.onmessage = function(e){
+            let data = JSON.parse(e.data)
+            console.log("Data:",data)
+            if (data.type === "select"){
+                $("#info").prepend(
+                `<div>
+                    <p>${data.message}</p>
+                </div>`
+                )
+                me.dispatchMessage(data.type,data.message);
+            }else{
+                me.dispatchMessage(data.type,data.message);
+            }
+        }
         me.prepareAjax();
         me.registerActions();
         //window.addEventListener('resize',resizeEvent);
@@ -302,12 +400,31 @@ class Chiaroscuro {
                 m.perform();
                 no_global = false;
             }
-
         );
         if (no_global){
             me.revealUI();
         }
+        me.prepareWebSocket()
         //me.resizeEvent();
     }
+
+    zaff_encode(str){
+        let zstr = str
+        _.forEach(ZAFF_MATCHES, (m) => {
+            zstr = zstr.replaceAll(m[0], m[1])
+        })
+        return zstr
+    }
+
+    zaff_decode(zstr){
+        let str = zstr
+        _.forEach(ZAFF_MATCHES, (m) => {
+            str = str.replaceAll(m[1], m[0])
+        })
+        return str
+    }
+
+
+
 
 }

@@ -1,0 +1,17 @@
+{% load static %}
+{% load dragonade_filters %}
+
+
+    <div class="paginator previous" page="{{previous_page}}">
+        <i class="fas fa-arrow-left"></i>
+    </div>
+    <div class="paginator next" page="{{next_page}}">
+        <i class="fas fa-arrow-right"></i>
+    </div>
+    {% for x in characters %}
+    <div class="minisheet" id="mini__{{x.id}}" code="{{x.code}}" title="{{x.code}}">
+        {{x.name}} (id:{{x.id}})
+    </div>
+
+    {% endfor %}
+

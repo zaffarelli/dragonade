@@ -1,0 +1,17 @@
+{% load static %}
+{% load dragonade_filters %}
+
+
+{% for s in a.features.spells %}
+<div class="box label sub">{{s.name}}<br/><span class="codes">{{s.category_str}}</span>+</div>
+    <div class="box subset">
+        <div class="box label nw">Roll</div>
+        <div class="box info nw">{{s.roll_str}}</div>
+        <div class="box label ne">Diff</div>
+        <div class="box info ne">{{s.diff}}</div>
+        <div class="box label sw">PdR</div>
+        <div class="box info sw">{{s.dps}}</div>
+        <div class="box label se">Voie</div>
+        <div class="box info se">{{s.path_str}}</div>
+    </div>
+{% endfor %}

@@ -132,7 +132,7 @@ MEDIA_ROOT = 'dragonade_media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-VERSION = "0.9.12"
+VERSION = "0.9.14"
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -146,3 +146,8 @@ if DEBUG:
     mimetypes.add_type("application/javascript;charset=utf-8", ".es6", True)
     mimetypes.add_type("application/javascript;charset=utf-8", ".js", True)
 
+CHANNEL_LAYERS = {
+    'default':{
+        'BACKEND':'channels.layers.InMemoryChannelLayer'
+    }
+}

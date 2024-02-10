@@ -50,6 +50,7 @@ class Character(models.Model):
     tai_guideline = models.CharField(max_length=128, default="", blank=True)
     total_attributes = models.IntegerField(default=0, blank=True)
     updater = models.TextField(max_length=8192, default='{}', blank=True)
+    priority = models.IntegerField(default=0, blank=True)
     data = {}
 
     def __str__(self):
@@ -84,11 +85,11 @@ class Character(models.Model):
     def applyValuePush(self, att, val):
         self.export_to_json()
         result = self.overwrite_for(att, val)
+        print(result)
         if result:
             self.updateFromStruct()
             self.save()
         return result
-
 
     def fix(self):
         self.make_rid()
@@ -138,6 +139,7 @@ class Character(models.Model):
         self.indice += total_skills
         self.indice -= default
         self.indice += self.data['misc']['PROT'] * 2
+        self.indice += self.data['misc']['SON'] ** 2
         self.reve = self.data['misc']['SON'] + self.data['misc']['FAB']
 
     def updateFromStruct(self):
@@ -234,7 +236,7 @@ class Character(models.Model):
             if len(errors) == 0:
                 self.data['misc'][k['NAME']] = val
 
-        self.data['misc']['entrance'] = self.entrance
+        self.data['misc']['ENTRANCE'] = self.entrance
         self.data['misc']['indice_a'] = self.indice_attributes
         self.data['misc']['indice_s'] = self.indice_skills
         self.data['misc']['indice'] = self.indice
@@ -287,8 +289,8 @@ class Character(models.Model):
             list.append({
                 "name": weapon.name,
                 "category": weapon.category,
-                "+dom_1": weapon.mod_dom + weapon.plus_dom if weapon.plus_dom > 0 else "-",
-                "+dom_2": weapon.mod_dom + weapon.plus_dom_2m if weapon.plus_dom_2m > 0 else "-",
+                "dom_1": weapon.mod_dom + weapon.plus_dom if weapon.plus_dom > 0 else "-",
+                "dom_2": weapon.mod_dom + weapon.plus_dom_2m if weapon.plus_dom_2m > 0 else "-",
                 "init": half_stat + skill + weapon.mod_ini,
                 "score": stat + skill + weapon.mod_att
             })
@@ -323,7 +325,10 @@ class Character(models.Model):
                 "diff": spell.diff,
                 "dps": spell.dps,
                 "category": spell.category,
-                "path": spell.path
+                "path": spell.path,
+                'roll_str': spell.get_roll_display(),
+                'path_str': spell.get_path_display(),
+                'category_str': spell.get_category_display()
             })
         return list
 
@@ -447,6 +452,7 @@ class Character(models.Model):
     def overwrite_for(self, str, val):
         result = False
         where = self.index_for(str)
+        print("where:",where)
         if len(where) > 0:
             words = where.split(':')
             if len(words) == 1:
@@ -459,6 +465,7 @@ class Character(models.Model):
 
     def index_for(self, str):
         from main.utils.ref_dragonade import CHARACTER_STATISTICS
+        print(str.upper())
         if str.upper() in CHARACTER_STATISTICS['ATTRIBUTES']['KNOWN']:
             result = "ATTRIBUTES"
         elif str.upper() in CHARACTER_STATISTICS['SKILLS']['WEAPONS']['KNOWN']:

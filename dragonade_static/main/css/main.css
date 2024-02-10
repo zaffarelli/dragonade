@@ -22,6 +22,10 @@ span.future {
   width: 90ex;
   display: inline-block; }
 
+.coded {
+  font-family: Wellfleet;
+  font-size: 8px; }
+
 .hidden {
   display: none !important; }
 
@@ -226,7 +230,7 @@ body {
   border-radius: 10px;
   z-index: 40; }
   #svg_area svg {
-    fill: #503050; }
+    border: 3px solid #303050; }
 
 #d3area {
   order: 8;
@@ -336,12 +340,11 @@ body {
   color: white;
   font-family: Neucha;
   order: 4;
-  flex: 0 0 30vh;
+  flex: 0 0 10vh;
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
-  align-content: stretch;
-  align-items: stretch;
+  align-content: space-around;
   gap: 3px; }
   .list .minisheet {
     flex: 1 1 25ex; }
@@ -379,7 +382,7 @@ table.skillstable {
   height: 100%;
   border: 1px solid transparent; }
 
-.minisheet {
+.paginator, .minisheet {
   display: block;
   font-family: Fredoka;
   font-size: 10pt;
@@ -388,10 +391,18 @@ table.skillstable {
   box-shadow: 0 0 16px #202020;
   background: #30101070;
   padding: 5px;
-  flex: 0 1 auto; }
-  .minisheet.mark {
+  flex: 0 1 auto;
+  order: 3; }
+  .paginator.mark, .minisheet.mark {
     background: #60404070;
     box-shadow: 0 0 16px #604060; }
+
+.paginator {
+  background: #301010; }
+  .paginator.previous {
+    order: 1; }
+  .paginator.next {
+    order: 2; }
 
 .minicard {
   background: white;
@@ -441,6 +452,12 @@ div.showhide.eye {
   border-radius: 15px;
   padding: 15px;
   color: white; }
+
+.svg {
+  border: 3px solid blue; }
+
+.vis {
+  border: 3px solid green; }
 
 .item {
   color: #101010;

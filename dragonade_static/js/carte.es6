@@ -159,42 +159,7 @@ class Carte extends Modulo {
     }
 
 
-    drawCross(x,y){
-        let me = this;
-        let offset = 3;
-        let cross = me.back.append('g')
-            .attr('class', 'do_not_print')
-        cross.append('line')
-            .attr('x1', x)
-            .attr('x2', x)
-            .attr('y1', y-offset)
-            .attr('y2', y+offset)
-            .style('fill', 'transparent')
-            .style('stroke', '#A02020')
-            .style('stroke-width', '2pt')
-        ;
-        cross.append('line')
-            .attr('x1',x-offset)
-            .attr('x2', x+offset)
-            .attr('y1', y )
-            .attr('y2', y )
-            .style('fill', '#A02020')
-            .style('stroke', '#A02020')
-            .style('stroke-width', '2pt')
-        ;
-        cross.append('text')
-            .attr("x", x+offset*5)
-            .attr("y", y+offset*5)
-            .style("text-anchor","middle")
-            .style("font-family","Wellfleet")
-            .style("font-size","6pt")
-            .style("fill","#A02020")
-            .style("stroke","#202020")
-            .style("stroke-width","0.25pt")
-            .text(x+"/"+y)
-        ;
 
-    }
 
     drawTable(src, options){
         let me = this;
@@ -878,6 +843,9 @@ class Carte extends Modulo {
         me.append_value_to(roster_in,xo+0.5,yo+1,"Destinée",{"rw":rw,"label":true, "ta":"middle"})
         me.append_value_to(roster_in,xo+0.5,yo+1.25,"destiny",{"rw":rw,"label":false})
 
+        me.append_value_to(roster_in,xo+0.5,yo+1,"Priorité",{"rw":rw,"label":true, "ta":"middle"})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"priority",{"rw":rw,"label":false})
+
 
 
 
@@ -1012,7 +980,7 @@ class Carte extends Modulo {
                     yo += 0.25;
                     previous_cat = x["category"]
                 }
-                me.append_value_to(roster_in,xo+0.25,yo,x["name"]+"("+x["+dom_1"]+"/"+x["+dom_2"]+")" ,{"rw":options['rw'],"label":true, "ta":"start", "bold":true})
+                me.append_value_to(roster_in,xo+0.25,yo,x["name"]+"("+x["dom_1"]+"/"+x["dom_2"]+")" ,{"rw":options['rw'],"label":true, "ta":"start", "bold":true})
                 me.append_value_to(roster_in,xo+3.30,yo,x["init"],{"rw":options['rw'],"label":true, "ta":"middle"})
                 me.append_value_to(roster_in,xo+3.80,yo,x["score"],{"rw":options['rw'],"label":true, "ta":"middle"})
                 yo += 0.25;

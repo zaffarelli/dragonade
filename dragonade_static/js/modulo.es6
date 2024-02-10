@@ -46,7 +46,75 @@ class Modulo {
         ;
     }
 
+    zoomActivate() {
+        let me = this;
+        me.zoom = d3.zoom()
+            .scaleExtent([0.25, 1])
+            .on('zoom', function (event) {
+                me.svg.attr('transform', event.transform)
+            });
+        me.vis.call(me.zoom);
+    }
 
+
+    resizeEvent(){
+        let me = this;
+        console.log("ResizeEvent for "+me.name)
+        let width = $(me.parent).width;
+        let height = $(me.parent).height;
+        let boundingBox = document.querySelector("#svg_area").getBoundingClientRect();
+        me.w = parseInt($(me.parent).css('width'));
+        me.h = parseInt($(me.parent).css('height'));
+
+        me.vis
+            .attr("viewBox", "0 0 " + me.w + " " + me.h)
+            .attr("width", me.w)
+            .attr("height", me.h);
+        ;
+
+    }
+
+    drawCross(x,y){
+        let me = this;
+        let offset = 3;
+        let cross = me.back.append('g')
+            .attr('class', 'do_not_print')
+        cross.append('line')
+            .attr('x1', x)
+            .attr('x2', x)
+            .attr('y1', y-offset)
+            .attr('y2', y+offset)
+            .style('fill', 'transparent')
+            .style('stroke', '#A02020')
+            .style('stroke-width', '2pt')
+        ;
+        cross.append('line')
+            .attr('x1',x-offset)
+            .attr('x2', x+offset)
+            .attr('y1', y )
+            .attr('y2', y )
+            .style('fill', '#A02020')
+            .style('stroke', '#A02020')
+            .style('stroke-width', '2pt')
+        ;
+        cross.append('text')
+            .attr("x", x+offset*5)
+            .attr("y", y+offset*5)
+            .style("text-anchor","middle")
+            .style("font-family","Wellfleet")
+            .style("font-size","6pt")
+            .style("fill","#A02020")
+            .style("stroke","#202020")
+            .style("stroke-width","0.25pt")
+            .text(x+"/"+y)
+        ;
+
+    }
+
+    action(type,str){
+        let me = this;
+        console.log(`${me.name} Nothing to do with action on [${x}] for this module! Please override action(str) in child module.`);
+    }
 
 
     init() {
@@ -71,10 +139,6 @@ class Modulo {
         console.log(me.name+" Registered");
     }
 
-    resizeEvent(){
-        let me = this;
-        console.log(me.name+" received resizeEvent ");
-    }
 
     formatXml(xml) {
         let formatted = '';

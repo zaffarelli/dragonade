@@ -41,9 +41,9 @@ CHARACTER_STATISTICS = {
             {"NAME": "ENC", "TEXT": "Encombrement", "COMPUTE": "precise_mean,TAI,FOR","RATIONALE": " (TAI + FOR)  [garder une décimale]"},
             {"NAME": "SON", "TEXT": "Songe", "COMPUTE": "user_choice", "RATIONALE":"-"},
             {"NAME": "REV", "TEXT": "Fable", "COMPUTE": "user_choice", "RATIONALE":"-"},
-            {"NAME": "entrance", "TEXT": "Entrée", "COMPUTE": "user_choice", "RATIONALE":"-"}
+            {"NAME": "ENTRANCE", "TEXT": "Entrée", "COMPUTE": "user_choice", "RATIONALE":"-"}
         ],
-        "KNOWN":["FAB","VIE","FAT","DOM","SUS","SCO","ENC","SON","REV","entrance"]
+        "KNOWN":["FAB","VIE","FAT","DOM","SUS","SCO","ENC","SON","REV","ENTRANCE"]
     },
     "FEATURES": {
         "LIST":[
@@ -89,13 +89,14 @@ CHARACTER_STATISTICS = {
                 {"NAME": "WEA_28", "TEXT": "Lance courte"},
                 {"NAME": "WEA_29", "TEXT": "Massette"},
                 {"NAME": "WEA_30", "TEXT": "Masse Lourde"},
-                {"NAME": "WEA_31", "TEXT": "Pugilat"}
+                {"NAME": "WEA_31", "TEXT": "Pugilat"},
+                {"NAME": "WEA_32", "TEXT": "Coutelas"}
             ],
             "KNOWN": [
                 "WEA_01","WEA_02","WEA_03","WEA_04","WEA_05","WEA_06","WEA_07","WEA_08","WEA_09","WEA_10",
                 "WEA_11","WEA_12","WEA_13","WEA_14","WEA_15","WEA_16","WEA_17","WEA_18","WEA_19","WEA_20",
                 "WEA_21","WEA_22","WEA_23","WEA_24","WEA_25","WEA_26","WEA_27","WEA_28","WEA_29","WEA_30",
-                "WEA_31"
+                "WEA_31","WEA_32"
             ]               
         },
         "GENERIC": {
