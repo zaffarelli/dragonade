@@ -1,7 +1,7 @@
-class Carte extends Modulo {
+class Appartus extends Modulo {
     constructor(co,config) {
         super(co,config);
-        this.name = "Carte";
+        this.name = "Appartus";
         this.parent = "#svg_area";
         console.log('Carte Constructor')
     }

@@ -677,7 +677,7 @@ class Carte extends Modulo {
             ;
 
         me.append_value_to(roster_in,2,0.5,"player",{"rw":rw,"label":false})
-        me.append_value_to(roster_in,0.5,0.5,"misc.entrance",{"rw":rw,"label":false, "ta":"start"})
+        me.append_value_to(roster_in,0.5,0.5,"misc.ENTRANCE",{"rw":rw,"label":false, "ta":"start"})
 
 
         roster_in.append('circle')

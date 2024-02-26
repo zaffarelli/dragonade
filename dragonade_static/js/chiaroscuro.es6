@@ -24,6 +24,10 @@ class Chiaroscuro {
             let mod = new Piani(this, config);
             mod.register();
         }
+        if (config["modules"].includes("appartus") == true) {
+            let mod = new Appartus(this, config);
+            mod.register();
+        }
         this.tables = []
     }
 

@@ -252,7 +252,20 @@ def draconis_artes(request):
     context['config']['modules'].append('risorse')
     context['config']['menu_entries'] = MENU_ENTRIES
     spells = []
-    for i in Spell.objects.filter(spell_ready=True).order_by("name"):
+    for i in Spell.objects.all().order_by("name"):
         spells.append(i.export_to_json())
     context['spells'] = spells
     return render(request, 'main/pages/draconis_artes.html', context=context)
+
+
+def appartus(request):
+    from main.models.appartus import Appartus
+    context = prepare_context(request)
+    context['title'] = "Appartus & Merveilles Draconiques"
+    context['config']['modules'].append('appartus')
+    context['config']['menu_entries'] = MENU_ENTRIES
+    appartus = []
+    for i in Appartus.objects.all().order_by("name"):
+        appartus.append(i.export_to_json())
+    context['appartus'] = appartus
+    return render(request, 'main/pages/appartus.html', context=context)

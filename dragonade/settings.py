@@ -132,7 +132,7 @@ MEDIA_ROOT = 'dragonade_media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-VERSION = "0.9.14"
+VERSION = "0.9.15"
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',

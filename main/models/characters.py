@@ -199,7 +199,7 @@ class Character(models.Model):
                         if r['NAME'] == ks:
                             all.append({'value': vs, 'category': CHARACTER_STATISTICS["SKILLS"][kc.upper()]['NAME'][:4],
                                         'text': r["TEXT"]})
-        sorted_all = sorted(all, key=lambda k: k['value'], reverse=True)
+        sorted_all = sorted(all, key=lambda k: k['text'], reverse=False)
         return sorted_all
 
     def export_to_json(self):
