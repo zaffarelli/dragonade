@@ -48,10 +48,16 @@ CHARACTER_STATISTICS = {
     "FEATURES": {
         "LIST":[
             {"NAME": "HEIGHT", "TEXT": "Hauteur en centimètres", "COMPUTE": "user_choice", "RATIONALE":"-"},
-            {"NAME": "WEIGHT", "TEXT": "Poids en kilogrammes", "COMPUTE": "user_choice", "RATIONALE":"-"}
+            {"NAME": "WEIGHT", "TEXT": "Poids en kilogrammes", "COMPUTE": "user_choice", "RATIONALE":"-"},
+            {"NAME": "AGE", "TEXT": "Entrée", "COMPUTE": "user_choice", "RATIONALE":"-"},
+            {"NAME": "AKA", "TEXT": "Entrée", "COMPUTE": "user_choice", "RATIONALE": "-"},
+            {"NAME": "GENDER", "TEXT": "Entrée", "COMPUTE": "user_choice", "RATIONALE": "-"},
+            {"NAME": "LEFTY", "TEXT": "Entrée", "COMPUTE": "user_choice", "RATIONALE": "-"},
+            {"NAME": "GEAR", "TEXT": "Armes", "COMPUTE": "user_choice", "RATIONALE": "-"},
+            {"NAME": "SPELLS", "TEXT": "Magie", "COMPUTE": "user_choice", "RATIONALE": "-"}
         ],
         "KNOWN":
-            ["HEIGHT","WEIGHT"]
+            ["HEIGHT","WEIGHT","AGE","AKA","GENDER","LEFTY","GEAR","SPELLS"]
     },
 
     "SKILLS": {

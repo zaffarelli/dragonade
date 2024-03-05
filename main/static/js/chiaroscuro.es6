@@ -28,6 +28,10 @@ class Chiaroscuro {
             let mod = new Appartus(this, config);
             mod.register();
         }
+        if (config["modules"].includes("stregoneria") == true) {
+            let mod = new Stregoneria(this, config);
+            mod.register();
+        }
         this.tables = []
     }
 
@@ -314,6 +318,7 @@ class Chiaroscuro {
             $("#item__" + id).removeClass('hidden');
             $(".for_display_" + id).removeClass('hidden');
             $(".for_edit_" + id).addClass('hidden');
+            console.log("Shooting Axiomatic Performers !", me.axiomaticPerformers)
             me.axiomaticPerformers.forEach( (m) => {
                 console.log(`Sending code ${code} to axiomatic performer [${m.name}].`)
                 m.perform(code)

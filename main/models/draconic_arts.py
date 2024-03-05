@@ -212,6 +212,18 @@ class Spell(models.Model):
             str = f'{old_diff} {old_dps} / {diff} {diff_pen} {dps}'
         return str
 
+    @classmethod
+    def references(klass):
+        json_list = []
+        txt_list = []
+        print(klass)
+        for spell in klass.objects.order_by("name"):
+            json_list.append({"name":spell.name, "rid": spell.rid})
+            #txt_list.append(f"{spell.name}:{spell.rid}")
+        print(json_list)
+        return json_list#, ", ".join(txt_list)
+
+
 
 class SpellAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix

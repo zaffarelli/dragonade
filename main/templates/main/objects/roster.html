@@ -12,18 +12,40 @@
     </div>
     <div class="box label full large">{{a.name}}</div>
     <div class="box label full editable" >
-        <span class="box info se btn_edit value" action="value" id="{{a.type}}__{{a.id}}__ENTRANCE__value" srcval="{{a.misc.entrance|encoded_z|safe}}">&nbsp;{{a.misc.entrance}}&nbsp;</span>
+        <span class="btn_edit value"
+              action="value" id="{{a.type}}__{{a.id}}__ENTRANCE__value"
+              srcval="{{a.misc.ENTRANCE|encoded_z|safe}}">&nbsp;{{a.misc.ENTRANCE}}&nbsp;
+        </span>
     </div>
-
-
+    <div class="box label full editable" >
+        <span class="btn_edit value"
+              action="value" id="{{a.type}}__{{a.id}}__AKA__value"
+              srcval="{{a.features.AKA|encoded_z|safe}}">&nbsp;{{a.features.AKA}}&nbsp;
+        </span>
+    </div>
     <div class="box label sub"></div>
     <div class="box subset">
         <div class="box label nw">Age</div>
-        <div class="box info nw">{{a.features.age}} ans</div>
+        <div class="box info nw editable">
+            <span class="btn_edit value"
+                  action="value" id="{{a.type}}__{{a.id}}__AGE__value"
+                  srcval="{{a.features.AGE}}">&nbsp;{{a.features.AGE}}&nbsp;ans
+            </span>
+        </div>
         <div class="box label ne">Sexe</div>
-        <div class="box info ne">{{a.features.gender}}</div>
+        <div class="box info ne editable">
+            <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__GENDER__value" srcval="{{a.features.GENDER|encoded_z|safe}}">
+            {{a.features.GENDER|genderize|safe}}
+            </span>
+        </div>
+
+
         <div class="box label sw">Main Forte</div>
-        <div class="box info sw">{{a.features.lefty|genderize|safe}}</div>
+        <div class="box info sw editable">
+            <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__LEFTY__value" srcval="{{a.features.LEFTY|encoded_z|safe}}">
+            {{a.features.LEFTY|lefty|safe}}
+            </span>
+        </div>
         <div class="box label se"></div>
         <div class="box info se"></div>
     </div>
@@ -125,12 +147,20 @@
 
 
 <div class="sheet weapons" >
-    <div class="box header" style="text-align:left;">ARMES</div>
+    <div class="box header" style="text-align:left;">
+        <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__GEAR__value" srcval="{{a.features.GEAR|encoded_z|safe}}">
+            ARMES
+        </span>
+    </div>
     {% include "main/objects/weapons.html"%}
 </div>
 
 <div class="sheet magic" >
-    <div class="box header" style="text-align:left;">MAGIE</div>
+    <div class="box header" style="text-align:left;">
+        <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__SPELLS__value" srcval="{{a.features.SPELLS|encoded_z|safe}}">
+            MAGIE
+        </span>
+    </div>
     {% include "main/objects/spells.html"%}
 </div>
 

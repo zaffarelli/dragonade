@@ -1,10 +1,18 @@
 {% load static %}
 
 <div class="middle">
-    <div class="options">
+    <div class="middleblock options">
         <textarea id="ed" placeholder="Entrer la nouvelle valeur ici..."></textarea>
-        <textarea id="target_ed"></textarea>
-        <div id="echo"></div>
+        <textarea id="target_ed" class="hidden"></textarea>
+        <div id="echo" class="hidden"></div>
         <div class='btn option_btn' id="valuepush_ed"><i class="fas fa-circle-arrow-up"></i>&nbsp;Valider</div>
+    </div>
+    <div class="middleblock references">
+        <div class="list_block">
+            <div class="title_entry">Référence: Sortilèges</div>
+            {% for s in reference.spells %}
+                <div class="spell_entry"><div class="name">{{s.name}}</div><div class="rid">{{s.rid}}</div> </div>
+            {% endfor %}
+        </div>
     </div>
 </div>

@@ -159,6 +159,13 @@ class Character(models.Model):
         self.weight = int(self.data['features']['WEIGHT'])
         self.fable = int(self.data['misc']['FAB'])
         self.songe = int(self.data['misc']['SON'])
+        self.entrance = self.data['misc']['ENTRANCE']
+        self.age = self.data['features']['AGE']
+        self.aka = self.data['features']['AKA']
+        self.gender = self.data['features']['GENDER']
+        self.lefty = self.data['features']['LEFTY']
+        self.gear = self.data['features']['GEAR']
+        self.spells = self.data['features']['SPELLS']
 
     def ref_to_struct(self, src_ref):
         """        
@@ -248,14 +255,21 @@ class Character(models.Model):
         self.data['misc']['REV'] = self.reve
         self.data['misc']['PROT'] = self.prot
 
+
+
         self.data['features']['HEIGHT'] = self.height
         self.data['features']['WEIGHT'] = self.weight
         self.data['features']['imc'] = self.imc
         self.data['features']['tai_guideline'] = self.tai_guideline
+        self.data['features']['GEAR'] = self.gear
+        self.data['features']['SPELLS'] = self.spells
 
-        self.data['features']['gender'] = "Féminin" if self.is_female else "Masculin"
-        self.data['features']['lefty'] = "Gaucher" if self.is_lefty else "Droitier"
-        self.data['features']['age'] = self.age
+        # self.data['features']['gender'] =
+        # self.data['features']['lefty'] =
+        self.data['features']['AGE'] = self.age
+        self.data['features']['AKA'] = self.aka
+        self.data['features']['GENDER'] = self.is_female
+        self.data['features']['LEFTY'] = self.is_lefty
 
         self.data['features']['weapons'] = self.gear_to_weapons()
         self.data['features']['armors'] = self.gear_to_armors()
@@ -452,20 +466,24 @@ class Character(models.Model):
     def overwrite_for(self, str, val):
         result = False
         where = self.index_for(str)
-        print("where:",where)
+        print("value ",str," found in ",where)
         if len(where) > 0:
             words = where.split(':')
+            print("words ", words)
             if len(words) == 1:
                 self.data[words[0].lower()][str] = val
+                print("-->where 1 ", words[0].lower(), str)
                 result = True
             else:
                 self.data[words[0].lower()][words[1].lower()][str] = val
+                print("-->where 1 ", words[0].lower(), words[1].lower(), str)
                 result = True
+        print(self.data)
         return result
 
     def index_for(self, str):
         from main.utils.ref_dragonade import CHARACTER_STATISTICS
-        print(str.upper())
+        #print(str.upper())
         if str.upper() in CHARACTER_STATISTICS['ATTRIBUTES']['KNOWN']:
             result = "ATTRIBUTES"
         elif str.upper() in CHARACTER_STATISTICS['SKILLS']['WEAPONS']['KNOWN']:

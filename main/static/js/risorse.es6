@@ -23,7 +23,7 @@ class Risorse extends Modulo {
         me.ox = 0.85
         me.oy = 0.5
         // View Size
-        let boundingBox = document.querySelector("#svg_area").getBoundingClientRect();
+       // let boundingBox = document.querySelector("#svg_area").getBoundingClientRect();
         me.w = parseInt($(me.parent).css('width'));
         me.h = parseInt($(me.parent).css('height'));
 

@@ -12,6 +12,9 @@
     <div class="paginator next" page="{{next_page}}">
         <i class="fas fa-arrow-right"></i>
     </div>
+    {% for i,d in config.data.items %}
+        {% include "main/objects/mini_appartus.html"%}
+    {% endfor %}
 </div>
 <div class="middle">
 </div>
@@ -21,11 +24,7 @@
 
 
 {% block main %}
-    <div class="heap">
-    {% for i in spells %}
-        {% include "main/spell.html" with i=i%}
-    {% endfor %}
-    </div>
+    <div id="svg_area"></div>
 {% endblock main %}
 
 {% block custom_js %}

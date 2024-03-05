@@ -107,7 +107,7 @@ body {
     order:2;
     flex: 1 1 auto;
 
-    & .options{
+    & .middleblock{
         @include dragonade_panel;
         margin:auto;
         display:block;
@@ -115,6 +115,8 @@ body {
 
         text-align:center;
     }
+
+
 }
 
 #target_ed, #ed{
@@ -186,6 +188,7 @@ body {
     gap:3px;
     & .minisheet{
         flex: 1 1 25ex;
+        font-family:Abel;
     }
 }
 
@@ -338,4 +341,49 @@ div.showhide.eye{
 
 .vis {
     border:3px solid green;
+}
+
+.list_block{
+    text-align:left;
+    border:2px solid #101010;
+    height:32em;
+    width:auto;
+    margin-top:0;
+    margin-bottom:0;
+    font-family: Wellfleet;
+    font-size:10pt;
+    overflow-y: scroll;
+    display:flex;
+    flex-flow: column nowrap;
+    justify-items: flex-start;
+    align-content: flex-start;
+    align-items: stretch;
+    & .title_entry{
+        font-size:1.5em;
+        font-family: Griffy;
+        order:1;
+    }
+    & .spell_entry{
+        order:2;
+        display:flex;
+        flex-flow: row wrap;
+        justify-items: flex-start;
+        align-content: flex-start;
+        align-items: flex-start;
+        width:96%;
+        border:2px solid #202020;
+        & .name{
+            display: inline-block;
+            order:1;
+            background:#100707;
+            flex: 1 1 auto;
+        }
+        & .rid{
+            display: inline-block;
+            order:2;
+            background:#100707;
+            flex: 1 0 20ex;
+            text-align:right;
+        }
+    }
 }

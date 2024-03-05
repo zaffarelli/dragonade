@@ -9,8 +9,8 @@ from main.utils.mechanics import FONTSET, MENU_ENTRIES
 from main.utils.ref_dragonade import stress_table_json, action_quality_json, soak_table_json, pdom_table_json, \
     sus_table_json, scon_table_json, comp_table_json, gear_table_json, secondaries_table_json, miscellaneous_table_json
 
-
 CHAR_PER_PAGE = 12
+
 
 def prepare_context(request):
     d = datetime.now()
@@ -52,7 +52,7 @@ def autochtons(request):
     from main.models.autochtons import Autochton
     from django.core.paginator import Paginator
     context = prepare_context(request)
-    #context['config']['modules'].append('carte')
+    # context['config']['modules'].append('carte')
     characters = []
     for x in Autochton.objects.all().order_by("-priority", "name"):
         datum = x.toJson()
@@ -64,21 +64,23 @@ def autochtons(request):
     context['title'] = "Les Autochtones"
 
     paginator = Paginator(characters, CHAR_PER_PAGE)
-    page=1
+    page = 1
     character_set = paginator.get_page(page)
     context['characters'] = character_set
     context['all_characters'] = characters
     context['previous_page'] = ((page - 1) % paginator.num_pages)
-    if context['previous_page']==0:
+    if context['previous_page'] == 0:
         context['previous_page'] = paginator.num_pages
     context['next_page'] = ((page + 1) % paginator.num_pages)
-    if context['next_page']==paginator.num_pages+1:
+    if context['next_page'] == paginator.num_pages + 1:
         context['next_page'] = 1
     return render(request, 'main/pages/personae.html', context=context)
+
 
 @csrf_exempt
 def autochtons_page(request):
     from main.models.autochtons import Autochton
+    from main.models.draconic_arts import Spell
     from django.core.paginator import Paginator
     context = prepare_context(request)
     characters = []
@@ -90,20 +92,24 @@ def autochtons_page(request):
         characters.append(datum)
 
     context['title'] = "Les Autochtones"
+    context['reference'] = []
+    spells_j, spells_t = Spell.references()
+    print("List of spells ==> ", spells_t)
+    context['reference']['spells'] = spells_j
 
     page = int(request.POST["page"])
     paginator = Paginator(characters, CHAR_PER_PAGE)
     character_set = paginator.get_page(page)
     context['characters'] = character_set
     context['previous_page'] = ((page - 1) % paginator.num_pages)
-    if context['previous_page']==0:
+    if context['previous_page'] == 0:
         context['previous_page'] = paginator.num_pages
     context['next_page'] = ((page + 1) % paginator.num_pages)
-    if context['next_page']==paginator.num_pages+1:
+    if context['next_page'] == paginator.num_pages + 1:
         context['next_page'] = 1
     template = get_template("main/pages/character_list.html")
-    html = template.render(context,request)
-    return JsonResponse({"html":html})
+    html = template.render(context, request)
+    return JsonResponse({"html": html})
 
 
 # def create_autochton(request, name=""):
@@ -121,6 +127,7 @@ def autochtons_page(request):
 
 def travellers(request):
     from main.models.travellers import Traveller
+    from main.models.draconic_arts import Spell
     from django.core.paginator import Paginator
     context = prepare_context(request)
     characters = []
@@ -131,20 +138,23 @@ def travellers(request):
         characters.append(datum)
     context['characters'] = characters
     context['title'] = "Les Voyageurs"
+
+    spells_j = Spell.references()
+    print("List of spells ==> ", spells_j)
+    context['reference'] = {}
+    context['reference']['spells'] = spells_j
     paginator = Paginator(characters, CHAR_PER_PAGE)
-    page=1
+    page = 1
     character_set = paginator.get_page(page)
     context['characters'] = character_set
     context['all_characters'] = characters
     context['previous_page'] = ((page - 1) % paginator.num_pages)
-    if context['previous_page']==0:
+    if context['previous_page'] == 0:
         context['previous_page'] = paginator.num_pages
     context['next_page'] = ((page + 1) % paginator.num_pages)
-    if context['next_page']==paginator.num_pages+1:
+    if context['next_page'] == paginator.num_pages + 1:
         context['next_page'] = 1
     return render(request, 'main/pages/personae.html', context=context)
-
-
 
 
 def maps(request):
@@ -264,8 +274,21 @@ def appartus(request):
     context['title'] = "Appartus & Merveilles Draconiques"
     context['config']['modules'].append('appartus')
     context['config']['menu_entries'] = MENU_ENTRIES
-    appartus = []
+    appartuses = {}
     for i in Appartus.objects.all().order_by("name"):
-        appartus.append(i.export_to_json())
-    context['appartus'] = appartus
-    return render(request, 'main/pages/appartus.html', context=context)
+        appartuses[i.rid] = {"data": i.export_to_json()}
+    context['config']['data'] = appartuses
+    return render(request, 'main/pages/appartuses.html', context=context)
+
+
+def stregoneria(request):
+    from main.models.draconic_arts import Spell
+    context = prepare_context(request)
+    context['title'] = "Sortilèges & Effets Draconiques"
+    context['config']['modules'].append('stregoneria')
+    context['config']['menu_entries'] = MENU_ENTRIES
+    spells = {}
+    for i in Spell.objects.all().order_by("name"):
+        spells[i.rid] = {"data": i.export_to_json()}
+    context['config']['data'] = spells
+    return render(request, 'main/pages/stregoneria.html', context=context)

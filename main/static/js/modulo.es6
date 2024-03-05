@@ -62,7 +62,7 @@ class Modulo {
         console.log("ResizeEvent for "+me.name)
         let width = $(me.parent).width;
         let height = $(me.parent).height;
-        let boundingBox = document.querySelector("#svg_area").getBoundingClientRect();
+        //let boundingBox = document.querySelector("#svg_area").getBoundingClientRect();
         me.w = parseInt($(me.parent).css('width'));
         me.h = parseInt($(me.parent).css('height'));
 
@@ -71,7 +71,7 @@ class Modulo {
             .attr("width", me.w)
             .attr("height", me.h);
         ;
-
+        me.svg.attr("transform", "translate("+me.w/2 +","+ me.h / 2+")")
     }
 
     drawCross(x,y){
@@ -204,6 +204,44 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
         nuke.click();
         me.svg.selectAll('.do_not_print').attr('opacity', 1);
     }
+
+    wrap(tgt, width) {
+      //tgt.each(function() {
+        let item = d3.select(tgt),
+            words = item.text().split(/\s+/).reverse();
+//         console.log(text.text()," *** ",words)
+            console.log("(****) ",item.text())
+        let word,
+            line = [],
+            lineNumber = 0,
+            lineHeight = 1.3, // ems
+          //  y = text.attr("y"),
+            dy = 0,
+            ox = parseFloat(item.attr("x")),
+            oy = 0,
+            tspan = item.text(null).append("tspan").attr("x", ox).attr("y", oy).attr("dy", dy + "em");
+        //console.log(words)
+        while (word = words.pop()) {
+          line.push(word);
+          tspan.text(line.join(' '));
+//           console.log(word,"-->",line.join(' '))
+          if (tspan.node().getComputedTextLength() >= width) {
+            line.pop();
+            tspan.text(line.join(" "));
+            line = [word];
+            tspan = item.append("tspan")
+                .attr("x", ox)
+                .attr("y", 0)
+                .attr("dy", ++lineNumber * lineHeight + dy + "em")
+                .text(word+" ");
+          }
+        }
+        return lineNumber
+      //});
+    }
+
+
+
 
     perform() {
         let me = this;

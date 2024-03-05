@@ -262,7 +262,7 @@ body {
   font-family: Neucha;
   order: 2;
   flex: 1 1 auto; }
-  .middle .options {
+  .middle .middleblock {
     margin: 0;
     padding: 5px;
     border: 2px solid #C0C0C070;
@@ -347,7 +347,8 @@ body {
   align-content: space-around;
   gap: 3px; }
   .list .minisheet {
-    flex: 1 1 25ex; }
+    flex: 1 1 25ex;
+    font-family: Abel; }
 
 .cardback.selected_for_reveal.verso {
   fill: #A02020; }
@@ -458,6 +459,46 @@ div.showhide.eye {
 
 .vis {
   border: 3px solid green; }
+
+.list_block {
+  text-align: left;
+  border: 2px solid #101010;
+  height: 32em;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Wellfleet;
+  font-size: 10pt;
+  overflow-y: scroll;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-items: flex-start;
+  align-content: flex-start;
+  align-items: stretch; }
+  .list_block .title_entry {
+    font-size: 1.5em;
+    font-family: Griffy;
+    order: 1; }
+  .list_block .spell_entry {
+    order: 2;
+    display: flex;
+    flex-flow: row wrap;
+    justify-items: flex-start;
+    align-content: flex-start;
+    align-items: flex-start;
+    width: 96%;
+    border: 2px solid #202020; }
+    .list_block .spell_entry .name {
+      display: inline-block;
+      order: 1;
+      background: #100707;
+      flex: 1 1 auto; }
+    .list_block .spell_entry .rid {
+      display: inline-block;
+      order: 2;
+      background: #100707;
+      flex: 1 0 20ex;
+      text-align: right; }
 
 .item {
   color: #101010;

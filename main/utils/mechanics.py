@@ -3,9 +3,29 @@ from encodings.base64_codec import base64_encode
 
 from dragonade import settings
 
-FONTSET = ["Neucha", "Are+You+Serious", "Fredoka", "Griffy", "Miltonian", "Henny+Penny", "Astloch",
-           "Mountains of Christmas", "Emilys Candy", "Mystery Quest", "Smythe", "Marhey", "Wellfleet"]
-
+# Mandatory Fonts
+FONTSET = [
+    "Neucha",
+    "Are+You+Serious",
+    "Smythe",
+    "Abel",
+    "Wellfleet"
+]
+# Testing (Transfert to the previous one if valid)
+if settings.DEBUG == False:
+    FONTSET += [
+        "Emilys Candy",
+        "Acme",
+        "Protest Revolution",
+        "Henny+Penny",
+        "Mystery Quest",
+        "Miltonian",
+        "Marhey",
+        "Griffy",
+        "Mountains of Christmas",
+        "Astloch",
+        "Fredoka"
+    ]
 
 def is_ajax(request):
     return request.headers.get('x-requested-with') == 'XMLHttpRequest'
@@ -54,7 +74,7 @@ MENU_ENTRIES = [
      "TEXT": "Le coin du Gardien des Rêves"},
     {"IDX": 2, "NAME": "Sirene", "LINK": "carte", "SVG_REF": "_2.svg", "TEXT": "Aides de jeu"},
     {"IDX": 3, "NAME": "Faucon", "LINK": "piani", "SVG_REF": "_3.svg", "TEXT": "Plans & Cartes"},
-    {"IDX": 4, "NAME": "Couronne", "LINK": "", "SVG_REF": "_4.svg", "TEXT": ""},
+    {"IDX": 4, "NAME": "Couronne", "LINK": "stregoneria", "SVG_REF": "_4.svg", "TEXT": "Sortilèges & Effets Draconiques"},
     {"IDX": 5, "NAME": "Dragon", "LINK": "orologio", "SVG_REF": "_5.svg", "TEXT": "Retour au Portail..."},
     {"IDX": 6, "NAME": "Epees", "LINK": "appartus", "SVG_REF": "_6.svg", "TEXT": "Objets du Rêve"},
     {"IDX": 7, "NAME": "Lyre", "LINK": "draconis_artes", "SVG_REF": "_7.svg", "TEXT": "Arts Draconiques..."},
