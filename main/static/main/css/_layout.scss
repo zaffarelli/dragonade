@@ -111,9 +111,14 @@ body {
         @include dragonade_panel;
         margin:auto;
         display:block;
-
-
         text-align:center;
+        & .list_block{
+            height: 15em;
+            border:1px solid #808080;
+            border-radius:5px;
+            margin-bottom:1em;
+            padding:5px;
+        }
     }
 
 
@@ -186,10 +191,22 @@ body {
     justify-content: flex-start;
     align-content: space-around;
     gap:3px;
-    & .minisheet{
+    & .mini {
         flex: 1 1 25ex;
-        font-family:Abel;
+        font-size:8pt;
+        font-family:Wellfleet;
+        height:3.5em;
+        & .options{
+            color:silver;
+        }
     }
+    & .paginator{
+        font-family: Wellfleet;
+        font-size:8pt;
+        flex:1 1 50ex;
+        text-align:center;
+    }
+
 }
 
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<svg
+        width="25mm"
+        height="30mm"
+        viewBox="-50 -50 100 120"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg">
+    <g id="sd_2" class="icon sd">
+        <g style="fill:#502050;stroke:black;stroke-width:2pt;stroke-linejoin:round; stroke-linecap:round;">
+            <path style="fill:#505050" d="M -30,-30 l 60,0 00,60 -60,0 z"/>
+            <circle r="35"/>
+            <path style="fill:transparent;stroke:#F0C040;stroke-width:2pt;"
+                d="M -30,0
+                m 24,19 3.568433,-3.119574 4.46377,1.625874 4.45947,0.958883 3.077834,-1.953354 2.085174,-4.724032 -0.302275,-10.7014343 2.162761,-4.2463873 -0.923256,-2.9074524 1.585878,-4.4468509 -1.502087,-2.8342111 -3.562603,-0.180677 -4.378547,2.605473 -3.741205,1.9413179 -2.967082,-0.9391867 -1.801214,-0.5436293 -2.560964,1.843035
+                m 13,-1 -2.954973,2.5025812 -3.183282,1.978466 -3.790632,0.1180672 -2.312507,2.319857 m 2.093143,3.8945574 2.319835,-2.43246866 3.338992,-1.31966594 1.928513,-0.8784597 2.794345,-2.2639687 -1.022003,2.1750853 0.317343,2.80973115 -0.413656,3.04741605 -2.015117,4.7338538 2.886988,3.649626 -0.328521,1.907943 -1.434902,0.62096 -3.265966,-1.282478 -6.297229,-0.193435 -0.578138,-2.039858
+                "/>
+            <text x="38" y="-20" style="font-weight:600;font-size:8pt;font-family:Neucha;fill:#101010;text-anchor:middle;stroke-width:0.25pt;">2</text>
+            <circle cx="28" cy="38" r="3" style="fill:black; stroke-width:0"/>
+            <circle cx="20" cy="38" r="3" style="fill:black; stroke-width:0"/>
+            <circle cx="38" cy="28" r="3" style="fill:black; stroke-width:0"/>
+            <circle cx="38" cy="20" r="3" style="fill:black; stroke-width:0"/>
+        </g>
+        <text style="font-weight:600;font-size:11pt;line-height:1.25;font-family:Neucha;fill:#101010;text-anchor:middle;" x="0" y="60">Sirène</text>
+    </g>
+</svg>

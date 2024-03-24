@@ -195,7 +195,7 @@ body {
       left: auto;
       width: 30vw;
       border: 1px solid black;
-      background: #30102070;
+      background: #10802070;
       display: flex;
       flex-flow: column nowrap;
       justify-content: flex-start;
@@ -274,6 +274,12 @@ body {
     margin: auto;
     display: block;
     text-align: center; }
+    .middle .middleblock .list_block {
+      height: 15em;
+      border: 1px solid #808080;
+      border-radius: 5px;
+      margin-bottom: 1em;
+      padding: 5px; }
 
 #target_ed, #ed {
   display: block;
@@ -346,9 +352,18 @@ body {
   justify-content: flex-start;
   align-content: space-around;
   gap: 3px; }
-  .list .minisheet {
+  .list .mini {
     flex: 1 1 25ex;
-    font-family: Abel; }
+    font-size: 8pt;
+    font-family: Wellfleet;
+    height: 3.5em; }
+    .list .mini .options {
+      color: silver; }
+  .list .paginator {
+    font-family: Wellfleet;
+    font-size: 8pt;
+    flex: 1 1 50ex;
+    text-align: center; }
 
 .cardback.selected_for_reveal.verso {
   fill: #A02020; }
@@ -364,7 +379,7 @@ table.skillstable {
   table.skillstable td {
     border: 1px solid transparent;
     vertical-align: top;
-    background: #30102070; }
+    background: #10802070; }
   table.skillstable.autochton td {
     background: #3030F030; }
   table.skillstable.traveller td {

@@ -27,6 +27,7 @@ if settings.DEBUG == False:
         "Fredoka"
     ]
 
+
 def is_ajax(request):
     return request.headers.get('x-requested-with') == 'XMLHttpRequest'
 
@@ -74,9 +75,10 @@ MENU_ENTRIES = [
      "TEXT": "Le coin du Gardien des Rêves"},
     {"IDX": 2, "NAME": "Sirene", "LINK": "carte", "SVG_REF": "_2.svg", "TEXT": "Aides de jeu"},
     {"IDX": 3, "NAME": "Faucon", "LINK": "piani", "SVG_REF": "_3.svg", "TEXT": "Plans & Cartes"},
-    {"IDX": 4, "NAME": "Couronne", "LINK": "stregoneria", "SVG_REF": "_4.svg", "TEXT": "Sortilèges & Effets Draconiques"},
+    {"IDX": 4, "NAME": "Couronne", "LINK": "stregoneria", "SVG_REF": "_4.svg",
+     "TEXT": "Sortilèges & Effets Draconiques"},
     {"IDX": 5, "NAME": "Dragon", "LINK": "orologio", "SVG_REF": "_5.svg", "TEXT": "Retour au Portail..."},
-    {"IDX": 6, "NAME": "Epees", "LINK": "appartus", "SVG_REF": "_6.svg", "TEXT": "Objets du Rêve"},
+    {"IDX": 6, "NAME": "Epees", "LINK": "appartuses", "SVG_REF": "_6.svg", "TEXT": "Objets du Rêve"},
     {"IDX": 7, "NAME": "Lyre", "LINK": "draconis_artes", "SVG_REF": "_7.svg", "TEXT": "Arts Draconiques..."},
     {"IDX": 8, "NAME": "Serpent", "LINK": "", "SVG_REF": "_8.svg", "TEXT": "Monstres..."},
     {"IDX": 9, "NAME": "Poisson-Acrobate", "LINK": "risorse", "SVG_REF": "_9.svg", "TEXT": "Révélation de Cartes"},

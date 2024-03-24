@@ -1,13 +1,10 @@
 from django.http import JsonResponse, Http404, HttpResponse
 from django.template.loader import get_template
-from django.views.decorators.csrf import csrf_exempt
 from main.utils.mechanics import is_ajax, zaff_decode
-import base64
 
 
+ITEMS_PER_LIST = 12
 
-
-@csrf_exempt
 def inc_dec(request):
     cando = False
     answer = {}
@@ -42,7 +39,7 @@ def inc_dec(request):
     return HttpResponse(status=204)
 
 
-@csrf_exempt
+# @csrf_exempt
 def value_push(request):
     cando = False
     if is_ajax(request):
@@ -54,8 +51,8 @@ def value_push(request):
             params = request.POST.get('refs').split('__')
             new_value = request.POST.get('new_value')
             value = zaff_decode(new_value)
-            print("New value     =>",new_value)
-            print("Value to push =>",value)
+            print("New value     =>", new_value)
+            print("Value to push =>", value)
             if len(params) >= 3:
                 class_name = params[0]
                 id = params[1]
@@ -77,3 +74,50 @@ def value_push(request):
             answer['new_roster'] = new_roster
             return JsonResponse(answer)
     return HttpResponse(status=204)
+
+
+# @csrf_exempt
+def svg_to_pdf(request, slug):
+    import cairosvg
+    import os
+    from django.conf import settings
+    print("svg_to_pdf")
+    response = {'status': 'error'}
+    if is_ajax(request):
+        pdf_name = os.path.join(settings.MEDIA_ROOT, 'pdf/results/' + request.POST["pdf_name"])
+        svg_name = os.path.join(settings.MEDIA_ROOT, 'pdf/results/svg/' + request.POST["svg_name"])
+        svgtxt = request.POST["svg"]
+        with open(svg_name, "w") as f:
+            f.write(svgtxt)
+            f.close()
+        cairosvg.svg2pdf(url=svg_name, write_to=pdf_name, scale=21)
+        response['status'] = 'ok'
+    return JsonResponse(response)
+
+def paginator_switch(request):
+    from main.views.generic import stregoneria_page, appartuses_page, autochtons_page, travellers_page
+    if is_ajax(request):
+        params = request.POST["params"]
+        if params == "stregoneria":
+            return stregoneria_page(request)
+        if params == "appartuses":
+            return appartuses_page(request)
+        if params == "autochtons":
+            return autochtons_page(request)
+        if params == "travellers":
+            return travellers_page(request)
+    return JsonResponse({"html": 'Bad Paginator!'})
+
+def prepare_pagination(context, all_items, page):
+    from django.core.paginator import Paginator
+    paginator = Paginator(all_items, ITEMS_PER_LIST)
+    items_set = paginator.get_page(page)
+    context['elements'] = items_set
+    context['config']['data'] = all_items
+    context['previous_page'] = ((page - 1) % paginator.num_pages)
+    if context['previous_page'] == 0:
+        context['previous_page'] = paginator.num_pages
+    context['next_page'] = ((page + 1) % paginator.num_pages)
+    if context['next_page'] == paginator.num_pages + 1:
+        context['next_page'] = 1
+    return context

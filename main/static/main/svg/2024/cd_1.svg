@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<svg
+        width="25mm"
+        height="30mm"
+        viewBox="-50 -50 100 120"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg">
+    <g id="cd_1" class="icon tm">
+        <g style="fill:#502050;stroke:black;stroke-width:3pt;stroke-linejoin:round;">
+            <path style="fill:#A02020" d="M -45,0 l 45,-45 45,45 -45,45 z"/>
+            <path d="M -30,-30 l 60,0 00,60 -60,0 z"/>
+            -
+            <path style="fill:transparent;stroke:#F0C040;stroke-width:2pt;stroke-linejoin:round;"
+                  d="M -10,0  l 8,-2 m 4,0 l 8,2 m -20,6 l 20,0 "/>
+            <text x="38" y="-20"
+                  style="font-weight:600;font-size:8pt;font-family:Neucha;fill:#101010;text-anchor:middle;stroke-width:0.25pt;">
+                1
+            </text>
+            <circle cx="38" cy="38" r="3" style="fill:black; stroke-width:0"/>
+        </g>
+        <text style="font-weight:600;font-size:11pt;line-height:1.25;font-family:Neucha;fill:#101010;text-anchor:middle;"
+              x="0" y="60">Humeur
+        </text>
+    </g>
+</svg>

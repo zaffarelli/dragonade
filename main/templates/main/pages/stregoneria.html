@@ -1,24 +1,14 @@
 {% extends "base.html" %}
 {%  load static %}
 
+
 {% block east %}
     {% include "main/menu.html" with title=title %}
-
-
-<div class="list">
-    <div class="paginator previous" page="{{previous_page}}">
-        <i class="fas fa-arrow-left"></i>
-    </div>
-    <div class="paginator next" page="{{next_page}}">
-        <i class="fas fa-arrow-right"></i>
-    </div>
-    {% for i,d in config.data.items %}
-        {% include "main/objects/mini_stregoneria.html"%}
-    {% endfor %}
-</div>
-<div class="middle">
-</div>
-
+    {% include "main/lists/stregoneria_options.html"%}
+    <fieldset class="list">
+        <legend>Sortilèges</legend>
+        {% include "main/lists/stregoneria_list.html" %}
+    </fieldset>
 {% endblock east %}
 
 

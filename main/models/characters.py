@@ -268,8 +268,8 @@ class Character(models.Model):
         # self.data['features']['lefty'] =
         self.data['features']['AGE'] = self.age
         self.data['features']['AKA'] = self.aka
-        self.data['features']['GENDER'] = self.is_female
-        self.data['features']['LEFTY'] = self.is_lefty
+        self.data['features']['GENDER'] = "F" if self.is_female else "M"
+        self.data['features']['LEFTY'] = "G" if self.is_lefty else "D"
 
         self.data['features']['weapons'] = self.gear_to_weapons()
         self.data['features']['armors'] = self.gear_to_armors()

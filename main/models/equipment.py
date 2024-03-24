@@ -14,6 +14,7 @@ class Equipment(models.Model):
     plus_dom = models.IntegerField(default=0, null=True, blank=True)
     plus_dom_2m = models.IntegerField(default=0, null=True, blank=True)
     prot = models.IntegerField(default=0, null=True, blank=True)
+    classe_engagement = models.IntegerField(default=0, null=True, blank=True)
     cover = models.CharField(default="", max_length=64, blank=True)
     materiaux = models.CharField(default="", max_length=64, blank=True)
     related_skill = models.CharField(default="", max_length=8, blank=True)
@@ -35,6 +36,13 @@ class Equipment(models.Model):
     def __str__(self):
         return f"{self.name} [{self.category}]"
 
+    @classmethod
+    def references(klass):
+        json_list = []
+        for spell in klass.objects.order_by("name"):
+            json_list.append({"name":spell.name, "rid": spell.rid})
+        return json_list
+
 
 
 
@@ -53,9 +61,9 @@ def cat_from_first(modeladmin, request, queryset):
 class EquipmentAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ['category', 'related_attribute', 'name']
-    list_display = ["name", "rid", "cover", "materiaux", "plus_dom", "plus_dom_2m", "force_min", "prot", "malus_armure", "related_skill",
+    list_display = ["name", "rid", "classe_engagement", "cover", "materiaux", "plus_dom", "plus_dom_2m", "force_min", "prot", "malus_armure", "related_skill",
                     "related_attribute", "enc", "price"]
-    list_editable = [ "cover", "materiaux",  "prot", "malus_armure"]
+    list_editable = [ "cover", "materiaux", "classe_engagement", "prot", "malus_armure"]
     list_filter = ["category", "related_attribute", "related_skill", "special"]
     search_fields = ['name']
     actions = [refix, cat_from_first]

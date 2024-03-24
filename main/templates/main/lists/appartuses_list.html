@@ -1,0 +1,18 @@
+{% load static %}
+{% load dragonade_filters %}
+
+
+<div class="paginator previous" page="{{previous_page}}" target="appartuses">
+    <i class="fas fa-arrow-left"></i>{{previous_page}}
+</div>
+<div class="paginator next" page="{{next_page}}" target="appartuses">
+    {{next_page}}<i class="fas fa-arrow-right"></i>
+</div>
+
+
+{% for x in elements %}
+<div class="mini appartus" id="mini__{{x.rid}}" code="{{x.rid}}" title="{{x.name}}">
+    {{x.name|safe}}<br/><span class="options">{{x.category|acro|safe}}</span>
+</div>
+{% endfor %}
+

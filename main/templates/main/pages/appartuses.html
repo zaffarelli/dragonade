@@ -3,25 +3,12 @@
 
 {% block east %}
     {% include "main/menu.html" with title=title %}
-
-
-<div class="list">
-    <div class="paginator previous" page="{{previous_page}}">
-        <i class="fas fa-arrow-left"></i>
-    </div>
-    <div class="paginator next" page="{{next_page}}">
-        <i class="fas fa-arrow-right"></i>
-    </div>
-    {% for i,d in config.data.items %}
-        {% include "main/objects/mini_appartus.html"%}
-    {% endfor %}
-</div>
-<div class="middle">
-</div>
-
+    {% include "main/lists/appartuses_options.html"%}
+    <fieldset class="list">
+        <legend>Artefacts</legend>
+        {% include "main/lists/appartuses_list.html" %}
+    </fieldset>
 {% endblock east %}
-
-
 
 {% block main %}
     <div id="svg_area"></div>

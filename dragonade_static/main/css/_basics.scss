@@ -18,9 +18,9 @@ $shadow_color: #402040;
 
 
 $panel_background: $theme1;
-$button_background: saturate($theme2,75%);
-$button_background2: darken($theme2,15%);
-$highlight_background: saturate($theme3,75%);
+$button_background: saturate($theme1,75%);
+$button_background2: darken($theme1,15%);
+$highlight_background: saturate($theme1,75%);
 
 $panel_complement: complement($theme2);
 $panel_text: #202020;
@@ -76,7 +76,7 @@ $plate_color: lighten($panel_color,10%);
 
 $bkg_filter0:#80808070;
 $bkg_filter1:#80808020;
-$bkg_filter2:#30102070;
+$bkg_filter2:#10802070;
 
 $bkg0:#301020;
 $bkg1:#103020;

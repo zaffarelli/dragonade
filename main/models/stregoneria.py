@@ -84,6 +84,7 @@ class SpellCategory(models.IntegerChoices):
     NONE = 0, "-"
     INCANTATION = 1, "Incantation"
     RITUAL = 2, "Rituel"
+    PENTACLE = 3, "Pentacle"
 
 
 class SpellPath(models.IntegerChoices):
@@ -106,6 +107,16 @@ class SpellRoll(models.IntegerChoices):
     STATIC = 6, "Statique"
 
 
+class SpellCastingTime(models.IntegerChoices):
+    INSTANT = 0, "Instantanné"
+    ROUND = 1, "Tour"
+    MINUTE = 2, "Minute"
+    HOUR = 3, "Demi-Heure Draconique"
+    DRACONIC_HOUR = 4, "Heure Draconique"
+    DAY = 5, "Jour"
+    WEEK = 6, "Semaine"
+
+
 """
                 {"NAME": "DRA_01", "TEXT": "Contemplatif"},
                 {"NAME": "DRA_02", "TEXT": "Destructif"},
@@ -118,7 +129,8 @@ class SpellRoll(models.IntegerChoices):
 
 class Spell(models.Model):
     class Meta:
-        ordering = ["-spell_ready",'name']
+        ordering = ["-spell_ready", 'name']
+
     name = models.CharField(default="", max_length=256)
     rid = models.CharField(default="xxx", max_length=256, blank=True)
     alternative_names = models.CharField(default="", max_length=512, blank=True)
@@ -136,19 +148,26 @@ class Spell(models.Model):
                                                    blank=True)
 
     dps = models.PositiveIntegerField(default=3, blank=True)
+    songe = models.PositiveIntegerField(default=0, blank=True)
+    duration = models.CharField(default="-", max_length=128, blank=True)
+    range = models.CharField(default="-", max_length=128, blank=True)
+    resistance = models.CharField(default="-", max_length=128, blank=True)
     diff = models.PositiveIntegerField(default=DragonadeDifficulty.AVERAGE, choices=DragonadeDifficulty.choices,
                                        blank=True)
 
     original_casting_cost = models.CharField(default="-", max_length=1024, blank=True)
 
     description = models.TextField(default="", max_length=1024, blank=True)
+    composantes = models.TextField(default="-", max_length=1024, blank=True)
     path = models.PositiveIntegerField(default=SpellPath.NONE, choices=SpellPath.choices, blank=True)
     category = models.PositiveIntegerField(default=SpellCategory.NONE, choices=SpellCategory.choices, blank=True)
     ref = models.CharField(default="RDD 2nd p.", max_length=32, blank=True)
     source = models.CharField(default="-", max_length=64, blank=True)
+    ti = models.PositiveIntegerField(default=SpellCastingTime.INSTANT, choices=SpellCastingTime.choices, blank=True)
 
     roll = models.PositiveIntegerField(default=SpellRoll.NONE, choices=SpellRoll.choices, blank=True)
     spell_ready = models.BooleanField(default=False, blank=True)
+    power = models.IntegerField(default=0, blank=True)
     data = {}
 
     def fix(self):
@@ -165,6 +184,13 @@ class Spell(models.Model):
             self.diff = diff
             self.dps = dps
             str = f'{old_diff} {old_dps} / {diff} {diff_pen} {dps}'
+        z = 0
+        z += 1 if self.ground_charge != DragonadeGround.NONE else 0
+        z += 1 if self.hour_charge != DragonadeHour.NONE else 0
+        z += 1 if self.emanation_charge != DragonadeEmanation.NONE else 0
+        z += 1 if self.consistency_charge != DragonadeConsistency.NONE else 0
+        z += 1 if self.elemental_charge != DragonadeElement.NONE else 0
+        self.power = self.diff/5 + self.dps + z + self.songe * 2
 
     def __str__(self):
         return f"{self.name} ({self.get_path_display()} {self.get_category_display()}) "
@@ -188,10 +214,17 @@ class Spell(models.Model):
         data['dps'] = self.dps
         data['diff'] = self.diff
         data['ref'] = self.ref
+        data['duration'] = self.duration
+        data['range'] = self.range
+        data['songe'] = self.songe
+        data['resistance'] = self.resistance
         data['roll'] = self.get_roll_display()
         data['path'] = self.get_path_display()
         data['category'] = self.get_category_display()
         data['description'] = self.description
+        data['composantes'] = self.composantes
+        data['ti'] = self.get_ti_display()[:4]+"."
+        data['puissance'] = self.power
         self.data = data
         return data
 
@@ -215,23 +248,20 @@ class Spell(models.Model):
     @classmethod
     def references(klass):
         json_list = []
-        txt_list = []
-        print(klass)
         for spell in klass.objects.order_by("name"):
-            json_list.append({"name":spell.name, "rid": spell.rid})
-            #txt_list.append(f"{spell.name}:{spell.rid}")
-        print(json_list)
-        return json_list#, ", ".join(txt_list)
-
+            json_list.append({"name": spell.name, "rid": spell.rid})
+        return json_list
 
 
 class SpellAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
-    ordering = ["-spell_ready","name"]
-    list_display = ["name","rid", "spell_ready", "roll", "original_casting_cost", "conversion", "ground_charge", "str_charges",
+    ordering = ["-spell_ready", "name"]
+    list_display = ["name", "rid", "power", "spell_ready","songe", "roll", "original_casting_cost", "conversion", "ground_charge",
+                    "str_charges",
                     "path", "ref", "category", "source"]
-    list_editable = ["original_casting_cost", "roll","spell_ready", "ground_charge", "path", "ref", "category", "source"]
-    list_filter = ["spell_ready","path", "category", "diff", "dps", "ref", "original_casting_cost", "ground_charge",
+    list_editable = ["original_casting_cost", "songe", "roll", "spell_ready", "ground_charge", "path", "ref", "category",
+                     "source"]
+    list_filter = ["spell_ready", "path", "category", "diff", "dps", "ref", "original_casting_cost", "ground_charge",
                    "elemental_charge", "emanation_charge",
                    "consistency_charge", "hour_charge", "source"]
     search_fields = ["name", "description"]

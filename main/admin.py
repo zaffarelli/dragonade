@@ -5,7 +5,7 @@ from main.models.autochtons import Autochton, AutochtonAdmin
 from main.models.travellers import Traveller, TravellerAdmin
 from main.models.dreams import Dream, DreamAdmin
 from main.models.equipment import Equipment, EquipmentAdmin
-from main.models.draconic_arts import Spell, SpellAdmin
+from main.models.stregoneria import Spell, SpellAdmin
 from main.models.appartus import Appartus, AppartusAdmin
 
 

@@ -1,6 +1,6 @@
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
-from main.models.draconic_arts import Spell
+from main.models.stregoneria import Spell
 
 
 @receiver(pre_save, sender=Spell, dispatch_uid='pre_save_spell')

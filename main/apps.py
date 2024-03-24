@@ -10,5 +10,5 @@ class MainConfig(AppConfig):
         import main.signals.travellers
         import main.signals.dreams
         import main.signals.equipement
-        import main.signals.draconic_arts
+        import main.signals.stregoneria
         import main.signals.appartus

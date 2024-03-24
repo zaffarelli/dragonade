@@ -12,6 +12,7 @@ class Dream(models.Model):
     session_number = models.PositiveIntegerField(default=1, blank=True)
     date_run = models.DateField(default=timezone.now, blank=True)
     description = models.TextField(default="", max_length=1024, blank=True)
+    current = models.BooleanField(default=False,blank=True)
 
     def fix(self):
         self.rid = as_rid(f"{self.title}_{self.subtitle}")
@@ -23,6 +24,6 @@ class Dream(models.Model):
 class DreamAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ["date_run",'title','session_number']
-    list_display = ["rid", "title", "subtitle", "date_run", "session_number", "description"]
-    list_editable = ["session_number","title", "subtitle", "description"]
+    list_display = ["rid", "title","current", "subtitle", "date_run", "session_number", "description"]
+    list_editable = ["session_number","current","title", "subtitle", "description"]
     actions = [refix]

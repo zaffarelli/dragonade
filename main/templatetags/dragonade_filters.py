@@ -152,15 +152,16 @@ def hidden_if_blank(value):
 
 @register.filter(name='lefty')
 def lefty(value):
-    if value == False:
+    if value == 0:
         result = "Droitier"
     else:
         result = "Gauchère"
     return result
 
+
 @register.filter(name='genderize')
 def genderize(value):
-    if value == False:
+    if value == 0:
         result = "Masculin"
     else:
         result = "Féminin"
@@ -222,6 +223,7 @@ def encoded_z(value):
     res = zaff_encode(str(value))
     return res
 
+
 @register.filter(name='decoded_z')
 def decoded_z(value):
     from main.utils.mechanics import zaff_decode
@@ -235,3 +237,25 @@ def decoded_z(value):
     # # print(value,y,type(x))
     res = zaff_decode(str(value))
     return res
+
+
+@register.filter(name='maxed_length')
+def maxed_length(value):
+    max = 20
+    s = str(value)
+    if len(s) >= max:
+        result = s[:(max - 3)] + "..."
+    else:
+        result = s
+    return result
+
+
+@register.filter(name='acro')
+def acro(value):
+    max = 3
+    s = str(value)
+    if len(s) >= max:
+        result = s[:(max)]
+    else:
+        result = s
+    return result.upper()

@@ -24,7 +24,7 @@ class Chiaroscuro {
             let mod = new Piani(this, config);
             mod.register();
         }
-        if (config["modules"].includes("appartus") == true) {
+        if (config["modules"].includes("appartuses") == true) {
             let mod = new Appartus(this, config);
             mod.register();
         }
@@ -73,7 +73,7 @@ class Chiaroscuro {
             name = me.name;
         }
         let str = "[" + name + "] > " + txt;
-        console.log(str);
+//          console.log(str);
     }
 
     prepareAjax() {
@@ -90,7 +90,7 @@ class Chiaroscuro {
 
     revealUI() {
         let me = this;
-        console.log("Reveal UI");
+//         console.log("Reveal UI");
         $('.world').addClass('shownflex');
         $('.world').removeClass('hidden');
         $('.universe').addClass('hidden');
@@ -100,7 +100,7 @@ class Chiaroscuro {
 
     revealUniverse() {
         let me = this;
-        console.log("Reveal Universe");
+//         console.log("Reveal Universe");
         $('.world').addClass('shownflex');
         $('.world').removeClass('hidden');
         $('.universe').removeClass('hidden');
@@ -113,6 +113,7 @@ class Chiaroscuro {
 
     registerActions() {
         let me = this;
+        me.prepareAjax();
         me.registerEditables();
         me.registerValuePush();
         me.registerSheets();
@@ -162,7 +163,7 @@ class Chiaroscuro {
                     }
 
                 } else {
-                    console.log("Wrong parameters number...")
+                    console.error("Wrong parameters number...")
                 }
             } else if (action == "value") {
                 let params = id.split("__");
@@ -176,7 +177,7 @@ class Chiaroscuro {
 //                  });
                 //let value = he.unescape(pvalue,{'strict':true})
                 //console.log("bvalue:",bvalue)
-                console.log("value:",value)
+//                 console.log("value:",value)
 //                 console.log("cvalue:",cvalue)
                 //console.log("value: ",value)
                 if (params.length > 3) {
@@ -189,10 +190,10 @@ class Chiaroscuro {
                     $("#echo").html(value);
                     me.registerActions();
                 } else {
-                    console.log("Wrong parameters number...")
+                    console.error("Wrong parameters number...")
                 }
             } else {
-                console.log("Unknown action...")
+                console.warning("Unknown action...")
             }
         });
     }
@@ -203,9 +204,9 @@ class Chiaroscuro {
             e.preventDefault();
             e.stopPropagation();
             let new_value = $('#ed').val()
-            console.log(new_value)
+//             console.log(new_value)
             let value = me.zaff_encode(new_value)
-            console.log("zvalue",value)
+//             console.log("zvalue",value)
             let refs = $("#target_ed").val();
 
 
@@ -241,8 +242,9 @@ class Chiaroscuro {
         $('.paginator').off().on('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
-            console.log("paginator")
+//             console.log("paginator")
             let page = $(this).attr("page")
+            let target = $(this).attr("target")
             $.ajax({
                 url: 'ajax/paginator',
                 method: 'POST',
@@ -251,7 +253,8 @@ class Chiaroscuro {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 data: {
-                    "page": page
+                    "page": page,
+                    "params": target
                 },
                 dataType: 'json',
                 success: function (answer) {
@@ -281,7 +284,7 @@ class Chiaroscuro {
             $(".roster").addClass('hidden');
             $("#roster_" + id).removeClass('hidden');
             $("#roster_" + id + " .sheet").removeClass('hidden');
-            console.log("#roster_" + id + ".sheet")
+//             console.log("#roster_" + id + ".sheet")
             //$("#sb_"+id).removeClass('hidden');
             $(".for_display_" + id).removeClass('hidden');
             $(".for_edit_" + id).addClass('hidden');
@@ -311,16 +314,16 @@ class Chiaroscuro {
             let code = $(this).attr('code');
             let words = miniid.split('__');
             let id = words[1];
-            console.log("mini item click!")
+//             console.log("mini item click!")
             $(".item").addClass('hidden');
             $(".mini").removeClass('mark');
             $("#mini__" + id).addClass('mark');
             $("#item__" + id).removeClass('hidden');
             $(".for_display_" + id).removeClass('hidden');
             $(".for_edit_" + id).addClass('hidden');
-            console.log("Shooting Axiomatic Performers !", me.axiomaticPerformers)
+//             console.log("Shooting Axiomatic Performers !", me.axiomaticPerformers)
             me.axiomaticPerformers.forEach( (m) => {
-                console.log(`Sending code ${code} to axiomatic performer [${m.name}].`)
+//                 console.log(`Sending code ${code} to axiomatic performer [${m.name}].`)
                 m.perform(code)
             });
 
@@ -388,7 +391,7 @@ class Chiaroscuro {
         me.chatSocket = new WebSocket(url)
         me.chatSocket.onmessage = function(e){
             let data = JSON.parse(e.data)
-            console.log("Data:",data)
+//             console.log("Data:",data)
             if (data.type === "select"){
                 $("#info").prepend(
                 `<div>
@@ -403,7 +406,7 @@ class Chiaroscuro {
         me.prepareAjax();
         me.registerActions();
         //window.addEventListener('resize',resizeEvent);
-        console.log("Global Perform");
+//         console.log("Global Perform");
         _.forEach(me.globalPerformers,
             (m) => {
                 m.perform();
@@ -434,6 +437,26 @@ class Chiaroscuro {
     }
 
 
+    fetchExternalSvgResource(file,tgt){
+        let me = this;
+        d3.xml(file).then(data => {
+                d3.select(tgt).node().append(data.documentElement)
+            })
+//         d3.xml(file, function(error, documentFragment) {
+//                 if (error) {
+//                     console.log(error);
+//                     return;
+//                 }
+//                 let svgNode = documentFragment
+//                     .getElementsByTagName("svg")[0];
+//                 me.back.node().appendChild(svgNode);
+//                 let innerSVG = me.back.select("svg");
+//                 innerSVG.transition().duration(1000).delay(1000)
+//                       .select("circle")
+//                       .attr("r", 100);
+//
+//             });
+    }
 
 
 }

@@ -9,10 +9,10 @@ class Carte extends Modulo {
     init() {
         super.init();
         let me = this;
-        me.version = "0.6";
+        me.version = "0.7";
         me.supertitle = "";
         me.step = 50;
-        me.fontSize = 0.3*me.step + "pt";
+      //  me.fontSize = 0.2*me.step + "pt";
         me.basefont = "Wellfleet";
         // Drawing Size
         me.height = me.step * 21.0
@@ -22,7 +22,7 @@ class Carte extends Modulo {
         // View Size
         me.w = parseInt($(me.parent).css('width'));
         me.h = parseInt($(me.parent).css('height'));
-        me.fontsize = me.step / 4 ;
+        me.font_size = me.step / 4 ;
         me.light = [0.70,0.4,0,0,0,0,0,0.40,0.70,0.90,1,0.90];
         d3.select(me.parent).selectAll("svg").remove();
         me.vis = d3.select(me.parent).append("svg")
@@ -31,20 +31,13 @@ class Carte extends Modulo {
             .attr("height", me.h);
         me.svg = me.vis.append('g')
             .attr("id", me.code)
-            .attr("width", me.width)
-            .attr("height", me.height)
+            .attr("width", me.width+"cm")
+            .attr("height", me.height+"cm")
             .append("svg:g")
+            .attr("id","print_area")
             .attr("transform", "translate(0,0)")
         ;
     }
-
-
-
-
-
-
-
-
 
     createPath(str,u){
         // Do not forget spaces between entities in str !!
@@ -133,13 +126,13 @@ class Carte extends Modulo {
             .attr("y", me.step*20)
             .attr("dy", 2*me.step/3)
             .style("text-anchor","start")
-            .style("font-family","Astloch")
+            .style("font-family","Wellfleet")
             //.style("font-family","Henny Penny")
-            .style("font-size",me.step/2+"pt")
+            .style("font-size",me.font_size+"pt")
             .style("fill","#101010")
             .style("stroke","#808080")
             .style("stroke-width","0.25pt")
-            .text("Dragonade - "+me.supertitle)
+            .text(me.supertitle)
         ;
 
     }
@@ -609,6 +602,7 @@ class Carte extends Modulo {
         let rh = 19;
         let x = 0;
         let y = 0;
+        me.infos = {};
         me.ss_lists = {};
         me.weapons_lists = {};
         me.armors_lists = {};
@@ -645,7 +639,9 @@ class Carte extends Modulo {
         let roster_in = rosters.enter()
             .append("g")
             .attr("class","screen_roster")
+            .attr("rid", (d) => d.rid)
             .attr("id", (d,i) => {
+                me.infos[d["rid"]] = {"type":d.type};
                 me.ss_lists[d["rid"]] = d["skills_summary"];
                 me.weapons_lists[d["rid"]] = d["features"]["weapons"];
                 me.armors_lists[d["rid"]] = d["features"]["armors"];
@@ -819,15 +815,15 @@ class Carte extends Modulo {
         xo = 5;
         yo += 0.8;
         me.append_value_to(roster_in,xo+0.5,yo+1,"SEXE",{"rw":rw,"label":true})
-        me.append_value_to(roster_in,xo+0.5,yo+1.25,"features.gender",{"rw":rw,"label":false})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"features.GENDER",{"rw":rw,"label":false})
 
         xo = 6.25;
         me.append_value_to(roster_in,xo+0.5,yo+1,"MAIN",{"rw":rw,"label":true})
-        me.append_value_to(roster_in,xo+0.5,yo+1.25,"features.lefty",{"rw":rw,"label":false})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"features.LEFTY",{"rw":rw,"label":false})
 
         xo = 7.5;
         me.append_value_to(roster_in,xo+0.5,yo+1,"Âge",{"rw":rw,"label":true, "ta":"middle"})
-        me.append_value_to(roster_in,xo+0.5,yo+1.25,"features.age",{"rw":rw,"label":false})
+        me.append_value_to(roster_in,xo+0.5,yo+1.25,"features.AGE",{"rw":rw,"label":false})
 
 
         xo = 5
@@ -840,12 +836,14 @@ class Carte extends Modulo {
         me.append_value_to(roster_in,xo+0.5,yo+1.25,"features.WEIGHT",{"rw":rw,"label":false})
 
         xo = 7.5;
-        me.append_value_to(roster_in,xo+0.5,yo+1,"Destinée",{"rw":rw,"label":true, "ta":"middle"})
-        me.append_value_to(roster_in,xo+0.5,yo+1.25,"destiny",{"rw":rw,"label":false})
 
-        me.append_value_to(roster_in,xo+0.5,yo+1,"Priorité",{"rw":rw,"label":true, "ta":"middle"})
-        me.append_value_to(roster_in,xo+0.5,yo+1.25,"priority",{"rw":rw,"label":false})
-
+        if (me.infos[roster_in.attr("rid")].type=="traveller"){
+            me.append_value_to(roster_in,xo+0.5,yo+1,"Destinée",{"rw":rw,"label":true, "ta":"middle"})
+            me.append_value_to(roster_in,xo+0.5,yo+1.25,"destiny",{"rw":rw,"label":false})
+        }else{
+            me.append_value_to(roster_in,xo+0.5,yo+1,"Priorité",{"rw":rw,"label":true, "ta":"middle"})
+            me.append_value_to(roster_in,xo+0.5,yo+1.25,"priority",{"rw":rw,"label":false})
+        }
 
 
 
@@ -1071,7 +1069,7 @@ class Carte extends Modulo {
     drawAll(){
         let me = this;
         if (me.code == "SCREEN1"){
-            me.supertitle = "Ecran volet 1"
+            me.supertitle = "Ecran n°1"
             me.drawBack();
             me.drawTable(me.config.data["STRESS_TABLE"],{"even_odd":true});
             me.drawTable(me.config.data["QUALITY_TABLE"],{"x":19, "y":0, "row_header_width": 3,"even_odd":true});
@@ -1089,16 +1087,16 @@ class Carte extends Modulo {
 
             me.drawTable(me.config.data["SECONDARIES_TABLE"],{"x":2, "y":34});
             me.drawTable(me.config.data["MISC_TABLE"],{"x":2, "y":41});
+//         }else if (me.code == "SCREEN2"){
+//             me.supertitle = "Ecran n°2"
+//             me.drawBack();
+//             me.drawRosters(me.config.data["TRAVELLERS"],{"x":1, "y":1, "start":0});
+//         }else if (me.code == "SCREEN3"){
+//             me.supertitle = "Ecran n°3"
+//             me.drawBack();
+//             me.drawRosters(me.config.data["TRAVELLERS"],{"x":1, "y":1, "start":3});
         }else if (me.code == "SCREEN2"){
             me.supertitle = "Ecran n°2"
-            me.drawBack();
-            me.drawRosters(me.config.data["TRAVELLERS"],{"x":1, "y":1, "start":0});
-        }else if (me.code == "SCREEN3"){
-            me.supertitle = "Ecran n°3"
-            me.drawBack();
-            me.drawRosters(me.config.data["TRAVELLERS"],{"x":1, "y":1, "start":3});
-        }else if (me.code == "SCREEN4"){
-            me.supertitle = "Ecran n°4"
             me.drawBack();
             me.drawTable(me.config.data["GEAR_TABLE_BAG"],{"x":-1, "y":0, "smallrid":true});
             me.drawTable(me.config.data["GEAR_TABLE_LAI"],{"x":-1, "y":22, "smallrid":true});
@@ -1124,22 +1122,22 @@ class Carte extends Modulo {
             me.drawTable(me.config.data["GEAR_TABLE_TIR"],{"x":43, "y":30, "smallrid":true});
             me.drawTable(me.config.data["GEAR_TABLE_LAN"],{"x":43, "y":37, "smallrid":true});
             me.drawTable(me.config.data["GEAR_TABLE_AMU"],{"x":43, "y":48, "smallrid":true});
+        }else if (me.code == "SCREEN3"){
+            me.supertitle = "Ecran n°3"
+        }else if (me.code == "SCREEN4"){
+            me.supertitle = "Ecran n°4"
         }else if (me.code == "SCREEN5"){
             me.supertitle = "Ecran n°5"
-            me.drawBack();
-            me.drawRosters(me.config.data["AUTOCHTONS"],{"x":1, "y":1, "start":0});
         }else if (me.code == "SCREEN6"){
             me.supertitle = "Ecran n°6"
+        }else if (me.code.startsWith("AUTOCHTONS")){
+            me.supertitle = me.code
             me.drawBack();
-            me.drawRosters(me.config.data["AUTOCHTONS"],{"x":1, "y":1, "start":3});
-        }else if (me.code == "SCREEN7"){
-            me.supertitle = "Ecran n°7"
+            me.drawRosters(me.config.data[me.code],{"x":1, "y":1, "start":0});
+        }else if (me.code.startsWith("TRAVELLERS")){
+            me.supertitle = me.code
             me.drawBack();
-            me.drawRosters(me.config.data["AUTOCHTONS"],{"x":1, "y":1, "start":6});
-        }else if (me.code == "SCREEN8"){
-            me.supertitle = "Ecran n°8"
-            me.drawBack();
-            me.drawRosters(me.config.data["AUTOCHTONS"],{"x":1, "y":1, "start":9});
+            me.drawRosters(me.config.data[me.code],{"x":1, "y":1, "start":0});
         }else{
             me.drawBack();
             //if (me.co.tables.length > 0){
@@ -1171,6 +1169,7 @@ class Carte extends Modulo {
         me.init();
         console.log(me.config.data)
         me.code = code;
+        me.filename = me.code
         me.drawAll();
         me.zoomActivate();
     }

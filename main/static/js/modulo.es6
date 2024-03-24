@@ -4,6 +4,7 @@ class Modulo {
         this.co = co;
         this.config = config;
         this.name = "Modulo";
+
     }
 
 
@@ -11,7 +12,11 @@ class Modulo {
         let me = this;
         let offsetx = -2;
         let offsety = 0;
-        me.back.append("rect")
+        me.button1 = me.back.append("g")
+            .on("click", (e,d) => {
+                me.saveSVG();
+            });
+        me.button1.append("rect")
             .attr("id","print_artefact")
             .attr("class","do_not_print")
             .attr("x",(me.ox+offsetx+0.5)*me.step)
@@ -24,12 +29,9 @@ class Modulo {
             .style('stroke-width','2pt')
             .style('stroke','#603060')
             .style('fill','#F0F0F0')
-            .on("click", (e,d) => {
-                me.filename = "file.svg";
-                me.saveSVG();
-            });
+
         ;
-        me.back.append("text")
+        me.button1.append("text")
             .attr("id","print_artefact")
             .attr("class","do_not_print")
             .attr("x",(me.ox+offsetx+1)*me.step)
@@ -40,9 +42,46 @@ class Modulo {
             .style('stroke','#606060')
             .style('fill','#101010')
             .style("text-anchor","middle")
-            .style("font-size","8pt")
-            .style("font-family","Smythe")
-            .text("Save")
+            .style("font-size",me.fontSize+"pt")
+            .style("font-family","Wellfleet")
+            .text("Save SVG")
+        ;
+
+
+
+        me.button2 = me.back.append("g")
+            .on("click", (e,d) => {
+                me.createPDF();
+            });
+        me.button2.append("rect")
+                .attr("id","print_artefact")
+            .attr("class","do_not_print")
+            .attr("x",(me.ox+offsetx+0.5)*me.step)
+            .attr("y",(me.oy+offsety+0.75)*me.step)
+            .attr("ry","5pt")
+            .attr("rx","5pt")
+            .attr("width",me.step )
+            .attr("height",me.step/2 )
+            .attr('opacity',1)
+            .style('stroke-width','2pt')
+            .style('stroke','#603060')
+            .style('fill','#F0F0F0')
+
+        ;
+        me.button2.append("text")
+            .attr("id","print_artefact")
+            .attr("class","do_not_print")
+            .attr("x",(me.ox+offsetx+1)*me.step)
+            .attr("y",(me.oy+offsety+0.75)*me.step)
+            .attr("dy",me.step/3)
+            .attr('opacity',1)
+            .style('stroke-width','0.25pt')
+            .style('stroke','#606060')
+            .style('fill','#101010')
+            .style("text-anchor","middle")
+            .style("font-size",me.fontSize+"pt")
+            .style("font-family","Wellfleet")
+            .text("Save PDF")
         ;
     }
 
@@ -57,9 +96,27 @@ class Modulo {
     }
 
 
+    createPath(str,u){
+        // Do not forget spaces between entities in str !!
+        // Working example: str = "M 0,0 l 12,4 5,13 -5,0 -12,-17 z"
+        // u is the scale unit. Try to link it to me.step
+        let res = "";
+        let items = str.split(" ")
+        _.forEach(items, (item) => {
+            if (item.includes(',')){
+                let vals = item.split(',')
+                res += (vals[0]*u)+","+(vals[1]*u)+" ";
+            }else{
+                res += item+" ";
+            }
+        });
+        return res;
+    }
+
+
     resizeEvent(){
         let me = this;
-        console.log("ResizeEvent for "+me.name)
+//         console.log("ResizeEvent for "+me.name)
         let width = $(me.parent).width;
         let height = $(me.parent).height;
         //let boundingBox = document.querySelector("#svg_area").getBoundingClientRect();
@@ -119,8 +176,11 @@ class Modulo {
 
     init() {
         let me = this;
-        console.log(me.name+" Init");
+//         console.log(me.name+" Init");
         me.debug = true;
+        me.step = 75;
+        me.basefont = "Wellfleet";
+        me.fontSize = me.step / 8;
     }
 
     softLog(txt){
@@ -136,7 +196,7 @@ class Modulo {
     register(){
         let me = this;
         me.co.modules.push(me);
-        console.log(me.name+" Registered");
+//         console.log(me.name+" Registered");
     }
 
 
@@ -205,42 +265,264 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
         me.svg.selectAll('.do_not_print').attr('opacity', 1);
     }
 
+    createPDF() {
+        let me = this;
+        me.svg.selectAll('.do_not_print').attr('opacity', 0);
+        let base_svg = d3.select("#print_area").html();
+        let flist = '<style>';
+//         console.log(me.config['fontset']);
+        for (let f of me.config['fontset']) {
+
+            flist += '@import url("https://fonts.googleapis.com/css2?family=' + f + '");';
+        }
+        flist += '</style>';
+        let exportable_svg = '<?xml version="1.0" encoding="UTF-8" ?> \
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"> \
+<svg class="dragonade_paper" \
+xmlns="http://www.w3.org/2000/svg" version="1.1" \
+xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + me.height + '"> \
+' + flist + base_svg + '</svg>';
+
+
+//         lpage = "_" + (me.page + 1);
+
+        let svg_name = me.fileprefix+"__" + me.filename + ".svg"
+        let pdf_name = me.fileprefix+"__" + me.filename + ".pdf"
+        let sheet_data = {
+            'pdf_name': pdf_name,
+            'svg_name': svg_name,
+            'svg': exportable_svg
+        }
+        me.svg.selectAll('.do_not_print').attr('opacity', 1);
+        $.ajax({
+            url: 'ajax/svg2pdf/' + me.filename + '/',
+            type: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data: sheet_data,
+            dataType: 'json',
+            success: function (answer) {
+                console.warning("PDF generated for [" + me.filename + "]...")
+            },
+            error: function (answer) {
+                console.error('Error generating the PDF...');
+                console.error(answer);
+            }
+        });
+    }
+
+    drawLongTextBlock(tgt,x,y,label,value,id){
+        let me = this;
+        let label_attrs = {
+            "width":me.step*2,
+            "height":me.step*0.4,
+            "rx":me.step*0.1,
+            "ry":me.step*0.1
+            }
+        let value_attrs = {
+            "width":me.step*11,
+            "height":me.step*0.4,
+            "rx":me.step*0.1,
+            "ry":me.step*0.1
+        }
+//         console.log("(**) ",value)
+        me.drawBlock(tgt,x,y,label_attrs,value_attrs, label,value,id)
+    }
+
+    drawSmallNumericBlock(tgt,x,y,label,value,id){
+        let me = this;
+        let label_attrs = {
+            "width":me.step*2,
+            "height":me.step*0.4,
+            "rx":me.step*0.1,
+            "ry":me.step*0.1
+            }
+        let value_attrs = {
+            "width":me.step*0.8,
+            "height":me.step*0.4,
+            "rx":me.step*0.1,
+            "ry":me.step*0.1,
+        }
+        me.drawBlock(tgt,x,y,label_attrs,value_attrs, label,value,id)
+    }
+
+    drawBlock(tgt,x,y,label_attrs, value_attrs, label,value,id){
+        let me = this;
+        let label_styles = {
+            "fill":"#505050",
+            "stroke":"#808080",
+            "stroke-width":"0.5pt"
+        }
+        let value_styles = {
+            "fill":"#F0F0F0",
+            "stroke":"#808080",
+            "stroke-width":"1pt"
+        }
+        let label_text_styles = {
+            "font-family":"Abel",
+            "font-size":me.fontSize+"pt",
+            "text-anchor":"middle",
+            "fill":"#F0F0F0",
+            "stroke":"#C0C0C0",
+            "stroke-width":"0.5pt"
+        }
+        let value_text_styles = {
+            "font-family":"Wellfleet",
+            "font-size":me.fontSize+"pt",
+            "text-anchor":"start",
+            "fill":"#101010",
+            "stroke":"#C0C0C0",
+            "stroke-width":"0.25pt",
+        }
+        let grp = tgt.append('g')
+            .attr("id",id+"_grp")
+            .attr("transform","translate("+x*me.step+","+y*me.step+")")
+        grp.append('rect')
+            .attrs({"x":0, "y":me.step*(-0.4/2) })
+            .attrs(label_attrs)
+            .styles(label_styles)
+        grp.append('rect')
+            .attr("id",id+"_rect")
+            .attrs({"x":me.step*(2.1), "y":me.step*(-0.4/2) })
+            .attrs(value_attrs)
+            .styles(value_styles)
+        grp.append('text')
+            .attrs({"x":1*me.step, "y":0, "dy":me.fontSize/3+"pt" })
+            .styles(label_text_styles)
+            .text(label)
+        grp.append('text')
+            .attr("class","longwrap")
+            .attr("id",id)
+            .attr("x",me.step*2.25)
+            .attr("y",0)
+            .styles(value_text_styles)
+            .text(value)
+        if (me.debug == true){
+            grp.append('circle')
+                .attrs({"cx":0, "cy":0, "r":me.fontSize/3+"pt" })
+                .styles({"fill":"red","stroke":"darkred","stroke-width":0.5+"pt"})
+        }
+    }
+
+
     wrap(tgt, width) {
-      //tgt.each(function() {
         let item = d3.select(tgt),
             words = item.text().split(/\s+/).reverse();
-//         console.log(text.text()," *** ",words)
-            console.log("(****) ",item.text())
         let word,
             line = [],
             lineNumber = 0,
             lineHeight = 1.3, // ems
-          //  y = text.attr("y"),
             dy = 0,
             ox = parseFloat(item.attr("x")),
-            oy = 0,
+            oy = parseFloat(item.attr("y")),
             tspan = item.text(null).append("tspan").attr("x", ox).attr("y", oy).attr("dy", dy + "em");
-        //console.log(words)
         while (word = words.pop()) {
           line.push(word);
           tspan.text(line.join(' '));
-//           console.log(word,"-->",line.join(' '))
-          if (tspan.node().getComputedTextLength() >= width) {
+          if ((tspan.node().getComputedTextLength() >= width)||(word == "§")) {
             line.pop();
             tspan.text(line.join(" "));
-            line = [word];
+            if (word=="§"){
+                line = []
+            }else{
+                line = [word];
+            }
+            lineNumber += 1;
             tspan = item.append("tspan")
                 .attr("x", ox)
-                .attr("y", 0)
-                .attr("dy", ++lineNumber * lineHeight + dy + "em")
+                .attr("y", lineNumber * lineHeight + "em")
+                .attr("dy", 0)
                 .text(word+" ");
           }
         }
         return lineNumber
-      //});
     }
 
 
+    paperX(x){
+        let me = this;
+        let val = me.localx + x
+        val = val * me.localstep;
+        return val;
+    }
+
+    paperY(y){
+        let me = this;
+        let val = me.localy + y;
+        val = val * me.localstepy;
+        return val;
+    }
+
+    drawBack(){
+        let me = this;
+        me.back = me.svg.append('g')
+            .attr("class","circlebacks")
+            .append("g")
+           // .attr("transform","translate("+(-me.step*21/2)+","+(-me.step*29.7/2)+")")
+        ;
+        me.back.append("rect")
+            .attr("id","pagerect")
+            .attr("x",me.ox*me.step)
+            .attr("y",me.oy*me.step)
+            .attr("width",me.width )
+            .attr("height",me.height )
+            .style('stroke-width','1pt')
+            .style('stroke-dasharray','2 3')
+            .style('stroke','#606060')
+            .style('fill','#F0F0F0')
+            .attr('opacity',0.5)
+        ;
+        me.drawPrint();
+        if (me.debug == true) {
+            me.xunits = 28;
+            me.yunits = 20;
+
+            let verticals = me.back.append('g')
+                .attr('class', 'verticals do_not_print')
+                .selectAll("g")
+                .data(d3.range(1, me.xunits+2, 1));
+            verticals.enter()
+                .append('line')
+                .attr('x1', function (d) {
+                    return (d+me.ox) * me.step
+                })
+                .attr('x2', function (d) {
+                    return (d+me.ox) * me.step
+                })
+                .attr('y1', me.oy*me.step)
+                .attr('y2', (me.oy+me.yunits+1) * me.step)
+                .style('fill', 'transparent')
+                .style('stroke', '#101010')
+                .style('stroke-dasharray', '3 7')
+                .style('stroke-width', '0.25pt');
+            let horizontals = me.back.append('g')
+                .attr('class', 'horizontals do_not_print')
+                .selectAll("g")
+                .data(d3.range(1, me.yunits+2, 1));
+            horizontals.enter()
+                .append('line')
+                .attr('x1', me.ox * me.step)
+                .attr('x2', (me.ox+me.xunits+1) * me.step)
+                .attr('y1', function (d) {
+                    return (d+me.oy) * me.step
+                })
+                .attr('y2', function (d) {
+                    return (d+me.oy) * me.step
+                })
+                .style('fill', 'transparent')
+                .style('stroke', '#101010')
+                .style('stroke-dasharray', '3 5')
+                .style('stroke-width', '0.25pt');
+
+        }
+    }
+
+   register(){
+        let me = this;
+        me.co.axiomaticPerformers.push(me);
+    }
 
 
     perform() {

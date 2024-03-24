@@ -6,6 +6,7 @@
     <title>{% block title %}Dragonade{% endblock %} [{{version}}]</title>
     {% load static %}
     {% load sass_tags %}
+
     <link rel='icon' type="image/svg+xml" href='{% static "main/favicon.svg" %}'>
     <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
 
@@ -62,6 +63,8 @@
         {% endblock after_perform %}
     });
 </script>
+
+{% csrf_token %}
 
 
 </body>

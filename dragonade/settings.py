@@ -132,7 +132,7 @@ MEDIA_ROOT = 'dragonade_media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-VERSION = "0.9.16"
+VERSION = "0.9.17"
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -140,6 +140,7 @@ STATICFILES_FINDERS = [
     'sass_processor.finders.CssFinder',
 ]
 
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 
 if DEBUG:
     import mimetypes
