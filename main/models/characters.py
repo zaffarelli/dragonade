@@ -327,7 +327,7 @@ class Character(models.Model):
         return list
 
     def collect_spells(self):
-        from main.models.draconic_arts import Spell
+        from main.models.stregoneria import Spell
         list = []
         spells = Spell.objects.filter(rid__in=self.spells.split(" ")).order_by("category")
         for spell in spells:

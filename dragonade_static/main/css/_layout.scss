@@ -159,23 +159,24 @@ body {
     justify-content: space-around;
     align-items: stretch;
     align-content: flex-end;
-    gap:0 10px;
+    gap:0;
 
     & .menu_entry{
-        border-radius:5px;
+        border-radius:2px;
         border: 2px solid #808080;
-        padding:5px;
-        flex: 0 0 30px;
-        background:#603040;
+        padding:0px;
+        flex: 0 0 auto;
+        background:#C0C0C020;
         text-align:center;
         & img{
-            height:0.8cm;
+            height:2.0cm;
+            width:1.4cm;
         }
         &.off{
-            background:#303030C0;
+            background:#30303070;
         }
         &:hover{
-            background:#3060F0C0;
+            background:#F0F0F070;
             cursor:pointer;
         }
     }
@@ -190,21 +191,30 @@ body {
     flex-flow:row wrap;
     justify-content: flex-start;
     align-content: space-around;
-    gap:3px;
-    & .mini {
+    gap:1px;
+    & .mini, & .minisheet {
         flex: 1 1 25ex;
         font-size:8pt;
+        padding:2px;
         font-family:Wellfleet;
-        height:3.5em;
+        height:4.0em;
         & .options{
             color:silver;
         }
+        border:2px solid #101010;
+        border-radius: 3px;
     }
     & .paginator{
         font-family: Wellfleet;
         font-size:8pt;
         flex:1 1 50ex;
         text-align:center;
+        background:$active_box;
+        padding:2px;
+        order:5;
+        height:1.5em;
+        border:2px solid #101010;
+        border-radius: 3px;
     }
 
 }
@@ -260,6 +270,7 @@ table.skillstable{
 
 }
 
+/*
 .paginator,.minisheet{
         display:block;
         font-family:Fredoka;
@@ -287,6 +298,7 @@ table.skillstable{
         order:2;
     }
 }
+*/
 
 
 

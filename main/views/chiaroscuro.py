@@ -100,11 +100,11 @@ def paginator_switch(request):
         params = request.POST["params"]
         if params == "stregoneria":
             return stregoneria_page(request)
-        if params == "appartuses":
+        elif params == "appartuses":
             return appartuses_page(request)
-        if params == "autochtons":
+        elif params == "autochtons":
             return autochtons_page(request)
-        if params == "travellers":
+        elif params == "travellers":
             return travellers_page(request)
     return JsonResponse({"html": 'Bad Paginator!'})
 

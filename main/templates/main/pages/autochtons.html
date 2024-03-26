@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{%  load static %}
+
+
+{% block east %}
+    {% include "main/menu.html"%}
+    {% include "main/lists/autochtons_options.html"%}
+    <fieldset class="list">
+        <legend>Autochtones</legend>
+        {% include "main/lists/autochtons_list.html" %}
+    </fieldset>
+{% endblock east %}
+
+
+{% block main %}
+<div class="container">
+    {% for x in elements %}
+    <div class="roster hidden" id="roster_{{x.id}}">
+        {% include "main/objects/roster.html" with a=x%}
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock main %}
+
+

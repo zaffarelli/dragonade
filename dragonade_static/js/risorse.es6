@@ -118,9 +118,11 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
 
 
     createPath(str,u){
-        // Do not forget spaces between entities in str !!
-        // Working example: str = "M 0,0 l 12,4 5,13 -5,0 -12,-17 z"
-        // u is the scale unit. Try to link it to me.step
+        /*
+        Do not forget spaces between entities in str !!
+        Working example: str = "M 0,0 l 12,4 5,13 -5,0 -12,-17 z"
+        u is the scale unit. Try to link it to me.step
+        */
         let res = "";
         let items = str.split(" ")
         _.forEach(items, (item) => {
@@ -350,18 +352,18 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
             {"idx": 14,"pts":2, "name":"Nécropole", "svg":"tm_14.svg", "category": "Terres Médianes", "color": "#F0D080", "row":1, "hidden":1},
 
 
-            {"idx": 1,"pts":4, "name":"Vaisseau", "svg":"hd_1.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
-            {"idx": 2,"pts":4, "name":"Sirène", "svg":"hd_2.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
-            {"idx": 3,"pts":4, "name":"Faucon", "svg":"hd_3.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
-            {"idx": 4,"pts":4, "name":"Couronne", "svg":"hd_4.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
-            {"idx": 5,"pts":4, "name":"Dragon", "svg":"hd_5.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
-            {"idx": 6,"pts":4, "name":"Epées", "svg":"hd_6.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
-            {"idx": 7,"pts":4, "name":"Lyre", "svg":"hd_7.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
-            {"idx": 8,"pts":4, "name":"Serpent", "svg":"hd_8.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
-            {"idx": 9,"pts":4, "name":"Poisson Acrobate", "svg":"hd_9.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
-            {"idx": 10,"pts":4, "name":"Araignée", "svg":"hd_10.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
-            {"idx": 11,"pts":4, "name":"Roseau", "svg":"hd_11.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
-            {"idx": 12,"pts":4, "name":"Chateau Dormant", "svg":"hd_12.svg", "category": "Heures Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 1,"pts":4, "name":"Vaisseau", "svg":"sd_1.svg", "category": "Signes Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 2,"pts":4, "name":"Sirène", "svg":"sd_2.svg", "category": "Signes Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 3,"pts":4, "name":"Faucon", "svg":"sd_3.svg", "category": "Signes Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 4,"pts":4, "name":"Couronne", "svg":"sd_4.svg", "category": "Signes Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 5,"pts":4, "name":"Dragon", "svg":"sd_5.svg", "category": "Signes Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 6,"pts":4, "name":"Epées", "svg":"sd_6.svg", "category": "Signes Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 7,"pts":4, "name":"Lyre", "svg":"sd_7.svg", "category": "Signes Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 8,"pts":4, "name":"Serpent", "svg":"sd_8.svg", "category": "Signes Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 9,"pts":4, "name":"Poisson Acrobate", "svg":"sd_9.svg", "category": "Signes Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 10,"pts":4, "name":"Araignée", "svg":"sd_10.svg", "category": "Signes Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 11,"pts":4, "name":"Roseau", "svg":"sd_11.svg", "category": "Signes Draconiques", "color": "#F0D080", "row":2, "hidden":1},
+            {"idx": 12,"pts":4, "name":"Chateau Dormant", "svg":"sd_12.svg", "category": "Signes Draconiques", "color": "#F0D080", "row":2, "hidden":1},
 
 
             {"idx": 1,"pts":1, "name":"Humeur", "svg":"cd_1.svg", "category": "Consistances Draconiques", "color": "#F0D080", "row":3, "hidden":1},
@@ -372,21 +374,21 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
             {"idx": 6,"pts":3, "name":"Amas", "svg":"cd_6.svg", "category": "Consistances Draconiques", "color": "#F0D080", "row":3, "hidden":1},
             {"idx": 7,"pts":4, "name":"Cristal", "svg":"cd_7.svg", "category": "Consistances Draconiques", "color": "#F0D080", "row":3, "hidden":1},
 
-            {"idx": 1,"pts":1, "name":"Ondée", "svg":"em_1.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
-            {"idx": 2,"pts":2, "name":"Flux", "svg":"em_2.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
-            {"idx": 3,"pts":3, "name":"Courant", "svg":"em_3.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
-            {"idx": 4,"pts":4, "name":"Vague", "svg":"em_4.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
-            {"idx": 5,"pts":5, "name":"Marée", "svg":"em_5.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
-            {"idx": 6,"pts":6, "name":"Ras", "svg":"em_6.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
-            {"idx": 7,"pts":7, "name":"Déferlante", "svg":"em_7.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
+            {"idx": 1,"pts":1, "name":"Ondée", "svg":"ed_1.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
+            {"idx": 2,"pts":2, "name":"Flux", "svg":"ed_2.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
+            {"idx": 3,"pts":3, "name":"Courant", "svg":"ed_3.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
+            {"idx": 4,"pts":4, "name":"Vague", "svg":"ed_4.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
+            {"idx": 5,"pts":5, "name":"Marée", "svg":"ed_5.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
+            {"idx": 6,"pts":6, "name":"Ras", "svg":"ed_6.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
+            {"idx": 7,"pts":7, "name":"Déferlante", "svg":"ed_7.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
 
-            {"idx": 1,"pts":1, "name":"Eau", "svg":"ed_1.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
-            {"idx": 2,"pts":1, "name":"Feu", "svg":"ed_2.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
-            {"idx": 3,"pts":1, "name":"Terre", "svg":"ed_3.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
-            {"idx": 4,"pts":1, "name":"Air", "svg":"ed_4.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
-            {"idx": 5,"pts":1, "name":"Bois", "svg":"ed_5.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
-            {"idx": 6,"pts":1, "name":"Métal", "svg":"ed_6.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
-            {"idx": 7,"pts":1, "name":"Septième", "svg":"ed_7.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
+            {"idx": 1,"pts":1, "name":"Eau", "svg":"ld_1.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
+            {"idx": 2,"pts":1, "name":"Feu", "svg":"ld_2.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
+            {"idx": 3,"pts":1, "name":"Terre", "svg":"ld_3.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
+            {"idx": 4,"pts":1, "name":"Air", "svg":"ld_4.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
+            {"idx": 5,"pts":1, "name":"Bois", "svg":"ld_5.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
+            {"idx": 6,"pts":1, "name":"Métal", "svg":"ld_6.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
+            {"idx": 7,"pts":1, "name":"Septième", "svg":"ld_7.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
 
 
             {"idx": 1,"pts":0, "name":"Conviction", "svg":"sp.svg", "category": "Spécial", "color": "#A02020", "row":6, "hidden":1},
@@ -460,8 +462,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
                 .attr('class','cardback recto')
                 .attr('rx',me.step*0.5)
                 .attr('ry',me.step*0.5)
-                .attr('width',me.step*6)
-                .attr('height',me.step*11)
+                .attr('width',me.step*7)
+                .attr('height',me.step*9)
                 .style('fill', '#F0F0F0')
                 .style('stroke', '#101010')
                 .style('stroke-width', '5pt')
@@ -469,117 +471,120 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
 
         me.risorsa.append("image")
                 .attr('class','recto')
-                .attr("xlink:href", d => "/static/main/svg/"+d["svg"] )
-                .attr("width", me.step*4)
-                .attr("height", me.step * 4)
+                .attr("xlink:href", d => "/static/main/svg/2024/"+d["svg"] )
+                .attr("width", me.step*5)
+                .attr("height", me.step * 5)
                 .attr("x", d => (1) * me.step)
-                .attr("y", d => (3) * me.step)
+                .attr("y", d => (1) * me.step)
                 ;
 
-        me.risorsa.append("text")
-                .attr('class','recto')
-                .attr("width", me.step*4)
-                .attr("height", me.step * 4)
-                .attr("x", d => (3.0) * me.step)
-                .attr("y", d => (1.5) * me.step)
-                .style("text-anchor","middle")
-                .style("font-family","Are You Serious")
-                .style("font-size",me.step*1.5+"pt")
-                .style("fill","#101010")
-                .style("stroke","#808080")
-                .style("stroke-width","0.25pt")
-                .text(d => d['idx'])
-            ;
+//         me.risorsa.append("text")
+//                 .attr('class','recto')
+//                 .attr("width", me.step*4)
+//                 .attr("height", me.step * 4)
+//                 .attr("x", d => (3.0) * me.step)
+//                 .attr("y", d => (1.5) * me.step)
+//                 .style("text-anchor","middle")
+//                 .style("font-family","Are You Serious")
+//                 .style("font-size",me.step*1.5+"pt")
+//                 .style("fill","#101010")
+//                 .style("stroke","#808080")
+//                 .style("stroke-width","0.25pt")
+//                 .text(d => d['idx'])
+//             ;
 
-        me.risorsa.append("text")
-                .attr('class','recto')
-                .attr("width", me.step*4)
-                .attr("height", me.step * 4)
-                .attr("x", d => (5.75) * me.step)
-                .attr("y", d => (10.5) * me.step)
-                .style("text-anchor","end")
-                .style("font-family","Smythe")
-                .style("font-size",me.step*0.8+"pt")
-                .style("fill","#a02020")
-                .style("stroke","#808080")
-                .style("stroke-width","0.5pt")
-                .text(d => d['pts']+"r")
-        me.risorsa.append("text")
-                .attr('class','recto')
-                .attr("x", d => (1) * me.step)
-                .attr("y", d => (0.5) * me.step)
-                .style("text-anchor","start")
-                .style("font-family","Neucha")
-                .style("font-size",me.step*0.3+"pt")
-                .style("fill","#202020")
-                .style("stroke","#808080")
-                .style("stroke-width","0.5pt")
-                .text(d => d['category'])
-                .attr("transform",d => "rotate("+90+","+(0.5) * me.step+","+(0.25) * me.step+")")
-              ;
+//         me.risorsa.append("text")
+//                 .attr('class','recto')
+//                 .attr("width", me.step*4)
+//                 .attr("height", me.step * 4)
+//                 .attr("x", d => (5.75) * me.step)
+//                 .attr("y", d => (10.5) * me.step)
+//                 .style("text-anchor","end")
+//                 .style("font-family","Smythe")
+//                 .style("font-size",me.step*0.8+"pt")
+//                 .style("fill","#a02020")
+//                 .style("stroke","#808080")
+//                 .style("stroke-width","0.5pt")
+//                 .text(d => d['pts']+"r")
+//
+//
+//         me.risorsa.append("text")
+//                 .attr('class','recto')
+//                 .attr("x", d => (1) * me.step)
+//                 .attr("y", d => (0.5) * me.step)
+//                 .style("text-anchor","start")
+//                 .style("font-family","Neucha")
+//                 .style("font-size",me.step*0.3+"pt")
+//                 .style("fill","#202020")
+//                 .style("stroke","#808080")
+//                 .style("stroke-width","0.5pt")
+//                 .text(d => d['category'])
+//                 .attr("transform",d => "rotate("+90+","+(0.5) * me.step+","+(0.25) * me.step+")")
+//               ;
+//
+//
+//         me.risorsa.append("text")
+//                 .attr('class','recto')
+//                 .attr("width", me.step*4)
+//                 .attr("height", me.step * 4)
+//                 .attr("x", d => (3) * me.step)
+//                 .attr("y", d => (8.5) * me.step)
+//                 .style("text-anchor","middle")
+//                 .style("font-family","Are You Serious")
+//                 .style("font-size",me.step*0.75+"pt")
+//                 .style("fill","#202020")
+//                 .style("stroke","#808080")
+//                 .style("stroke-width","0.5pt")
+//                 .text(d => {
+//                     let words = d['name'].split(' ');
+//                     if (words.length > 0){
+//                       return words[0]
+//                     }
+//                     return "";
+//                 })
+//
 
-        me.risorsa.append("text")
-                .attr('class','recto')
-                .attr("width", me.step*4)
-                .attr("height", me.step * 4)
-                .attr("x", d => (3) * me.step)
-                .attr("y", d => (8.5) * me.step)
-                .style("text-anchor","middle")
-                .style("font-family","Are You Serious")
-                .style("font-size",me.step*0.75+"pt")
-                .style("fill","#202020")
-                .style("stroke","#808080")
-                .style("stroke-width","0.5pt")
-                .text(d => {
-                    let words = d['name'].split(' ');
-                    if (words.length > 0){
-                      return words[0]
-                    }
-                    return "";
-                })
-
-
-        me.risorsa.append("text")
-                .attr('class','recto')
-                .attr("width", me.step*4)
-                .attr("height", me.step * 4)
-                .attr("x", d => (3) * me.step)
-                .attr("y", d => (8.5) * me.step)
-                .attr("dy", me.step * 0.8)
-                .style("text-anchor","middle")
-                .style("font-family","Are You Serious")
-                .style("font-size",me.step*0.75+"pt")
-                .style("fill","#202020")
-                .style("stroke","#808080")
-                .style("stroke-width","0.5pt")
-                .text(d => {
-                    let words = d['name'].split(' ');
-                    if (words.length = 2){
-                      return words[1]
-                    }
-                    return "";
-                })
+//         me.risorsa.append("text")
+//                 .attr('class','recto')
+//                 .attr("width", me.step*4)
+//                 .attr("height", me.step * 4)
+//                 .attr("x", d => (3) * me.step)
+//                 .attr("y", d => (8.5) * me.step)
+//                 .attr("dy", me.step * 0.8)
+//                 .style("text-anchor","middle")
+//                 .style("font-family","Are You Serious")
+//                 .style("font-size",me.step*0.75+"pt")
+//                 .style("fill","#202020")
+//                 .style("stroke","#808080")
+//                 .style("stroke-width","0.5pt")
+//                 .text(d => {
+//                     let words = d['name'].split(' ');
+//                     if (words.length = 2){
+//                       return words[1]
+//                     }
+//                     return "";
+//                 })
 
 
 
-        me.risorsa.append('rect')
-                .attr('class','recto')
-                .attr('x',d => (0.6) * me.step)
-                .attr('y',d => (0.5) * me.step)
-                .attr('width',me.step*0.25)
-                .attr('height',me.step*10)
-                .style('fill', d => d["color"])
-                .style('fill-opacity', 0.80)
-                .style('stroke', '#808080')
-                .style('stroke-width', '1pt')
-                ;
+//         me.risorsa.append('rect')
+//                 .attr('class','recto')
+//                 .attr('x',d => (0.6) * me.step)
+//                 .attr('y',d => (0.5) * me.step)
+//                 .attr('width',me.step*0.25)
+//                 .attr('height',me.step*10)
+//                 .style('fill', d => d["color"])
+//                 .style('fill-opacity', 0.80)
+//                 .style('stroke', '#808080')
+//                 .style('stroke-width', '1pt')
+//                 ;
 
         me.risorsa.append('rect')
                 .attr('class','cardback verso')
                 .attr('rx',me.step*0.5)
                 .attr('ry',me.step*0.5)
-                .attr('width',me.step*6)
-                .attr('height',me.step*11)
+                .attr('width',me.step*7)
+                .attr('height',me.step*9)
                 .style('fill', '#102030')
                 .style('stroke', '#909090')
                 .style('stroke-width', '5pt')
@@ -590,8 +595,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
                 .attr('class','verso')
                 .attr("xlink:href", "/static/main/svg/dragonade_logo.svg")
                 .attr("width", me.step*5)
-                .attr("height", me.step* 8)
-                 .attr("x", d => 0.5 * me.step)
+                .attr("height", me.step* 7)
+                 .attr("x", d => 1 * me.step)
                  .attr("y", d => 1 * me.step)
                 .attr("opacity", d => d["hidden"])
         ;

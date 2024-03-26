@@ -3,18 +3,18 @@
 
 
 {% block east %}
-{% include "main/menu.html"%}
-{% include "main/characters_options.html"%}
-<div class="list">
-    {% include "main/pages/character_list.html" %}
-</div>
-
+    {% include "main/menu.html"%}
+    {% include "main/lists/travellers_options.html"%}
+    <fieldset class="list">
+        <legend>Voyageurs</legend>
+        {% include "main/lists/travellers_list.html" %}
+    </fieldset>
 {% endblock east %}
 
 
 {% block main %}
 <div class="container">
-    {% for x in all_characters %}
+    {% for x in elements %}
     <div class="roster hidden" id="roster_{{x.id}}">
         {% include "main/objects/roster.html" with a=x%}
     </div>

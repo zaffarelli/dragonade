@@ -51,39 +51,6 @@ def gardiendesreves(request):
     return render(request, 'main/pages/gardiendesreves.html', context=context)
 
 
-def travellers(request):
-    from main.models.travellers import Traveller
-    from main.models.stregoneria import Spell
-    from django.core.paginator import Paginator
-    context = prepare_context(request)
-    characters = []
-    for x in Traveller.objects.all().order_by("-player"):
-        datum = x.toJson()
-        datum['text'] = x.name
-        datum['type'] = "traveller"
-        characters.append(datum)
-    context['characters'] = characters
-    context['title'] = "Les Voyageurs"
-
-    spells_j = Spell.references()
-    context['reference'] = {}
-    context['reference']['spells'] = spells_j
-    paginator = Paginator(characters, CHAR_PER_PAGE)
-    page = 1
-    character_set = paginator.get_page(page)
-    context['characters'] = character_set
-    context['all_characters'] = characters
-    context['previous_page'] = ((page - 1) % paginator.num_pages)
-    if context['previous_page'] == 0:
-        context['previous_page'] = paginator.num_pages
-    context['next_page'] = ((page + 1) % paginator.num_pages)
-    if context['next_page'] == paginator.num_pages + 1:
-        context['next_page'] = 1
-    return render(request, 'main/pages/personae.html', context=context)
-
-def travellers_page(request):
-    pass
-
 def maps(request):
     from main.utils.mechanics import fetch_maps
     context = prepare_context(request)
@@ -293,17 +260,12 @@ def autochtons(request):
     context['reference']['spells'] = spells_j
     gear_j = Equipment.references()
     context['reference']['gear'] = gear_j
-
     context = prepare_pagination(context, characters, page)
-
-    return render(request, 'main/pages/personae.html', context=context)
-
+    return render(request, 'main/pages/autochtons.html', context=context)
 
 
 def autochtons_page(request):
     from main.models.autochtons import Autochton
-    from main.models.draconic_arts import Spell
-    from django.core.paginator import Paginator
     context = prepare_context(request)
     characters = []
     for x in Autochton.objects.all().order_by("-priority", "name"):
@@ -312,13 +274,49 @@ def autochtons_page(request):
         datum['code'] = x.rid
         datum['type'] = "autochton"
         characters.append(datum)
-
-    context['title'] = "Les Autochtones"
     page = int(request.POST["page"])
-    context = prepare_pagination(request, context, characters, page)
-    template = get_template("main/pages/character_list.html")
+    context = prepare_pagination(context, characters, page)
+    template = get_template("main/lists/autochtons_list.html")
     html = template.render(context, request)
     return JsonResponse({"html": html})
 
 
 # Travellers
+def travellers(request):
+    from main.models.travellers import Traveller
+    from main.models.stregoneria import Spell
+    context = prepare_context(request)
+    characters = []
+    for x in Traveller.objects.all().order_by("-player"):
+        datum = x.toJson()
+        datum['text'] = x.name
+        datum['type'] = "traveller"
+        characters.append(datum)
+    page = 1
+    context['characters'] = characters
+    context['title'] = "Les Voyageurs"
+
+    spells_j = Spell.references()
+    context['reference'] = {}
+    context['reference']['spells'] = spells_j
+    context = prepare_pagination(context, characters, page)
+
+    return render(request, 'main/pages/travellers.html', context=context)
+
+
+def travellers_page(request):
+    from main.models.travellers import Traveller
+    context = prepare_context(request)
+    characters = []
+    for x in Traveller.objects.all().order_by("-priority", "name"):
+        datum = x.toJson()
+        datum['text'] = x.name
+        datum['code'] = x.rid
+        datum['type'] = "traveller"
+        characters.append(datum)
+    context['title'] = "Les Voyageurs"
+    page = int(request.POST["page"])
+    context = prepare_pagination(request, context, characters, page)
+    template = get_template("main/lists/travellers_list.html")
+    html = template.render(context, request)
+    return JsonResponse({"html": html})

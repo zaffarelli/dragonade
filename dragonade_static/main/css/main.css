@@ -243,7 +243,7 @@ body {
   padding: 5px;
   border: 2px solid #C0C0C070;
   border-radius: 5px;
-  background: #30101070;
+  background: #1030107F;
   box-shadow: 0 0 3px #402040;
   color: white;
   font-family: Neucha;
@@ -256,7 +256,7 @@ body {
   padding: 5px;
   border: 2px solid #C0C0C070;
   border-radius: 5px;
-  background: #30101070;
+  background: #1030107F;
   box-shadow: 0 0 3px #402040;
   color: white;
   font-family: Neucha;
@@ -267,7 +267,7 @@ body {
     padding: 5px;
     border: 2px solid #C0C0C070;
     border-radius: 5px;
-    background: #30101070;
+    background: #1030107F;
     box-shadow: 0 0 3px #402040;
     color: white;
     font-family: Neucha;
@@ -309,7 +309,7 @@ body {
   padding: 5px;
   border: 2px solid #C0C0C070;
   border-radius: 5px;
-  background: #30101070;
+  background: #1030107F;
   box-shadow: 0 0 3px #402040;
   color: white;
   font-family: Neucha;
@@ -320,20 +320,21 @@ body {
   justify-content: space-around;
   align-items: stretch;
   align-content: flex-end;
-  gap: 0 10px; }
+  gap: 0; }
   .menu .menu_entry {
-    border-radius: 5px;
+    border-radius: 2px;
     border: 2px solid #808080;
-    padding: 5px;
-    flex: 0 0 30px;
-    background: #603040;
+    padding: 0px;
+    flex: 0 0 auto;
+    background: #C0C0C020;
     text-align: center; }
     .menu .menu_entry img {
-      height: 0.8cm; }
+      height: 2.0cm;
+      width: 1.4cm; }
     .menu .menu_entry.off {
-      background: #303030C0; }
+      background: #30303070; }
     .menu .menu_entry:hover {
-      background: #3060F0C0;
+      background: #F0F0F070;
       cursor: pointer; }
 
 .list {
@@ -341,7 +342,7 @@ body {
   padding: 5px;
   border: 2px solid #C0C0C070;
   border-radius: 5px;
-  background: #30101070;
+  background: #1030107F;
   box-shadow: 0 0 3px #402040;
   color: white;
   font-family: Neucha;
@@ -351,19 +352,28 @@ body {
   flex-flow: row wrap;
   justify-content: flex-start;
   align-content: space-around;
-  gap: 3px; }
-  .list .mini {
+  gap: 1px; }
+  .list .mini, .list .minisheet {
     flex: 1 1 25ex;
     font-size: 8pt;
+    padding: 2px;
     font-family: Wellfleet;
-    height: 3.5em; }
-    .list .mini .options {
+    height: 4.0em;
+    border: 2px solid #101010;
+    border-radius: 3px; }
+    .list .mini .options, .list .minisheet .options {
       color: silver; }
   .list .paginator {
     font-family: Wellfleet;
     font-size: 8pt;
     flex: 1 1 50ex;
-    text-align: center; }
+    text-align: center;
+    background: #1050107F;
+    padding: 2px;
+    order: 5;
+    height: 1.5em;
+    border: 2px solid #101010;
+    border-radius: 3px; }
 
 .cardback.selected_for_reveal.verso {
   fill: #A02020; }
@@ -398,28 +408,35 @@ table.skillstable {
   height: 100%;
   border: 1px solid transparent; }
 
-.paginator, .minisheet {
-  display: block;
-  font-family: Fredoka;
-  font-size: 10pt;
-  border: 1px solid #707070;
-  border-radius: 5px;
-  box-shadow: 0 0 16px #202020;
-  background: #30101070;
-  padding: 5px;
-  flex: 0 1 auto;
-  order: 3; }
-  .paginator.mark, .minisheet.mark {
-    background: #60404070;
-    box-shadow: 0 0 16px #604060; }
+/*
+.paginator,.minisheet{
+        display:block;
+        font-family:Fredoka;
+        font-size:$roster_font_height;
+        border:1px solid #707070;
+        border-radius:5px;
+        box-shadow: 0 0 16px #202020;
+        background:$standard_box;
+        padding:5px;
+        flex: 0 1 auto;
+        order:3;
+        &.mark{
+            background:$active_box;
+            box-shadow: 0 0 16px #604060;
+        }
+    }
 
-.paginator {
-  background: #301010; }
-  .paginator.previous {
-    order: 1; }
-  .paginator.next {
-    order: 2; }
-
+.paginator{
+    //align-self: center;
+    background:#301010;
+    &.previous{
+        order:1;
+    }
+    &.next{
+        order:2;
+    }
+}
+*/
 .minicard {
   background: white;
   border: 1px solid #c0c0c0;
@@ -522,15 +539,20 @@ div.showhide.eye {
   border-radius: 5px;
   flex: 1 1 auto; }
 
-.mini {
-  border: 1px solid black;
-  border-radius: 5px;
-  padding: 5px;
-  background: #301020;
-  cursor: pointer; }
-  .mini:hover {
-    background: #103020; }
-  .mini.mark {
-    background: #101030; }
+/*
+.mini{
+    border:1px solid black;
+    border-radius:5px;
+    padding:5px;
+    background:$bkg0;
+    cursor: pointer;
+    &:hover{
+        background:$bkg1;
+    }
+    &.mark{
+        background:$bkg2;
+    }
+}
+*/
 
 /*# sourceMappingURL=main.css.map */
