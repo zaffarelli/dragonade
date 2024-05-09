@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{%  load static %}
+
+{% block east %}
+    {% include "main/menu.html"%}
+    {% include "main/lists/combat_options.html"%}
+
+    <fieldset class="list">
+        <legend>Combattants</legend>
+        {% include "main/lists/combattants_list.html" %}
+    </fieldset>
+{% endblock east %}
+
+
+
+{% block main %}
+    <div id="svg_area"></div>
+{% endblock main %}
+

@@ -1,0 +1,19 @@
+{% load static %}
+{% load dragonade_filters %}
+
+
+<div class="paginator previous" page="{{previous_page}}" target="combattants">
+    <i class="fas fa-arrow-left"></i>{{previous_page}}
+</div>
+<div class="paginator next" page="{{next_page}}" target="combattants">
+    {{next_page}}<i class="fas fa-arrow-right"></i>
+</div>
+
+
+
+{% for x in elements %}
+    <div class="minisheet {{x.type}}" id="mini__{{x.id}}" code="{{x.code}}" title="{{x.name}}">
+        {{x.name|safe}}<br/><span class="options">{{x.rid|safe}}</span>
+    </div>
+{% endfor %}
+

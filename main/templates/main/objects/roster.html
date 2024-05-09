@@ -3,179 +3,165 @@
 
 <table class='skillstable {{a.type.lower}}' id="ss_{{a.id}}">
     <tr>
-<td rowspan="3">
-<div class="sheet base" id="sb_{{a.id}}">
-    <div class="box header" style="text-align:left;">
-        <span class="skill_switch" id="{{a.id}}_switch"><i class="fa fa-edit"></i></span>
-        <span class="skill_card" id="{{a.id}}_card"><i class="fa fa-file"></i></span>
-        BASE
-    </div>
-    <div class="box label full large">{{a.name}}</div>
-    <div class="box label full editable" >
+        <td rowspan="3">
+            <div class="sheet base" id="sb_{{a.id}}">
+                <div class="box header" style="text-align:left;">
+                    <span class="skill_switch" id="{{a.id}}_switch"><i class="fa fa-edit"></i></span>
+                    <span class="skill_card" id="{{a.id}}_card"><i class="fa fa-file"></i></span>
+                    BASE
+                </div>
+                <div class="box label full large">{{a.name}}</div>
+                <div class="box label full editable">
         <span class="btn_edit value"
               action="value" id="{{a.type}}__{{a.id}}__ENTRANCE__value"
               srcval="{{a.misc.ENTRANCE|encoded_z|safe}}">&nbsp;{{a.misc.ENTRANCE}}&nbsp;
         </span>
-    </div>
-    <div class="box label full editable" >
+                </div>
+                <div class="box label full editable">
         <span class="btn_edit value"
               action="value" id="{{a.type}}__{{a.id}}__AKA__value"
               srcval="{{a.features.AKA|encoded_z|safe}}">&nbsp;{{a.features.AKA}}&nbsp;
         </span>
-    </div>
-    <div class="box label sub"></div>
-    <div class="box subset">
-        <div class="box label nw">Age</div>
-        <div class="box info nw editable">
+                </div>
+                <div class="box label sub"></div>
+                <div class="box subset">
+                    <div class="box label nw">Age</div>
+                    <div class="box info nw editable">
             <span class="btn_edit value"
                   action="value" id="{{a.type}}__{{a.id}}__AGE__value"
                   srcval="{{a.features.AGE}}">&nbsp;{{a.features.AGE}}&nbsp;ans
             </span>
-        </div>
-        <div class="box label ne">Sexe</div>
-        <div class="box info ne editable">
-            <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__GENDER__value" srcval="{{a.features.GENDER|encoded_z|safe}}">
+                    </div>
+                    <div class="box label ne">Sexe</div>
+                    <div class="box info ne editable">
+            <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__GENDER__value"
+                  srcval="{{a.features.GENDER|encoded_z|safe}}">
             {{a.features.GENDER|genderize|safe}}
             </span>
-        </div>
+                    </div>
 
 
-        <div class="box label sw">Main Forte</div>
-        <div class="box info sw editable">
-            <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__LEFTY__value" srcval="{{a.features.LEFTY|encoded_z|safe}}">
+                    <div class="box label sw">Main Forte</div>
+                    <div class="box info sw editable">
+            <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__LEFTY__value"
+                  srcval="{{a.features.LEFTY|encoded_z|safe}}">
             {{a.features.LEFTY|lefty|safe}}
             </span>
-        </div>
-        <div class="box label se"></div>
-        <div class="box info se"></div>
-    </div>
-    <div class="box label sub">{{a.features.tai_guideline}}</div>
-    <div class="box subset">
-        <div class="box label nw">Taille</div>
-        <div class="box info nw editable">
-            <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__HEIGHT__value" srcval="{{a.features.HEIGHT|encoded_z|safe}}">
+                    </div>
+                    <div class="box label se"></div>
+                    <div class="box info se"></div>
+                </div>
+                <div class="box label sub">{{a.features.tai_guideline}}</div>
+                <div class="box subset">
+                    <div class="box label nw">Taille</div>
+                    <div class="box info nw editable">
+            <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__HEIGHT__value"
+                  srcval="{{a.features.HEIGHT|encoded_z|safe}}">
             {{a.features.HEIGHT}}
             </span>
-        </div>
-        <div class="box label ne">Poids</div>
-        <div class="box info ne editable">
-            <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__WEIGHT__value" srcval="{{a.features.WEIGHT|encoded_z|safe}}">
+                    </div>
+                    <div class="box label ne">Poids</div>
+                    <div class="box info ne editable">
+            <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__WEIGHT__value"
+                  srcval="{{a.features.WEIGHT|encoded_z|safe}}">
             {{a.features.WEIGHT}}
             </span>
-        </div>
-        <div class="box label sw">IMC</div>
-        <div class="box info sw">{{a.features.imc}}</div>
-        <div class="box label se">TGL</div>
-        <div class="box info se"></div>
-    </div>
+                    </div>
+                    <div class="box label sw">IMC</div>
+                    <div class="box info sw">{{a.features.imc}}</div>
+                    <div class="box label se">TGL</div>
+                    <div class="box info se"></div>
+                </div>
 
 
-    <div class="box triset">
-        <div class="box label left">{{a.dream}}</div>
-        <div class="box label mid"><img src="{{a.birthhour|as_draconichour|safe}} " height="30px"/></div>
-        <div class="box label right">Total Attributes:<br/>{{a.misc.total_attributes}}</div>
-    </div>
+                <div class="box triset">
+                    <div class="box label left">{{a.dream}}</div>
+                    <div class="box label mid"><img src="{{a.birthhour|as_draconichour|safe}} " height="60px"/></div>
+                    <div class="box label right">Total Attributes:<br/>{{a.misc.total_attributes}}</div>
+                </div>
 
 
-    <div class="box triset">
-        <div class="box label left">Indice:<BR/>{{a.misc.indice}}</div>
-        <div class="box label mid">Indice Attributs:<BR/>{{a.misc.indice_a}}</div>
-        <div class="box label right">Indice Compétences:<BR/>{{a.misc.indice_s}}</div>
-    </div>
+                <div class="box triset">
+                    <div class="box label left">Indice:<BR/>{{a.misc.indice}}</div>
+                    <div class="box label mid">Indice Attributs:<BR/>{{a.misc.indice_a}}</div>
+                    <div class="box label right">Indice Compétences:<BR/>{{a.misc.indice_s}}</div>
+                </div>
 
 
-    {% for att,v in a.attributes.items %}
-    {% if forloop.counter0|modulo_of_four_is_0 %}
-    <div class="box label sub">{{att|as_attribute_sub_group}}</div>
-    <div class="box subset">
-        {% endif %}
-        {% include "main/attribute_lines.html" with a=a att=att v=v %}
-        {% if forloop.counter0|modulo_of_four_is_3 %}
-    </div>
-    {% endif %}
-    {% endfor %}
+                {% for att,v in a.attributes.items %}
+                {% if forloop.counter0|modulo_of_four_is_0 %}
+                <div class="box label sub">{{att|as_attribute_sub_group}}</div>
+                <div class="box subset">
+                    {% endif %}
+                    {% include "main/attribute_lines.html" with a=a att=att v=v %}
+                    {% if forloop.counter0|modulo_of_four_is_3 %}
+                </div>
+                {% endif %}
+                {% endfor %}
 
 
-    <div class="box label sub">Secondaires</div>
-    <div class="box subset">
-        <div class="box label nw">TIR</div>
-        <div class="box info nw">{{a.secondaries.TIR|colorize_val|safe}}</div>
-        <div class="box label ne">LAN</div>
-        <div class="box info ne">{{a.secondaries.LAN|colorize_val|safe}}</div>
-        <div class="box label sw">MEL</div>
-        <div class="box info sw">{{a.secondaries.MEL|colorize_val|safe}}</div>
-        <div class="box label se">DER</div>
-        <div class="box info se">{{a.secondaries.DER|colorize_val|safe}}</div>
-    </div>
+                <div class="box label sub">Secondaires</div>
+                <div class="box subset">
+                    <div class="box label nw">TIR</div>
+                    <div class="box info nw">{{a.secondaries.TIR|colorize_val|safe}}</div>
+                    <div class="box label ne">LAN</div>
+                    <div class="box info ne">{{a.secondaries.LAN|colorize_val|safe}}</div>
+                    <div class="box label sw">MEL</div>
+                    <div class="box info sw">{{a.secondaries.MEL|colorize_val|safe}}</div>
+                    <div class="box label se">DER</div>
+                    <div class="box info se">{{a.secondaries.DER|colorize_val|safe}}</div>
+                </div>
 
-    <div class="box label sub">Dérivées</div>
-    <div class="box subset">
-        <div class="box label nw">VIE</div>
-        <div class="box info nw">{{a.misc.VIE}}</div>
-        <div class="box label ne">Fatigue</div>
-        <div class="box info ne">{{a.misc.FAT}} ({{a.misc.pf}})</div>
-        <div class="box label sw">FABLE</div>
-        <div class="box info sw">{{a.misc.FAB|colorize_val|safe}}</div>
-        <div class="box label se">SONGE</div>
-        <div class="box info se editable">
-        <span class="box info se btn_edit value" action="value" id="{{a.type}}__{{a.id}}__SON__value" srcval="{{a.misc.SON|encoded_z|safe}}">&nbsp;{{a.misc.SON|colorize_val|safe}}&nbsp;</span>
-        </div>
-    </div>
-    <div class="box label sub"></div>
-    <div class="box subset">
-        <div class="box label nw">REVE</div>
-        <div class="box info nw">{{a.misc.REV}}</div>
-        <div class="box label ne">+Prot</div>
-        <div class="box info ne">{{a.misc.PROT}}</div>
-        <div class="box label sw"></div>
-        <div class="box info sw"></div>
-        <div class="box label se"></div>
-        <div class="box info se"></div>
-    </div>
-    <div class="box label sub">Modificateurs</div>
-    <div class="box subset">
-        <div class="box label nw">+dom</div>
-        <div class="box info nw">{{a.misc.DOM|signed}}</div>
-        <div class="box label ne">Sustentation</div>
-        <div class="box info ne">{{a.misc.SUS}}</div>
-        <div class="box label sw">SC</div>
-        <div class="box info sw">{{a.misc.SCO}}</div>
-        <div class="box label se">Encombrement</div>
-        <div class="box info se">{{a.misc.ENC}}</div>
-    </div>
-</div>
-
-
-<div class="sheet weapons" >
-    <div class="box header" style="text-align:left;">
-        <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__GEAR__value" srcval="{{a.features.GEAR|encoded_z|safe}}">
-            ARMES
-        </span>
-    </div>
-    {% include "main/objects/weapons.html"%}
-</div>
-
-<div class="sheet magic" >
-    <div class="box header" style="text-align:left;">
-        <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__SPELLS__value" srcval="{{a.features.SPELLS|encoded_z|safe}}">
-            MAGIE
-        </span>
-    </div>
-    {% include "main/objects/spells.html"%}
-</div>
+                <div class="box label sub">Dérivées</div>
+                <div class="box subset">
+                    <div class="box label nw">VIE</div>
+                    <div class="box info nw">{{a.misc.VIE}}</div>
+                    <div class="box label ne">Fatigue</div>
+                    <div class="box info ne">{{a.misc.FAT}} ({{a.misc.pf}})</div>
+                    <div class="box label sw">FABLE</div>
+                    <div class="box info sw">{{a.misc.FAB|colorize_val|safe}}</div>
+                    <div class="box label se">SONGE</div>
+                    <div class="box info se editable">
+                        <span class="box info se btn_edit value" action="value" id="{{a.type}}__{{a.id}}__SON__value"
+                              srcval="{{a.misc.SON|encoded_z|safe}}">&nbsp;{{a.misc.SON|colorize_val|safe}}&nbsp;</span>
+                    </div>
+                </div>
+                <div class="box label sub"></div>
+                <div class="box subset">
+                    <div class="box label nw">REVE</div>
+                    <div class="box info nw">{{a.misc.REV}}</div>
+                    <div class="box label ne">+Prot</div>
+                    <div class="box info ne">{{a.misc.PROT}}</div>
+                    <div class="box label sw"></div>
+                    <div class="box info sw"></div>
+                    <div class="box label se"></div>
+                    <div class="box info se"></div>
+                </div>
+                <div class="box label sub">Modificateurs</div>
+                <div class="box subset">
+                    <div class="box label nw">+dom</div>
+                    <div class="box info nw">{{a.misc.DOM|signed}}</div>
+                    <div class="box label ne">Sustentation</div>
+                    <div class="box info ne">{{a.misc.SUS}}</div>
+                    <div class="box label sw">SC</div>
+                    <div class="box info sw">{{a.misc.SCO}}</div>
+                    <div class="box label se">Encombrement</div>
+                    <div class="box info se">{{a.misc.ENC}}</div>
+                </div>
+            </div>
 
 
-</td>
+        </td>
         <td>
             <div class="sheet skills all for_display_{{a.id}}" id="ssa_{{a.id}}">
                 <div class="box header">COMPETENCES</div>
                 {% for c,cat in a.skills.items %}
-                    {% for sk,v in cat.items %}
-                        {% include "main/skill_lines_unforced.html" with a=a sk=sk v=v%}
-                    {% endfor %}
+                {% for sk,v in cat.items %}
+                {% include "main/skill_lines_unforced.html" with a=a sk=sk v=v%}
+                {% endfor %}
                 {% endfor %}
             </div>
-       </td>
+        </td>
         <td>
             <div class="sheet skills generales for_edit_{{a.id}}" id="ssg_{{a.id}}">
                 <div class="box header">GENERALES</div>
@@ -189,9 +175,6 @@
                 {% include "main/skill_lines.html" with a=a sk=sk v=v%}
                 {% endfor %}
             </div>
-
-        </td>
-        <td>
             <div class="sheet skills specialisees for_edit_{{a.id}}" id="sss_{{a.id}}">
                 <div class="box header">SPECIALISEES</div>
                 {% for sk,v in a.skills.specialized.items %}
@@ -205,20 +188,53 @@
                 {% include "main/skill_lines.html" with a=a sk=sk v=v%}
                 {% endfor %}
             </div>
+
+
+        </td>
+        <td>
             <div class="sheet skills draconiques for_edit_{{a.id}}" id="ssd_{{a.id}}">
                 <div class="box header">DRACONIQUES</div>
                 {% for sk,v in a.skills.draconic.items %}
                 {% include "main/skill_lines.html" with a=a sk=sk v=v%}
                 {% endfor %}
             </div>
-        </td>
-        <td>
             <div class="sheet skills martiales for_edit_{{a.id}}" id="ssm_{{a.id}}">
                 <div class="box header">MARTIALES</div>
                 {% for sk,v in a.skills.weapons.items %}
                 {% include "main/skill_lines.html" with a=a sk=sk v=v%}
                 {% endfor %}
             </div>
+        </td>
+        <td>
+            <div class="sheet magic">
+                <div class="box header" style="text-align:left;">
+        <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__SPELLS__value"
+              srcval="{{a.features.SPELLS|encoded_z|safe}}">
+            MAGIE
+        </span>
+                </div>
+                {% include "main/objects/spells.html"%}
+            </div>
+            <div class="sheet weapons">
+                <div class="box header" style="text-align:left;">
+        <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__GEAR__value"
+              srcval="{{a.features.GEAR|encoded_z|safe}}">
+            ARMES
+        </span>
+                </div>
+                {% include "main/objects/weapons.html"%}
+            </div>
+
+            <div class="sheet gear">
+                <div class="box header" style="text-align:left;">
+        <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__OTHER__value"
+              srcval="{{a.features.OTHER|encoded_z|safe}}">
+            GEAR
+        </span>
+                </div>
+                {% include "main/objects/other.html"%}
+            </div>
+
         </td>
 
     </tr>

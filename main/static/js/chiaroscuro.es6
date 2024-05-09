@@ -242,7 +242,6 @@ class Chiaroscuro {
         $('.paginator').off().on('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
-//             console.log("paginator")
             let page = $(this).attr("page")
             let target = $(this).attr("target")
             $.ajax({
@@ -366,12 +365,21 @@ class Chiaroscuro {
     }
 
     resizeEvent(){
+        console.log("Chiaroscuro Resize Event")
         let me= this;
-        _.forEach(me.modules,
+        _.forEach(me.globalPerformers,
                 (m) => {
+                    console.log(m.name," Resize Event")
                     m.resizeEvent();
                 }
             );
+        _.forEach(me.axiomaticPerformers,
+                (m) => {
+                    console.log(m.name," Resize Event")
+                    m.resizeEvent();
+                }
+            );
+
     }
 
     dispatchMessage(type,message){

@@ -48,7 +48,7 @@ def as_draconichour(value):
     str = value
     if isinstance(value, int):
         if value > 0:
-            str = f'static/main/svg/hdw_{value}.svg'
+            str = f'static/main/svg/2024/sd_{value}.svg'
     return str
 
 

@@ -18,46 +18,57 @@ CHARACTER_STATISTICS = {
             {"NAME": "INT", "TEXT": "Intelligence"},
             {"NAME": "VOL", "TEXT": "Volonté"}
         ],
-        "KNOWN": ["AGI","CON","FOR","TAI","EMP","ODG","OUI", "VUE","APP","DEX","INT","VOL"]
-        
+        "KNOWN": ["AGI", "CON", "FOR", "TAI", "EMP", "ODG", "OUI", "VUE", "APP", "DEX", "INT", "VOL"]
+
     },
-    "SECONDARIES": { 
-        "LIST":[
-            {"NAME": "TIR", "TEXT": "Tir", "COMPUTE": "basic_mean,DEX;VUE", "RATIONALE": " (DEX + VUE) / 2"},
-            {"NAME": "MEL", "TEXT": "Mêlée", "COMPUTE": "basic_mean,FOR;AGI", "RATIONALE": " (FOR + AGI) / 2"},
-            {"NAME": "DER", "TEXT": "Dérobade", "COMPUTE": "dero_mean,TAI;AGI", "RATIONALE": " (12 - TAI + AGI) / 2"},
-            {"NAME": "LAN", "TEXT": "Lancer", "COMPUTE": "basic_mean,TIR;FOR", "RATIONALE": " (TIR + FOR) / 2"}
+    "SECONDARIES": {
+        "LIST": [
+            {"NAME": "TIR", "TEXT": "Tir", "RATIONALE": " (DEX + VUE) / 2", "PARAMS": "DEX VUE",
+             "FORMULA": lambda p: math.ceil((p[0] + p[1]) / 2)},
+            {"NAME": "MEL", "TEXT": "Mêlée", "RATIONALE": " (FOR + AGI) / 2", "PARAMS": "FOR AGI",
+             "FORMULA": lambda p: math.ceil((p[0] + p[1]) / 2)},
+            {"NAME": "DER", "TEXT": "Dérobade", "RATIONALE": " (12 - TAI + AGI) / 2", "PARAMS": "TAI AGI",
+             "FORMULA": lambda p: math.ceil((12 - p[0] + p[1]) / 2)},
+            {"NAME": "LAN", "TEXT": "Lancer", "RATIONALE": " (TIR + FOR) / 2", "PARAMS": "TIR FOR",
+             "FORMULA": lambda p: math.ceil((p[0] + p[1]) / 2)}
         ],
-        "KNOWN": ["DER","LAN","MEL","TIR"]
+        "KNOWN": ["DER", "LAN", "MEL", "TIR"]
     },
     "MISC": {
-        "LIST":[
-            {"NAME": "FAB", "TEXT": "Rêve", "COMPUTE": "basic_mean,CON;EMP;APP", "RATIONALE": " (CON + EMP + APP) / 3"},
-            {"NAME": "VIE", "TEXT": "Points de Vie", "COMPUTE": "basic_sum,CON;TAI", "RATIONALE": " CON + TAI"},
-            {"NAME": "FAT", "TEXT": "Fatigue", "COMPUTE": "basic_mean,CON;VOL", "RATIONALE": " (CON + VOL) / 2"},
-            {"NAME": "DOM", "TEXT": "+dom", "COMPUTE": "from_table_mean,TAI;FOR,tbDOM","RATIONALE": " ArrondiBas((FOR + 2) / 3) - 2"},
-            {"NAME": "SUS", "TEXT": "Sustentation", "COMPUTE": "from_table_mean,TAI,tbSUS","RATIONALE": " ArrondiBas((CON + 4) / 4) + 1"},
-            {"NAME": "SCO", "TEXT": "Seuil Con", "COMPUTE": "from_table_mean,CON,tbSCO","RATIONALE": "ArrondiBas((CON + 3) / 3) + 1"},
-            {"NAME": "ENC", "TEXT": "Encombrement", "COMPUTE": "precise_mean,TAI,FOR","RATIONALE": " (TAI + FOR)  [garder une décimale]"},
-            {"NAME": "SON", "TEXT": "Songe", "COMPUTE": "user_choice", "RATIONALE":"-"},
-            {"NAME": "REV", "TEXT": "Fable", "COMPUTE": "user_choice", "RATIONALE":"-"},
-            {"NAME": "ENTRANCE", "TEXT": "Entrée", "COMPUTE": "user_choice", "RATIONALE":"-"}
+        "LIST": [
+            {"NAME": "FAB", "TEXT": "Rêve", "RATIONALE": " (CON + EMP + APP) / 3", "PARAMS": "CON EMP APP",
+             "FORMULA": lambda p: round((p[0] + p[1] + p[2]) / 3)},
+            {"NAME": "VIE", "TEXT": "Points de Vie", "RATIONALE": " CON + TAI", "PARAMS": "CON TAI",
+             "FORMULA": lambda p: p[0] + p[1]},
+            {"NAME": "FAT", "TEXT": "Fatigue", "RATIONALE": " (CON + VOL) / 2", "PARAMS": "CON VOL",
+             "FORMULA": lambda p: math.ceil((p[0] + p[1]) / 2)},
+            {"NAME": "DOM", "TEXT": "+dom", "RATIONALE": " ArrondiBas((FOR + 2) / 3) - 2", "PARAMS": "FOR",
+             "FORMULA": lambda p: math.floor((p[0] + 2) / 3)},
+            {"NAME": "SUS", "TEXT": "Sustentation", "RATIONALE": " ArrondiBas((CON + 4) / 4) + 1", "PARAMS": "CON",
+             "FORMULA": lambda p: math.floor((p[0] + 4) / 4) + 1},
+            {"NAME": "SCO", "TEXT": "Seuil Con", "RATIONALE": "ArrondiBas((CON + 3) / 3) + 1", "PARAMS": "CON",
+             "FORMULA": lambda p: math.floor((p[0] + 3) / 3) + 1},
+            {"NAME": "ENC", "TEXT": "Encombrement", "RATIONALE": " (TAI + FOR)  [garder une décimale]",
+             "PARAMS": "TAI CON", "FORMULA": lambda p: ((p[0] + p[1]) / 2) * 2},
+            {"NAME": "SON", "TEXT": "Songe", "RATIONALE": "-"},
+            {"NAME": "REV", "TEXT": "Fable", "RATIONALE": "-"},
+            {"NAME": "ENTRANCE", "TEXT": "Entrée", "RATIONALE": "-"}
         ],
-        "KNOWN":["FAB","VIE","FAT","DOM","SUS","SCO","ENC","SON","REV","ENTRANCE"]
+        "KNOWN": ["FAB", "VIE", "FAT", "DOM", "SUS", "SCO", "ENC", "SON", "REV", "ENTRANCE"]
     },
     "FEATURES": {
-        "LIST":[
-            {"NAME": "HEIGHT", "TEXT": "Hauteur en centimètres", "COMPUTE": "user_choice", "RATIONALE":"-"},
-            {"NAME": "WEIGHT", "TEXT": "Poids en kilogrammes", "COMPUTE": "user_choice", "RATIONALE":"-"},
-            {"NAME": "AGE", "TEXT": "Entrée", "COMPUTE": "user_choice", "RATIONALE":"-"},
-            {"NAME": "AKA", "TEXT": "Entrée", "COMPUTE": "user_choice", "RATIONALE": "-"},
-            {"NAME": "GENDER", "TEXT": "Entrée", "COMPUTE": "user_choice", "RATIONALE": "-"},
-            {"NAME": "LEFTY", "TEXT": "Entrée", "COMPUTE": "user_choice", "RATIONALE": "-"},
-            {"NAME": "GEAR", "TEXT": "Armes", "COMPUTE": "user_choice", "RATIONALE": "-"},
-            {"NAME": "SPELLS", "TEXT": "Magie", "COMPUTE": "user_choice", "RATIONALE": "-"}
+        "LIST": [
+            {"NAME": "HEIGHT", "TEXT": "Hauteur en centimètres", "COMPUTE": "user_choice", "RATIONALE": "-"},
+            {"NAME": "WEIGHT", "TEXT": "Poids en kilogrammes", "COMPUTE": "user_choice", "RATIONALE": "-"},
+            {"NAME": "AGE", "TEXT": "Entrée", "RATIONALE": "-"},
+            {"NAME": "AKA", "TEXT": "Entrée", "RATIONALE": "-"},
+            {"NAME": "GENDER", "TEXT": "Entrée", "RATIONALE": "-"},
+            {"NAME": "LEFTY", "TEXT": "Entrée", "RATIONALE": "-"},
+            {"NAME": "GEAR", "TEXT": "Armes", "RATIONALE": "-"},
+            {"NAME": "SPELLS", "TEXT": "Magie", "RATIONALE": "-"}
         ],
         "KNOWN":
-            ["HEIGHT","WEIGHT","AGE","AKA","GENDER","LEFTY","GEAR","SPELLS"]
+            ["HEIGHT", "WEIGHT", "AGE", "AKA", "GENDER", "LEFTY", "GEAR", "SPELLS"]
     },
 
     "SKILLS": {
@@ -99,11 +110,11 @@ CHARACTER_STATISTICS = {
                 {"NAME": "WEA_32", "TEXT": "Coutelas"}
             ],
             "KNOWN": [
-                "WEA_01","WEA_02","WEA_03","WEA_04","WEA_05","WEA_06","WEA_07","WEA_08","WEA_09","WEA_10",
-                "WEA_11","WEA_12","WEA_13","WEA_14","WEA_15","WEA_16","WEA_17","WEA_18","WEA_19","WEA_20",
-                "WEA_21","WEA_22","WEA_23","WEA_24","WEA_25","WEA_26","WEA_27","WEA_28","WEA_29","WEA_30",
-                "WEA_31","WEA_32"
-            ]               
+                "WEA_01", "WEA_02", "WEA_03", "WEA_04", "WEA_05", "WEA_06", "WEA_07", "WEA_08", "WEA_09", "WEA_10",
+                "WEA_11", "WEA_12", "WEA_13", "WEA_14", "WEA_15", "WEA_16", "WEA_17", "WEA_18", "WEA_19", "WEA_20",
+                "WEA_21", "WEA_22", "WEA_23", "WEA_24", "WEA_25", "WEA_26", "WEA_27", "WEA_28", "WEA_29", "WEA_30",
+                "WEA_31", "WEA_32"
+            ]
         },
         "GENERIC": {
             "DEFAULT": -1,
@@ -123,11 +134,11 @@ CHARACTER_STATISTICS = {
                 {"NAME": "GEN_12", "TEXT": "Sculpture"},
                 {"NAME": "GEN_13", "TEXT": "Séduction"},
                 {"NAME": "GEN_14", "TEXT": "Vigilance"}
-            ], 
+            ],
             "KNOWN": [
-                "GEN_01","GEN_02","GEN_03","GEN_04","GEN_05","GEN_06","GEN_07","GEN_08","GEN_09","GEN_10",
-                "GEN_11","GEN_12","GEN_13","GEN_14"
-            ]   
+                "GEN_01", "GEN_02", "GEN_03", "GEN_04", "GEN_05", "GEN_06", "GEN_07", "GEN_08", "GEN_09", "GEN_10",
+                "GEN_11", "GEN_12", "GEN_13", "GEN_14"
+            ]
         },
         "PECULIAR": {
             "DEFAULT": -2,
@@ -211,15 +222,15 @@ CHARACTER_STATISTICS = {
     }
 }
 
-
 SHORTCUTS = [
-    ["Vue + Vigilance","VUE","GEN_14"],
-    ["Ouïe + Concentration","OUI","GEN_03"],
-    ["Empathie + Séduction","EMP","GEN_13"],
-    ["Dérobade + Esquive","DER","WEA_12"],
-    ["Volonté + Concentration","VOL","GEN_03"],
-    ["Rêve + Contemplatif","REV","DRA_01"]
+    ["Vue + Vigilance", "VUE", "GEN_14"],
+    ["Ouïe + Concentration", "OUI", "GEN_03"],
+    ["Empathie + Séduction", "EMP", "GEN_13"],
+    ["Dérobade + Esquive", "DER", "WEA_12"],
+    ["Volonté + Concentration", "VOL", "GEN_03"],
+    ["Rêve + Contemplatif", "REV", "DRA_01"]
 ]
+
 
 def skill_cost(skill, value):
     cost = -1
@@ -507,7 +518,7 @@ def gear_table_json(cat=""):
     rows = []
     values = []
     from main.models.equipment import Equipment
-    for c in Equipment.objects.filter(category=cat,special=False):
+    for c in Equipment.objects.filter(category=cat, special=False):
         rows.append(f"{c.rid}")
         values.append(f"{c.name}")
         values.append(f"{c.enc}")
@@ -563,6 +574,7 @@ def load_from_file():
             e.category = '---'
             e.save()
 
+
 def tai_guidelines(tai):
     base_average_weight = 56
     base_average_height = 150
@@ -574,7 +586,7 @@ def tai_guidelines(tai):
     height_ratio = 1.025
     height = base_average_height
     weight = base_average_weight
-    for x in range(2,tai):
+    for x in range(2, tai):
         height *= height_ratio
         weight *= weight_ratio
     height = math.ceil(height)

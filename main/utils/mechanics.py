@@ -33,7 +33,8 @@ def is_ajax(request):
 
 
 def as_rid(str):
-    words = str.lower().split(" ")
+    str_n_free = str.replace("\n", '')
+    words = str_n_free.lower().split(" ")
     list = []
     for word in words:
         w = word \
@@ -82,7 +83,7 @@ MENU_ENTRIES = [
     {"IDX": 7, "NAME": "Lyre", "LINK": "", "SVG_REF": "_7.svg", "TEXT": ""},
     {"IDX": 8, "NAME": "Serpent", "LINK": "", "SVG_REF": "_8.svg", "TEXT": "Monstres..."},
     {"IDX": 9, "NAME": "Poisson-Acrobate", "LINK": "risorse", "SVG_REF": "_9.svg", "TEXT": "Révélation de Cartes"},
-    {"IDX": 10, "NAME": "Araignee", "LINK": "", "SVG_REF": "_10.svg", "TEXT": "Références & Règles..."},
+    {"IDX": 10, "NAME": "Araignee", "LINK": "combattants", "SVG_REF": "_10.svg", "TEXT": "Simulateur de Mêlée"},
     {"IDX": 11, "NAME": "Roseau", "LINK": "autochtons", "SVG_REF": "_11.svg",
      "TEXT": "La liste des autochtones (PNJs)"},
     {"IDX": 12, "NAME": "ChateauDormant", "LINK": "travellers", "SVG_REF": "_12.svg",

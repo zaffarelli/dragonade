@@ -12,18 +12,20 @@
     }
 }
 
-/*
-.mini{
+
+.mini.hautrevant{
     border:1px solid black;
     border-radius:5px;
     padding:5px;
-    background:$bkg0;
+    background:$palette1;
     cursor: pointer;
     &:hover{
-        background:$bkg1;
+        background:$palette3;
     }
     &.mark{
-        background:$bkg2;
+        background:$palette2;
     }
 }
-*/
+
+
+

@@ -3,9 +3,22 @@
 <div class="middle">
     <fieldset class="middleblock options">
         <legend>Options des Sortilèges</legend>
-        <textarea id="ed" placeholder="Entrer la nouvelle valeur ici..."></textarea>
+        <textarea id="ed" placeholder="Entrer la nouvelle valeur ici..." style="width:90ex;"></textarea>
         <textarea id="target_ed" class="hidden"></textarea>
         <div id="echo" class="hidden"></div>
         <div class='btn option_btn' id="valuepush_ed"><i class="fas fa-circle-arrow-up"></i>&nbsp;Valider</div>
+    </fieldset>
+    <fieldset class="middleblock options">
+        <legend>Haut-Rêvants</legend>
+        {% for x in config.haut_revants %}
+            {% include "main/objects/mini.html" with addclass="hautrevant" %}
+            {{ x.spells }}
+            {% for y in x.spells_as_list %}
+                <div class="mini stregoneria" id="mini__{{y}}" code="{{y}}" title="{{y}}" style="border:2px solid #C0C0C0; border-radius:5px; margin:5px; display:inline-block; background:#102030; color:white; padding:5px; max-width:25ex; height:1.3em;" >
+                {{y}}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
     </fieldset>
 </div>

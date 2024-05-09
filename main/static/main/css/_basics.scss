@@ -1,18 +1,27 @@
 @charset "UTF-8";
-$body_color: #F0F0F0;
-$body_background: #101010;
+
+$palette0: #101010; // Text
+$palette1: #2532377F; // Background
+$palette10: #253237; // Background
+$palette2: desaturate($palette1,25%); // Panel
+$palette3: #a69cac; // Panel text
+$palette4: lighten($palette1,75%); // Paper
+$palette5: complement(lighten($palette1,20%)); // Highlight
+
+
+$body_color: $palette4;
+$body_background: $palette1;
+
+
 // Main colors
-$theme1: #1d1f1f;
-$theme2: #94550a;
-$theme3: #e18c0c;
-$session_board: #89807B;
-$shadow_color: #402040;
+$theme1: #B19470;
+$shadow_color: darken($theme1,10%);
 
 
 @mixin body_background{
     background: $body_background;
     color: $body_color;
-    font-family:Neucha;
+    font-family:Wellfleet;
 }
 
 
@@ -22,8 +31,9 @@ $button_background: saturate($theme1,75%);
 $button_background2: darken($theme1,15%);
 $highlight_background: saturate($theme1,75%);
 
-$panel_complement: complement($theme2);
-$panel_text: #202020;
+/*
+$panel_complement: complement($body_background);
+$panel_text: complement($body_color);
 
 $panel_shadow: lighten($panel_background, 50%);
 $panel_plank_background: darken($panel_background, 5%);
@@ -31,96 +41,39 @@ $panel_shard_background: darken($panel_background, 15%);
 $panel_smooth_background: grayscale($panel_background);
 $panel_day_background: darken($panel_background,25%);
 $panel_week_background: darken($panel_background, 5%);
+*/
 
-// Panels levels
-$panel1_background: lighten($panel_background,10%);
-$panel2_background: lighten($panel_background,20%);
-$panel3_background: lighten($panel_background,30%);
-$panel_color: lighten($panel_background,75%);
-$panel_border: lighten($panel_background,10%);
-$panel1_color: lighten($panel1_background,75%);
-$panel1_border: lighten($panel1_background,10%);
-$panel2_color: lighten($panel2_background,75%);
-$panel2_border: lighten($panel2_background,10%);
-$panel3_color: lighten($panel3_background,75%);
-$panel3_border: lighten($panel3_background,10%);
-// Paperzone
-$paper_background: #b2b0a7;
-$paper_color: darken(complement($paper_background),50%);
-$paper_border:darken($paper_background,10%);
-// Highlight
-$highlight_color: darken($highlight_background,75%);
-$highlight_border: lighten($highlight_background,10%);
-// Buttons
-$button_color: lighten($button_background,75%);
-$button_border: lighten($button_background,10%);
-$button_color2: lighten($button_background2,75%);
-$button_border2: lighten($button_background2,10%);
-
-$color_current: violet;
-$color_current_hover: mediumorchid;
-$color_frame: lightgrey;
-$color_frame_hover: cyan;
-$panel_day_background: #c4c4b6;
-$panel_day_off_background: saturate(complement($panel_day_background),50%);
-$panel_day_current_background: lightcoral;
-$color_off_hover: yellow;
 
 $hour_pixel: 42;
 
 $env_text: black;
 
+$font_height: 8pt;
 $roster_font_height: 10pt;
 
-$plate_color: lighten($panel_color,10%);
+//$plate_color: lighten($panel_color,10%);
 
-$bkg_filter0:#80808070;
-$bkg_filter1:#80808020;
-$bkg_filter2:#10802070;
+$bkg_filter0:$theme1;
+$bkg_filter1:#B19470;
+$bkg_filter2:#EBC49F;
 
-$bkg0:#103020;
-$bkg1:#103020;
-$bkg2:#101030;
+$bkg0:$bkg_filter0;
+$bkg1:$bkg_filter1;
+$bkg2:$bkg_filter2;
 
-
-
-
-span.past{
-  color:darkslateblue;
-}
-
-span.future{
-  color:darkmagenta;
-}
-
-
-.front_message{
-  display:block;
-  font-size:1.5em;
-  color: black;
-  width:25%;
-  margin:0;
-  margin-left:auto;
-  margin-right:auto;
-}
-
-
-$active_box: #1050107F;
-$standard_box: #1030107F;
-$sub_box: #1040107F;
-
+$active_box: $theme1;
+$standard_box: darken($active_box,30%);
+$sub_box: complement($standard_box);
 
 @mixin btn_look{
-    background: #C0C0C0;
+    background: darken($theme1,10%);
     border-radius:3px;
-    border:1px solid #808080;
-    color: #101010;
+    border:1px solid lighten($theme1,20%);
+    color: darken($theme1,40%);
     font-family: Neucha;
     width:90ex;
     display:inline-block;
 }
-
-
 
 .btn{
     @include btn_look
@@ -129,16 +82,26 @@ $sub_box: #1040107F;
 
 @mixin dragonade_panel{
     margin: 0;
-    padding:5px;
-    border:2px solid #C0C0C070;
+    padding:2px;
+    border:2px solid $palette2;
     border-radius:5px;
-    background: $standard_box;
-    box-shadow: 0 0 3px $shadow_color;
-    color:white;
+    background: $palette2;
+    box-shadow: 0 0 3px $palette3;
+    color:$palette4;
     font-family: Neucha;
+    & legend{
+        color:$palette4;
+        text-shadow: 0 0 10px $palette0;
+    }
 }
 
 .coded{
     font-family: Wellfleet;
-    font-size:8px;
+    font-size:8pt;
 }
+
+.p1{background:$palette1;color:$palette0}
+.p2{background:$palette2;color:$palette0}
+.p3{background:$palette3;color:$palette0}
+.p4{background:$palette4;color:$palette0}
+.p5{background:$palette5;color:$palette0}

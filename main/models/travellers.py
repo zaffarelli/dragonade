@@ -28,6 +28,6 @@ class Traveller(Character):
 class TravellerAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ['name']
-    list_display = ['name', 'rid', 'player', 'gear', 'spells', 'destiny']
-    list_editable = ['gear', 'spells', 'destiny']
+    list_display = ['name', 'rid', 'player', 'gear', 'spells', 'destiny',"is_battle_ready"]
+    list_editable = ['gear', 'spells', 'destiny',"is_battle_ready"]
     actions = [refix]

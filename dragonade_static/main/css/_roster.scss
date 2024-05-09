@@ -6,31 +6,75 @@
     justify-content: flex-start;
     align-content: flex-start;
     align-items: baseline;
-    gap: 5px;
+    gap: 0px;
+
+
+
+    table.skillstable{
+
+        & td{
+            border:0px solid transparent;
+            vertical-align:middle;
+            background:transparent;
+        }
+        border:0px solid $palette3;
+        cells-padding: 0;
+        cells-spacing: 0;
+        background:transparent;
+        border-radius: 10px;
+        height:auto;
+        width:auto;
+        margin: 0;
+        &.autochton{
+
+            background: #1030207F;
+            & .header{
+                color:white;
+                background:$palette2;
+            }
+            & .sheet{
+                background:#608060;
+            }
+
+        }
+        &.traveller{
+
+            background: #1020307F;
+            & .header{
+                color:white;
+                background:$palette2;
+            }
+            & .sheet{
+                background:#606080;
+            }
+        }
+    }
+
 
     & .sheet, & .spell {
         display: grid;
         flex: 0 0 auto;
         font-family:Neucha;
         font-size:$roster_font_height;
-        border:1px solid #707070;
+        border:1px solid $palette2;
         border-radius:5px;
         margin:10px;
         padding:5px;
-        gap: 2px;
-        box-shadow: 0 0 16px #101010;
-        background:$bkg2;
+        gap: 0px;
+        box-shadow: 0 0 16px $palette0;
+        //background:#606060;
 
         & .box {
             border-radius: 1px;
-            padding: 1px;
-            border:2px solid transparent;
+            padding: 3px;
+            border:1px solid $palette1;
             &.label{
-                background-color: #404040;
+                background-color: $palette2;
+                color:white;
             }
             &.info{
-                background:#303030;
-                color: #F0F0F0;
+                background: darken($palette1,50%);
+                color: white;
                 &.editable{
                     cursor:pointer;
                     & .btn_edit{
@@ -45,7 +89,7 @@
                             width:4ex;
                             text-align:center;
                             &:hover{
-                                background:black;
+                                background:$palette1;
                             }
                         }
                     }
@@ -72,7 +116,7 @@
             }
         }
 
-        &.magic, &.weapons{
+        &.magic, &.weapons, &.gear{
             grid-template-columns: 75px 150px;
             order:2;
             & .label {
@@ -85,11 +129,13 @@
             & .header {
                 grid-column: 1 / span 2;
             }
+            overflow-y:auto;
+            max-height:200px;
         }
 
 
         &.base, &.magic, &.weapons {
-            grid-template-columns: 50px 25px 25px 50px 75px 75px 75px 75px;
+            grid-template-columns: 60px 30px 30px 60px 80px 80px 80px 80px;
             grid-template-rows: repeat(10,1.5em);
             order:1;
             flex: 0 1 auto;
@@ -161,9 +207,9 @@
             }
 
             & .subset{
-                border:1px solid #404040;
+                border:1px solid $palette2;
                 gap: 1px;
-                padding:0;
+                padding:2px;
                 grid-column: 5 / span 4;
                 grid-row: span 2;
                 display: grid;
@@ -172,9 +218,9 @@
             }
 
            & .triset{
-                border:1px solid #404040;
+                border:1px solid $palette2;
                 gap: 1px;
-                padding:0;
+                padding:2px;
                 grid-column: 1 / span 8;
                 grid-row: span 2;
                 display: grid;
@@ -185,13 +231,11 @@
        }
     }
 
-    & .spell{
-    }
 
     & .box.info.editable{
         & .btn_edit{
             &.value{
-                border:2px solid brown;
+                border:2px solid $palette4;
                 border-radius:3px;
                 cursor:crosshair;
            }

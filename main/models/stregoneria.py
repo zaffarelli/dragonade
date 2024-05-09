@@ -29,6 +29,7 @@ class DragonadeGround(models.IntegerChoices):
     DESOLATION = 12, "Désolation"
     CHASM = 13, "Gouffre"
     NECROPOLIS = 14, "Nécropole"
+    SPECIAL = 666, "Voir Texte"
 
 
 class DragonadeHour(models.IntegerChoices):
@@ -45,6 +46,7 @@ class DragonadeHour(models.IntegerChoices):
     SPIDER = 10, "Araignée"
     REED = 11, "Roseau"
     SLEEPY_CASTLE = 12, "Château-Dormant"
+    SPECIAL = 666, "Voir Texte"
 
 
 class DragonadeEmanation(models.IntegerChoices):
@@ -56,6 +58,7 @@ class DragonadeEmanation(models.IntegerChoices):
     TIDE = 5, "Marée"
     FLUSH = 6, "Ras"
     SURGING = 7, "Déferlante"
+    SPECIAL = 666, "Voir Texte"
 
 
 class DragonadeConsistency(models.IntegerChoices):
@@ -67,6 +70,7 @@ class DragonadeConsistency(models.IntegerChoices):
     CONGESTION = 5, "Congestion"
     CLUSTER = 6, "Amas"
     CRYSTAL = 7, "Cristal"
+    SPECIAL = 666, "Voir Texte"
 
 
 class DragonadeElement(models.IntegerChoices):
@@ -78,6 +82,7 @@ class DragonadeElement(models.IntegerChoices):
     WOOD = 5, "Bois"
     METAL = 6, "Métal"
     HEPTA = 7, "Septième"
+    SPECIAL = 666, "Voir Texte"
 
 
 class SpellCategory(models.IntegerChoices):
@@ -97,6 +102,7 @@ class SpellPath(models.IntegerChoices):
     MORPHEOS = 6, "Morpheos"
 
 
+
 class SpellRoll(models.IntegerChoices):
     NONE = 0, "-"
     CONTEMPLATIVE = 1, "Contemplatif"
@@ -107,6 +113,7 @@ class SpellRoll(models.IntegerChoices):
     STATIC = 6, "Statique"
 
 
+
 class SpellCastingTime(models.IntegerChoices):
     INSTANT = 0, "Instantanné"
     ROUND = 1, "Tour"
@@ -115,17 +122,6 @@ class SpellCastingTime(models.IntegerChoices):
     DRACONIC_HOUR = 4, "Heure Draconique"
     DAY = 5, "Jour"
     WEEK = 6, "Semaine"
-
-
-"""
-                {"NAME": "DRA_01", "TEXT": "Contemplatif"},
-                {"NAME": "DRA_02", "TEXT": "Destructif"},
-                {"NAME": "DRA_03", "TEXT": "Dynamique"},
-                {"NAME": "DRA_04", "TEXT": "Génératif"},
-                {"NAME": "DRA_05", "TEXT": "Mnémonique"},
-                {"NAME": "DRA_06", "TEXT": "Statique"}
-"""
-
 
 class Spell(models.Model):
     class Meta:

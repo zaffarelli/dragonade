@@ -1,0 +1,17 @@
+{% load static %}
+{% load dragonade_filters %}
+
+
+{% for w in a.features.other %}
+    <div class="box label sub">{{w.name}}</div>
+    <div class="box subset">
+        <div class="box label nw">Init</div>
+        <div class="box info nw">{{w.init}}</div>
+        <div class="box label ne">Score</div>
+        <div class="box info ne">{{w.score}}</div>
+        <div class="box label sw">+dom </div>
+        <div class="box info sw">{{w.dom_1}} / {{w.dom_2}}</div>
+        <div class="box label se"></div>
+        <div class="box info se"></div>
+    </div>
+{% endfor %}

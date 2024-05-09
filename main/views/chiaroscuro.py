@@ -2,8 +2,8 @@ from django.http import JsonResponse, Http404, HttpResponse
 from django.template.loader import get_template
 from main.utils.mechanics import is_ajax, zaff_decode
 
-
 ITEMS_PER_LIST = 12
+
 
 def inc_dec(request):
     cando = False
@@ -39,7 +39,6 @@ def inc_dec(request):
     return HttpResponse(status=204)
 
 
-# @csrf_exempt
 def value_push(request):
     cando = False
     if is_ajax(request):
@@ -76,7 +75,6 @@ def value_push(request):
     return HttpResponse(status=204)
 
 
-# @csrf_exempt
 def svg_to_pdf(request, slug):
     import cairosvg
     import os
@@ -85,17 +83,19 @@ def svg_to_pdf(request, slug):
     response = {'status': 'error'}
     if is_ajax(request):
         pdf_name = os.path.join(settings.MEDIA_ROOT, 'pdf/results/' + request.POST["pdf_name"])
-        svg_name = os.path.join(settings.MEDIA_ROOT, 'pdf/results/svg/' + request.POST["svg_name"])
+        svg_name = os.path.join(settings.MEDIA_ROOT, 'pdf/results/' + request.POST["svg_name"])
         svgtxt = request.POST["svg"]
         with open(svg_name, "w") as f:
-            f.write(svgtxt)
+            relinked = svgtxt.replace("static/main/svg/2024/", "refs/")
+            f.write(relinked)
             f.close()
-        cairosvg.svg2pdf(url=svg_name, write_to=pdf_name, scale=21)
+        cairosvg.svg2pdf(url=svg_name, write_to=pdf_name, scale=21, unsafe=True)
         response['status'] = 'ok'
     return JsonResponse(response)
 
+
 def paginator_switch(request):
-    from main.views.generic import stregoneria_page, appartuses_page, autochtons_page, travellers_page
+    from main.views.generic import stregoneria_page, appartuses_page, autochtons_page, travellers_page, combattants_page
     if is_ajax(request):
         params = request.POST["params"]
         if params == "stregoneria":
@@ -106,7 +106,10 @@ def paginator_switch(request):
             return autochtons_page(request)
         elif params == "travellers":
             return travellers_page(request)
+        elif params == "combattants":
+            return combattants_page(request)
     return JsonResponse({"html": 'Bad Paginator!'})
+
 
 def prepare_pagination(context, all_items, page):
     from django.core.paginator import Paginator

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<svg
+        width="25mm"
+        height="30mm"
+        viewBox="0 0 100 120"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg">
+    <g id="incantation" class="icon catagory" transform="translate(50,50)">
+        <g style="fill:#C0C0C0;stroke:black;stroke-width:2pt;stroke-linejoin:round; stroke-linecap:round;">
+            <circle r="35" style="fill:#804040;"/>
+            <circle r="25"/>
+            <circle cx="0" cy="-10" r="3" style="fill:black; stroke-width:0"/>
+            <circle cx="-9" cy="-1" r="3" style="fill:black; stroke-width:0"/>
+            <circle cx="9" cy="-1" r="3" style="fill:black; stroke-width:0"/>
+            <circle cx="-6" cy="10" r="3" style="fill:black; stroke-width:0"/>
+            <circle cx="6" cy="10" r="3" style="fill:black; stroke-width:0"/>
+        </g>
+        <text style="font-weight:600;font-size:11pt;line-height:1.25;font-family:Neucha;fill:#101010;text-anchor:middle;"
+              x="0" y="60">Pentacle
+        </text>
+    </g>
+</svg>

@@ -2,10 +2,10 @@
 <svg
         width="25mm"
         height="30mm"
-        viewBox="-50 -50 100 120"
+        viewBox="0 0 100 120"
         version="1.1"
         xmlns="http://www.w3.org/2000/svg">
-    <g id="sd_4" class="icon sd">
+    <g id="sd_4" class="icon sd"  transform = "translate(50,50)">
         <g style="fill:#502050;stroke:black;stroke-width:2pt;stroke-linejoin:round; stroke-linecap:round;">
             <path style="fill:#505050" d="M -30,-30 l 60,0 00,60 -60,0 z"/>
             <circle r="35"/>

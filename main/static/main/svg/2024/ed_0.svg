@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<svg
+        width="25mm"
+        height="30mm"
+        viewBox="0 0 100 120"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg">
+    <g id="blank" class="icon ed" transform="translate(50,50)">
+        <g style="fill:none;stroke:#808080C0;stroke-width:3pt;stroke-linejoin:round;">
+            <path d="M -40,0 l 40,-40 40,40 -40,40 z"/>
+            <circle r="33"/>
+<!--            <path d="M -30,-30 l 60,0 00,60 -60,0 z"/>-->
+<!--            <path d="M -40,25 l 80,0 -40,-70 z"/>-->
+        </g>
+        <text style="font-weight:600;font-size:11pt;line-height:1.25;font-family:Neucha;fill:#101010;text-anchor:middle;"
+              x="0" y="60">Emanation vide
+        </text>
+
+    </g>
+
+</svg>

@@ -10,85 +10,60 @@ class Modulo {
 
     drawPrint(){
         let me = this;
-        let offsetx = -2;
-        let offsety = 0;
-        me.button1 = me.back.append("g")
-            .on("click", (e,d) => {
-                me.saveSVG();
-            });
-        me.button1.append("rect")
-            .attr("id","print_artefact")
+        let offsetx = 0.5;
+        let offsety = 0.5;
+        let click_1 = (e,d) => {
+            me.saveSVG();
+        }
+        let click_2 = (e,d) => {
+            me.createPDF();
+        }
+        let buttons = [
+            {"id":"btn1","label": "Save as SVG","x":offsetx,"y":offsety,"click_action":click_1},
+            {"id":"btn1","label": "Create PDF","x":offsetx,"y":offsety+1,"click_action":click_2}
+        ]
+        me.all_buttons = me.vis.append("g")
             .attr("class","do_not_print")
-            .attr("x",(me.ox+offsetx+0.5)*me.step)
-            .attr("y",(me.oy+offsety)*me.step)
-            .attr("ry","5pt")
-            .attr("rx","5pt")
-            .attr("width",me.step )
-            .attr("height",me.step/2 )
-            .attr('opacity',1)
-            .style('stroke-width','2pt')
-            .style('stroke','#603060')
-            .style('fill','#F0F0F0')
-
-        ;
-        me.button1.append("text")
-            .attr("id","print_artefact")
-            .attr("class","do_not_print")
-            .attr("x",(me.ox+offsetx+1)*me.step)
-            .attr("y",(me.oy+offsety)*me.step)
-            .attr("dy",me.step/3)
-            .attr('opacity',1)
-            .style('stroke-width','0.25pt')
-            .style('stroke','#606060')
-            .style('fill','#101010')
-            .style("text-anchor","middle")
-            .style("font-size",me.fontSize+"pt")
-            .style("font-family","Wellfleet")
-            .text("Save SVG")
-        ;
-
-
-
-        me.button2 = me.back.append("g")
-            .on("click", (e,d) => {
-                me.createPDF();
-            });
-        me.button2.append("rect")
+            .attr("id","all_buttons")
+            .attr("transform",`translate(${me.ox*me.step},${me.oy*me.step})`)
+        _.forEach(buttons,(v,k) => {
+            let btn = me.all_buttons.append("g")
+                .on("click", v.click_action);
+            btn.append("rect")
                 .attr("id","print_artefact")
-            .attr("class","do_not_print")
-            .attr("x",(me.ox+offsetx+0.5)*me.step)
-            .attr("y",(me.oy+offsety+0.75)*me.step)
-            .attr("ry","5pt")
-            .attr("rx","5pt")
-            .attr("width",me.step )
-            .attr("height",me.step/2 )
-            .attr('opacity',1)
-            .style('stroke-width','2pt')
-            .style('stroke','#603060')
-            .style('fill','#F0F0F0')
-
-        ;
-        me.button2.append("text")
-            .attr("id","print_artefact")
-            .attr("class","do_not_print")
-            .attr("x",(me.ox+offsetx+1)*me.step)
-            .attr("y",(me.oy+offsety+0.75)*me.step)
-            .attr("dy",me.step/3)
-            .attr('opacity',1)
-            .style('stroke-width','0.25pt')
-            .style('stroke','#606060')
-            .style('fill','#101010')
-            .style("text-anchor","middle")
-            .style("font-size",me.fontSize+"pt")
-            .style("font-family","Wellfleet")
-            .text("Save PDF")
-        ;
+                .attr("class","do_not_print")
+                .attr("x",(v.x)*me.step)
+                .attr("y",(v.y)*me.step)
+                .attr("ry","3pt")
+                .attr("rx","3pt")
+                .attr("width",me.step*1.5 )
+                .attr("height",me.step*0.8 )
+                .attr('opacity',1)
+                .style('stroke-width','2pt')
+                .style('stroke','#606060')
+                .style('fill','#C0F0C0')
+            btn.append("text")
+                .attr("id","print_artefact")
+                .attr("class","do_not_print")
+                .attr("x",(v.x+0.75)*me.step)
+                .attr("y",(v.y)*me.step)
+                .attr("dy",me.step/2)
+                .attr('opacity',1)
+                .style('stroke-width','0.25pt')
+                .style('stroke','#606060')
+                .style('fill','#101010')
+                .style("text-anchor","middle")
+                .style("font-size",me.fontSize+"pt")
+                .style("font-family","Wellfleet")
+                .text(v.label)
+            ;
+        });
     }
 
     zoomActivate() {
         let me = this;
         me.zoom = d3.zoom()
-            .scaleExtent([0.25, 1])
+            .scaleExtent([0.5, 2])
             .on('zoom', function (event) {
                 me.svg.attr('transform', event.transform)
             });
@@ -116,7 +91,7 @@ class Modulo {
 
     resizeEvent(){
         let me = this;
-//         console.log("ResizeEvent for "+me.name)
+        console.log("ResizeEvent for "+me.name)
         let width = $(me.parent).width;
         let height = $(me.parent).height;
         //let boundingBox = document.querySelector("#svg_area").getBoundingClientRect();
@@ -177,8 +152,8 @@ class Modulo {
     init() {
         let me = this;
 //         console.log(me.name+" Init");
-        me.debug = true;
-        me.step = 75;
+        me.debug = false;
+        me.step = 50;
         me.basefont = "Wellfleet";
         me.fontSize = me.step / 8;
     }
@@ -269,6 +244,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
         let me = this;
         me.svg.selectAll('.do_not_print').attr('opacity', 0);
         let base_svg = d3.select("#print_area").html();
+
         let flist = '<style>';
 //         console.log(me.config['fontset']);
         for (let f of me.config['fontset']) {
@@ -304,7 +280,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             data: sheet_data,
             dataType: 'json',
             success: function (answer) {
-                console.warning("PDF generated for [" + me.filename + "]...")
+                console.warn("PDF generated for [" + me.filename + "]...")
             },
             error: function (answer) {
                 console.error('Error generating the PDF...');
@@ -313,25 +289,25 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
         });
     }
 
-    drawLongTextBlock(tgt,x,y,label,value,id){
+    drawLongTextBlock(tgt,x,y,label,value,id,edit_field=""){
         let me = this;
         let label_attrs = {
             "width":me.step*2,
-            "height":me.step*0.4,
+            "height":me.step*0.5,
             "rx":me.step*0.1,
             "ry":me.step*0.1
             }
         let value_attrs = {
-            "width":me.step*11,
-            "height":me.step*0.4,
+            "width":me.step*9.25,
+            "height":me.step*0.75,
             "rx":me.step*0.1,
             "ry":me.step*0.1
         }
-//         console.log("(**) ",value)
-        me.drawBlock(tgt,x,y,label_attrs,value_attrs, label,value,id)
+         console.log("(*Edit_Field*) ",edit_field)
+        me.drawBlock(tgt,x,y,label_attrs,value_attrs, label,value,id,edit_field)
     }
 
-    drawSmallNumericBlock(tgt,x,y,label,value,id){
+    drawSmallNumericBlock(tgt,x,y,label,value,id,edit_field=""){
         let me = this;
         let label_attrs = {
             "width":me.step*2,
@@ -345,13 +321,13 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             "rx":me.step*0.1,
             "ry":me.step*0.1,
         }
-        me.drawBlock(tgt,x,y,label_attrs,value_attrs, label,value,id)
+        me.drawBlock(tgt,x,y,label_attrs,value_attrs, label,value,id,edit_field)
     }
 
-    drawBlock(tgt,x,y,label_attrs, value_attrs, label,value,id){
+    drawBlock(tgt,x,y,label_attrs, value_attrs, label,value,id,edit_field=""){
         let me = this;
         let label_styles = {
-            "fill":"#505050",
+            "fill":edit_field=="" ? "#505050": "#502050",
             "stroke":"#808080",
             "stroke-width":"0.5pt"
         }
@@ -364,7 +340,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             "font-family":"Abel",
             "font-size":me.fontSize+"pt",
             "text-anchor":"middle",
-            "fill":"#F0F0F0",
+            "fill": "#F0F0F0",
             "stroke":"#C0C0C0",
             "stroke-width":"0.5pt"
         }
@@ -406,6 +382,26 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
         }
     }
 
+    dragonadeSignature(ox,oy,id,txt){
+        let me = this
+        let now = new Date()
+        me.signature = me.stregoneria.append("g")
+        me.stregoneria.append("g")
+            .attr("id","signature_spot_"+id)
+        d3.select("#signature_spot_"+id).append("image")
+            .attr("class","relinkable")
+            .attr("xlink:href", "static/main/svg/2024/dragonade.svg" )
+            .attr("width",2.3*me.step)
+            .attr("height",.6*me.step)
+            .attr("x",ox*me.step)
+            .attr("y",oy*me.step)
+        me.signature.append("text")
+            .attrs({"x":(ox+2.5)*me.step,"y":(oy+.4)*me.step})
+            .styles({"font-family":"Neucha","text-anchor":"start","font-size":"8pt"})
+            .text(txt+" ["+now.toLocaleDateString()+" "+now.toLocaleTimeString()+"]")
+
+    }
+
 
     wrap(tgt, width) {
         let item = d3.select(tgt),
@@ -440,6 +436,46 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
         return lineNumber
     }
 
+
+
+    superwrap(tgt, width) {
+        let me = this
+        let item = d3.select(tgt),
+            words = item.text().split(/\s+/).reverse();
+        let word,
+            line = [],
+            lineNumber = 0,
+            lineHeight = 1.3, // ems
+            dy = 0,
+            ox = parseFloat(item.attr("x")),
+            oy = parseFloat(item.attr("y")),
+            tspan = item.text(null).append("tspan").attr("x", ox).attr("y", oy).attr("dy", dy + "em");
+        while (word = words.pop()) {
+          line.push(word);
+          tspan.text(line.join(' '));
+          if ((tspan.node().getComputedTextLength() >= width)||(word == "§")) {
+            line.pop();
+            tspan.text(line.join(" "));
+            if (word=="§"){
+                line = []
+            }else{
+                line = [word];
+            }
+            lineNumber += 1;
+            tspan = item.append("tspan")
+                .attr("x", ox)
+                .attr("y", lineNumber * lineHeight + "em")
+                .attr("dy", 0)
+                .text(word+" ");
+          }
+        }
+        let bb = d3.select(tgt).node().getBoundingClientRect()
+        item.append("rect")
+            .attrs({"x":0,"y":0,"width":bb.width,"height":bb.height})
+            .styles({"fill":"#a020202f","stroke":"#a02020","stroke-width":"1pt"})
+        console.log("Superwrap >>",bb)
+        return lineNumber
+    }
 
     paperX(x){
         let me = this;
@@ -476,8 +512,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
         ;
         me.drawPrint();
         if (me.debug == true) {
-            me.xunits = 28;
-            me.yunits = 20;
+            me.xunits = 20;
+            me.yunits = 28;
 
             let verticals = me.back.append('g')
                 .attr('class', 'verticals do_not_print')

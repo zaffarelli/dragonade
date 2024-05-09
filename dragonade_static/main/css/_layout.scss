@@ -1,13 +1,13 @@
 body {
   margin: 0;
   padding: 0;
-  @include body_background;
+
 
   & .universe{
   }
 
   & .world {
-
+    background: $palette1;
     margin-top: 0;
     margin-bottom: 0;
     z-index: 5;
@@ -17,19 +17,11 @@ body {
 
     width: 99vw;
     height: 99vh;
-
     top: 0;
-//    display: flex;
-//    flex-flow: row wrap;
-//    justify-content: space-between;
-//    align-items: stretch; // Laid along cross Axis
-//    align-content: stretch; // Has only meaning when wrap or wrap-reverse (Cross Axis)
-
-    gap: 2px;
-    padding: 5px;
-    border: 1px solid transparent;
+    gap: 0;
+    padding: 3px;
+    border: 3px solid transparent;
     border-radius:10px;
-
     & .spare_right{
       position:fixed;
       top:0;
@@ -37,9 +29,8 @@ body {
       bottom:0;
       left:auto;
       width:30vw;
-
-      border: 1px solid black;
-      background:$bkg_filter2;
+      border: 1px solid transparent;
+      background:$palette1;
       display:flex;
       flex-flow:column nowrap;
       justify-content: flex-start;
@@ -48,8 +39,6 @@ body {
       padding:5px;
       z-index:50;
     }
-
-
     & .corpus {
       position: fixed;
       width:auto;
@@ -60,19 +49,18 @@ body {
       left:0;
       padding:15px;
       border-radius: 15px;
-      background:$bkg_filter1;
+      background:$palette1;
+      color:$palette4;
       border-radius:10px;
       border:1px solid transparent;
       z-index:10;
     }
-
-
   }
 }
 
 #svg_area{
     display:fixed;
-    background:#F0F0F070;
+    background:$palette4;
     left:1vw;
     right:1vw;
     top:1vw;
@@ -163,20 +151,20 @@ body {
 
     & .menu_entry{
         border-radius:2px;
-        border: 2px solid #808080;
+        border: 2px solid $palette1;
         padding:0px;
-        flex: 0 0 auto;
+        flex: 1 1 1.4cm;
         background:#C0C0C020;
         text-align:center;
         & img{
-            height:2.0cm;
+            height:1.4cm;
             width:1.4cm;
         }
         &.off{
-            background:#30303070;
+            background:$palette1;
         }
         &:hover{
-            background:#F0F0F070;
+            background:$palette5;
             cursor:pointer;
         }
     }
@@ -193,28 +181,37 @@ body {
     align-content: space-around;
     gap:1px;
     & .mini, & .minisheet {
-        flex: 1 1 25ex;
+        flex: 1 1 25ch;
         font-size:8pt;
         padding:2px;
         font-family:Wellfleet;
         height:4.0em;
         & .options{
-            color:silver;
+            color:$palette3;
         }
-        border:2px solid #101010;
-        border-radius: 3px;
+        border:2px solid $palette4;
+        border-radius: 5px;
+        order:8;
+        &.autochton{
+            border-color:#109060;
+        }
+        &.traveller{
+            border-color:#106090;
+        }
+
     }
     & .paginator{
         font-family: Wellfleet;
         font-size:8pt;
-        flex:1 1 50ex;
+        flex:1 1 50ch;
         text-align:center;
-        background:$active_box;
+        background:$palette4;
         padding:2px;
-        order:5;
+        order:2;
         height:1.5em;
-        border:2px solid #101010;
+        border:2px solid $palette2;
         border-radius: 3px;
+        color:$palette0;
     }
 
 }
@@ -231,28 +228,6 @@ body {
     }
 }
 
-table.skillstable{
-
-    & td{
-        border:1px solid transparent;
-        vertical-align:top;
-        background:$bkg_filter2;
-    }
-    border:1px solid #909090;
-    cells-padding: 2px;
-    background:transparent;
-    border-radius: 5px;
-    &.autochton{
-     &  td{
-        background: #3030F030;
-     }
-    }
-    &.traveller{
-     &  td{
-        background: #30F03030;
-     }
-    }
-}
 
 
 .container{
@@ -269,37 +244,6 @@ table.skillstable{
     border: 1px solid transparent;
 
 }
-
-/*
-.paginator,.minisheet{
-        display:block;
-        font-family:Fredoka;
-        font-size:$roster_font_height;
-        border:1px solid #707070;
-        border-radius:5px;
-        box-shadow: 0 0 16px #202020;
-        background:$standard_box;
-        padding:5px;
-        flex: 0 1 auto;
-        order:3;
-        &.mark{
-            background:$active_box;
-            box-shadow: 0 0 16px #604060;
-        }
-    }
-
-.paginator{
-    //align-self: center;
-    background:#301010;
-    &.previous{
-        order:1;
-    }
-    &.next{
-        order:2;
-    }
-}
-*/
-
 
 
 .minicard {
@@ -380,22 +324,19 @@ div.showhide.eye{
     margin-top:0;
     margin-bottom:0;
     font-family: Wellfleet;
-    font-size:10pt;
+    font-size:$roster_font_height;
     overflow-y: scroll;
     display:flex;
     flex-flow: column nowrap;
     justify-items: flex-start;
     align-content: flex-start;
     align-items: stretch;
-    & .title_entry{
-        font-size:1.5em;
-        font-family: Griffy;
-        order:1;
-    }
     & .spell_entry{
         order:2;
         display:flex;
         flex-flow: row wrap;
+        font-family: Neucha;
+        font-size:$roster_font_height;
         justify-items: flex-start;
         align-content: flex-start;
         align-items: flex-start;

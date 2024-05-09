@@ -109,16 +109,17 @@ def papers(request):
 
     # Autochtons
     characters = []
-    for t in Autochton.objects.filter(dream__current=True).order_by("group", "name"):
+    for t in Autochton.objects.filter(dream__current=True).order_by("team", "name"):
         t.export_to_json()
         datum = t.data
         datum['text'] = t.name
         datum['type'] = "autochton"
         characters.append(datum)
     page_num = 0
+    per_page = 2
     auto_pack = []
     for index, autochton in enumerate(characters):
-        if index % 3 == 0:
+        if index % per_page == 0:
             if (len(auto_pack) > 0):
                 context['config']['data']["AUTOCHTONS" + str(page_num)] = {"name": "Autochtones " + str(page_num),
                                                                            "code": "AUTOCHTONS" + str(page_num),
@@ -142,7 +143,7 @@ def papers(request):
     page_num = 0
     trav_pack = []
     for index, traveller in enumerate(characters):
-        if index % 3 == 0:
+        if index % per_page == 0:
             if (len(trav_pack) > 0):
                 context['config']['data']["TRAVELLERS" + str(page_num)] = {"name": "Voyageurs" + str(page_num),
                                                                            "code": "TRAVELLERS" + str(page_num),
@@ -187,10 +188,24 @@ def draconis_artes(request):
 # Spells
 def stregoneria(request):
     from main.models.stregoneria import Spell
+    from main.models.autochtons import Autochton
+    from main.models.travellers import Traveller
     context = prepare_context(request)
     context['title'] = "Sortilèges & Effets Draconiques"
     context['config']['modules'].append('stregoneria')
     context['config']['menu_entries'] = MENU_ENTRIES
+    haut_revants = []
+    for t in Traveller.objects.all():
+        if len(t.spells)>0:
+            datum = t.export_to_json()
+            datum["spells_as_list"] = t.spells.split(" ")
+            haut_revants.append(datum)
+    for a in Autochton.objects.all():
+        if len(a.spells)>0:
+            datum = a.export_to_json()
+            datum["spells_as_list"] = a.spells.split(" ")
+            haut_revants.append(datum)
+    context['config']['haut_revants'] = haut_revants
     stregoneria = []
     for i in Spell.objects.order_by("category", "path", "name"):
         stregoneria.append(i.export_to_json())
@@ -318,5 +333,55 @@ def travellers_page(request):
     page = int(request.POST["page"])
     context = prepare_pagination(request, context, characters, page)
     template = get_template("main/lists/travellers_list.html")
+    html = template.render(context, request)
+    return JsonResponse({"html": html})
+
+
+def combattants(request):
+    from main.models.travellers import Traveller
+    from main.models.autochtons import Autochton
+    context = prepare_context(request)
+    characters = []
+    for x in Traveller.objects.filter(is_battle_ready=True).order_by("name"):
+        datum = x.toJson()
+        datum['text'] = x.name
+        datum['code'] = x.rid
+        datum['type'] = "traveller"
+        characters.append(datum)
+    for x in Autochton.objects.filter(is_battle_ready=True).order_by("name"):
+        datum = x.toJson()
+        datum['text'] = x.name
+        datum['code'] = x.rid
+        datum['type'] = "autochton"
+        characters.append(datum)
+    page = 1
+    for c in characters:
+        print(c["rid"])
+    context['characters'] = characters
+    context = prepare_pagination(context, characters, page)
+    context['title'] = "Simulateur de Mêlée"
+    return render(request, 'main/pages/combattants.html', context=context)
+
+def combattants_page(request):
+    from main.models.travellers import Traveller
+    from main.models.autochtons import Autochton
+    context = prepare_context(request)
+    characters = []
+    for x in Traveller.objects.filter(is_battle_ready=True).order_by("name"):
+        datum = x.toJson()
+        datum['text'] = x.name
+        datum['code'] = x.rid
+        datum['type'] = "traveller"
+        characters.append(datum)
+    for x in Autochton.objects.filter(is_battle_ready=True).order_by("name"):
+        datum = x.toJson()
+        datum['text'] = x.name
+        datum['code'] = x.rid
+        datum['type'] = "autochton"
+        characters.append(datum)
+    context['title'] = "Simulateur de Mêlée"
+    page = int(request.POST["page"])
+    context = prepare_pagination(context, characters, page)
+    template = get_template("main/lists/combattants_list.html")
     html = template.render(context, request)
     return JsonResponse({"html": html})

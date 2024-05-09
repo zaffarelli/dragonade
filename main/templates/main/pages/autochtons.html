@@ -14,7 +14,7 @@
 
 {% block main %}
 <div class="container">
-    {% for x in elements %}
+    {% for x in config.data %}
     <div class="roster hidden" id="roster_{{x.id}}">
         {% include "main/objects/roster.html" with a=x%}
     </div>

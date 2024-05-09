@@ -1,8 +1,14 @@
 {% load static %}
 {% load dragonade_filters %}
 
-
+{% if a %}
 <div class="mini {{addclass}}" id="mini__{{a.id}}" code="{{a.code}}" title="{{a.code}}">
     {{a.name}}
 </div>
+{% endif %}
 
+{% if x %}
+<div class="mini {{addclass}}" id="mini__{{x.rid}}" code="{{x.rid}}" title="{{x.name}}">
+    {{x.name|safe}}<br/><span class="options">{{x.category|acro|safe}} {{x.path|acro|safe}}</span>
+</div>
+{% endif %}

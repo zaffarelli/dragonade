@@ -10,9 +10,10 @@ class Stregoneria extends Modulo {
         let me = this;
         me.version = "0.8";
         me.supertitle = "";
+        me.fontSize = me.step / 6;
         // Drawing Size
         me.height = me.step * 21.0
-        me.width = me.step * 29.7
+        me.width = me.step * 29.7/2
         me.ox = 0
         me.oy = 0
         // View Size
@@ -36,6 +37,8 @@ class Stregoneria extends Modulo {
     drawStregoneria(){
         let me = this;
         let s = {}
+        me.klass = "Stregoneria"
+        me.rid = s.rid
         _.forEach(me.config.data, (v,k) => {
             if (v.rid == me.code){
                 s = v
@@ -48,62 +51,51 @@ class Stregoneria extends Modulo {
             .attr("class","stregoneria")
             .attr("id","stregoneria_"+s.rid)
             .attr("transform","translate("+ox*me.step+","+oy*me.step+")")
-//         me.stregoneria.append('rect')
-//             .attr("class","full_box")
-//             .attrs({"x":0.5, "y":1.5*me.step,"rx":me.step*0.5,"ry":me.step*0.5,"width":me.step*14,"height":me.step*20})
-//             .style("fill", "none")
-//             .style("stroke", "#202020")
-//             .style("stroke-width", "3pt")
-
         me.stregoneria.append('rect')
             .attr("class","rect_top")
-            .attrs({"x":0, "y":me.step*0,"rx":me.step*0.05,"ry":me.step*0.05,"width":me.step*14,"height":me.step*2.75})
-            .style("fill", "none")
+            .attrs({"x":0*me.step, "y":me.step*0,"rx":me.step*0.05,"ry":me.step*0.05,"width":me.step*(29.7/2-1.75),"height":me.step*5.25})
+            .style("fill", "#F0F0F0")
             .style("stroke", "#808080")
             .style("stroke-width", "3pt")
         me.stregoneria.append('rect')
             .attr("class","rect_bottom")
             .attr("id","rectbot")
-            .attrs({"x":0, "y":me.step*3,"rx":me.step*0.05,"ry":me.step*0.05,"width":me.step*14,"height":me.step*2.75})
-            .style("fill", "none")
+            .attrs({"x":0, "y":me.step*5.5,"rx":me.step*0.05,"ry":me.step*0.05,"width":(me.step*(29.7/2-1.75)),"height":me.step*13.25})
+            .style("fill", "#F0F0F0")
             .style("stroke", "#808080")
             .style("stroke-width", "3pt")
         me.stregoneria.append('text')
             .attrs({"x":me.step*0.25, "y":(-0.25)*me.step})
             .styles({"font-family":"Are You Serious", "font-size":me.fontSize*4+"pt", "text-anchor":"start"})
             .text(s.name)
-        me.stregoneria.append('text')
-            .attrs({"x":me.step*13.75, "y":-0.25*me.step})
-            .styles({"font-family":"Wellfleet", "font-size":me.fontSize*4+"pt", "text-anchor":"end"})
-            .text(s.puissance)
 
-        let lh = 0.425*2/3*me.step
-        let stack_y = 7
+        let lh = 0.5*2/3*me.step
+        let stack_y = 12.5
         let text_metrics = [
-            {"x":0.25, "y":0.5, "label":"Catégorie", "value":s.category+" (Voie: "+s.path+")","id":"des1"},
-            {"x":0.25, "y":1.0, "label":"Jet", "value":"Rêve + "+s.roll,"id":"des2"},
-            {"x":0.25, "y":stack_y, "label":"Description", "value": s.description,"id":"des4" },
-            {"x":0.25, "y":stack_y, "label":"Composantes", "value": s.composantes,"id":"des5" },
-            {"x":0.25, "y":stack_y, "label":"Autres noms", "value": s.alternative_names,"id":"des6" },
+            {"x":0.25, "y":0.5, "label":"Catégorie", "value":s.category+" (Voie: "+s.path+")","id":"des1", edit_field: ""},
+            {"x":0.25, "y":1.5, "label":"Jet", "value":"Rêve + "+s.roll,"id":"des2", edit_field: "" },
+            {"x":0.25, "y":stack_y, "label":"Description", "value": s.description,"id":"des4", edit_field: "description" },
+            {"x":0.25, "y":stack_y, "label":"Notes", "value": s.composantes,"id":"des5", edit_field: "composantes" },
+            {"x":0.25, "y":stack_y, "label":"Autres noms", "value": s.alternative_names,"id":"des6", edit_field: "alternative_names" },
         ]
         let delx = 3.25
         let metrics = [
-            {"x":(delx * 0) + 0.25, "y":1.5, "label":"Difficulté", "value":s.diff,"id":s.rid+"met1"},
-            {"x":(delx * 1) + 0.25, "y":1.5, "label":"Points de Rêve", "value":s.dps,"id":s.rid+"met2"},
-            {"x":(delx * 2) + 0.25, "y":1.5, "label":"Résistance", "value":s.resistance,"id":s.rid+"met3"},
-            {"x":(delx * 3) + 0.25, "y":1.5, "label":"TI", "value":s.ti,"id":s.rid+"met4"},
-            {"x":(delx * 0) + 0.25, "y":2.0, "label":"Portée", "value":s.range,"id":s.rid+"met5"},
-            {"x":(delx * 1) + 0.25, "y":2.0, "label":"Durée", "value":s.duration,"id":s.rid+"met6"},
-            {"x":(delx * 2) + 0.25, "y":2.0, "label":"Coût en Songe", "value":s.songe,"id":s.rid+"met7"},
-            {"x":(delx * 3) + 0.25, "y":2.0, "label":"", "value":"","id":s.rid+"met8"},
+            {"x":(delx * 0) + 0.25, "y":2.5, "label":"Difficulté", "value":s.diff,"id":s.rid+"met1"},
+            {"x":(delx * 1) + 0.25, "y":2.5, "label":"Points de Rêve", "value":s.dps,"id":s.rid+"met2"},
+            {"x":(delx * 2) + 0.25, "y":2.5, "label":"Résistance", "value":s.resistance,"id":s.rid+"met3"},
+            {"x":(delx * 3) + 0.25, "y":2.5, "label":"TI", "value":s.ti,"id":s.rid+"met4"},
+            {"x":(delx * 0) + 0.25, "y":3, "label":"Portée", "value":s.range,"id":s.rid+"met5"},
+            {"x":(delx * 1) + 0.25, "y":3, "label":"Durée", "value":s.duration,"id":s.rid+"met6"},
+            {"x":(delx * 2) + 0.25, "y":3, "label":"Coût en Songe", "value":s.songe,"id":s.rid+"met7"},
+            {"x":(delx * 3) + 0.25, "y":3, "label":"", "value":"","id":s.rid+"met8"},
         ]
         _.forEach(text_metrics, (e) => {
-            me.drawLongTextBlock(me.stregoneria,e.x,e.y,e.label,e.value,e.id)
+            me.drawLongTextBlock(me.stregoneria,e.x,e.y,e.label,e.value,e.id,e.edit_field)
         });
 
-        let cnt4 = me.wrap("#des4",10.5*me.step)+1;
-        let cnt5 = me.wrap("#des5",10.5*me.step)+1;
-        let cnt6 = me.wrap("#des6",10.5*me.step)+1;
+        let cnt4 = me.superwrap("#des4",9*me.step)+1;
+        let cnt5 = me.superwrap("#des5",9*me.step)+1;
+        let cnt6 = me.superwrap("#des6",9*me.step)+1;
         d3.select("#des4_rect").attr("height",lh*cnt4)
         d3.select("#des5_rect").attr("height",lh*cnt5)
         d3.select("#des6_rect").attr("height",lh*cnt6)
@@ -117,71 +109,61 @@ class Stregoneria extends Modulo {
             me.drawSmallNumericBlock(me.stregoneria,e.x,e.y,e.label,e.value)
         });
         // Emplacements des charges
-        _.forEach(["tm","sd","cd","ed","ld"], (e,i) => {
-//             console.log(e,i)
+        let basex = 12
+        let basey = 6.25
+        let chup = 2.5
+        _.forEach([
+            {"code":"tm","name":"terre","charge":"ground_charge"},
+            {"code":"sd","name":"signe","charge":"hour_charge"},
+            {"code":"cd","name":"consistance","charge":"consistency_charge"},
+            {"code":"ed","name":"emanation","charge":"emanation_charge"},
+            {"code":"ld","name":"élément","charge":"elemental_charge"},
+            ], (e,i) => {
             me.spot_g = me.stregoneria.append("g")
-                .attr("id",e+"_spot_"+s.rid)
+                .attr("id",e.code+"_spot_"+s.rid)
             me.spot_g.append("circle")
-                .attrs({"cx":((i+1)*2.25+1)*me.step,"cy":2.75*me.step,"r":0.5*me.step})
-                .styles({"fill":"#F0F0F0","stroke-width":"2pt","stroke":"#808080"})
+                .attrs({"cx":(basex+1)*me.step,"cy":(basey+0.9+chup*i)*me.step,"r":1.2*me.step})
+                .styles({"fill":"#F0F0F0","stroke-width":"3pt","stroke":"#808080","stroke-dasharray":""})
             me.spot_g.append("text")
-                .attrs({"x":((i+1)*2.25+1)*me.step-1*me.step,"y":2.5*me.step})
-                .styles({"fill":"#101010","stroke":"#808080", "stroke-width":"0.5pt", "text-anchor":"start", "font-family":"4pt"})
-                .text(e.toUpperCase())
+                .attrs({"x":(basex+1)*me.step,"y":(basey+0.1+chup*i)*me.step})
+                .styles({"fill":"#101010","stroke":"#808080", "stroke-width":"0.5pt", "text-anchor":"middle", "font-family":"Neucha", "font-size":"8pt"})
+                .text(e.name.toUpperCase())
+            if (s[e.charge]){
+                d3.select("#"+e.code+"_spot_"+s.rid).append("image")
+                    .attr("class","relinkable")
+                    .attr("xlink:href", "static/main/svg/2024/"+e.code+"_"+s[e.charge]+".svg" )
+                    .attr("width",me.step*2)
+                    .attr("height",me.step*2)
+                    .attr("x",basex*me.step)
+                    .attr("y",(basey+chup*i)*me.step )
+            }
         });
-        let chup = 2.75
-        if (s.ground_charge){
-            d3.select("#tm_spot_"+s.rid).append("image")
-                .attr("xlink:href", "static/main/svg/2024/tm_"+s.ground_charge+".svg" )
-                .attr("width",me.step)
-                .attr("height",me.step)
-                .attr("x",(chup)*me.step )
-                .attr("y",chup*me.step - me.step/2)
-        }
-        if (s.hour_charge){
-            d3.select("#sd_spot_"+s.rid).append("image")
-                .attr("xlink:href", "static/main/svg/2024/sd_"+s.hour_charge+".svg" )
-                .attr("width",me.step)
-                .attr("height",me.step)
-                .attr("x",(chup+2.25)*me.step )
-                .attr("y",chup*me.step - me.step/2)
-        }
-        if (s.consistency_charge){
-            d3.select("#cd_spot_"+s.rid).append("image")
-                .attr("xlink:href", "static/main/svg/2024/cd_"+s.consistency_charge+".svg" )
-                .attr("width",me.step)
-                .attr("height",me.step)
-                .attr("x",(chup+4.5)*me.step )
-                .attr("y",chup*me.step - me.step/2)
-        }
-        if (s.emanation_charge){
-            d3.select("#ed_spot_"+s.rid).append("image")
-                .attr("xlink:href", "static/main/svg/2024/ed_"+s.emanation_charge+".svg" )
-                .attr("width",me.step)
-                .attr("height",me.step)
-                .attr("x",(chup+6.75)*me.step )
-                .attr("y",chup*me.step - me.step/2)
-        }
-        if (s.elemental_charge){
-            d3.select("#ld_spot_"+s.rid).append("image")
-                .attr("xlink:href", "static/main/svg/2024/ld_"+s.elemental_charge+".svg" )
-                .attr("width",me.step)
-                .attr("height",me.step)
-                .attr("x",(chup+9)*me.step )
-                .attr("y",chup*me.step - me.step/2)
-        }
-        let currentdate = new Date();
-        let dt = "" + currentdate.getDate() + "/"
-                + (currentdate.getMonth()+1)  + "/"
-                + currentdate.getFullYear() + " @ "
-                + currentdate.getHours() + ":"
-                + currentdate.getMinutes() + ":"
-                + currentdate.getSeconds();
-        me.stregoneria.append("text")
-            .attrs({"x":18*me.step,"y":19*me.step})
-            .styles({"font-family":"Neucha","text-anchor":"end","font-size":"12pt"})
-            .text("Dragonade - Aide de jeu - Sortilège - "+s.rid+" - Edition du "+dt)
+        // Catagorie
+        me.spot_g = me.stregoneria.append("g")
+                .attr("id","category_spot_"+s.rid)
+        me.spot_g.append("circle")
+                .attrs({"cx":(basex+1)*me.step,"cy":(basey+0.9+chup*(-2.5))*me.step,"r":1.15*me.step})
+                .styles({"fill":"#F0F0F0","stroke-width":"3pt","stroke-dasharray":"","stroke":"#808080"})
+        d3.select("#category_spot_"+s.rid).append("image")
+            .attr("class","relinkable")
+            .attr("xlink:href", "static/main/svg/2024/"+s.category.toLowerCase()+".svg" )
+            .attr("width",me.step*2)
+            .attr("height",me.step*2)
+            .attr("x",(basex)*me.step)
+            .attr("y",(basey+chup*(-2.5))*me.step )
+        // Puissance
+        me.spot_g.append("circle")
+                .attrs({"cx":(basex+1)*me.step,"cy":(basey+0.9+chup*(-3.0))*me.step,"r":0.5*me.step})
+                .styles({"fill":"#F0F0F0","stroke-width":"3pt","stroke-dasharray":"","stroke":"#808080"})
+        me.stregoneria.append('text')
+            .attrs({"x":(basex+1)*me.step,"y":(basey+0.9+chup*(-2.9))*me.step})
+            .styles({"font-family":"Wellfleet", "font-size":me.fontSize*3+"pt", "text-anchor":"middle"})
+            .text(s.puissance)
+
+        // Signature
+        me.dragonadeSignature(.25,18.75,s.rid,"Fiche de Sortilège: "+s.name)
     }
+
 
     perform(code){
         super.perform();
