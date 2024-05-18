@@ -385,8 +385,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
     dragonadeSignature(ox,oy,id,txt){
         let me = this
         let now = new Date()
-        me.signature = me.stregoneria.append("g")
-        me.stregoneria.append("g")
+        me.signature = me.back.append("g")
+        me.back.append("g")
             .attr("id","signature_spot_"+id)
         d3.select("#signature_spot_"+id).append("image")
             .attr("class","relinkable")

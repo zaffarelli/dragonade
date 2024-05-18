@@ -289,7 +289,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
         });
     }
 
-    drawLongTextBlock(tgt,x,y,label,value,id){
+    drawLongTextBlock(tgt,x,y,label,value,id,edit_field=""){
         let me = this;
         let label_attrs = {
             "width":me.step*2,
@@ -303,11 +303,11 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             "rx":me.step*0.1,
             "ry":me.step*0.1
         }
-//         console.log("(**) ",value)
-        me.drawBlock(tgt,x,y,label_attrs,value_attrs, label,value,id)
+         console.log("(*Edit_Field*) ",edit_field)
+        me.drawBlock(tgt,x,y,label_attrs,value_attrs, label,value,id,edit_field)
     }
 
-    drawSmallNumericBlock(tgt,x,y,label,value,id){
+    drawSmallNumericBlock(tgt,x,y,label,value,id,edit_field=""){
         let me = this;
         let label_attrs = {
             "width":me.step*2,
@@ -321,13 +321,13 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             "rx":me.step*0.1,
             "ry":me.step*0.1,
         }
-        me.drawBlock(tgt,x,y,label_attrs,value_attrs, label,value,id)
+        me.drawBlock(tgt,x,y,label_attrs,value_attrs, label,value,id,edit_field)
     }
 
-    drawBlock(tgt,x,y,label_attrs, value_attrs, label,value,id){
+    drawBlock(tgt,x,y,label_attrs, value_attrs, label,value,id,edit_field=""){
         let me = this;
         let label_styles = {
-            "fill":"#505050",
+            "fill":edit_field=="" ? "#505050": "#502050",
             "stroke":"#808080",
             "stroke-width":"0.5pt"
         }
@@ -340,7 +340,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             "font-family":"Abel",
             "font-size":me.fontSize+"pt",
             "text-anchor":"middle",
-            "fill":"#F0F0F0",
+            "fill": "#F0F0F0",
             "stroke":"#C0C0C0",
             "stroke-width":"0.5pt"
         }

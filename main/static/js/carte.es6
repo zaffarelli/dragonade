@@ -923,6 +923,7 @@ class Carte extends Modulo {
         me.localstepy = me.localstep;
         me.localfontSize = "8"
 
+        me.rids = []
 
         let rosters = me.back.append("g")
             .attr('class', 'screen_rosters')
@@ -942,6 +943,7 @@ class Carte extends Modulo {
                 me.armors_lists[d["rid"]] = d["features"]["armors"];
                 me.spells_lists[d["rid"]] = d["features"]["spells"];
                 me.shortcuts_lists[d["rid"]] = d["features"]["shortcuts"];
+                me.rids.push(d.rid)
                 return "screen_roster_"+i
             });
         roster_in.append('rect')
@@ -1087,10 +1089,18 @@ class Carte extends Modulo {
         me.append_value_to(roster_in,xo+0.5,yo+1,"VIE",{"rw":rw,"label":true, framed})
         me.append_value_to(roster_in,xo+0.5,yo+1.25,"misc.VIE",{"rw":rw,"label":false})
 
+
+        roster_in.append('g')
+            .attr("id",(d) => "pdv_"+d.rid);
+        roster_in.append('g')
+            .attr("id",(d) => "pdf_"+d.rid);
+
         xo = 0.0;
         yo += 1.0;
-        me.append_fatigue_points_to(roster_in,xo+0.5,yo+1.25,"misc.FAT",{"rw":rw,"label":false})
-        me.append_life_points_to(roster_in,xo+2.5+0.25,yo+1.25,"misc.VIE",{"rw":rw,"label":false})
+        _.forEach(me.rids, (rid) => {
+            me.append_fatigue_points_to(roster_in,xo+0.5,yo+1.25,"misc.FAT",{"rw":rw,"label":false},rid)
+            me.append_life_points_to(roster_in,xo+2.5+0.25,yo+1.25,"misc.VIE",{"rw":rw,"label":false},rid)
+        });
 
         xo = 5;
         yo = 0;
@@ -1178,6 +1188,7 @@ class Carte extends Modulo {
 
 
         let roster_out = rosters.exit().remove();
+        me.dragonadeSignature(.25,29.0,"xxx","Voyageurs & Autochtones")
     }
 
 
@@ -1236,7 +1247,7 @@ class Carte extends Modulo {
 
     }
 
-    append_fatigue_points_to(tgt,x,y,str,options){
+    append_fatigue_points_to(tgt,x,y,str,options,rid){
         let me = this;
         let ta = "middle"
         if ("ta" in options){
@@ -1250,7 +1261,8 @@ class Carte extends Modulo {
         let struct = {}
         let val = 0
 
-        tgt.append('g')
+        let tx = tgt.select("#pdf_"+rid)
+        tx.append('g')
             .attr("class", (d)=>{
                 let struct = d;
                 let answer = d[str]
@@ -1266,7 +1278,7 @@ class Carte extends Modulo {
             })
        let ly = -0.25
        let lx = -0.25
-       tgt.append('text')
+       tx.append('text')
             .attr('x', (d,i) => me.paperX(x+lx) )
             .attr('y', (d,i) => me.paperY(y+ly) )
             .style("fill","#303030")
@@ -1283,7 +1295,7 @@ class Carte extends Modulo {
             let amount = 2 + Math.ceil(val/2)
             lx = -0.25
             while (amount>0){
-                tgt.append('circle')
+                tx.append('circle')
                     .attr('cx', (d,i) => me.paperX(x+lx+0.1) )
                     .attr('cy', (d,i) => me.paperY(y+ly+0.1) )
                     .attr("r",me.step*0.1)
@@ -1299,7 +1311,7 @@ class Carte extends Modulo {
         }
     }
 
-    append_life_points_to(tgt,x,y,str,options){
+    append_life_points_to(tgt,x,y,str,options,rid){
         let me = this;
         let ta = "middle"
         if ("ta" in options){
@@ -1312,8 +1324,8 @@ class Carte extends Modulo {
 
         let struct = {}
         let val = 0
-
-        tgt.append('g')
+        let tx = tgt.select("#pdv_"+rid)
+        tx.append('g')
             .attr("class", (d)=>{
                 let struct = d;
                 let answer = d[str]
@@ -1329,7 +1341,7 @@ class Carte extends Modulo {
             })
        let ly = -0.25
        let lx = -0.25
-       tgt.append('text')
+       tx.append('text')
             .attr('x', (d,i) => me.paperX(x+lx) )
             .attr('y', (d,i) => me.paperY(y+ly) )
             .style("fill","#303030")
@@ -1348,7 +1360,7 @@ class Carte extends Modulo {
             console.log(baseval,val)
             ly = Math.floor(val / 5)*0.25
             lx = (val % 5)*0.25
-            tgt.append('rect')
+            tx.append('rect')
                 .attr('x', (d,i) => me.paperX(x+lx-0.25) )
                 .attr('y', (d,i) => me.paperY(y+ly) )
                 .attr("width",me.step*0.2)
@@ -1523,6 +1535,7 @@ class Carte extends Modulo {
 
             me.drawTable(me.config.data["SECONDARIES_TABLE"],{"x":2, "y":34});
             me.drawTable(me.config.data["MISC_TABLE"],{"x":2, "y":41});
+            me.dragonadeSignature(.25,29.0,"xxx","Ecran Volet Igit add")
         }else if (me.code == "SCREEN2"){
             me.supertitle = "Ecran n°2"
             me.drawBack();
@@ -1548,6 +1561,7 @@ class Carte extends Modulo {
             me.drawTable(me.config.data["GEAR_TABLE_SEL"],{"x":27, "y":43, "smallrid":true});
             me.drawTable(me.config.data["GEAR_TABLE_AMU"],{"x":27, "y":55, "smallrid":true});
             me.drawTable(me.config.data["GEAR_TABLE_MEL"],{"x":27, "y":67, "smallrid":true});
+            me.dragonadeSignature(.25,29.0,"xxx","Ecran Volet II")
         }else if (me.code == "SCREEN3"){
             me.supertitle = "Ecran n°3"
             me.drawBack();
