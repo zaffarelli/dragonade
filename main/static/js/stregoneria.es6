@@ -8,7 +8,7 @@ class Stregoneria extends Modulo {
     init() {
         super.init();
         let me = this;
-        me.version = "0.8";
+        me.version = "0.9";
         me.supertitle = "";
         me.fontSize = me.step / 6;
         // Drawing Size
@@ -81,13 +81,13 @@ class Stregoneria extends Modulo {
         let delx = 3.25
         let metrics = [
             {"x":(delx * 0) + 0.25, "y":2.5, "label":"Difficulté", "value":s.diff,"id":s.rid+"met1"},
-            {"x":(delx * 1) + 0.25, "y":2.5, "label":"Points de Rêve", "value":s.dps,"id":s.rid+"met2"},
-            {"x":(delx * 2) + 0.25, "y":2.5, "label":"Résistance", "value":s.resistance,"id":s.rid+"met3"},
-            {"x":(delx * 3) + 0.25, "y":2.5, "label":"TI", "value":s.ti,"id":s.rid+"met4"},
-            {"x":(delx * 0) + 0.25, "y":3, "label":"Portée", "value":s.range,"id":s.rid+"met5"},
-            {"x":(delx * 1) + 0.25, "y":3, "label":"Durée", "value":s.duration,"id":s.rid+"met6"},
-            {"x":(delx * 2) + 0.25, "y":3, "label":"Coût en Songe", "value":s.songe,"id":s.rid+"met7"},
-            {"x":(delx * 3) + 0.25, "y":3, "label":"", "value":"","id":s.rid+"met8"},
+            {"x":(delx * 0) + 0.25, "y":3.0, "label":"Points de Rêve", "value":s.dps,"id":s.rid+"met2"},
+            {"x":(delx * 1) + 0.25, "y":2.5, "label":"Résistance", "value":s.resistance,"id":s.rid+"met3"},
+            {"x":(delx * 1) + 0.25, "y":3.0, "label":"TI", "value":s.ti,"id":s.rid+"met4"},
+            {"x":(delx * 2) + 0.25, "y":2.5, "label":"Portée", "value":s.range,"id":s.rid+"met5"},
+            {"x":(delx * 2) + 0.25, "y":3.0, "label":"Coût en Songe", "value":s.songe,"id":s.rid+"met7"},
+            {"x":(delx * 3) + 0.25, "y":2.5, "label":"Durée", "value":s.duration,"id":s.rid+"met6"},
+            {"x":(delx * 3) + 0.25, "y":3.0, "label":"", "value":"","id":s.rid+"met8"},
         ]
         _.forEach(text_metrics, (e) => {
             me.drawLongTextBlock(me.stregoneria,e.x,e.y,e.label,e.value,e.id,e.edit_field)
@@ -161,7 +161,7 @@ class Stregoneria extends Modulo {
             .text(s.puissance)
 
         // Signature
-        me.dragonadeSignature(.25,18.75,s.rid,"Fiche de Sortilège: "+s.name)
+        me.dragonadeSignature(.75,19.5,s.rid,"Fiche de Sortilège: "+s.name)
     }
 
 

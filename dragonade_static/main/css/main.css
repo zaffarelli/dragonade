@@ -207,6 +207,13 @@ $panel_week_background: darken($panel_background, 5%);
         display: grid;
         grid-template-columns: subgrid;
         grid-template-rows: subgrid; }
+    .roster .sheet.roster, .roster .spell.roster {
+      color: white;
+      background: black;
+      font-family: mono;
+      font-size: 0.93em;
+      max-height: 24em;
+      overflow: auto; }
   .roster .box.info.editable .btn_edit.value {
     border: 2px solid rgba(234, 239, 241, 0.498039);
     border-radius: 3px;

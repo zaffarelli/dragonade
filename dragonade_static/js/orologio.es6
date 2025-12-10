@@ -1,3 +1,5 @@
+const angular_offset = 4;
+
 class Orologio extends Modulo {
     constructor(co, config) {
         super(co,config)
@@ -16,7 +18,7 @@ class Orologio extends Modulo {
         me.height = 2000;
         me.w = parseInt($(me.parent).css('width'));
         me.h = parseInt($(me.parent).css('height'));
-        console.log("Width", me.w," Height",me.h)
+//         console.log("Width", me.w," Height",me.h)
         me.step = me.width / 34;
         me.fontsize = me.step / 4;
         me.light = [0, 0, 0, 0, 0, 0, 0.40, 0.70, 0.90, 1, 0.90,0.70,0.4];
@@ -57,7 +59,7 @@ class Orologio extends Modulo {
 
     drawBack() {
         let me = this;
-        console.log("Orologio DrawBack")
+//         console.log("Orologio DrawBack")
         me.back = me.svg.append('g');
         me.drawCross(0,0)
         me.circleback = me.back.append('g')
@@ -160,17 +162,17 @@ class Orologio extends Modulo {
 
     drawPerHour() {
         let me = this;
-        console.log("Orologio DrawPerHour")
+//         console.log("Orologio DrawPerHour")
         me.ticks = me.back.append('g')
             .selectAll('.ticks')
             //.data([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
             .data(me.config["menu_entries"])
         ;
-        const angular_offset = 2;
+
         me.ticks_g = me.ticks.enter().append("g")
             .attr("class", "ticks")
             .attr("id", (d) => "tick_"+d.IDX)
-            .attr("transform", d => 'rotate(' + (d.IDX - (angular_offset+1)) * 30 + ')')
+            .attr("transform", d => 'rotate(' + (d.IDX - (angular_offset)) * 30 + ')')
         ;
 
         me.ticks_g.append("line")
@@ -308,11 +310,11 @@ class Orologio extends Modulo {
             .attr("x", -me.fontsize * 1.5)
             .attr("y", -me.fontsize * 1.5)
             .attr("transform", d => {
-                let adeg = (d.IDX - (angular_offset+1) ) * 30;
+                let adeg = (d.IDX - (angular_offset) ) * 30;
                 let arad = (adeg / 360) * 2 * Math.PI;
                 let a = Math.cos(arad) * (me.step * 6.75 + me.fontsize * 1.5);
                 let b = Math.sin(arad) * (me.step * 6.75 + me.fontsize * 1.5);
-                let str = 'rotate(' + -(d.IDX - ((angular_offset)+1)) * 30 + ') translate(' + a + ',' + b + ')'
+                let str = 'rotate(' + -(d.IDX - ((angular_offset))) * 30 + ') translate(' + a + ',' + b + ')'
                 return (str)
             })
         ;
@@ -334,7 +336,7 @@ class Orologio extends Modulo {
                     let arad = (adeg / 360) * 2 * Math.PI;
                     let a = Math.cos(arad) * me.step * 3.75;
                     let b = Math.sin(arad) * me.step * 3.75;
-                    let str = 'rotate(' + -(d.IDX - (angular_offset+1)) * 30 + ') translate(' + a + ',' + b + ')'
+                    let str = 'rotate(' + -(d.IDX - (angular_offset)) * 30 + ') translate(' + a + ',' + b + ')'
                     return (str)
                 }
             )
@@ -354,10 +356,10 @@ class Orologio extends Modulo {
             .style('cursor', 'pointer')
             .on('click', (e, d) => {
                 me.softLog("Hour override [" + me.hourOverride + "]");
-                if (me.hourOverride == (d.IDX + angular_offset) * 2) {
+                if (me.hourOverride == (d.IDX+1 ) * 2) {
                     me.hourOverride = 666;
                 } else {
-                    me.hourOverride = (d.IDX + angular_offset) * 2;
+                    me.hourOverride = (d.IDX+1 ) * 2;
                 }
                 clearInterval(me.intervalSlow);
                 me.intervalSlow = setInterval(function () {
@@ -562,7 +564,7 @@ class Orologio extends Modulo {
 
     drawAll() {
         let me = this;
-        console.log("Orologio DrawAll")
+//         console.log("Orologio DrawAll")
         me.drawBack();
         me.drawPerHour();
         me.drawPerRealHour();
@@ -598,23 +600,25 @@ class Orologio extends Modulo {
     updateQuick() {
         let me = this;
         let d = new Date();
-        let hours = d.getHours() - 3;
+        let hours = (d.getHours()-angular_offset-1) % 24;
         let minutes = d.getMinutes();
         let seconds = d.getSeconds();
-        let hoursAngle = 360 * (hours / 60)
+//         console.log(hours, minutes, seconds)
+        let hoursAngle = 360/24 * hours
         let minutesAngle = 360 * (minutes / 60)
         let secondsAngle = 360 * (seconds / 60)
         d3.select("#real_hours_arm").attr('transform', "rotate(" + hoursAngle + ")")
         d3.select("#minutes_arm").attr('transform', "rotate(" + minutesAngle + ")")
         d3.select("#seconds_arm").attr('transform', "rotate(" + secondsAngle + ")")
         d3.select("#ZeHour").text(d => {
-            if (me.hourOverride / 2 - 2 != 331) {
-                return me.hourOverride / 2 - 2;
+//             console.log("HourOveride",me.hourOverride)
+            if (me.hourOverride != 666 ) {
+                return me.hourOverride /2 - 1 ;
             } else {
                 return "-"
             }
         });
-        if (me.hourOverride / 2 - 2 == 331) {
+        if (me.hourOverride == 666) {
             d3.select("#hours_main").style('fill', '#202020');
             d3.select("#hours_opposition").style('fill', '#505050');
             d3.select("#hours_fav1").style('fill', '#303030');
@@ -655,7 +659,7 @@ class Orologio extends Modulo {
     perform() {
         super.perform();
         let me = this;
-        console.log("Orologio performing")
+//         console.log("Orologio performing")
         me.init();
 
         me.co.revealUniverse();

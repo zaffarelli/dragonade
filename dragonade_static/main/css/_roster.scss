@@ -134,6 +134,7 @@
         }
 
 
+
         &.base, &.magic, &.weapons {
             grid-template-columns: 60px 30px 30px 60px 80px 80px 80px 80px;
             grid-template-rows: repeat(10,1.5em);
@@ -229,6 +230,16 @@
                 grid-template-rows: subgrid;
            }
        }
+           &.roster{
+            color:white;
+            background:black;
+            font-family:mono;
+            font-size:0.93em;
+            max-height:24em;
+            overflow:auto;
+        }
+
+
     }
 
 

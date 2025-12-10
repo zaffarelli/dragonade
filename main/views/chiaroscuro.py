@@ -11,6 +11,7 @@ def inc_dec(request):
     if is_ajax(request):
         if request.method == 'POST':
             from main.models.autochtons import Autochton
+            from main.models.creatures import Creature
             from main.models.travellers import Traveller
             answer = {}
             new_roster = ''
@@ -23,6 +24,9 @@ def inc_dec(request):
                 item = None
                 if class_name.lower() == "autochton":
                     item = Autochton.objects.get(id=id)
+                    cando = True
+                if class_name.lower() == "creature":
+                    item = Creature.objects.get(id=id)
                     cando = True
                 if class_name.lower() == "traveller":
                     item = Traveller.objects.get(id=id)
@@ -44,6 +48,7 @@ def value_push(request):
     if is_ajax(request):
         if request.method == 'POST':
             from main.models.autochtons import Autochton
+            from main.models.creatures import Creature
             from main.models.travellers import Traveller
             answer = {}
             new_roster = ''
@@ -58,6 +63,9 @@ def value_push(request):
                 attribute = params[2]
                 if class_name.title() == "Autochton":
                     item = Autochton.objects.get(id=id)
+                    cando = True
+                if class_name.title() == "Creature":
+                    item = Creature.objects.get(id=id)
                     cando = True
                 if class_name.title() == "Traveller":
                     item = Traveller.objects.get(id=id)

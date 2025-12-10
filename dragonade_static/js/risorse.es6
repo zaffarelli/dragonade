@@ -141,74 +141,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
         me.back = me.svg.append('g')
             .attr("class","circlebacks")
             .append("g")
-           // .attr("transform","translate("+(-me.step*21/2)+","+(-me.step*29.7/2)+")")
         ;
-//         me.back.append("rect")
-//             .attr("id","pagerect")
-//             .attr("x",me.ox*me.step)
-//             .attr("y",me.oy*me.step)
-//             .attr("width",me.width )
-//             .attr("height",me.height )
-//             .style('stroke-width','1pt')
-//             .style('stroke-dasharray','2 3')
-//             .style('stroke','#606060')
-//             .style('fill','#F0F0F0')
-//             .attr('opacity',0.5)
-//         ;
-
-//         if (me.debug == true) {
-//             me.xunits = 28;
-//             me.yunits = 20;
-//
-//             let verticals = me.back.append('g')
-//                 .attr('class', 'verticals')
-//                 .selectAll("g")
-//                 .data(d3.range(1, me.xunits+2, 1));
-//             verticals.enter()
-//                 .append('line')
-//                 .attr('x1', function (d) {
-//                     return (d+me.ox) * me.step
-//                 })
-//                 .attr('x2', function (d) {
-//                     return (d+me.ox) * me.step
-//                 })
-//                 .attr('y1', me.oy*me.step)
-//                 .attr('y2', (me.oy+me.yunits+1) * me.step)
-//                 .style('fill', 'transparent')
-//                 .style('stroke', '#90a090')
-//                 .style('stroke-dasharray', '3 7')
-//                 .style('stroke-width', '0.25pt');
-//             let horizontals = me.back.append('g')
-//                 .attr('class', 'horizontals')
-//                 .selectAll("g")
-//                 .data(d3.range(1, me.yunits+2, 1));
-//             horizontals.enter()
-//                 .append('line')
-//                 .attr('x1', me.ox * me.step)
-//                 .attr('x2', (me.ox+me.xunits+1) * me.step)
-//                 .attr('y1', function (d) {
-//                     return (d+me.oy) * me.step
-//                 })
-//                 .attr('y2', function (d) {
-//                     return (d+me.oy) * me.step
-//                 })
-//                 .style('fill', 'transparent')
-//                 .style('stroke', '#90a090')
-//                 .style('stroke-dasharray', '3 5')
-//                 .style('stroke-width', '0.25pt');
-//
-//         }
-//         me.back.append('text')
-//             .attr("x", me.step*3)
-//             .attr("y", me.step*21)
-//             .style("text-anchor","middle")
-//             .style("font-family","Are You Serious")
-//             .style("font-size",me.step+"pt")
-//             .style("fill","#101010")
-//             .style("stroke","#808080")
-//             .style("stroke-width","0.25pt")
-//             .text(me.supertitle)
-//         ;
 
     }
 
@@ -309,13 +242,6 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
         return me.paperY(parseInt(i/rowlen))
     }
 
-
-
-
-
-
-
-
     zoomActivate() {
         let me = this;
         me.zoom = d3.zoom()
@@ -410,7 +336,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
         let me = this;
         let cnt = set.length;
         let teta = (Math.PI*2)/(cnt);
-        let radius = 20
+        let radius = 15
         // Standard position
         set.forEach(function(v,k){
             if (me.gdr == true){
@@ -418,8 +344,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
                 v["y"] = 5 + (v["row"]-1)*12;
                 v["hidden"] = 0;
             }else{
-               v["x"] = 10+Math.cos(teta*k)*(radius*3);
-               v["y"] = 10+Math.sin(teta*k)*(radius*2);
+               v["x"] = 14.75+Math.cos(teta*k)*(radius*2);
+               v["y"] = 11.5+Math.sin(teta*k)*(radius*2);
             }
             console.log(k,v["x"],v["y"])
             v["number"] = k;
@@ -458,12 +384,38 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
             .on("click", (e,d) => {
 
                 if (e.ctrlKey){
-                    d3.selectAll(".trump .verso").attr("opacity",(d) => 1);
-                    d3.selectAll(".trump .recto").attr("opacity",(d) => 0)
+                    d3.selectAll(".trump .verso").attr("opacity",(d) => 0)
+                    d3.selectAll(".trump .recto").attr("opacity",(d) => 1)
+                    me.selection = []
+                    let vals = "0 0 0 0 0 0"
+                    if (e.shiftKey){
+                        vals = ""
+                        let ranges = [[0,14],[0,13],[0,7],[0,7],[0,7],[-3,3]]
+                        _.forEach(ranges, function(r){
+                          let x = Math.floor(Math.random() * (r[1] - r[0] +1)) + r[0]
+                          if (x < 0){
+                              x = 0
+                          }
+                          vals += `${x} `
+                        })
+                        $("#message").val(vals)
+                    }else{
+                        $("#message").val(vals)
+                        $("#parallax_select").submit()
+                    }
+
+
+
                 }else{
-                    d3.selectAll(".trump .verso").attr("opacity",(d) => d['hidden'] == 1 ? 1 : 0);
-                    d3.selectAll(".trump .recto").attr("opacity",(d) => d['hidden'] == 1 ? 0 : 1)
-                    ;
+                    d3.select("#trump__"+d["code_name"]).selectAll(".verso").attr("opacity",(d) => 1)
+                    d3.select("#trump__"+d["code_name"]).selectAll(".recto").attr("opacity",(d) => 0)
+                    let txt = $("#message").val()
+                    let row_id = d["code_name"].split("_")
+                    let r = parseInt(row_id[0])-1
+                    let i = parseInt(row_id[1])
+                    let current = txt.split(" ")
+                    current[r] = i
+                    $("#message").val(current.join(" "))
                 }
              })
             .on("mouseover", (e,d) => {
@@ -492,106 +444,6 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
                 .attr("y", d => (1) * me.step)
                 ;
 
-//         me.risorsa.append("text")
-//                 .attr('class','recto')
-//                 .attr("width", me.step*4)
-//                 .attr("height", me.step * 4)
-//                 .attr("x", d => (3.0) * me.step)
-//                 .attr("y", d => (1.5) * me.step)
-//                 .style("text-anchor","middle")
-//                 .style("font-family","Are You Serious")
-//                 .style("font-size",me.step*1.5+"pt")
-//                 .style("fill","#101010")
-//                 .style("stroke","#808080")
-//                 .style("stroke-width","0.25pt")
-//                 .text(d => d['idx'])
-//             ;
-
-//         me.risorsa.append("text")
-//                 .attr('class','recto')
-//                 .attr("width", me.step*4)
-//                 .attr("height", me.step * 4)
-//                 .attr("x", d => (5.75) * me.step)
-//                 .attr("y", d => (10.5) * me.step)
-//                 .style("text-anchor","end")
-//                 .style("font-family","Smythe")
-//                 .style("font-size",me.step*0.8+"pt")
-//                 .style("fill","#a02020")
-//                 .style("stroke","#808080")
-//                 .style("stroke-width","0.5pt")
-//                 .text(d => d['pts']+"r")
-//
-//
-//         me.risorsa.append("text")
-//                 .attr('class','recto')
-//                 .attr("x", d => (1) * me.step)
-//                 .attr("y", d => (0.5) * me.step)
-//                 .style("text-anchor","start")
-//                 .style("font-family","Neucha")
-//                 .style("font-size",me.step*0.3+"pt")
-//                 .style("fill","#202020")
-//                 .style("stroke","#808080")
-//                 .style("stroke-width","0.5pt")
-//                 .text(d => d['category'])
-//                 .attr("transform",d => "rotate("+90+","+(0.5) * me.step+","+(0.25) * me.step+")")
-//               ;
-//
-//
-//         me.risorsa.append("text")
-//                 .attr('class','recto')
-//                 .attr("width", me.step*4)
-//                 .attr("height", me.step * 4)
-//                 .attr("x", d => (3) * me.step)
-//                 .attr("y", d => (8.5) * me.step)
-//                 .style("text-anchor","middle")
-//                 .style("font-family","Are You Serious")
-//                 .style("font-size",me.step*0.75+"pt")
-//                 .style("fill","#202020")
-//                 .style("stroke","#808080")
-//                 .style("stroke-width","0.5pt")
-//                 .text(d => {
-//                     let words = d['name'].split(' ');
-//                     if (words.length > 0){
-//                       return words[0]
-//                     }
-//                     return "";
-//                 })
-//
-
-//         me.risorsa.append("text")
-//                 .attr('class','recto')
-//                 .attr("width", me.step*4)
-//                 .attr("height", me.step * 4)
-//                 .attr("x", d => (3) * me.step)
-//                 .attr("y", d => (8.5) * me.step)
-//                 .attr("dy", me.step * 0.8)
-//                 .style("text-anchor","middle")
-//                 .style("font-family","Are You Serious")
-//                 .style("font-size",me.step*0.75+"pt")
-//                 .style("fill","#202020")
-//                 .style("stroke","#808080")
-//                 .style("stroke-width","0.5pt")
-//                 .text(d => {
-//                     let words = d['name'].split(' ');
-//                     if (words.length = 2){
-//                       return words[1]
-//                     }
-//                     return "";
-//                 })
-
-
-
-//         me.risorsa.append('rect')
-//                 .attr('class','recto')
-//                 .attr('x',d => (0.6) * me.step)
-//                 .attr('y',d => (0.5) * me.step)
-//                 .attr('width',me.step*0.25)
-//                 .attr('height',me.step*10)
-//                 .style('fill', d => d["color"])
-//                 .style('fill-opacity', 0.80)
-//                 .style('stroke', '#808080')
-//                 .style('stroke-width', '1pt')
-//                 ;
 
         me.risorsa.append('rect')
                 .attr('class','cardback verso')
@@ -638,13 +490,14 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
         let c = 0
         d3.selectAll(".trump .recto").attr("opacity",0);
         d3.selectAll(".trump .verso").attr("opacity",0);
-        console.log(me.selection)
+//         me.selection.forEach( v => {
+//             c+=1;
+//         });
+
         me.selection.forEach( v => {
-            console.log(v)
+            d3.selectAll("#trump__"+v+" .verso").attr("opacity",1.0);
             d3.selectAll("#trump__"+v)
                 .attr("transform", d => "translate( "+ (70+c*8) * me.step +","+ (53 * me.step) + ")" )
-            d3.selectAll("#trump__"+v+" .verso")
-                .attr("opacity",1.0);
             c+=1;
         });
         me.revealling = true;
@@ -658,7 +511,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
        d3.selectAll(".trump .recto").attr("opacity",(d) => 0)
        d3.selectAll(".trump")
             .transition()
-            .duration(2000)
+            .duration(1000)
             .ease(d3.easeCubicInOut)
             .attr("transform", d => "translate( "+ d["x"] * me.step +","+ d["y"] * me.step + ")")
             .delay(250)
@@ -672,6 +525,10 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
 
     action(type,str){
         let me = this;
+
+        console.log(type,str)
+
+
         if (me.gdr == false){
             let cards = str.split(" ");
             let row = 1
@@ -688,17 +545,19 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
 //                         row += 1
 //                     }else{
                         if ((c["row"] == rowstr) && (c["idx"] == cards[`${row-1}`])){
+//                             if (cards[row] != undefined){
                             c["hidden"] = 0
                             c["x"] = (col-1)*8-5;
                             c["y"] = 0 + (1)*12;
                             row += 1
                             col += 1
-                            console.log("=> ",rowstr,cards[row],c["row"],c["idx"])
+                            console.log("AAA => ",rowstr,cards[row],c["row"],c["idx"])
+//                             }
                         }else{
-                            c["hidden"] = 1
-                            c["x"] = 10+Math.cos(teta*colhidden)*(radius*3);
-                            c["y"] = 10+Math.sin(teta*colhidden)*(radius*2);
-                            colhidden += 1
+                                c["hidden"] = 1
+                                c["x"] = 10+Math.cos(teta*colhidden)*(radius*3);
+                                c["y"] = 10+Math.sin(teta*colhidden)*(radius*2);
+                                colhidden += 1
                         }
 //                     }
                 });

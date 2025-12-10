@@ -3,6 +3,7 @@ class Combattimento extends Modulo {
         super(co,config);
         this.name = "Combattimento";
         this.parent = "#svg_area";
+        console.log("Combattimento loaded!!")
     }
 
     init() {

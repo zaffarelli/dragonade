@@ -100,7 +100,7 @@ class Character(models.Model):
             self.birthhour = random.randrange(1, 12)
         self.export_to_json()
         self.calc_indice()
-        #self.calculate_team()
+        # self.calculate_team()
 
         self.tai_guideline = tai_guidelines(self.data['attributes']['TAI'])
         if self.height > 0:
@@ -111,7 +111,7 @@ class Character(models.Model):
     def calculate_team(self):
         import hashlib
         gfg = hashlib.blake2s(digest_size=2)
-        gfg.update(bytes(self.team,'UTF-8'))
+        gfg.update(bytes(self.team, 'UTF-8'))
         x = gfg.digest()
         self.team_color = x.decode('UTF-8')
         return self.team_color
@@ -150,8 +150,8 @@ class Character(models.Model):
                 # print("** ", ks, v)
         print("**** default = ", default, "total non default:", nondefault_cnt, self.name)
         a, b = self.collect_spells()
-        print("Total spells",b)
-        self.indice += total_skills+b
+        print("Total spells", b)
+        self.indice += total_skills + b
         self.indice -= default
         self.indice += self.data['misc']['PROT'] * 2
         self.indice += self.data['misc']['SON'] ** 2
@@ -181,7 +181,7 @@ class Character(models.Model):
         self.lefty = self.data['features']['LEFTY']
         self.gear = self.data['features']['GEAR']
         self.spells = self.data['features']['SPELLS']
-        #self.spells_as_list = self.data['features']['SPELLS'].split(" ")
+        # self.spells_as_list = self.data['features']['SPELLS'].split(" ")
 
     def ref_to_struct(self, src_ref):
         """        
@@ -251,7 +251,7 @@ class Character(models.Model):
 
         for k in CHARACTER_STATISTICS['SECONDARIES']['LIST']:
             if "FORMULA" in k:
-                val = self.fromFormula(k['PARAMS'],k['FORMULA'])
+                val = self.fromFormula(k['PARAMS'], k['FORMULA'])
                 self.data['secondaries'][k['NAME']] = val
 
         # for k in CHARACTER_STATISTICS['SECONDARIES']['LIST']:
@@ -261,9 +261,8 @@ class Character(models.Model):
 
         for k in CHARACTER_STATISTICS['MISC']['LIST']:
             if "FORMULA" in k:
-                val = self.fromFormula(k['PARAMS'],k['FORMULA'])
+                val = self.fromFormula(k['PARAMS'], k['FORMULA'])
                 self.data['misc'][k['NAME']] = val
-
 
         # for k in CHARACTER_STATISTICS['MISC']['LIST']:
         #     val, errors = self.calcCompute(k['COMPUTE'])
@@ -281,8 +280,6 @@ class Character(models.Model):
         self.data['misc']['SON'] = self.songe
         self.data['misc']['REV'] = self.reve
         self.data['misc']['PROT'] = self.prot
-
-
 
         self.data['features']['HEIGHT'] = self.height
         self.data['features']['WEIGHT'] = self.weight
@@ -302,7 +299,7 @@ class Character(models.Model):
         self.data['features']['weapons'] = self.gear_to_weapons()
         self.data['features']['other'] = self.gear_to_other()
         self.data['features']['armors'] = self.gear_to_armors()
-        a,b = self.collect_spells()
+        a, b = self.collect_spells()
         self.data['features']['spells'] = a
         self.data['features']['shortcuts'] = self.shortcuts()
 
@@ -311,14 +308,16 @@ class Character(models.Model):
         self.data['misc']['pf'] = self.computeFatigue(self.data['misc']['FAT'])
         self.data["skills_summary"] = self.skills_summary()
 
+        self.data['roster_text'] = self.roster_as_text()
+
         self.json_dump()
         # return self.data
 
-    def computeFatigue(self,x):
+    def computeFatigue(self, x):
         i = 1
         pf = 0
         while i <= x:
-            pf += 2 + math.ceil(i/2)
+            pf += 2 + math.ceil(i / 2)
             i += 1
         return pf
 
@@ -346,14 +345,14 @@ class Character(models.Model):
     def gear_to_other(self):
         from main.models.equipment import Equipment
         list = []
-        others = Equipment.objects.exclude(category__in=['mel', 'tir', 'lan']).filter(rid__in=self.gear.split(" ")).order_by("category")
+        others = Equipment.objects.exclude(category__in=['mel', 'tir', 'lan']).filter(
+            rid__in=self.gear.split(" ")).order_by("category")
         for other in others:
             list.append({
                 "name": other.name,
                 "category": other.category
             })
         return list
-
 
     def gear_to_armors(self):
         from main.models.equipment import Equipment
@@ -523,7 +522,7 @@ class Character(models.Model):
     def overwrite_for(self, str, val):
         result = False
         where = self.index_for(str)
-        print("value ",str," found in ",where)
+        print("value ", str, " found in ", where)
         if len(where) > 0:
             words = where.split(':')
             print("words ", words)
@@ -540,7 +539,7 @@ class Character(models.Model):
 
     def index_for(self, str):
         from main.utils.ref_dragonade import CHARACTER_STATISTICS
-        #print(str.upper())
+        # print(str.upper())
         if str.upper() in CHARACTER_STATISTICS['ATTRIBUTES']['KNOWN']:
             result = "ATTRIBUTES"
         elif str.upper() in CHARACTER_STATISTICS['SKILLS']['WEAPONS']['KNOWN']:
@@ -588,3 +587,96 @@ class Character(models.Model):
             tgt_property = f"skills_{k.lower()}"
             if len(getattr(self, tgt_property)) == 0:
                 setattr(self, tgt_property, " ".join(list))
+
+    def roster(self):
+        lines = []
+        lines.append(f"{self.name}")
+        if self.entrance != "":
+            lines.append(f"{self.entrance}")
+        ty = "Créature"
+        subty = ""
+        if self.type == "Traveller":
+            ty = "Voyageur"
+        if self.type == "Autochton":
+            ty = "Autochtone"
+        else:
+            subty = (f" ({self.get_creature_type_display()})")
+            ty += subty
+
+        lines.append(f"{ty}")
+        attributes = ""
+        space = "§"
+        x = 0
+        a = ["", "", "", ""]
+        for k, v in self.data["attributes"].items():
+            a[x % 4] += f"{k} {v!s:{space}>2} "
+            x += 1
+        x = 0
+        for k, v in self.data["secondaries"].items():
+            a[x % 4] += f"| {k} {v!s:{space}>2} "
+            x += 1
+        x = 0
+        m = ["VIE", "FAT", "SUS", "SCO"]
+        for v in m:
+            a[x % 4] += f"| {v} {self.data['misc'][v]!s:{space}>2} "
+            x += 1
+        x = 0
+        m = ["DOM", "ENC", "FAB", "REV"]
+        dom = self.data['misc']["DOM"]
+        for v in m:
+            a[x % 4] += f"| {v} {int(self.data['misc'][v])!s:{space}>2} "
+            x += 1
+        attributes = f"{a[0]}<br/>{a[1]}<br/>{a[2]}<br/>{a[3]}<br/>"
+        lines.append(attributes)
+
+        categories = {
+            "M": {"title": "Armes (0)", "list": []},
+            "G": {"title": "Génériques (-1)", "list": []},
+            "P": {"title": "Particulières (-2)", "list": []},
+            "S": {"title": "Spécifiques (-3)", "list": []},
+            "C": {"title": "Connaissances (-4)", "list": []},
+            "D": {"title": "Draconiques (-5)", "list": []}
+        }
+        for v in self.data["skills_summary"]:
+            categories[v["category"]]["list"].append(f"{v['text']} {v['value']:2}")
+
+        skills = ""
+        for k, v in categories.items():
+            skills += v["title"] + ": "
+            skills += ", ".join(v["list"]) + ".<BR/>"
+        lines.append(skills)
+
+        life = "VIE: "
+        for x in range(self.data["misc"]["VIE"]):
+            life += "[ ]"
+            if x % 5 == 4:
+                life += "<BR/>§§§§§"
+        life += "<br/>"
+        fatigue = "FAT: "
+        len = 6
+        for x in range(self.data['misc']['FAT'], 0, -1):
+            for y in range(10):
+                if y < len:
+                    fatigue += f"[ ]"
+                else:
+                    if x % 2 == 1:
+                        len -= 1
+                        break
+            fatigue = fatigue + "o<BR/>§§§§§"
+        fatigue += "<BR/>"
+
+
+        weapons = f"{'':{space}<20} 1M dom 2M INIT Score</BR>"
+        for w in self.data['features']['weapons']:
+            weapons += f"{w['name']:{space}<20} {w['dom_1']:{space}>2} {dom:{space}>3} {w['dom_2']:{space}>2} {w['init']:{space}>4} {w['score']:{space}>5}</BR>"
+        lines.append(weapons)
+        lines.append(life)
+        lines.append(fatigue)
+        print(self.data['features']['weapons'])
+
+        return lines
+
+    def roster_as_text(self):
+        roster = "<br/>".join(self.roster())
+        roster = roster.replace("§", "&nbsp;")
+        return roster

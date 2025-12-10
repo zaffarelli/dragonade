@@ -295,6 +295,46 @@ def autochtons_page(request):
     html = template.render(context, request)
     return JsonResponse({"html": html})
 
+# Creatures
+def creatures(request):
+    from main.models.creatures import Creature
+    from main.models.stregoneria import Spell
+    from main.models.equipment import Equipment
+    context = prepare_context(request)
+    creatures = []
+    for x in Creature.objects.all().order_by("creature_type", "name"):
+        datum = x.toJson()
+        datum['text'] = x.name
+        datum['code'] = x.rid
+        datum['type'] = "creature"
+        creatures.append(datum)
+    context['title'] = "Les Creatures"
+    page = 1
+    context['reference'] = {}
+    spells_j = Spell.references()
+    context['reference']['spells'] = spells_j
+    gear_j = Equipment.references()
+    context['reference']['gear'] = gear_j
+    context = prepare_pagination(context, creatures, page)
+    return render(request, 'main/pages/creatures.html', context=context)
+
+
+def creatures_page(request):
+    from main.models.creatures import Creature
+    context = prepare_context(request)
+    creatures = []
+    for x in Creature.objects.all().order_by("creature_type", "name"):
+        datum = x.toJson()
+        datum['text'] = x.name
+        datum['code'] = x.rid
+        datum['type'] = "creature"
+        creatures.append(datum)
+    page = int(request.POST["page"])
+    context = prepare_pagination(context, creatures, page)
+    template = get_template("main/lists/creatures_list.html")
+    html = template.render(context, request)
+    return JsonResponse({"html": html})
+
 
 # Travellers
 def travellers(request):

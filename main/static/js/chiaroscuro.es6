@@ -32,6 +32,10 @@ class Chiaroscuro {
             let mod = new Stregoneria(this, config);
             mod.register();
         }
+        if (config["modules"].includes("combattimento") == true) {
+            let mod = new Combattimento(this, config);
+            mod.register();
+        }
         this.tables = []
     }
 
@@ -395,7 +399,11 @@ class Chiaroscuro {
     perform() {
         let me = this;
         let no_global = true
-        let url = `ws://192.168.0.25:8083/ws/socket-server/`;
+        //let url = `ws://192.168.0.25:8083/ws/socket-server/`;
+        let host = window.location.hostname
+        let protocol = window.location.port
+        let url = `ws://${host}:${protocol}/ws/socket-server/`
+        console.log(url)
         me.chatSocket = new WebSocket(url)
         me.chatSocket.onmessage = function(e){
             let data = JSON.parse(e.data)
@@ -425,6 +433,7 @@ class Chiaroscuro {
             me.revealUI();
         }
         me.prepareWebSocket()
+        console.log("Check WS")
         //me.resizeEvent();
     }
 
