@@ -65,6 +65,7 @@ def papers(request):
     from main.models.equipment import Equipment
     from main.models.travellers import Traveller
     from main.models.autochtons import Autochton
+    from main.models.teams import Team
     # Load all papers
     # Some of them are collection (e.g. SCREEN1)
     context = prepare_context(request)
@@ -109,7 +110,7 @@ def papers(request):
 
     # Autochtons
     characters = []
-    for t in Autochton.objects.filter(dream__current=True).order_by("team", "name"):
+    for t in Autochton.objects.filter(dream__current=True).order_by("team","name"):
         t.export_to_json()
         datum = t.data
         datum['text'] = t.name
@@ -134,18 +135,22 @@ def papers(request):
 
     # Travellers
     characters = []
-    for t in Traveller.objects.filter(gamers_team=True).order_by("player"):
-        t.export_to_json()
-        datum = t.data
-        datum['text'] = t.name
-        datum['type'] = "traveller"
-        characters.append(datum)
+    for team in Team.objects.order_by("name"):
+        for t in team.travellers_list():
+            t.export_to_json()
+            datum = t.data
+            datum['text'] = t.name
+            datum['current_label'] = team.name
+            datum['type'] = "traveller"
+            characters.append(datum)
     page_num = 0
     trav_pack = []
     for index, traveller in enumerate(characters):
+        # print("*****TRAV")
+        # print(traveller)
         if index % per_page == 0:
             if (len(trav_pack) > 0):
-                context['config']['data']["TRAVELLERS" + str(page_num)] = {"name": "Voyageurs" + str(page_num),
+                context['config']['data']["TRAVELLERS" + str(page_num)] = {"name": traveller["current_label"] +" "+ str(page_num),
                                                                            "code": "TRAVELLERS" + str(page_num),
                                                                            "id": 700 + page_num, "data": trav_pack}
             page_num += 1
@@ -342,7 +347,7 @@ def travellers(request):
     from main.models.stregoneria import Spell
     context = prepare_context(request)
     characters = []
-    for x in Traveller.objects.all().order_by("-player"):
+    for x in Traveller.objects.order_by("-priority","name"):
         datum = x.toJson()
         datum['text'] = x.name
         datum['type'] = "traveller"
@@ -371,7 +376,7 @@ def travellers_page(request):
         characters.append(datum)
     context['title'] = "Les Voyageurs"
     page = int(request.POST["page"])
-    context = prepare_pagination(request, context, characters, page)
+    context = prepare_pagination(context, characters, page)
     template = get_template("main/lists/travellers_list.html")
     html = template.render(context, request)
     return JsonResponse({"html": html})

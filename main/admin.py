@@ -8,6 +8,7 @@ from main.models.dreams import Dream, DreamAdmin
 from main.models.equipment import Equipment, EquipmentAdmin
 from main.models.stregoneria import Spell, SpellAdmin
 from main.models.appartus import Appartus, AppartusAdmin
+from main.models.teams import Team, TeamAdmin
 
 
 admin.site.register(Autochton, AutochtonAdmin)
@@ -17,6 +18,7 @@ admin.site.register(Dream, DreamAdmin)
 admin.site.register(Equipment, EquipmentAdmin)
 admin.site.register(Spell,SpellAdmin)
 admin.site.register(Appartus,AppartusAdmin)
+admin.site.register(Team,TeamAdmin)
 
 
 

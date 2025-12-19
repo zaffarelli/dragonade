@@ -152,7 +152,7 @@ def hidden_if_blank(value):
 
 @register.filter(name='lefty')
 def lefty(value):
-    if value == 0:
+    if value == "D":
         result = "Droitier"
     else:
         result = "Gauchère"
@@ -161,7 +161,7 @@ def lefty(value):
 
 @register.filter(name='genderize')
 def genderize(value):
-    if value == 0:
+    if value == "M":
         result = "Masculin"
     else:
         result = "Féminin"

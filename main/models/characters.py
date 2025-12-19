@@ -52,6 +52,7 @@ class Character(models.Model):
     indice_skills = models.IntegerField(default=0, blank=True)
     tai_guideline = models.CharField(max_length=128, default="", blank=True)
     total_attributes = models.IntegerField(default=0, blank=True)
+    total_skills = models.IntegerField(default=0, blank=True)
     updater = models.TextField(max_length=8192, default='{}', blank=True)
     priority = models.IntegerField(default=0, blank=True)
     data = {}
@@ -136,14 +137,14 @@ class Character(models.Model):
 
         self.indice = self.total_attributes - (12 * 4)
         self.indice += self.data['misc']['SON'] * 3
-        total_skills = 0
+        self.total_skills = 0
         default = 0
         nondefault_cnt = 0
         for kc, vc in CHARACTER_STATISTICS['SKILLS'].items():
             # print("* ",kc)
             for ks in vc['LIST']:
                 v = self.value_for(ks['NAME'])
-                total_skills += v
+                self.total_skills += v
                 default += vc['DEFAULT']
                 if (v != vc["DEFAULT"]):
                     nondefault_cnt += 1
@@ -151,7 +152,7 @@ class Character(models.Model):
         print("**** default = ", default, "total non default:", nondefault_cnt, self.name)
         a, b = self.collect_spells()
         print("Total spells", b)
-        self.indice += total_skills + b
+        self.indice += self.total_skills + b
         self.indice -= default
         self.indice += self.data['misc']['PROT'] * 2
         self.indice += self.data['misc']['SON'] ** 2
@@ -177,8 +178,8 @@ class Character(models.Model):
         self.entrance = self.data['misc']['ENTRANCE']
         self.age = self.data['features']['AGE']
         self.aka = self.data['features']['AKA']
-        self.gender = self.data['features']['GENDER']
-        self.lefty = self.data['features']['LEFTY']
+        self.is_female = self.data['features']['GENDER'] == "F"
+        self.is_lefty = self.data['features']['LEFTY'] == "G"
         self.gear = self.data['features']['GEAR']
         self.spells = self.data['features']['SPELLS']
         # self.spells_as_list = self.data['features']['SPELLS'].split(" ")
@@ -214,15 +215,21 @@ class Character(models.Model):
 
     def skills_summary(self):
         all = []
+        count_vals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        count_postes = [0, 0, 0, 0, 0, 0]
         for kc, vc in self.data['skills'].items():
             default = CHARACTER_STATISTICS["SKILLS"][kc.upper()]["DEFAULT"]
             for ks, vs in vc.items():
                 if vs > default:
+                    count_postes[default * (-1)] += 1
+                    count_vals[vs] += 1
                     for r in CHARACTER_STATISTICS["SKILLS"][kc.upper()]["LIST"]:
                         if r['NAME'] == ks:
-                            all.append({'value': vs, 'category': CHARACTER_STATISTICS["SKILLS"][kc.upper()]['NAME'][:1],
-                                        'text': r["TEXT"]})
-        sorted_all = sorted(all, key=lambda k: k['category'], reverse=True)
+                            all.append({"value": vs, "category": CHARACTER_STATISTICS["SKILLS"][kc.upper()]['NAME'][:1],
+                                        "text": r["TEXT"]})
+        sorted_all = sorted(all, key=lambda k: k['text'], reverse=True)
+        print("Values=", count_vals)
+        print("Postes=", count_postes)
         return sorted_all
 
     def export_to_json(self):
@@ -254,26 +261,17 @@ class Character(models.Model):
                 val = self.fromFormula(k['PARAMS'], k['FORMULA'])
                 self.data['secondaries'][k['NAME']] = val
 
-        # for k in CHARACTER_STATISTICS['SECONDARIES']['LIST']:
-        #     val, errors = self.calcCompute(k['COMPUTE'])
-        #     if len(errors) == 0:
-        #         self.data['secondaries'][k['NAME']] = val
-
         for k in CHARACTER_STATISTICS['MISC']['LIST']:
             if "FORMULA" in k:
                 val = self.fromFormula(k['PARAMS'], k['FORMULA'])
                 self.data['misc'][k['NAME']] = val
-
-        # for k in CHARACTER_STATISTICS['MISC']['LIST']:
-        #     val, errors = self.calcCompute(k['COMPUTE'])
-        #     if len(errors) == 0:
-        #         self.data['misc'][k['NAME']] = val
 
         self.data['misc']['ENTRANCE'] = self.entrance
         self.data['misc']['indice_a'] = self.indice_attributes
         self.data['misc']['indice_s'] = self.indice_skills
         self.data['misc']['indice'] = self.indice
         self.data['misc']['total_attributes'] = self.total_attributes
+        self.data['misc']['total_skills'] = self.total_skills
         self.data['misc']['groupe'] = self.group
         self.data['misc']['team'] = self.team
         self.data['misc']['title'] = self.title
@@ -288,8 +286,6 @@ class Character(models.Model):
         self.data['features']['GEAR'] = self.gear
         self.data['features']['SPELLS'] = self.spells
 
-        # self.data['features']['gender'] =
-        # self.data['features']['lefty'] =
         self.data['features']['AGE'] = self.age
         self.data['features']['AKA'] = self.aka
         self.data['features']['FIGURE'] = self.figure
@@ -308,6 +304,7 @@ class Character(models.Model):
         self.data['misc']['pf'] = self.computeFatigue(self.data['misc']['FAT'])
         self.data["skills_summary"] = self.skills_summary()
 
+        self.data['priority'] = self.priority
         self.data['roster_text'] = self.roster_as_text()
 
         self.json_dump()
@@ -411,99 +408,10 @@ class Character(models.Model):
             pvalues.append(self.value_for(p))
         return formula(pvalues)
 
-    #
-    # def calcCompute(self, str):
-    #     result = -1
-    #     errors = []
-    #     param_values = []
-    #     funky = ""
-    #     params = []
-    #     reference = ""
-    #     words = str.split(',')
-    #     if len(words) > 0:
-    #         funky = words[0]
-    #         if len(words) > 1:
-    #             params = words[1].split(';')
-    #             if len(words) > 2:
-    #                 reference = words[2]
-    #         else:
-    #             errors.append(f"No Parameters")
-    #     else:
-    #         errors.append(f"Wrong computation line formatting for [{str}]")
-    #     if len(errors) == 0:
-    #         for att in params:
-    #             v = self.value_for(att)
-    #             param_values.append(v)
-    #         if 'dero_mean' == funky:
-    #             result = self.dero_mean(param_values)
-    #         elif 'basic_mean' == funky:
-    #             result = self.basic_mean(param_values)
-    #         elif 'basic_sum' == funky:
-    #             result = self.basic_sum(param_values)
-    #         elif 'precise_mean' == funky:
-    #             result = self.precise_mean(param_values)
-    #         elif 'from_table_mean' == funky:
-    #             result = self.from_table_mean(reference, param_values)
-    #         else:
-    #             errors.append(f"Unknown function [{funky}].")
-    #     return result, errors
-
-    # @staticmethod
-    # def basic_mean(args):
-    #     result = 0
-    #     total = 0
-    #     for a in args:
-    #         total += a
-    #     if len(args) > 0:
-    #         result = math.ceil(total / len(args))
-    #     return int(result)
-    #
-    # def from_table_mean(self, ref, args):
-    #     from main.utils.ref_dragonade import TABLES
-    #     result = -1
-    #     if ref != '':
-    #         mean = self.basic_mean(args)
-    #     if ref in TABLES:
-    #         result = TABLES[ref][mean]
-    #     return result
-
-    # @staticmethod
-    # def precise_mean(args):
-    #     result = 0
-    #     total = 0
-    #     for a in args:
-    #         total += a
-    #     if len(args) > 0:
-    #         result = math.ceil(10 * total) / 10
-    #     return result
-    #
-    # @staticmethod
-    # def basic_sum(args):
-    #     total = 0
-    #     for a in args:
-    #         total += a
-    #     return int(total)
-    #
-    # @staticmethod
-    # def dero_mean(args):
-    #     if len(args) > 0:
-    #         result = math.ceil((12 - args[0] + args[1]) / 2)
-    #     else:
-    #         result = -1
-    #     return result
-
-    # def import_from_json(self, jsonstring):
-    #     struct = json.loads(jsonstring)
-
     def toJson(self):
         self.export_to_json()
         struct = json.loads(json.dumps(self.data))
         return struct
-
-    # def json(self):
-    #     self.export_to_json()
-    #     js = json.dumps(self.data)
-    #     return self.data
 
     def value_for(self, str):
         # from main.utils.ref_dragonade import CHARACTER_STATISTICS
@@ -520,6 +428,7 @@ class Character(models.Model):
         return result
 
     def overwrite_for(self, str, val):
+        print("OVERWRITE FOR")
         result = False
         where = self.index_for(str)
         print("value ", str, " found in ", where)
@@ -591,15 +500,19 @@ class Character(models.Model):
     def roster(self):
         lines = []
         lines.append(f"{self.name}")
+        if self.aka != "":
+            lines.append(f"{self.aka}")
         if self.entrance != "":
             lines.append(f"{self.entrance}")
+        if self.title != "":
+            lines.append(f"{self.title}")
         ty = "Créature"
         subty = ""
         if self.type == "Traveller":
-            ty = "Voyageur"
+            ty = f"({self.player})"
         if self.type == "Autochton":
             ty = "Autochtone"
-        else:
+        if self.type == "Creature":
             subty = (f" ({self.get_creature_type_display()})")
             ty += subty
 
@@ -648,32 +561,49 @@ class Character(models.Model):
 
         life = "VIE: "
         for x in range(self.data["misc"]["VIE"]):
-            life += "[ ]"
+            life += "&#9744;"
             if x % 5 == 4:
-                life += "<BR/>§§§§§"
+                life += "&nbsp;"
         life += "<br/>"
         fatigue = "FAT: "
         len = 6
         for x in range(self.data['misc']['FAT'], 0, -1):
             for y in range(10):
                 if y < len:
-                    fatigue += f"[ ]"
+                    fatigue += f"&#9744;"
                 else:
                     if x % 2 == 1:
                         len -= 1
                         break
-            fatigue = fatigue + "o<BR/>§§§§§"
+            fatigue = fatigue + "o "
         fatigue += "<BR/>"
 
-
-        weapons = f"{'':{space}<20} 1M dom 2M INIT Score</BR>"
+        weapons = f"{'Arme':{space}<20} {'1M':{space}>4} /{'2M':{space}>4} INIT Score</BR>"
         for w in self.data['features']['weapons']:
-            weapons += f"{w['name']:{space}<20} {w['dom_1']:{space}>2} {dom:{space}>3} {w['dom_2']:{space}>2} {w['init']:{space}>4} {w['score']:{space}>5}</BR>"
+            weapons += f"{w['name']:{space}<20} "
+            if w['category'] == "mel":
+                if w['dom_1'] != '-':
+                    d1 = f"{w['dom_1']}+{dom}"
+                    weapons += f"{d1:{space}>4} "
+                else:
+                    weapons += f"{'-':{space}>4} "
+                weapons += "/"
+                if w['dom_2'] != '-':
+                    d2 = f"{w['dom_2']}+{math.floor(dom * 1.5)}"
+                    weapons += f"{d2:{space}>4} "
+                else:
+                    weapons += f"{'-':{space}>4} "
+            else:
+                weapons += f"{w['dom_1']:{space}>10} "
+            weapons += f" {w['init']:{space}>4} {w['score']:{space}>5}</BR>"
         lines.append(weapons)
+        if self.data['features']['armors']:
+            protection = f"{'Protection':{space}<35}{'Malus':{space}>7}{'Prot':{space}>6}<br/>"
+            for a in self.data['features']['armors']:
+                protection += f"{a['name']:{space}<35}{a['malus_armure']:{space}>7}{a['prot']:{space}>6}</BR>"
+            lines.append(protection)
         lines.append(life)
         lines.append(fatigue)
-        print(self.data['features']['weapons'])
-
         return lines
 
     def roster_as_text(self):

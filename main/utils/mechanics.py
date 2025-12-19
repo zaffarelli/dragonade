@@ -8,8 +8,12 @@ FONTSET = [
     "Neucha",
     "Are+You+Serious",
     "Smythe",
-    "Abel",
-    "Wellfleet"
+    "Kanit",
+    "Grenze+Gotisch",
+    "Wellfleet",
+    "Roboto",
+    "Roboto+Mono",
+    "Pirata+One"
 ]
 # Testing (Transfert to the previous one if valid)
 if settings.DEBUG == False:
@@ -22,9 +26,13 @@ if settings.DEBUG == False:
         "Miltonian",
         "Marhey",
         "Griffy",
+        "Grenze",
         "Mountains of Christmas",
         "Astloch",
-        "Fredoka"
+        "Fredoka",
+        "Jolly+Lodger",
+        "Pirata One",
+        "Sono",
     ]
 
 
@@ -72,12 +80,10 @@ def as_rid(str):
 
 
 MENU_ENTRIES = [
-    {"IDX": 1, "NAME": "Vaisseau", "LINK": "gardiendesreves", "SVG_REF": "_1.svg",
-     "TEXT": "Le coin du Gardien des Rêves"},
+    {"IDX": 1, "NAME": "Vaisseau", "LINK": "gardiendesreves", "SVG_REF": "_1.svg","TEXT": "Le coin du Gardien des Rêves"},
     {"IDX": 2, "NAME": "Sirene", "LINK": "carte", "SVG_REF": "_2.svg", "TEXT": "Aides de jeu"},
     {"IDX": 3, "NAME": "Faucon", "LINK": "piani", "SVG_REF": "_3.svg", "TEXT": "Plans & Cartes"},
-    {"IDX": 4, "NAME": "Couronne", "LINK": "stregoneria", "SVG_REF": "_4.svg",
-     "TEXT": "Sortilèges & Effets Draconiques"},
+    {"IDX": 4, "NAME": "Couronne", "LINK": "stregoneria", "SVG_REF": "_4.svg","TEXT": "Sortilèges & Effets Draconiques"},
     {"IDX": 5, "NAME": "Dragon", "LINK": "orologio", "SVG_REF": "_5.svg", "TEXT": "Horloge des Rêves"},
     {"IDX": 6, "NAME": "Epees", "LINK": "appartuses", "SVG_REF": "_6.svg", "TEXT": "Objets du Rêve"},
     {"IDX": 7, "NAME": "Lyre", "LINK": "", "SVG_REF": "_7.svg", "TEXT": ""},

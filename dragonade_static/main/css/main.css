@@ -59,6 +59,8 @@ $panel_week_background: darken($panel_background, 5%);
   align-content: flex-start;
   align-items: baseline;
   gap: 0px; }
+  .roster .classy {
+    font-family: "Pirata One"; }
   .roster table.skillstable {
     border: 0px solid #a69cac;
     cells-padding: 0;
@@ -89,7 +91,7 @@ $panel_week_background: darken($panel_background, 5%);
   .roster .sheet, .roster .spell {
     display: grid;
     flex: 0 0 auto;
-    font-family: Neucha;
+    font-family: "Roboto";
     font-size: 10pt;
     border: 1px solid rgba(46, 46, 46, 0.498039);
     border-radius: 5px;
@@ -121,14 +123,15 @@ $panel_week_background: darken($panel_background, 5%);
               background: #2532377F; }
     .roster .sheet.skills, .roster .spell.skills {
       grid-template-columns: 150px 75px;
-      grid-template-rows: repeat(6, 1.5em);
+      grid-template-rows: repeat(6, 1.65em);
       order: 2; }
       .roster .sheet.skills .label, .roster .spell.skills .label {
         grid-column: 1 / span 1; }
       .roster .sheet.skills .info, .roster .spell.skills .info {
         grid-column: 2 / span 1; }
       .roster .sheet.skills .header, .roster .spell.skills .header {
-        grid-column: 1 / span 2; }
+        grid-column: 1 / span 2;
+        font-weight: bold; }
       .roster .sheet.skills.martiales, .roster .spell.skills.martiales {
         order: 5; }
     .roster .sheet.magic, .roster .sheet.weapons, .roster .sheet.gear, .roster .spell.magic, .roster .spell.weapons, .roster .spell.gear {
@@ -210,9 +213,10 @@ $panel_week_background: darken($panel_background, 5%);
     .roster .sheet.roster, .roster .spell.roster {
       color: white;
       background: black;
-      font-family: mono;
-      font-size: 0.93em;
+      font-family: "Roboto Mono";
+      font-size: 0.83em;
       max-height: 24em;
+      width: 70ex;
       overflow: auto; }
   .roster .box.info.editable .btn_edit.value {
     border: 2px solid rgba(234, 239, 241, 0.498039);
@@ -419,7 +423,7 @@ body {
   .list legend {
     color: rgba(234, 239, 241, 0.498039);
     text-shadow: 0 0 10px #101010; }
-  .list .mini, .list .minisheet {
+  .list .mini {
     flex: 1 1 25ch;
     font-size: 8pt;
     padding: 2px;
@@ -428,11 +432,29 @@ body {
     border: 2px solid rgba(234, 239, 241, 0.498039);
     border-radius: 5px;
     order: 8; }
-    .list .mini .options, .list .minisheet .options {
+    .list .mini .options {
       color: #a69cac; }
-    .list .mini.autochton, .list .minisheet.autochton {
+    .list .mini.autochton {
       border-color: #109060; }
-    .list .mini.traveller, .list .minisheet.traveller {
+    .list .mini.traveller {
+      border-color: #106090; }
+  .list .minisheet {
+    flex: 1 1 20ch;
+    font-size: 14pt;
+    padding: 2pt;
+    font-family: "Grenze";
+    background: black;
+    text-align: center;
+    height: 5.0em;
+    border: 2px solid rgba(234, 239, 241, 0.498039);
+    border-radius: 5px;
+    order: 8; }
+    .list .minisheet .options {
+      color: #a69cac;
+      font-size: 12pt; }
+    .list .minisheet.autochton {
+      border-color: #109060; }
+    .list .minisheet.traveller {
       border-color: #106090; }
   .list .paginator {
     font-family: Wellfleet;

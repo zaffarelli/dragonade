@@ -45,6 +45,7 @@ def inc_dec(request):
 
 def value_push(request):
     cando = False
+    print("CO: VALUE PUSH")
     if is_ajax(request):
         if request.method == 'POST':
             from main.models.autochtons import Autochton

@@ -11,8 +11,7 @@
 
 
 {% for x in elements %}
-    <div class="minisheet" id="mini__{{x.id}}" code="{{x.code}}" title="{{x.name}}">
-        {{x.name|safe}}<br/><span class="options">{{x.rid|safe}}</span>
-    </div>
+    {% include "main/lists/list_item.html" with x=x %}
+
 {% endfor %}
 

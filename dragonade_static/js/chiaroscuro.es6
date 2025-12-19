@@ -208,12 +208,8 @@ class Chiaroscuro {
             e.preventDefault();
             e.stopPropagation();
             let new_value = $('#ed').val()
-//             console.log(new_value)
             let value = me.zaff_encode(new_value)
-//             console.log("zvalue",value)
             let refs = $("#target_ed").val();
-
-
             $.ajax({
                 url: 'ajax/value_push',
                 method: 'POST',
@@ -287,10 +283,11 @@ class Chiaroscuro {
             $(".roster").addClass('hidden');
             $("#roster_" + id).removeClass('hidden');
             $("#roster_" + id + " .sheet").removeClass('hidden');
-//             console.log("#roster_" + id + ".sheet")
+
             //$("#sb_"+id).removeClass('hidden');
             $(".for_display_" + id).removeClass('hidden');
             $(".for_edit_" + id).addClass('hidden');
+            console.debug("Showing #roster_" + id + ".sheet")
             me.registerActions();
         });
         $('.skill_switch').off().on('click', function (e) {
