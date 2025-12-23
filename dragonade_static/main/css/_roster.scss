@@ -8,6 +8,9 @@
     align-items: baseline;
     gap: 0px;
 
+    & .classy{
+        font-family: "Pirata One"
+    }
 
 
     table.skillstable{
@@ -54,7 +57,8 @@
     & .sheet, & .spell {
         display: grid;
         flex: 0 0 auto;
-        font-family:"Pirata One";
+//        font-family:Pirata One;
+        font-family:"Roboto";
         font-size:$roster_font_height;
         border:1px solid $palette2;
         border-radius:5px;
@@ -99,7 +103,7 @@
 
         &.skills{
             grid-template-columns: 150px 75px;
-            grid-template-rows: repeat(6,1.5em);
+            grid-template-rows: repeat(6,1.65em);
             order:2;
             & .label {
                 grid-column: 1 / span 1;
@@ -110,6 +114,7 @@
             }
             & .header {
                 grid-column: 1 / span 2;
+                font-weight:bold;
             }
             &.martiales{
                 order:5;
@@ -233,9 +238,10 @@
            &.roster{
             color:white;
             background:black;
-            font-family:mono;
-            font-size:0.93em;
+            font-family:"Roboto Mono";
+            font-size:0.83em;
             max-height:24em;
+            width:70ex;
             overflow:auto;
         }
 

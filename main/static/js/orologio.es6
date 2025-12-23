@@ -21,7 +21,7 @@ class Orologio extends Modulo {
 //         console.log("Width", me.w," Height",me.h)
         me.step = me.width / 34;
         me.fontsize = me.step / 4;
-        me.light = [0, 0, 0, 0, 0, 0, 0.40, 0.70, 0.90, 1, 0.90,0.70,0.4];
+        me.light = [1,1,.5,0,0,0,0,0,.5,1,1, 1]
         d3.select(me.parent).selectAll("svg").remove();
         me.vis = d3.select(me.parent).append("svg")
             .attr("class", "vis")
