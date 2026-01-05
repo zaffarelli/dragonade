@@ -10,13 +10,22 @@ $panel_day_background: darken($panel_background,25%);
 $panel_week_background: darken($panel_background, 5%);
 */
 .btn {
-  background: #9a7b54;
-  border-radius: 3px;
-  border: 1px solid #d5c5b2;
-  color: #372c1e;
-  font-family: Neucha;
-  width: 90ex;
-  display: inline-block; }
+  display: inline-block;
+  background: #606060;
+  width: 20ex;
+  color: white;
+  border-radius: 3pt;
+  border: 1pt solid #202020;
+  font-family: "Roboto";
+  line-height: 1.8em;
+  border-radius: 3pt;
+  padding: 3pt;
+  border-color: #808080;
+  margin: 5pt; }
+  .btn:hover {
+    background: #4b1f4a;
+    color: #f0c040;
+    cursor: pointer; }
 
 .coded {
   font-family: Wellfleet;
@@ -54,41 +63,40 @@ $panel_week_background: darken($panel_background, 5%);
 .roster {
   background: transparent;
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column wrap;
   justify-content: flex-start;
-  align-content: flex-start;
+  align-content: space-around;
   align-items: baseline;
-  gap: 0px; }
+  gap: 0px;
+  height: 90vh;
+  width: 76vw;
+  margin: auto;
+  bottom: 10px;
+  overflow-y: scroll; }
   .roster .classy {
     font-family: "Pirata One"; }
-  .roster table.skillstable {
-    border: 0px solid #a69cac;
-    cells-padding: 0;
-    cells-spacing: 0;
-    background: transparent;
-    border-radius: 10px;
-    height: auto;
-    width: auto;
-    margin: 0; }
-    .roster table.skillstable td {
-      border: 0px solid transparent;
-      vertical-align: middle;
-      background: transparent; }
-    .roster table.skillstable.autochton {
-      background: #1030207F; }
-      .roster table.skillstable.autochton .header {
-        color: white;
-        background: rgba(46, 46, 46, 0.498039); }
-      .roster table.skillstable.autochton .sheet {
-        background: #608060; }
-    .roster table.skillstable.traveller {
-      background: #1020307F; }
-      .roster table.skillstable.traveller .header {
-        color: white;
-        background: rgba(46, 46, 46, 0.498039); }
-      .roster table.skillstable.traveller .sheet {
-        background: #606080; }
-  .roster .sheet, .roster .spell {
+  .roster.skillstable.autochton {
+    background: #1030207F; }
+    .roster.skillstable.autochton .header {
+      color: white;
+      background: rgba(46, 46, 46, 0.498039); }
+    .roster.skillstable.autochton .sheet {
+      background: #608060; }
+  .roster.skillstable.traveller {
+    background: #1020307F; }
+    .roster.skillstable.traveller .header {
+      color: white;
+      background: rgba(46, 46, 46, 0.498039); }
+    .roster.skillstable.traveller .sheet {
+      background: #606080; }
+  .roster.skillstable.creature {
+    background: #3010207F; }
+    .roster.skillstable.creature .header {
+      color: white;
+      background: rgba(46, 46, 46, 0.498039); }
+    .roster.skillstable.creature .sheet {
+      background: #806060; }
+  .roster .sheet {
     display: grid;
     flex: 0 0 auto;
     font-family: "Roboto";
@@ -99,100 +107,98 @@ $panel_week_background: darken($panel_background, 5%);
     padding: 5px;
     gap: 0px;
     box-shadow: 0 0 16px #101010; }
-    .roster .sheet .box, .roster .spell .box {
+    .roster .sheet .box {
       border-radius: 1px;
       padding: 3px;
-      border: 1px solid #2532377F; }
-      .roster .sheet .box.label, .roster .spell .box.label {
+      border: 1px solid #2532377F;
+      height: auto; }
+      .roster .sheet .box.label {
         background-color: rgba(46, 46, 46, 0.498039);
         color: white; }
-      .roster .sheet .box.info, .roster .spell .box.info {
+      .roster .sheet .box.info {
         background: rgba(0, 0, 0, 0.498039);
         color: white; }
-        .roster .sheet .box.info.editable, .roster .spell .box.info.editable {
+        .roster .sheet .box.info.editable {
           cursor: pointer; }
-          .roster .sheet .box.info.editable .btn_edit.minus:hover, .roster .spell .box.info.editable .btn_edit.minus:hover {
-            color: lime; }
-          .roster .sheet .box.info.editable .btn_edit.plus:hover, .roster .spell .box.info.editable .btn_edit.plus:hover {
-            color: orangered; }
-          .roster .sheet .box.info.editable .btn_edit.value, .roster .spell .box.info.editable .btn_edit.value {
+          .roster .sheet .box.info.editable .btn_edit.minus:hover {
+            color: lime;
+            width: 2ex; }
+          .roster .sheet .box.info.editable .btn_edit.plus:hover {
+            color: orangered;
+            width: 2ex; }
+          .roster .sheet .box.info.editable .btn_edit.value {
             display: inline-block;
-            width: 4ex;
+            min-width: 4ex;
             text-align: center; }
-            .roster .sheet .box.info.editable .btn_edit.value:hover, .roster .spell .box.info.editable .btn_edit.value:hover {
+            .roster .sheet .box.info.editable .btn_edit.value:hover {
               background: #2532377F; }
-    .roster .sheet.skills, .roster .spell.skills {
+    .roster .sheet.skills {
       grid-template-columns: 150px 75px;
-      grid-template-rows: repeat(6, 1.65em);
-      order: 2; }
-      .roster .sheet.skills .label, .roster .spell.skills .label {
+      grid-template-rows: repeat(6, 1.65em); }
+      .roster .sheet.skills .label {
         grid-column: 1 / span 1; }
-      .roster .sheet.skills .info, .roster .spell.skills .info {
+      .roster .sheet.skills .info {
         grid-column: 2 / span 1; }
-      .roster .sheet.skills .header, .roster .spell.skills .header {
+      .roster .sheet.skills .header {
         grid-column: 1 / span 2;
         font-weight: bold; }
-      .roster .sheet.skills.martiales, .roster .spell.skills.martiales {
-        order: 5; }
-    .roster .sheet.magic, .roster .sheet.weapons, .roster .sheet.gear, .roster .spell.magic, .roster .spell.weapons, .roster .spell.gear {
+    .roster .sheet.magic, .roster .sheet.weapons, .roster .sheet.protection {
       grid-template-columns: 75px 150px;
-      order: 2;
       overflow-y: auto;
-      max-height: 200px; }
-      .roster .sheet.magic .label, .roster .sheet.weapons .label, .roster .sheet.gear .label, .roster .spell.magic .label, .roster .spell.weapons .label, .roster .spell.gear .label {
+      min-height: 200px; }
+      .roster .sheet.magic .label, .roster .sheet.weapons .label, .roster .sheet.protection .label {
         grid-column: 1 / span 1; }
-      .roster .sheet.magic .info, .roster .sheet.weapons .info, .roster .sheet.gear .info, .roster .spell.magic .info, .roster .spell.weapons .info, .roster .spell.gear .info {
+      .roster .sheet.magic .info, .roster .sheet.weapons .info, .roster .sheet.protection .info {
         grid-column: 2 / span 1; }
-      .roster .sheet.magic .header, .roster .sheet.weapons .header, .roster .sheet.gear .header, .roster .spell.magic .header, .roster .spell.weapons .header, .roster .spell.gear .header {
+      .roster .sheet.magic .header, .roster .sheet.weapons .header, .roster .sheet.protection .header {
         grid-column: 1 / span 2; }
-    .roster .sheet.base, .roster .sheet.magic, .roster .sheet.weapons, .roster .spell.base, .roster .spell.magic, .roster .spell.weapons {
-      grid-template-columns: 60px 30px 30px 60px 80px 80px 80px 80px;
-      grid-template-rows: repeat(10, 1.5em);
-      order: 1;
+    .roster .sheet.base, .roster .sheet.magic, .roster .sheet.weapons, .roster .sheet.protection {
+      grid-template-columns: 60px 90px 90px 90px 90px 90px 90px 90px;
+      grid-template-rows: repeat(20, 2em);
       flex: 0 1 auto; }
-      .roster .sheet.base .header, .roster .sheet.magic .header, .roster .sheet.weapons .header, .roster .spell.base .header, .roster .spell.magic .header, .roster .spell.weapons .header {
+      .roster .sheet.base .header, .roster .sheet.magic .header, .roster .sheet.weapons .header, .roster .sheet.protection .header {
         grid-column: 1 / span 8; }
-      .roster .sheet.base .label, .roster .sheet.magic .label, .roster .sheet.weapons .label, .roster .spell.base .label, .roster .spell.magic .label, .roster .spell.weapons .label {
+      .roster .sheet.base .label, .roster .sheet.magic .label, .roster .sheet.weapons .label, .roster .sheet.protection .label {
         grid-column: 1 / span 4; }
-        .roster .sheet.base .label.sub, .roster .sheet.magic .label.sub, .roster .sheet.weapons .label.sub, .roster .spell.base .label.sub, .roster .spell.magic .label.sub, .roster .spell.weapons .label.sub {
+        .roster .sheet.base .label.sub, .roster .sheet.magic .label.sub, .roster .sheet.weapons .label.sub, .roster .sheet.protection .label.sub {
           grid-row: span 2;
           align-self: stretch;
           vertical-align: middle; }
-        .roster .sheet.base .label.nw, .roster .sheet.magic .label.nw, .roster .sheet.weapons .label.nw, .roster .spell.base .label.nw, .roster .spell.magic .label.nw, .roster .spell.weapons .label.nw {
+        .roster .sheet.base .label.nw, .roster .sheet.magic .label.nw, .roster .sheet.weapons .label.nw, .roster .sheet.protection .label.nw {
           grid-column: 1 / span 1; }
-        .roster .sheet.base .label.ne, .roster .sheet.magic .label.ne, .roster .sheet.weapons .label.ne, .roster .spell.base .label.ne, .roster .spell.magic .label.ne, .roster .spell.weapons .label.ne {
+        .roster .sheet.base .label.ne, .roster .sheet.magic .label.ne, .roster .sheet.weapons .label.ne, .roster .sheet.protection .label.ne {
           grid-column: 3 / span 1; }
-        .roster .sheet.base .label.sw, .roster .sheet.magic .label.sw, .roster .sheet.weapons .label.sw, .roster .spell.base .label.sw, .roster .spell.magic .label.sw, .roster .spell.weapons .label.sw {
+        .roster .sheet.base .label.sw, .roster .sheet.magic .label.sw, .roster .sheet.weapons .label.sw, .roster .sheet.protection .label.sw {
           grid-column: 1 / span 1; }
-        .roster .sheet.base .label.se, .roster .sheet.magic .label.se, .roster .sheet.weapons .label.se, .roster .spell.base .label.se, .roster .spell.magic .label.se, .roster .spell.weapons .label.se {
+        .roster .sheet.base .label.se, .roster .sheet.magic .label.se, .roster .sheet.weapons .label.se, .roster .sheet.protection .label.se {
           grid-column: 3 / span 1; }
-        .roster .sheet.base .label.full, .roster .sheet.magic .label.full, .roster .sheet.weapons .label.full, .roster .spell.base .label.full, .roster .spell.magic .label.full, .roster .spell.weapons .label.full {
+        .roster .sheet.base .label.full, .roster .sheet.magic .label.full, .roster .sheet.weapons .label.full, .roster .sheet.protection .label.full {
           grid-column: 1 / span 8; }
-          .roster .sheet.base .label.full.large, .roster .sheet.magic .label.full.large, .roster .sheet.weapons .label.full.large, .roster .spell.base .label.full.large, .roster .spell.magic .label.full.large, .roster .spell.weapons .label.full.large {
+          .roster .sheet.base .label.full.large, .roster .sheet.magic .label.full.large, .roster .sheet.weapons .label.full.large, .roster .sheet.protection .label.full.large {
             font-size: 2em;
             grid-row: span 2; }
-        .roster .sheet.base .label.left, .roster .sheet.magic .label.left, .roster .sheet.weapons .label.left, .roster .spell.base .label.left, .roster .spell.magic .label.left, .roster .spell.weapons .label.left {
+        .roster .sheet.base .label.left, .roster .sheet.magic .label.left, .roster .sheet.weapons .label.left, .roster .sheet.protection .label.left {
           grid-column: 1 / span 4;
           grid-row: 1 / span 2; }
-        .roster .sheet.base .label.mid, .roster .sheet.magic .label.mid, .roster .sheet.weapons .label.mid, .roster .spell.base .label.mid, .roster .spell.magic .label.mid, .roster .spell.weapons .label.mid {
+        .roster .sheet.base .label.mid, .roster .sheet.magic .label.mid, .roster .sheet.weapons .label.mid, .roster .sheet.protection .label.mid {
           grid-column: 5  / span 2;
           grid-row: 1 / span 2; }
-        .roster .sheet.base .label.right, .roster .sheet.magic .label.right, .roster .sheet.weapons .label.right, .roster .spell.base .label.right, .roster .spell.magic .label.right, .roster .spell.weapons .label.right {
+        .roster .sheet.base .label.right, .roster .sheet.magic .label.right, .roster .sheet.weapons .label.right, .roster .sheet.protection .label.right {
           grid-column: 7  / span 2;
           grid-row: 1 / span 2; }
-      .roster .sheet.base .info, .roster .sheet.magic .info, .roster .sheet.weapons .info, .roster .spell.base .info, .roster .spell.magic .info, .roster .spell.weapons .info {
+      .roster .sheet.base .info, .roster .sheet.magic .info, .roster .sheet.weapons .info, .roster .sheet.protection .info {
         grid-column: 5 / span 4; }
-        .roster .sheet.base .info.nw, .roster .sheet.magic .info.nw, .roster .sheet.weapons .info.nw, .roster .spell.base .info.nw, .roster .spell.magic .info.nw, .roster .spell.weapons .info.nw {
+        .roster .sheet.base .info.nw, .roster .sheet.magic .info.nw, .roster .sheet.weapons .info.nw, .roster .sheet.protection .info.nw {
           grid-column: 2 / span 1; }
-        .roster .sheet.base .info.ne, .roster .sheet.magic .info.ne, .roster .sheet.weapons .info.ne, .roster .spell.base .info.ne, .roster .spell.magic .info.ne, .roster .spell.weapons .info.ne {
+        .roster .sheet.base .info.ne, .roster .sheet.magic .info.ne, .roster .sheet.weapons .info.ne, .roster .sheet.protection .info.ne {
           grid-column: 4 / span 1; }
-        .roster .sheet.base .info.sw, .roster .sheet.magic .info.sw, .roster .sheet.weapons .info.sw, .roster .spell.base .info.sw, .roster .spell.magic .info.sw, .roster .spell.weapons .info.sw {
+        .roster .sheet.base .info.sw, .roster .sheet.magic .info.sw, .roster .sheet.weapons .info.sw, .roster .sheet.protection .info.sw {
           grid-column: 2 / span 1; }
-        .roster .sheet.base .info.se, .roster .sheet.magic .info.se, .roster .sheet.weapons .info.se, .roster .spell.base .info.se, .roster .spell.magic .info.se, .roster .spell.weapons .info.se {
+        .roster .sheet.base .info.se, .roster .sheet.magic .info.se, .roster .sheet.weapons .info.se, .roster .sheet.protection .info.se {
           grid-column: 4 / span 1; }
-      .roster .sheet.base .large, .roster .sheet.magic .large, .roster .sheet.weapons .large, .roster .spell.base .large, .roster .spell.magic .large, .roster .spell.weapons .large {
+      .roster .sheet.base .large, .roster .sheet.magic .large, .roster .sheet.weapons .large, .roster .sheet.protection .large {
         grid-row: span 4; }
-      .roster .sheet.base .subset, .roster .sheet.magic .subset, .roster .sheet.weapons .subset, .roster .spell.base .subset, .roster .spell.magic .subset, .roster .spell.weapons .subset {
+      .roster .sheet.base .subset, .roster .sheet.magic .subset, .roster .sheet.weapons .subset, .roster .sheet.protection .subset {
         border: 1px solid rgba(46, 46, 46, 0.498039);
         gap: 1px;
         padding: 2px;
@@ -201,7 +207,7 @@ $panel_week_background: darken($panel_background, 5%);
         display: grid;
         grid-template-columns: subgrid;
         grid-template-rows: subgrid; }
-      .roster .sheet.base .triset, .roster .sheet.magic .triset, .roster .sheet.weapons .triset, .roster .spell.base .triset, .roster .spell.magic .triset, .roster .spell.weapons .triset {
+      .roster .sheet.base .triset, .roster .sheet.magic .triset, .roster .sheet.weapons .triset, .roster .sheet.protection .triset {
         border: 1px solid rgba(46, 46, 46, 0.498039);
         gap: 1px;
         padding: 2px;
@@ -210,30 +216,61 @@ $panel_week_background: darken($panel_background, 5%);
         display: grid;
         grid-template-columns: subgrid;
         grid-template-rows: subgrid; }
-    .roster .sheet.roster, .roster .spell.roster {
+    .roster .sheet.weapons {
+      grid-template-rows: repeat(10, 2em); }
+    .roster .sheet.protection {
+      grid-template-rows: repeat(5, 2em); }
+    .roster .sheet.summary, .roster .sheet.gear {
+      display: block;
       color: white;
       background: black;
       font-family: "Roboto Mono";
       font-size: 0.83em;
-      max-height: 24em;
-      width: 70ex;
+      max-height: 40em;
+      width: 96ex;
       overflow: auto; }
+    .roster .sheet.base {
+      order: 1; }
+    .roster .sheet.skills {
+      order: 7; }
+    .roster .sheet.weapons {
+      order: 4; }
+    .roster .sheet.protection {
+      order: 5; }
+    .roster .sheet.gear {
+      order: 6; }
+    .roster .sheet.magic {
+      order: 3; }
+    .roster .sheet.summary {
+      order: 2; }
   .roster .box.info.editable .btn_edit.value {
     border: 2px solid rgba(234, 239, 241, 0.498039);
     border-radius: 3px;
+    background: black;
     cursor: crosshair; }
+
+.gearit {
+  display: inline-block;
+  background: #606060;
+  width: 20ex;
+  color: white;
+  border-radius: 3pt;
+  border: 1pt solid #202020;
+  font-family: "Roboto";
+  line-height: 1.8em;
+  border-radius: 3pt;
+  padding: 3pt;
+  width: auto;
+  margin: 3pt; }
+  .gearit:hover {
+    background: #4b1f4a;
+    color: #f0c040;
+    cursor: pointer; }
 
 body {
   margin: 0;
   padding: 0; }
-  body .world {
-    background: #2532377F;
-    margin-top: 0;
-    margin-bottom: 0;
-    z-index: 5;
-    position: absolute;
-    color: rgba(234, 239, 241, 0.498039);
-    font-family: Neucha;
+  body .universe {
     width: 99vw;
     height: 99vh;
     top: 0;
@@ -241,51 +278,73 @@ body {
     padding: 3px;
     border: 3px solid transparent;
     border-radius: 10px; }
-    body .world .spare_right {
+    body .universe .spare_top {
       position: fixed;
       top: 0;
       right: 0;
-      bottom: 0;
-      left: auto;
-      width: 30vw;
-      border: 1px solid transparent;
+      left: 0;
+      bottom: auto;
+      height: 3vh;
+      z-index: 400; }
+    body .universe .world {
       background: #2532377F;
-      display: flex;
-      flex-flow: column nowrap;
-      justify-content: flex-start;
-      align-content: flex-start;
-      align-items: stretch;
-      padding: 5px;
-      z-index: 50; }
-    body .world .corpus {
+      margin-top: 0;
+      margin-bottom: 0;
+      z-index: 5;
       position: fixed;
+      color: rgba(234, 239, 241, 0.498039);
+      font-family: Neucha;
       width: auto;
       height: auto;
-      top: 0;
-      right: 30vw;
-      bottom: 0;
-      left: 0;
-      padding: 15px;
-      border-radius: 15px;
-      background: #2532377F;
-      color: rgba(234, 239, 241, 0.498039);
-      border-radius: 10px;
-      border: 1px solid transparent;
-      z-index: 10; }
-
-#svg_area {
-  display: fixed;
-  background: rgba(234, 239, 241, 0.498039);
-  left: 1vw;
-  right: 1vw;
-  top: 1vw;
-  bottom: auto;
-  width: auto;
-  height: 98vh;
-  border-radius: 10px;
-  z-index: 40; }
-  #svg_area svg {
-    border: 3px solid #303050; }
+      top: 4vh;
+      gap: 0;
+      padding: 3px;
+      border: 3px solid transparent;
+      border-radius: 10px; }
+      body .universe .world .spare_right {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: auto;
+        width: 20vw;
+        height: auto;
+        border: 1px solid transparent;
+        background: #2532377F;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: flex-start;
+        align-content: flex-start;
+        align-items: stretch;
+        padding: 5px;
+        z-index: 50; }
+      body .universe .world .corpus {
+        width: auto;
+        height: auto;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        padding: 15px;
+        border-radius: 15px;
+        background: #2532377F;
+        color: rgba(234, 239, 241, 0.498039);
+        border-radius: 10px;
+        border: 1px solid transparent;
+        z-index: 10; }
+        body .universe .world .corpus #svg_area {
+          position: fixed;
+          background: rgba(234, 239, 241, 0.498039);
+          left: 1vw;
+          right: 1vw;
+          top: 1vh;
+          bottom: 1vh;
+          width: auto;
+          height: auto;
+          border-radius: 10px;
+          z-index: 40; }
+          body .universe .world .corpus #svg_area svg {
+            border: 3px solid #303050; }
 
 #d3area {
   order: 8;
@@ -295,13 +354,13 @@ body {
 
 .title {
   margin: 0;
-  padding: 2px;
-  border: 2px solid rgba(46, 46, 46, 0.498039);
-  border-radius: 5px;
-  background: rgba(46, 46, 46, 0.498039);
+  padding: 2pt;
   box-shadow: 0 0 3px #a69cac;
-  color: rgba(234, 239, 241, 0.498039);
-  font-family: Neucha;
+  font-family: "Roboto";
+  font-size: 10pt;
+  color: white;
+  border-radius: 4pt;
+  background: #1010107f;
   order: 1;
   flex: 0 0 auto;
   text-align: center; }
@@ -311,13 +370,13 @@ body {
 
 .middle {
   margin: 0;
-  padding: 2px;
-  border: 2px solid rgba(46, 46, 46, 0.498039);
-  border-radius: 5px;
-  background: rgba(46, 46, 46, 0.498039);
+  padding: 2pt;
   box-shadow: 0 0 3px #a69cac;
-  color: rgba(234, 239, 241, 0.498039);
-  font-family: Neucha;
+  font-family: "Roboto";
+  font-size: 10pt;
+  color: white;
+  border-radius: 4pt;
+  background: #1010107f;
   order: 2;
   flex: 1 1 auto; }
   .middle legend {
@@ -325,13 +384,13 @@ body {
     text-shadow: 0 0 10px #101010; }
   .middle .middleblock {
     margin: 0;
-    padding: 2px;
-    border: 2px solid rgba(46, 46, 46, 0.498039);
-    border-radius: 5px;
-    background: rgba(46, 46, 46, 0.498039);
+    padding: 2pt;
     box-shadow: 0 0 3px #a69cac;
-    color: rgba(234, 239, 241, 0.498039);
-    font-family: Neucha;
+    font-family: "Roboto";
+    font-size: 10pt;
+    color: white;
+    border-radius: 4pt;
+    background: #1010107f;
     margin: auto;
     display: block;
     text-align: center; }
@@ -346,8 +405,16 @@ body {
       padding: 5px; }
 
 #target_ed, #ed {
+  margin: 0;
+  padding: 2pt;
+  box-shadow: 0 0 3px #a69cac;
+  font-family: "Roboto";
+  font-size: 10pt;
+  color: white;
+  border-radius: 4pt;
+  background: #1010107f;
   display: block;
-  width: 50ex;
+  width: 98%;
   height: 6em;
   margin: auto;
   background: #00000070;
@@ -355,28 +422,19 @@ body {
   padding: 5px;
   border-radius: 5px;
   color: white; }
-
-#target_ed {
-  border-color: #101010;
-  height: 1.2em; }
-
-.btn {
-  display: block;
-  margin: auto;
-  width: 20ex;
-  height: 1.2em;
-  padding: 5px;
-  border-radius: 5px; }
+  #target_ed legend, #ed legend {
+    color: rgba(234, 239, 241, 0.498039);
+    text-shadow: 0 0 10px #101010; }
 
 .menu {
   margin: 0;
-  padding: 2px;
-  border: 2px solid rgba(46, 46, 46, 0.498039);
-  border-radius: 5px;
-  background: rgba(46, 46, 46, 0.498039);
+  padding: 2pt;
   box-shadow: 0 0 3px #a69cac;
-  color: rgba(234, 239, 241, 0.498039);
-  font-family: Neucha;
+  font-family: "Roboto";
+  font-size: 10pt;
+  color: white;
+  border-radius: 4pt;
+  background: #1010107f;
   order: 5;
   flex: 0 0 auto;
   display: flex;
@@ -406,26 +464,67 @@ body {
 
 .list {
   margin: 0;
-  padding: 2px;
-  border: 2px solid rgba(46, 46, 46, 0.498039);
-  border-radius: 5px;
-  background: rgba(46, 46, 46, 0.498039);
+  padding: 2pt;
   box-shadow: 0 0 3px #a69cac;
-  color: rgba(234, 239, 241, 0.498039);
-  font-family: Neucha;
+  font-family: "Roboto";
+  font-size: 10pt;
+  color: white;
+  border-radius: 4pt;
+  background: #1010107f;
   order: 4;
-  flex: 0 0 10vh;
+  flex: 0 0 16vh;
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column nowrap;
   justify-content: flex-start;
   align-content: space-around;
   gap: 1px; }
   .list legend {
     color: rgba(234, 239, 241, 0.498039);
     text-shadow: 0 0 10px #101010; }
+  .list .list_header {
+    text-align: center; }
+    .list .list_header .paginator {
+      border: 1pt solid #303030;
+      border-radius: 3pt;
+      background: black;
+      color: silver;
+      display: inline-block;
+      width: 31%;
+      cursor: pointer; }
+      .list .list_header .paginator.current {
+        background: transparent;
+        cursor: none; }
+  .list .list_body .list_entry {
+    color: white;
+    display: flex;
+    flex: 0 0 1em;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: stretch;
+    gap: 2pt;
+    border: 1pt solid black;
+    border-radius: 2pt;
+    cursor: pointer; }
+    .list .list_body .list_entry .ref {
+      order: 1;
+      flex: 0 0 3ex;
+      background: #301010;
+      text-align: center; }
+    .list .list_body .list_entry .base {
+      order: 2;
+      flex: 0 0 8vw;
+      background: #3010107f; }
+    .list .list_body .list_entry .options {
+      order: 3;
+      flex: 0 0 5vw;
+      background: #3010107f; }
+    .list .list_body .list_entry .complement {
+      order: 4;
+      flex: 1 1 auto;
+      background: #3010107f; }
   .list .mini {
     flex: 1 1 25ch;
-    font-size: 8pt;
     padding: 2px;
     font-family: Wellfleet;
     height: 4.0em;
@@ -527,16 +626,6 @@ body {
   gap: 5px;
   flex: 1 1 10vw; }
 
-div.showhide.eye {
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 50000;
-  background: #B19470;
-  border-radius: 15px;
-  padding: 15px;
-  color: white; }
-
 .svg {
   border: 3px solid blue; }
 
@@ -544,26 +633,32 @@ div.showhide.eye {
   border: 3px solid green; }
 
 .list_block {
+  margin: 0;
+  padding: 2pt;
+  box-shadow: 0 0 3px #a69cac;
+  font-family: "Roboto";
+  font-size: 10pt;
+  color: white;
+  border-radius: 4pt;
+  background: #1010107f;
   text-align: left;
-  border: 2px solid #101010;
   height: 32em;
   width: auto;
   margin-top: 0;
   margin-bottom: 0;
-  font-family: Wellfleet;
-  font-size: 10pt;
   overflow-y: scroll;
   display: flex;
   flex-flow: column nowrap;
   justify-items: flex-start;
   align-content: flex-start;
   align-items: stretch; }
+  .list_block legend {
+    color: rgba(234, 239, 241, 0.498039);
+    text-shadow: 0 0 10px #101010; }
   .list_block .spell_entry {
     order: 2;
     display: flex;
     flex-flow: row wrap;
-    font-family: Neucha;
-    font-size: 10pt;
     justify-items: flex-start;
     align-content: flex-start;
     align-items: flex-start;
@@ -598,5 +693,72 @@ div.showhide.eye {
     background: #a69cac; }
   .mini.hautrevant.mark {
     background: rgba(46, 46, 46, 0.498039); }
+
+.zmenu {
+  font-family: "Roboto";
+  font-size: 12pt;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  z-index: 500000;
+  padding: 0;
+  margin: 0;
+  list-style-type: none; }
+  .zmenu::after {
+    content: '';
+    clear: both;
+    display: block; }
+  .zmenu li {
+    position: relative; }
+    .zmenu li span.label {
+      display: inline-block;
+      background: #606060;
+      width: 20ex;
+      color: white;
+      border-radius: 3pt;
+      border: 1pt solid #202020;
+      font-family: "Roboto";
+      line-height: 1.8em;
+      border-radius: 3pt;
+      padding: 3pt; }
+      .zmenu li span.label:hover {
+        background: #4b1f4a;
+        color: #f0c040;
+        cursor: pointer; }
+  .zmenu > li {
+    float: left; }
+  .zmenu ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    position: absolute;
+    box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.5); }
+  .zmenu ul li + li {
+    border-top: 1px solid #fff; }
+  .zmenu > li ul, .zmenu ul ul {
+    opacity: 0;
+    -webkit-transition: all 0.2s ease-in;
+    -moz-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+    z-index: -1;
+    visibility: hidden; }
+  .zmenu > li ul {
+    top: 130%;
+    left: 0; }
+  .zmenu ul ul {
+    left: 130%;
+    top: 0; }
+  .zmenu ul span.label {
+    width: 250px; }
+  .zmenu > li:hover > ul {
+    top: 100%;
+    opacity: 1;
+    z-index: 1;
+    visibility: visible; }
+  .zmenu ul > li:hover > ul {
+    left: 100%;
+    opacity: 1;
+    z-index: 1;
+    visibility: visible; }
 
 /*# sourceMappingURL=main.css.map */

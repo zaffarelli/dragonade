@@ -8,6 +8,10 @@ $palette3: #a69cac; // Panel text
 $palette4: lighten($palette1,75%); // Paper
 $palette5: complement(lighten($palette1,20%)); // Highlight
 
+$font:"Roboto";
+$mono:"Roboto Mono";
+$font_height:12pt;
+
 
 $body_color: $palette4;
 $body_background: $palette1;
@@ -48,7 +52,7 @@ $hour_pixel: 42;
 
 $env_text: black;
 
-$font_height: 8pt;
+
 $roster_font_height: 10pt;
 
 //$plate_color: lighten($panel_color,10%);
@@ -66,29 +70,41 @@ $standard_box: darken($active_box,30%);
 $sub_box: complement($standard_box);
 
 @mixin btn_look{
-    background: darken($theme1,10%);
-    border-radius:3px;
-    border:1px solid lighten($theme1,20%);
-    color: darken($theme1,40%);
-    font-family: Neucha;
-    width:90ex;
     display:inline-block;
+    background: #606060;
+    width:20ex;
+    color: white;
+    border-radius:3pt;
+    border:1pt solid #202020;
+    font-family: $font;
+    line-height:1.8em;
+    border-radius:3pt;
+    padding:3pt;
+    &:hover{
+        background:#4b1f4a;
+        color:#f0c040;
+        cursor:pointer;
+    }
 }
 
 .btn{
     @include btn_look
+    border-color:#808080;
+    margin:5pt;
 }
 
 
 @mixin dragonade_panel{
     margin: 0;
-    padding:2px;
-    border:2px solid $palette2;
-    border-radius:5px;
-    background: $palette2;
+    padding:2pt;
+
     box-shadow: 0 0 3px $palette3;
-    color:$palette4;
-    font-family: Neucha;
+    font-family:$font;
+    font-size:10pt;
+    color:white;
+    border-radius:4pt;
+    background:#1010107f;
+
     & legend{
         color:$palette4;
         text-shadow: 0 0 10px $palette0;
@@ -105,3 +121,5 @@ $sub_box: complement($standard_box);
 .p3{background:$palette3;color:$palette0}
 .p4{background:$palette4;color:$palette0}
 .p5{background:$palette5;color:$palette0}
+
+$right_panel_width: 20vw;

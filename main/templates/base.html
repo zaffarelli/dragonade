@@ -28,24 +28,32 @@
     <script type="text/javascript" src='{% static "js/piani.es6" %}'></script>
     <script type="text/javascript" src='{% static "js/chiaroscuro.es6" %}'></script>
     {% for font in config.fontset %}
-        <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family={{ font }}">
+    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family={{ font }}">
     {% endfor %}
     <link rel='stylesheet' type='text/css' href='{% sass_src "main/css/main.scss" %}'/>
 </head>
 <body style="background:transparent url({% static 'main/images/back7.jpg' %}) fixed; opacity: 0.95;">
-<div class="world hidden">
-    <div class="corpus">
-        {% block main %}
-        {% endblock main %}
+
+
+<div class="universe">
+    <div class="spare_top">
+        {% include "main/zmenu.html" with menu=config.zmenu %}
     </div>
-    <div class="spare_right">
-        {% block east %}
-        {% endblock east %}
-    </div>
-    <div class="showhide eye hidden" target="spare_right">
-        <i class="fa fa-eye"></i>
+    <div class="world hidden">
+        <div class="corpus">
+            {% block main %}
+            {% endblock main %}
+        </div>
+        <div class="spare_right">
+            {% block east %}
+            {% endblock east %}
+        </div>
+        <div class="showhide eye hidden" target="spare_right">
+            <i class="fa fa-eye"></i>
+        </div>
     </div>
 </div>
+
 
 <div id="overlay" class="hidden">
     {% block overlay %}

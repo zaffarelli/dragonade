@@ -51,6 +51,15 @@ def as_draconichour(value):
             str = f'static/main/svg/2024/sd_{value}.svg'
     return str
 
+@register.filter(name='as_hour')
+def as_hour(value):
+    str = ""
+    if isinstance(value, int):
+        vals = ["Vaisseau","Sirène","Faucon","Couronne","Dragon","Epées","Lyre","Serpent","Poisson-Acrobate","Araignée","Roseau","Chateau-Dormant"]
+        if value > 0:
+            str = vals[value]
+    return str
+
 
 @register.filter(name='as_skill')
 def as_skill(value):
@@ -155,7 +164,7 @@ def lefty(value):
     if value == "D":
         result = "Droitier"
     else:
-        result = "Gauchère"
+        result = "Gaucher"
     return result
 
 
@@ -259,3 +268,11 @@ def acro(value):
     else:
         result = s
     return result.upper()
+
+@register.filter(name='as_gear_list')
+def as_gear_list(value):
+    items = value.split(" ")
+    str = ""
+    for item in items:
+        str += f"<span class='gearit' item='{item}'>{item}</span> "
+    return str

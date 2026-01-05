@@ -5,10 +5,7 @@
 {% block east %}
     {% include "main/menu.html" with title=title %}
     {% include "main/lists/stregoneria_options.html"%}
-    <fieldset class="list">
-        <legend>Sortilèges</legend>
-        {% include "main/lists/stregoneria_list.html" %}
-    </fieldset>
+    {% include "main/lists/list.html" %}
 {% endblock east %}
 
 

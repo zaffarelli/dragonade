@@ -58,6 +58,7 @@ def value_push(request):
             value = zaff_decode(new_value)
             print("New value     =>", new_value)
             print("Value to push =>", value)
+            print("Params =>", params)
             if len(params) >= 3:
                 class_name = params[0]
                 id = params[1]
@@ -70,14 +71,15 @@ def value_push(request):
                     cando = True
                 if class_name.title() == "Traveller":
                     item = Traveller.objects.get(id=id)
+                    print("Traveller found: ",item.rid)
                     cando = True
-                if cando:
-                    print("success!!")
-                    change_result = item.applyValuePush(attribute, value)
-                    context = {'a': item.toJson()}
-                    template = get_template('main/objects/roster.html')
-                    new_roster = template.render(context, request)
-                    answer['id'] = item.id
+        if cando:
+            print("success!!")
+            change_result = item.applyValuePush(attribute, value)
+            context = {'a': item.toJson()}
+            template = get_template('main/objects/roster.html')
+            new_roster = template.render(context, request)
+            answer['id'] = item.id
             answer['change_result'] = change_result
             answer['new_roster'] = new_roster
             return JsonResponse(answer)
@@ -104,7 +106,7 @@ def svg_to_pdf(request, slug):
 
 
 def paginator_switch(request):
-    from main.views.generic import stregoneria_page, appartuses_page, autochtons_page, travellers_page, combattants_page
+    from main.views.generic import stregoneria_page, appartuses_page, autochtons_page, travellers_page, combattants_page, creatures_page
     if is_ajax(request):
         params = request.POST["params"]
         if params == "stregoneria":
@@ -113,6 +115,8 @@ def paginator_switch(request):
             return appartuses_page(request)
         elif params == "autochtons":
             return autochtons_page(request)
+        elif params == "creatures":
+            return creatures_page(request)
         elif params == "travellers":
             return travellers_page(request)
         elif params == "combattants":
@@ -120,16 +124,18 @@ def paginator_switch(request):
     return JsonResponse({"html": 'Bad Paginator!'})
 
 
-def prepare_pagination(context, all_items, page):
+def prepare_pagination(context, all_items, page=1, type="créatures"):
     from django.core.paginator import Paginator
     paginator = Paginator(all_items, ITEMS_PER_LIST)
-    items_set = paginator.get_page(page)
-    context['elements'] = items_set
+    p = paginator.get_page(page)
+    print("num_pages",paginator.num_pages)
+    context['elements'] = p
     context['config']['data'] = all_items
-    context['previous_page'] = ((page - 1) % paginator.num_pages)
-    if context['previous_page'] == 0:
-        context['previous_page'] = paginator.num_pages
-    context['next_page'] = ((page + 1) % paginator.num_pages)
-    if context['next_page'] == paginator.num_pages + 1:
-        context['next_page'] = 1
+    list = {}
+    list['type'] = type
+    list['previous_page'] = 1 if page <= 1 else p.previous_page_number()
+    list['current_page'] = page
+    list['next_page'] = page+1 if paginator.num_pages > page else paginator.num_pages
+    list['elements'] = p
+    context['list'] = list
     return context

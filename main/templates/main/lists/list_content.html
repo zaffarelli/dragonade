@@ -1,0 +1,20 @@
+{% load static %}
+{% load dragonade_filters %}
+
+    <legend>{{list.type|title}}</legend>
+    <div class="list_header">
+        <div class="paginator previous" page="{{list.previous_page}}" target="{{list.type}}">
+            <i class="fas fa-arrow-left"></i>&nbsp;{{list.previous_page}}
+        </div>
+        <div class="paginator current" target="{{list.type}}">
+            {{list.current_page}}
+        </div>
+        <div class="paginator next" page="{{list.next_page}}" target="{{list.type}}">
+            {{list.next_page}}&nbsp;<i class="fas fa-arrow-right"></i>
+        </div>
+    </div>
+    <div class="list_body">
+        {% for item in list.elements %}
+        {% include "main/lists/list_item.html" with x=item n=forloop.counter%}
+        {% endfor %}
+    </div>

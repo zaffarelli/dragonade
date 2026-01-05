@@ -1,0 +1,38 @@
+{% load static %}
+{% load dragonade_filters %}
+
+<ul id="main_menu" class="zmenu">
+    {% for d1 in menu %}
+    {% if d1.SUB %}
+    <li>{% include "main/objects/zmenu_entry.html" with entry=d1%}
+        <ul>
+            {% for d2 in d1.SUB %}
+                {% if d2.SUB %}
+                <li>{% include "main/objects/zmenu_entry.html" with entry=d2 %}
+                    <ul>
+                        {% for d3 in d2.SUB %}
+                            {% if d3.SUB %}
+                            <li>{% include "main/objects/zmenu_entry.html" with entry=d3 %}
+                                <ul>
+                                    {% for d4 in d3.SUB %}
+                                    <li>{% include "main/objects/zmenu_entry.html" with entry=d4 %}</li>
+                                    {% endfor%}
+                                </ul>
+                            </li>
+                            {% else %}
+                            <li>{% include "main/objects/zmenu_entry.html" with entry=d3 %}</li>
+                            {% endif %}
+                        {% endfor%}
+                    </ul>
+                </li>
+                {% else %}
+                <li>{% include "main/objects/zmenu_entry.html" with entry=d2 %}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </li>
+    {% else %}
+    <li>{% include "main/objects/zmenu_entry.html" with entry=d1 %}</li>
+    {%endif%}
+    {% endfor %}
+</ul>

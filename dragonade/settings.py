@@ -153,4 +153,4 @@ CHANNEL_LAYERS = {
     }
 }
 
-VERSION = "1.2.3"
+VERSION = "1.2.5"

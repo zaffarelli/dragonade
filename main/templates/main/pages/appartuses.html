@@ -4,11 +4,8 @@
 {% block east %}
     {% include "main/menu.html" with title=title %}
     {% include "main/lists/appartuses_options.html"%}
-    <fieldset class="list">
-        <legend>Artefacts</legend>
-        {% include "main/lists/appartuses_list.html" %}
-    </fieldset>
-{% endblock east %}
+    {% include "main/lists/list.html" %}
+ {% endblock east %}
 
 {% block main %}
     <div id="svg_area"></div>

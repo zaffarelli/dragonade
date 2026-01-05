@@ -18,6 +18,7 @@ class Appartus(models.Model):
 
     name = models.CharField(default="", max_length=256)
     rid = models.CharField(default="xxx", max_length=256, blank=True)
+    code = models.CharField(default="", max_length=16, blank=True)
     equipment_match = models.CharField(default="xxx", max_length=256, blank=True)
     category = models.PositiveIntegerField(default=AppartusCategory.MISCELLANEOUS, choices=AppartusCategory.choices,
                                            blank=True)
@@ -44,7 +45,9 @@ class Appartus(models.Model):
     data = {}
 
     def fix(self):
+        from main.utils.mechanics import asB2B
         self.rid = as_rid(f"{self.name}{self.category}")
+        self.code = asB2B(self.rid).decode('utf-8').upper()
         sp = 0
         for scale in self.scales.split(" "):
             if scale in ["e","p","a"]:
@@ -95,7 +98,7 @@ class Appartus(models.Model):
 class AppartusAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ['name']
-    list_display = ["name", "rid","charges", "equipment_match", "mod_init", "mod_touch", "mod_dmg", "owner", "category", "glance",
+    list_display = ["name", "rid","code","charges", "equipment_match", "mod_init", "mod_touch", "mod_dmg", "owner", "category", "glance",
                     "materials", "description"]
     list_filter = ['category', 'category']
     search_fields = ['name', "description"]

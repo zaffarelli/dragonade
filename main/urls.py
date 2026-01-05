@@ -1,6 +1,6 @@
 from django.urls import re_path
 from main.views.generic import index, autochtons,creatures, travellers, maps, papers, card_reveal, draconis_artes, \
-    gardiendesreves, appartuses, stregoneria, combattants
+    gardiendesreves, appartuses, stregoneria, combattants, new_creature, new_autochton, new_traveller
 from main.views.chiaroscuro import inc_dec, value_push, svg_to_pdf, paginator_switch
 from django.conf import settings
 from django.conf.urls.static import static
@@ -21,5 +21,8 @@ urlpatterns = [
     re_path(r'^ajax/inc_dec$', inc_dec, name='inc_dec'),
     re_path(r'^ajax/value_push$', value_push, name='value_push'),
     re_path(r'^ajax/paginator$', paginator_switch, name='paginator_switch'),
-    re_path(r'^ajax/svg2pdf/(?P<slug>[\w-]+)/$', svg_to_pdf, name='svg_to_pdf')
+    re_path(r'^ajax/svg2pdf/(?P<slug>[\w-]+)/$', svg_to_pdf, name='svg_to_pdf'),
+    re_path(r'^new_creature', new_creature, name='new_creature'),
+    re_path(r'^new_traveller', new_traveller, name='new_traveller'),
+    re_path(r'^new_autochton', new_autochton, name='new_autochton'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -16,6 +16,7 @@ class Creature(Character):
         NIGHTMARE_ENTITY = "NIE", "Entité de Cauchemard"
         FAERIE = "FAE", "Fée"
         ELEMENTAL = "ELE", "Elémentaire"
+        ONIRIDE = "ONI", "Oniride"
 
     creature_type = models.CharField(max_length=3, choices=CreatureType.choices, default=CreatureType.ANIMAL, blank=True)
 
@@ -24,7 +25,7 @@ class Creature(Character):
 
     def export_to_json(self):
         super().export_to_json()
-        self.data['type'] = self.type
+        self.data['creature_type'] = self.get_creature_type_display()
         return self.data
 
     def fix(self):
@@ -36,4 +37,5 @@ class CreatureAdmin(admin.ModelAdmin):
     ordering = ['name']
     list_display = ['name', 'rid', 'creature_type']
     list_filter = ["creature_type"]
+    list_editable = ["creature_type"]
     actions = [refix]

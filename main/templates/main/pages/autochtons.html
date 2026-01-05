@@ -5,19 +5,16 @@
 {% block east %}
     {% include "main/menu.html"%}
     {% include "main/lists/autochtons_options.html"%}
-    <fieldset class="list">
-        <legend>Autochtones</legend>
-        {% include "main/lists/autochtons_list.html" %}
-    </fieldset>
+    {% include "main/lists/list.html" with list=list %}
 {% endblock east %}
 
 
 {% block main %}
 <div class="container">
     {% for x in config.data %}
-    <div class="roster hidden" id="roster_{{x.id}}">
+<!--    <div class="roster hidden" id="roster_{{x.id}}">-->
         {% include "main/objects/roster.html" with a=x%}
-    </div>
+<!--    </div>-->
     {% endfor %}
 
 </div>

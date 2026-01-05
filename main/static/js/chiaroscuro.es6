@@ -97,8 +97,8 @@ class Chiaroscuro {
 //         console.log("Reveal UI");
         $('.world').addClass('shownflex');
         $('.world').removeClass('hidden');
-        $('.universe').addClass('hidden');
-        $('.universe').removeClass('shown');
+//         $('.universe').addClass('hidden');
+//         $('.universe').removeClass('shown');
         $('.sheet').addClass('hidden');
     }
 
@@ -107,6 +107,7 @@ class Chiaroscuro {
 //         console.log("Reveal Universe");
         $('.world').addClass('shownflex');
         $('.world').removeClass('hidden');
+//         $('.universe').addClass('shownflex');
         $('.universe').removeClass('hidden');
 
         //$('.world').addClass('hidden');
@@ -119,12 +120,33 @@ class Chiaroscuro {
         let me = this;
         me.prepareAjax();
         me.registerEditables();
+        me.registerGearPull();
         me.registerValuePush();
         me.registerSheets();
         me.registerLinks();
         me.registerMiniItems();
         me.registerShowHide();
         me.registerPaginator();
+    }
+
+    registerGearPull() {
+        let me = this;
+        $('.gearpull').off().on('click', function (e) {
+            let html = $(this).attr('param')
+            let action = $(this).attr('action')
+            $("#ed").val(html)
+            $("#target_ed").val(action);
+        })
+        $('.gearpush').off().on('click', function (e) {
+            let list = $("#ed").val()
+            let words = list.split(" ")
+            let word = $(this).attr('param')
+            if (!words.includes(word)){
+                words.push(word)
+            }
+            let html = words.join(" ")
+            $("#ed").val(html)
+        })
     }
 
     registerEditables() {
@@ -210,6 +232,11 @@ class Chiaroscuro {
             let new_value = $('#ed').val()
             let value = me.zaff_encode(new_value)
             let refs = $("#target_ed").val();
+            let words = refs.split("__")
+            if (words.includes("bulk")){
+                value = me.zaff_encode($("#ed").val())
+
+            }
             $.ajax({
                 url: 'ajax/value_push',
                 method: 'POST',
@@ -223,7 +250,10 @@ class Chiaroscuro {
                 },
                 dataType: 'json',
                 success: function (answer) {
-                    $('#roster_' + answer.id).html(answer.new_roster);
+                    $('#roster_' + answer.id).remove()
+                    //$div = $('<div>',{id:'roster_'+answer.id,class:"roster"})
+                    $('.container').append(answer.new_roster);
+                    $('#roster_' + answer.id).removeClass("hidden")
                     $(".for_display_" + answer.id).addClass('hidden');
                     $(".for_edit_" + answer.id).removeClass('hidden');
                     $("#target_ed").val("");
@@ -234,6 +264,7 @@ class Chiaroscuro {
                     console.error('Error... ' + answer);
                 },
             });
+
         });
     }
 
@@ -270,6 +301,21 @@ class Chiaroscuro {
 
     registerSheets() {
         let me = this;
+        $('.list_entry').off().on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            let miniid = $(this).attr('id');
+            let words = miniid.split('__');
+            let id = words[1];
+            $('.list_entry').removeClass('mark');
+            $(this).addClass('mark');
+            $(".roster").addClass('hidden');
+            $("#roster_" + id).removeClass('hidden');
+            $("#roster_" + id + " .sheet").removeClass('hidden');
+//             $(".for_display_" + id).removeClass('hidden');
+//             $(".for_edit_" + id).addClass('hidden');
+            me.registerActions();
+        });
         $('.minisheet').off().on('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
@@ -351,15 +397,26 @@ class Chiaroscuro {
             e.preventDefault();
             e.stopPropagation();
             let tgt = $(this).attr("target");
+            console.log("SHOWHIDE")
             if ($(this).hasClass("times")){
                 $("."+tgt).addClass("hidden");
                 $(".showhide.eye").removeClass("hidden");
                 $(".corpus").css("right","0");
+                console.log("SHOWHIDE times")
                 me.resizeEvent();
             }else if ($(this).hasClass("eye")){
                 $("."+tgt).removeClass("hidden");
                 $(".showhide.eye").addClass("hidden");
                 $(".corpus").css("right","30vw");
+                console.log("SHOWHIDE eye")
+                me.resizeEvent();
+            }else{
+                $("."+tgt).toggleClass("hidden");
+                if ($("."+tgt).hasClass("hidden")){
+                    $(".corpus").css("right","0");
+                }else{
+                    $(".corpus").css("right","20vw");
+                }
                 me.resizeEvent();
             }
         });

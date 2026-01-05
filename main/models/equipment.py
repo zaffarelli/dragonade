@@ -38,10 +38,10 @@ class Equipment(models.Model):
 
     @classmethod
     def references(klass):
-        json_list = []
-        for spell in klass.objects.order_by("name"):
-            json_list.append({"name":spell.name, "rid": spell.rid})
-        return json_list
+        list = []
+        for item in klass.objects.order_by("name"):
+            list.append({"name":item.name, "rid": item.rid})
+        return list
 
 
 

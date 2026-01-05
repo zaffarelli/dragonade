@@ -1,11 +1,11 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from datetime import datetime
 
 from django.template.loader import get_template
 # from django.views.decorators.csrf import csrf_exempt
 
-from main.utils.mechanics import FONTSET, MENU_ENTRIES, is_ajax
+from main.utils.mechanics import FONTSET, MENU_ENTRIES, is_ajax, MAIN_MENU
 from main.utils.ref_dragonade import stress_table_json, action_quality_json, soak_table_json, pdom_table_json, \
     sus_table_json, scon_table_json, comp_table_json, gear_table_json, secondaries_table_json, miscellaneous_table_json
 
@@ -20,7 +20,8 @@ def prepare_context(request):
     context = {
         'config': {
             'fontset': FONTSET,
-            'modules': []
+            'modules': [],
+            'zmenu': MAIN_MENU
         }
     }
     return context
@@ -110,7 +111,7 @@ def papers(request):
 
     # Autochtons
     characters = []
-    for t in Autochton.objects.filter(dream__current=True).order_by("team","name"):
+    for t in Autochton.objects.filter(dream__current=True).order_by("team", "name"):
         t.export_to_json()
         datum = t.data
         datum['text'] = t.name
@@ -150,9 +151,10 @@ def papers(request):
         # print(traveller)
         if index % per_page == 0:
             if (len(trav_pack) > 0):
-                context['config']['data']["TRAVELLERS" + str(page_num)] = {"name": traveller["current_label"] +" "+ str(page_num),
-                                                                           "code": "TRAVELLERS" + str(page_num),
-                                                                           "id": 700 + page_num, "data": trav_pack}
+                context['config']['data']["TRAVELLERS" + str(page_num)] = {
+                    "name": traveller["current_label"] + " " + str(page_num),
+                    "code": "TRAVELLERS" + str(page_num),
+                    "id": 700 + page_num, "data": trav_pack}
             page_num += 1
             trav_pack = []
         trav_pack.append(traveller)
@@ -201,12 +203,12 @@ def stregoneria(request):
     context['config']['menu_entries'] = MENU_ENTRIES
     haut_revants = []
     for t in Traveller.objects.all():
-        if len(t.spells)>0:
+        if len(t.spells) > 0:
             datum = t.export_to_json()
             datum["spells_as_list"] = t.spells.split(" ")
             haut_revants.append(datum)
     for a in Autochton.objects.all():
-        if len(a.spells)>0:
+        if len(a.spells) > 0:
             datum = a.export_to_json()
             datum["spells_as_list"] = a.spells.split(" ")
             haut_revants.append(datum)
@@ -215,7 +217,7 @@ def stregoneria(request):
     for i in Spell.objects.order_by("category", "path", "name"):
         stregoneria.append(i.export_to_json())
     page = 1
-    context = prepare_pagination(context, stregoneria, page)
+    context = prepare_pagination(context, stregoneria, page,"stregoneria")
     return render(request, 'main/pages/stregoneria.html', context)
 
 
@@ -226,8 +228,8 @@ def stregoneria_page(request):
     for i in Spell.objects.order_by("path", "category", "name"):
         stregoneria.append(i.export_to_json())
     page = int(request.POST["page"])
-    context = prepare_pagination(context, stregoneria, page)
-    template = get_template("main/lists/stregoneria_list.html")
+    context = prepare_pagination(context, stregoneria, page, "stregoneria")
+    template = get_template("main/lists/list_content.html")
     html = template.render(context, request)
     return JsonResponse({"html": html})
 
@@ -243,7 +245,7 @@ def appartuses(request):
     appartuses = []
     for i in Appartus.objects.all().order_by("name"):
         appartuses.append(i.export_to_json())
-    context = prepare_pagination(context, appartuses, page)
+    context = prepare_pagination(context, appartuses, page, "appartuses")
     return render(request, 'main/pages/appartuses.html', context)
 
 
@@ -254,8 +256,8 @@ def appartuses_page(request):
     for i in Appartus.objects.order_by("category", "name"):
         appartuses.append(i.export_to_json())
     page = int(request.POST["page"])
-    context = prepare_pagination(context, appartuses, page)
-    template = get_template("main/lists/appartuses_list.html")
+    context = prepare_pagination(context, appartuses, page, "appartuses")
+    template = get_template("main/lists/list_content.html")
     html = template.render(context, request)
     return JsonResponse({"html": html})
 
@@ -280,7 +282,7 @@ def autochtons(request):
     context['reference']['spells'] = spells_j
     gear_j = Equipment.references()
     context['reference']['gear'] = gear_j
-    context = prepare_pagination(context, characters, page)
+    context = prepare_pagination(context, characters, page, "autochtons")
     return render(request, 'main/pages/autochtons.html', context=context)
 
 
@@ -295,10 +297,11 @@ def autochtons_page(request):
         datum['type'] = "autochton"
         characters.append(datum)
     page = int(request.POST["page"])
-    context = prepare_pagination(context, characters, page)
-    template = get_template("main/lists/autochtons_list.html")
+    context = prepare_pagination(context, characters, page, "autochtons")
+    template = get_template("main/lists/list_content.html")
     html = template.render(context, request)
     return JsonResponse({"html": html})
+
 
 # Creatures
 def creatures(request):
@@ -307,7 +310,7 @@ def creatures(request):
     from main.models.equipment import Equipment
     context = prepare_context(request)
     creatures = []
-    for x in Creature.objects.all().order_by("creature_type", "name"):
+    for x in Creature.objects.all().order_by("name"):
         datum = x.toJson()
         datum['text'] = x.name
         datum['code'] = x.rid
@@ -320,7 +323,7 @@ def creatures(request):
     context['reference']['spells'] = spells_j
     gear_j = Equipment.references()
     context['reference']['gear'] = gear_j
-    context = prepare_pagination(context, creatures, page)
+    context = prepare_pagination(context, creatures, page, "creatures")
     return render(request, 'main/pages/creatures.html', context=context)
 
 
@@ -328,15 +331,15 @@ def creatures_page(request):
     from main.models.creatures import Creature
     context = prepare_context(request)
     creatures = []
-    for x in Creature.objects.all().order_by("creature_type", "name"):
+    for x in Creature.objects.all().order_by("name"):
         datum = x.toJson()
         datum['text'] = x.name
         datum['code'] = x.rid
         datum['type'] = "creature"
         creatures.append(datum)
     page = int(request.POST["page"])
-    context = prepare_pagination(context, creatures, page)
-    template = get_template("main/lists/creatures_list.html")
+    context = prepare_pagination(context, creatures, page, "creatures")
+    template = get_template("main/lists/list_content.html")
     html = template.render(context, request)
     return JsonResponse({"html": html})
 
@@ -345,9 +348,10 @@ def creatures_page(request):
 def travellers(request):
     from main.models.travellers import Traveller
     from main.models.stregoneria import Spell
+    from main.models.equipment import Equipment
     context = prepare_context(request)
     characters = []
-    for x in Traveller.objects.order_by("-priority","name"):
+    for x in Traveller.objects.order_by("-priority", "name"):
         datum = x.toJson()
         datum['text'] = x.name
         datum['type'] = "traveller"
@@ -359,7 +363,10 @@ def travellers(request):
     spells_j = Spell.references()
     context['reference'] = {}
     context['reference']['spells'] = spells_j
-    context = prepare_pagination(context, characters, page)
+    equipment = Equipment.references()
+    context['reference']['equipment'] = equipment
+    print(context['reference']['equipment'])
+    context = prepare_pagination(context, characters, page, "travellers")
 
     return render(request, 'main/pages/travellers.html', context=context)
 
@@ -376,8 +383,8 @@ def travellers_page(request):
         characters.append(datum)
     context['title'] = "Les Voyageurs"
     page = int(request.POST["page"])
-    context = prepare_pagination(context, characters, page)
-    template = get_template("main/lists/travellers_list.html")
+    context = prepare_pagination(context, characters, page, "travellers")
+    template = get_template("main/lists/list_content.html")
     html = template.render(context, request)
     return JsonResponse({"html": html})
 
@@ -407,6 +414,7 @@ def combattants(request):
     context['title'] = "Simulateur de Mêlée"
     return render(request, 'main/pages/combattants.html', context=context)
 
+
 def combattants_page(request):
     from main.models.travellers import Traveller
     from main.models.autochtons import Autochton
@@ -430,3 +438,30 @@ def combattants_page(request):
     template = get_template("main/lists/combattants_list.html")
     html = template.render(context, request)
     return JsonResponse({"html": html})
+
+
+def new_creature(request):
+    from main.models.creatures import Creature
+    from main.utils.mechanics import random_term
+    c = Creature()
+    c.name = "Nouvelle " + random_term()
+    c.save()
+    return HttpResponse(status=204)
+
+
+def new_traveller(request):
+    from main.models.travellers import Traveller
+    from main.utils.mechanics import random_term
+    c = Traveller()
+    c.name = "Jane " + random_term()
+    c.save()
+    return HttpResponse(status=204)
+
+
+def new_autochton(request):
+    from main.models.autochtons import Autochton
+    from main.utils.mechanics import random_term
+    c = Autochton()
+    c.name = "Joe " + random_term()
+    c.save()
+    return HttpResponse(status=204)

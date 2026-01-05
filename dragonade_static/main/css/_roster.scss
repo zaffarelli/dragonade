@@ -2,32 +2,40 @@
 .roster{
     background:transparent;
     display:flex;
-    flex-flow: row wrap;
+    flex-flow: column wrap;
     justify-content: flex-start;
-    align-content: flex-start;
+    align-content: space-around;
     align-items: baseline;
     gap: 0px;
+    height:90vh;
+    width:76vw;
+    margin:auto;
+    bottom:10px;
+    overflow-y:scroll;
 
     & .classy{
         font-family: "Pirata One"
     }
 
 
-    table.skillstable{
-
-        & td{
-            border:0px solid transparent;
-            vertical-align:middle;
-            background:transparent;
-        }
-        border:0px solid $palette3;
-        cells-padding: 0;
-        cells-spacing: 0;
-        background:transparent;
-        border-radius: 10px;
-        height:auto;
-        width:auto;
-        margin: 0;
+    &.skillstable{
+//         border:3px solid orange;
+        // width:50%;
+//         margin:0;
+//         & td{
+//             border:0px solid transparent;
+//             vertical-align:middle;
+//             background:transparent;
+//         }
+//         border:0px solid $palette3;
+//         cells-padding: 0;
+//         cells-spacing: 0;
+//         background:transparent;
+//         border-radius: 10px;
+//         height:auto;
+//         width:auto;
+//         margin: 0;
+//
         &.autochton{
 
             background: #1030207F;
@@ -51,46 +59,64 @@
                 background:#606080;
             }
         }
+
+        &.creature{
+
+            background: #3010207F;
+            & .header{
+                color:white;
+                background:$palette2;
+            }
+            & .sheet{
+                background:#806060;
+            }
+        }
     }
 
 
-    & .sheet, & .spell {
+     & .sheet {
         display: grid;
         flex: 0 0 auto;
-//        font-family:Pirata One;
-        font-family:"Roboto";
+        font-family:$font;
         font-size:$roster_font_height;
         border:1px solid $palette2;
+
         border-radius:5px;
         margin:10px;
         padding:5px;
         gap: 0px;
         box-shadow: 0 0 16px $palette0;
-        //background:#606060;
+
 
         & .box {
             border-radius: 1px;
             padding: 3px;
             border:1px solid $palette1;
+            height:auto;
             &.label{
                 background-color: $palette2;
                 color:white;
+
             }
             &.info{
                 background: darken($palette1,50%);
                 color: white;
+
                 &.editable{
                     cursor:pointer;
                     & .btn_edit{
                         &.minus:hover{
                             color:lime;
+                            width:2ex;
                         }
                         &.plus:hover{
                             color:orangered;
+                            width:2ex;
                         }
                         &.value{
                             display:inline-block;
-                            width:4ex;
+
+                            min-width:4ex;
                             text-align:center;
                             &:hover{
                                 background:$palette1;
@@ -104,7 +130,6 @@
         &.skills{
             grid-template-columns: 150px 75px;
             grid-template-rows: repeat(6,1.65em);
-            order:2;
             & .label {
                 grid-column: 1 / span 1;
 
@@ -123,7 +148,6 @@
 
         &.magic, &.weapons, &.gear{
             grid-template-columns: 75px 150px;
-            order:2;
             & .label {
                 grid-column: 1 / span 1;
 
@@ -135,15 +159,14 @@
                 grid-column: 1 / span 2;
             }
             overflow-y:auto;
-            max-height:200px;
+            min-height:200px;
         }
 
 
 
         &.base, &.magic, &.weapons {
-            grid-template-columns: 60px 30px 30px 60px 80px 80px 80px 80px;
-            grid-template-rows: repeat(10,1.5em);
-            order:1;
+            grid-template-columns: 60px 90px 90px 90px 90px 90px 90px 90px;
+            grid-template-rows: repeat(20,2em);
             flex: 0 1 auto;
             & .header {
                 grid-column: 1 / span 8;
@@ -235,15 +258,22 @@
                 grid-template-rows: subgrid;
            }
        }
-           &.roster{
+       &.summary{
             color:white;
             background:black;
-            font-family:"Roboto Mono";
+            font-family:$mono;
             font-size:0.83em;
             max-height:24em;
-            width:70ex;
+            width:100ex;
             overflow:auto;
-        }
+       }
+
+        &.base{order:1;}
+        &.skills{order:4;}
+        &.weapons{order:5;}
+        &.gear{order:7;}
+        &.magic{order:8;}
+        &.summary{order:2;}
 
 
     }
@@ -254,6 +284,7 @@
             &.value{
                 border:2px solid $palette4;
                 border-radius:3px;
+                background:black;
                 cursor:crosshair;
            }
         }

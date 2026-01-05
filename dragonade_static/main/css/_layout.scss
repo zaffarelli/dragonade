@@ -4,6 +4,22 @@ body {
 
 
   & .universe{
+    width: 99vw;
+    height: 99vh;
+    top: 0;
+    gap: 0;
+    padding: 3px;
+    border: 3px solid transparent;
+    border-radius:10px;
+
+  & .spare_top{
+      position:fixed;
+      top:0;
+      right:0;
+      left:0;
+      bottom:auto;
+      height:3vh;
+      z-index:400;
   }
 
   & .world {
@@ -11,13 +27,13 @@ body {
     margin-top: 0;
     margin-bottom: 0;
     z-index: 5;
-    position: absolute;
+    position: fixed;
     color: $body_color;
     font-family: Neucha;
 
-    width: 99vw;
-    height: 99vh;
-    top: 0;
+    width: auto;
+    height: auto;
+    top: 4vh;
     gap: 0;
     padding: 3px;
     border: 3px solid transparent;
@@ -28,7 +44,8 @@ body {
       right:0;
       bottom:0;
       left:auto;
-      width:30vw;
+      width:$right_panel_width;
+      height:auto;
       border: 1px solid transparent;
       background:$palette1;
       display:flex;
@@ -40,11 +57,11 @@ body {
       z-index:50;
     }
     & .corpus {
-      position: fixed;
+//       position: fixed;
       width:auto;
       height:auto;
       top:0;
-      right:30vw;
+      right:0;
       bottom:0;
       left:0;
       padding:15px;
@@ -54,25 +71,31 @@ body {
       border-radius:10px;
       border:1px solid transparent;
       z-index:10;
+
+      & #svg_area{
+            position:fixed;
+            background:$palette4;
+            //background:cyan;
+            left:1vw;
+            right:1vw;
+            top:1vh;
+            bottom:1vh;
+            width:auto;
+            height:auto;
+            border-radius: 10px;
+            z-index:40;
+            & svg{
+                border:3px solid #303050;
+            }
+        }
+
+
+
     }
+  }
   }
 }
 
-#svg_area{
-    display:fixed;
-    background:$palette4;
-    left:1vw;
-    right:1vw;
-    top:1vw;
-    bottom:auto;
-    width:auto;
-    height:98vh;
-    border-radius: 10px;
-    z-index:40;
-    & svg{
-        border:3px solid #303050;
-    }
-}
 
 
 
@@ -113,8 +136,9 @@ body {
 }
 
 #target_ed, #ed{
+    @include dragonade_panel;
     display:block;
-    width:50ex;
+    width:auto;
     height:6em;
     margin:auto;
     background:#00000070;
@@ -174,15 +198,75 @@ body {
 .list{
     @include dragonade_panel;
     order:4;
-    flex: 0 0 10vh;
+    flex: 0 0 16vh;
     display:flex;
-    flex-flow:row wrap;
+    flex-flow:column nowrap;
+
+//     overflow:scroll;
     justify-content: flex-start;
     align-content: space-around;
     gap:1px;
+
+
+    & .list_header{
+        text-align:center;
+        & .paginator{
+            border:1pt solid #303030;
+            border-radius:3pt;
+            background:black;
+            color:silver;
+            display:inline-block;
+            width:31%;
+            cursor:pointer;
+            &.current{
+                background:transparent;
+                cursor:none;
+            }
+
+        }
+    }
+    & .list_body{
+        & .list_entry{
+            color:white;
+            display:flex;
+            flex:0 0 1em;
+            flex-flow:row wrap;
+            justify-content:flex-start;
+            align-content:flex-start;
+            align-items:stretch;
+            gap:2pt;
+            border:1pt solid black;
+            border-radius:2pt;
+            & .ref{
+                order:1;
+                flex: 0 0 3ex;
+                background:#301010;
+                text-align:center;
+            }
+            & .base{
+                order:2;
+                flex: 0 0 8vw;
+                background:#3010107f;
+            }
+            & .options{
+                order:3;
+                flex: 0 0 5vw;
+                background:#3010107f;
+            }
+            & .complement{
+                order:4;
+                flex: 1 1 auto;
+                background:#3010107f;
+            }
+
+        }
+
+    }
+
+
+
     & .mini {
         flex: 1 1 25ch;
-        font-size:8pt;
         padding:2px;
         font-family:Wellfleet;
         height:4.0em;
@@ -200,6 +284,7 @@ body {
         }
 
     }
+
     & .minisheet {
         flex: 1 1 20ch;
         font-size:14pt;
@@ -316,19 +401,19 @@ body {
 
 }
 
-div.showhide.eye{
-    position:fixed;
-    right:0;
-    top:0;
-    z-index:50000;
-    background: $bkg_filter1;
-    //border:1px solid white;
-    border-radius:15px;
-    padding:15px;
-    color:white;
-
-
-}
+// div.showhide.eye{
+//     position:fixed;
+//     right:0;
+//     top:0;
+//     z-index:50000;
+//     background: $bkg_filter1;
+//     //border:1px solid white;
+//     border-radius:15px;
+//     padding:15px;
+//     color:white;
+//
+//
+// }
 
 
 .svg {
@@ -340,14 +425,15 @@ div.showhide.eye{
 }
 
 .list_block{
+    @include dragonade_panel;
     text-align:left;
-    border:2px solid #101010;
+//     border:2px solid #101010;
     height:32em;
     width:auto;
     margin-top:0;
     margin-bottom:0;
-    font-family: Wellfleet;
-    font-size:$roster_font_height;
+//     font-family: Wellfleet;
+//     font-size:$roster_font_height;
     overflow-y: scroll;
     display:flex;
     flex-flow: column nowrap;
@@ -358,8 +444,8 @@ div.showhide.eye{
         order:2;
         display:flex;
         flex-flow: row wrap;
-        font-family: Neucha;
-        font-size:$roster_font_height;
+//         font-family: Neucha;
+//         font-size:$roster_font_height;
         justify-items: flex-start;
         align-content: flex-start;
         align-items: flex-start;

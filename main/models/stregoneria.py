@@ -129,6 +129,7 @@ class Spell(models.Model):
 
     name = models.CharField(default="", max_length=256)
     rid = models.CharField(default="xxx", max_length=256, blank=True)
+    code = models.CharField(default="", max_length=16, blank=True)
     alternative_names = models.CharField(default="", max_length=512, blank=True)
 
     casting_time = models.PositiveIntegerField(default=1, blank=True)
@@ -167,7 +168,9 @@ class Spell(models.Model):
     data = {}
 
     def fix(self):
+        from main.utils.mechanics import asB2B
         self.rid = as_rid(f"{self.name}")
+        self.code = asB2B(self.rid).decode('utf-8').upper()
         if len(self.original_casting_cost) > 1:
             chunks = self.original_casting_cost.split(' ')
             old_diff = int(chunks[0][1:])
@@ -252,7 +255,7 @@ class Spell(models.Model):
 class SpellAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ["-spell_ready", "name"]
-    list_display = ["name", "rid", "power", "spell_ready","songe", "roll", "original_casting_cost", "conversion", "ground_charge",
+    list_display = ["name", "rid", "code", "power", "spell_ready","songe", "roll", "original_casting_cost", "conversion", "ground_charge",
                     "str_charges",
                     "path", "ref", "category", "source"]
     list_editable = ["original_casting_cost", "songe", "roll", "spell_ready", "ground_charge", "path", "ref", "category",

@@ -659,7 +659,7 @@ class Orologio extends Modulo {
     perform() {
         super.perform();
         let me = this;
-//         console.log("Orologio performing")
+        console.log("Orologio performing")
         me.init();
 
         me.co.revealUniverse();

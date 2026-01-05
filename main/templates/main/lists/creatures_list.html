@@ -2,17 +2,37 @@
 {% load dragonade_filters %}
 
 
-<div class="paginator previous" page="{{previous_page}}" target="creatures">
-    <i class="fas fa-arrow-left"></i>{{previous_page}}
-</div>
-<div class="paginator next" page="{{next_page}}" target="creatures">
-    {{next_page}}<i class="fas fa-arrow-right"></i>
-</div>
 
-
-{% for x in elements %}
-    <div class="minisheet" id="mini__{{x.id}}" code="{{x.code}}" title="{{x.name}}">
-        {{x.name|safe}}<br/><span class="options">{{x.rid|safe}}</span>
+    <legend>{{list.type|title}}</legend>
+    <div class="list_header">
+        <div class="paginator previous" page="{{list.previous_page}}" target="{{list.type}}">
+            <i class="fas fa-arrow-left"></i>&nbsp;{{list.previous_page}}
+        </div>
+        <div class="paginator current" target="{{list.type}}">
+            {{list.current_page}}
+        </div>
+        <div class="paginator next" page="{{list.next_page}}" target="{{list.type}}">
+            {{list.next_page}}&nbsp;<i class="fas fa-arrow-right"></i>
+        </div>
     </div>
-{% endfor %}
+    <div class="list_body">
+        {% for item in list.elements %}
+        {% include "main/lists/list_item.html" with x=item n=forloop.counter%}
+        {% endfor %}
+    </div>
+
+
+<!--<div class="paginator previous" page="{{previous_page}}" target="creatures">-->
+<!--    <i class="fas fa-arrow-left"></i>{{previous_page}}-->
+<!--</div>-->
+<!--<div class="paginator next" page="{{next_page}}" target="creatures">-->
+<!--    {{next_page}}&nbsp;<i class="fas fa-arrow-right"></i>-->
+<!--</div>-->
+
+
+<!--{% for x in elements %}-->
+<!--    <div class="list_entry" id="mini__{{x.id}}" code="{{x.code}}" title="{{x.name}}">-->
+<!--        <span class="ref">{{forloop.counter}}</span><span class="base">{{x.name|safe}}</span><span class="options">{{x.type|safe}}</span>-->
+<!--    </div>-->
+<!--{% endfor %}-->
 

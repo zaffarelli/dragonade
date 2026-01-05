@@ -1,0 +1,19 @@
+{% load static %}
+{% load dragonade_filters %}
+
+
+<span class="label {% if entry.LINK %}link{%endif%} {% if entry.ACTION %}{{entry.ACTION}}{%endif%}"
+      {% if entry.LINK %}
+       link_to="{{entry.LINK}}"
+      {%endif%}
+      {% if entry.TARGET %}
+       target="{{entry.TARGET}}"
+      {%endif%}
+>
+    {% if entry.ICON%}
+    <i class="fas {{entry.ICON}}">
+    {% else %}
+    <i class="fas fa-angle-right">
+    {% endif%}
+    </i>&nbsp;{{entry.NAME}}
+</span>

@@ -1,9 +1,6 @@
 {% load static %}
 {% load dragonade_filters %}
 
-<div class="minisheet" id="mini__{{x.id}}" code="{{x.code}}" title="{{x.name}}">
-        {{x.name|safe}}
-        <br/><span class="options">{{x.rid|safe}}</span>
-        <br/>{{x.player|safe}} [{{x.datum.priority|safe}}]
-
+<div class="list_entry" id="mini__{{x.id}}" code="{{x.code}}">
+        <span class="ref">{{n}}</i></span><span class="base">{{x.name|safe}}</span><span class="options">{{x.player|safe}}{{x.creature_type|title}}</span><span class="complement">{{x.rid|safe}}</span>
 </div>

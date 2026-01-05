@@ -1,0 +1,11 @@
+{% load static %}
+{% load dragonade_filters %}
+
+<div class="sheet magic">
+    <div class="box header" style="text-align:left;">
+    <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__SPELLS__value" srcval="{{a.features.SPELLS|encoded_z|safe}}">
+        MAGIE
+    </span>
+    </div>
+    {% include "main/objects/spells.html"%}
+</div>
