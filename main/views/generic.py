@@ -192,46 +192,6 @@ def draconis_artes(request):
     return render(request, 'main/pages/draconis_artes.html', context=context)
 
 
-# Spells
-def stregoneria(request):
-    from main.models.stregoneria import Spell
-    from main.models.autochtons import Autochton
-    from main.models.travellers import Traveller
-    context = prepare_context(request)
-    context['title'] = "Sortilèges & Effets Draconiques"
-    context['config']['modules'].append('stregoneria')
-    context['config']['menu_entries'] = MENU_ENTRIES
-    haut_revants = []
-    for t in Traveller.objects.all():
-        if len(t.spells) > 0:
-            datum = t.export_to_json()
-            datum["spells_as_list"] = t.spells.split(" ")
-            haut_revants.append(datum)
-    for a in Autochton.objects.all():
-        if len(a.spells) > 0:
-            datum = a.export_to_json()
-            datum["spells_as_list"] = a.spells.split(" ")
-            haut_revants.append(datum)
-    context['config']['haut_revants'] = haut_revants
-    stregoneria = []
-    for i in Spell.objects.order_by("category", "path", "name"):
-        stregoneria.append(i.export_to_json())
-    page = 1
-    context = prepare_pagination(context, stregoneria, page,"stregoneria")
-    return render(request, 'main/pages/stregoneria.html', context)
-
-
-def stregoneria_page(request):
-    from main.models.stregoneria import Spell
-    context = prepare_context(request)
-    stregoneria = []
-    for i in Spell.objects.order_by("path", "category", "name"):
-        stregoneria.append(i.export_to_json())
-    page = int(request.POST["page"])
-    context = prepare_pagination(context, stregoneria, page, "stregoneria")
-    template = get_template("main/lists/list_content.html")
-    html = template.render(context, request)
-    return JsonResponse({"html": html})
 
 
 # Artefacts
@@ -365,7 +325,6 @@ def travellers(request):
     context['reference']['spells'] = spells_j
     equipment = Equipment.references()
     context['reference']['equipment'] = equipment
-    print(context['reference']['equipment'])
     context = prepare_pagination(context, characters, page, "travellers")
 
     return render(request, 'main/pages/travellers.html', context=context)
@@ -387,6 +346,54 @@ def travellers_page(request):
     template = get_template("main/lists/list_content.html")
     html = template.render(context, request)
     return JsonResponse({"html": html})
+
+# Spells
+def stregoneria(request):
+    from main.models.stregoneria import Spell
+    from main.models.autochtons import Autochton
+    from main.models.travellers import Traveller
+    context = prepare_context(request)
+    context['title'] = "Sortilèges & Effets Draconiques"
+    context['config']['modules'].append('stregoneria')
+    context['config']['menu_entries'] = MENU_ENTRIES
+    haut_revants = []
+    for t in Traveller.objects.all():
+        if len(t.spells) > 0:
+            datum = t.export_to_json()
+            datum["spells_as_list"] = t.spells.split(" ")
+            haut_revants.append(datum)
+    for a in Autochton.objects.all():
+        if len(a.spells) > 0:
+            datum = a.export_to_json()
+            datum["spells_as_list"] = a.spells.split(" ")
+            haut_revants.append(datum)
+    context['config']['haut_revants'] = haut_revants
+    stregoneria = []
+    for i in Spell.objects.order_by("category", "name"):
+        datum = i.export_to_json()
+        datum['type'] = "stregoneria"
+        datum['code'] = i.rid
+        stregoneria.append(datum)
+    page = 1
+    context = prepare_pagination(context, stregoneria, page,"stregoneria")
+    return render(request, 'main/pages/stregoneria.html', context)
+
+
+def stregoneria_page(request):
+    from main.models.stregoneria import Spell
+    context = prepare_context(request)
+    stregoneria = []
+    for i in Spell.objects.order_by("category", "name"):
+        datum = i.export_to_json()
+        datum['type'] = "stregoneria"
+        datum['code'] = i.rid
+        stregoneria.append(datum)
+    page = int(request.POST["page"])
+    context = prepare_pagination(context, stregoneria, page, "stregoneria")
+    template = get_template("main/lists/list_content.html")
+    html = template.render(context, request)
+    return JsonResponse({"html": html})
+
 
 
 def combattants(request):

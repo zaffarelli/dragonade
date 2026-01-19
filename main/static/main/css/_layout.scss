@@ -440,7 +440,7 @@ body {
     justify-items: flex-start;
     align-content: flex-start;
     align-items: stretch;
-    & .spell_entry{
+    & .list_entry, & .ref_entry{
         order:2;
         display:flex;
         flex-flow: row wrap;
@@ -451,6 +451,9 @@ body {
         align-items: flex-start;
         width:96%;
         border:2px solid #202020;
+        & .ref{
+            width:5ex;
+        }
         & .name{
             display: inline-block;
             order:1;

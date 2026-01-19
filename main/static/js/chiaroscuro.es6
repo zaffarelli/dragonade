@@ -120,7 +120,7 @@ class Chiaroscuro {
         let me = this;
         me.prepareAjax();
         me.registerEditables();
-        me.registerGearPull();
+        me.registerStackPull();
         me.registerValuePush();
         me.registerSheets();
         me.registerLinks();
@@ -129,15 +129,16 @@ class Chiaroscuro {
         me.registerPaginator();
     }
 
-    registerGearPull() {
+    registerStackPull() {
         let me = this;
-        $('.gearpull').off().on('click', function (e) {
+        $('.stackpull').off().on('click', function (e) {
             let html = $(this).attr('param')
             let action = $(this).attr('action')
             $("#ed").val(html)
             $("#target_ed").val(action);
         })
-        $('.gearpush').off().on('click', function (e) {
+        $('.stackpush').off().on('click', function (e) {
+            console.log("stackpush")
             let list = $("#ed").val()
             let words = list.split(" ")
             let word = $(this).attr('param')
@@ -253,6 +254,7 @@ class Chiaroscuro {
                     $('#roster_' + answer.id).remove()
                     //$div = $('<div>',{id:'roster_'+answer.id,class:"roster"})
                     $('.container').append(answer.new_roster);
+                    console.log(answer.new_roster)
                     $('#roster_' + answer.id).removeClass("hidden")
                     $(".for_display_" + answer.id).addClass('hidden');
                     $(".for_edit_" + answer.id).removeClass('hidden');
@@ -306,15 +308,36 @@ class Chiaroscuro {
             e.stopPropagation();
             let miniid = $(this).attr('id');
             let words = miniid.split('__');
+            let code = $(this).attr('code');
             let id = words[1];
             $('.list_entry').removeClass('mark');
             $(this).addClass('mark');
-            $(".roster").addClass('hidden');
-            $("#roster_" + id).removeClass('hidden');
-            $("#roster_" + id + " .sheet").removeClass('hidden');
+            let klass = ""
+            if ($(this).hasClass("stregoneria")){
+                klass = "stregoneria"
+            }
+            switch (klass){
+                case "stregoneria":
+                    console.log("Stregoneria")
+                    me.axiomaticPerformers.forEach( (m) => {
+                        m.perform(code)
+                    });
+                    me.registerActions()
+                    break
+                default:
+                    $(".roster").addClass('hidden')
+                    $("#roster_" + id).removeClass('hidden')
+                    $("#roster_" + id + " .sheet").removeClass('hidden')
+                    me.registerActions()
+                    break
+            }
+
+
+
 //             $(".for_display_" + id).removeClass('hidden');
 //             $(".for_edit_" + id).addClass('hidden');
-            me.registerActions();
+
+
         });
         $('.minisheet').off().on('click', function (e) {
             e.preventDefault();
@@ -360,20 +383,15 @@ class Chiaroscuro {
             let code = $(this).attr('code');
             let words = miniid.split('__');
             let id = words[1];
-//             console.log("mini item click!")
             $(".item").addClass('hidden');
             $(".mini").removeClass('mark');
             $("#mini__" + id).addClass('mark');
             $("#item__" + id).removeClass('hidden');
             $(".for_display_" + id).removeClass('hidden');
             $(".for_edit_" + id).addClass('hidden');
-//             console.log("Shooting Axiomatic Performers !", me.axiomaticPerformers)
             me.axiomaticPerformers.forEach( (m) => {
-//                 console.log(`Sending code ${code} to axiomatic performer [${m.name}].`)
                 m.perform(code)
             });
-
-            //me.pa.perform("#item__" + id, code);
             me.registerActions();
         });
 

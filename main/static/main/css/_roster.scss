@@ -19,60 +19,29 @@
 
 
     &.skillstable{
-//         border:3px solid orange;
-        // width:50%;
-//         margin:0;
-//         & td{
-//             border:0px solid transparent;
-//             vertical-align:middle;
-//             background:transparent;
-//         }
-//         border:0px solid $palette3;
-//         cells-padding: 0;
-//         cells-spacing: 0;
-//         background:transparent;
-//         border-radius: 10px;
-//         height:auto;
-//         width:auto;
-//         margin: 0;
-//
         &.autochton{
-
             background: #1030207F;
             & .header{
                 color:white;
                 background:$palette2;
             }
-            & .sheet{
-                background:#608060;
-            }
-
         }
         &.traveller{
-
             background: #1020307F;
             & .header{
                 color:white;
                 background:$palette2;
             }
-            & .sheet{
-                background:#606080;
-            }
         }
 
         &.creature{
-
             background: #3010207F;
             & .header{
                 color:white;
                 background:$palette2;
             }
-            & .sheet{
-                background:#806060;
-            }
         }
     }
-
 
      & .sheet {
         display: grid;
@@ -80,13 +49,12 @@
         font-family:$font;
         font-size:$roster_font_height;
         border:1px solid $palette2;
-
+        background:#606080;
         border-radius:5px;
-        margin:10px;
-        padding:5px;
+        margin:5px;
+        padding:3px;
         gap: 0px;
         box-shadow: 0 0 16px $palette0;
-
 
         & .box {
             border-radius: 1px;
@@ -96,7 +64,6 @@
             &.label{
                 background-color: $palette2;
                 color:white;
-
             }
             &.info{
                 background: darken($palette1,50%);
@@ -157,13 +124,13 @@
                 grid-column: 1 / span 2;
             }
             overflow-y:auto;
-            min-height:200px;
+            //min-height:200px;
         }
 
 
 
         &.base, &.magic, &.weapons, &.protection {
-            grid-template-columns: 60px 90px 90px 90px 90px 90px 90px 90px;
+            grid-template-columns: 80px 80px 80px 80px 80px 80px 80px 80px;
             grid-template-rows: repeat(20,2em);
             flex: 0 1 auto;
             & .header {
@@ -243,6 +210,57 @@
                 grid-template-columns: subgrid;
                 grid-template-rows: subgrid;
             }
+            & .line{
+                border:1px solid $palette2;
+                gap: 1px;
+                padding:2px;
+                grid-column: 1 / span 8;
+                grid-row: span 2;
+                display:grid;
+                grid-template-columns: repeat(4,1fr) ;
+                grid-template-rows: repeat(2,1fr);
+                & .nw{
+                    &.label{
+                        grid-column: 1;
+                        grid-row: 1 ;
+                    }
+                    &.info{
+                        grid-column: 2;
+                        grid-row: 1 ;
+                    }
+                }
+                & .ne{
+                   &.label{
+                        grid-column: 1;
+                        grid-row: 2 ;
+                   }
+                   &.info{
+                        grid-column: 2;
+                        grid-row: 2 ;
+                   }
+                }
+                & .sw{
+                   &.label{
+                        grid-column: 3;
+                        grid-row: 1 ;
+                   }
+                   &.info{
+                        grid-column: 4;
+                        grid-row: 1;
+                   }
+                }
+                & .se{
+                   &.label{
+                        grid-column: 3;
+                        grid-row: 2;
+                   }
+                   &.info{
+                        grid-column: 4;
+                        grid-row: 2 ;
+                   }
+                }
+
+            }
 
            & .triset{
                 border:1px solid $palette2;
@@ -265,10 +283,11 @@
             grid-template-rows: repeat(5,2em);
         }
 
-       &.summary, &.gear{
+       &.gear, &.spells{
             display:block;
             color:white;
-            background:black;
+            background:#304030;
+            border:1px solid white;
             font-family:$mono;
             font-size:0.83em;
             max-height:40em;
@@ -276,11 +295,25 @@
             overflow:auto;
        }
 
+       &.summary{
+            display:block;
+            color:white;
+            background:#101010;
+            font-family:$mono;
+            font-size:0.83em;
+            max-height:40em;
+            width:96ex;
+            overflow:auto;
+            border:1px solid white;
+       }
+
+
         &.base{order:1;}
-        &.skills{order:7;}
+        &.skills{order:8;}
         &.weapons{order:4;}
         &.protection{order:5;}
         &.gear{order:6;}
+        &.spells{order:7;}
         &.magic{order:3;}
         &.summary{order:2;}
 

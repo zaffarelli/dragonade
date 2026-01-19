@@ -17,6 +17,3 @@
     {% include "main/objects/protection.html"%}
 </div>
 
-<div class="sheet gear gearpull" action="{{a.type}}__{{a.id}}__GEAR__bulk" param="{{a.features.GEAR}}" title="{{a.rid}} = {{a.features.GEAR}}">
-    {{a.features.GEAR|as_gear_list|safe}}
-</div>

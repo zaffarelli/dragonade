@@ -11,7 +11,7 @@ class Modulo {
     drawPrint(){
         let me = this;
         let offsetx = 0.5;
-        let offsety = 0.5;
+        let offsety = 29;
         let click_1 = (e,d) => {
             me.saveSVG();
         }
@@ -41,7 +41,7 @@ class Modulo {
                 .attr('opacity',1)
                 .style('stroke-width','2pt')
                 .style('stroke','#606060')
-                .style('fill','#C0F0C0')
+                .style('fill','#4f214b')
             btn.append("text")
                 .attr("id","print_artefact")
                 .attr("class","do_not_print")
@@ -51,10 +51,10 @@ class Modulo {
                 .attr('opacity',1)
                 .style('stroke-width','0.25pt')
                 .style('stroke','#606060')
-                .style('fill','#101010')
+                .style('fill','#F0F0F0')
                 .style("text-anchor","middle")
                 .style("font-size",me.fontSize+"pt")
-                .style("font-family","Wellfleet")
+                .style("font-family","Roboto")
                 .text(v.label)
             ;
         });

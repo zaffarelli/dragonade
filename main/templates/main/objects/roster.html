@@ -1,11 +1,12 @@
 {% load static %}
 {% load dragonade_filters %}
 
-<div class='roster skillstable {{a.type.lower}} hidden' kid="ss_{{a.id}}" id="roster_{{x.id}}">
+<div class='roster skillstable {{a.type.lower}} hidden' kid="ss_{{a.id}}" id="roster_{{a.id}}">
     {% include "main/objects/roster_base.html" %}
     {% include "main/objects/roster_magic.html" %}
     {% include "main/objects/roster_gear.html" %}
     {% include "main/objects/roster_summary.html" %}
+    {% include "main/objects/roster_pullers.html" %}
     {% include "main/objects/roster_skills.html" %}
 </div>
 

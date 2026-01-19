@@ -202,6 +202,7 @@ class Spell(models.Model):
     def export_to_json(self):
         data = {}
         data['name'] = self.name
+        data['id'] = self.id
         data['rid'] = self.rid
         data['alternative_names'] = self.alternative_names
         data['casting_time'] = self.casting_time

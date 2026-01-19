@@ -138,7 +138,7 @@ body {
 #target_ed, #ed{
     @include dragonade_panel;
     display:block;
-    width:auto;
+    width:98%;
     height:6em;
     margin:auto;
     background:#00000070;
@@ -148,19 +148,16 @@ body {
     color:white;
 }
 
-#target_ed{
-    border-color:#101010;
-    height:1.2em;
-}
 
-.btn{
-    display:block;
-    margin:auto;
-    width:20ex;
-    height:1.2em;
-    padding:5px;
-    border-radius:5px;
-}
+//
+// .btn{
+//     display:block;
+//     margin:auto;
+//     width:20ex;
+//     height:1.2em;
+//     padding:5px;
+//     border-radius:5px;
+// }
 
 .menu{
     @include dragonade_panel;
@@ -237,6 +234,9 @@ body {
             gap:2pt;
             border:1pt solid black;
             border-radius:2pt;
+
+            cursor:pointer;
+
             & .ref{
                 order:1;
                 flex: 0 0 3ex;

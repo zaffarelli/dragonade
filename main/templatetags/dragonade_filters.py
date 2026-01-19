@@ -269,10 +269,18 @@ def acro(value):
         result = s
     return result.upper()
 
-@register.filter(name='as_gear_list')
-def as_gear_list(value):
+@register.filter(name='as_stack_list')
+def as_stack_list(value):
     items = value.split(" ")
     str = ""
     for item in items:
         str += f"<span class='gearit' item='{item}'>{item}</span> "
+    return str
+
+
+@register.filter(name='as_id')
+def as_id(value):
+    str = value
+    if isinstance(value, int):
+        str = f"{value:03}"
     return str

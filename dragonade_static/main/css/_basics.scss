@@ -70,17 +70,27 @@ $standard_box: darken($active_box,30%);
 $sub_box: complement($standard_box);
 
 @mixin btn_look{
-    background: darken($theme1,10%);
-    border-radius:3px;
-    border:1px solid lighten($theme1,20%);
-    color: darken($theme1,40%);
-    font-family: Neucha;
-    width:90ex;
     display:inline-block;
+    background: #606060;
+    width:20ex;
+    color: white;
+    border-radius:3pt;
+    border:1pt solid #202020;
+    font-family: $font;
+    line-height:1.8em;
+    border-radius:3pt;
+    padding:3pt;
+    &:hover{
+        background:#4b1f4a;
+        color:#f0c040;
+        cursor:pointer;
+    }
 }
 
 .btn{
     @include btn_look
+    border-color:#808080;
+    margin:5pt;
 }
 
 

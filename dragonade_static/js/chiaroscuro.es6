@@ -120,12 +120,33 @@ class Chiaroscuro {
         let me = this;
         me.prepareAjax();
         me.registerEditables();
+        me.registerGearPull();
         me.registerValuePush();
         me.registerSheets();
         me.registerLinks();
         me.registerMiniItems();
         me.registerShowHide();
         me.registerPaginator();
+    }
+
+    registerGearPull() {
+        let me = this;
+        $('.gearpull').off().on('click', function (e) {
+            let html = $(this).attr('param')
+            let action = $(this).attr('action')
+            $("#ed").val(html)
+            $("#target_ed").val(action);
+        })
+        $('.gearpush').off().on('click', function (e) {
+            let list = $("#ed").val()
+            let words = list.split(" ")
+            let word = $(this).attr('param')
+            if (!words.includes(word)){
+                words.push(word)
+            }
+            let html = words.join(" ")
+            $("#ed").val(html)
+        })
     }
 
     registerEditables() {
@@ -211,6 +232,11 @@ class Chiaroscuro {
             let new_value = $('#ed').val()
             let value = me.zaff_encode(new_value)
             let refs = $("#target_ed").val();
+            let words = refs.split("__")
+            if (words.includes("bulk")){
+                value = me.zaff_encode($("#ed").val())
+
+            }
             $.ajax({
                 url: 'ajax/value_push',
                 method: 'POST',
@@ -224,7 +250,11 @@ class Chiaroscuro {
                 },
                 dataType: 'json',
                 success: function (answer) {
-                    $('#roster_' + answer.id).html(answer.new_roster);
+                    $('#roster_' + answer.id).remove()
+                    //$div = $('<div>',{id:'roster_'+answer.id,class:"roster"})
+                    $('.container').append(answer.new_roster);
+                    console.log(answer.new_roster)
+                    $('#roster_' + answer.id).removeClass("hidden")
                     $(".for_display_" + answer.id).addClass('hidden');
                     $(".for_edit_" + answer.id).removeClass('hidden');
                     $("#target_ed").val("");
@@ -235,6 +265,7 @@ class Chiaroscuro {
                     console.error('Error... ' + answer);
                 },
             });
+
         });
     }
 
@@ -277,18 +308,13 @@ class Chiaroscuro {
             let miniid = $(this).attr('id');
             let words = miniid.split('__');
             let id = words[1];
-            $('.roster .sheet').addClass('hidden');
-            //$('.sheet.skills').addClass('hidden');
-            $('.minisheet').removeClass('mark');
+            $('.list_entry').removeClass('mark');
             $(this).addClass('mark');
             $(".roster").addClass('hidden');
             $("#roster_" + id).removeClass('hidden');
             $("#roster_" + id + " .sheet").removeClass('hidden');
-
-            //$("#sb_"+id).removeClass('hidden');
-            $(".for_display_" + id).removeClass('hidden');
-            $(".for_edit_" + id).addClass('hidden');
-            console.debug("Showing #roster_" + id + ".sheet")
+//             $(".for_display_" + id).removeClass('hidden');
+//             $(".for_edit_" + id).addClass('hidden');
             me.registerActions();
         });
         $('.minisheet').off().on('click', function (e) {

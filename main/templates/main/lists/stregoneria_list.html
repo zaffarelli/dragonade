@@ -11,8 +11,15 @@
 
 
 {% for x in elements %}
-<div class="mini stregoneria" id="mini__{{x.rid}}" code="{{x.rid}}" title="{{x.name}}">
-    {{x.name|safe}}<br/><span class="options">{{x.category|acro|safe}} {{x.path|acro|safe}}</span>
-</div>
+    {% include "main/lists/list_item.html" with x=x %}
+
 {% endfor %}
+
+
+
+<!--{% for x in elements %}-->
+<!--<div class="mini stregoneria" id="mini__{{x.rid}}" code="{{x.rid}}" title="{{x.name}}">-->
+<!--    {{x.name|safe}}<br/><span class="options">{{x.category|acro|safe}} {{x.path|acro|safe}}</span>-->
+<!--</div>-->
+<!--{% endfor %}-->
 

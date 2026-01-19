@@ -80,31 +80,26 @@ $panel_week_background: darken($panel_background, 5%);
     .roster.skillstable.autochton .header {
       color: white;
       background: rgba(46, 46, 46, 0.498039); }
-    .roster.skillstable.autochton .sheet {
-      background: #608060; }
   .roster.skillstable.traveller {
     background: #1020307F; }
     .roster.skillstable.traveller .header {
       color: white;
       background: rgba(46, 46, 46, 0.498039); }
-    .roster.skillstable.traveller .sheet {
-      background: #606080; }
   .roster.skillstable.creature {
     background: #3010207F; }
     .roster.skillstable.creature .header {
       color: white;
       background: rgba(46, 46, 46, 0.498039); }
-    .roster.skillstable.creature .sheet {
-      background: #806060; }
   .roster .sheet {
     display: grid;
     flex: 0 0 auto;
     font-family: "Roboto";
     font-size: 10pt;
     border: 1px solid rgba(46, 46, 46, 0.498039);
+    background: #606080;
     border-radius: 5px;
-    margin: 10px;
-    padding: 5px;
+    margin: 5px;
+    padding: 3px;
     gap: 0px;
     box-shadow: 0 0 16px #101010; }
     .roster .sheet .box {
@@ -144,8 +139,7 @@ $panel_week_background: darken($panel_background, 5%);
         font-weight: bold; }
     .roster .sheet.magic, .roster .sheet.weapons, .roster .sheet.protection {
       grid-template-columns: 75px 150px;
-      overflow-y: auto;
-      min-height: 200px; }
+      overflow-y: auto; }
       .roster .sheet.magic .label, .roster .sheet.weapons .label, .roster .sheet.protection .label {
         grid-column: 1 / span 1; }
       .roster .sheet.magic .info, .roster .sheet.weapons .info, .roster .sheet.protection .info {
@@ -153,7 +147,7 @@ $panel_week_background: darken($panel_background, 5%);
       .roster .sheet.magic .header, .roster .sheet.weapons .header, .roster .sheet.protection .header {
         grid-column: 1 / span 2; }
     .roster .sheet.base, .roster .sheet.magic, .roster .sheet.weapons, .roster .sheet.protection {
-      grid-template-columns: 60px 90px 90px 90px 90px 90px 90px 90px;
+      grid-template-columns: 80px 80px 80px 80px 80px 80px 80px 80px;
       grid-template-rows: repeat(20, 2em);
       flex: 0 1 auto; }
       .roster .sheet.base .header, .roster .sheet.magic .header, .roster .sheet.weapons .header, .roster .sheet.protection .header {
@@ -207,6 +201,39 @@ $panel_week_background: darken($panel_background, 5%);
         display: grid;
         grid-template-columns: subgrid;
         grid-template-rows: subgrid; }
+      .roster .sheet.base .line, .roster .sheet.magic .line, .roster .sheet.weapons .line, .roster .sheet.protection .line {
+        border: 1px solid rgba(46, 46, 46, 0.498039);
+        gap: 1px;
+        padding: 2px;
+        grid-column: 1 / span 8;
+        grid-row: span 2;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(2, 1fr); }
+        .roster .sheet.base .line .nw.label, .roster .sheet.magic .line .nw.label, .roster .sheet.weapons .line .nw.label, .roster .sheet.protection .line .nw.label {
+          grid-column: 1;
+          grid-row: 1; }
+        .roster .sheet.base .line .nw.info, .roster .sheet.magic .line .nw.info, .roster .sheet.weapons .line .nw.info, .roster .sheet.protection .line .nw.info {
+          grid-column: 2;
+          grid-row: 1; }
+        .roster .sheet.base .line .ne.label, .roster .sheet.magic .line .ne.label, .roster .sheet.weapons .line .ne.label, .roster .sheet.protection .line .ne.label {
+          grid-column: 1;
+          grid-row: 2; }
+        .roster .sheet.base .line .ne.info, .roster .sheet.magic .line .ne.info, .roster .sheet.weapons .line .ne.info, .roster .sheet.protection .line .ne.info {
+          grid-column: 2;
+          grid-row: 2; }
+        .roster .sheet.base .line .sw.label, .roster .sheet.magic .line .sw.label, .roster .sheet.weapons .line .sw.label, .roster .sheet.protection .line .sw.label {
+          grid-column: 3;
+          grid-row: 1; }
+        .roster .sheet.base .line .sw.info, .roster .sheet.magic .line .sw.info, .roster .sheet.weapons .line .sw.info, .roster .sheet.protection .line .sw.info {
+          grid-column: 4;
+          grid-row: 1; }
+        .roster .sheet.base .line .se.label, .roster .sheet.magic .line .se.label, .roster .sheet.weapons .line .se.label, .roster .sheet.protection .line .se.label {
+          grid-column: 3;
+          grid-row: 2; }
+        .roster .sheet.base .line .se.info, .roster .sheet.magic .line .se.info, .roster .sheet.weapons .line .se.info, .roster .sheet.protection .line .se.info {
+          grid-column: 4;
+          grid-row: 2; }
       .roster .sheet.base .triset, .roster .sheet.magic .triset, .roster .sheet.weapons .triset, .roster .sheet.protection .triset {
         border: 1px solid rgba(46, 46, 46, 0.498039);
         gap: 1px;
@@ -220,25 +247,38 @@ $panel_week_background: darken($panel_background, 5%);
       grid-template-rows: repeat(10, 2em); }
     .roster .sheet.protection {
       grid-template-rows: repeat(5, 2em); }
-    .roster .sheet.summary, .roster .sheet.gear {
+    .roster .sheet.gear, .roster .sheet.spells {
       display: block;
       color: white;
-      background: black;
+      background: #304030;
+      border: 1px solid white;
       font-family: "Roboto Mono";
       font-size: 0.83em;
       max-height: 40em;
       width: 96ex;
       overflow: auto; }
+    .roster .sheet.summary {
+      display: block;
+      color: white;
+      background: #101010;
+      font-family: "Roboto Mono";
+      font-size: 0.83em;
+      max-height: 40em;
+      width: 96ex;
+      overflow: auto;
+      border: 1px solid white; }
     .roster .sheet.base {
       order: 1; }
     .roster .sheet.skills {
-      order: 7; }
+      order: 8; }
     .roster .sheet.weapons {
       order: 4; }
     .roster .sheet.protection {
       order: 5; }
     .roster .sheet.gear {
       order: 6; }
+    .roster .sheet.spells {
+      order: 7; }
     .roster .sheet.magic {
       order: 3; }
     .roster .sheet.summary {
@@ -655,7 +695,7 @@ body {
   .list_block legend {
     color: rgba(234, 239, 241, 0.498039);
     text-shadow: 0 0 10px #101010; }
-  .list_block .spell_entry {
+  .list_block .list_entry, .list_block .ref_entry {
     order: 2;
     display: flex;
     flex-flow: row wrap;
@@ -664,12 +704,14 @@ body {
     align-items: flex-start;
     width: 96%;
     border: 2px solid #202020; }
-    .list_block .spell_entry .name {
+    .list_block .list_entry .ref, .list_block .ref_entry .ref {
+      width: 5ex; }
+    .list_block .list_entry .name, .list_block .ref_entry .name {
       display: inline-block;
       order: 1;
       background: #100707;
       flex: 1 1 auto; }
-    .list_block .spell_entry .rid {
+    .list_block .list_entry .rid, .list_block .ref_entry .rid {
       display: inline-block;
       order: 2;
       background: #100707;

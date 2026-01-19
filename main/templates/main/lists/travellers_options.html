@@ -11,13 +11,13 @@
         <fieldset class="list_block">
             <legend>Références: Sortilèges</legend>
             {% for s in reference.spells %}
-                <div class="spell_entry"><div class="name">{{s.name}}</div><div class="rid spellpush">{{s.rid}}</div> </div>
+                <div class="ref_entry spell stackpush" param="{{s.rid}}"><div class="name">{{s.name}}</div><div class="rid">{{s.rid}}</div> </div>
             {% endfor %}
         </fieldset>
         <fieldset class="list_block">
             <legend>Références: Equipement</legend>
             {% for s in reference.equipment %}
-                <div class="spell_entry gearpush" param="{{s.rid}}"><div class="name">{{s.name}}</div><div class="rid">{{s.rid}}</div> </div>
+                <div class="ref_entry gear stackpush" param="{{s.rid}}"><div class="name">{{s.name}}</div><div class="rid">{{s.rid}}</div> </div>
             {% endfor %}
         </fieldset>
     </div>

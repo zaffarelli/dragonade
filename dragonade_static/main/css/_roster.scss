@@ -141,12 +141,10 @@
                 grid-column: 1 / span 2;
                 font-weight:bold;
             }
-            &.martiales{
-                order:5;
-            }
+
         }
 
-        &.magic, &.weapons, &.gear{
+        &.magic, &.weapons, &.protection{
             grid-template-columns: 75px 150px;
             & .label {
                 grid-column: 1 / span 1;
@@ -164,7 +162,7 @@
 
 
 
-        &.base, &.magic, &.weapons {
+        &.base, &.magic, &.weapons, &.protection {
             grid-template-columns: 60px 90px 90px 90px 90px 90px 90px 90px;
             grid-template-rows: repeat(20,2em);
             flex: 0 1 auto;
@@ -258,21 +256,32 @@
                 grid-template-rows: subgrid;
            }
        }
-       &.summary{
+
+        &.weapons{
+            grid-template-rows: repeat(10,2em);
+        }
+
+        &.protection{
+            grid-template-rows: repeat(5,2em);
+        }
+
+       &.summary, &.gear{
+            display:block;
             color:white;
             background:black;
             font-family:$mono;
             font-size:0.83em;
-            max-height:24em;
-            width:100ex;
+            max-height:40em;
+            width:96ex;
             overflow:auto;
        }
 
         &.base{order:1;}
-        &.skills{order:4;}
-        &.weapons{order:5;}
-        &.gear{order:7;}
-        &.magic{order:8;}
+        &.skills{order:7;}
+        &.weapons{order:4;}
+        &.protection{order:5;}
+        &.gear{order:6;}
+        &.magic{order:3;}
         &.summary{order:2;}
 
 
@@ -293,4 +302,8 @@
 }
 
 
-
+.gearit{
+    @include btn_look;
+    width:auto;
+    margin:3pt;
+}
