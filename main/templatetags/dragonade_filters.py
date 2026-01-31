@@ -177,46 +177,68 @@ def genderize(value):
     return result
 
 
+def svg_item(x):
+    return  f'<span class="" title="{x}" style="display:inline-block;">' \
+             f'<img src="static/main/svg/2024/{x}.svg" style="display:inline-block; width:100px;">' \
+             f'</span>'
 @register.filter(name='as_ground_charge')
 def as_ground_charge(value):
-    result = f'<div class="minicard verso" title="{value}"><img src="static/main/svg/blank.svg" style="display:inline-block; width:30px;"></div>'
-    if value > 0:
-        result = f'<div class="minicard" title="{value}">' \
-                 f'<img src="static/main/svg/tm_{value}.svg" style="display:inline-block; width:30px;">' \
-                 f'</div>'
-    return result
+    result = f'blank'
+    if isinstance(value,int):
+       v = value
+    else:
+        v = 0
+    if v > 0:
+        result = f"tm_{v}"
+    return svg_item(result)
 
 
 @register.filter(name='as_hour_charge')
 def as_hour_charge(value):
-    result = f'<div class="minicard verso" title="{value}"><img src="static/main/svg/blank.svg" style="display:inline-block; width:30px;"></div>'
-    if value > 0:
-        result = f'<div class="minicard" title="{value}"><img src="static/main/svg/hd_{value}.svg" style="display:inline-block; width:30px;"></div>'
-    return result
+    result = f'blank'
+    if isinstance(value,int):
+       v = value
+    else:
+        v = 0
+    if v > 0:
+        result = f'sd_{v}'
+    return svg_item(result)
 
 
 @register.filter(name='as_emanation_charge')
 def as_emanation_charge(value):
-    result = f'<div class="minicard verso" title="{value}"><img src="static/main/svg/blank.svg" style="display:inline-block; width:30px;"></div>'
-    if value > 0:
-        result = f'<div class="minicard" title="{value}"><img src="static/main/svg/em_{value}.svg" style="display:inline-block; width:30px;"></div>'
-    return result
+    result = f'blank'
+    if isinstance(value,int):
+       v = value
+    else:
+        v = 0
+    if v > 0:
+        result = f'ed_{v}'
+    return svg_item(result)
 
 
 @register.filter(name='as_consistency_charge')
 def as_consistency_charge(value):
-    result = f'<div class="minicard verso" title="{value}"><img src="static/main/svg/blank.svg" style="display:inline-block; width:30px;"></div>'
-    if value > 0:
-        result = f'<div class="minicard" title="{value}"><img src="static/main/svg/cd_{value}.svg" style="display:inline-block; width:30px;"></div>'
-    return result
+    result = f'blank'
+    if isinstance(value,int):
+       v = value
+    else:
+        v = 0
+    if v > 0:
+        result = f'cd_{v}'
+    return svg_item(result)
 
 
 @register.filter(name='as_elemental_charge')
 def as_elemental_charge(value):
-    result = f'<div class="minicard verso" title="{value}"><img src="static/main/svg/blank.svg" style="display:inline-block; width:30px;"></div>'
-    if value > 0:
-        result = f'<div class="minicard" title="{value}"><img src="static/main/svg/ed_{value}.svg" style="display:inline-block; width:30px;"></div>'
-    return result
+    result = f'blank'
+    if isinstance(value,int):
+       v = value
+    else:
+        v = 0
+    if v > 0:
+        result = f'ld_{v}'
+    return svg_item(result)
 
 
 @register.filter(name='encoded_z')

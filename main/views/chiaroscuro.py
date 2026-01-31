@@ -91,13 +91,18 @@ def svg_to_pdf(request, slug):
     import os
     from django.conf import settings
     print("svg_to_pdf")
+    category = ""
     response = {'status': 'error'}
     if is_ajax(request):
-        pdf_name = os.path.join(settings.MEDIA_ROOT, 'pdf/results/' + request.POST["pdf_name"])
-        svg_name = os.path.join(settings.MEDIA_ROOT, 'pdf/results/' + request.POST["svg_name"])
+        if "category" in request.POST:
+            category = request.POST["category"]
+            if category != "":
+                category += "/"
+        pdf_name = os.path.join(settings.MEDIA_ROOT, 'pdf/results/'+category + request.POST["pdf_name"])
+        svg_name = os.path.join(settings.MEDIA_ROOT, 'pdf/results/'+category + request.POST["svg_name"])
         svgtxt = request.POST["svg"]
         with open(svg_name, "w") as f:
-            relinked = svgtxt.replace("static/main/svg/2024/", "refs/")
+            relinked = svgtxt.replace("static/main/svg/2024/", "../refs/")
             f.write(relinked)
             f.close()
         cairosvg.svg2pdf(url=svg_name, write_to=pdf_name, scale=21, unsafe=True)

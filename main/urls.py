@@ -1,6 +1,7 @@
 from django.urls import re_path
-from main.views.generic import index, autochtons,creatures, travellers, maps, papers, card_reveal, draconis_artes, \
-    gardiendesreves, appartuses, stregoneria, combattants, new_creature, new_autochton, new_traveller
+from main.views.generic import index, autochtons, creatures, travellers, maps, papers, card_reveal, draconis_artes, \
+    gardiendesreves, appartuses, stregoneria, combattants, new_creature, new_autochton, new_traveller, new_spell, overlay_edit
+from main.views.stregoneria import SpellDetailView
 from main.views.chiaroscuro import inc_dec, value_push, svg_to_pdf, paginator_switch
 from django.conf import settings
 from django.conf.urls.static import static
@@ -25,4 +26,11 @@ urlpatterns = [
     re_path(r'^new_creature', new_creature, name='new_creature'),
     re_path(r'^new_traveller', new_traveller, name='new_traveller'),
     re_path(r'^new_autochton', new_autochton, name='new_autochton'),
+    re_path(r'^new_spell', new_spell, name='new_spell'),
+    re_path(r'^ajax/embedded/edit', SpellDetailView.as_view()),
+    re_path(r'^ajax/overlay/edit', overlay_edit, name="overlay_edit"),
+    re_path(r'^ajax/edit/stregoneria/(?P<slug>\w+)/$', SpellDetailView.as_view(), name='view_spell'),
+
+
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

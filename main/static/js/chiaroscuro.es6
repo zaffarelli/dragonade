@@ -127,6 +127,7 @@ class Chiaroscuro {
         me.registerMiniItems();
         me.registerShowHide();
         me.registerPaginator();
+        me.registerModelForm();
     }
 
     registerStackPull() {
@@ -547,5 +548,55 @@ class Chiaroscuro {
 //             });
     }
 
+    registerModelForm(){
+        let me = this
+        $(".model_form_validate").off().on("click", function(e){
+            let target = $("#editor").attr("param")
+            let target_words = target.split("__")
+            console.log(target)
 
+            let model = target_words[0]
+            let code = target_words[1]
+            let rid = target_words[2]
+            console.log(model)
+            let json_data={
+                model: model,
+                code:code,
+                rid:rid,
+                properties:{}
+            }
+
+//             let properties = {}
+            $("#editor textarea.modifiable").each(function(e){
+                let p = $(this).attr("param")
+                let v = $(this).val()
+                json_data.properties[p] = v
+
+            })
+//             console.log("Properties: ",properties)
+//              json_data.properties = properties
+             let js = JSON.stringify(json_data)
+//             let j = JSON.stringify(json_data)
+//             let k = JSON.parse(j)
+            console.info(js)
+            $.ajax({
+                url: 'ajax/overlay/edit/',
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: {item_info:js},
+                 dataType: 'json',
+                success: function (answer) {
+                    console.log(answer)
+                    me.registerActions();
+                },
+                error: function (answer) {
+                    console.error('Error... ')
+                    console.error(answer);
+                },
+            })
+        })
+    }
 }

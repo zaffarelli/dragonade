@@ -192,8 +192,6 @@ def draconis_artes(request):
     return render(request, 'main/pages/draconis_artes.html', context=context)
 
 
-
-
 # Artefacts
 def appartuses(request):
     from main.models.appartus import Appartus
@@ -347,6 +345,7 @@ def travellers_page(request):
     html = template.render(context, request)
     return JsonResponse({"html": html})
 
+
 # Spells
 def stregoneria(request):
     from main.models.stregoneria import Spell
@@ -369,13 +368,13 @@ def stregoneria(request):
             haut_revants.append(datum)
     context['config']['haut_revants'] = haut_revants
     stregoneria = []
-    for i in Spell.objects.order_by("category", "name"):
+    for i in Spell.objects.order_by("-category", "name"):
         datum = i.export_to_json()
         datum['type'] = "stregoneria"
         datum['code'] = i.rid
         stregoneria.append(datum)
     page = 1
-    context = prepare_pagination(context, stregoneria, page,"stregoneria")
+    context = prepare_pagination(context, stregoneria, page, "stregoneria")
     return render(request, 'main/pages/stregoneria.html', context)
 
 
@@ -383,7 +382,7 @@ def stregoneria_page(request):
     from main.models.stregoneria import Spell
     context = prepare_context(request)
     stregoneria = []
-    for i in Spell.objects.order_by("category", "name"):
+    for i in Spell.objects.order_by("-category", "name"):
         datum = i.export_to_json()
         datum['type'] = "stregoneria"
         datum['code'] = i.rid
@@ -393,7 +392,6 @@ def stregoneria_page(request):
     template = get_template("main/lists/list_content.html")
     html = template.render(context, request)
     return JsonResponse({"html": html})
-
 
 
 def combattants(request):
@@ -456,6 +454,13 @@ def new_creature(request):
     return HttpResponse(status=204)
 
 
+def new_spell(request):
+    from main.models.stregoneria import Spell
+    s = Spell.new()
+    print(f"New spell created: {s.name} [{s.rid}]")
+    return HttpResponse(status=204)
+
+
 def new_traveller(request):
     from main.models.travellers import Traveller
     from main.utils.mechanics import random_term
@@ -472,3 +477,60 @@ def new_autochton(request):
     c.name = "Joe " + random_term()
     c.save()
     return HttpResponse(status=204)
+
+
+def overlay_edit(request):
+    answer = {}
+    changes = False
+    import json
+    from main.models.stregoneria import Spell
+    if is_ajax(request):
+        json = json.loads(request.POST.get("item_info"))
+        if json["model"] == "stregoneria":
+            spell = Spell.objects.get(rid=json["rid"])
+            for p in json["properties"]:
+                if p in spell.__dict__:
+                    print("Found: " + p)
+                    nv = getattr(spell, p)
+                    t = type(nv).__name__
+                    if json["properties"][p] != f'{nv}':
+                        changes = True
+                        print(f" > New value : {nv} becomes {json['properties'][p]} (with type {t})")
+                        if t == "int":
+                            setattr(spell,p,int(nv))
+                        elif t == "string":
+                            setattr(spell,p,str(nv))
+                        elif t == "bool":
+                            setattr(spell,p,bool(nv))
+                        elif t == "float":
+                            setattr(spell,p,float(nv))
+                else:
+                    print("Not Found: " + p)
+                    if p == "charges":
+                        print("Handling charges")
+                        previous = [spell.ground_charge, spell.hour_charge, spell.consistency_charge,
+                                    spell.emanation_charge, spell.elemental_charge]
+                        current = json["properties"][p].split(" ")
+                        next = []
+                        for c in current:
+                            next.append(int(c))
+                        print(f"Previous...... {previous}")
+                        print(f"Next.......... {next}")
+                        idx = 0
+                        for c in current:
+                            if c != previous[idx]:
+                                changes = True
+                                if idx == 0:
+                                    spell.ground_charge = c
+                                elif idx == 1:
+                                    spell.hour_charge = c
+                                elif idx == 2:
+                                    spell.consistency_charge = c
+                                elif idx == 3:
+                                    spell.emanation_charge = c
+                                elif idx == 4:
+                                    spell.elemental_charge = c
+                            idx += 1
+            if changes:
+                spell.save()
+    return JsonResponse(answer)

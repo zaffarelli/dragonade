@@ -13,6 +13,8 @@ FONTSET = [
     "Wellfleet",
     "Roboto",
     "Roboto+Mono",
+    "Roboto+Flex",
+    "Sansation",
     "Pirata+One"
 ]
 # Testing (Transfert to the previous one if valid)
@@ -102,7 +104,10 @@ MAIN_MENU = [
             {"NAME": "Révélation (Voyageurs)", "LINK": "risorse"},
         ]},
         {"NAME": "Artefacts", "LINK": "appartuses"},
-        {"NAME": "Magie Draconique", "LINK": "stregoneria"},
+        {"NAME": "Magie Draconique", "SUB":[
+            {"NAME": "Liste", "LINK": "stregoneria"},
+            {"NAME": "Nouveau sort", "LINK": "new_spell"},
+        ]},
         {"NAME": "Rêves", "SUB": [
             {"NAME": "Nouveau Rêve", "LINK": "new_dream"},
             {"NAME": "Campagne: El fuego del Mar", "LINK": "combattimento"},

@@ -119,8 +119,9 @@ body {
     flex: 1 1 auto;
 
     & .middleblock{
-        @include dragonade_panel;
-        margin:auto;
+       @include dragonade_panel;
+        margin:1ex;
+        width:auto;
         display:block;
         text-align:center;
         & .list_block{
@@ -130,17 +131,23 @@ body {
             margin-bottom:1em;
             padding:5px;
         }
+
+        &.limit_height{
+            max-height:20em;
+            overflow-y:scroll;
+            margin-bottom:1em;
+        }
     }
 
 
 }
 
 #target_ed, #ed{
-    @include dragonade_panel;
+    //@include dragonade_panel;
     display:block;
-    width:98%;
+    width:auto;
     height:6em;
-    margin:auto;
+    margin:1ex;
     background:#00000070;
     border:1px groove #F0F0F0;
     padding:5px;
@@ -468,4 +475,79 @@ body {
             text-align:right;
         }
     }
+
+
 }
+
+
+    #overlay{
+        position:fixed;
+        top:0;
+        left:0;
+        z-index:500;
+        width:100vw;
+        height:100vh;
+        background:#101010DF;
+        font-family:Roboto;
+        font-height:8px;
+        & .detail{
+            margin-top:5em;
+            & .base{
+                border:1px solid white;
+                border-radius:5pt;
+                padding:5pt;
+                margin:auto;
+                width:70ex;
+                height:auto;
+                display:flex;
+                flex-flow:column nowrap;
+                justify-content:flex-start;
+                align-items:stretch;
+                align-content:stretch;
+                gap:1px;
+                background:#303030;
+                & .box{
+                    flex: 1 1 1em;
+                    display:flex;
+                    flex-flow:row wrap;
+                    justify-content:flex-start;
+                    align-content:flex-start;
+                    align-items:stretch;
+                    &.centered{
+                        justify-content:space-between;
+                        background:transparent;
+                        }
+                    gap:3px;
+                    color:white;
+                    padding:5px;
+                    & .label{
+                        background:#301030;
+                        flex: 1 1 15ex;
+                        padding:5pt;
+                        border-radius:5pt;
+                    }
+                    & .info{
+                        flex: 1 1 auto;
+                        background:#906090;
+                        height:auto;
+                        color:white;
+                        padding:5pt;
+                        border-radius:5pt;
+                        &.modifiable{
+                            flex: 1 1 auto;
+                            background:#909090;
+                            color:black;
+                        }
+                        &.centered{
+                            text-align:center;
+                        }
+                    }
+
+
+
+                }
+            }
+
+        }
+    }
+

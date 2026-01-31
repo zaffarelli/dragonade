@@ -131,29 +131,19 @@ class Spell(models.Model):
     rid = models.CharField(default="xxx", max_length=256, blank=True)
     code = models.CharField(default="", max_length=16, blank=True)
     alternative_names = models.CharField(default="", max_length=512, blank=True)
-
     casting_time = models.PositiveIntegerField(default=1, blank=True)
-
-    ground_charge = models.PositiveIntegerField(default=DragonadeGround.NONE, choices=DragonadeGround.choices,
-                                                blank=True)
+    ground_charge = models.PositiveIntegerField(default=DragonadeGround.NONE, choices=DragonadeGround.choices,blank=True)
     hour_charge = models.PositiveIntegerField(default=DragonadeHour.NONE, choices=DragonadeHour.choices, blank=True)
-    emanation_charge = models.PositiveIntegerField(default=DragonadeEmanation.NONE, choices=DragonadeEmanation.choices,
-                                                   blank=True)
-    consistency_charge = models.PositiveIntegerField(default=DragonadeConsistency.NONE,
-                                                     choices=DragonadeConsistency.choices, blank=True)
-    elemental_charge = models.PositiveIntegerField(default=DragonadeElement.NONE, choices=DragonadeElement.choices,
-                                                   blank=True)
-
+    emanation_charge = models.PositiveIntegerField(default=DragonadeEmanation.NONE, choices=DragonadeEmanation.choices,blank=True)
+    consistency_charge = models.PositiveIntegerField(default=DragonadeConsistency.NONE,choices=DragonadeConsistency.choices, blank=True)
+    elemental_charge = models.PositiveIntegerField(default=DragonadeElement.NONE, choices=DragonadeElement.choices,blank=True)
     dps = models.PositiveIntegerField(default=3, blank=True)
     songe = models.PositiveIntegerField(default=0, blank=True)
     duration = models.CharField(default="-", max_length=128, blank=True)
     range = models.CharField(default="-", max_length=128, blank=True)
     resistance = models.CharField(default="-", max_length=128, blank=True)
-    diff = models.PositiveIntegerField(default=DragonadeDifficulty.AVERAGE, choices=DragonadeDifficulty.choices,
-                                       blank=True)
-
+    diff = models.PositiveIntegerField(default=DragonadeDifficulty.AVERAGE, choices=DragonadeDifficulty.choices,blank=True)
     original_casting_cost = models.CharField(default="-", max_length=1024, blank=True)
-
     description = models.TextField(default="", max_length=1024, blank=True)
     composantes = models.TextField(default="-", max_length=1024, blank=True)
     path = models.PositiveIntegerField(default=SpellPath.NONE, choices=SpellPath.choices, blank=True)
@@ -161,7 +151,6 @@ class Spell(models.Model):
     ref = models.CharField(default="RDD 2nd p.", max_length=32, blank=True)
     source = models.CharField(default="-", max_length=64, blank=True)
     ti = models.PositiveIntegerField(default=SpellCastingTime.INSTANT, choices=SpellCastingTime.choices, blank=True)
-
     roll = models.PositiveIntegerField(default=SpellRoll.NONE, choices=SpellRoll.choices, blank=True)
     spell_ready = models.BooleanField(default=False, blank=True)
     power = models.IntegerField(default=0, blank=True)
@@ -252,6 +241,13 @@ class Spell(models.Model):
             json_list.append({"name": spell.name, "rid": spell.rid})
         return json_list
 
+    @classmethod
+    def new(cls):
+        import datetime
+        item = cls()
+        item.name = "NOUVEAU SORT "+datetime.datetime.now().strftime('%H-%M-%S')
+        item.save()
+        return item
 
 class SpellAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix

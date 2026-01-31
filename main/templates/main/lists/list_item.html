@@ -2,9 +2,16 @@
 {% load dragonade_filters %}
 
 <div class="list_entry {{x.type}}" id="mini__{{x.id}}" code="{{x.code}}">
-        <span class="ref">{{x.id|as_id}}</i></span><span class="base">{{x.name|safe}}</span>
+        {% if x.type == "stregoneria"%}
+        <span class="base">{{x.name|upper|safe}}</span>
+        <span class="options">{{x.path}}</span>
+        <span class="complement">{{x.category}}</span>
+        {%else%}
+        <span class="base">{{x.name|safe}}</span>
         {% if x.player and x.creature_type %}
         <span class="options">{{x.player|safe}}{{x.creature_type|title}}</span>
         {% endif %}
-        <span class="complement">{{x.rid|safe}}</span>
+        <span class="complement">{{x.category}}</span>
+        {% endif%}
+
 </div>

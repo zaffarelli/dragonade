@@ -347,7 +347,7 @@ body {
         right: 0;
         bottom: 0;
         left: auto;
-        width: 20vw;
+        width: 75ex;
         height: auto;
         border: 1px solid transparent;
         background: #2532377F;
@@ -431,7 +431,8 @@ body {
     color: white;
     border-radius: 4pt;
     background: #1010107f;
-    margin: auto;
+    margin: 1ex;
+    width: auto;
     display: block;
     text-align: center; }
     .middle .middleblock legend {
@@ -443,28 +444,21 @@ body {
       border-radius: 5px;
       margin-bottom: 1em;
       padding: 5px; }
+    .middle .middleblock.limit_height {
+      max-height: 20em;
+      overflow-y: scroll;
+      margin-bottom: 1em; }
 
 #target_ed, #ed {
-  margin: 0;
-  padding: 2pt;
-  box-shadow: 0 0 3px #a69cac;
-  font-family: "Roboto";
-  font-size: 10pt;
-  color: white;
-  border-radius: 4pt;
-  background: #1010107f;
   display: block;
-  width: 98%;
+  width: auto;
   height: 6em;
-  margin: auto;
+  margin: 1ex;
   background: #00000070;
   border: 1px groove #F0F0F0;
   padding: 5px;
   border-radius: 5px;
   color: white; }
-  #target_ed legend, #ed legend {
-    color: rgba(234, 239, 241, 0.498039);
-    text-shadow: 0 0 10px #101010; }
 
 .menu {
   margin: 0;
@@ -717,6 +711,64 @@ body {
       background: #100707;
       flex: 1 0 20ex;
       text-align: right; }
+
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 500;
+  width: 100vw;
+  height: 100vh;
+  background: #101010DF;
+  font-family: Roboto;
+  font-height: 8px; }
+  #overlay .detail {
+    margin-top: 5em; }
+    #overlay .detail .base {
+      border: 1px solid white;
+      border-radius: 5pt;
+      padding: 5pt;
+      margin: auto;
+      width: 70ex;
+      height: auto;
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: flex-start;
+      align-items: stretch;
+      align-content: stretch;
+      gap: 1px;
+      background: #303030; }
+      #overlay .detail .base .box {
+        flex: 1 1 1em;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: flex-start;
+        align-content: flex-start;
+        align-items: stretch;
+        gap: 3px;
+        color: white;
+        padding: 5px; }
+        #overlay .detail .base .box.centered {
+          justify-content: space-between;
+          background: transparent; }
+        #overlay .detail .base .box .label {
+          background: #301030;
+          flex: 1 1 15ex;
+          padding: 5pt;
+          border-radius: 5pt; }
+        #overlay .detail .base .box .info {
+          flex: 1 1 auto;
+          background: #906090;
+          height: auto;
+          color: white;
+          padding: 5pt;
+          border-radius: 5pt; }
+          #overlay .detail .base .box .info.modifiable {
+            flex: 1 1 auto;
+            background: #909090;
+            color: black; }
+          #overlay .detail .base .box .info.centered {
+            text-align: center; }
 
 .item {
   color: #101010;

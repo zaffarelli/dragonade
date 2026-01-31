@@ -1,0 +1,96 @@
+{% load static %}
+{% load dragonade_filters %}
+
+<div class="detail spell">
+    <div class="base" id="editor" param="stregoneria__{{i.code}}__{{i.rid}}" >
+        <div class="box">
+            <div class="label">Nom  {%if i.spell_ready%}<i class="fas fa-check"></i>{%endif%}</div>
+            <textarea class="info modifiable" param="name">{{i.name}}</textarea>
+        </div>
+        <div class="box">
+            <div class="label">Catégorie</div>
+            <div class="info">{{i.get_category_display}}</div>
+            <textarea class="info modifiable" param="category" title="1: Sortilège, 2: Rituel, 3: Pentacle">{{i.category}}</textarea>
+        </div>
+        <div class="box">
+            <div class="label">RID</div>
+            <div class="info">{{i.rid}}</div>
+        </div>
+        <div class="box">
+            <div class="label">Code</div>
+            <div class="info">{{i.code}}</div>
+        </div>
+        <div class="box">
+            <div class="label">Coût Rêve de Dragon 2nde édition</div>
+            <textarea class="info modifiable" param="original_casting_cost" title="R:difficulté du jet de rêve, r:dépense en points de rêve" >{{i.original_casting_cost}}</textarea>
+        </div>
+        <div class="box">
+            <div class="label">Charges Draconiques</div>
+            <div class="info centered">
+                {{i.ground_charge|as_ground_charge|safe}}
+                {{i.hour_charge|as_hour_charge|safe}}
+                {{i.consistency_charge|as_consistency_charge|safe}}
+                {{i.emanation_charge|as_emanation_charge|safe}}
+                {{i.elemental_charge|as_elemental_charge|safe}}
+            </div>
+
+            <textarea class="info modifiable" param="charges">{{i.ground_charge}} {{i.hour_charge}} {{i.consistency_charge}} {{i.emanation_charge}} {{i.elemental_charge}}</textarea>
+
+        </div>
+        <div class="box">
+            <div class="label">Difficulté</div>
+            <textarea class="info modifiable" param="diff">{{i.diff}}</textarea>
+        </div>
+        <div class="box">
+            <div class="label">Points de Rêve</div>
+            <textarea class="info modifiable" param="dps">{{i.dps}}</textarea>
+        </div>
+        <div class="box">
+            <div class="label">Jet</div>
+            <div class="info">REV+{{i.get_roll_display}}</div>
+            <textarea class="info modifiable" param="roll" title="1:Contemplatif, 2:Destructif, 3:Dynamique, 4:Génératif, 5:Mnémonique, 6:Statique">{{i.roll}}</textarea>
+        </div>
+        <div class="box">
+            <div class="label">Voie</div>
+            <div class="info">{{i.get_path_display}}</div>
+            <textarea class="info modifiable" param="path">{{i.path}}</textarea>
+        </div>
+
+        <div class="box">
+            <div class="label">Portée</div>
+            <textarea class="info modifiable" param="range">{{i.range}}</textarea>
+        </div>
+        <div class="box">
+            <div class="label">Durée</div>
+            <textarea class="info modifiable" param="duration">{{i.duration}}</textarea>
+        </div>
+        <div class="box">
+            <div class="label">Résistance</div>
+            <textarea class="info modifiable" param="resistance">{{i.resistance}}</textarea>
+        </div>
+        <div class="box">
+            <div class="label">Songe (niveaux à sacrifier) </div>
+            <textarea class="info modifiable" param="songe">{{i.songe}}</textarea>
+        </div>
+        <div class="box">
+            <div class="label">Source</div>
+            <textarea class="info modifiable" param="source">{{i.source}}</textarea>
+        </div>
+        <div class="box">
+            <div class="label">Référence</div>
+            <textarea class="info modifiable" param="ref">{{i.ref}}</textarea>
+        </div>
+        <div class="box">
+            <div class="label">Description</div>
+            <textarea class="info modifiable" param="description" title="Retour à la ligne: § (avec des espaces autour)" >{{i.description}}</textarea>
+        </div>
+        <div class="box centered">
+            <span class="btn showhide" target="overlay"><i class="fas fa-times"></i> Annuler</span>
+            <span class="btn model_form_validate" param="{{i.category}}" target="{{i.code}}"><i class="fas fa-save"></i> Sauver</span>
+        </div>
+
+
+
+
+    </div>
+</div>

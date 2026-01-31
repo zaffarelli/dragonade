@@ -4,13 +4,16 @@ class Modulo {
         this.co = co;
         this.config = config;
         this.name = "Modulo";
-
+        this.baseFont = "Roboto"
+        this.altFont = "Roboto Flex"
+        this.titleFont = "Pirata One"
+        this.category = ""
     }
 
 
     drawPrint(){
         let me = this;
-        let offsetx = 0.5;
+        let offsetx = 1;
         let offsety = 0.5;
         let click_1 = (e,d) => {
             me.saveSVG();
@@ -18,9 +21,13 @@ class Modulo {
         let click_2 = (e,d) => {
             me.createPDF();
         }
+        let click_3 = (e,d) => {
+            me.edit();
+        }
         let buttons = [
             {"id":"btn1","label": "Save as SVG","x":offsetx,"y":offsety,"click_action":click_1},
-            {"id":"btn1","label": "Create PDF","x":offsetx,"y":offsety+1,"click_action":click_2}
+            {"id":"btn2","label": "Create PDF","x":offsetx,"y":offsety+1,"click_action":click_2},
+            {"id":"btn3","label": "Edit","x":offsetx,"y":offsety+2,"click_action":click_3}
         ]
         me.all_buttons = me.vis.append("g")
             .attr("class","do_not_print")
@@ -30,7 +37,7 @@ class Modulo {
             let btn = me.all_buttons.append("g")
                 .on("click", v.click_action);
             btn.append("rect")
-                .attr("id","print_artefact")
+                .attr("id",v.id)
                 .attr("class","do_not_print")
                 .attr("x",(v.x)*me.step)
                 .attr("y",(v.y)*me.step)
@@ -41,7 +48,7 @@ class Modulo {
                 .attr('opacity',1)
                 .style('stroke-width','2pt')
                 .style('stroke','#606060')
-                .style('fill','#C0F0C0')
+                .style('fill','#4f214b')
             btn.append("text")
                 .attr("id","print_artefact")
                 .attr("class","do_not_print")
@@ -51,10 +58,10 @@ class Modulo {
                 .attr('opacity',1)
                 .style('stroke-width','0.25pt')
                 .style('stroke','#606060')
-                .style('fill','#101010')
+                .style('fill','#F0F0F0')
                 .style("text-anchor","middle")
                 .style("font-size",me.fontSize+"pt")
-                .style("font-family","Wellfleet")
+                .style("font-family",me.altFont)
                 .text(v.label)
             ;
         });
@@ -133,7 +140,7 @@ class Modulo {
             .attr("x", x+offset*5)
             .attr("y", y+offset*5)
             .style("text-anchor","middle")
-            .style("font-family","Wellfleet")
+            .style("font-family",me.altFont)
             .style("font-size","6pt")
             .style("fill","#A02020")
             .style("stroke","#202020")
@@ -240,6 +247,33 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
         me.svg.selectAll('.do_not_print').attr('opacity', 1);
     }
 
+    edit() {
+        let me = this;
+        let json_data = {
+            "category": this.category,
+            "item": this.filename
+        }
+        $.ajax({
+            url: 'ajax/edit/'+this.category+'/'+this.filename+'/',
+            type: 'GET',
+//             headers: {
+//                 'Accept': 'application/json',
+//                 'Content-Type': 'application/x-www-form-urlencoded'
+//             },
+//             data: json_data,
+//             dataType: 'json',
+            success: function (answer) {
+                console.info(`Editing ${me.filename} ok...`)
+                $("#overlay").html(answer)
+                $("#overlay").removeClass("hidden")
+            },
+            error: function (answer) {
+                console.error(`Error editing ${me.filename} ...`);
+                console.error(answer);
+            }
+        });
+    }
+
     createPDF() {
         let me = this;
         me.svg.selectAll('.do_not_print').attr('opacity', 0);
@@ -267,7 +301,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
         let sheet_data = {
             'pdf_name': pdf_name,
             'svg_name': svg_name,
-            'svg': exportable_svg
+            'svg': exportable_svg,
+            'category': me.category
         }
         me.svg.selectAll('.do_not_print').attr('opacity', 1);
         $.ajax({
@@ -303,7 +338,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             "rx":me.step*0.1,
             "ry":me.step*0.1
         }
-         console.log("(*Edit_Field*) ",edit_field)
+        console.log("(*Edit_Field*) ",edit_field)
         me.drawBlock(tgt,x,y,label_attrs,value_attrs, label,value,id,edit_field)
     }
 
@@ -337,7 +372,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             "stroke-width":"1pt"
         }
         let label_text_styles = {
-            "font-family":"Abel",
+            "font-family":me.baseFont,
             "font-size":me.fontSize+"pt",
             "text-anchor":"middle",
             "fill": "#F0F0F0",
@@ -345,7 +380,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             "stroke-width":"0.5pt"
         }
         let value_text_styles = {
-            "font-family":"Wellfleet",
+            "font-family":me.altFont,
             "font-size":me.fontSize+"pt",
             "text-anchor":"start",
             "fill":"#101010",
@@ -372,7 +407,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             .attr("class","longwrap")
             .attr("id",id)
             .attr("x",me.step*2.25)
-            .attr("y",0)
+            .attr("y",me.step*0.1)
             .styles(value_text_styles)
             .text(value)
         if (me.debug == true){
@@ -397,7 +432,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             .attr("y",oy*me.step)
         me.signature.append("text")
             .attrs({"x":(ox+2.5)*me.step,"y":(oy+.4)*me.step})
-            .styles({"font-family":"Neucha","text-anchor":"start","font-size":"8pt"})
+            .styles({"font-family":me.baseFont,"text-anchor":"start","font-size":"8pt"})
             .text(txt+" ["+now.toLocaleDateString()+" "+now.toLocaleTimeString()+"]")
 
     }
@@ -464,8 +499,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             lineNumber += 1;
             tspan = item.append("tspan")
                 .attr("x", ox)
-                .attr("y", lineNumber * lineHeight + "em")
-                .attr("dy", 0)
+                .attr("y", oy)
+                .attr("dy", lineNumber * lineHeight + "em")
                 .text(word+" ");
           }
         }

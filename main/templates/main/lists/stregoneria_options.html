@@ -8,7 +8,7 @@
         <div id="echo" class="hidden"></div>
         <div class='btn option_btn' id="valuepush_ed"><i class="fas fa-circle-arrow-up"></i>&nbsp;Valider</div>
     </fieldset>
-    <fieldset class="middleblock options">
+    <fieldset class="middleblock options limit_height">
         <legend>Haut-Rêvants</legend>
         {% for x in config.haut_revants %}
             {% include "main/objects/mini.html" with addclass="hautrevant" %}

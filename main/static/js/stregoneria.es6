@@ -8,8 +8,10 @@ class Stregoneria extends Modulo {
     init() {
         super.init();
         let me = this;
-        me.version = "0.9";
+        me.version = "1.0.0";
         me.supertitle = "";
+        me.category = "stregoneria"
+
         me.fontSize = me.step / 6;
         // Drawing Size
         me.height = me.step * 21.0
@@ -66,7 +68,7 @@ class Stregoneria extends Modulo {
             .style("stroke-width", "3pt")
         me.stregoneria.append('text')
             .attrs({"x":me.step*0.25, "y":(-0.25)*me.step})
-            .styles({"font-family":"Are You Serious", "font-size":me.fontSize*4+"pt", "text-anchor":"start"})
+            .styles({"font-family":me.titleFont, "font-size":me.fontSize*4+"pt", "text-anchor":"start"})
             .text(s.name)
 
         let lh = 0.5*2/3*me.step
@@ -93,9 +95,9 @@ class Stregoneria extends Modulo {
             me.drawLongTextBlock(me.stregoneria,e.x,e.y,e.label,e.value,e.id,e.edit_field)
         });
 
-        let cnt4 = me.superwrap("#des4",9*me.step)+1;
-        let cnt5 = me.superwrap("#des5",9*me.step)+1;
-        let cnt6 = me.superwrap("#des6",9*me.step)+1;
+        let cnt4 = me.superwrap("#des4",8*me.step)+1;
+        let cnt5 = me.superwrap("#des5",8*me.step)+1;
+        let cnt6 = me.superwrap("#des6",8*me.step)+1;
         d3.select("#des4_rect").attr("height",lh*cnt4)
         d3.select("#des5_rect").attr("height",lh*cnt5)
         d3.select("#des6_rect").attr("height",lh*cnt6)
@@ -126,7 +128,7 @@ class Stregoneria extends Modulo {
                 .styles({"fill":"#F0F0F0","stroke-width":"3pt","stroke":"#808080","stroke-dasharray":""})
             me.spot_g.append("text")
                 .attrs({"x":(basex+1)*me.step,"y":(basey+0.1+chup*i)*me.step})
-                .styles({"fill":"#101010","stroke":"#808080", "stroke-width":"0.5pt", "text-anchor":"middle", "font-family":"Neucha", "font-size":"8pt"})
+                .styles({"fill":"#101010","stroke":"#808080", "stroke-width":"0.5pt", "text-anchor":"middle", "font-family":me.baseFont, "font-size":"8pt"})
                 .text(e.name.toUpperCase())
             if (s[e.charge]){
                 d3.select("#"+e.code+"_spot_"+s.rid).append("image")
@@ -138,7 +140,7 @@ class Stregoneria extends Modulo {
                     .attr("y",(basey+chup*i)*me.step )
             }
         });
-        // Catagorie
+        // Catégorie
         me.spot_g = me.stregoneria.append("g")
                 .attr("id","category_spot_"+s.rid)
         me.spot_g.append("circle")
@@ -157,7 +159,7 @@ class Stregoneria extends Modulo {
                 .styles({"fill":"#F0F0F0","stroke-width":"3pt","stroke-dasharray":"","stroke":"#808080"})
         me.stregoneria.append('text')
             .attrs({"x":(basex+1)*me.step,"y":(basey+0.9+chup*(-2.9))*me.step})
-            .styles({"font-family":"Wellfleet", "font-size":me.fontSize*3+"pt", "text-anchor":"middle"})
+            .styles({"font-family":me.altFont, "font-size":me.fontSize*3+"pt", "text-anchor":"middle"})
             .text(s.puissance)
 
         // Signature
