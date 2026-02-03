@@ -26,7 +26,7 @@ urlpatterns = [
     re_path(r'^new_creature', new_creature, name='new_creature'),
     re_path(r'^new_traveller', new_traveller, name='new_traveller'),
     re_path(r'^new_autochton', new_autochton, name='new_autochton'),
-    re_path(r'^new_spell', new_spell, name='new_spell'),
+    re_path(r'^ajax/new/spell', new_spell, name='new_spell'),
     re_path(r'^ajax/embedded/edit', SpellDetailView.as_view()),
     re_path(r'^ajax/overlay/edit', overlay_edit, name="overlay_edit"),
     re_path(r'^ajax/edit/stregoneria/(?P<slug>\w+)/$', SpellDetailView.as_view(), name='view_spell'),

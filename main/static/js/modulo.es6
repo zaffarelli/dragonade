@@ -13,8 +13,8 @@ class Modulo {
 
     drawPrint(){
         let me = this;
-        let offsetx = 1;
-        let offsety = 0.5;
+        let offsetx = ((me.w-3*me.step) / 2)/me.step;
+        let offsety = 0;
         let click_1 = (e,d) => {
             me.saveSVG();
         }
@@ -26,8 +26,8 @@ class Modulo {
         }
         let buttons = [
             {"id":"btn1","label": "Save as SVG","x":offsetx,"y":offsety,"click_action":click_1},
-            {"id":"btn2","label": "Create PDF","x":offsetx,"y":offsety+1,"click_action":click_2},
-            {"id":"btn3","label": "Edit","x":offsetx,"y":offsety+2,"click_action":click_3}
+            {"id":"btn2","label": "Create PDF","x":offsetx+2,"y":offsety,"click_action":click_2},
+            {"id":"btn3","label": "Edit","x":offsetx+4,"y":offsety,"click_action":click_3}
         ]
         me.all_buttons = me.vis.append("g")
             .attr("class","do_not_print")

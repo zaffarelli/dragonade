@@ -102,7 +102,6 @@ class SpellPath(models.IntegerChoices):
     MORPHEOS = 6, "Morpheos"
 
 
-
 class SpellRoll(models.IntegerChoices):
     NONE = 0, "-"
     CONTEMPLATIVE = 1, "Contemplatif"
@@ -111,7 +110,6 @@ class SpellRoll(models.IntegerChoices):
     GENERATIVE = 4, "Génératif"
     MNEMONIC = 5, "Mnémonique"
     STATIC = 6, "Statique"
-
 
 
 class SpellCastingTime(models.IntegerChoices):
@@ -123,6 +121,7 @@ class SpellCastingTime(models.IntegerChoices):
     DAY = 5, "Jour"
     WEEK = 6, "Semaine"
 
+
 class Spell(models.Model):
     class Meta:
         ordering = ["-spell_ready", 'name']
@@ -132,17 +131,22 @@ class Spell(models.Model):
     code = models.CharField(default="", max_length=16, blank=True)
     alternative_names = models.CharField(default="", max_length=512, blank=True)
     casting_time = models.PositiveIntegerField(default=1, blank=True)
-    ground_charge = models.PositiveIntegerField(default=DragonadeGround.NONE, choices=DragonadeGround.choices,blank=True)
+    ground_charge = models.PositiveIntegerField(default=DragonadeGround.NONE, choices=DragonadeGround.choices,
+                                                blank=True)
     hour_charge = models.PositiveIntegerField(default=DragonadeHour.NONE, choices=DragonadeHour.choices, blank=True)
-    emanation_charge = models.PositiveIntegerField(default=DragonadeEmanation.NONE, choices=DragonadeEmanation.choices,blank=True)
-    consistency_charge = models.PositiveIntegerField(default=DragonadeConsistency.NONE,choices=DragonadeConsistency.choices, blank=True)
-    elemental_charge = models.PositiveIntegerField(default=DragonadeElement.NONE, choices=DragonadeElement.choices,blank=True)
+    emanation_charge = models.PositiveIntegerField(default=DragonadeEmanation.NONE, choices=DragonadeEmanation.choices,
+                                                   blank=True)
+    consistency_charge = models.PositiveIntegerField(default=DragonadeConsistency.NONE,
+                                                     choices=DragonadeConsistency.choices, blank=True)
+    elemental_charge = models.PositiveIntegerField(default=DragonadeElement.NONE, choices=DragonadeElement.choices,
+                                                   blank=True)
     dps = models.PositiveIntegerField(default=3, blank=True)
     songe = models.PositiveIntegerField(default=0, blank=True)
     duration = models.CharField(default="-", max_length=128, blank=True)
     range = models.CharField(default="-", max_length=128, blank=True)
     resistance = models.CharField(default="-", max_length=128, blank=True)
-    diff = models.PositiveIntegerField(default=DragonadeDifficulty.AVERAGE, choices=DragonadeDifficulty.choices,blank=True)
+    diff = models.PositiveIntegerField(default=DragonadeDifficulty.AVERAGE, choices=DragonadeDifficulty.choices,
+                                       blank=True)
     original_casting_cost = models.CharField(default="-", max_length=1024, blank=True)
     description = models.TextField(default="", max_length=1024, blank=True)
     composantes = models.TextField(default="-", max_length=1024, blank=True)
@@ -178,7 +182,7 @@ class Spell(models.Model):
         z += 1 if self.emanation_charge != DragonadeEmanation.NONE else 0
         z += 1 if self.consistency_charge != DragonadeConsistency.NONE else 0
         z += 1 if self.elemental_charge != DragonadeElement.NONE else 0
-        self.power = self.diff/5 + self.dps + z + self.songe * 2
+        self.power = self.diff / 5 + self.dps + z + self.songe * 2
 
     def __str__(self):
         return f"{self.name} ({self.get_path_display()} {self.get_category_display()}) "
@@ -212,7 +216,7 @@ class Spell(models.Model):
         data['category'] = self.get_category_display()
         data['description'] = self.description
         data['composantes'] = self.composantes
-        data['ti'] = self.get_ti_display()[:4]+"."
+        data['ti'] = self.get_ti_display()[:4] + "."
         data['puissance'] = self.power
         self.data = data
         return data
@@ -242,20 +246,26 @@ class Spell(models.Model):
         return json_list
 
     @classmethod
-    def new(cls):
+    def new(cls, name=''):
         import datetime
         item = cls()
-        item.name = "NOUVEAU SORT "+datetime.datetime.now().strftime('%H-%M-%S')
+        if name == '':
+            item.name = "NOUVEAU SORT " + datetime.datetime.now().strftime('%H-%M-%S')
+        else:
+            item.name = name
         item.save()
         return item
+
 
 class SpellAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ["-spell_ready", "name"]
-    list_display = ["name", "rid", "code", "power", "spell_ready","songe", "roll", "original_casting_cost", "conversion", "ground_charge",
+    list_display = ["name", "rid", "code", "power", "spell_ready", "songe", "roll", "original_casting_cost",
+                    "conversion", "ground_charge",
                     "str_charges",
                     "path", "ref", "category", "source"]
-    list_editable = ["original_casting_cost", "songe", "roll", "spell_ready", "ground_charge", "path", "ref", "category",
+    list_editable = ["original_casting_cost", "songe", "roll", "spell_ready", "ground_charge", "path", "ref",
+                     "category",
                      "source"]
     list_filter = ["spell_ready", "path", "category", "diff", "dps", "ref", "original_casting_cost", "ground_charge",
                    "elemental_charge", "emanation_charge",

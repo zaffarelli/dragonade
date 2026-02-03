@@ -309,7 +309,7 @@ def travellers(request):
     from main.models.equipment import Equipment
     context = prepare_context(request)
     characters = []
-    for x in Traveller.objects.order_by("-priority", "name"):
+    for x in Traveller.objects.order_by("name"):
         datum = x.toJson()
         datum['text'] = x.name
         datum['type'] = "traveller"
@@ -332,7 +332,7 @@ def travellers_page(request):
     from main.models.travellers import Traveller
     context = prepare_context(request)
     characters = []
-    for x in Traveller.objects.all().order_by("-priority", "name"):
+    for x in Traveller.objects.all().order_by("name"):
         datum = x.toJson()
         datum['text'] = x.name
         datum['code'] = x.rid
@@ -456,8 +456,10 @@ def new_creature(request):
 
 def new_spell(request):
     from main.models.stregoneria import Spell
-    s = Spell.new()
-    print(f"New spell created: {s.name} [{s.rid}]")
+    if is_ajax(request):
+        name = request.POST.get('spell_name')
+        s = Spell.new(name)
+        print(f"New spell created: {s.name} [{s.rid}]")
     return HttpResponse(status=204)
 
 
@@ -490,20 +492,25 @@ def overlay_edit(request):
             spell = Spell.objects.get(rid=json["rid"])
             for p in json["properties"]:
                 if p in spell.__dict__:
-                    print("Found: " + p)
+
                     nv = getattr(spell, p)
                     t = type(nv).__name__
                     if json["properties"][p] != f'{nv}':
+                        print("Found: " + p)
+                        print("Type: " + t, json["properties"][p], f'{nv}')
                         changes = True
                         print(f" > New value : {nv} becomes {json['properties'][p]} (with type {t})")
                         if t == "int":
-                            setattr(spell,p,int(nv))
+                            setattr(spell, p, int(json['properties'][p]))
                         elif t == "string":
-                            setattr(spell,p,str(nv))
+                            pval = json['properties'][p]
+                            npval = pval.replace('"', "¤").replace("\n", " § ")
+                            setattr(spell, p, npval)
                         elif t == "bool":
-                            setattr(spell,p,bool(nv))
+                            setattr(spell, p, bool(json['properties'][p]))
                         elif t == "float":
-                            setattr(spell,p,float(nv))
+                            setattr(spell, p, float(json['properties'][p]))
+
                 else:
                     print("Not Found: " + p)
                     if p == "charges":

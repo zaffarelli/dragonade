@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib import admin
 from django.conf import settings
 from main.utils.ref_dragonade import CHARACTER_STATISTICS, tai_guidelines, SHORTCUTS
-from main.utils.mechanics import as_rid
+from main.utils.mechanics import as_rid, Nougardine, roll
 import math
 import random
 import json
@@ -102,6 +102,8 @@ class Character(models.Model):
         self.export_to_json()
         self.calc_indice()
         # self.calculate_team()
+
+
 
         self.tai_guideline = tai_guidelines(self.data['attributes']['TAI'])
         if self.height > 0:
@@ -427,6 +429,50 @@ class Character(models.Model):
                 result = self.data[words[0].lower()][words[1].lower()][str]
         return result
 
+    def entry_for(self, str,stat):
+        from main.utils.ref_dragonade import CHARACTER_STATISTICS
+        # result = -1000
+        # where = self.index_for(str)
+
+        root = CHARACTER_STATISTICS
+        result = {}
+        if len(str) > 0:
+            words = str.upper().split(':')
+            for word in words:
+                root = root[word]
+            for item in root["LIST"]:
+                if item["NAME"] == stat:
+                    #print(item)
+                    result = item
+            # # print(self.data)
+            # if len(words) == 1:
+            #     result = self.data[words[0].lower()][str]
+            # else:
+            #     result = self.data[words[0].lower()][words[1].lower()][str]
+        return result
+
+    def best_for(self, str):
+        from main.utils.ref_dragonade import CHARACTER_STATISTICS
+        words = str.split(":")
+        root = CHARACTER_STATISTICS
+        for word in words:
+            root = root[word]
+        data_set = root["KNOWN"]
+        print(data_set)
+        result = "???",0, "???"
+        txt = ""
+        max = -1000
+        for elem in data_set:
+            val = self.value_for(elem)
+            if val >= max:
+                max = val
+                x = self.entry_for(str, elem)
+                txt = x["TEXT"]
+                r = f"{elem} => {val} ({str}) {txt}"
+                result = val, elem, txt
+        print("Found: "+r)
+        return result
+
     def overwrite_for(self, str, val):
         print("OVERWRITE FOR")
         result = False
@@ -447,6 +493,10 @@ class Character(models.Model):
         return result
 
     def index_for(self, str):
+        """
+        @params str: The code for the stat
+        @returns the position in the description as a:b:c
+        """
         from main.utils.ref_dragonade import CHARACTER_STATISTICS
         # print(str.upper())
         if str.upper() in CHARACTER_STATISTICS['ATTRIBUTES']['KNOWN']:
@@ -610,3 +660,48 @@ class Character(models.Model):
         roster = "<br/>".join(self.roster())
         roster = roster.replace("§", "&nbsp;")
         return roster
+
+    def pre_sim(self):
+        self.export_to_json()
+        CHOSEN_DIFF = 15
+        data = {"header":{}, "proficencies":{}, "equipment":{}}
+        data["header"]["name"] = self.name
+        data["header"]["rid"] = self.rid
+        data["proficencies"]["MEL"] = self.value_for("MEL")
+        data["proficencies"]["DER"] = self.value_for("DER")
+        data["proficencies"]["ESQ"] = self.value_for("WEA_12")
+        data["header"]["SCO"] = self.value_for("SCO")
+        data["header"]["VIE"] = self.value_for("VIE")
+        data["header"]["FAT"] = self.value_for("FAT")
+        data["header"]["DOM"] = self.value_for("DOM")
+        k,v,t = self.best_for("SKILLS:WEAPONS")
+        data["proficencies"]["best_weapon"] = f"{k} {v} {t}"
+        print(json.dumps(data,indent=4,sort_keys=False))
+
+        # MAX = 32
+        # total = 0
+        # for k in range(MAX):
+        #     x = roll()
+        #     total += x
+        # print(f"{total/MAX}")
+
+        for iter in range(5):
+            x = roll()
+            x2 = x + self.value_for("MEL") + k
+            print(f"Jet:{x} Mêlée:{self.value_for('MEL')} Compétence Arme:{k}")
+            n = Nougardine(CHOSEN_DIFF)
+            qa,qb,qc = n.quality(x2)
+            ma = n.margin(x2)
+            if ma >= 4:
+                print(f"Succès de l'Attaque à difficulté {qb}: {qa} => {qc}")
+                d = roll()
+                d2 = d + self.value_for("DER") + self.value_for("WEA_12")
+                da, db, dc = n.quality(d2)
+                md = n.margin(d2)
+                if md>=4:
+                    print(f"Succès de la défense à difficulté {db}: {da} => {dc}")
+                else:
+                    print(f"Echec de la défense à difficulté {db}: {da} => {dc} DIFFERENCE DE MARGE (dM)={ma-md}")
+            else:
+                print(f"Echec de l'Attaque à difficulté {qb}: {qa} => {qc}")
+        return data

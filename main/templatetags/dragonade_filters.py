@@ -57,7 +57,7 @@ def as_hour(value):
     if isinstance(value, int):
         vals = ["Vaisseau","Sirène","Faucon","Couronne","Dragon","Epées","Lyre","Serpent","Poisson-Acrobate","Araignée","Roseau","Chateau-Dormant"]
         if value > 0:
-            str = vals[value]
+            str = vals[value-1]
     return str
 
 

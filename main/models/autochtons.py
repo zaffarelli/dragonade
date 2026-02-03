@@ -37,9 +37,9 @@ class Autochton(Character):
 
 class AutochtonAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
-    ordering = ['factions','group','team','name']
-    list_display = ['name', 'title','aka','priority',"spotlight","is_battle_ready", 'is_female',"age", 'team','group', 'dream','nameless' ]
-    list_editable = ['dream','priority', "spotlight",'title','aka','team','group', 'age',"is_battle_ready", 'is_female', 'nameless']
-    list_filter = ['dream','group','team','factions','nameless',"is_female", "is_battle_ready"]
+    ordering = ['factions','group','team_color','name']
+    list_display = ['name', 'title','aka','team_color',"spotlight","is_battle_ready", 'is_female',"age", 'team','group', 'dream','nameless' ]
+    list_editable = ['dream','team_color', "spotlight",'title','aka','team','group', 'age',"is_battle_ready", 'is_female', 'nameless']
+    list_filter = ['dream','group','team_color','factions','nameless',"is_female", "is_battle_ready"]
     search_fields = ['name','title','factions','aka']
     actions = [refix]

@@ -35,7 +35,7 @@ class Creature(Character):
 class CreatureAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ['name']
-    list_display = ['name', 'rid', 'creature_type']
-    list_filter = ["creature_type"]
-    list_editable = ["creature_type"]
+    list_display = ['name', 'rid', 'creature_type','team_color']
+    list_filter = ["creature_type",'team_color']
+    list_editable = ["creature_type",'team_color']
     actions = [refix]

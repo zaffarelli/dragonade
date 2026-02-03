@@ -179,9 +179,18 @@ class Chiaroscuro {
                             },
                             dataType: 'json',
                             success: function (answer) {
-                                $('#roster_' + answer.id).html(answer.new_roster);
+//                                 $('#roster_' + answer.id).html(answer.new_roster);
+//                                 $(".for_display_" + answer.id).addClass('hidden');
+//                                 $(".for_edit_" + answer.id).removeClass('hidden');
+                                $('#roster_' + answer.id).remove()
+                                //$div = $('<div>',{id:'roster_'+answer.id,class:"roster"})
+                                $('.container').append(answer.new_roster);
+                                console.log(answer.new_roster)
+                                $('#roster_' + answer.id).removeClass("hidden")
                                 $(".for_display_" + answer.id).addClass('hidden');
                                 $(".for_edit_" + answer.id).removeClass('hidden');
+//                                 $("#target_ed").val("");
+//                                 $("#ed").val("");
                                 me.registerActions();
                             },
                             error: function (answer) {
@@ -405,9 +414,35 @@ class Chiaroscuro {
             e.stopPropagation();
             let link_to = $(this).attr('link_to');
             if (link_to != "") {
+                console.log("Going to "+link_to)
                 window.location = link_to;
             }
-        });
+        })
+
+        $(".new_spell").off().on('click', function (e) {
+            e.preventDefault()
+            e.stopPropagation()
+            let spell_name = $("#ed").val()
+            $.ajax({
+                url: 'ajax/new/spell/',
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: {spell_name:spell_name},
+                dataType: 'json',
+                success: function (answer) {
+                    console.log(answer)
+                    me.registerActions();
+                },
+                error: function (answer) {
+                    console.error('Error... ')
+                    console.error(answer);
+                },
+            })
+        })
+
     }
 
     registerShowHide() {

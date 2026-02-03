@@ -207,12 +207,12 @@ body {
     flex-flow:column nowrap;
 
 //     overflow:scroll;
-    justify-content: flex-start;
+    justify-content: flex-end;
     align-content: space-around;
     gap:1px;
 
-
     & .list_header{
+        order:1;
         text-align:center;
         & .paginator{
             border:1pt solid #303030;
@@ -229,41 +229,67 @@ body {
 
         }
     }
+    & .list_footer{
+        order:10;
+        text-align:center;
+        & .paginator{
+            border:1pt solid #303030;
+            border-radius:3pt;
+            background:black;
+            color:silver;
+            display:inline-block;
+            width:31%;
+
+            cursor:pointer;
+            &.current{
+                background:transparent;
+                cursor:none;
+            }
+
+        }
+    }
     & .list_body{
+        display:flex;
+        flex-flow:column nowrap;
+        justify-content:flex-start;
+        align-content:stretch;
+        align-items:stretch;
+        order:5;
         & .list_entry{
             color:white;
             display:flex;
-            flex:0 0 1em;
+            flex:1 1 1.8em;
             flex-flow:row wrap;
-            justify-content:flex-start;
-            align-content:flex-start;
+            justify-content:space-between;
+            align-content:stretch;
             align-items:stretch;
-            gap:2pt;
+            gap:3pt;
             border:1pt solid black;
-            border-radius:2pt;
+            border-radius:3pt;
+            padding:3pt;
+            background:#3010107f;
 
             cursor:pointer;
 
             & .ref{
                 order:1;
                 flex: 0 0 3ex;
-                background:#301010;
                 text-align:center;
             }
             & .base{
                 order:2;
                 flex: 0 0 8vw;
-                background:#3010107f;
+
             }
             & .options{
                 order:3;
                 flex: 0 0 5vw;
-                background:#3010107f;
+
             }
             & .complement{
                 order:4;
                 flex: 1 1 auto;
-                background:#3010107f;
+
             }
 
         }
@@ -489,10 +515,10 @@ body {
         height:100vh;
         background:#101010DF;
         font-family:Roboto;
-        font-height:8px;
         & .detail{
             margin-top:5em;
             & .base{
+                font-height:7px;
                 border:1px solid white;
                 border-radius:5pt;
                 padding:5pt;
@@ -525,6 +551,14 @@ body {
                         flex: 1 1 15ex;
                         padding:5pt;
                         border-radius:5pt;
+                        &.first{
+                            order: 1;
+                            flex: 1 1 8ex;
+                            }
+                        &.second{
+                            order: 3;
+                            flex: 1 1 8ex;
+                            }
                     }
                     & .info{
                         flex: 1 1 auto;
@@ -541,13 +575,17 @@ body {
                         &.centered{
                             text-align:center;
                         }
+                        &.first{
+                            order: 2;
+                            flex: 1 1 auto;
+                            }
+                        &.second{
+                            order: 4;
+                            flex: 1 1 auto;
+                            }
                     }
-
-
-
                 }
             }
-
         }
     }
 

@@ -8,12 +8,14 @@ ITEMS_PER_LIST = 12
 def inc_dec(request):
     cando = False
     answer = {}
+    item = None
     if is_ajax(request):
         if request.method == 'POST':
             from main.models.autochtons import Autochton
             from main.models.creatures import Creature
             from main.models.travellers import Traveller
             answer = {}
+            attribute = None
             new_roster = ''
             params = request.POST.get('params').split('__')
             if len(params) == 4:
@@ -31,15 +33,26 @@ def inc_dec(request):
                 if class_name.lower() == "traveller":
                     item = Traveller.objects.get(id=id)
                     cando = True
-                if cando:
-                    change_result = item.applyIncDec(attribute, change)
-                    context = {'a': item.toJson()}
-                    template = get_template('main/objects/roster.html')
-                    new_roster = template.render(context, request)
-                    answer['id'] = item.id
+                # if cando:
+                #     change_result = item.applyIncDec(attribute, change)
+                #     context = {'a': item.toJson()}
+                #     template = get_template('main/objects/roster.html')
+                #     new_roster = template.render(context, request)
+                #     answer['id'] = item.id
+                # answer['change_result'] = change_result
+                # answer['new_roster'] = new_roster
+                # return JsonResponse(answer)
+            if cando:
+                print("success!!")
+                change_result = item.applyIncDec(attribute, change)
+                context = {'a': item.toJson()}
+                template = get_template('main/objects/roster.html')
+                new_roster = template.render(context, request)
+                answer['id'] = item.id
                 answer['change_result'] = change_result
                 answer['new_roster'] = new_roster
                 return JsonResponse(answer)
+
     return HttpResponse(status=204)
 
 

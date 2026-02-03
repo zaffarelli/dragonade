@@ -509,13 +509,14 @@ body {
   flex: 0 0 16vh;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-content: space-around;
   gap: 1px; }
   .list legend {
     color: rgba(234, 239, 241, 0.498039);
     text-shadow: 0 0 10px #101010; }
   .list .list_header {
+    order: 1;
     text-align: center; }
     .list .list_header .paginator {
       border: 1pt solid #303030;
@@ -528,35 +529,54 @@ body {
       .list .list_header .paginator.current {
         background: transparent;
         cursor: none; }
-  .list .list_body .list_entry {
-    color: white;
+  .list .list_footer {
+    order: 10;
+    text-align: center; }
+    .list .list_footer .paginator {
+      border: 1pt solid #303030;
+      border-radius: 3pt;
+      background: black;
+      color: silver;
+      display: inline-block;
+      width: 31%;
+      cursor: pointer; }
+      .list .list_footer .paginator.current {
+        background: transparent;
+        cursor: none; }
+  .list .list_body {
     display: flex;
-    flex: 0 0 1em;
-    flex-flow: row wrap;
+    flex-flow: column nowrap;
     justify-content: flex-start;
-    align-content: flex-start;
+    align-content: stretch;
     align-items: stretch;
-    gap: 2pt;
-    border: 1pt solid black;
-    border-radius: 2pt;
-    cursor: pointer; }
-    .list .list_body .list_entry .ref {
-      order: 1;
-      flex: 0 0 3ex;
-      background: #301010;
-      text-align: center; }
-    .list .list_body .list_entry .base {
-      order: 2;
-      flex: 0 0 8vw;
-      background: #3010107f; }
-    .list .list_body .list_entry .options {
-      order: 3;
-      flex: 0 0 5vw;
-      background: #3010107f; }
-    .list .list_body .list_entry .complement {
-      order: 4;
-      flex: 1 1 auto;
-      background: #3010107f; }
+    order: 5; }
+    .list .list_body .list_entry {
+      color: white;
+      display: flex;
+      flex: 1 1 1.8em;
+      flex-flow: row wrap;
+      justify-content: space-between;
+      align-content: stretch;
+      align-items: stretch;
+      gap: 3pt;
+      border: 1pt solid black;
+      border-radius: 3pt;
+      padding: 3pt;
+      background: #3010107f;
+      cursor: pointer; }
+      .list .list_body .list_entry .ref {
+        order: 1;
+        flex: 0 0 3ex;
+        text-align: center; }
+      .list .list_body .list_entry .base {
+        order: 2;
+        flex: 0 0 8vw; }
+      .list .list_body .list_entry .options {
+        order: 3;
+        flex: 0 0 5vw; }
+      .list .list_body .list_entry .complement {
+        order: 4;
+        flex: 1 1 auto; }
   .list .mini {
     flex: 1 1 25ch;
     padding: 2px;
@@ -720,11 +740,11 @@ body {
   width: 100vw;
   height: 100vh;
   background: #101010DF;
-  font-family: Roboto;
-  font-height: 8px; }
+  font-family: Roboto; }
   #overlay .detail {
     margin-top: 5em; }
     #overlay .detail .base {
+      font-height: 7px;
       border: 1px solid white;
       border-radius: 5pt;
       padding: 5pt;
@@ -756,6 +776,12 @@ body {
           flex: 1 1 15ex;
           padding: 5pt;
           border-radius: 5pt; }
+          #overlay .detail .base .box .label.first {
+            order: 1;
+            flex: 1 1 8ex; }
+          #overlay .detail .base .box .label.second {
+            order: 3;
+            flex: 1 1 8ex; }
         #overlay .detail .base .box .info {
           flex: 1 1 auto;
           background: #906090;
@@ -769,6 +795,12 @@ body {
             color: black; }
           #overlay .detail .base .box .info.centered {
             text-align: center; }
+          #overlay .detail .base .box .info.first {
+            order: 2;
+            flex: 1 1 auto; }
+          #overlay .detail .base .box .info.second {
+            order: 4;
+            flex: 1 1 auto; }
 
 .item {
   color: #101010;

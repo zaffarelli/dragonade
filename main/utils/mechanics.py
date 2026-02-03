@@ -1,4 +1,5 @@
 import os
+import math
 from encodings.base64_codec import base64_encode
 
 from dragonade import settings
@@ -104,9 +105,9 @@ MAIN_MENU = [
             {"NAME": "Révélation (Voyageurs)", "LINK": "risorse"},
         ]},
         {"NAME": "Artefacts", "LINK": "appartuses"},
-        {"NAME": "Magie Draconique", "SUB":[
+        {"NAME": "Magie Draconique", "SUB": [
             {"NAME": "Liste", "LINK": "stregoneria"},
-            {"NAME": "Nouveau sort", "LINK": "new_spell"},
+            {"NAME": "Nouveau sort", "ACTION": "new_spell"},
         ]},
         {"NAME": "Rêves", "SUB": [
             {"NAME": "Nouveau Rêve", "LINK": "new_dream"},
@@ -122,9 +123,9 @@ MAIN_MENU = [
                 {"NAME": "Liste des voyageurs", "LINK": "travellers"},
             ]},
             {"NAME": "Nouveau...", "SUB": [
-                {"NAME": "Nouveau monstre", "LINK": "new_creature"},
-                {"NAME": "Nouvel autochtone", "LINK": "new_autochton"},
-                {"NAME": "Nouveau voyageur", "LINK": "new_traveller"},
+                {"NAME": "Nouveau monstre", "ACTION": "new_creature"},
+                {"NAME": "Nouvel autochtone", "ACTION": "new_autochton"},
+                {"NAME": "Nouveau voyageur", "ACTION": "new_traveller"},
             ]},
         ]},
 
@@ -149,6 +150,11 @@ def refix(modeladmin, request, queryset):
     for item in queryset:
         item.save()
     short_description = "Refix"
+
+
+def pre_sim(modeladmin, request, queryset):
+    for item in queryset:
+        item.pre_sim()
 
 
 def fetch_maps():
@@ -200,3 +206,82 @@ def asB2B(str):
     h.update(bytes(str.encode('utf-8')))
     res = h.hexdigest().encode('utf-8')
     return res
+
+
+DIE_FACES = 12
+
+
+def roll(explodes=True):
+    def die():
+        return math.floor((int.from_bytes(os.urandom(1)) / 256) * DIE_FACES) + 1
+
+    terms = []
+    d12 = die()
+    result = d12
+    terms.append(str(d12))
+    if explodes:
+        if d12 == 1:
+            while True:
+                more = die()
+                result -= more
+                terms.append(f"-{more: 2}")
+                if more != 12:
+                    break
+        elif d12 == 12:
+            while True:
+                more = die()
+                result += more
+                terms.append(f"+{more: 2}")
+                if more != 12:
+                    break
+    print(f'{" ".join(terms):10} => {result}')
+    return result
+
+
+class Nougardine:
+
+
+    def __init__(self, diff):
+        self.valid_diffs = [5, 10, 15, 20, 25]
+        self.current_diff = 15
+        if diff in self.valid_diffs:
+            self.current_diff = diff
+
+    def quality(self, die):
+        q = ""
+        delta = die - self.current_diff
+        if delta  >= 15:
+            q = "Critique"
+        elif delta >= 10:
+            q = "Significative"
+        elif delta >= 5:
+            q = "Particulière"
+        elif delta >= 0:
+            q = "Réussite"
+        elif die > math.ceil(self.current_diff / 2):
+            q = "Echec"
+        elif die > 0:
+            q = "Notable"
+        else:
+            q = "Total"
+        return q, self.current_diff, die
+
+    def margin(self, die):
+        q = ""
+        delta = die - self.current_diff
+        if delta  >= 15:
+            m = 7
+        elif delta >= 10:
+            m = 6
+        elif delta >= 5:
+            m = 5
+        elif delta >= 0:
+            m = 4
+        elif die > math.ceil(self.current_diff / 2):
+            m = 3
+        elif die > 0:
+            m = 2
+        else:
+            m = 1
+        return m
+

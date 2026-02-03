@@ -11,14 +11,18 @@
             <div class="label">Catégorie</div>
             <div class="info">{{i.get_category_display}}</div>
             <textarea class="info modifiable" param="category" title="1: Sortilège, 2: Rituel, 3: Pentacle">{{i.category}}</textarea>
+        <div class="box">
+            <div class="label">Voie</div>
+            <div class="info">{{i.get_path_display}}</div>
+            <textarea class="info modifiable" param="path">{{i.path}}</textarea>
+        </div>
+
         </div>
         <div class="box">
-            <div class="label">RID</div>
-            <div class="info">{{i.rid}}</div>
-        </div>
-        <div class="box">
-            <div class="label">Code</div>
-            <div class="info">{{i.code}}</div>
+            <div class="label first">RID</div>
+            <div class="info first">{{i.rid}}</div>
+            <div class="label second">Code</div>
+            <div class="info second">{{i.code}}</div>
         </div>
         <div class="box">
             <div class="label">Coût Rêve de Dragon 2nde édition</div>
@@ -38,51 +42,43 @@
 
         </div>
         <div class="box">
-            <div class="label">Difficulté</div>
-            <textarea class="info modifiable" param="diff">{{i.diff}}</textarea>
-        </div>
-        <div class="box">
-            <div class="label">Points de Rêve</div>
-            <textarea class="info modifiable" param="dps">{{i.dps}}</textarea>
+            <div class="label first">Difficulté</div>
+            <textarea class="info first modifiable" param="diff">{{i.diff}}</textarea>
+            <div class="label second">Points de Rêve</div>
+            <textarea class="info second modifiable" param="dps">{{i.dps}}</textarea>
         </div>
         <div class="box">
             <div class="label">Jet</div>
             <div class="info">REV+{{i.get_roll_display}}</div>
             <textarea class="info modifiable" param="roll" title="1:Contemplatif, 2:Destructif, 3:Dynamique, 4:Génératif, 5:Mnémonique, 6:Statique">{{i.roll}}</textarea>
         </div>
-        <div class="box">
-            <div class="label">Voie</div>
-            <div class="info">{{i.get_path_display}}</div>
-            <textarea class="info modifiable" param="path">{{i.path}}</textarea>
-        </div>
+
 
         <div class="box">
-            <div class="label">Portée</div>
-            <textarea class="info modifiable" param="range">{{i.range}}</textarea>
+            <div class="label first">Portée</div>
+            <textarea class="info first modifiable" param="range">{{i.range}}</textarea>
+            <div class="label second ">Durée</div>
+            <textarea class="info second modifiable" param="duration">{{i.duration}}</textarea>
         </div>
         <div class="box">
-            <div class="label">Durée</div>
-            <textarea class="info modifiable" param="duration">{{i.duration}}</textarea>
+            <div class="label first">Résistance</div>
+            <textarea class="info first modifiable" param="resistance">{{i.resistance}}</textarea>
+            <div class="label second">Songe</div>
+            <textarea class="info second modifiable" param="songe" title="Niveaux à sacrifier, voir notes">{{i.songe}}</textarea>
         </div>
         <div class="box">
-            <div class="label">Résistance</div>
-            <textarea class="info modifiable" param="resistance">{{i.resistance}}</textarea>
-        </div>
-        <div class="box">
-            <div class="label">Songe (niveaux à sacrifier) </div>
-            <textarea class="info modifiable" param="songe">{{i.songe}}</textarea>
-        </div>
-        <div class="box">
-            <div class="label">Source</div>
-            <textarea class="info modifiable" param="source">{{i.source}}</textarea>
-        </div>
-        <div class="box">
-            <div class="label">Référence</div>
-            <textarea class="info modifiable" param="ref">{{i.ref}}</textarea>
+            <div class="label first">Source</div>
+            <textarea class="info first modifiable" param="source">{{i.source}}</textarea>
+            <div class="label second">Référence</div>
+            <textarea class="info second modifiable" param="ref">{{i.ref}}</textarea>
         </div>
         <div class="box">
             <div class="label">Description</div>
             <textarea class="info modifiable" param="description" title="Retour à la ligne: § (avec des espaces autour)" >{{i.description}}</textarea>
+        </div>
+        <div class="box">
+            <div class="label">Notes</div>
+            <textarea class="info modifiable" param="composantes" title="Retour à la ligne: § (avec des espaces autour)" >{{i.description}}</textarea>
         </div>
         <div class="box centered">
             <span class="btn showhide" target="overlay"><i class="fas fa-times"></i> Annuler</span>
