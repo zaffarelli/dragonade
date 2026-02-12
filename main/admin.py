@@ -4,21 +4,23 @@ from django.contrib import admin
 from main.models.autochtons import Autochton, AutochtonAdmin
 from main.models.creatures import Creature, CreatureAdmin
 from main.models.travellers import Traveller, TravellerAdmin
+from main.models.contestants import ContestantAdmin, Contestant
+from main.models.combats import CombatAdmin, Combat
+from main.models.combat_rounds import CombatRound, CombatRoundAdmin
 from main.models.dreams import Dream, DreamAdmin
 from main.models.equipment import Equipment, EquipmentAdmin
 from main.models.stregoneria import Spell, SpellAdmin
 from main.models.appartus import Appartus, AppartusAdmin
 from main.models.teams import Team, TeamAdmin
 
-
 admin.site.register(Autochton, AutochtonAdmin)
 admin.site.register(Traveller, TravellerAdmin)
 admin.site.register(Creature, CreatureAdmin)
 admin.site.register(Dream, DreamAdmin)
 admin.site.register(Equipment, EquipmentAdmin)
-admin.site.register(Spell,SpellAdmin)
-admin.site.register(Appartus,AppartusAdmin)
-admin.site.register(Team,TeamAdmin)
-
-
-
+admin.site.register(Spell, SpellAdmin)
+admin.site.register(Appartus, AppartusAdmin)
+admin.site.register(Team, TeamAdmin)
+admin.site.register(Contestant, ContestantAdmin)
+admin.site.register(Combat, CombatAdmin)
+admin.site.register(CombatRound, CombatRoundAdmin)

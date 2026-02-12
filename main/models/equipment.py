@@ -32,9 +32,27 @@ class Equipment(models.Model):
 
     def fix(self):
         self.rid = as_rid(f"{self.name}_{self.category}")
+        # if self.cover != "":
+        #     new_covers = []
+        #     covers = self.cover.upper().split(" ")
+        #     for cover in covers:
+        #         if cover.startswith("H") == False and cover.startswith("P") == False:
+        #             new_covers.append(cover)
+        #     self.cover = " ".join(new_covers)
+        #     self.cover = self.cover.replace("T","H").replace("B","A").replace("J","L").replace("1","S").replace("2","W")
 
     def __str__(self):
         return f"{self.name} [{self.category}]"
+
+    def covers(self,str=""):
+        res = False
+        if self.category == "amu":
+            if self.cover != "":
+                keys = self.cover.split(" ")
+                for key in keys:
+                    if str == key:
+                        return True
+        return res
 
     @classmethod
     def references(klass):

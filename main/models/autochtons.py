@@ -27,6 +27,7 @@ class Autochton(Character):
             self.initial_randomize()
             self.randomize = False
         super().fix()
+        # self.klass = "Autochton"
 
     def export_to_json(self):
         super().export_to_json()
@@ -36,10 +37,11 @@ class Autochton(Character):
 
 
 class AutochtonAdmin(admin.ModelAdmin):
-    from main.utils.mechanics import refix
     ordering = ['factions','group','team_color','name']
-    list_display = ['name', 'title','aka','team_color',"spotlight","is_battle_ready", 'is_female',"age", 'team','group', 'dream','nameless' ]
-    list_editable = ['dream','team_color', "spotlight",'title','aka','team','group', 'age',"is_battle_ready", 'is_female', 'nameless']
+    list_display = ['name', 'entrance','title','aka','team_color',"spotlight","is_battle_ready", 'is_female',"age", 'team','group', 'dream','nameless' ]
+    list_editable = ['dream','team_color', "spotlight",'title','aka','team','group', 'age',"entrance", 'is_female', 'nameless']
     list_filter = ['dream','group','team_color','factions','nameless',"is_female", "is_battle_ready"]
     search_fields = ['name','title','factions','aka']
-    actions = [refix]
+    from main.utils.mechanics import pre_sim, refix
+    actions = [refix, pre_sim]
+

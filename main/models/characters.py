@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib import admin
 from django.conf import settings
 from main.utils.ref_dragonade import CHARACTER_STATISTICS, tai_guidelines, SHORTCUTS
-from main.utils.mechanics import as_rid, Nougardine, roll
+from main.utils.mechanics import as_rid, Nougardine, roll, Severity, Chaser
 import math
 import random
 import json
@@ -55,14 +55,19 @@ class Character(models.Model):
     total_skills = models.IntegerField(default=0, blank=True)
     updater = models.TextField(max_length=8192, default='{}', blank=True)
     priority = models.IntegerField(default=0, blank=True)
+    klass = models.CharField(max_length=16, default="Character", blank=True)
     data = {}
 
     def __str__(self):
         return f"p_{self.id}"
 
     def make_rid(self):
-        if self.name is not None:
+        # print("Class ===> ", self.type[:3])
+        if len(self.rid) == 0:
             self.rid = as_rid(self.name)
+            self.rid = self.type[:3].upper() + "__" + self.rid
+
+            # print("New RID", self.rid)
 
     @property
     def type(self):
@@ -89,21 +94,20 @@ class Character(models.Model):
     def applyValuePush(self, att, val):
         self.export_to_json()
         result = self.overwrite_for(att, val)
-        print(result)
+        # print(result)
         if result:
             self.updateFromStruct()
             self.save()
         return result
 
     def fix(self):
+        # print("Fixing!")
         self.make_rid()
         if self.birthhour == 0:
             self.birthhour = random.randrange(1, 12)
         self.export_to_json()
         self.calc_indice()
         # self.calculate_team()
-
-
 
         self.tai_guideline = tai_guidelines(self.data['attributes']['TAI'])
         if self.height > 0:
@@ -151,9 +155,9 @@ class Character(models.Model):
                 if (v != vc["DEFAULT"]):
                     nondefault_cnt += 1
                 # print("** ", ks, v)
-        print("**** default = ", default, "total non default:", nondefault_cnt, self.name)
+        # print("**** default = ", default, "total non default:", nondefault_cnt, self.name)
         a, b = self.collect_spells()
-        print("Total spells", b)
+        # print("Total spells", b)
         self.indice += self.total_skills + b
         self.indice -= default
         self.indice += self.data['misc']['PROT'] * 2
@@ -230,8 +234,8 @@ class Character(models.Model):
                             all.append({"value": vs, "category": CHARACTER_STATISTICS["SKILLS"][kc.upper()]['NAME'][:1],
                                         "text": r["TEXT"]})
         sorted_all = sorted(all, key=lambda k: k['text'], reverse=True)
-        print("Values=", count_vals)
-        print("Postes=", count_postes)
+        # print("Values=", count_vals)
+        # print("Postes=", count_postes)
         return sorted_all
 
     def export_to_json(self):
@@ -363,6 +367,7 @@ class Character(models.Model):
                 "prot": armor.prot,
                 "cover": armor.cover,
                 "materiaux": armor.materiaux,
+                "skill": armor.related_skill,
                 "malus_armure": armor.malus_armure
             })
             if self.prot < armor.prot:
@@ -429,7 +434,7 @@ class Character(models.Model):
                 result = self.data[words[0].lower()][words[1].lower()][str]
         return result
 
-    def entry_for(self, str,stat):
+    def entry_for(self, str, stat):
         from main.utils.ref_dragonade import CHARACTER_STATISTICS
         # result = -1000
         # where = self.index_for(str)
@@ -442,7 +447,7 @@ class Character(models.Model):
                 root = root[word]
             for item in root["LIST"]:
                 if item["NAME"] == stat:
-                    #print(item)
+                    # print(item)
                     result = item
             # # print(self.data)
             # if len(words) == 1:
@@ -458,8 +463,8 @@ class Character(models.Model):
         for word in words:
             root = root[word]
         data_set = root["KNOWN"]
-        print(data_set)
-        result = "???",0, "???"
+        # print(data_set)
+        result = "???", 0, "???"
         txt = ""
         max = -1000
         for elem in data_set:
@@ -470,26 +475,26 @@ class Character(models.Model):
                 txt = x["TEXT"]
                 r = f"{elem} => {val} ({str}) {txt}"
                 result = val, elem, txt
-        print("Found: "+r)
+        # print("Found: " + r)
         return result
 
     def overwrite_for(self, str, val):
-        print("OVERWRITE FOR")
+        # print("OVERWRITE FOR")
         result = False
         where = self.index_for(str)
-        print("value ", str, " found in ", where)
+        # print("value ", str, " found in ", where)
         if len(where) > 0:
             words = where.split(':')
-            print("words ", words)
+            # print("words ", words)
             if len(words) == 1:
                 self.data[words[0].lower()][str] = val
-                print("-->where 1 ", words[0].lower(), str)
+                # print("-->where 1 ", words[0].lower(), str)
                 result = True
             else:
                 self.data[words[0].lower()][words[1].lower()][str] = val
-                print("-->where 1 ", words[0].lower(), words[1].lower(), str)
+                # print("-->where 1 ", words[0].lower(), words[1].lower(), str)
                 result = True
-        print(self.data)
+        # print(self.data)
         return result
 
     def index_for(self, str):
@@ -656,52 +661,36 @@ class Character(models.Model):
         lines.append(fatigue)
         return lines
 
+    def pre_sim(self, combat, occurrence=0):
+        from main.models.contestants import Contestant
+        all = Contestant.objects.filter(name=self.name)
+        if len(all) == 0:
+            a = Contestant()
+        else:
+            a = all.first()
+        a.combat = combat
+        a.collect_from_rid(self.rid, self.type)
+        a.name = a.name + f"___{occurrence}"
+        return a
+
     def roster_as_text(self):
         roster = "<br/>".join(self.roster())
         roster = roster.replace("§", "&nbsp;")
         return roster
 
-    def pre_sim(self):
-        self.export_to_json()
-        CHOSEN_DIFF = 15
-        data = {"header":{}, "proficencies":{}, "equipment":{}}
-        data["header"]["name"] = self.name
-        data["header"]["rid"] = self.rid
-        data["proficencies"]["MEL"] = self.value_for("MEL")
-        data["proficencies"]["DER"] = self.value_for("DER")
-        data["proficencies"]["ESQ"] = self.value_for("WEA_12")
-        data["header"]["SCO"] = self.value_for("SCO")
-        data["header"]["VIE"] = self.value_for("VIE")
-        data["header"]["FAT"] = self.value_for("FAT")
-        data["header"]["DOM"] = self.value_for("DOM")
-        k,v,t = self.best_for("SKILLS:WEAPONS")
-        data["proficencies"]["best_weapon"] = f"{k} {v} {t}"
-        print(json.dumps(data,indent=4,sort_keys=False))
-
-        # MAX = 32
-        # total = 0
-        # for k in range(MAX):
-        #     x = roll()
-        #     total += x
-        # print(f"{total/MAX}")
-
-        for iter in range(5):
-            x = roll()
-            x2 = x + self.value_for("MEL") + k
-            print(f"Jet:{x} Mêlée:{self.value_for('MEL')} Compétence Arme:{k}")
-            n = Nougardine(CHOSEN_DIFF)
-            qa,qb,qc = n.quality(x2)
-            ma = n.margin(x2)
-            if ma >= 4:
-                print(f"Succès de l'Attaque à difficulté {qb}: {qa} => {qc}")
-                d = roll()
-                d2 = d + self.value_for("DER") + self.value_for("WEA_12")
-                da, db, dc = n.quality(d2)
-                md = n.margin(d2)
-                if md>=4:
-                    print(f"Succès de la défense à difficulté {db}: {da} => {dc}")
-                else:
-                    print(f"Echec de la défense à difficulté {db}: {da} => {dc} DIFFERENCE DE MARGE (dM)={ma-md}")
-            else:
-                print(f"Echec de l'Attaque à difficulté {qb}: {qa} => {qc}")
-        return data
+    @classmethod
+    def find_from_rid(cls, rid):
+        from main.models.travellers import Traveller
+        from main.models.autochtons import Autochton
+        from main.models.creatures import Creature
+        travellers = Traveller.objects.filter(rid=rid)
+        autochtons = Autochton.objects.filter(rid=rid)
+        creatures = Creature.objects.filter(rid=rid)
+        item = None
+        if len(travellers) == 1:
+            item = travellers.first()
+        elif len(autochtons) == 1:
+            item = autochtons.first()
+        elif len(creatures) == 1:
+            item = creatures.first()
+        return item

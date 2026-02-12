@@ -91,6 +91,9 @@ $sub_box: complement($standard_box);
     @include btn_look
     border-color:#808080;
     margin:5pt;
+    &.little{
+        width:3ex;
+    }
 }
 
 

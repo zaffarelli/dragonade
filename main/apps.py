@@ -8,6 +8,9 @@ class MainConfig(AppConfig):
     def ready(self):
         import main.signals.autochtons
         import main.signals.travellers
+        import main.signals.creatures
+        import main.signals.contestants
+        import main.signals.combats
         import main.signals.dreams
         import main.signals.equipement
         import main.signals.stregoneria

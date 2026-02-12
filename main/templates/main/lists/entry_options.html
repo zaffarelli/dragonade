@@ -1,0 +1,11 @@
+{% load static %}
+{% load dragonade_filters %}
+<span class="ref kicker" id="ref__{{x.rid}}" action="{{list.purpose}}" param="{{x.rid}}" target="{{list.type}}" title="{{list.purpose}} {{x.code}}">
+    {% if list.purpose == 'select' %}
+    <i class="fas fa-times"></i>
+    {% elif list.purpose == 'edit' %}
+    <i class="fas fa-edit"></i>
+    {% else %}
+    <i class="fas fa-eye"></i>
+    {% endif %}
+</span>

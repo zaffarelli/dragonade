@@ -8,13 +8,13 @@
         <div class='btn option_btn' id="valuepush_ed"><i class="fas fa-circle-arrow-up"></i>&nbsp;Valider</div>
     </div>
     <div class="middleblock references">
-        <fieldset class="list_block">
+        <fieldset class="option_block">
             <legend>Références: Sortilèges</legend>
             {% for s in reference.spells %}
                 <div class="ref_entry spell stackpush" param="{{s.rid}}"><div class="name">{{s.name}}</div><div class="rid">{{s.rid}}</div> </div>
             {% endfor %}
         </fieldset>
-        <fieldset class="list_block">
+        <fieldset class="option_block">
             <legend>Références: Equipement</legend>
             {% for s in reference.equipment %}
                 <div class="ref_entry gear stackpush" param="{{s.rid}}"><div class="name">{{s.name}}</div><div class="rid">{{s.rid}}</div> </div>

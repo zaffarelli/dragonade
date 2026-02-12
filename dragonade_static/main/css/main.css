@@ -26,6 +26,8 @@ $panel_week_background: darken($panel_background, 5%);
     background: #4b1f4a;
     color: #f0c040;
     cursor: pointer; }
+  .btn.little {
+    width: 3ex; }
 
 .coded {
   font-family: Wellfleet;
@@ -244,9 +246,11 @@ $panel_week_background: darken($panel_background, 5%);
         grid-template-columns: subgrid;
         grid-template-rows: subgrid; }
     .roster .sheet.weapons {
-      grid-template-rows: repeat(10, 2em); }
+      grid-template-rows: repeat(10, 2em);
+      width: 90ex; }
     .roster .sheet.protection {
-      grid-template-rows: repeat(5, 2em); }
+      grid-template-rows: repeat(5, 2em);
+      width: 90ex; }
     .roster .sheet.gear, .roster .sheet.spells {
       display: block;
       color: white;
@@ -255,7 +259,7 @@ $panel_week_background: darken($panel_background, 5%);
       font-family: "Roboto Mono";
       font-size: 0.83em;
       max-height: 40em;
-      width: 96ex;
+      width: 90ex;
       overflow: auto; }
     .roster .sheet.summary {
       display: block;
@@ -264,7 +268,7 @@ $panel_week_background: darken($panel_background, 5%);
       font-family: "Roboto Mono";
       font-size: 0.83em;
       max-height: 40em;
-      width: 96ex;
+      width: 90ex;
       overflow: auto;
       border: 1px solid white; }
     .roster .sheet.base {
@@ -272,15 +276,15 @@ $panel_week_background: darken($panel_background, 5%);
     .roster .sheet.skills {
       order: 8; }
     .roster .sheet.weapons {
-      order: 4; }
+      order: 11; }
     .roster .sheet.protection {
-      order: 5; }
+      order: 12; }
     .roster .sheet.gear {
-      order: 6; }
+      order: 14; }
     .roster .sheet.spells {
-      order: 7; }
+      order: 10; }
     .roster .sheet.magic {
-      order: 3; }
+      order: 9; }
     .roster .sheet.summary {
       order: 2; }
   .roster .box.info.editable .btn_edit.value {
@@ -402,7 +406,7 @@ body {
   border-radius: 4pt;
   background: #1010107f;
   order: 1;
-  flex: 0 0 auto;
+  flex: 0 0 3fr;
   text-align: center; }
   .title legend {
     color: rgba(234, 239, 241, 0.498039);
@@ -418,7 +422,7 @@ body {
   border-radius: 4pt;
   background: #1010107f;
   order: 2;
-  flex: 1 1 auto; }
+  flex: 1 8 auto; }
   .middle legend {
     color: rgba(234, 239, 241, 0.498039);
     text-shadow: 0 0 10px #101010; }
@@ -448,6 +452,21 @@ body {
       max-height: 20em;
       overflow-y: scroll;
       margin-bottom: 1em; }
+
+.bottom {
+  margin: 0;
+  padding: 2pt;
+  box-shadow: 0 0 3px #a69cac;
+  font-family: "Roboto";
+  font-size: 10pt;
+  color: white;
+  border-radius: 4pt;
+  background: #1010107f;
+  order: 3;
+  flex: 0 5 3fr; }
+  .bottom legend {
+    color: rgba(234, 239, 241, 0.498039);
+    text-shadow: 0 0 10px #101010; }
 
 #target_ed, #ed {
   display: block;
@@ -515,6 +534,9 @@ body {
   .list legend {
     color: rgba(234, 239, 241, 0.498039);
     text-shadow: 0 0 10px #101010; }
+  .list legend {
+    color: white;
+    font-variant: small-caps; }
   .list .list_header {
     order: 1;
     text-align: center; }
@@ -543,40 +565,6 @@ body {
       .list .list_footer .paginator.current {
         background: transparent;
         cursor: none; }
-  .list .list_body {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: flex-start;
-    align-content: stretch;
-    align-items: stretch;
-    order: 5; }
-    .list .list_body .list_entry {
-      color: white;
-      display: flex;
-      flex: 1 1 1.8em;
-      flex-flow: row wrap;
-      justify-content: space-between;
-      align-content: stretch;
-      align-items: stretch;
-      gap: 3pt;
-      border: 1pt solid black;
-      border-radius: 3pt;
-      padding: 3pt;
-      background: #3010107f;
-      cursor: pointer; }
-      .list .list_body .list_entry .ref {
-        order: 1;
-        flex: 0 0 3ex;
-        text-align: center; }
-      .list .list_body .list_entry .base {
-        order: 2;
-        flex: 0 0 8vw; }
-      .list .list_body .list_entry .options {
-        order: 3;
-        flex: 0 0 5vw; }
-      .list .list_body .list_entry .complement {
-        order: 4;
-        flex: 1 1 auto; }
   .list .mini {
     flex: 1 1 25ch;
     padding: 2px;
@@ -686,7 +674,7 @@ body {
 .vis {
   border: 3px solid green; }
 
-.list_block {
+.list_body {
   margin: 0;
   padding: 2pt;
   box-shadow: 0 0 3px #a69cac;
@@ -695,42 +683,51 @@ body {
   color: white;
   border-radius: 4pt;
   background: #1010107f;
-  text-align: left;
-  height: 32em;
+  height: 12em;
   width: auto;
   margin-top: 0;
   margin-bottom: 0;
-  overflow-y: scroll;
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: row wrap;
   justify-items: flex-start;
-  align-content: flex-start;
-  align-items: stretch; }
-  .list_block legend {
+  align-content: space-between;
+  align-items: space-between;
+  gap: 1ex; }
+  .list_body legend {
     color: rgba(234, 239, 241, 0.498039);
     text-shadow: 0 0 10px #101010; }
-  .list_block .list_entry, .list_block .ref_entry {
+  .list_body .list_entry, .list_body .ref_entry {
     order: 2;
+    width: 24ex;
     display: flex;
     flex-flow: row wrap;
     justify-items: flex-start;
-    align-content: flex-start;
-    align-items: flex-start;
-    width: 96%;
-    border: 2px solid #202020; }
-    .list_block .list_entry .ref, .list_block .ref_entry .ref {
-      width: 5ex; }
-    .list_block .list_entry .name, .list_block .ref_entry .name {
-      display: inline-block;
+    align-content: stretch;
+    align-items: space-around;
+    border: 2px solid #808080;
+    border-radius: 5px;
+    flex: 1 1 22ex; }
+    .list_body .list_entry .ref, .list_body .ref_entry .ref {
+      text-align: center;
       order: 1;
-      background: #100707;
-      flex: 1 1 auto; }
-    .list_block .list_entry .rid, .list_block .ref_entry .rid {
-      display: inline-block;
+      background: #301010;
+      flex: 1 1 2ex; }
+    .list_body .list_entry .base, .list_body .ref_entry .base {
       order: 2;
       background: #100707;
-      flex: 1 0 20ex;
-      text-align: right; }
+      flex: 1 1 20ex; }
+  .list_body .list_entry.traveller .ref {
+    background: #304040; }
+  .list_body .list_entry.traveller .base {
+    background: #104040; }
+  .list_body .list_entry.autochton .ref {
+    background: #403040; }
+  .list_body .list_entry.autochton .base {
+    background: #401040; }
+  .list_body .list_entry.creature .ref {
+    background: #404030; }
+  .list_body .list_entry.creature .base {
+    background: #404010; }
 
 #overlay {
   position: fixed;
@@ -801,6 +798,65 @@ body {
           #overlay .detail .base .box .info.second {
             order: 4;
             flex: 1 1 auto; }
+
+.option_block {
+  overflow-y: scroll;
+  height: 10em;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-items: flex-start;
+  align-content: space-between;
+  align-items: stretch;
+  gap: 1ex; }
+  .option_block legend {
+    color: #F0F0F0;
+    font-variant: small-caps; }
+  .option_block .ref_entry {
+    border: 1pt solid #404040;
+    border-radius: 1pt;
+    flex: 1 1 auto;
+    display: flex;
+    flex-flow: row wrap;
+    justify-items: flex-start;
+    align-content: flex-start;
+    align-items: flex-start; }
+    .option_block .ref_entry .rid {
+      order: 1;
+      flex: 1 1 15ex;
+      background: #202030;
+      border: 2pt solid silver;
+      border-radius: 3pt;
+      padding: 2pt; }
+    .option_block .ref_entry .name {
+      order: 2;
+      text-align: left;
+      flex: 1 1 30ex;
+      border: 2pt solid transparent;
+      border-radius: 3pt;
+      padding: 2pt;
+      background: #202060; }
+
+.team {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 2pt; }
+  .team .mate {
+    border: 2pt solid silver;
+    border-radius: 3pt;
+    width: 20ex;
+    height: auto;
+    background: #505050;
+    color: white;
+    padding: 2pt; }
+    .team .mate.red {
+      border-color: #F02020;
+      background: #905050; }
+    .team .mate.green {
+      border-color: #20F020;
+      background: #509050; }
+    .team .mate.blue {
+      border-color: #2020F0;
+      background: #505090; }
 
 .item {
   color: #101010;

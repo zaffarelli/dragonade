@@ -2,7 +2,7 @@ from django.http import JsonResponse, Http404, HttpResponse
 from django.template.loader import get_template
 from main.utils.mechanics import is_ajax, zaff_decode
 
-ITEMS_PER_LIST = 12
+ITEMS_PER_LIST = 15
 
 
 def inc_dec(request):
@@ -84,7 +84,7 @@ def value_push(request):
                     cando = True
                 if class_name.title() == "Traveller":
                     item = Traveller.objects.get(id=id)
-                    print("Traveller found: ",item.rid)
+                    print("Traveller found: ", item.rid)
                     cando = True
         if cando:
             print("success!!")
@@ -103,7 +103,6 @@ def svg_to_pdf(request, slug):
     import cairosvg
     import os
     from django.conf import settings
-    print("svg_to_pdf")
     category = ""
     response = {'status': 'error'}
     if is_ajax(request):
@@ -111,8 +110,8 @@ def svg_to_pdf(request, slug):
             category = request.POST["category"]
             if category != "":
                 category += "/"
-        pdf_name = os.path.join(settings.MEDIA_ROOT, 'pdf/results/'+category + request.POST["pdf_name"])
-        svg_name = os.path.join(settings.MEDIA_ROOT, 'pdf/results/'+category + request.POST["svg_name"])
+        pdf_name = os.path.join(settings.MEDIA_ROOT, 'pdf/results/' + category + request.POST["pdf_name"])
+        svg_name = os.path.join(settings.MEDIA_ROOT, 'pdf/results/' + category + request.POST["svg_name"])
         svgtxt = request.POST["svg"]
         with open(svg_name, "w") as f:
             relinked = svgtxt.replace("static/main/svg/2024/", "../refs/")
@@ -124,36 +123,40 @@ def svg_to_pdf(request, slug):
 
 
 def paginator_switch(request):
-    from main.views.generic import stregoneria_page, appartuses_page, autochtons_page, travellers_page, combattants_page, creatures_page
     if is_ajax(request):
         params = request.POST["params"]
-        if params == "stregoneria":
-            return stregoneria_page(request)
-        elif params == "appartuses":
-            return appartuses_page(request)
-        elif params == "autochtons":
-            return autochtons_page(request)
-        elif params == "creatures":
-            return creatures_page(request)
-        elif params == "travellers":
-            return travellers_page(request)
-        elif params == "combattants":
-            return combattants_page(request)
+        p = request.POST["purpose"]
+        return paginate(request, t=params, purpose=p)
     return JsonResponse({"html": 'Bad Paginator!'})
 
 
-def prepare_pagination(context, all_items, page=1, type="créatures"):
+def paginate(request, t="", purpose="view"):
+    from main.views.generic import prepare_context, list_for
+    context = prepare_context(request)
+    items = list_for(t)
+    page = int(request.POST["page"])
+    context = prepare_pagination(context, items, page, t, purpose)
+    local_context = {}
+    local_context["list"] = context['list'][t]
+    template = get_template("main/lists/list_content.html")
+    html = template.render(local_context, request)
+    return JsonResponse({"html": html})
+
+
+def prepare_pagination(context, all_items, page=1, type="", purpose="view"):
     from django.core.paginator import Paginator
-    paginator = Paginator(all_items, ITEMS_PER_LIST)
-    p = paginator.get_page(page)
-    print("num_pages",paginator.num_pages)
-    context['elements'] = p
-    context['config']['data'] = all_items
-    list = {}
-    list['type'] = type
-    list['previous_page'] = 1 if page <= 1 else p.previous_page_number()
-    list['current_page'] = page
-    list['next_page'] = page+1 if paginator.num_pages > page else paginator.num_pages
-    list['elements'] = p
-    context['list'] = list
+    if type == "":
+        context['error'] = "Not type given to paginator"
+    else:
+        paginator = Paginator(all_items, ITEMS_PER_LIST)
+        p = paginator.page(page)
+        pagination = {}
+        pagination['type'] = type
+        pagination['purpose'] = purpose
+        pagination['previous_page'] = p.previous_page_number() if p.has_previous() else page
+        pagination['current_page'] = page
+        pagination['next_page'] = p.next_page_number() if p.has_next() else page
+        pagination['num_pages'] = paginator.num_pages
+        pagination['elements'] = p.object_list
+        context['list'][type] = pagination
     return context

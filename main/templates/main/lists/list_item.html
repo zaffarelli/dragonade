@@ -1,23 +1,7 @@
 {% load static %}
 {% load dragonade_filters %}
 
-<div class="list_entry {{x.type}}" id="mini__{{x.id}}" code="{{x.code}}">
-        {% if x.type == "stregoneria"%}
-                <span class="base">{{x.name|upper|safe}}</span>
-                <span class="options">{{x.path}}</span>
-                <span class="complement">{{x.category}}</span>
-        {%elif x.type == "autochton"%}
-                <span class="base">{{x.name|safe}}</span>
-                <span class="options">{{x.player|safe}}{{x.creature_type|title}}</span>
-                <span class="complement">{{x.category}}</span>
-        {%elif x.type == "traveller"%}
-                <span class="base">{{x.name|safe}}</span>
-                <span class="options">{{x.player|safe}}</span>
-                <span class="complement"></span>
-        {%elif x.type == "creature"%}
-                <span class="base">{{x.name|safe}}</span>
-                <span class="options">{{x.creature_type|title}}</span>
-                <span class="complement"></span>
-        {% endif%}
-
+<div class="list_entry {{x.type}}" id="mini__{{x.id}}" code="{{x.code}}" title="{% if x.type == 'stregoneria' %}Voie: {{x.path}} Catégorie: {{x.category}}{%elif x.type == 'autochton' %}Entrée en matière: {{x.entrance}}{%elif x.type == 'traveller' %}Joueur: {{x.player|safe}}{%elif x.type == 'creature' %}Type: {{x.creature_type|title}}{% endif%}">
+    <span class="base">{{x.name|safe}}</span>
+    {% include "main/lists/entry_options.html" with x=x %}
 </div>

@@ -153,14 +153,17 @@ def refix(modeladmin, request, queryset):
 
 
 def pre_sim(modeladmin, request, queryset):
-    for item in queryset:
-        item.pre_sim()
+    # for item in queryset:
+    #     item.pre_sim()
+    pass
+    short_description = "PreSim"
+
 
 
 def fetch_maps():
     map_list = []
     map_path = os.path.join(settings.MEDIA_ROOT, 'maps/')
-    print(map_path)
+    # print(map_path)
     id = 1
     for filename in os.listdir(map_path):
         if filename.endswith('.jpg'):
@@ -208,12 +211,12 @@ def asB2B(str):
     return res
 
 
-DIE_FACES = 12
 
 
-def roll(explodes=True):
+
+def roll(explodes=True,faces=12):
     def die():
-        return math.floor((int.from_bytes(os.urandom(1)) / 256) * DIE_FACES) + 1
+        return math.floor((int.from_bytes(os.urandom(1)) / 256) * faces) + 1
 
     terms = []
     d12 = die()
@@ -225,21 +228,20 @@ def roll(explodes=True):
                 more = die()
                 result -= more
                 terms.append(f"-{more: 2}")
-                if more != 12:
+                if more != faces:
                     break
-        elif d12 == 12:
+        elif d12 == faces:
             while True:
                 more = die()
                 result += more
                 terms.append(f"+{more: 2}")
-                if more != 12:
+                if more != faces:
                     break
-    print(f'{" ".join(terms):10} => {result}')
+    print(f' ----> d{faces}:{" ".join(terms):10} => {result}')
     return result
 
 
 class Nougardine:
-
 
     def __init__(self, diff):
         self.valid_diffs = [5, 10, 15, 20, 25]
@@ -250,7 +252,7 @@ class Nougardine:
     def quality(self, die):
         q = ""
         delta = die - self.current_diff
-        if delta  >= 15:
+        if delta >= 15:
             q = "Critique"
         elif delta >= 10:
             q = "Significative"
@@ -269,7 +271,7 @@ class Nougardine:
     def margin(self, die):
         q = ""
         delta = die - self.current_diff
-        if delta  >= 15:
+        if delta >= 15:
             m = 7
         elif delta >= 10:
             m = 6
@@ -284,4 +286,40 @@ class Nougardine:
         else:
             m = 1
         return m
+
+
+class Severity:
+    def __init__(self):
+        self.steps = [
+            {"milestone": 2, "pdv": 1, "name": "Touche", "Res": 0},
+            {"milestone": 4, "pdv": 2, "name": "Eraflure", "Res": 0},
+            {"milestone": 7, "pdv": 3, "name": "Estafilade", "Res": 0},
+            {"milestone": 10, "pdv": 5, "name": "Taillade", "Res": 5},
+            {"milestone": 16, "pdv": 8, "name": "Offense", "Res": 10},
+            {"milestone": 20, "pdv": 13, "name": "Meurtrissure", "Res": 15},
+            {"milestone": 23, "pdv": 21, "name": "Mutilation", "Res": 20},
+            {"milestone": 25, "pdv": 34, "name": "Trauma", "Res": 25},
+        ]
+
+    def encaissement(self, die):
+        encaissement = {}
+        for step in self.steps:
+            if die >= step["milestone"]:
+                encaissement = step
+        return encaissement
+
+
+class Chaser:
+    def __init__(self, json, sep=":"):
+        self.json = json
+        self.sep = sep
+
+    def reach(self, t):
+        root = self.json
+        keys = t.split(self.sep)
+        for key in keys:
+            # print(root)
+            root = root[key]
+        return root
+
 

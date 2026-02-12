@@ -277,10 +277,12 @@
 
         &.weapons{
             grid-template-rows: repeat(10,2em);
+            width:90ex;
         }
 
         &.protection{
             grid-template-rows: repeat(5,2em);
+            width:90ex;
         }
 
        &.gear, &.spells{
@@ -291,7 +293,7 @@
             font-family:$mono;
             font-size:0.83em;
             max-height:40em;
-            width:96ex;
+            width:90ex;
             overflow:auto;
        }
 
@@ -302,7 +304,7 @@
             font-family:$mono;
             font-size:0.83em;
             max-height:40em;
-            width:96ex;
+            width:90ex;
             overflow:auto;
             border:1px solid white;
        }
@@ -310,11 +312,11 @@
 
         &.base{order:1;}
         &.skills{order:8;}
-        &.weapons{order:4;}
-        &.protection{order:5;}
-        &.gear{order:6;}
-        &.spells{order:7;}
-        &.magic{order:3;}
+        &.weapons{order:11;}
+        &.protection{order:12;}
+        &.gear{order:14;}
+        &.spells{order:10;}
+        &.magic{order:9;}
         &.summary{order:2;}
 
 

@@ -1,6 +1,7 @@
 {% load static %}
 {% load dragonade_filters %}
 
-<fieldset class="list">
-    {% include "main/lists/list_content.html" %}
-</fieldset>
+
+    <fieldset class="list {{list.type}}" >
+        {% include "main/lists/list_content.html"%}
+    </fieldset>

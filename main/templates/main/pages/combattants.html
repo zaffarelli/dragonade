@@ -5,10 +5,14 @@
     {% include "main/menu.html"%}
     {% include "main/lists/combat_options.html"%}
 
+    <div class="bottom">
     <fieldset class="list">
-        <legend>Combattants</legend>
-        {% include "main/lists/combattants_list.html" %}
+        <legend>Contestants</legend>
+        {% include "main/lists/list.html" with list=list.traveller %}
+        {% include "main/lists/list.html" with list=list.autochton %}
+        {% include "main/lists/list.html" with list=list.creature %}
     </fieldset>
+    </div>
 {% endblock east %}
 
 

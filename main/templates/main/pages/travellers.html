@@ -5,7 +5,9 @@
 {% block east %}
     {% include "main/menu.html"%}
     {% include "main/lists/travellers_options.html"%}
-    {% include "main/lists/list.html" with list=list %}
+    <div class="bottom">
+    {% include "main/lists/list.html" with list=list.traveller %}
+    </div>
 {% endblock east %}
 
 

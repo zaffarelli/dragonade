@@ -109,14 +109,14 @@ body {
 .title{
     @include dragonade_panel;
     order:1;
-    flex: 0 0 auto;
+    flex: 0 0 3fr;
     text-align:center;
 }
 
 .middle{
     @include dragonade_panel;
     order:2;
-    flex: 1 1 auto;
+    flex: 1 8 auto;
 
     & .middleblock{
        @include dragonade_panel;
@@ -138,8 +138,12 @@ body {
             margin-bottom:1em;
         }
     }
+}
 
-
+.bottom{
+    @include dragonade_panel;
+    order:3;
+    flex: 0 5 3fr;
 }
 
 #target_ed, #ed{
@@ -211,6 +215,12 @@ body {
     align-content: space-around;
     gap:1px;
 
+    & legend{
+        color:white;
+        font-variant: small-caps;
+    }
+
+
     & .list_header{
         order:1;
         text-align:center;
@@ -248,53 +258,7 @@ body {
 
         }
     }
-    & .list_body{
-        display:flex;
-        flex-flow:column nowrap;
-        justify-content:flex-start;
-        align-content:stretch;
-        align-items:stretch;
-        order:5;
-        & .list_entry{
-            color:white;
-            display:flex;
-            flex:1 1 1.8em;
-            flex-flow:row wrap;
-            justify-content:space-between;
-            align-content:stretch;
-            align-items:stretch;
-            gap:3pt;
-            border:1pt solid black;
-            border-radius:3pt;
-            padding:3pt;
-            background:#3010107f;
 
-            cursor:pointer;
-
-            & .ref{
-                order:1;
-                flex: 0 0 3ex;
-                text-align:center;
-            }
-            & .base{
-                order:2;
-                flex: 0 0 8vw;
-
-            }
-            & .options{
-                order:3;
-                flex: 0 0 5vw;
-
-            }
-            & .complement{
-                order:4;
-                flex: 1 1 auto;
-
-            }
-
-        }
-
-    }
 
 
 
@@ -457,52 +421,67 @@ body {
     border:3px solid green;
 }
 
-.list_block{
+.list_body{
     @include dragonade_panel;
-    text-align:left;
-//     border:2px solid #101010;
-    height:32em;
+    height:12em;
     width:auto;
     margin-top:0;
     margin-bottom:0;
-//     font-family: Wellfleet;
-//     font-size:$roster_font_height;
-    overflow-y: scroll;
     display:flex;
-    flex-flow: column nowrap;
+    flex-flow: row wrap;
     justify-items: flex-start;
-    align-content: flex-start;
-    align-items: stretch;
+    align-content: space-between;
+    align-items: space-between;
+    gap:1ex;
     & .list_entry, & .ref_entry{
         order:2;
+        width:24ex;
         display:flex;
         flex-flow: row wrap;
-//         font-family: Neucha;
-//         font-size:$roster_font_height;
         justify-items: flex-start;
-        align-content: flex-start;
-        align-items: flex-start;
-        width:96%;
-        border:2px solid #202020;
+        align-content: stretch;
+        align-items: space-around;
+        border:2px solid #808080;
+        border-radius:5px;
+        flex: 1 1 22ex;
         & .ref{
-            width:5ex;
-        }
-        & .name{
-            display: inline-block;
+            text-align:center;
             order:1;
-            background:#100707;
-            flex: 1 1 auto;
+            background:#301010;
+            flex: 1 1 2ex;
         }
-        & .rid{
-            display: inline-block;
+        & .base{
             order:2;
             background:#100707;
-            flex: 1 0 20ex;
-            text-align:right;
+            flex: 1 1 20ex;
         }
     }
-
-
+    & .list_entry{
+        &.traveller{
+            & .ref{
+                background:#304040;
+            }
+            & .base{
+                background:#104040;
+            }
+        }
+        &.autochton{
+            & .ref{
+                background:#403040;
+            }
+            & .base{
+                background:#401040;
+            }
+        }
+        &.creature{
+            & .ref{
+                background:#404030;
+            }
+            & .base{
+                background:#404010;
+            }
+        }
+    }
 }
 
 
@@ -589,3 +568,77 @@ body {
         }
     }
 
+.option_block{
+    & legend{
+        color:#F0F0F0;
+        font-variant:small-caps;
+    }
+    overflow-y: scroll;
+    height:10em;
+    display:flex;
+    flex-flow:column nowrap;
+    justify-items:flex-start;
+    align-content:space-between;
+    align-items:stretch;
+    gap:1ex;
+    & .ref_entry{
+         border:1pt solid #404040;
+         border-radius: 1pt;
+
+        flex:1 1 auto;
+        display:flex;
+        flex-flow:row wrap;
+        justify-items:flex-start;
+        align-content:flex-start;
+        align-items:flex-start;
+        & .rid{
+            order:1;
+            flex:1 1 15ex;
+            background:#202030;
+
+            border:2pt solid silver;
+            border-radius: 3pt;
+            padding:2pt;
+        }
+        & .name{
+            order:2;
+            text-align:left;
+            flex:1 1 30ex;
+            border:2pt solid transparent;
+            border-radius: 3pt;
+            padding:2pt;
+            background:#202060;
+        }
+
+    }
+}
+
+.team{
+    display:flex;
+    flex-flow: row wrap;
+    gap:2pt;
+
+    & .mate{
+        border:2pt solid silver;
+        border-radius:3pt;
+        width:20ex;
+        height:auto;
+        background: #505050;
+        color:white;
+        padding:2pt;
+
+
+        &.red{
+            border-color: #F02020;
+            background: #905050;
+        }
+        &.green{
+            border-color: #20F020;
+            background: #509050;
+        }
+        &.blue{
+            border-color: #2020F0;
+            background: #505090;
+        }
+    }
+}

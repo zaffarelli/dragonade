@@ -287,6 +287,7 @@ class Chiaroscuro {
             e.stopPropagation();
             let page = $(this).attr("page")
             let target = $(this).attr("target")
+            let purpose = $(this).attr("purpose")
             $.ajax({
                 url: 'ajax/paginator',
                 method: 'POST',
@@ -296,11 +297,13 @@ class Chiaroscuro {
                 },
                 data: {
                     "page": page,
-                    "params": target
+                    "params": target,
+                    "purpose": purpose
                 },
                 dataType: 'json',
                 success: function (answer) {
-                    $('.list').html(answer.html);
+                    $('.list.'+target).html(answer.html);
+                    console.log(answer.html)
                     me.registerActions();
                 },
                 error: function (answer) {
@@ -404,6 +407,74 @@ class Chiaroscuro {
             });
             me.registerActions();
         });
+
+        $('.kicker').off().on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            let id = $(this).attr('id');
+            let code = $(this).attr('param');
+            let action = $(this).attr('action');
+            let target = $(this).attr('target');
+            console.log(id,code,action,target)
+            let reds = []
+            let blues = []
+            if (action == 'run'){
+                $(".mate.red").each(function(){
+                    reds.push($(this).attr("param"))
+                })
+                console.log(reds)
+                $(".mate.blue").each(function(){
+                    blues.push($(this).attr("param"))
+                })
+                console.log(blues)
+            }
+            $.ajax({
+                url: 'ajax/kicker',
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: {
+                    "id": id,
+                    "code": code,
+                    "action": action,
+                    "target": target,
+                    "reds": reds.join(" "),
+                    "blues": blues.join(" "),
+                },
+                dataType: 'json',
+                success: function (answer) {
+                    if (action == 'view'){
+                        $(".container").html("")
+                        $(".container").append(answer.html)
+                        $(".roster").removeClass("hidden")
+                    }
+                    if (action == 'select'){
+                            $(".middleblock.options").html("")
+                            $(".middleblock.options").append(answer.html)
+                    }
+                    if (action == 'ini'){
+                        if (target == 'combat'){
+                            $(".middleblock.options").html("")
+                            $(".middleblock.options").append(answer.html)
+                        }
+                    }
+                    if (action == 'run'){
+                        if (target == 'combat'){
+                            $(".middleblock.options").html("")
+                            $(".middleblock.options").append(answer.html)
+                        }
+                    }
+                    me.registerActions();
+                },
+                error: function (answer) {
+                    console.error('Error... ',answer);
+                },
+            });
+            me.registerActions();
+        });
+
 
     }
 

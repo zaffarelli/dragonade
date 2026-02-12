@@ -22,7 +22,8 @@ def prepare_context(request):
             'fontset': FONTSET,
             'modules': [],
             'zmenu': MAIN_MENU
-        }
+        },
+        'list': {}
     }
     return context
 
@@ -185,11 +186,37 @@ def draconis_artes(request):
     context['title'] = "Arts Draconiques"
     context['config']['modules'].append('risorse')
     context['config']['menu_entries'] = MENU_ENTRIES
-    spells = []
+    spells = list_for()
     for i in Spell.objects.all().order_by("name"):
         spells.append(i.export_to_json())
     context['spells'] = spells
     return render(request, 'main/pages/draconis_artes.html', context=context)
+
+
+# Simulateur de Mêlée
+def combattants(request):
+    context = prepare_context(request)
+    travellers = list_for("traveller")
+    autochtons = list_for("autochton")
+    creatures = list_for("creature")
+    page = 1
+    context['list']['traveller'] = travellers
+    context = prepare_pagination(context, travellers, page, type="traveller", purpose="select")
+    context['list']['autochton'] = autochtons
+    context = prepare_pagination(context, autochtons, page, type="autochton", purpose="select")
+    context['list']['creature'] = creatures
+    context = prepare_pagination(context, creatures, page, type="creature", purpose="select")
+    context['title'] = "Simulateur de Mêlée"
+
+    from main.models.combats import Combat
+    combats = Combat.objects.filter(is_current=True)
+    if len(combats) == 1:
+        combat = combats.first()
+        context['combat'] = combat.export_to_json()
+        print(combat.code)
+    else:
+        context['combat'] = ""
+    return render(request, 'main/pages/combattants.html', context=context)
 
 
 # Artefacts
@@ -200,65 +227,30 @@ def appartuses(request):
     context['config']['modules'].append('appartuses')
     context['config']['menu_entries'] = MENU_ENTRIES
     page = 1
-    appartuses = []
+    appartuses = list_for("appartus")
     for i in Appartus.objects.all().order_by("name"):
         appartuses.append(i.export_to_json())
     context = prepare_pagination(context, appartuses, page, "appartuses")
     return render(request, 'main/pages/appartuses.html', context)
 
 
-def appartuses_page(request):
-    from main.models.appartus import Appartus
-    context = prepare_context(request)
-    appartuses = []
-    for i in Appartus.objects.order_by("category", "name"):
-        appartuses.append(i.export_to_json())
-    page = int(request.POST["page"])
-    context = prepare_pagination(context, appartuses, page, "appartuses")
-    template = get_template("main/lists/list_content.html")
-    html = template.render(context, request)
-    return JsonResponse({"html": html})
-
-
 # Autochtons
 def autochtons(request):
-    from main.models.autochtons import Autochton
     from main.models.stregoneria import Spell
     from main.models.equipment import Equipment
     context = prepare_context(request)
-    characters = []
-    for x in Autochton.objects.all().order_by("-priority", "name"):
-        datum = x.toJson()
-        datum['text'] = x.name
-        datum['code'] = x.rid
-        datum['type'] = "autochton"
-        characters.append(datum)
-    context['title'] = "Les Autochtones"
+    t = "autochton"
+    items = list_for(t)
     page = 1
+    context = prepare_pagination(context, items, page, type=t, purpose="view")
+    context['title'] = "Les Autochtones"
+    # Options
     context['reference'] = {}
     spells_j = Spell.references()
     context['reference']['spells'] = spells_j
     gear_j = Equipment.references()
     context['reference']['gear'] = gear_j
-    context = prepare_pagination(context, characters, page, "autochtons")
     return render(request, 'main/pages/autochtons.html', context=context)
-
-
-def autochtons_page(request):
-    from main.models.autochtons import Autochton
-    context = prepare_context(request)
-    characters = []
-    for x in Autochton.objects.all().order_by("-priority", "name"):
-        datum = x.toJson()
-        datum['text'] = x.name
-        datum['code'] = x.rid
-        datum['type'] = "autochton"
-        characters.append(datum)
-    page = int(request.POST["page"])
-    context = prepare_pagination(context, characters, page, "autochtons")
-    template = get_template("main/lists/list_content.html")
-    html = template.render(context, request)
-    return JsonResponse({"html": html})
 
 
 # Creatures
@@ -267,39 +259,17 @@ def creatures(request):
     from main.models.stregoneria import Spell
     from main.models.equipment import Equipment
     context = prepare_context(request)
-    creatures = []
-    for x in Creature.objects.all().order_by("name"):
-        datum = x.toJson()
-        datum['text'] = x.name
-        datum['code'] = x.rid
-        datum['type'] = "creature"
-        creatures.append(datum)
-    context['title'] = "Les Creatures"
+    t = "creature"
+    items = list_for(t)
     page = 1
+    context = prepare_pagination(context, items, page, type=t)
+    context['title'] = "Les Creatures"
     context['reference'] = {}
     spells_j = Spell.references()
     context['reference']['spells'] = spells_j
     gear_j = Equipment.references()
     context['reference']['gear'] = gear_j
-    context = prepare_pagination(context, creatures, page, "creatures")
     return render(request, 'main/pages/creatures.html', context=context)
-
-
-def creatures_page(request):
-    from main.models.creatures import Creature
-    context = prepare_context(request)
-    creatures = []
-    for x in Creature.objects.all().order_by("name"):
-        datum = x.toJson()
-        datum['text'] = x.name
-        datum['code'] = x.rid
-        datum['type'] = "creature"
-        creatures.append(datum)
-    page = int(request.POST["page"])
-    context = prepare_pagination(context, creatures, page, "creatures")
-    template = get_template("main/lists/list_content.html")
-    html = template.render(context, request)
-    return JsonResponse({"html": html})
 
 
 # Travellers
@@ -308,42 +278,45 @@ def travellers(request):
     from main.models.stregoneria import Spell
     from main.models.equipment import Equipment
     context = prepare_context(request)
-    characters = []
-    for x in Traveller.objects.order_by("name"):
-        datum = x.toJson()
-        datum['text'] = x.name
-        datum['type'] = "traveller"
-        characters.append(datum)
+    t = 'traveller'
+    items = list_for(t)
     page = 1
-    context['characters'] = characters
+    context = prepare_pagination(context, items, page, type=t, purpose="view")
     context['title'] = "Les Voyageurs"
-
+    # options
     spells_j = Spell.references()
     context['reference'] = {}
     context['reference']['spells'] = spells_j
     equipment = Equipment.references()
     context['reference']['equipment'] = equipment
-    context = prepare_pagination(context, characters, page, "travellers")
-
     return render(request, 'main/pages/travellers.html', context=context)
 
 
-def travellers_page(request):
+def list_for(t):
+    from main.models.stregoneria import Spell
+    from main.models.autochtons import Autochton
     from main.models.travellers import Traveller
-    context = prepare_context(request)
-    characters = []
-    for x in Traveller.objects.all().order_by("name"):
+    from main.models.creatures import Creature
+    from main.models.appartus import Appartus
+    items = []
+    klass = None
+    if t == "traveller":
+        klass = Traveller
+    elif t == "autochton":
+        klass = Autochton
+    elif t == "creature":
+        klass = Creature
+    elif t == "stregoneria":
+        klass = Spell
+    elif t == "appartus":
+        klass = Appartus
+    for x in klass.objects.all().order_by("name"):
         datum = x.toJson()
-        datum['text'] = x.name
+        datum['name'] = x.name
         datum['code'] = x.rid
-        datum['type'] = "traveller"
-        characters.append(datum)
-    context['title'] = "Les Voyageurs"
-    page = int(request.POST["page"])
-    context = prepare_pagination(context, characters, page, "travellers")
-    template = get_template("main/lists/list_content.html")
-    html = template.render(context, request)
-    return JsonResponse({"html": html})
+        datum['type'] = t
+        items.append(datum)
+    return items
 
 
 # Spells
@@ -378,71 +351,20 @@ def stregoneria(request):
     return render(request, 'main/pages/stregoneria.html', context)
 
 
-def stregoneria_page(request):
-    from main.models.stregoneria import Spell
-    context = prepare_context(request)
-    stregoneria = []
-    for i in Spell.objects.order_by("-category", "name"):
-        datum = i.export_to_json()
-        datum['type'] = "stregoneria"
-        datum['code'] = i.rid
-        stregoneria.append(datum)
-    page = int(request.POST["page"])
-    context = prepare_pagination(context, stregoneria, page, "stregoneria")
-    template = get_template("main/lists/list_content.html")
-    html = template.render(context, request)
-    return JsonResponse({"html": html})
-
-
-def combattants(request):
-    from main.models.travellers import Traveller
-    from main.models.autochtons import Autochton
-    context = prepare_context(request)
-    characters = []
-    for x in Traveller.objects.filter(is_battle_ready=True).order_by("name"):
-        datum = x.toJson()
-        datum['text'] = x.name
-        datum['code'] = x.rid
-        datum['type'] = "traveller"
-        characters.append(datum)
-    for x in Autochton.objects.filter(is_battle_ready=True).order_by("name"):
-        datum = x.toJson()
-        datum['text'] = x.name
-        datum['code'] = x.rid
-        datum['type'] = "autochton"
-        characters.append(datum)
-    page = 1
-    for c in characters:
-        print(c["rid"])
-    context['characters'] = characters
-    context = prepare_pagination(context, characters, page)
-    context['title'] = "Simulateur de Mêlée"
-    return render(request, 'main/pages/combattants.html', context=context)
-
-
-def combattants_page(request):
-    from main.models.travellers import Traveller
-    from main.models.autochtons import Autochton
-    context = prepare_context(request)
-    characters = []
-    for x in Traveller.objects.filter(is_battle_ready=True).order_by("name"):
-        datum = x.toJson()
-        datum['text'] = x.name
-        datum['code'] = x.rid
-        datum['type'] = "traveller"
-        characters.append(datum)
-    for x in Autochton.objects.filter(is_battle_ready=True).order_by("name"):
-        datum = x.toJson()
-        datum['text'] = x.name
-        datum['code'] = x.rid
-        datum['type'] = "autochton"
-        characters.append(datum)
-    context['title'] = "Simulateur de Mêlée"
-    page = int(request.POST["page"])
-    context = prepare_pagination(context, characters, page)
-    template = get_template("main/lists/combattants_list.html")
-    html = template.render(context, request)
-    return JsonResponse({"html": html})
+# def stregoneria_page(request):
+#     from main.models.stregoneria import Spell
+#     context = prepare_context(request)
+#     stregoneria = []
+#     for i in Spell.objects.order_by("-category", "name"):
+#         datum = i.export_to_json()
+#         datum['type'] = "stregoneria"
+#         datum['code'] = i.rid
+#         stregoneria.append(datum)
+#     page = int(request.POST["page"])
+#     context = prepare_pagination(context, stregoneria, page, "stregoneria")
+#     template = get_template("main/lists/list_content.html")
+#     html = template.render(context, request)
+#     return JsonResponse({"html": html})
 
 
 def new_creature(request):
@@ -540,4 +462,80 @@ def overlay_edit(request):
                             idx += 1
             if changes:
                 spell.save()
+    return JsonResponse(answer)
+
+
+def kicker(request):
+    answer = {'html': "", "red_team": [], "green_team": [], "blue_team": []}
+    html = ''
+    if is_ajax(request):
+        from main.models.characters import Character
+        from main.models.travellers import Traveller
+        from main.models.autochtons import Autochton
+        from main.models.creatures import Creature
+        from main.models.combats import Combat
+        id = request.POST.get('id')
+        code = request.POST.get('code')
+        target = request.POST.get('target')
+        action = request.POST.get('action')
+        print(f"*** Id:{id} Code:{code} Target:{target} Action:{action}")
+        item = None
+        if target.lower() == "combat":
+            if action.lower() == "ini":
+                Combat.deactivate()
+                combat = Combat()
+                x = datetime.now()
+                combat.code = f'{x.strftime("%W")}{x.strftime("%A")[:2]}{x.strftime("%H%M")}'
+                combat.is_current = True
+                combat.save()
+                datum = combat.export_to_json()
+                context = {"combat": datum}
+                template = get_template("main/objects/combat_parameters.html")
+                html = template.render(context, request)
+            elif action.lower() == "run":
+                combats = Combat.objects.filter(is_current=True)
+                if len(combats) == 1:
+                    combat = combats.first()
+                    # reds = request.POST.get('reds').split(" ")
+                    # blues = request.POST.get('blues').split(" ")
+                    # combat.add_contestants(team="red", rids=reds)
+                    # combat.add_contestants(team="blue", rids=blues)
+                    combat.save()
+                    datum = combat.export_to_json()
+                    context = {"combat": datum}
+                    template = get_template("main/objects/combat_parameters.html")
+                    html = template.render(context, request)
+
+        if action.lower() == "view":
+            item = Character.find_from_rid(code)
+            if item is not None:
+                datum = item.export_to_json()
+                datum['type'] = item.type
+                datum['code'] = item.rid
+                context = {"a": datum}
+                template = get_template("main/objects/roster.html")
+                html = template.render(context, request)
+                # print(html)
+        if action.lower() == "select":
+            item = Character.find_from_rid(code)
+            # print("-----")
+            # print(item)
+            # print("+++++")
+            blue = False
+            if item is not None:
+                combats = Combat.objects.filter(is_current=True)
+                if len(combats) == 1:
+                    combat = combats.first()
+                    if item.type.lower() != 'creature':
+                        # print(item.name)
+                        combat.add_contestants("blue", [code])
+                    else:
+                        combat.add_contestants("red", [code])
+                    combat.save()
+                    datum = combat.export_to_json()
+                    context = {"combat": datum}
+                    template = get_template("main/objects/combat_parameters.html")
+                    html = template.render(context, request)
+
+    answer['html'] = html
     return JsonResponse(answer)

@@ -30,12 +30,15 @@ class Creature(Character):
 
     def fix(self):
         super().fix()
+        print(f"RID: {self.rid}")
+        # self.klass = "Creature"
 
 
 class CreatureAdmin(admin.ModelAdmin):
-    from main.utils.mechanics import refix
     ordering = ['name']
     list_display = ['name', 'rid', 'creature_type','team_color']
     list_filter = ["creature_type",'team_color']
     list_editable = ["creature_type",'team_color']
-    actions = [refix]
+    from main.utils.mechanics import pre_sim, refix
+    actions = [refix, pre_sim]
+
