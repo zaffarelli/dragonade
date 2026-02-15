@@ -493,14 +493,33 @@ def kicker(request):
                 template = get_template("main/objects/combat_parameters.html")
                 html = template.render(context, request)
             elif action.lower() == "run":
-                combats = Combat.objects.filter(is_current=True)
+                combats = Combat.objects.filter(code=code)
                 if len(combats) == 1:
                     combat = combats.first()
-                    # reds = request.POST.get('reds').split(" ")
-                    # blues = request.POST.get('blues').split(" ")
-                    # combat.add_contestants(team="red", rids=reds)
-                    # combat.add_contestants(team="blue", rids=blues)
+                    combat.prepare_fight()
+                    main_data = combat.results()
+                    context = {"battle": main_data}
+                    template = get_template("main/objects/battle.html")
+                    answer['main_html'] = template.render(context, request)
                     combat.save()
+                    datum = combat.export_to_json()
+                    context = {"combat": datum}
+                    template = get_template("main/objects/combat_parameters.html")
+                    html = template.render(context, request)
+            elif action.lower() == "next":
+                import json
+                combats = Combat.objects.filter(code=code)
+                if len(combats) == 1:
+                    combat = combats.first()
+                    combat.new_round()
+                    combat.save()
+                    combat.refresh_from_db()
+                    main_data = combat.results()
+                    context = {"battle": main_data}
+                    # print("Transmitted context...")
+                    # print(json.dumps(context,indent=2))
+                    template = get_template("main/objects/battle.html")
+                    answer['main_html'] = template.render(context, request)
                     datum = combat.export_to_json()
                     context = {"combat": datum}
                     template = get_template("main/objects/combat_parameters.html")
@@ -518,14 +537,12 @@ def kicker(request):
                 # print(html)
         if action.lower() == "select":
             item = Character.find_from_rid(code)
-            # print("-----")
-            # print(item)
-            # print("+++++")
             blue = False
             if item is not None:
                 combats = Combat.objects.filter(is_current=True)
                 if len(combats) == 1:
                     combat = combats.first()
+                    # combat.remove_contestants()
                     if item.type.lower() != 'creature':
                         # print(item.name)
                         combat.add_contestants("blue", [code])

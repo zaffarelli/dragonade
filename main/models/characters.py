@@ -661,16 +661,20 @@ class Character(models.Model):
         lines.append(fatigue)
         return lines
 
-    def pre_sim(self, combat, occurrence=0):
+    def pre_sim(self, combat, name="", occurrence=0, color=""):
         from main.models.contestants import Contestant
-        all = Contestant.objects.filter(name=self.name)
+        all = Contestant.objects.filter(name=name, combat=combat)
         if len(all) == 0:
             a = Contestant()
         else:
             a = all.first()
         a.combat = combat
-        a.collect_from_rid(self.rid, self.type)
-        a.name = a.name + f"___{occurrence}"
+
+        a.collect_from_rid(self.rid, self.type, color=color if self.type == "Creature" else self.color)
+        if len(name) > 0:
+            a.name = name
+        else:
+            a.name = a.name + f"___{occurrence}"
         return a
 
     def roster_as_text(self):

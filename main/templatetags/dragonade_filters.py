@@ -306,3 +306,37 @@ def as_id(value):
     if isinstance(value, int):
         str = f"{value:03}"
     return str
+
+
+@register.filter(name='as_grav')
+def as_grav(value):
+    str = value
+    niveaux = ["min","mod","maj","gra","ser"]
+    if isinstance(value, int):
+        str = "<div class='grav'>"
+        for n in niveaux:
+            str += f'<span class="{n}">'
+            for s in range(value):
+                str += f'<i class="fas fa-circle"></i>'
+            str += f'</span>'
+        str += "</div>"
+    return str
+
+@register.filter(name='as_teamcol')
+def as_teamcol(value):
+    str = f'<div class="teamcol" style="background:{value}">&nbsp;</div>'
+    return str
+
+@register.filter(name='as_avoidance')
+def as_avoidance(value):
+    txt = ""
+    if value == "A":
+        txt = "Action d'Arme"
+    elif value == "E":
+        txt = "Esquive"
+    elif value == "B":
+        txt = "Parade au Bouclier"
+    elif value == "R":
+        txt = "Action de Rapidité"
+    str = f'<div class="avoidance {value}">{txt}</div>'
+    return str

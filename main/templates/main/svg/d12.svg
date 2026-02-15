@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="15mm"
+   height="15mm"
+   viewBox="-50 -50 29.263752 30.331146"
+   version="1.1"
+   id="svg31"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+    <g
+     id="g42"
+     transform="translate(-185.67636,52.966295)">
+    <path
+       style="fill:{{fill}};fill-opacity:1;stroke:#000000;stroke-width:0.705556;stroke-dasharray:none;stroke-opacity:1"
+       id="path34"
+       d="m 149.25782,-73.407673 c -0.7111,-0.113776 -7.64372,-3.659891 -8.15213,-4.169911 -0.50842,-0.51002 -4.03267,-7.453777 -4.1442,-8.165231 -0.11154,-0.711454 1.11872,-8.400574 1.44667,-9.04171 0.32795,-0.641137 5.8428,-6.138635 6.48497,-6.464565 0.64217,-0.32593 8.33513,-1.53195 9.04622,-1.41817 0.7111,0.11377 7.64372,3.659888 8.15214,4.169908 0.50841,0.51002 4.03266,7.453777 4.1442,8.165231 0.11153,0.711454 -1.11873,8.400574 -1.44668,9.04171 -0.32795,0.641137 -5.8428,6.138638 -6.48497,6.464564 -0.64216,0.325927 -8.33512,1.53195 -9.04622,1.418174 z"
+       transform="rotate(28.110852,150.48059,-90.496134)" />
+    <path
+       style="fill:{{fill}};fill-opacity:1;stroke:#000000;stroke-width:0.927707;stroke-dasharray:none;stroke-opacity:1"
+       id="path35"
+       d="m 222.69938,-83.063339 c -0.8386,0.946814 -14.54317,3.977072 -15.70279,3.472091 -1.15961,-0.50498 -8.27651,-12.602398 -8.15458,-13.861306 0.12192,-1.258909 9.42801,-11.765786 10.66298,-12.038846 1.23497,-0.27307 14.10334,5.33074 14.74467,6.420885 0.64133,1.090143 -0.71167,15.060363 -1.55028,16.007176 z"
+       transform="matrix(0.74165288,0.16842717,-0.16842717,0.74165288,-22.83436,-55.287751)" />
+    <path
+       style="fill:#8a1d7d;fill-opacity:1;stroke:#000000;stroke-width:0.705556;stroke-dasharray:none;stroke-opacity:1"
+       d="m 143.99108,-79.552185 -2.63336,3.547724"
+       id="path38" />
+    <path
+       style="fill:#8a1d7d;fill-opacity:1;stroke:#000000;stroke-width:0.705556;stroke-dasharray:none;stroke-opacity:1"
+       d="m 156.20697,-79.479039 2.34076,3.950046"
+       id="path39" />
+    <path
+       style="fill:#8a1d7d;fill-opacity:1;stroke:#000000;stroke-width:0.705556;stroke-dasharray:none;stroke-opacity:1"
+       d="m 159.93756,-91.109725 4.46209,-0.987512"
+       id="path40" />
+    <path
+       style="fill:#8a1d7d;fill-opacity:1;stroke:#000000;stroke-width:0.705556;stroke-dasharray:none;stroke-opacity:1"
+       d="m 150.46477,-98.205176 v -4.352364"
+       id="path41" />
+    <path
+       style="fill:#8a1d7d;fill-opacity:1;stroke:#000000;stroke-width:0.705556;stroke-dasharray:none;stroke-opacity:1"
+       d="m 140.29706,-91.292597 -4.05976,-1.426406"
+       id="path42" />
+    <text
+       xml:space="preserve"
+       style="font-weight:600;font-size:5.64444px;line-height:1.45;font-family:'Anton SC';-inkscape-font-specification:'Anton SC, Semi-Bold';font-variant-caps:small-caps;text-align:center;letter-spacing:0px;writing-mode:lr-tb;direction:ltr;text-orientation:upright;text-anchor:middle;fill:#101010;fill-opacity:1;stroke:#760b7d;stroke-width:0.352777;stroke-dasharray:none;stroke-opacity:1"
+       x="149.76985"
+       y="-84.124001"
+       id="text42"><tspan
+         id="tspan42"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:11.2889px;font-family:'Adwaita Mono';-inkscape-font-specification:'Adwaita Mono, Bold';font-variant-ligatures:normal;font-variant-caps:small-caps;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#101010;fill-opacity:1;stroke:#303003;stroke-width:0.352778;stroke-opacity:1"
+         x="149.76985"
+         y="-84.124001">{{value}}</tspan></text>
+  </g>
+</svg>

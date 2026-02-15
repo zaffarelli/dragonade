@@ -1,0 +1,21 @@
+{% load static %}
+{% load dragonade_filters %}
+
+<div class="battle">
+    <div class="combat_info">
+    <h1>Combat: {{battle.title}}</h1>
+    </div>
+    <div class="status_line">
+    {% for item in battle.teams.blue %}
+        {% include "main/objects/battle_roster.html" %}
+    {% endfor %}
+    {% for item in battle.teams.red %}
+        {% include "main/objects/battle_roster.html" %}
+    {% endfor %}
+    </div>
+    <div class="rounds">
+        {% for cr in battle.combat_rounds %}
+        {% include "main/objects/battle_round.html" with round=cr  %}
+        {% endfor %}
+    <div>
+</div>

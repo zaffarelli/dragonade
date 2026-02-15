@@ -4,11 +4,11 @@
         <div class="combat_parameters" param="{{combat.code}}">
             <fieldset class="generic">
                 <legend>Combat {{combat.code}}</legend>
-                <div class='btn option_btn little combat_panel kicker' id="new_combat" action="ini" param="{{combat.rid}}" target="combat" title="Nouveau"><i class="fas fa-play"></i></div>
-                <div class='btn option_btn little combat_panel kicker' id="run_combat" action="run" param="{{combat.rid}}" target="combat" title="Simuler"><i class="fas fa-circle"></i></div>
-                <div class='btn option_btn little combat_panel kicker' id="previous_round" action="previous" param="{{combat.rid}}" target="combat" title="Tour Précédent"><i class="fas fa-backward"></i></div>
-                <div class='btn option_btn little combat_panel kicker' id="next_round" action="next" param="{{combat.rid}}" target="combat" title="Tour Suivant"><i class="fas fa-forward"></i></div>
-                <div class='btn option_btn little combat_panel kicker' id="stop_combat" action="stop" param="{{combat.rid}}" target="combat" title="Arrêter le Combat"><i class="fas fa-square"></i></div>
+                <div class='btn option_btn  combat_panel kicker' id="new_combat" action="ini" param="{{combat.code}}" target="combat" title="Nouveau"><i class="fas fa-circle-plus"></i>&nbsp;Nouveau</div>
+                <div class='btn option_btn  combat_panel kicker' id="run_combat" action="run" param="{{combat.code}}" target="combat" title="Simuler"><i class="fas fa-circle-info"></i>&nbsp;Préparer</div>
+<!--                <div class='btn option_btn little combat_panel kicker' id="previous_round" action="previous" param="{{combat.code}}" target="combat" title="Tour Précédent"><i class="fas fa-backward"></i></div>-->
+                <div class='btn option_btn  combat_panel kicker' id="next_round" action="next" param="{{combat.code}}" target="combat" title="Tour Suivant"><i class="fas fa-circle-check"></i>&nbsp;Jouer</div>
+<!--                <div class='btn option_btn little combat_panel kicker' id="stop_combat" action="stop" param="{{combat.code}}" target="combat" title="Arrêter le Combat"><i class="fas fa-square"></i></div>-->
             </fieldset>
             <fieldset id="blue_team" class="team">
                 <legend style="color:#8080F0;">Blue Team</legend>
@@ -19,7 +19,7 @@
             <fieldset id="red_team" class="team">
                 <legend style="color:#F08080;">Red Team</legend>
                 {% for item in combat.teams.red %}
-                    <div class="mate red" param="{{item.rid}} owner="{{combat.code}}">{{item.name}}</div>
+                    <div class="mate red" param="{{item.rid}}" owner="{{combat.code}}">{{item.name}}</div>
                 {% endfor %}
             </fieldset>
 

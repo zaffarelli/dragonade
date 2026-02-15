@@ -1,6 +1,7 @@
 import os
 import math
 from encodings.base64_codec import base64_encode
+from colour import Color
 
 from dragonade import settings
 
@@ -159,7 +160,6 @@ def pre_sim(modeladmin, request, queryset):
     short_description = "PreSim"
 
 
-
 def fetch_maps():
     map_list = []
     map_path = os.path.join(settings.MEDIA_ROOT, 'maps/')
@@ -211,16 +211,15 @@ def asB2B(str):
     return res
 
 
-
-
-
-def roll(explodes=True,faces=12):
+def roll(explodes=True, faces=12, whole_details=False):
     def die():
         return math.floor((int.from_bytes(os.urandom(1)) / 256) * faces) + 1
 
     terms = []
+    dice = []
     d12 = die()
     result = d12
+    dice.append(d12)
     terms.append(str(d12))
     if explodes:
         if d12 == 1:
@@ -228,6 +227,7 @@ def roll(explodes=True,faces=12):
                 more = die()
                 result -= more
                 terms.append(f"-{more: 2}")
+                dice.append(more)
                 if more != faces:
                     break
         elif d12 == faces:
@@ -235,9 +235,12 @@ def roll(explodes=True,faces=12):
                 more = die()
                 result += more
                 terms.append(f"+{more: 2}")
+                dice.append(more)
                 if more != faces:
                     break
-    print(f' ----> d{faces}:{" ".join(terms):10} => {result}')
+    #print(f' ----> d{faces}:{" ".join(terms):10} => {result}')
+    if whole_details:
+        return result, dice
     return result
 
 
@@ -263,10 +266,23 @@ class Nougardine:
         elif die > math.ceil(self.current_diff / 2):
             q = "Echec"
         elif die > 0:
-            q = "Notable"
+            q = "Echec Notable"
         else:
-            q = "Total"
+            q = "Echec Totale"
         return q, self.current_diff, die
+
+    def success(self,die):
+        s = False
+        delta = die - self.current_diff
+        if delta >= 15:
+            s = True
+        elif delta >= 10:
+            s = True
+        elif delta >= 5:
+            s = True
+        elif delta >= 0:
+            s = True
+        return s
 
     def margin(self, die):
         q = ""
@@ -315,11 +331,65 @@ class Chaser:
         self.sep = sep
 
     def reach(self, t):
+        debug = False
+        if debug:
+            print("Searching --> " + t)
         root = self.json
         keys = t.split(self.sep)
         for key in keys:
-            # print(root)
+            if debug:
+                print(root)
             root = root[key]
         return root
+
+
+class Localizer:
+
+    def __init__(self):
+        pass
+
+    def loc_from_die(self, die):
+        loc = "H"
+        ratio = 1
+        if die == 12:
+            loc = "H"
+            ratio = 2
+        if die in [9, 10, 11]:
+            loc = "C"
+        if die in [7, 8]:
+            loc = "AS"
+        if die in [5, 6]:
+            loc = "AW"
+        if die in [1, 2]:
+            loc = "LS"
+        if die in [3, 4]:
+            loc = "LW"
+        return loc, ratio
+
+
+class Colorizer:
+    def __init__(self):
+        self.palette = []
+        self.current = 0
+
+    def randomize(self,color_count=4):
+        a = Color("purple")
+        b = Color("green")
+        self.palette = list(a.range_to(b, color_count))
+        self.current = 0
+
+    def pop(self):
+        self.current = (self.current + 1) % len(self.palette)
+        return self.palette[self.current]
+
+
+
+    @classmethod
+    def random_color(cls):
+        red = int.from_bytes(os.urandom(1))
+        green = math.floor(int.from_bytes(os.urandom(1))/2)
+        blue = math.floor(int.from_bytes(os.urandom(1))/2)
+        c = f'#{red:02x}{green:02x}{blue:02x}'
+        return c
 
 

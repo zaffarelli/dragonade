@@ -464,6 +464,14 @@ class Chiaroscuro {
                         if (target == 'combat'){
                             $(".middleblock.options").html("")
                             $(".middleblock.options").append(answer.html)
+                            $("#svg_area").html(answer.main_html)
+                        }
+                    }
+                    if (action == 'next'){
+                        if (target == 'combat'){
+                            $(".middleblock.options").html("")
+                            $(".middleblock.options").append(answer.html)
+                            $("#svg_area").html(answer.main_html)
                         }
                     }
                     me.registerActions();

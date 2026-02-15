@@ -84,9 +84,7 @@ body {
             height:auto;
             border-radius: 10px;
             z-index:40;
-            & svg{
-                border:3px solid #303050;
-            }
+
         }
 
 
@@ -641,4 +639,184 @@ body {
             background: #505090;
         }
     }
+}
+
+
+.battle{
+    background:#3030307f;
+    color::#F0F0F0;
+
+    border-radius:16pt;
+    width:200ex;
+    height:90vh;
+    padding:16pt;
+
+    display:flex;
+    font-family:Roboto;
+    font-size:0.8em;
+    flex-flow:column nowrap;
+    justify-content:flex-start;
+    align-content:flex-start;
+    margin:auto;
+    margin-left:20ex;
+    gap:10pt;
+    & .combat_info{
+        }
+    & .status_line{
+        order:1;
+        flex:0 1 auto;
+        display:flex;
+        flex-flow:row nowrap;
+        gap:10pt;
+
+        padding:10pt;
+        background:#9090907f;
+        border-radius:16pt;
+        justify-content:center;
+        align-content:flex-start;
+        align-items:stretch;
+        & .battle_roster{
+            font-family:Roboto;
+            flex:0 1 auto;
+            width:40ex;
+            padding:1ex;
+            border:2pt solid white;
+            border-radius:4pt;
+            & .text_block{
+                flex: 1 0 16ex;
+                text-align:center;
+                padding:3pt;
+            }
+            & .icon_block{
+                font-family:Roboto Mono;
+                border:1px dotted yellow;
+                border-radius:3pt;
+                display:flex;
+                flex-flow:row wrap;
+                justify-content:center;
+                align-content:center;
+                align-items:stretch;
+                flex: 1 0 16ex;
+
+                & .icon{
+                    order:1;
+                    flex: 1 0 auto;
+                    width:4ex;
+                    font-size:16pt;
+                    text-align:center;
+                }
+                & .value{
+                    order:2;
+                    flex: 1 1 auto;
+                    width:8ex;
+                    font-size:12pt;
+                    background:#6060607f;
+                    text-align:center;
+                    vertical-align:middle;
+                }
+            }
+        }
+    }
+    & .rounds{
+        display:flex;
+        flex-flow: column nowrap;
+        justify-content:flex-start;
+//         align-content:flex-start;
+//         align-items:space-between;
+        flex:8 1 auto;
+        order:2;
+        gap:10pt;
+        padding:10pt;
+        background:#4040407f;
+        border-radius:16pt;
+        overflow-y:auto;
+        & .battle_round{
+            font-family:Roboto;
+            padding:4pt;
+            border-radius:6pt;
+//             flex:1 1 auto;
+            width:auto;
+//             max-height:36em;
+            padding:6pt;
+            border:2pt solid #202020;
+            background:#2020207f;
+            border-radius:6pt;
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content:flex-start;
+
+
+            gap:4pt;
+            & .battle_init{
+                & legend{
+                    background:#303030af;
+                    border:1pt solid silver;
+                    border-radius:6pt;
+                    padding:4pt 2ex;
+                    color:white;
+                }
+                flex: 1 1 auto;
+                padding:1ex;
+                border:2pt solid #808080;
+                border-radius:12pt;
+                display:flex;
+                flex-flow:column wrap;
+                justify-content:flex-start;
+                align-content:stretch;
+                align-items:space-between;
+                gap:5pt;
+                & .info_block{
+                   text-align:center;
+                   border-radius:8pt;
+                   padding:8pt;
+                   background:#505050Af;
+//                    flex: 1 1 auto;
+//                   min-width:12ex;
+                   & .big{
+//                        font-size:12pt;
+                       text-shadow:1pt 1pt #8080F0;
+                   }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+.grav{
+    &:before{
+        content:"Gravité ";
+    }
+    background:#3030307f;
+    padding:3pt;
+    border-radius:3pt;
+    & .mod{color:$grav_min;}
+    & .mod{color:$grav_mod;}
+    & .maj{color:$grav_maj;}
+    & .gra{color:$grav_gra;}
+    & .ser{color:$grav_ser;}
+}
+
+.teamcol{
+    &:before{
+        content:"Equipe ";
+    }
+    padding:3pt;
+    border-radius:3pt;
+}
+
+.avoidance{
+    display:inline-block;
+    border-radius:3pt;
+    border:1pt solid white;
+    padding:3pt;
+    color:white;
+    &.A{background:#606090;}
+    &.B{background:#609060;}
+    &.E{background:#906060;}
+    &.R{background:#909090;}
+    margin:3pt;
+
 }

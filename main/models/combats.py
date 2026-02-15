@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib import admin
-from main.utils.mechanics import as_rid, Chaser, Nougardine
+from main.utils.mechanics import as_rid, Chaser, Nougardine, Colorizer
 import json
 import math
 
@@ -13,6 +13,9 @@ class Combat(models.Model):
     is_current = models.BooleanField(default=True, blank=True)
     red_contestants_str = models.TextField(max_length=2048, default="", blank=True)
     blue_contestants_str = models.TextField(max_length=2048, default="", blank=True)
+    red_real_rids = models.TextField(default="", max_length=2048, blank=True)
+    blue_real_rids = models.TextField(default="", max_length=2048, blank=True)
+    current_round = models.IntegerField(default=0, blank=True)
 
     def __str__(self):
         return "Combat:" + self.code
@@ -48,11 +51,25 @@ class Combat(models.Model):
                 t = Nougardine(diff)
         return t
 
+    # def remove_contestants(self):
+    #     from main.models.contestants import Contestant
+    #     contestants = Contestant.objects.filter(combat=self)
+    #     for contestant in contestants:
+    #         print("WWWWW " + contestant.name)
+    #         contestant.delete()
+
     def add_contestants(self, team="blue", rids=[]):
+        from main.models.characters import Character
+        from main.models.contestants import Contestant
+        # Phase 0: Transfrom Character.rids into Traveller/Autochton/Creature contestant.rids
         if team == "blue":
             str = self.blue_team_str.strip()
+            self.blue_real_rids = ""
+            blue_real_rids = []
         else:
             str = self.red_team_str.strip()
+            self.red_real_rids = ""
+            red_real_rids = []
         for rid in rids:
             if len(rid) > 0:
                 t = str.split(" ")
@@ -61,138 +78,201 @@ class Combat(models.Model):
                 else:
                     if rid not in t:
                         t.append(rid)
+        print("Phase 0")
         if team == "blue":
             self.blue_team_str = " ".join(t)
             str = self.blue_team_str
+            print(self.blue_team_str)
         else:
             self.red_team_str = " ".join(t)
             str = self.red_team_str
+            print(self.red_team_str)
 
-        from main.models.travellers import Traveller
-        from main.models.creatures import Creature
-        from main.models.autochtons import Autochton
+
+
         contestants = []
         same = {}
-        objects = []
-        for rid in str.split(" "):
+        counts = {}
+        rids = str.split(" ")
+        # Phase 1: Just count what we have
+        print("Phase 1")
+        for rid in rids:
             if len(rid) > 0:
-                x = None
-                travellers = Traveller.objects.filter(rid=rid)
-                autochtons = Autochton.objects.filter(rid=rid)
-                creatures = Creature.objects.filter(rid=rid)
-                if len(travellers) == 1:
-                    x = travellers.first()
-                elif len(creatures) == 1:
-                    x = creatures.first()
-                elif len(autochtons) == 1:
-                    x = autochtons.first()
+                x = Character.find_from_rid(rid)
                 if x is not None:
                     if x.rid not in same:
                         same[x.rid] = 0
                     else:
                         same[x.rid] += 1
-                    a = x.pre_sim(self, occurrence=same[x.rid])
-                    objects.append(a)
+                self.challengers.filter(source_rid=x.rid).delete()
+                # for contestant in contestants:
+                #     print(f"- {contestant.name:<30} {contestant.rid:>40}")
+        print("same")
+        print(same)
+        print("counts")
+        print(counts)
 
-        for o in objects:
-            print("xxxxxxxxxx", o.name, o.rid)
-            words = o.name.split("___")
-            if same[o.source_rid] == 0:
-                o.name = words[0]
-            else:
-                n = int(words[1])
-                o.name = f'{words[0]} {n + 1}'
-            o.save()
-            contestants.append('{"rid":"' + o.rid + '","name":"' + o.name + '"}')
+        colorizer = Colorizer()
+        colorizer.randomize(8)
+
+        # Phase 2: Clean contestant creation and naming
+        print("Phase 2")
+        for rid in rids:
+            if len(rid) > 0:
+                color = colorizer.pop()
+                x = Character.find_from_rid(rid)
+                if x.rid not in counts:
+                    counts[x.rid] = 0
+                if x is not None:
+                    if same[rid] == 0: # No multiple occurences: traveller/autochton
+                        a = x.pre_sim(self, name=x.name, occurrence=same[x.rid],color=color)
+                        # if not x.rid.startswith("CRE__"):
+                        #     a.is_temporary = False
+                        # else:
+                        #     if counts[x.rid] == 0:
+                        #         a.is_temporary = False
+                    else:
+                        counts[x.rid] += 1
+                        new_name = f'{x.name} {counts[x.rid]}'
+                        a = x.pre_sim(self, name=new_name, occurrence=counts[x.rid],color=color)
+                        # a.is_temporary = False
+                    if team == "blue":
+                        a.team_color = "#3b6cb9"
+                    else:
+                        a.team_color = "#b93b3d"
+                    a.save()
+                    contestants.append('{"rid":"' + a.rid + '","name":"' + a.name + '"}')
+                    if team == "blue":
+                        blue_real_rids.append(a.rid)
+                    else:
+                        red_real_rids.append(a.rid)
         if team == "blue":
             self.blue_contestants_str = f'{"§".join(contestants)}'
+            self.blue_real_rids = " ".join(blue_real_rids)
+            print(self.blue_real_rids)
         else:
             self.red_contestants_str = f'{"§".join(contestants)}'
+            self.red_real_rids = " ".join(red_real_rids)
+            print(self.red_real_rids)
+        # Phase 3
+        print("Phase 3")
+        # Contestant.objects.filter(is_temporary=True).delete()
+        contestants = self.challengers.all()
+        for contestant in contestants:
+            print(f"- {contestant.name:<30} {contestant.rid:>40}")
 
-    # @property
-    # def reds_str(self):
-    #     l = []
-    #     for contestant in self.reds:
-    #         l.append(f"{contestant.name} [{contestant.team}]")
-    #     return ", ".join(l)
-    #
-    # @property
-    # def blues_str(self):
-    #     l = []
-    #     for contestant in self.blues:
-    #         l.append(f"{contestant.name} [{contestant.team}]")
-    #     return ", ".join(l)
-
-    @property
     def new_round(self):
+        print("New Round!!")
         from main.models.combat_rounds import CombatRound
         highest_index = 0
-        r = None
-        for round in self.combatround_set:
-            if highest_index < round.index:
-                highest_index = round.index
-            if not round.is_over:
-                r = round
-        if r is None:
+        create = False
+        round = None
+        for rnd in self.combat_rounds.all():
+            if highest_index < rnd.index:
+                highest_index = rnd.index
+                round = rnd
+        if round is None:
+            create = True
+        else:
+            if round.is_over:
+                create = True
+        if create:
             r = CombatRound()
             r.combat = self
             r.index = highest_index + 1
-            r.save()
-        return r
+            round = r
+        round.solve()
+        round.save()
+        round.refresh_from_db()
+        self.current_round = round.index
 
-    def start_fight(self):
-        round = self.new_round()
-        return round
+    # def start_fight(self):
+    #     round = self.new_round()
+    #     return round
 
     def set_up(self, config):
         self._config = json.dumps(config, indent=2, sort_keys=True)
 
+    def belongs_to_team(self, contestant):
+        """
+        Find matching team for a contestant
+        :param contestant: Contestant object
+        :returns: Returns (friends/foes) tuple
+        """
+        friends = "blue"
+        foes = "red"
+        reds = self.fetch("red")
+        if contestant in reds:
+            friends = "red"
+            foes = "blue"
+        return friends, foes
+
     def fix(self):
         self.code = self.code.upper().strip()
-        from main.models.travellers import Traveller
-        from main.models.creatures import Creature
-        from main.models.autochtons import Autochton
         self.red_team_str.strip()
         self.blue_team_str.strip()
 
-        # reds = self.red_team_str.split(" ")
-        # for red in reds:
-        #     if len(red) > 0:
-        #         x = None
-        #         travellers = Traveller.objects.filter(rid=red)
-        #         autochtons = Autochton.objects.filter(rid=red)
-        #         creatures = Creature.objects.filter(rid=red)
-        #         if len(travellers) == 1:
-        #             x = travellers.first()
-        #         elif len(creatures) == 1:
-        #             x = creatures.first()
-        #         elif len(autochtons) == 1:
-        #             x = autochtons.first()
-        #         if x is not None:
-        #             x.pre_sim(self.code)
+    def fetch_contestants(self):
+        reds = self.fetch("red")
+        blues = self.fetch("blue")
+        all = blues + reds
+        return all
 
-        # blues = self.blue_team_str.split(" ")
-        # for blue in blues:
-        #     if len(blue) > 0:
-        #         x = None
-        #         travellers = Traveller.objects.filter(rid=blue)
-        #         autochtons = Autochton.objects.filter(rid=blue)
-        #         creatures = Creature.objects.filter(rid=blue)
-        #         # print(len(travellers), len(autochtons), len(creatures))
-        #         if len(travellers) == 1:
-        #             x = travellers.first()
-        #         elif len(creatures) == 1:
-        #             x = creatures.first()
-        #         elif len(autochtons) == 1:
-        #             x = autochtons.first()
-        #         if x is not None:
-        #             x.pre_sim(self.code)
+    def fetch(self, str, must_be_alive=False):
+        search_str = self.blue_real_rids
+        if "red" in str:
+            search_str = self.red_real_rids
+        group = []
+        from main.models.contestants import Contestant
+        rids = search_str.split(" ")
+        for rid in rids:
+            if len(rid) > 0:
+                contestants = Contestant.objects.filter(rid=rid)
+                if len(contestants) == 1:
+                    contestant = contestants.first()
+                    if must_be_alive:
+                        if not contestant.is_dead:
+                            group.append(contestant)
+                    else:
+                        group.append(contestant)
+        return group
+
+    def prepare_fight(self):
+        from main.models.combat_rounds import CombatRound
+        reds = self.fetch("red")
+        blues = self.fetch("blue")
+        CombatRound.objects.filter(combat=self).delete()
+
+        self.current_round = 0
+        for blue in blues:
+            blue.fix_handicap(len(blues) - 1)
+            blue.prepare_for_new_fight()
+            blue.save()
+        for red in reds:
+            red.fix_handicap(len(reds) - 1)
+            red.prepare_for_new_fight()
+            red.save()
+
+    def results(self):
+        reds = self.fetch("red")
+        blues = self.fetch("blue")
+        json_data = {"title": self.code, "teams": {"blue": [], "red": []}, "combat_rounds": []}
+        for blue in blues:
+            blue.refresh_from_db()
+            json_data["teams"]["blue"].append(blue.battle_roster())
+        for red in reds:
+            red.refresh_from_db()
+            json_data["teams"]["red"].append(red.battle_roster())
+        for combat_round in self.combat_rounds.all():
+            combat_round.refresh_from_db()
+            json_data["combat_rounds"].append(combat_round.export_to_json())
+        # print("Rounds count:",len(json_data["combat_rounds"]))
+        return json_data
 
 
 class CombatAdmin(admin.ModelAdmin):
     ordering = ['code']
-    list_display = ['code', 'is_current', 'red_team_str', 'blue_team_str', "red_contestants_str",
-                    "blue_contestants_str"]
+    list_display = ['code', 'is_current', "blue_real_rids", "red_real_rids", "current_round"]
     list_editable = ['is_current']
     from main.utils.mechanics import refix
     actions = [refix]

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*
 $panel_complement: complement($body_background);
 $panel_text: complement($body_color);
@@ -387,8 +388,6 @@ body {
           height: auto;
           border-radius: 10px;
           z-index: 40; }
-          body .universe .world .corpus #svg_area svg {
-            border: 3px solid #303050; }
 
 #d3area {
   order: 8;
@@ -857,6 +856,157 @@ body {
     .team .mate.blue {
       border-color: #2020F0;
       background: #505090; }
+
+.battle {
+  background: #3030307f;
+  color: #F0F0F0;
+  border-radius: 16pt;
+  width: 200ex;
+  height: 90vh;
+  padding: 16pt;
+  display: flex;
+  font-family: Roboto;
+  font-size: 0.8em;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  margin: auto;
+  margin-left: 20ex;
+  gap: 10pt; }
+  .battle .status_line {
+    order: 1;
+    flex: 0 1 auto;
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 10pt;
+    padding: 10pt;
+    background: #9090907f;
+    border-radius: 16pt;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: stretch; }
+    .battle .status_line .battle_roster {
+      font-family: Roboto;
+      flex: 0 1 auto;
+      width: 40ex;
+      padding: 1ex;
+      border: 2pt solid white;
+      border-radius: 4pt; }
+      .battle .status_line .battle_roster .text_block {
+        flex: 1 0 16ex;
+        text-align: center;
+        padding: 3pt; }
+      .battle .status_line .battle_roster .icon_block {
+        font-family: Roboto Mono;
+        border: 1px dotted yellow;
+        border-radius: 3pt;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        align-content: center;
+        align-items: stretch;
+        flex: 1 0 16ex; }
+        .battle .status_line .battle_roster .icon_block .icon {
+          order: 1;
+          flex: 1 0 auto;
+          width: 4ex;
+          font-size: 16pt;
+          text-align: center; }
+        .battle .status_line .battle_roster .icon_block .value {
+          order: 2;
+          flex: 1 1 auto;
+          width: 8ex;
+          font-size: 12pt;
+          background: #6060607f;
+          text-align: center;
+          vertical-align: middle; }
+  .battle .rounds {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    flex: 8 1 auto;
+    order: 2;
+    gap: 10pt;
+    padding: 10pt;
+    background: #4040407f;
+    border-radius: 16pt;
+    overflow-y: auto; }
+    .battle .rounds .battle_round {
+      font-family: Roboto;
+      padding: 4pt;
+      border-radius: 6pt;
+      width: auto;
+      padding: 6pt;
+      border: 2pt solid #202020;
+      background: #2020207f;
+      border-radius: 6pt;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-start;
+      gap: 4pt; }
+      .battle .rounds .battle_round .battle_init {
+        flex: 1 1 auto;
+        padding: 1ex;
+        border: 2pt solid #808080;
+        border-radius: 12pt;
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: flex-start;
+        align-content: stretch;
+        align-items: space-between;
+        gap: 5pt; }
+        .battle .rounds .battle_round .battle_init legend {
+          background: #303030af;
+          border: 1pt solid silver;
+          border-radius: 6pt;
+          padding: 4pt 2ex;
+          color: white; }
+        .battle .rounds .battle_round .battle_init .info_block {
+          text-align: center;
+          border-radius: 8pt;
+          padding: 8pt;
+          background: #505050Af; }
+          .battle .rounds .battle_round .battle_init .info_block .big {
+            text-shadow: 1pt 1pt #8080F0; }
+
+.grav {
+  background: #3030307f;
+  padding: 3pt;
+  border-radius: 3pt; }
+  .grav:before {
+    content: "Gravité "; }
+  .grav .mod {
+    color: #3bb9ae; }
+  .grav .mod {
+    color: #96b93b; }
+  .grav .maj {
+    color: #b9ac3b; }
+  .grav .gra {
+    color: #b97a3b; }
+  .grav .ser {
+    color: #b94d3b; }
+
+.teamcol {
+  padding: 3pt;
+  border-radius: 3pt; }
+  .teamcol:before {
+    content: "Equipe "; }
+
+.avoidance {
+  display: inline-block;
+  border-radius: 3pt;
+  border: 1pt solid white;
+  padding: 3pt;
+  color: white;
+  margin: 3pt; }
+  .avoidance.A {
+    background: #606090; }
+  .avoidance.B {
+    background: #609060; }
+  .avoidance.E {
+    background: #906060; }
+  .avoidance.R {
+    background: #909090; }
 
 .item {
   color: #101010;

@@ -1,0 +1,9 @@
+{% load static %}
+{% load dragonade_filters %}
+
+<fieldset class="battle_round">
+    <legend>Round #{{round.index}}</legend>
+    {% for init in round.initiatives %}
+        {% include "main/objects/initiative.html" %}
+    {% endfor %}
+</fieldset>
