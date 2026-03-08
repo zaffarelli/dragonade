@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib import admin
-from main.utils.mechanics import as_rid, roll
 from main.models.combats import Combat
 import json
 
@@ -16,72 +15,86 @@ class CombatRound(models.Model):
     is_over = models.BooleanField(default=False, blank=True)
     inits = models.TextField(max_length=1024, default="", blank=True)
 
-    # @property
-    # def is_ready(self):
-    #     teams = []
-    #     for contestant in self.contestants:
-    #         if contestant.team not in teams:
-    #             teams.append(contestant.team)
-    #     return len(teams) > 0
-
     def solve(self):
+        fight_is_over = ""
         print(f"Solving round #{self.index}!")
         inits = []
-        contestants = self.combat.fetch_contestants()
-        num = 0
-        for contestant in contestants:
-            init, die = contestant.roll_initiative()
-            contestant.select_diff()
-            friends, foes = self.combat.belongs_to_team(contestant)
-            potential_enemies = self.combat.fetch(foes, must_be_alive=True)
-            enemy = {"name":"","rid":""}
-            foes_cnt = len(potential_enemies)
-            if foes_cnt > 0:
-                rand = roll(faces=foes_cnt,explodes=False)-1
-                foe = potential_enemies[rand]
-                enemy["name"] = foe.name
-                enemy["rid"] = foe.rid
-
-            init_datum = {
-                "contestant":contestant,
-                "foe": foe,
-                "name": contestant.name,
-                "color": contestant.personal_color,
-                "foe_color": foe.personal_color,
-                "init": init,
-                "die": die,
-                "order": 1000 - init,
-                "diff": contestant.chosen_diff,
-                "versus": enemy,
-            }
-            # print(init_datum)
-            inits.append(init_datum)
-        inits.sort(key=lambda x: x['order'])
-
-        for init in inits:
-            contestant = init["contestant"]
-            num += 1
-            print(f"Initiative dans l'ordre")
-            print(f"({init['init']:02}) {contestant.name} en n°{num}")
-            foe = init["foe"]
-            foe.refresh_from_db()
-            attack_result = contestant.make_attack(foe)
-            print(f"{foe.name} has {foe.vie} hp!!!")
-            contestant.refresh_from_db()
-            foe.refresh_from_db()
-            init["attack"] = attack_result
-            init["contestant"] = contestant.rid
-            init["foe"] = foe.rid
-
-        ji = []
-        for init in inits:
-            ji.append(json.dumps(init))
-        self.inits = "§".join(ji)
-
+        contestants, special = self.combat.fetch_contestants(must_be_alive=True)
+        if special != "":
+            fight_is_over = special
+            print(f"Contestants: {special}")
+        else:
+            num = 0
+            for contestant in contestants:
+                init, die = contestant.roll_initiative()
+                init_datum = {
+                    "init": init,
+                    "die": die,
+                    "name": contestant.name,
+                    "color": contestant.personal_color,
+                    "contestant": contestant.rid,
+                    "team_color": contestant.team_color,
+                    "order": 1000 - init,
+                    "is_dead": False,
+                }
+                inits.append(init_datum)
+            new_inits = []
+            for contestant in contestants:
+                for init in inits:
+                    print(f'Search: {contestant.rid} ')
+                    if init["contestant"] == contestant.rid:
+                        init_datum = inits.remove(init)
+                        print(f'Found: {contestant.rid} => {init_datum}')
+                        break
+                contestant.select_diff()
+                enemy = contestant.select_enemy(contestants, contestant.team)
+                print(f'{contestant.name} will attack {enemy["name"]}!')
+                init_datum["foe"] = enemy["rid"]
+                init_datum["foe_name"] = enemy["name"]
+                init_datum["foe_color"] = enemy["color"]
+                init_datum["diff"] = contestant.chosen_diff
+                init_datum["versus"] = enemy
+                new_inits.append(init_datum)
+            inits = new_inits
+            inits.sort(key=lambda x: x['order'])
+            for init in inits:
+                for c in contestants:
+                    if c.rid == init["contestant"]:
+                        contestant = c
+                        # contestant = self.combat.challengers.filter(rid=init["contestant"]).first()
+                if not contestant.is_dead:
+                    num += 1
+                    contestant.foe = self.combat.challengers.filter(rid=init["foe"]).first()
+                    print(f"Initiative dans l'ordre")
+                    print(f"({init['init']:02}) {contestant.name} en n°{num}")
+                    if contestant.foe:
+                        print(f"({init['init']:02}) {contestant.name} attaque contre {contestant.foe.name} !")
+                        attack_result = contestant.make_attack()
+                        #  init["attacks"] = []
+                        init["attacks"] = [attack_result]
+                        while "R" in contestant.avoidance:
+                            attack_result = contestant.make_attack()
+                            init["attacks"].append(attack_result)
+                        if contestant.foe.is_dead:
+                            contestant.foe = None
+                    else:
+                        print(f"({init['init']:02}) {contestant.name} Plus d'ennemi !")
+                else:
+                    init["is_dead"] = True
+                init["contestant"] = contestant.rid
+                if contestant.foe:
+                    init["foe"] = contestant.foe.rid
+            ji = []
+            for init in inits:
+                ji.append(json.dumps(init))
+            self.inits = "§".join(ji)
+            self.is_over = True
+        return fight_is_over
 
     def export_to_json(self):
         datum = {}
         datum["index"] = self.index
+        datum["order"] = 10000 - self.index
         inits = self.inits.split("§")
         datum["initiatives"] = []
         for init in inits:
@@ -90,39 +103,6 @@ class CombatRound(models.Model):
 
     def fix(self):
         pass
-        # for iter in range(3):
-        #     ATTACK_ROLL = roll()
-        #
-        #     MELEE = chaser.reach('proficiencies:MEL')
-        #     WEAPON = chaser.reach('proficiencies:best_weapon:value')
-        #     ATTACK = ATTACK_ROLL + MELEE + WEAPON
-        #     print(f"# Jet:{ATTACK_ROLL} Mêlée:{MELEE} Compétence:{WEAPON} Total: ==> {ATTACK}")
-        #     n = Nougardine(a.chosen_diff)
-        #     qa, qb, qc = n.quality(ATTACK)
-        #     ATTACK_MARGIN = n.margin(ATTACK)
-        #     if ATTACK_MARGIN >= 4:
-        #         print(f"#  Succès de l'Attaque à difficulté {qb}: {qa} => {qc}")
-        #         DEFENSE_ROLL = roll()
-        #         DEROBADE = chaser.reach("proficiencies:DER")
-        #         ESQUIVE = chaser.reach("proficiencies:ESQ")
-        #         DEFENSE = DEFENSE_ROLL + DEROBADE + ESQUIVE
-        #         da, db, dc = n.quality(DEFENSE)
-        #         DEFENSE_MARGIN = n.margin(DEFENSE)
-        #         if DEFENSE_MARGIN >= 4:
-        #             print(f"#   Succès de la défense à difficulté {db}: {da} => {dc}")
-        #         else:
-        #             DELTA_MARGIN = ATTACK_MARGIN - DEFENSE_MARGIN
-        #             print(
-        #                 f"#   Echec de la défense à difficulté {db}: {da} => {dc} DIFFERENCE DE MARGE (dM)={DELTA_MARGIN}")
-        #             SEVERITY_ROLL = roll(explodes=False)
-        #             QUALITY = math.floor((a.chosen_diff / 5) - 1)
-        #             BASE_SEVERITY = chaser.reach('proficiencies:SEV')
-        #             SEVERITY = SEVERITY_ROLL + DELTA_MARGIN + QUALITY + BASE_SEVERITY
-        #             full_damage = Severity().encaissement(SEVERITY)
-        #             print(
-        #                 f"#   Dégâts = {SEVERITY_ROLL} + {BASE_SEVERITY} +{DELTA_MARGIN} + {QUALITY} = {SEVERITY} ==> PDV: {full_damage['pdv']}")
-        #     else:
-        #         print(f"#  Echec de l'Attaque à difficulté {qb}: {qa} => {qc}")
 
 
 class CombatRoundAdmin(admin.ModelAdmin):

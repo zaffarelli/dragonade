@@ -1,0 +1,36 @@
+{% load static %}
+{% load dragonade_filters %}
+
+        {% if atk.attack_status != 'X' %}
+            {{init.name}}: {{atk.consumed_avoidance|as_avoidance|safe}}<br/>
+            {% for d12 in atk.dmain %}
+                {% include "main/svg/d12_small.svg" with fill="#f0c080" value=d12 %}
+            {% endfor %}
+            </br>
+            Attaque: {{atk.attack_quality}} ! <br/><span class="big">{{atk.attack_total}} vs {{init.diff}}</span>
+            {% if atk.attack_success %}
+            {% if atk.special_effect.name %}
+                <br/>{{atk.special_effect.name}}: {{atk.special_effect.choice}}
+                <br/>{{atk.special_effect.effect}}
+            {% endif %}
+            </div>
+            <div class="info_block">
+            {{init.versus.name}}:{{atk.defense.defense_avoidance|as_avoidance|safe}}<br/>
+            {% for d12 in atk.defense.dmain %}
+                {% include "main/svg/d12_small.svg" with fill="#80c0f0" value=d12 %}
+            {% endfor %}
+            </br>Défense: {{atk.defense.defense_quality}} ! <br/><span class="big">{{atk.defense.defense_total}} vs {{init.diff}}</span>
+                {% if atk.defense.defense_success %}
+                <br/>DEFENSE: SUCCES<br/>
+                {%else%}
+                    </div>
+                    <div class="info_block">
+                    {% include "main/svg/d12_small.svg" with fill="#80F080" value=atk.localize.dloc %}
+                    {% include "main/svg/d12_small.svg" with fill="#F02020" value=atk.localize.dsev %}<br/>
+                    SEVERITE {{atk.localize.total_severity}}: {{atk.localize.severity_name}}<br/>PDV:{{atk.localize.punishment.vie}}  <br/>
+                    {% include "main/svg/localize.svg" with fill="#F02020" loc=atk.localize.loc %}
+                {% endif %}
+            {% endif %}
+        {% else %}
+            NO MORE ATTACKS!
+        {% endif %}

@@ -11,6 +11,7 @@ class Equipment(models.Model):
     name = models.CharField(default="", max_length=256)
     rid = models.CharField(default="xxx", max_length=256, blank=True)
     category = models.CharField(default="gen", max_length=3, choices=GEAR_CAT)
+    can_be_thrown = models.BooleanField(default=False, blank=True)
     plus_dom = models.IntegerField(default=0, null=True, blank=True)
     plus_dom_2m = models.IntegerField(default=0, null=True, blank=True)
     prot = models.IntegerField(default=0, null=True, blank=True)
@@ -21,14 +22,17 @@ class Equipment(models.Model):
     related_attribute = models.CharField(default="", max_length=8, blank=True)
     malus_armure = models.IntegerField(default=0, null=True, blank=True)
     force_min = models.IntegerField(default=0, null=True, blank=True)
-    enc = models.FloatField(default=0.1, blank=True)
+    enc = models.FloatField(default=0, blank=True)
     description = models.TextField(default="", max_length=1024, blank=True)
-    price = models.FloatField(default=0.1, blank=True)
+    price = models.FloatField(default=0, blank=True)
     quantity = models.FloatField(default=0.1, blank=True)
     mod_ini = models.IntegerField(default=0, blank=True)
     mod_dom = models.IntegerField(default=0, blank=True)
     mod_att = models.IntegerField(default=0, blank=True)
     special = models.BooleanField(default=False, blank=True)
+    similitude = models.TextField(default="", max_length=1024, blank=True)
+
+    skill_match = models.CharField(default="", max_length=32, blank=True)
 
     def fix(self):
         self.rid = as_rid(f"{self.name}_{self.category}")
@@ -40,6 +44,26 @@ class Equipment(models.Model):
         #             new_covers.append(cover)
         #     self.cover = " ".join(new_covers)
         #     self.cover = self.cover.replace("T","H").replace("B","A").replace("J","L").replace("1","S").replace("2","W")
+        self.name = self.name.strip()
+        if self.category in ["ana"]: # Armes naturelles
+            self.price = 0
+            self.enc = 0
+        if self.category in ["mel","tir","lan"]:
+            from main.utils.ref_dragonade import CHARACTER_STATISTICS
+            self.skill_match = ""
+            # print("SEARCH", self.name.upper())
+            for skill in CHARACTER_STATISTICS['SKILLS']['WEAPONS']['LIST']:
+                # print(f'  Test: [{skill["TEXT"].upper()}]')
+                if skill["TEXT"].upper().strip() == self.name.upper().strip():
+                    self.related_skill = skill["NAME"]
+                    # print("     MATCH",skill["TEXT"].upper(), self.name.upper(), skill["NAME"])
+                    break
+                # else:
+                #     print(f'     Not matching with [{self.name.upper()}]')
+            for skill in CHARACTER_STATISTICS['SKILLS']['WEAPONS']['LIST']:
+                if skill["NAME"].upper() == self.related_skill.upper():
+                    self.skill_match = skill["TEXT"]
+                    break
 
     def __str__(self):
         return f"{self.name} [{self.category}]"
@@ -79,10 +103,10 @@ def cat_from_first(modeladmin, request, queryset):
 class EquipmentAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ['category', 'related_attribute', 'name']
-    list_display = ["name", "rid", "classe_engagement", "cover", "materiaux", "plus_dom", "plus_dom_2m", "force_min", "prot", "malus_armure", "related_skill",
-                    "related_attribute", "enc", "price"]
-    list_editable = [ "cover", "materiaux", "classe_engagement", "prot", "malus_armure"]
-    list_filter = ["category", "related_attribute", "related_skill", "special"]
+    list_display = ["name", "rid", "category", "similitude","can_be_thrown", "cover", "plus_dom", "plus_dom_2m", "force_min", "prot", "malus_armure", "related_skill",
+                    "related_attribute", "enc", "price", "skill_match"]
+    list_editable = [ "cover","can_be_thrown","category", "prot", "malus_armure","related_skill"]
+    list_filter = ["category", "can_be_thrown", "related_attribute", "related_skill", "special"]
     search_fields = ['name']
     actions = [refix, cat_from_first]
 

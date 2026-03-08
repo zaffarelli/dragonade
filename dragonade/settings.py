@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 'compressor',
     'sass_processor',
-    'fontawesomefree'
+    'fontawesomefree',
+    # 'debug_toolbar'
 ]
 
 MIDDLEWARE = [
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'dragonade.urls'
@@ -152,5 +154,12 @@ CHANNEL_LAYERS = {
         'BACKEND':'channels.layers.InMemoryChannelLayer'
     }
 }
+#
+# INTERNAL_IPS = [
+#     # ...
+#     "192.168.0.130",
+#     "ragabash",
+#     # ...
+# ]
 
-VERSION = "1.3.0"
+VERSION = "1.3.1"

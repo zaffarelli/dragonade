@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib import admin
 from django.conf import settings
-from main.utils.ref_dragonade import CHARACTER_STATISTICS, tai_guidelines, SHORTCUTS
+from main.utils.ref_dragonade import CHARACTER_STATISTICS, tai_guidelines, SHORTCUTS, stress_cost
 from main.utils.mechanics import as_rid, Nougardine, roll, Severity, Chaser
 import math
 import random
@@ -38,6 +38,9 @@ class Character(models.Model):
     gear = models.TextField(max_length=1024, default="", blank=True)
     spells = models.TextField(max_length=1024, default="", blank=True)
 
+
+    bug_list = models.TextField(default="", max_length=1024, blank=True)
+
     imc = models.FloatField(default=0, blank=True)
     place = models.CharField(max_length=256, default="", blank=True)
     attributes = models.CharField(max_length=64, default="", blank=True)
@@ -56,6 +59,7 @@ class Character(models.Model):
     updater = models.TextField(max_length=8192, default='{}', blank=True)
     priority = models.IntegerField(default=0, blank=True)
     klass = models.CharField(max_length=16, default="Character", blank=True)
+    protection_map = models.CharField(max_length=256, blank=True, default="H-0-X C-0-X AS-0-X AW-0-X LS-0-X LW-0-X")
     data = {}
 
     def __str__(self):
@@ -100,14 +104,24 @@ class Character(models.Model):
             self.save()
         return result
 
+    def has_bug(self):
+        return len(self.bug_list)>0
+    has_bug.boolean = True
+
     def fix(self):
         # print("Fixing!")
+        self.bug_list = ""
         self.make_rid()
+        if len(self.protection_map) == 0:
+            self.protection_map = "H-0-X C-0-X AS-0-X AW-0-X LS-0-X LW-0-X"
         if self.birthhour == 0:
             self.birthhour = random.randrange(1, 12)
         self.export_to_json()
         self.calc_indice()
         # self.calculate_team()
+
+        self.challenge_equipment_and_skills()
+
 
         self.tai_guideline = tai_guidelines(self.data['attributes']['TAI'])
         if self.height > 0:
@@ -123,7 +137,27 @@ class Character(models.Model):
         self.team_color = x.decode('UTF-8')
         return self.team_color
 
+    @classmethod
+    def stress_map(cls):
+        xspan = [-10,-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+        yspan = [-5, -4, -3, -2, -1, 0]
+        for x in xspan:
+            if x == -10:
+                print(f"{'--------------------- Table de Stress ---------------------':>59}")
+                print(f"  V à V+1 ", end="\t")
+            else:
+                print(f"{x:3} à {x+1:3} ", end="\t")
+            for y in yspan:
+                if x >= y:
+                    i = stress_cost(x, x + 1, y)
+                    print(f"{i:3}", end="\t")
+                if x == -10:
+                    print(f"{y:3}", end="\t")
+            print("")
+        print("(Les attributs sont considérés à -5)")
+
     def calc_indice(self):
+        # Character.stress_map()
         from main.utils.ref_dragonade import stress_cost, skill_cost
         self.indice_attributes = 0
         self.total_attributes = 0
@@ -234,8 +268,6 @@ class Character(models.Model):
                             all.append({"value": vs, "category": CHARACTER_STATISTICS["SKILLS"][kc.upper()]['NAME'][:1],
                                         "text": r["TEXT"]})
         sorted_all = sorted(all, key=lambda k: k['text'], reverse=True)
-        # print("Values=", count_vals)
-        # print("Postes=", count_postes)
         return sorted_all
 
     def export_to_json(self):
@@ -301,6 +333,7 @@ class Character(models.Model):
         self.data['features']['weapons'] = self.gear_to_weapons()
         self.data['features']['other'] = self.gear_to_other()
         self.data['features']['armors'] = self.gear_to_armors()
+        self.data['features']['protection_map'] = self.protection_map
         a, b = self.collect_spells()
         self.data['features']['spells'] = a
         self.data['features']['shortcuts'] = self.shortcuts()
@@ -360,6 +393,14 @@ class Character(models.Model):
     def gear_to_armors(self):
         from main.models.equipment import Equipment
         list = []
+        pmap = {}
+        words = self.protection_map.split(" ")
+        for word in words:
+            if len(word) > 0:
+                pieces = word.split("-")
+                pmap[pieces[0]] = {"protection": pieces[1], "source": pieces[2]}
+        print(pmap)
+
         armors = Equipment.objects.filter(prot__gte=1, rid__in=self.gear.split(" ")).order_by("materiaux")
         for armor in armors:
             list.append({
@@ -670,7 +711,7 @@ class Character(models.Model):
             a = all.first()
         a.combat = combat
 
-        a.collect_from_rid(self.rid, self.type, color=color if self.type == "Creature" else self.color)
+        a.collect_from_rid(self.rid, self.type, color=color)
         if len(name) > 0:
             a.name = name
         else:
@@ -698,3 +739,12 @@ class Character(models.Model):
         elif len(creatures) == 1:
             item = creatures.first()
         return item
+
+
+    def challenge_equipment_and_skills(self):
+        weapons = self.gear_to_weapons()
+        bugs = []
+        for weapon in weapons:
+            if self.value_for(weapon['skill'])==0:
+                bugs.append(f"Arme trouvée pour laquelle le personnage n'a pas de compétence... {weapon['name']} {weapon['skill']}")
+        self.bug_list = "\n".join(bugs)

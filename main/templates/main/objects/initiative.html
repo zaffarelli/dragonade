@@ -1,8 +1,15 @@
 {% load static %}
 {% load dragonade_filters %}
 
-<fieldset class="battle_init" style="order:{{init.order}}; background:{{init.color}};">
+<fieldset class="battle_init" style="order:{{init.order}}; background:{{init.team_color}};">
     <legend>{{init.name}}</legend>
+    {{init.color|as_teamcol|safe}}
+    {% if init.is_dead %}
+        <div class="info_block">
+            <span class="huge"><i class="fas fa-skull"></i></span><br/>
+            Died with honor.</br>Rest In Peace.
+        </div>
+    {% else %}
     <div class="info_block">
         {% include "main/svg/d12_small.svg" with fill="#f0c080" value=init.die %}<br/>
         Intitiative: </br>
@@ -15,39 +22,11 @@
         <span class="big">{{init.name}}</span> attaque <span class="big">{{init.versus.name}}</span>
     </div>
     <div class="info_block">
-        {% if init.attack.attack_status != 'X' %}
-        {{init.attack.consumed_avoidance|as_avoidance|safe}}<br/>
-        {% for d12 in init.attack.dmain %}
-            {% include "main/svg/d12_small.svg" with fill="#f0c080" value=d12 %}
+        {% for atk in init.attacks %}
+            {% include "main/objects/battle_attack_block.html" %}
         {% endfor %}
-        </br>
-        Attaque: {{init.attack.attack_quality}} ! <br/><span class="big">{{init.attack.attack_total}} vs {{init.diff}}</span>
-        {% if init.attack.attack_success %}
-        </div>
-        <div class="info_block">
-        {{init.attack.defense.defense_avoidance|as_avoidance|safe}}<br/>
-        {% for d12 in init.attack.defense.dmain %}
-            {% include "main/svg/d12_small.svg" with fill="#80c0f0" value=d12 %}
-        {% endfor %}
-        </br>Défense: {{init.attack.defense.defense_quality}} ! <br/><span class="big">{{init.attack.defense.defense_total}} vs {{init.diff}}</span>
-        {% if init.attack.defense.defense_success %}
-        <br/>DEFENSE: SUCCES<br/>
-        {%else%}
-            </div>
-            <div class="info_block">
-            {% include "main/svg/d12_small.svg" with fill="#80F080" value=init.attack.localize.dloc %}
-            {% include "main/svg/d12_small.svg" with fill="#F02020" value=init.attack.localize.dsev %}<br/>
-            SEVERITE<br/>
-            {{init.attack.localize.total_severity}}: {{init.attack.localize.severity_name}} {{init.attack.localize.total_damage}} PDV
-            <br/>
-            {% include "main/svg/localize.svg" with fill="#F02020" loc=init.attack.localize.loc %}
-        {% endif %}
-        {% endif %}
-        {% else %}
-            NO MORE ATTACKS!
-        {% endif %}
     </div>
-
+    {% endif %}
 
 
 </fieldset>

@@ -20,6 +20,8 @@ class Traveller(Character):
         super().export_to_json()
         self.data['player'] = self.player
         self.data['destiny'] = self.destiny
+        self.data['has_bug'] = self.has_bug()
+        self.data['bug_list'] = self.bug_list
         return self.data
 
     def fix(self):
@@ -28,9 +30,9 @@ class Traveller(Character):
 
 
 class TravellerAdmin(admin.ModelAdmin):
-    ordering = ['name']
-    list_display = ['name', 'team_color', 'rid', 'player', 'gear', 'spells', 'destiny', "is_battle_ready"]
-    list_editable = ['gear', 'spells', 'team_color', 'destiny', "is_battle_ready", 'player']
-    list_filter = ["is_battle_ready", 'team_color', "priority"]
+    ordering = ['-indice','name']
+    list_display = ['name', 'has_bug','bug_list', 'indice', 'indice_attributes', 'indice_skills', 'color', 'destiny', 'protection_map']
+    list_editable = ['color', 'destiny']
+    list_filter = ['color', "priority"]
     from main.utils.mechanics import pre_sim, refix
     actions = [refix, pre_sim]

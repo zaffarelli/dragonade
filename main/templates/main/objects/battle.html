@@ -3,7 +3,8 @@
 
 <div class="battle">
     <div class="combat_info">
-    <h1>Combat: {{battle.title}}</h1>
+    <h1>{{battle.name}}</h1>
+    <h2>Combat: {{battle.title}} {{battle.issue}}</h2>
     </div>
     <div class="status_line">
     {% for item in battle.teams.blue %}

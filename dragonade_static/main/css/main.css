@@ -72,7 +72,7 @@ $panel_week_background: darken($panel_background, 5%);
   align-items: baseline;
   gap: 0px;
   height: 90vh;
-  width: 76vw;
+  width: 70vw;
   margin: auto;
   bottom: 10px;
   overflow-y: scroll; }
@@ -268,7 +268,7 @@ $panel_week_background: darken($panel_background, 5%);
       background: #101010;
       font-family: "Roboto Mono";
       font-size: 0.83em;
-      max-height: 40em;
+      max-height: 20em;
       width: 90ex;
       overflow: auto;
       border: 1px solid white; }
@@ -861,9 +861,10 @@ body {
   background: #3030307f;
   color: #F0F0F0;
   border-radius: 16pt;
-  width: 200ex;
+  width: 70vw;
   height: 90vh;
   padding: 16pt;
+  overflow-y: auto;
   display: flex;
   font-family: Roboto;
   font-size: 0.8em;
@@ -871,7 +872,7 @@ body {
   justify-content: flex-start;
   align-content: flex-start;
   margin: auto;
-  margin-left: 20ex;
+  margin-left: 0.5vw;
   gap: 10pt; }
   .battle .status_line {
     order: 1;
@@ -898,7 +899,8 @@ body {
         padding: 3pt; }
       .battle .status_line .battle_roster .icon_block {
         font-family: Roboto Mono;
-        border: 1px dotted yellow;
+        border: 2pt solid transparent;
+        background: #303030;
         border-radius: 3pt;
         display: flex;
         flex-flow: row wrap;
@@ -925,12 +927,12 @@ body {
     flex-flow: column nowrap;
     justify-content: flex-start;
     flex: 8 1 auto;
+    height: auto;
     order: 2;
     gap: 10pt;
     padding: 10pt;
     background: #4040407f;
-    border-radius: 16pt;
-    overflow-y: auto; }
+    border-radius: 16pt; }
     .battle .rounds .battle_round {
       font-family: Roboto;
       padding: 4pt;
@@ -945,7 +947,7 @@ body {
       justify-content: flex-start;
       gap: 4pt; }
       .battle .rounds .battle_round .battle_init {
-        flex: 1 1 auto;
+        flex: 1 1 20ex;
         padding: 1ex;
         border: 2pt solid #808080;
         border-radius: 12pt;
@@ -968,6 +970,9 @@ body {
           background: #505050Af; }
           .battle .rounds .battle_round .battle_init .info_block .big {
             text-shadow: 1pt 1pt #8080F0; }
+          .battle .rounds .battle_round .battle_init .info_block .huge {
+            font-size: 36pt;
+            text-shadow: 1pt 1pt #f02020; }
 
 .grav {
   background: #3030307f;
@@ -989,8 +994,6 @@ body {
 .teamcol {
   padding: 3pt;
   border-radius: 3pt; }
-  .teamcol:before {
-    content: "Equipe "; }
 
 .avoidance {
   display: inline-block;

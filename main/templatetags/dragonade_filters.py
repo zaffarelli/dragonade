@@ -51,13 +51,15 @@ def as_draconichour(value):
             str = f'static/main/svg/2024/sd_{value}.svg'
     return str
 
+
 @register.filter(name='as_hour')
 def as_hour(value):
     str = ""
     if isinstance(value, int):
-        vals = ["Vaisseau","Sirène","Faucon","Couronne","Dragon","Epées","Lyre","Serpent","Poisson-Acrobate","Araignée","Roseau","Chateau-Dormant"]
+        vals = ["Vaisseau", "Sirène", "Faucon", "Couronne", "Dragon", "Epées", "Lyre", "Serpent", "Poisson-Acrobate",
+                "Araignée", "Roseau", "Chateau-Dormant"]
         if value > 0:
-            str = vals[value-1]
+            str = vals[value - 1]
     return str
 
 
@@ -178,14 +180,16 @@ def genderize(value):
 
 
 def svg_item(x):
-    return  f'<span class="" title="{x}" style="display:inline-block;">' \
-             f'<img src="static/main/svg/2024/{x}.svg" style="display:inline-block; width:100px;">' \
-             f'</span>'
+    return f'<span class="" title="{x}" style="display:inline-block;">' \
+           f'<img src="static/main/svg/2024/{x}.svg" style="display:inline-block; width:100px;">' \
+           f'</span>'
+
+
 @register.filter(name='as_ground_charge')
 def as_ground_charge(value):
     result = f'blank'
-    if isinstance(value,int):
-       v = value
+    if isinstance(value, int):
+        v = value
     else:
         v = 0
     if v > 0:
@@ -196,8 +200,8 @@ def as_ground_charge(value):
 @register.filter(name='as_hour_charge')
 def as_hour_charge(value):
     result = f'blank'
-    if isinstance(value,int):
-       v = value
+    if isinstance(value, int):
+        v = value
     else:
         v = 0
     if v > 0:
@@ -208,8 +212,8 @@ def as_hour_charge(value):
 @register.filter(name='as_emanation_charge')
 def as_emanation_charge(value):
     result = f'blank'
-    if isinstance(value,int):
-       v = value
+    if isinstance(value, int):
+        v = value
     else:
         v = 0
     if v > 0:
@@ -220,8 +224,8 @@ def as_emanation_charge(value):
 @register.filter(name='as_consistency_charge')
 def as_consistency_charge(value):
     result = f'blank'
-    if isinstance(value,int):
-       v = value
+    if isinstance(value, int):
+        v = value
     else:
         v = 0
     if v > 0:
@@ -232,8 +236,8 @@ def as_consistency_charge(value):
 @register.filter(name='as_elemental_charge')
 def as_elemental_charge(value):
     result = f'blank'
-    if isinstance(value,int):
-       v = value
+    if isinstance(value, int):
+        v = value
     else:
         v = 0
     if v > 0:
@@ -291,6 +295,7 @@ def acro(value):
         result = s
     return result.upper()
 
+
 @register.filter(name='as_stack_list')
 def as_stack_list(value):
     items = value.split(" ")
@@ -311,7 +316,7 @@ def as_id(value):
 @register.filter(name='as_grav')
 def as_grav(value):
     str = value
-    niveaux = ["min","mod","maj","gra","ser"]
+    niveaux = ["min", "mod", "maj", "gra", "ser"]
     if isinstance(value, int):
         str = "<div class='grav'>"
         for n in niveaux:
@@ -322,10 +327,12 @@ def as_grav(value):
         str += "</div>"
     return str
 
+
 @register.filter(name='as_teamcol')
 def as_teamcol(value):
     str = f'<div class="teamcol" style="background:{value}">&nbsp;</div>'
     return str
+
 
 @register.filter(name='as_avoidance')
 def as_avoidance(value):
@@ -338,5 +345,7 @@ def as_avoidance(value):
         txt = "Parade au Bouclier"
     elif value == "R":
         txt = "Action de Rapidité"
+    elif value == "":
+        txt = "(passif)"
     str = f'<div class="avoidance {value}">{txt}</div>'
     return str

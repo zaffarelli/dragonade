@@ -5,7 +5,7 @@
     <div class="box header" style="text-align:left;">
         <span class="skill_switch" id="{{a.id}}_switch"><i class="fa fa-edit"></i></span>
     </div>
-    <div class="box label full large classy">{{a.name}}</div>
+    <div class="box label full large classy">{{a.name}} {% if a.has_bug %}<i class="fa fa-times" style="color:red;" title="{{a.bug_list}}"></i>{% endif %}</div>
     {% if a.player %}
     <div class="box label full" title="Joueur">({{a.player|safe}})</div>
     {%endif%}

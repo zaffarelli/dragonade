@@ -95,62 +95,62 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-weight:bold;font-size:11.2889px;line-height:1.45;font-family:'Adwaita Mono';-inkscape-font-specification:'Adwaita Mono, Bold';font-variant-caps:small-caps;text-align:center;letter-spacing:0px;writing-mode:lr-tb;direction:ltr;text-orientation:upright;text-anchor:middle;fill:#b2007b;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       style="font-weight:bold;font-size:11.2889px;line-height:1.45;font-family:'Roboto Mono';-inkscape-font-specification:'Roboto Mono, Bold';font-variant-caps:small-caps;text-align:center;letter-spacing:0px;writing-mode:lr-tb;direction:ltr;text-orientation:upright;text-anchor:middle;fill:#F02020;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
        x="100.10947"
        y="83.467239"
        id="text12"><tspan
          id="H"
-         style="fill:#b2007b;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-opacity:1"
+         style="fill:#F02020;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-opacity:1"
          x="100.10947"
          y="83.467239">{{loc.H}}</tspan></text>
     <text
        xml:space="preserve"
-       style="font-weight:bold;font-size:11.2889px;line-height:1.45;font-family:'Adwaita Mono';-inkscape-font-specification:'Adwaita Mono, Bold';font-variant-caps:small-caps;text-align:center;letter-spacing:0px;writing-mode:lr-tb;direction:ltr;text-orientation:upright;text-anchor:middle;fill:#b2007b;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       style="font-weight:bold;font-size:11.2889px;line-height:1.45;font-family:'Roboto Mono';-inkscape-font-specification:'Roboto Mono, Bold';font-variant-caps:small-caps;text-align:center;letter-spacing:0px;writing-mode:lr-tb;direction:ltr;text-orientation:upright;text-anchor:middle;fill:#F02020;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
        x="100.10947"
        y="115.21552"
        id="text13"><tspan
          id="C"
-         style="fill:#b2007b;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-opacity:1"
+         style="fill:#F02020;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-opacity:1"
          x="100.10947"
          y="115.21552">{{loc.C}}</tspan></text>
     <text
        xml:space="preserve"
-       style="font-weight:bold;font-size:11.2889px;line-height:1.45;font-family:'Adwaita Mono';-inkscape-font-specification:'Adwaita Mono, Bold';font-variant-caps:small-caps;text-align:center;letter-spacing:0px;writing-mode:lr-tb;direction:ltr;text-orientation:upright;text-anchor:middle;fill:#b2007b;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       style="font-weight:bold;font-size:11.2889px;line-height:1.45;font-family:'Roboto Mono';-inkscape-font-specification:'Roboto Mono, Bold';font-variant-caps:small-caps;text-align:center;letter-spacing:0px;writing-mode:lr-tb;direction:ltr;text-orientation:upright;text-anchor:middle;fill:#F02020;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
        x="73.097832"
        y="115.21552"
        id="text14"><tspan
          id="AS"
-         style="fill:#b2007b;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-opacity:1"
+         style="fill:#F02020;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-opacity:1"
          x="73.097832"
          y="115.21552">{{loc.AS}}</tspan></text>
     <text
        xml:space="preserve"
-       style="font-weight:bold;font-size:11.2889px;line-height:1.45;font-family:'Adwaita Mono';-inkscape-font-specification:'Adwaita Mono, Bold';font-variant-caps:small-caps;text-align:center;letter-spacing:0px;writing-mode:lr-tb;direction:ltr;text-orientation:upright;text-anchor:middle;fill:#b2007b;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       style="font-weight:bold;font-size:11.2889px;line-height:1.45;font-family:'Roboto Mono';-inkscape-font-specification:'Roboto Mono, Bold';font-variant-caps:small-caps;text-align:center;letter-spacing:0px;writing-mode:lr-tb;direction:ltr;text-orientation:upright;text-anchor:middle;fill:#F02020;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
        x="127.37714"
        y="115.21552"
        id="text15"><tspan
          id="AW"
-         style="fill:#b2007b;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-opacity:1"
+         style="fill:#F02020;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-opacity:1"
          x="127.37714"
          y="115.21552">{{loc.AW}}</tspan></text>
     <text
        xml:space="preserve"
-       style="font-weight:bold;font-size:11.2889px;line-height:1.45;font-family:'Adwaita Mono';-inkscape-font-specification:'Adwaita Mono, Bold';font-variant-caps:small-caps;text-align:center;letter-spacing:0px;writing-mode:lr-tb;direction:ltr;text-orientation:upright;text-anchor:middle;fill:#b2007b;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       style="font-weight:bold;font-size:11.2889px;line-height:1.45;font-family:'Roboto Mono';-inkscape-font-specification:'Roboto Mono, Bold';font-variant-caps:small-caps;text-align:center;letter-spacing:0px;writing-mode:lr-tb;direction:ltr;text-orientation:upright;text-anchor:middle;fill:#F02020;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
        x="89.356018"
        y="148.5"
        id="text16"><tspan
          id="LS"
-         style="fill:#b2007b;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-opacity:1"
+         style="fill:#F02020;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-opacity:1"
          x="89.356018"
          y="148.5">{{loc.LS}}</tspan></text>
     <text
        xml:space="preserve"
-       style="font-weight:bold;font-size:11.2889px;line-height:1.45;font-family:'Adwaita Mono';-inkscape-font-specification:'Adwaita Mono, Bold';font-variant-caps:small-caps;text-align:center;letter-spacing:0px;writing-mode:lr-tb;direction:ltr;text-orientation:upright;text-anchor:middle;fill:#b2007b;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       style="font-weight:bold;font-size:11.2889px;line-height:1.45;font-family:'Roboto Mono';-inkscape-font-specification:'Roboto Mono, Bold';font-variant-caps:small-caps;text-align:center;letter-spacing:0px;writing-mode:lr-tb;direction:ltr;text-orientation:upright;text-anchor:middle;fill:#F02020;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
        x="110.60688"
        y="148.5"
        id="text17"><tspan
          id="LW"
-         style="fill:#b2007b;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-opacity:1"
+         style="fill:#F02020;fill-opacity:0.802001;stroke:none;stroke-width:1.00012;stroke-opacity:1"
          x="110.60688"
          y="148.5">{{loc.LW}}</tspan></text>
   </g>

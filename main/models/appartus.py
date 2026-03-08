@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib import admin
 from main.utils.mechanics import as_rid
-
+import json
 
 class AppartusCategory(models.IntegerChoices):
     WEAPON = 0, "Arme"
@@ -94,6 +94,10 @@ class Appartus(models.Model):
         self.data = data
         return data
 
+    def toJson(self):
+        self.export_to_json()
+        struct = json.loads(json.dumps(self.data))
+        return struct
 
 class AppartusAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix

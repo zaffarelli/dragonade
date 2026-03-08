@@ -238,7 +238,7 @@ def roll(explodes=True, faces=12, whole_details=False):
                 dice.append(more)
                 if more != faces:
                     break
-    #print(f' ----> d{faces}:{" ".join(terms):10} => {result}')
+    # print(f' ----> d{faces}:{" ".join(terms):10} => {result}')
     if whole_details:
         return result, dice
     return result
@@ -268,10 +268,10 @@ class Nougardine:
         elif die > 0:
             q = "Echec Notable"
         else:
-            q = "Echec Totale"
+            q = "Echec Total"
         return q, self.current_diff, die
 
-    def success(self,die):
+    def success(self, die):
         s = False
         delta = die - self.current_diff
         if delta >= 15:
@@ -371,25 +371,28 @@ class Colorizer:
     def __init__(self):
         self.palette = []
         self.current = 0
+        self.randomize(color_count=8)
 
-    def randomize(self,color_count=4):
-        a = Color("purple")
-        b = Color("green")
+    def randomize(self, color_count=4):
+        a = Color("yellow")
+        b = Color("purple")
         self.palette = list(a.range_to(b, color_count))
+        palette = []
+        for p in self.palette:
+            p.saturation = 0.3
+            p.luminance = 0.3
+            palette.append(p)
+        self.palette = palette
         self.current = 0
 
     def pop(self):
         self.current = (self.current + 1) % len(self.palette)
         return self.palette[self.current]
 
-
-
     @classmethod
     def random_color(cls):
         red = int.from_bytes(os.urandom(1))
-        green = math.floor(int.from_bytes(os.urandom(1))/2)
-        blue = math.floor(int.from_bytes(os.urandom(1))/2)
+        green = int.from_bytes(os.urandom(1))
+        blue = int.from_bytes(os.urandom(1))
         c = f'#{red:02x}{green:02x}{blue:02x}'
         return c
-
-

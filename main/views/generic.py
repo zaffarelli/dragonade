@@ -267,8 +267,8 @@ def creatures(request):
     context['reference'] = {}
     spells_j = Spell.references()
     context['reference']['spells'] = spells_j
-    gear_j = Equipment.references()
-    context['reference']['gear'] = gear_j
+    equipment = Equipment.references()
+    context['reference']['equipment'] = equipment
     return render(request, 'main/pages/creatures.html', context=context)
 
 
@@ -511,9 +511,7 @@ def kicker(request):
                 combats = Combat.objects.filter(code=code)
                 if len(combats) == 1:
                     combat = combats.first()
-                    combat.new_round()
-                    combat.save()
-                    combat.refresh_from_db()
+                    issue = combat.new_round()
                     main_data = combat.results()
                     context = {"battle": main_data}
                     # print("Transmitted context...")

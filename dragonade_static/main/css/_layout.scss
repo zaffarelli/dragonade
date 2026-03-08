@@ -647,9 +647,11 @@ body {
     color::#F0F0F0;
 
     border-radius:16pt;
-    width:200ex;
+    //width:250ex;
+    width:70vw;
     height:90vh;
     padding:16pt;
+    overflow-y: auto;
 
     display:flex;
     font-family:Roboto;
@@ -658,7 +660,7 @@ body {
     justify-content:flex-start;
     align-content:flex-start;
     margin:auto;
-    margin-left:20ex;
+    margin-left:0.5vw;
     gap:10pt;
     & .combat_info{
         }
@@ -689,7 +691,8 @@ body {
             }
             & .icon_block{
                 font-family:Roboto Mono;
-                border:1px dotted yellow;
+                border:2pt solid transparent;
+                background:#303030;
                 border-radius:3pt;
                 display:flex;
                 flex-flow:row wrap;
@@ -724,12 +727,13 @@ body {
 //         align-content:flex-start;
 //         align-items:space-between;
         flex:8 1 auto;
+        height:auto;
         order:2;
         gap:10pt;
         padding:10pt;
         background:#4040407f;
         border-radius:16pt;
-        overflow-y:auto;
+//         overflow-y:display;
         & .battle_round{
             font-family:Roboto;
             padding:4pt;
@@ -776,6 +780,10 @@ body {
 //                        font-size:12pt;
                        text-shadow:1pt 1pt #8080F0;
                    }
+                   & .huge{
+                       font-size:36pt;
+                       text-shadow:1pt 1pt #f02020;
+                   }
                 }
             }
         }
@@ -800,9 +808,6 @@ body {
 }
 
 .teamcol{
-    &:before{
-        content:"Equipe ";
-    }
     padding:3pt;
     border-radius:3pt;
 }

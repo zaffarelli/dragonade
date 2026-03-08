@@ -1,7 +1,7 @@
 {% load static %}
 {% load dragonade_filters %}
 
-<fieldset class="battle_round">
+<fieldset class="battle_round" style="order:{{round.order}};">
     <legend>Round #{{round.index}}</legend>
     {% for init in round.initiatives %}
         {% include "main/objects/initiative.html" %}

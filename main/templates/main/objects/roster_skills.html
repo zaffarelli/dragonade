@@ -1,7 +1,7 @@
 {% load static %}
 {% load dragonade_filters %}
 
-<div class="sheet skills all for_display_{{a.id}}" id="ssa_{{a.id}}">
+<div class="sheet skills all xfor_display_{{a.id}} hidden" id="ssa_{{a.id}}">
     <div class="box header ">COMPETENCES</div>
     {% for c,cat in a.skills.items %}
     {% for sk,v in cat.items %}

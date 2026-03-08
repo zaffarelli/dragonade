@@ -5,6 +5,7 @@ from main.views.stregoneria import SpellDetailView
 from main.views.chiaroscuro import inc_dec, value_push, svg_to_pdf, paginator_switch
 from django.conf import settings
 from django.conf.urls.static import static
+# from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
     re_path(r'^$', index, name='index'),
@@ -34,4 +35,4 @@ urlpatterns = [
 
 
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) #+ debug_toolbar_urls()

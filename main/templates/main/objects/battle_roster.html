@@ -1,12 +1,12 @@
 {% load static %}
 {% load dragonade_filters %}
 
-<div class="battle_roster" style="background:{{item.color}}">
-    <div class="text_block">{{item.name}}</div>
+<div class="battle_roster" style="background:{{item.team}}">
+    <div class="text_block">{{item.color|as_teamcol|safe}}</div>
+    <div class="text_block">{{item.name}} {%if item.is_dead %}<i class="fas fa-skull"></i>{%endif%}</div>
     <div class="text_block">{{item.WEA}} + {{item.SHI}}</div>
-    <div class="text_block">{{item.SCO|as_grav|safe}}</div>
-    <div class="text_block">{{item.team|as_teamcol|safe}}</div>
-    <div class="icon_block"><span class="icon"><i class="fas fa-heart" title="Points de Vie actuels / Seuil Constit"></i></span><span class="value">{{item.PDV}} / {{item.SCO}}</span></div>
+<!--    <div class="text_block">{{item.SCO|as_grav|safe}}</div>-->
+    <div class="icon_block"><span class="icon"><i class="fas fa-heart" title="Points de Vie actuels / Pdv Max / Seuil Constit"></i></span><span class="value">{{item.PDV}} / {{item.PDV_MAX}} / {{item.SCO}}</span></div>
     <div class="icon_block"><span class="icon"><i class="fas fa-heartbeat" title="Points de Fatigue actuels"></i></span><span class="value">{{item.FAT}}/{{item.PDF}}</span></div>
     <div class="icon_block"><span class="icon"><i class="fas fa-arrow-up-short-wide" title="Initiative"></i></span><span class="value">{{item.INI}}</span></div>
     <div class="icon_block"><span class="icon"><i class="fas fa-shield" title="Protection / Malus d'Armure"></i></span><span class="value">{{item.PRO}} / {{item.MAR}}</span></div>

@@ -8,7 +8,7 @@
     align-items: baseline;
     gap: 0px;
     height:90vh;
-    width:76vw;
+    width:70vw;
     margin:auto;
     bottom:10px;
     overflow-y:scroll;
@@ -303,7 +303,7 @@
             background:#101010;
             font-family:$mono;
             font-size:0.83em;
-            max-height:40em;
+            max-height:20em;
             width:90ex;
             overflow:auto;
             border:1px solid white;
@@ -342,3 +342,4 @@
     width:auto;
     margin:3pt;
 }
+
