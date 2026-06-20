@@ -5,7 +5,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'/>
     <title>{% block title %}Dragonade{% endblock %} [{{version}}]</title>
     {% load static %}
-    {% load sass_tags %}
+    {# load sass_tags #}
 
     <link rel='icon' type="image/svg+xml" href='{% static "main/favicon.svg" %}'>
     <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
@@ -30,7 +30,10 @@
     {% for font in config.fontset %}
     <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family={{ font }}">
     {% endfor %}
-    <link rel='stylesheet' type='text/css' href='{% sass_src "main/css/main.scss" %}'/>
+    {% load compress %}
+    {% compress css %}
+    <link rel='stylesheet' type='text/x-scss' href='{% static "main/css/main.scss" %}'/>
+    {% endcompress %}
 </head>
 <body style="background:transparent url({% static 'main/images/back7.jpg' %}) fixed; opacity: 0.95;">
 
