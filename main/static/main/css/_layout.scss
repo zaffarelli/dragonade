@@ -825,3 +825,33 @@ body {
     margin:3pt;
 
 }
+
+.tabnav{
+    padding:5pt;
+
+    .tabpanel{
+        display:block;
+        width:auto;
+        border-radius:5pt;
+        padding:5pt;
+        border:3pt ridge #C0C0C0;
+        &.hidden{
+            display:none;
+        }
+    }
+}
+
+.tabbutton{
+    display:inline-block;
+    color:black;
+    text-align:center;
+    padding:5pt;
+    border-radius:5px;
+    width:16ex;
+    background:#C0C0C0;
+    cursor:pointer;
+    &.on{
+        color:#101010;
+        background:#F0C040;
+    }
+}

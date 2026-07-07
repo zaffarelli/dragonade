@@ -20,7 +20,7 @@ class Traveller(Character):
         super().export_to_json()
         self.data['player'] = self.player
         self.data['destiny'] = self.destiny
-        self.data['has_bug'] = self.has_bug()
+        self.data['has_bug'] = 1 if self.has_bug() else 0
         self.data['bug_list'] = self.bug_list
         return self.data
 

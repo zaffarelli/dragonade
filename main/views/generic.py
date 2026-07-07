@@ -346,25 +346,28 @@ def stregoneria(request):
         datum['type'] = "stregoneria"
         datum['code'] = i.rid
         stregoneria.append(datum)
+    context['config']['data'] = stregoneria
+    print(stregoneria)
     page = 1
     context = prepare_pagination(context, stregoneria, page, "stregoneria")
+
     return render(request, 'main/pages/stregoneria.html', context)
 
 
-# def stregoneria_page(request):
-#     from main.models.stregoneria import Spell
-#     context = prepare_context(request)
-#     stregoneria = []
-#     for i in Spell.objects.order_by("-category", "name"):
-#         datum = i.export_to_json()
-#         datum['type'] = "stregoneria"
-#         datum['code'] = i.rid
-#         stregoneria.append(datum)
-#     page = int(request.POST["page"])
-#     context = prepare_pagination(context, stregoneria, page, "stregoneria")
-#     template = get_template("main/lists/list_content.html")
-#     html = template.render(context, request)
-#     return JsonResponse({"html": html})
+def stregoneria_page(request):
+    from main.models.stregoneria import Spell
+    context = prepare_context(request)
+    stregoneria = []
+    for i in Spell.objects.order_by("-category", "name"):
+        datum = i.export_to_json()
+        datum['type'] = "stregoneria"
+        datum['code'] = i.rid
+        stregoneria.append(datum)
+    page = int(request.POST["page"])
+    context = prepare_pagination(context, stregoneria, page, "stregoneria")
+    template = get_template("main/lists/list_content.html")
+    html = template.render(context, request)
+    return JsonResponse({"html": html})
 
 
 def new_creature(request):

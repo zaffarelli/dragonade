@@ -111,6 +111,7 @@ CHARACTER_STATISTICS = {
                 {"NAME": "WEA_33", "TEXT": "Pugilat"},
                 {"NAME": "WEA_34", "TEXT": "Regard"}
             ],
+            # Lames longues, Lames courtes, Armes à deux mains, Masses, Haches, Piques, Bâtons, Arcs, Arbalètes, Frondes, Esquive, Pugilat, Lutte, Boucliers
             "KNOWN": [
                 "WEA_01", "WEA_02", "WEA_03", "WEA_04", "WEA_05", "WEA_06", "WEA_07", "WEA_08", "WEA_09", "WEA_10",
                 "WEA_11", "WEA_12", "WEA_13", "WEA_14", "WEA_15", "WEA_16", "WEA_17", "WEA_18", "WEA_19", "WEA_20",

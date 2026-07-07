@@ -1,8 +1,9 @@
 class Stregoneria extends Modulo {
     constructor(co,config) {
         super(co,config);
-        this.name = "Stregoneria";
-        this.parent = "#svg_area";
+        this.name = "Stregoneria"
+        this.parent = "#svg_area"
+        console.log(config)
     }
 
     init() {
@@ -46,7 +47,8 @@ class Stregoneria extends Modulo {
                 s = v
                 return false
             }
-        });
+        })
+        // console.log(s)
         let ox = 0.5, oy = 1.5
         // Statistics
         me.stregoneria = me.back.append("g")

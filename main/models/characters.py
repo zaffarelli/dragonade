@@ -106,6 +106,7 @@ class Character(models.Model):
 
     def has_bug(self):
         return len(self.bug_list)>0
+
     has_bug.boolean = True
 
     def fix(self):

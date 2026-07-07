@@ -1,17 +1,28 @@
 
 .roster{
     background:transparent;
-    display:flex;
-    flex-flow: column wrap;
-    justify-content: flex-start;
-    align-content: space-around;
-    align-items: baseline;
-    gap: 0px;
+
     height:90vh;
     width:70vw;
-    margin:auto;
+//     margin:auto;
     bottom:10px;
     overflow-y:scroll;
+
+    & .tabnav{
+        width:50%;
+    }
+
+    & .tabpanel{
+        background:#202020;
+        width:50%;
+        height:1100px;
+        display:flex;
+        flex-flow: column wrap;
+        justify-content: flex-start;
+        align-content: flex-start;
+        align-items: flex-start;
+        gap: 2pt;
+
 
     & .classy{
         font-family: "Pirata One"
@@ -50,6 +61,8 @@
         font-size:$roster_font_height;
         border:1px solid $palette2;
         background:#606080;
+
+
         border-radius:5px;
         margin:5px;
         padding:3px;
@@ -303,8 +316,9 @@
             background:#101010;
             font-family:$mono;
             font-size:0.83em;
-            max-height:20em;
-            width:90ex;
+            width:auto;
+            min-height:50em;
+            margin:5pt auto;
             overflow:auto;
             border:1px solid white;
        }
@@ -332,6 +346,7 @@
                 cursor:crosshair;
            }
         }
+    }
     }
 
 }

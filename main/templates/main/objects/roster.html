@@ -2,12 +2,35 @@
 {% load dragonade_filters %}
 
 <div class='roster skillstable {{a.type.lower}} hidden' kid="ss_{{a.id}}" id="roster_{{a.id}}">
+    {% include "main/objects/roster_header.html" %}
+    <div class="tabnav">
+        <span class="tabbutton on" id="tabbutton_base" param="base">Base</span>
+        <span class="tabbutton" id="tabbutton_magic" param="magic">Arts Draconiques</span>
+        <span class="tabbutton" id="tabbutton_gear" param="gear">Equipement</span>
+        <span class="tabbutton" id="tabbutton_summary" param="summary">Résumé</span>
+        <span class="tabbutton" id="tabbutton_skills" param="skills">Compétences</span>
+        <span class="tabbutton" id="tabbutton_pullers" param="pullers">Boîtes de Sélection</span>
+    </div>
+    <div class="tabpanel" id="tabpanel_base">
     {% include "main/objects/roster_base.html" %}
+    </div>
+    <div class="tabpanel hidden" id="tabpanel_magic">
     {% include "main/objects/roster_magic.html" %}
+    </div>
+    <div class="tabpanel hidden" id="tabpanel_gear">
     {% include "main/objects/roster_gear.html" %}
+    </div>
+    <div class="tabpanel hidden" id="tabpanel_summary">
     {% include "main/objects/roster_summary.html" %}
+    </div>
+    <div class="tabpanel hidden" id="tabpanel_pullers">
     {% include "main/objects/roster_pullers.html" %}
+    </div>
+    <div class="tabpanel hidden" id="tabpanel_skills">
     {% include "main/objects/roster_skills.html" %}
+    </div>
+
+    </div>
 </div>
 
 
