@@ -128,7 +128,20 @@ class Chiaroscuro {
         me.registerShowHide();
         me.registerPaginator();
         me.registerModelForm();
+        me.registerTabs();
     }
+
+    registerTabs() {
+        let me = this;
+        $('.tabbutton').off().on('click', function (e) {
+            let tgt = $(this).attr("param")
+            $(".tabbutton").removeClass("on")
+            $("#tabbutton_"+tgt).addClass("on")
+            $(".tabpanel").addClass("hidden")
+            $("#tabpanel_"+tgt).removeClass("hidden")
+        })
+    }
+
 
     registerStackPull() {
         let me = this;
