@@ -221,6 +221,12 @@ class Spell(models.Model):
         self.data = data
         return data
 
+    def toJson(self):
+        import json
+        self.export_to_json()
+        struct = json.loads(json.dumps(self.data))
+        return struct
+
     @property
     def conversion(self):
         str = ""
