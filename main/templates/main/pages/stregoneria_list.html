@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{%  load static %}
+
+
+{% block east %}
+{% include "main/menu.html" with title=title %}
+{% include "main/lists/stregoneria_options.html"%}
+{% include "main/lists/list.html" with list=list.stregoneria %}
+{% endblock east %}
+
+
+{% block main %}
+<div class="spell_container">
+    {% for x in stregoneria %}
+        {% include "main/objects/stregoneria.html" with s=x%}
+    {% endfor %}
+</div>
+{% endblock main %}
+
+{% block custom_js %}
+<script>
+    _.defer(function () {
+        let co = new Chiaroscuro({
+        {
+            config | safe
+        }
+    })
+        co.perform();
+    });
+</script>
+{% endblock custom_js %}

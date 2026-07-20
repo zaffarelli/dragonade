@@ -1,0 +1,64 @@
+
+.spell_container{
+    width:auto;
+    margin:10pt;
+    height:90vh;
+    display:flex;
+    flex-flow:column nowrap;
+    font-family:Roboto;
+    font-size:10pt;
+
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap:3pt;
+    border:2pt solid black;
+    overflow-y:scroll;
+
+    & .spell_entry{
+        flex:0 1 auto;
+        display:flex;
+        flex-flow:row nowarp;
+        justify-content: flex-start;
+        align-items: stretch;
+        align-content: stretch;
+        background:#404090;
+        gap:3pt;
+        & .entry_item{
+            padding:3pt;
+            border-radius:3pt;
+            flex:0 1 auto;
+            display:inline-block;
+            background:#202030;
+            color:white;
+            min-width:3ex;
+
+            border:1pt solid white;
+            &.title{
+                font-weight:bold;
+                width:30ex;
+                text-align:left;
+                font-family:"Pirata One";
+                font-size:1.8em;
+            }
+            &.text{
+                width:40ex;
+                height:auto;
+                overflow:hidden;
+            }
+            &.label{
+                font-family:"Pirata One";
+                background:transparent;
+                border:none;
+                width:10ex;
+                text-align:center;
+                vertical-align:middle;
+                font-size:1.4em;
+
+            }
+            &.symbol{
+                background:silver;
+            }
+        }
+    }
+}

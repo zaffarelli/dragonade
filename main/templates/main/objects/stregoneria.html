@@ -1,0 +1,15 @@
+{% load static %}
+{% load dragonade_filters %}
+
+<div class="spell_entry">
+    <div class="entry_item label" style="order:0">{{ s.category }}</div>
+    <div class="entry_item title" style="order:1">{{ s.name }}</div>
+<!--    <div class="entry_item text" style="order:3">{{ s.description }}</div>-->
+    <div class="entry_item" style="order:4">{{ s.casting_time }}</div>
+    <div class="entry_item label" style="order:0">{{ s.path }}</div>
+    <div class="entry_item symbol" style="order:5">{{ s.ground_charge|as_ground_charge|safe }}</div>
+    <div class="entry_item symbol" style="order:6">{{ s.emanation_charge|as_emanation_charge|safe }}</div>
+    <div class="entry_item symbol" style="order:7">{{ s.consistency_charge|as_consistency_charge|safe }}</div>
+    <div class="entry_item symbol" style="order:8">{{ s.elemental_charge|as_elemental_charge|safe }}</div>
+    <div class="entry_item symbol" style="order:9">{{ s.hour_charge|as_hour_charge|safe }}</div>
+</div>

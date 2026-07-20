@@ -375,14 +375,14 @@ def stregoneria_list(request):
     from main.models.travellers import Traveller
     context = prepare_context(request)
     stregoneria = []
-    for i in Spell.objects.order_by("-category", "name"):
+    for i in Spell.objects.order_by("path", "-category", "name"):
         datum = i.export_to_json()
         datum['type'] = "stregoneria"
         datum['code'] = i.rid
         stregoneria.append(datum)
     print(f"Spells list")
     context["stregoneria"]  = stregoneria
-    return render(request, 'main/lists/stregoneria_list.html', context)
+    return render(request, 'main/pages/stregoneria_list.html', context)
     #return HttpResponse(status=204)
 
 
