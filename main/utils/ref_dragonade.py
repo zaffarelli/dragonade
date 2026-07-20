@@ -42,12 +42,12 @@ CHARACTER_STATISTICS = {
              "FORMULA": lambda p: p[0] + p[1]},
             {"NAME": "FAT", "TEXT": "Fatigue", "RATIONALE": " (CON + VOL) / 2", "PARAMS": "CON VOL",
              "FORMULA": lambda p: math.ceil((p[0] + p[1]) / 2)},
-            {"NAME": "DOM", "TEXT": "+dom", "RATIONALE": " ArrondiBas((FOR + 2) / 3) - 2", "PARAMS": "FOR",
-             "FORMULA": lambda p: math.floor((p[0] + 2) / 3) -2},
+            {"NAME": "DOM", "TEXT": "+dom", "RATIONALE": " ArrondiBas((FOR + TAI) / 4) - 2", "PARAMS": "FOR TAI",
+             "FORMULA": lambda p: math.floor((p[0] + p[1]) / 4) -2},
             {"NAME": "SUS", "TEXT": "Sustentation", "RATIONALE": " ArrondiBas((CON + 4) / 4) + 1", "PARAMS": "CON",
              "FORMULA": lambda p: math.floor((p[0] + 4) / 4) + 1},
-            {"NAME": "SCO", "TEXT": "Seuil Con", "RATIONALE": "ArrondiBas((CON + 3) / 3) + 1", "PARAMS": "CON",
-             "FORMULA": lambda p: math.floor((p[0] + 3) / 3) + 1},
+            {"NAME": "SCO", "TEXT": "Seuil Con", "RATIONALE": "ArrondiBas((CON + TAI) / 5)", "PARAMS": "CON TAI",
+             "FORMULA": lambda p: math.floor((p[0] + p[1]) / 5)},
             {"NAME": "ENC", "TEXT": "Encombrement", "RATIONALE": " (TAI + FOR)  [garder une décimale]",
              "PARAMS": "TAI CON", "FORMULA": lambda p: ((p[0] + p[1]) / 2) * 2},
             {"NAME": "SON", "TEXT": "Songe", "RATIONALE": "-"},
@@ -76,6 +76,31 @@ CHARACTER_STATISTICS = {
             "DEFAULT": 0,
             "NAME": "Martiales",
             "LIST": [
+                {"NAME": "WEA_01", "TEXT": "Arbalètes"},
+                {"NAME": "WEA_02", "TEXT": "Arcs"},
+                {"NAME": "WEA_03", "TEXT": "Armes à deux mains"},
+                {"NAME": "WEA_04", "TEXT": "Armes d'Hast"},
+                {"NAME": "WEA_05", "TEXT": "Bâtons"},
+                {"NAME": "WEA_06", "TEXT": "Boucliers"},
+                {"NAME": "WEA_07", "TEXT": "Esquive"},
+                {"NAME": "WEA_08", "TEXT": "Frondes"},
+                {"NAME": "WEA_09", "TEXT": "Fouets"},
+                {"NAME": "WEA_10", "TEXT": "Hâches"},
+                {"NAME": "WEA_11", "TEXT": "Javelots"},
+                {"NAME": "WEA_12", "TEXT": "Lames Courtes"},
+                {"NAME": "WEA_13", "TEXT": "Lames Longues"},
+                {"NAME": "WEA_14", "TEXT": "Lutte"},
+                {"NAME": "WEA_15", "TEXT": "Masses"},
+                {"NAME": "WEA_16", "TEXT": "Lances"},
+                {"NAME": "WEA_17", "TEXT": "Poignards"},
+                {"NAME": "WEA_18", "TEXT": "Pugilat"},
+                # Lames longues, Lames courtes, Armes à deux mains, Masses, Haches, Piques, Bâtons, Arcs, Arbalètes, Frondes, Esquive, Pugilat, Lutte, Boucliers
+            ],
+            "KNOWN": [
+                "WEA_01", "WEA_02", "WEA_03", "WEA_04", "WEA_05", "WEA_06", "WEA_07", "WEA_08", "WEA_09", "WEA_10",
+                "WEA_11", "WEA_12", "WEA_13", "WEA_14", "WEA_15", "WEA_16", "WEA_17", "WEA_18"
+            ],
+            "LIST2": [
                 {"NAME": "WEA_01", "TEXT": "Arbalète"},
                 {"NAME": "WEA_02", "TEXT": "Arc"},
                 {"NAME": "WEA_03", "TEXT": "Arme d'Hast"},
@@ -109,10 +134,10 @@ CHARACTER_STATISTICS = {
                 {"NAME": "WEA_31", "TEXT": "Masse Lourde"},
                 {"NAME": "WEA_32", "TEXT": "Pique"},
                 {"NAME": "WEA_33", "TEXT": "Pugilat"},
-                {"NAME": "WEA_34", "TEXT": "Regard"}
+                {"NAME": "WEA_34", "TEXT": "Regard"},
             ],
-            # Lames longues, Lames courtes, Armes à deux mains, Masses, Haches, Piques, Bâtons, Arcs, Arbalètes, Frondes, Esquive, Pugilat, Lutte, Boucliers
-            "KNOWN": [
+
+            "KNOWN2": [
                 "WEA_01", "WEA_02", "WEA_03", "WEA_04", "WEA_05", "WEA_06", "WEA_07", "WEA_08", "WEA_09", "WEA_10",
                 "WEA_11", "WEA_12", "WEA_13", "WEA_14", "WEA_15", "WEA_16", "WEA_17", "WEA_18", "WEA_19", "WEA_20",
                 "WEA_21", "WEA_22", "WEA_23", "WEA_24", "WEA_25", "WEA_26", "WEA_27", "WEA_28", "WEA_29", "WEA_30",

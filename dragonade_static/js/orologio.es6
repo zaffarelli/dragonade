@@ -162,11 +162,12 @@ class Orologio extends Modulo {
 
     drawPerHour() {
         let me = this;
-//         console.log("Orologio DrawPerHour")
+        console.log("Orologio DrawPerHour")
         me.ticks = me.back.append('g')
             .selectAll('.ticks')
             //.data([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
             .data(me.config["menu_entries"])
+            console.log(me.config["menu_entries"])
         ;
 
         me.ticks_g = me.ticks.enter().append("g")
@@ -247,6 +248,8 @@ class Orologio extends Modulo {
                 if (str.length>0){
                     return d.LINK;
                 }
+                console.log("Menu Link")
+                console.log(d.SVGREF)
             })
 
             .attr('id', d => "link_"+d.IDX)
@@ -310,6 +313,7 @@ class Orologio extends Modulo {
             .attr("x", -me.fontsize * 1.5)
             .attr("y", -me.fontsize * 1.5)
             .attr("transform", d => {
+                console.debug(d.SVG_REF)
                 let adeg = (d.IDX - (angular_offset) ) * 30;
                 let arad = (adeg / 360) * 2 * Math.PI;
                 let a = Math.cos(arad) * (me.step * 6.75 + me.fontsize * 1.5);
@@ -563,12 +567,12 @@ class Orologio extends Modulo {
     }
 
     drawAll() {
-        let me = this;
-//         console.log("Orologio DrawAll")
-        me.drawBack();
-        me.drawPerHour();
-        me.drawPerRealHour();
-        me.drawArms();
+        let me = this
+        console.log("Orologio DrawAll")
+        me.drawBack()
+        me.drawPerHour()
+        me.drawPerRealHour()
+        me.drawArms()
     }
 
     updateSlow() {

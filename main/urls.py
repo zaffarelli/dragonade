@@ -1,6 +1,6 @@
 from django.urls import re_path
 from main.views.generic import index, autochtons, creatures, travellers, maps, papers, card_reveal, draconis_artes, \
-    gardiendesreves, appartuses, stregoneria, combattants, new_creature, new_autochton, new_traveller, new_spell, overlay_edit, kicker
+    gardiendesreves, appartuses, stregoneria, stregoneria_list, combattants, new_creature, new_autochton, new_traveller, new_spell, overlay_edit, kicker
 from main.views.stregoneria import SpellDetailView
 from main.views.chiaroscuro import inc_dec, value_push, svg_to_pdf, paginator_switch
 from django.conf import settings
@@ -19,6 +19,7 @@ urlpatterns = [
     re_path(r'^risorse$', card_reveal, name='card_reveal'),
     re_path(r'^appartuses$', appartuses, name='appartuses'),
     re_path(r'^stregoneria$', stregoneria, name='stregoneria'),
+    re_path(r'^stregoneria_list$', stregoneria_list, name='stregoneria_list'),
     re_path(r'^gardiendesreves$', gardiendesreves, name='gardiendesreves'),
     re_path(r'^ajax/inc_dec$', inc_dec, name='inc_dec'),
     re_path(r'^ajax/value_push$', value_push, name='value_push'),

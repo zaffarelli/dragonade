@@ -9,7 +9,26 @@
     overflow-y:scroll;
 
     & .tabnav{
+        background: #1030207F;
         width:50%;
+        & .tabbutton{
+
+        }
+    }
+
+    & .header{
+        background: #1020307F;
+        width:50%;
+        & .full{
+            background: #1020307F;
+            color:white;
+            border-radius:5pt;
+            padding:5pt;
+        }
+        & .large{
+            font-family: "Pirata One";
+            font-size:2em;
+        }
     }
 
     & .tabpanel{
@@ -74,6 +93,22 @@
             padding: 3px;
             border:1px solid $palette1;
             height:auto;
+
+            &.button{
+                display:inline-block;
+                background:#c0c0c0;
+                color:black;
+                text-align:center;
+                border-radius:5pt;
+                border:2pt ridge #808080;
+                width:16ex;
+                line-height:0.95em;
+
+                font-family:"Roboto Mono";
+                cursor:pointer;
+            }
+
+
             &.label{
                 background-color: $palette2;
                 color:white;
@@ -140,11 +175,18 @@
             //min-height:200px;
         }
 
+        &.base{
+                width:125ex;
+        }
 
+        &.magic, &.weapons, &.protection {
+            width:125ex;
+        }
 
         &.base, &.magic, &.weapons, &.protection {
-            grid-template-columns: 80px 80px 80px 80px 80px 80px 80px 80px;
+            grid-template-columns: repeat(8,1fr);
             grid-template-rows: repeat(20,2em);
+
             flex: 0 1 auto;
             & .header {
                 grid-column: 1 / span 8;
@@ -290,12 +332,12 @@
 
         &.weapons{
             grid-template-rows: repeat(10,2em);
-            width:90ex;
+            width:125ex;
         }
 
         &.protection{
             grid-template-rows: repeat(5,2em);
-            width:90ex;
+            width:125ex;
         }
 
        &.gear, &.spells{
@@ -306,7 +348,7 @@
             font-family:$mono;
             font-size:0.83em;
             max-height:40em;
-            width:90ex;
+            width:125ex;
             overflow:auto;
        }
 
@@ -316,7 +358,7 @@
             background:#101010;
             font-family:$mono;
             font-size:0.83em;
-            width:auto;
+            width:125ex;
             min-height:50em;
             margin:5pt auto;
             overflow:auto;

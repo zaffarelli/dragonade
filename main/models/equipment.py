@@ -18,7 +18,7 @@ class Equipment(models.Model):
     classe_engagement = models.IntegerField(default=0, null=True, blank=True)
     cover = models.CharField(default="", max_length=64, blank=True)
     materiaux = models.CharField(default="", max_length=64, blank=True)
-    related_skill = models.CharField(default="", max_length=8, blank=True)
+    related_skill = models.CharField(default="", max_length=32, blank=True)
     related_attribute = models.CharField(default="", max_length=8, blank=True)
     malus_armure = models.IntegerField(default=0, null=True, blank=True)
     force_min = models.IntegerField(default=0, null=True, blank=True)
@@ -78,6 +78,20 @@ class Equipment(models.Model):
                         return True
         return res
 
+    @property
+    def related_skill_name(self):
+        names = []
+        if self.category in ["mel","tir","lan"]:
+            if self.related_skill != "":
+                from main.utils.ref_dragonade import CHARACTER_STATISTICS
+                skills = self.related_skill.upper().strip().split(" ")
+                for s in skills:
+                    s
+                    for skill in CHARACTER_STATISTICS['SKILLS']['WEAPONS']['LIST']:
+                        if skill["NAME"].upper().strip() == s:
+                            names.append(skill["TEXT"])
+        return ", ".join(names)
+
     @classmethod
     def references(klass):
         list = []
@@ -103,7 +117,7 @@ def cat_from_first(modeladmin, request, queryset):
 class EquipmentAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ['category', 'related_attribute', 'name']
-    list_display = ["name", "rid", "category", "similitude","can_be_thrown", "cover", "plus_dom", "plus_dom_2m", "force_min", "prot", "malus_armure", "related_skill",
+    list_display = ["name", "rid", "category", "similitude","can_be_thrown", "cover", "plus_dom", "plus_dom_2m", "force_min", "prot", "malus_armure", "related_skill_name", "related_skill",
                     "related_attribute", "enc", "price", "skill_match"]
     list_editable = [ "cover","can_be_thrown","category", "prot", "malus_armure","related_skill"]
     list_filter = ["category", "can_be_thrown", "related_attribute", "related_skill", "special"]

@@ -2,7 +2,7 @@
 {% load dragonade_filters %}
 
 <div class="sheet weapons">
-    <div class="box header" style="text-align:left;">
+    <div class="box button">
     <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__GEAR__value" srcval="{{a.features.GEAR|encoded_z|safe}}">
         ARMES
     </span>
@@ -11,7 +11,7 @@
 </div>
 
 <div class="sheet protection">
-    <div class="box header" style="text-align:left;">
+    <div class="box button">
         <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__OTHER__value" srcval="{{a.features.OTHER|encoded_z|safe}}">PROTECTION</span>
     </div>
     {% include "main/objects/protection.html"%}

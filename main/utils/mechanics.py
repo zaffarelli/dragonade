@@ -85,18 +85,18 @@ def as_rid(str):
 
 
 MENU_ENTRIES = [
-    # {"IDX": 1, "NAME": "Vaisseau", "LINK": "gardiendesreves", "SVG_REF": "_1.svg",     "TEXT": "Le coin du Gardien des Rêves"},
-    # {"IDX": 2, "NAME": "Sirene", "LINK": "carte", "SVG_REF": "_2.svg", "TEXT": "Aides de jeu"},
-    # {"IDX": 3, "NAME": "Faucon", "LINK": "piani", "SVG_REF": "_3.svg", "TEXT": "Plans & Cartes"},
-    # {"IDX": 4, "NAME": "Couronne", "LINK": "stregoneria", "SVG_REF": "_4.svg",     "TEXT": "Sortilèges & Effets Draconiques"},
-    # {"IDX": 5, "NAME": "Dragon", "LINK": "orologio", "SVG_REF": "_5.svg", "TEXT": "Horloge des Rêves"},
-    # {"IDX": 6, "NAME": "Epees", "LINK": "appartuses", "SVG_REF": "_6.svg", "TEXT": "Objets du Rêve"},
-    # {"IDX": 7, "NAME": "Lyre", "LINK": "", "SVG_REF": "_7.svg", "TEXT": ""},
-    # {"IDX": 8, "NAME": "Serpent", "LINK": "creatures", "SVG_REF": "_8.svg", "TEXT": "Monstres..."},
-    # {"IDX": 9, "NAME": "Poisson-Acrobate", "LINK": "risorse", "SVG_REF": "_9.svg", "TEXT": "Révélation de Cartes"},
-    # {"IDX": 10, "NAME": "Araignee", "LINK": "combattimento", "SVG_REF": "_10.svg", "TEXT": "Simulateur de Mêlée"},
-    # {"IDX": 11, "NAME": "Roseau", "LINK": "autochtons", "SVG_REF": "_11.svg", "TEXT": "La liste des autochtones (PNJs)"},
-    # {"IDX": 12, "NAME": "ChateauDormant", "LINK": "travellers", "SVG_REF": "_12.svg",  "TEXT": "La liste des voyageurs (PJs)"}
+    {"IDX": 1, "NAME": "Vaisseau", "LINK": "gardiendesreves", "SVG_REF": "_1.svg",     "TEXT": "Le coin du Gardien des Rêves"},
+    {"IDX": 2, "NAME": "Sirene", "LINK": "carte", "SVG_REF": "_2.svg", "TEXT": "Aides de jeu"},
+    {"IDX": 3, "NAME": "Faucon", "LINK": "piani", "SVG_REF": "_3.svg", "TEXT": "Plans & Cartes"},
+    {"IDX": 4, "NAME": "Couronne", "LINK": "stregoneria", "SVG_REF": "_4.svg",     "TEXT": "Sortilèges & Effets Draconiques"},
+    {"IDX": 5, "NAME": "Dragon", "LINK": "orologio", "SVG_REF": "_5.svg", "TEXT": "Horloge des Rêves"},
+    {"IDX": 6, "NAME": "Epees", "LINK": "appartuses", "SVG_REF": "_6.svg", "TEXT": "Objets du Rêve"},
+    {"IDX": 7, "NAME": "Lyre", "LINK": "", "SVG_REF": "_7.svg", "TEXT": ""},
+    {"IDX": 8, "NAME": "Serpent", "LINK": "creatures", "SVG_REF": "_8.svg", "TEXT": "Monstres..."},
+    {"IDX": 9, "NAME": "Poisson-Acrobate", "LINK": "risorse", "SVG_REF": "_9.svg", "TEXT": "Révélation de Cartes"},
+    {"IDX": 10, "NAME": "Araignee", "LINK": "combattimento", "SVG_REF": "_10.svg", "TEXT": "Simulateur de Mêlée"},
+    {"IDX": 11, "NAME": "Roseau", "LINK": "autochtons", "SVG_REF": "_11.svg", "TEXT": "La liste des autochtones (PNJs)"},
+    {"IDX": 12, "NAME": "ChateauDormant", "LINK": "travellers", "SVG_REF": "_12.svg",  "TEXT": "La liste des voyageurs (PJs)"}
 ]
 
 MAIN_MENU = [
@@ -107,7 +107,8 @@ MAIN_MENU = [
         ]},
         {"NAME": "Artefacts", "LINK": "appartuses"},
         {"NAME": "Magie Draconique", "SUB": [
-            {"NAME": "Liste", "LINK": "stregoneria"},
+            {"NAME": "Cartes de Sortilège", "LINK": "stregoneria"},
+            {"NAME": "Liste des Sortilèges", "LINK": "stregoneria_list"},
             {"NAME": "Nouveau sort", "ACTION": "new_spell"},
         ]},
         {"NAME": "Rêves", "SUB": [

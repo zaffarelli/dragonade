@@ -112,16 +112,29 @@ body {
 }
 
 .middle{
-    @include dragonade_panel;
+//     @include dragonade_panel;
     order:2;
     flex: 1 8 auto;
+    flex-flow:column nowrap;
+    display:flex;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: stretch;
+
 
     & .middleblock{
-       @include dragonade_panel;
+//        @include dragonade_panel;
+        display:flex;
+        flex: 1 8 auto;
+        flex-flow:column wrap;
+        justify-content: space-between;
+        align-content: stretch;
+        align-items: stretch;
         margin:1ex;
         width:auto;
         display:block;
         text-align:center;
+
         & .list_block{
             height: 15em;
             border:1px solid #808080;
@@ -134,6 +147,23 @@ body {
             max-height:20em;
             overflow-y:scroll;
             margin-bottom:1em;
+        }
+        &.references{
+            flex: 1 6 auto;
+            display:flex;
+            flex-flow: column nowrap;
+            justify-content: space-between;
+            align-content: stretch;
+            align-items: stretch;
+
+            & .option_block{
+                flex: 1 8 auto;
+            }
+
+        }
+        &.options{
+            flex: 0 1 auto;
+
         }
     }
 }
@@ -445,8 +475,9 @@ body {
         & .ref{
             text-align:center;
             order:1;
-            background:#301010;
+            background:#101010;
             flex: 1 1 2ex;
+            font-family: "Roboto Mono";
         }
         & .base{
             order:2;
@@ -582,19 +613,21 @@ body {
     & .ref_entry{
          border:1pt solid #404040;
          border-radius: 1pt;
-
+        font-family: "Roboto";
+        font-size:9pt;
         flex:1 1 auto;
         display:flex;
         flex-flow:row wrap;
         justify-items:flex-start;
         align-content:flex-start;
         align-items:flex-start;
+        gap:4pt;
         & .rid{
             order:1;
             flex:1 1 15ex;
-            background:#202030;
-
-            border:2pt solid silver;
+            background:#303030;
+            color:white;
+            border:1pt solid black;
             border-radius: 3pt;
             padding:2pt;
         }
@@ -602,10 +635,11 @@ body {
             order:2;
             text-align:left;
             flex:1 1 30ex;
+            color:white;
             border:2pt solid transparent;
             border-radius: 3pt;
             padding:2pt;
-            background:#202060;
+            background:#202020;
         }
 
     }
@@ -842,16 +876,20 @@ body {
 }
 
 .tabbutton{
+    font-family:"Roboto";
+    font-size:9pt;
     display:inline-block;
     color:black;
     text-align:center;
-    padding:5pt;
-    border-radius:5px;
-    width:16ex;
-    background:#C0C0C0;
+    padding:3pt;
+    border-radius:3pt;
+    width:21ex;
+    color:#F0F0F0;
+    background:#303030;
+
     cursor:pointer;
     &.on{
         color:#101010;
-        background:#F0C040;
+        background:#C0C0C0;
     }
 }
