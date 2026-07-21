@@ -1,0 +1,65 @@
+<?xml version="1.2" encoding="UTF-8" standalone="yes"?>
+<svg width="10mm" height="35mm" viewBox="0 -1 10 35" version="1.1" class="svg_diff" xmlns="http://www.w3.org/2000/svg">
+  <g>
+        <rect style="fill:#808080;stroke:#808080;stroke-width:0.25pt;"
+           rx="2" ry="2"
+           width="1"
+           height="29"
+           x="4.5"
+           y="0" />
+        {% if diff >= 30 %}
+        <rect style="fill:#e02040;stroke:#000000;stroke-width:0.5pt;"
+           rx="2" ry="2"
+           width="8"
+           height="4"
+           x="1"
+           y="0" />
+        {% endif %}
+        {% if diff >= 25 %}
+        <rect style="fill:#c04040;stroke:#000000;stroke-width:0.5pt;"
+           rx="2" ry="2"
+           width="8"
+           height="4"
+           x="1"
+           y="5" />
+        {% endif %}
+        {% if diff >= 20 %}
+        <rect style="fill:#a06040;stroke:#000000;stroke-width:0.5pt;"
+           rx="2" ry="2"
+           width="8"
+           height="4"
+           x="1"
+           y="10" />
+        {% endif %}
+        {% if diff >= 15 %}
+        <rect style="fill:#808040;stroke:#000000;stroke-width:0.5pt;"
+           rx="2" ry="2"
+           width="8"
+           height="4"
+           x="1"
+           y="15" />
+        {% endif %}
+        {% if diff >= 10 %}
+        <rect style="fill:#60a040;stroke:#000000;stroke-width:0.5pt;"
+           rx="2" ry="2"
+           width="8"
+           height="4"
+           x="1"
+           y="20" />
+        {% endif %}
+        {% if diff >= 5 %}
+        <rect style="fill:#40c040;stroke:#000000;stroke-width:0.5pt;"
+           rx="2" ry="2"
+           width="8"
+           height="4"
+           x="1"
+           y="25" />
+        {% endif %}
+        <text
+           x="5"
+           y="33"
+           style="font-family:Roboto;font-size:3pt;text-anchor:middle;"
+        >{{diff}}
+        </text>
+  </g>
+</svg>

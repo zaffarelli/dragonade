@@ -128,6 +128,7 @@ class Spell(models.Model):
 
     name = models.CharField(default="", max_length=256)
     rid = models.CharField(default="xxx", max_length=256, blank=True)
+    pentacle_code = models.CharField(default="", max_length=16, blank=True)
     code = models.CharField(default="", max_length=16, blank=True)
     alternative_names = models.CharField(default="", max_length=512, blank=True)
     casting_time = models.PositiveIntegerField(default=1, blank=True)
@@ -266,11 +267,11 @@ class Spell(models.Model):
 class SpellAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ["-spell_ready", "name"]
-    list_display = ["name", "rid", "code", "power", "spell_ready", "songe", "roll", "original_casting_cost",
-                    "conversion", "ground_charge",
+    list_display = ["name",  "pentacle_code",  "spell_ready", "songe", "roll", "original_casting_cost",
+                    "conversion", "ground_charge","hour_charge","elemental_charge","emanation_charge","consistency_charge",
                     "str_charges",
                     "path", "ref", "category", "source"]
-    list_editable = ["original_casting_cost", "songe", "roll", "spell_ready", "ground_charge", "path", "ref",
+    list_editable = ["original_casting_cost", "pentacle_code","songe", "roll", "spell_ready", "ground_charge","hour_charge","elemental_charge","emanation_charge","consistency_charge", "path", "ref",
                      "category",
                      "source"]
     list_filter = ["spell_ready", "path", "category", "diff", "dps", "ref", "original_casting_cost", "ground_charge",

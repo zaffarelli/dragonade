@@ -349,3 +349,21 @@ def as_avoidance(value):
         txt = "(passif)"
     str = f'<div class="avoidance {value}">{txt}</div>'
     return str
+
+
+@register.filter(name='as_category')
+def as_category(value):
+    result = f'blank'
+    if isinstance(value, str):
+        v = value
+        if len(v)>0:
+            result = f'{v}'
+    return svg_item(result.lower())
+
+@register.filter(name='render_text')
+def render_text(value):
+    result = f'N/A'
+    if isinstance(value, str):
+        v = value.split("§")
+        result = "<br/>".join(v)
+    return result
