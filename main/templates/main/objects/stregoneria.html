@@ -3,10 +3,11 @@
 
 <div class="spell_entry">
     <div class="entry_item symbol" style="order:0">{{ s.category|as_category|safe }}</div>
-    <div class="entry_item title" style="order:1">{{ s.name }}</div>
-    <div class="entry_item text" style="order:30; text-align:left;">{{ s.description|render_text|safe }}</div>
+    <div class="entry_item label" style="order:0">{{ s.name }}<br/>({{ s.path }})</div>
+    <div class="entry_item text" style="order:3; text-align:left;">{{ s.description|render_text|safe }}</div>
+    <div class="entry_item text" style="order:3; text-align:left;">{{ s.composantes|render_text|safe }}</div>
     <div class="entry_item number" style="order:4">PDR<br/>{{ s.dps }}</div>
-    <div class="entry_item label" style="order:0">{{ s.path }}</div>
+
     <div class="entry_item symbol" style="order:5">{{ s.ground_charge|as_ground_charge|safe }}</div>
     <div class="entry_item symbol" style="order:6">{{ s.emanation_charge|as_emanation_charge|safe }}</div>
     <div class="entry_item symbol" style="order:7">{{ s.consistency_charge|as_consistency_charge|safe }}</div>
@@ -15,4 +16,5 @@
     <div class="entry_item number" style="order:18" title="{{s.diff}}">{%include "main/svg/diff.svg" with diff=s.diff %}</div>
     <div class="entry_item label" style="order:20">{{ s.ti }}</div>
     <div class="entry_item label" style="order:24">{{ s.roll }}</div>
+    <div class="entry_item label" style="order:24">{{ s.spell_ready }}</div>
 </div>

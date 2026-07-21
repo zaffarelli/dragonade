@@ -367,3 +367,15 @@ def render_text(value):
         v = value.split("§")
         result = "<br/>".join(v)
     return result
+
+
+
+@register.filter(name='as_boolean')
+def as_grav(value):
+    str = "?"
+    if isinstance(value, bool):
+        if bool(value):
+            str = "yes"
+        else:
+            str = "yes"
+    return str
