@@ -6,7 +6,7 @@ class Modulo {
         this.name = "Modulo";
         this.baseFont = "Roboto"
         this.altFont = "Roboto Flex"
-        this.titleFont = "Pirata One"
+        this.titleFont = "Khand"
         this.category = ""
     }
 
@@ -364,29 +364,29 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
     drawBlock(tgt,x,y,label_attrs, value_attrs, label,value,id,edit_field=""){
         let me = this;
         let label_styles = {
-            "fill":edit_field=="" ? "#505050": "#502050",
-            "stroke":"#808080",
+            "fill":edit_field=="" ? "#a0a0a0": "#a0a0a0",
+            "stroke":"black",
             "stroke-width":"0.5pt"
         }
         let value_styles = {
-            "fill":"#F0F0F0",
-            "stroke":"#808080",
+            "fill":"white",
+            "stroke":"black",
             "stroke-width":"1pt"
         }
         let label_text_styles = {
             "font-family":me.baseFont,
             "font-size":me.fontSize+"pt",
             "text-anchor":"middle",
-            "fill": "#F0F0F0",
-            "stroke":"#C0C0C0",
-            "stroke-width":"0.5pt"
+            "fill": "black",
+            "stroke":"black",
+            "stroke-width":"0.25pt"
         }
         let value_text_styles = {
             "font-family":me.altFont,
             "font-size":me.fontSize+"pt",
             "text-anchor":"start",
-            "fill":"#101010",
-            "stroke":"#C0C0C0",
+            "fill":"black",
+            "stroke":"#808080",
             "stroke-width":"0.25pt",
         }
         let grp = tgt.append('g')
@@ -518,17 +518,13 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
     }
 
     paperX(x){
-        let me = this;
-        let val = me.localx + x
-        val = val * me.localstep;
-        return val;
+        let me = this
+        return x * me.localstep
     }
 
     paperY(y){
-        let me = this;
-        let val = me.localy + y;
-        val = val * me.localstepy;
-        return val;
+        let me = this
+        return y * me.localstep
     }
 
     drawBack(){

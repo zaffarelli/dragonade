@@ -42,11 +42,11 @@ CHARACTER_STATISTICS = {
              "FORMULA": lambda p: p[0] + p[1]},
             {"NAME": "FAT", "TEXT": "Fatigue", "RATIONALE": " (CON + VOL) / 2", "PARAMS": "CON VOL",
              "FORMULA": lambda p: math.ceil((p[0] + p[1]) / 2)},
-            {"NAME": "DOM", "TEXT": "+dom", "RATIONALE": " ArrondiBas((FOR + TAI) / 4) - 2", "PARAMS": "FOR TAI",
-             "FORMULA": lambda p: math.floor((p[0] + p[1]) / 4) -2},
+            {"NAME": "IMP", "TEXT": "Impact", "RATIONALE": " ArrondiBas((FOR + TAI) / 4) - 2", "PARAMS": "FOR TAI",
+             "FORMULA": lambda p: math.floor((p[0] + p[1]) / 4) - 2},
             {"NAME": "SUS", "TEXT": "Sustentation", "RATIONALE": " ArrondiBas((CON + 4) / 4) + 1", "PARAMS": "CON",
              "FORMULA": lambda p: math.floor((p[0] + 4) / 4) + 1},
-            {"NAME": "SCO", "TEXT": "Seuil Con", "RATIONALE": "ArrondiBas((CON + TAI) / 5)", "PARAMS": "CON TAI",
+            {"NAME": "RES", "TEXT": "Résilience", "RATIONALE": "ArrondiBas((CON + TAI) / 5)", "PARAMS": "CON TAI",
              "FORMULA": lambda p: math.floor((p[0] + p[1]) / 5)},
             {"NAME": "ENC", "TEXT": "Encombrement", "RATIONALE": " (TAI + FOR)  [garder une décimale]",
              "PARAMS": "TAI CON", "FORMULA": lambda p: ((p[0] + p[1]) / 2) * 2},
@@ -54,7 +54,7 @@ CHARACTER_STATISTICS = {
             {"NAME": "REV", "TEXT": "Fable", "RATIONALE": "-"},
             {"NAME": "ENTRANCE", "TEXT": "Entrée", "RATIONALE": "-"}
         ],
-        "KNOWN": ["FAB", "VIE", "FAT", "DOM", "SUS", "SCO", "ENC", "SON", "REV", "ENTRANCE"]
+        "KNOWN": ["FAB", "VIE", "FAT", "IMP", "SUS", "RES", "ENC", "SON", "REV", "ENTRANCE"]
     },
     "FEATURES": {
         "LIST": [
@@ -182,7 +182,7 @@ CHARACTER_STATISTICS = {
                 {"NAME": "PEC_08", "TEXT": "Pickpocket"},
                 {"NAME": "PEC_09", "TEXT": "Survie (Cité)"},
                 {"NAME": "PEC_10", "TEXT": "Survie (Désert)"},
-                {"NAME": "PEC_11", "TEXT": "Survie (Extérieur)"},
+                # {"NAME": "PEC_11", "TEXT": "Survie (Extérieur)"},
                 {"NAME": "PEC_12", "TEXT": "Survie (Forêt)"},
                 {"NAME": "PEC_13", "TEXT": "Survie (Glaces)"},
                 {"NAME": "PEC_14", "TEXT": "Survie (Marais)"},
@@ -192,7 +192,7 @@ CHARACTER_STATISTICS = {
             ],
             "KNOWN": [
                 "PEC_01", "PEC_02", "PEC_03", "PEC_04", "PEC_05", "PEC_06", "PEC_07", "PEC_08", "PEC_09", "PEC_10",
-                "PEC_11", "PEC_12", "PEC_13", "PEC_14", "PEC_15", "PEC_16", "PEC_17"
+                "PEC_12", "PEC_13", "PEC_14", "PEC_15", "PEC_16", "PEC_17"
             ]
         },
         "SPECIALIZED": {
@@ -304,13 +304,13 @@ TABLES = {  # 0    1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16
 }
 
 QualiteDesActions = [
-    {"NAME": "CRITIQUE", "TEXT": "Réussite Critique", "BasePts": 4, "COEF": 4, "formula": lambda x: x * 4},
-    {"NAME": "SIGNIFICATIVE", "TEXT": "Réussite Significative", "BasePts": 3, "COEF": 3, "formula": lambda x: x * 3},
-    {"NAME": "PARTICULIERE", "TEXT": "Réussite Particulière", "BasePts": 2, "COEF": 2, "formula": lambda x: x * 2},
-    {"NAME": "REUSSITE", "TEXT": "Réussite", "BasePts": 1, "COEF": 1, "formula": lambda x: x},
-    {"NAME": "ECHEC", "TEXT": "Echec", "BasePts": -1, "COEF": 1, "formula": lambda x: x - 1},
-    {"NAME": "NOTABLE", "TEXT": "Echec Notable", "BasePts": -2, "COEF": 0.5, "formula": lambda x: math.ceil(x / 2 - 1)},
-    {"NAME": "TOTAL", "TEXT": "Echec Total", "BasePts": -4, "COEF": 0, "formula": lambda x: 0}
+    {"NAME": "CRITIQUE", "TEXT": "Réussite Critique", "BasePts": 7, "COEF": 4, "formula": lambda x: x +15},
+    {"NAME": "SIGNIFICATIVE", "TEXT": "Réussite Significative", "BasePts": 6, "COEF": 3, "formula": lambda x: x +10},
+    {"NAME": "PARTICULIERE", "TEXT": "Réussite Particulière", "BasePts": 5, "COEF": 2, "formula": lambda x: x +5},
+    {"NAME": "REUSSITE", "TEXT": "Réussite", "BasePts": 4, "COEF": 1, "formula": lambda x: x},
+    {"NAME": "ECHEC", "TEXT": "Echec", "BasePts": 3, "COEF": 1, "formula": lambda x: x - 1},
+    {"NAME": "NOTABLE", "TEXT": "Echec Notable", "BasePts": 2, "COEF": 0.5, "formula": lambda x: math.ceil(x / 2 - 1)},
+    {"NAME": "TOTAL", "TEXT": "Echec Total", "BasePts": 1, "COEF": 0, "formula": lambda x: 0}
 ]
 
 Difficultes = [
@@ -344,6 +344,7 @@ GEAR_CAT = (
     ("lan", "Armes de Lancer"),
     ("amu", "Armures"),
     ("ana", "Armes Naturelles"),
+    ("gem", "Gemmes & Joyaux"),
 
 )
 
@@ -358,7 +359,7 @@ def action_quality_json():
         "values": [],
         "col_back_header": [],
         "row_back_header": [],
-        "options": {"even_odd": True, "cell_widths": [2, 2, 2, 2, 2], "cell_height": 0.8, "row_header_width": 4}
+        "options": {"even_odd": True, "cell_widths": [3, 3, 3, 3, 3], "cell_height": 1.5, "row_header_width": 4,"big_values":True}
     }
     cols = []
     rows = []
@@ -382,7 +383,9 @@ def action_quality_json():
     table["values"] = values
     table["col_back_header"] = cbh
     table["row_back_header"] = rbh
-    return json.dumps(table)
+    x = json.dumps(table)
+    print(x)
+    return x
 
 
 def stress_cost(v1: int, v2: int, d: int):
@@ -465,15 +468,15 @@ def soak_table_json():
 
 def pdom_table_json():
     table = {
-        "title": "+dom",
-        "cols": ["+dom"],
-        "rows": [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2],
+        "title": "Impact",
+        "cols": ["IMP"],
+        "rows": [20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2],
         "values": [],
-        "options": {"rows_header": "(TAI+FOR)/2", "cell_widths": [2], "cell_height": 0.5, "even_odd": True}
+        "options": {"rows_header": "TAI+FOR", "cell_widths": [2], "cell_height": 0.75, "even_odd": True}
     }
     values = []
     for val in table["rows"]:
-        value = f"{(math.floor((val + 2) / 3) - 2)}"
+        value = f"{(math.floor((val) / 4) - 2)}"
         values.append(value)
     table["values"] = values
     return json.dumps(table)
@@ -481,7 +484,7 @@ def pdom_table_json():
 
 def sus_table_json():
     table = {
-        "title": "sust.",
+        "title": "Sustenance",
         "cols": ["sus"],
         "rows": [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2],
         "values": [],
@@ -497,15 +500,15 @@ def sus_table_json():
 
 def scon_table_json():
     table = {
-        "title": "sco.",
-        "cols": ["SCO"],
-        "rows": [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2],
+        "title": "Résilience",
+        "cols": ["RES"],
+        "rows": [20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2],
         "values": [],
-        "options": {"rows_header": "CON", "cell_widths": [2], "cell_height": 0.5, "even_odd": True}
+        "options": {"rows_header": "CON+TAI", "cell_widths": [2], "cell_height": 0.5, "even_odd": True}
     }
     values = []
     for val in table["rows"]:
-        value = f"{math.floor((val + 3) / 3) + 1}"
+        value = f"{math.floor((val) / 5) }"
         values.append(value)
     table["values"] = values
     return json.dumps(table)
@@ -517,7 +520,7 @@ def comp_table_json(cat=""):
         "cols": ["Compétence"],
         "rows": [],
         "values": [],
-        "options": {"cell_widths": [4], "cell_height": 0.75,
+        "options": {"cell_widths": [4], "cell_height": 1,
                     "rows_header": CHARACTER_STATISTICS["SKILLS"][cat.upper()]["DEFAULT"],
                     "even_odd": True}
     }
@@ -539,10 +542,10 @@ def gear_table_json(cat=""):
             break
     table = {
         "title": f"{title.title()}",
-        "cols": ["Equipement", "Enc", "Prix"],
+        "cols": ["Equipement", "1M", "2M", "Enc", "Prix"],
         "rows": [],
         "values": [],
-        "options": {"cell_widths": [6, 1, 2], "cell_format": ["", "enc", "sols"], "cell_height": 0.5, "even_odd": True}
+        "options": {"cell_widths": [6, 1, 1, 1, 2], "cell_format": ["", "plus_dom", "plus_dom_2m", "enc", "sols"], "cell_height": 0.5, "even_odd": True}
     }
     rows = []
     values = []
@@ -550,6 +553,39 @@ def gear_table_json(cat=""):
     for c in Equipment.objects.filter(category=cat, special=False):
         rows.append(f"{c.rid}")
         values.append(f"{c.name}")
+        values.append(f"{c.plus_dom}")
+        values.append(f"{c.plus_dom_2m}")
+        values.append(f"{c.enc}")
+        values.append(f"{c.price}")
+    table["rows"] = rows
+    table["values"] = values
+    return json.dumps(table)
+
+
+def weapon_table_json(cat=""):
+    title = "Matériel"
+    for x in GEAR_CAT:
+        if x[0] == cat:
+            title = x[1]
+            break
+    table = {
+        "title": f"{title.title()}",
+        "cols": ["Equipement", "Compétence", "1M", "2M", "Res","Enc", "Prix"],
+        "rows": [],
+        "values": [],
+        "options": {"cell_widths": [6, 8, 1, 1,1, 1, 2], "cell_format": ["left", "left", "center", "", "", ""], "cell_height": 0.5,
+                    "even_odd": True}
+    }
+    rows = []
+    values = []
+    from main.models.equipment import Equipment
+    for c in Equipment.objects.filter(category=cat, special=False):
+        rows.append(f"{c.rid}")
+        values.append(f"{c.name}")
+        values.append(f"{c.related_skill_name}")
+        values.append(f"{c.plus_dom}")
+        values.append(f"{c.plus_dom_2m}")
+        values.append(f"{c.resistance}")
         values.append(f"{c.enc}")
         values.append(f"{c.price}")
     table["rows"] = rows

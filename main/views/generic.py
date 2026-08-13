@@ -7,7 +7,7 @@ from django.template.loader import get_template
 
 from main.utils.mechanics import FONTSET, MENU_ENTRIES, is_ajax, MAIN_MENU
 from main.utils.ref_dragonade import stress_table_json, action_quality_json, soak_table_json, pdom_table_json, \
-    sus_table_json, scon_table_json, comp_table_json, gear_table_json, secondaries_table_json, miscellaneous_table_json
+    sus_table_json, scon_table_json, comp_table_json, gear_table_json, weapon_table_json, secondaries_table_json, miscellaneous_table_json
 
 # from main.models.stregoneria import Spell
 from main.views.chiaroscuro import prepare_pagination
@@ -104,7 +104,14 @@ def papers(request):
                                                "data": miscellaneous_table_json()}
     x = 1
     for cat in Equipment.objects.filter(special=False).values('category').distinct():
-        context['config']['data'][f"GEAR_TABLE_{cat['category'].upper()}"] = {"name": f"Equipement {x}",
+        print(cat)
+        if cat['category'] == "mel":
+            context['config']['data'][f"GEAR_TABLE_{cat['category'].upper()}"] = {"name": f"Equipement {x}",
+                                                                                  "code": f"GEAR_TABLE_{cat['category'].upper()}",
+                                                                                  "id": 300 + x,
+                                                                                  "data": weapon_table_json(cat['category'])}
+        else:
+            context['config']['data'][f"GEAR_TABLE_{cat['category'].upper()}"] = {"name": f"Equipement {x}",
                                                                               "code": f"GEAR_TABLE_{cat['category'].upper()}",
                                                                               "id": 300 + x,
                                                                               "data": gear_table_json(cat['category'])}
@@ -375,12 +382,12 @@ def stregoneria_list(request):
     from main.models.travellers import Traveller
     context = prepare_context(request)
     stregoneria = []
-    for i in Spell.objects.order_by("path", "-category", "name"):
+    for i in Spell.objects.order_by("path","-category", "pentacle_code"):
         datum = i.export_to_json()
         datum['type'] = "stregoneria"
         datum['code'] = i.rid
         stregoneria.append(datum)
-    print(f"Spells list")
+    # print(f"Spells list")
     context["stregoneria"]  = stregoneria
     return render(request, 'main/pages/stregoneria_list.html', context)
     #return HttpResponse(status=204)
@@ -484,6 +491,45 @@ def overlay_edit(request):
                 spell.save()
     return JsonResponse(answer)
 
+def value_shift(request):
+    answer = {'rid': None, "data":''}
+    if is_ajax(request):
+        from main.models.stregoneria import Spell
+        rid = request.POST.get('rid')
+        param = request.POST.get('param')
+        back = int(request.POST.get('back'))
+        spells = Spell.objects.filter(rid=rid)
+        if len(spells)==1:
+            spell = spells.first()
+            current_value = getattr(spell, param)
+            answer["data"] = current_value
+            from main.models.stregoneria import DragonadeGround, DragonadeEmanation, DragonadeHour, DragonadeElement, DragonadeConsistency, SpellCategory, SpellPath
+            if param == "ground_charge":
+                dataset = DragonadeGround.values
+            elif param == "hour_charge":
+                dataset = DragonadeHour.values
+            elif param == "element_charge":
+                dataset = DragonadeElement.values
+            elif param == "emanation_charge":
+                dataset = DragonadeEmanation.values
+            elif param == "consistency_charge":
+                dataset = DragonadeConsistency.values
+            elif param == "category":
+                dataset = SpellCategory.values
+            else:
+                dataset = SpellPath .values
+            next_value_index = 0
+            for k,v in enumerate(dataset):
+                if v == current_value:
+                    next_value_index = (k+back) % len(dataset)
+            setattr(spell, param, dataset[next_value_index])
+            spell.save()
+            context = {"s": spell.export_to_json()}
+            template = get_template("main/objects/spell_body.html")
+            answer['data'] = template.render(context)
+
+    answer['rid'] = rid
+    return JsonResponse(answer)
 
 def kicker(request):
     answer = {'html': "", "red_team": [], "green_team": [], "blue_team": []}

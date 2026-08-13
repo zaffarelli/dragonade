@@ -626,13 +626,13 @@ class Character(models.Model):
             a[x % 4] += f"| {k} {v!s:{space}>2} "
             x += 1
         x = 0
-        m = ["VIE", "FAT", "SUS", "SCO"]
+        m = ["VIE", "FAT", "SUS", "RES"]
         for v in m:
             a[x % 4] += f"| {v} {self.data['misc'][v]!s:{space}>2} "
             x += 1
         x = 0
-        m = ["DOM", "ENC", "FAB", "REV"]
-        dom = self.data['misc']["DOM"]
+        m = ["IMP", "ENC", "FAB", "REV"]
+        dom = self.data['misc']["IMP"]
         for v in m:
             a[x % 4] += f"| {v} {int(self.data['misc'][v])!s:{space}>2} "
             x += 1

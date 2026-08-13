@@ -26,6 +26,7 @@ dependencies = [
     "django-colorfield>=0.14.0",
     "django-compressor==4.6",
     "django-fixture-magic>=0.1.5",
+    "django-htmx>=1.29.0",
     "django-libsass>=0.9",
     "django-sass==1.1.0",
     "fontawesomefree==6.5.1",

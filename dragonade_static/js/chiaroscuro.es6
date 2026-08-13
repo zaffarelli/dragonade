@@ -128,6 +128,7 @@ class Chiaroscuro {
         me.registerShowHide();
         me.registerPaginator();
         me.registerModelForm();
+        me.registerShifters();
         me.registerTabs();
     }
 
@@ -248,8 +249,46 @@ class Chiaroscuro {
         });
     }
 
+    registerShifters(){
+        let me = this
+        $('.shifter').off().on('click', function(e){
+            e.preventDefault()
+            e.stopPropagation()
+            let miniid = $(this).attr('id')
+            let words = miniid.split('__')
+            console.log(`rid:${words[0]} param:${words[1]}`)
+            if (e.ctrlKey || e.altKey) {
+                let back = (e.altKey ? -1 : 1)
+                $.ajax({
+                    url: 'ajax/value_shift',
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    data: {
+                        "rid": words[0],
+                        "param": words[1],
+                        "back": back
+                    },
+                    dataType: 'json',
+                    success: function (answer) {
+                        console.log(answer)
+                        // $("#spell__"+answer.rid).html("")
+                        $("#spell__"+answer.rid).html(answer.data)
+                        me.registerActions()
+                    },
+                    error: function (answer) {
+                        console.error('Error... ' + answer)
+                        me.registerActions()
+                    },
+                })
+            }
+        })
+    }
+
     registerValuePush() {
-        let me = this;
+        let me = this
         $('#valuepush_ed').off().on('click', function (e) {
             e.preventDefault();
             e.stopPropagation();

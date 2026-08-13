@@ -99,7 +99,7 @@ class SpellPath(models.IntegerChoices):
     ONIROS = 3, "Oniros"
     NARCOS = 4, "Narcos"
     THANATOS = 5, "Thanatos"
-    MORPHEOS = 6, "Morpheos"
+    MORPHEOS = 6, "Morphos"
 
 
 class SpellRoll(models.IntegerChoices):
@@ -142,6 +142,7 @@ class Spell(models.Model):
     elemental_charge = models.PositiveIntegerField(default=DragonadeElement.NONE, choices=DragonadeElement.choices,
                                                    blank=True)
     dps = models.PositiveIntegerField(default=3, blank=True)
+    charge = models.PositiveIntegerField(default=0, blank=True)
     songe = models.PositiveIntegerField(default=0, blank=True)
     duration = models.CharField(default="-", max_length=128, blank=True)
     range = models.CharField(default="-", max_length=128, blank=True)
@@ -159,6 +160,7 @@ class Spell(models.Model):
     roll = models.PositiveIntegerField(default=SpellRoll.NONE, choices=SpellRoll.choices, blank=True)
     spell_ready = models.BooleanField(default=False, blank=True)
     power = models.IntegerField(default=0, blank=True)
+    famous_high_dreamers = models.TextField(default="", max_length=512, blank=True)
     data = {}
 
     def fix(self):
@@ -183,6 +185,14 @@ class Spell(models.Model):
         z += 1 if self.emanation_charge != DragonadeEmanation.NONE else 0
         z += 1 if self.consistency_charge != DragonadeConsistency.NONE else 0
         z += 1 if self.elemental_charge != DragonadeElement.NONE else 0
+
+        self.charge = 0
+        self.charge += 1 if self.ground_charge != DragonadeGround.NONE else 0
+        self.charge += 1 if self.hour_charge != DragonadeHour.NONE else 0
+        self.charge += 1 if self.emanation_charge != DragonadeEmanation.NONE else 0
+        self.charge += 1 if self.consistency_charge != DragonadeConsistency.NONE else 0
+        self.charge += 1 if self.elemental_charge != DragonadeElement.NONE else 0
+
         self.power = self.diff / 5 + self.dps + z + self.songe * 2
 
     def __str__(self):
@@ -208,6 +218,9 @@ class Spell(models.Model):
         data['dps'] = self.dps
         data['diff'] = self.diff
         data['ref'] = self.ref
+        data['charge'] = self.charge
+        data['pentacle_code'] = self.pentacle_code
+        data['power'] = self.power
         data['duration'] = self.duration
         data['range'] = self.range
         data['songe'] = self.songe
@@ -267,14 +280,14 @@ class Spell(models.Model):
 class SpellAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ["-spell_ready", "name"]
-    list_display = ["name",  "pentacle_code",  "spell_ready", "songe", "roll", "original_casting_cost",
+    list_display = ["name",  "pentacle_code", "charge",  "spell_ready", "songe", "roll", "original_casting_cost",
                     "conversion", "ground_charge","hour_charge","elemental_charge","emanation_charge","consistency_charge",
-                    "str_charges",
+                    "str_charges","famous_high_dreamers",
                     "path", "ref", "category", "source"]
     list_editable = ["original_casting_cost", "pentacle_code","songe", "roll", "spell_ready", "ground_charge","hour_charge","elemental_charge","emanation_charge","consistency_charge", "path", "ref",
-                     "category",
+                     "category","famous_high_dreamers",
                      "source"]
-    list_filter = ["spell_ready", "path", "category", "diff", "dps", "ref", "original_casting_cost", "ground_charge",
+    list_filter = ["spell_ready", "path","pentacle_code", "category", "diff", "dps", "ref", "original_casting_cost", "ground_charge",
                    "elemental_charge", "emanation_charge",
                    "consistency_charge", "hour_charge", "source"]
     search_fields = ["name", "description"]

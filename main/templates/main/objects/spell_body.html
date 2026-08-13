@@ -1,0 +1,20 @@
+{% load static %}
+{% load dragonade_filters %}
+
+<div id="{{s.rid}}__category" class="entry_item symbol shifter" style="order:0">{{ s.category|as_category|safe }}</div>
+<div id="{{s.rid}}__path" class="entry_item symbol shifter" style="order:0">{{ s.path|as_category|safe }}</div>
+<div class="entry_item label" style="order:0">{{ s.name }}<br/>[ {{s.charge}} / {{s.power}} ]<br/>{{s.pentacle_code}}</div>
+<div class="entry_item text" style="order:3; text-align:left;">{{ s.description|render_text|safe }}</div>
+<div class="entry_item text" style="order:3; text-align:left;">{{ s.composantes|render_text|safe }}</div>
+<div class="entry_item number" style="order:4">PDR<br/>{{ s.dps }}</div>
+
+<div id="{{s.rid}}__ground_charge" class="entry_item symbol shifter" style="order:5">{{ s.ground_charge|as_ground_charge|safe }}</div>
+<div id="{{s.rid}}__hour_charge" class="entry_item symbol shifter" style="order:6">{{ s.hour_charge|as_hour_charge|safe }}</div>
+<div id="{{s.rid}}__emanation_charge" class="entry_item symbol shifter" style="order:7">{{ s.emanation_charge|as_emanation_charge|safe }}</div>
+<div id="{{s.rid}}__consistency_charge" class="entry_item symbol shifter" style="order:8">{{ s.consistency_charge|as_consistency_charge|safe }}</div>
+<div id="{{s.rid}}__elemental_charge" class="entry_item symbol shifter" style="order:9">{{ s.elemental_charge|as_elemental_charge|safe }}</div>
+
+<div class="entry_item number" style="order:18" title="{{s.diff}}">{%include "main/svg/diff.svg" with diff=s.diff %}</div>
+<div class="entry_item label" style="order:20">{{ s.ti }}</div>
+<div class="entry_item label" style="order:24">Rêve + {{ s.roll }}</div>
+<div class="entry_item label" style="order:24">{{ s.spell_ready }}</div>

@@ -308,6 +308,12 @@ body {
             border-color:#106090;
         }
 
+        &.paper{
+            flex: 1 1 auto;
+            width:auto;
+            height:1em;
+            }
+
     }
 
     & .minisheet {

@@ -48,7 +48,7 @@ def as_draconichour(value):
     str = value
     if isinstance(value, int):
         if value > 0:
-            str = f'static/main/svg/2024/sd_{value}.svg'
+            str = f'static/main/svg/2026/sd_{value}.svg'
     return str
 
 
@@ -180,10 +180,22 @@ def genderize(value):
 
 
 def svg_item(x):
+    y = "generique" if x == "générique" else x
     return f'<span class="" title="{x}" style="display:inline-block;">' \
-           f'<img src="static/main/svg/2024/{x}.svg" style="display:inline-block; width:100px;">' \
+           f'<img src="static/main/svg/2026/{y}.svg" style="display:inline-block; width:100px;">' \
            f'</span>'
 
+
+@register.filter(name='as_category')
+def as_category(value):
+    ''' used for simple symbols without prefix
+    '''
+    result = f'blank'
+    if isinstance(value, str):
+        v = value
+        if len(v)>0:
+            result = f'{v}'
+    return svg_item(result.lower())
 
 @register.filter(name='as_ground_charge')
 def as_ground_charge(value):
@@ -351,14 +363,7 @@ def as_avoidance(value):
     return str
 
 
-@register.filter(name='as_category')
-def as_category(value):
-    result = f'blank'
-    if isinstance(value, str):
-        v = value
-        if len(v)>0:
-            result = f'{v}'
-    return svg_item(result.lower())
+
 
 @register.filter(name='render_text')
 def render_text(value):

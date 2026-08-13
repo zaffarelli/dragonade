@@ -160,7 +160,6 @@ class Carte extends Modulo {
 
     drawTable(src, options){
         let me = this;
-//         console.log(src)
         let tb = JSON.parse(src["data"]);
         let title = "";
         let object_values = false;
@@ -169,30 +168,25 @@ class Carte extends Modulo {
         let even_odd = false;
         let rows_header = "";
         // Dimension of the table
-        let local_width = 0;
-        let local_height = 0;
-        let rowlen = 0;
-        let collen = 0;
-        let x = 0;
-        let y = 0;
-        let cols = [];
-        let rows = [];
-        let cell_width = 2;
-        let cell_widths = [];
-        let cell_height = 1;
-        let cell_format = [];
-        me.localx = me.ox + 0;
-        me.localy = me.oy + 0;
-
-        let offsetx = 1;
-        let offsety = 1;
-
-
-        console.log(tb)
-        console.log("---")
-        console.log(tb["data"])
-        console.log("===")
-
+        let local_width = 0
+        let local_height = 0
+        let rowlen = 0
+        let collen = 0
+        let x = 0
+        let y = 0
+        let cols = []
+        let rows = []
+        let cell_width = 2
+        let cell_widths = []
+        let cell_height = 1
+        let cell_format = []
+        let big_values = false
+        console.log(src)
+        console.log(options)
+        me.localx = me.ox + 0
+        me.localy = me.oy + 0
+        let offsetx = 1
+        let offsety = 1
 
         if (tb){
             if ("title" in tb){
@@ -226,6 +220,9 @@ class Carte extends Modulo {
                 if ("cell_height" in tb["options"]){
                     cell_height = tb["options"]["cell_height"];
                 }
+                if ("big_values" in tb["options"]){
+                    big_values = tb["options"]["big_values"];
+                }
             }
             if ("cols" in tb){
                 rowlen = tb["cols"].length;
@@ -237,20 +234,19 @@ class Carte extends Modulo {
             }
             if ("x" in options){
                 x = options["x"];
-                me.localx += options["x"];
+                me.localx = options["x"];
             }
             if ("y" in options){
                 y = options["y"];
-                me.localy += options["y"];
+                me.localy = options["y"];
             }
 
         }
 
         let table = me.back.append('g').attr('id',title)
-            .attr("transform","translate("+(me.step*offsetx)+","+(me.step*offsety)+")")
-        me.localstep = me.step/2;
-        me.localstepy = me.step/2*cell_height;
-        me.localfontSize = 0.2*me.localstep;
+            .attr("transform","translate("+(me.step*me.localx)+","+(me.step*me.localy)+")")
+        me.localstep = me.step/2
+        me.localfontSize = 0.3*me.localstep;
         let columns = table.append('g')
             .attr('class','table_columns')
             .selectAll('.table_col')
@@ -289,14 +285,15 @@ class Carte extends Modulo {
             })
             .attr("height",me.localstep*cell_height)
             .attr("stroke","#C0C0C0")
-            .attr("stroke-width","0.5pt")
-            .style("fill","#F0F0F0")
+            .attr("stroke-width","2pt")
+            .style("fill","#F0c0c0")
         ;
         col.append('text')
             .attr("y", (d,i) => me.paperY(-0.75))
             .attr("x", (d,i) => me.textx(d,i,rowlen,cell_width,cell_widths))
-            .attr("dy",me.localfontSize*cell_height+"pt")
+            .attr("dy",me.localfontSize*1.25+"pt")
             //.attr("dy",me.localfontSize*1.75+"pt")
+
             .style("text-anchor","middle")
             .style("font-family",me.basefont)
             .style("font-size",me.localfontSize+"pt")
@@ -307,6 +304,12 @@ class Carte extends Modulo {
         ;
 
         if ("col_back_header" in tb){
+            /*
+                 : :  :  :  :
+                 : .  .  .  . :
+                 : .  .  .  . :
+                   *  *  *  *
+            */
             let cbhs = table.append('g')
                 .attr('class','table_columns')
                 .selectAll('.table_colbh')
@@ -315,8 +318,10 @@ class Carte extends Modulo {
             let cbh_out = cbhs.exit().remove();
             let cbh = cbh_in.append('g').attr('class','table_colbh');
             cbh.append('rect')
-                .attr("x", (d,i) => me.paperX((i%rowlen)*2))
+                .attr("x", (d,i) => me.paperX((i%rowlen)*3))
+                //.attr("x", (d,i) =>me.recty(d,i,rowlen,cell_width,cell_widths))
                 .attr("y", (d,i) => me.paperY(collen))
+                //.attr("y", (d,i) => me.paperY(d,i,rowlen,cell_width,cell_widths))
                 .attr("rx", me.localstep/6)
                 .attr("ry", me.localstep/6)
                 .attr("width",(d,i) => {
@@ -338,12 +343,12 @@ class Carte extends Modulo {
                 .style("fill","#F0F0F0")
             ;
             cbh.append('text')
-                .attr("x", (d,i) => me.paperX((i%rowlen)*2+1))
-                .attr("y", (d,i) => me.paperY(collen+1-0.5))
+                .attr("x", (d,i) => me.paperX((i%rowlen)*cell_widths[i%rowlen]+cell_widths[i%rowlen]*0.5))
+                .attr("y", (d,i) => me.paperY(collen+0.3))
                 .style("text-anchor","middle")
                 .style("font-family",me.basefont)
                 .style("font-size",me.localfontSize+"pt")
-                .style("fill","#101010")
+                .style("fill","#10a010")
                 .style("stroke","#808080")
                 .style("stroke-width","0.25pt")
                 .text((d,i) => d)
@@ -351,30 +356,39 @@ class Carte extends Modulo {
         }
 
         if ("row_back_header" in tb){
+            /*
+                 : :  :  :  :
+                 : .  .  .  . *
+                 : .  .  .  . *
+                   :  :  :  :
+            */
             let rbhs = table.append('g')
                 .attr('class','table_columns')
                 .selectAll('.table_rowbh')
                 .data(tb['row_back_header'])
-            let rbh_in = rbhs.enter();
-            let rbh_out = rbhs.exit().remove();
+            let rbh_in = rbhs.enter()
+            rbhs.exit().remove()
             let rbh = rbh_in.append('g').attr('class','table_rowbh');
             rbh.append('rect')
-                .attr("x", (d,i) => me.paperX((rowlen)*2))
+                //.attr("x", (d,i) => me.paperX((rowlen*4)))
+                .attr("x", (d,i) => me.paperX((rowlen*cell_widths[i%rowlen])))
                 .attr("y", (d,i) => me.paperY(i))
                 .attr("rx", me.localstep/6)
                 .attr("ry", me.localstep/6)
                 .attr("width",me.localstep*1.9)
-                .attr("height",me.localstep*0.8)
-                .attr("stroke","#C0C0C0")
+                .attr("height",me.localstep*1.5)
+                .attr("stroke","none")
                 .attr("stroke-width","0.5pt")
-                .style("fill","#F0F0F0")
+                .style("fill","#b0b0b0")
             ;
             rbh.append('text')
-                .attr("x", (d,i) => me.paperX((rowlen)*2+1))
-                .attr("y", (d,i) => me.paperY(i+0.5))
+                .attr("x", (d,i) => me.paperX(rowlen*cell_widths[i%rowlen]+cell_width*0.5))
+                //.attr("x", (d,i) => me.paperX((i%rowlen)*cell_widths[i%rowlen]+cell_widths[i%rowlen]*0.5))
+                .attr("y", (d,i) => me.paperY(i))
                 .style("text-anchor","middle")
                 .style("font-family",me.basefont)
-                .style("font-size",me.localfontSize+"pt")
+                .attr("dy", big_values? me.localfontSize*2.5+"pt" :me.localfontSize*1.5+"pt")
+                .style("font-size", big_values? me.localfontSize*2+"pt" :me.localfontSize+"pt")
                 .style("fill","#101010")
                 .style("stroke","#808080")
                 .style("stroke-width","0.25pt")
@@ -384,6 +398,12 @@ class Carte extends Modulo {
 
 
         if (rows_header != ""){
+            /*
+                 * :  :  :  :
+                 : .  .  .  . :
+                 : .  .  .  . :
+                   :  :  :  :
+            */
             let k = table.append('g');
             k.append('rect')
                 .attr("x", (d,i) => me.paperX(-1*row_header_width)+2)
@@ -394,7 +414,7 @@ class Carte extends Modulo {
                 .attr("height",me.localstep*cell_height)
                 .attr("stroke","#C0C0C0")
                 .attr("stroke-width","0.5pt")
-                .style("fill","#F0F0F0")
+                .style("fill","#a0a010")
             ;
             k.append('text')
                 .attr("x", (d,i) => me.paperX(-1))
@@ -431,13 +451,13 @@ class Carte extends Modulo {
             .attr("stroke-width","0.5pt")
             .attr("fill", (d,i) => {
                 let color = "#f0f0f0";
-//                 if (even_odd){
-//                     if (i%2==0){
-//                         color = "#FFFFFF";
-//                     }else{
-//                         color = "#EEEEFE";
-//                     }
-//                 }
+                if (even_odd){
+                    if (i%2==0){
+                        color = "#FFFFFF";
+                    }else{
+                        color = "#EEEEFE";
+                    }
+                }
                 return color;
             })
         ;
@@ -494,10 +514,10 @@ class Carte extends Modulo {
         cell.append('text')
             .attr("x", (d,i) => me.textx(d,i,rowlen,cell_width,cell_widths))
             .attr("y", (d,i) => me.texty(d,i,rowlen,cell_width,cell_widths))
-            .attr("dy",me.localfontSize*1.25+"pt")
             .style("text-anchor","middle")
             .style("font-family",me.basefont)
-            .style("font-size",me.fontSize+"pt")
+            .attr("dy", big_values? me.localfontSize*2.5+"pt" :me.localfontSize+"pt")
+            .style("font-size", big_values? me.localfontSize*2+"pt" :me.localfontSize+"pt")
             .text((d,i) => {
                 let result = d;
                 if (object_values){
@@ -525,26 +545,26 @@ class Carte extends Modulo {
         ;
         table.append('text')
             .attr("x", (d,i) => {
-                let result = me.paperX(rowlen)
+                let result = me.paperX(0)
                 if (object_values){
                     result += me.localstep * 3.5
                 }
                 return result
             })
             .attr("y", (d,i) => me.paperY(-1.5))
-            .style("text-anchor","middle")
+            .style("text-anchor","left")
             //.style("font-family","Are You Serious")
-            //.style("font-family","Smythe")
-            .style("font-family","Griffy")
+            .style("font-family","Smythe")
+            //.style("font-family","Griffy")
             .style("font-size",me.localfontSize*2+"pt")
             .style("fill","#101010")
             .style("stroke","#606060")
             .style("stroke-width","0.25pt")
             .text(title)
-        ;
-        if (me.debug){
+
+        // if (me.debug){
             me.drawCross(me.paperX(0),me.paperY(0))
-        }
+        // }
         return table;
     }
 
@@ -1520,22 +1540,29 @@ class Carte extends Modulo {
         if (me.code == "SCREEN1"){
             me.supertitle = "Ecran n°1"
             me.drawBack();
-            me.drawTable(me.config.data["STRESS_TABLE"],{"x":0.5, "y":0.5,"even_odd":true});
-            me.drawTable(me.config.data["QUALITY_TABLE"],{"x":17, "y":0.5, "row_header_width": 3,"even_odd":true});
-            me.drawTable(me.config.data["PDOM_TABLE"],{"x":37, "y":5});
-            me.drawTable(me.config.data["SUS_TABLE"],{"x":37, "y":20});
-            me.drawTable(me.config.data["SCON_TABLE"],{"x":37, "y":35});
+            me.drawTable(me.config.data["STRESS_TABLE"],{"x":0.5, "y":1,"even_odd":true});
+            me.drawTable(me.config.data["QUALITY_TABLE"],{"x":21, "y":1});
+            me.drawTable(me.config.data["PDOM_TABLE"],{"x":1, "y":90});
+            me.drawTable(me.config.data["SUS_TABLE"],{"x":6, "y":90});
+            me.drawTable(me.config.data["SCON_TABLE"],{"x":11, "y":90});
+            me.drawTable(me.config.data["SECONDARIES_TABLE"],{"x":16, "y":90});
+            me.drawTable(me.config.data["MISC_TABLE"],{"x":26, "y":90});
 
-            me.drawTable(me.config.data["COMP_WEAPONS_TABLE"],{"even_odd":true, "x":15, "y":13});
-            me.drawTable(me.config.data["COMP_GENERIC_TABLE"],{"even_odd":true, "x":22, "y":13});
-            me.drawTable(me.config.data["COMP_PECULIAR_TABLE"],{"even_odd":true, "x":22, "y":30});
-            me.drawTable(me.config.data["COMP_SPECIALIZED_TABLE"],{"even_odd":true, "x":29, "y":13});
-            me.drawTable(me.config.data["COMP_KNOWLEDGE_TABLE"],{"even_odd":true, "x":29, "y":26});
-            me.drawTable(me.config.data["COMP_DRACONIC_TABLE"],{"even_odd":true, "x":29, "y":38});
+            let xs = 0.5, ws = 6.5
+            me.drawTable(me.config.data["COMP_WEAPONS_TABLE"],{"even_odd":true, "x":xs, "y":24});
+            xs += 0.5+ws
+            me.drawTable(me.config.data["COMP_GENERIC_TABLE"],{"even_odd":true, "x":xs, "y":24});
+            xs += 0.5+ws
+            me.drawTable(me.config.data["COMP_PECULIAR_TABLE"],{"even_odd":true, "x":xs, "y":24});
+            xs += 0.5+ws
+            me.drawTable(me.config.data["COMP_SPECIALIZED_TABLE"],{"even_odd":true, "x":xs, "y":24});
+            xs += 0.5+ws
+            me.drawTable(me.config.data["COMP_KNOWLEDGE_TABLE"],{"even_odd":true, "x":xs, "y":24});
+            xs += 0.5+ws
+            me.drawTable(me.config.data["COMP_DRACONIC_TABLE"],{"even_odd":true, "x":xs, "y":24});
 
-            me.drawTable(me.config.data["SECONDARIES_TABLE"],{"x":2, "y":34});
-            me.drawTable(me.config.data["MISC_TABLE"],{"x":2, "y":41});
-            me.dragonadeSignature(.25,29.0,"xxx","Ecran Volet Igit add")
+
+            me.dragonadeSignature(.25,29.0,"xxx","Ecran Volet I")
         }else if (me.code == "SCREEN2"){
             me.supertitle = "Ecran n°2"
             me.drawBack();
@@ -1565,6 +1592,9 @@ class Carte extends Modulo {
         }else if (me.code == "SCREEN3"){
             me.supertitle = "Ecran n°3"
             me.drawBack();
+            me.drawTable(me.config.data["GEAR_TABLE_MEL"],{"x":5, "y":2, "smallrid":true});
+            me.dragonadeSignature(.25,29.0,"xxx","Ecran Volet II")
+
         }else if (me.code == "SCREEN4"){
             me.supertitle = "Ecran n°4"
             me.drawBack();
@@ -1609,6 +1639,7 @@ class Carte extends Modulo {
         console.log(me.config.data)
         me.code = code;
         me.filename = me.code
+        me.debug = true
         me.drawAll();
         me.zoomActivate();
     }

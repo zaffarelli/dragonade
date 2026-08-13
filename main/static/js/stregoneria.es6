@@ -57,64 +57,64 @@ class Stregoneria extends Modulo {
             .attr("transform","translate("+ox*me.step+","+oy*me.step+")")
         me.stregoneria.append('rect')
             .attr("class","rect_top")
-            .attrs({"x":0*me.step, "y":me.step*0,"rx":me.step*0.05,"ry":me.step*0.05,"width":me.step*(29.7/2-1.75),"height":me.step*5.25})
-            .style("fill", "#F0F0F0")
-            .style("stroke", "#808080")
-            .style("stroke-width", "3pt")
+            .attrs({"x":0*me.step, "y":me.step*0,"rx":me.step*0.1,"ry":me.step*0.1,"width":me.step*(29.7/2-1.75),"height":me.step*3.0})
+            .style("fill", "#ffffff")
+            .style("stroke", "black")
+            .style("stroke-width", "1pt")
         me.stregoneria.append('rect')
             .attr("class","rect_bottom")
             .attr("id","rectbot")
-            .attrs({"x":0, "y":me.step*5.5,"rx":me.step*0.05,"ry":me.step*0.05,"width":(me.step*(29.7/2-1.75)),"height":me.step*13.25})
-            .style("fill", "#F0F0F0")
-            .style("stroke", "#808080")
-            .style("stroke-width", "3pt")
+            .attrs({"x":0, "y":me.step*3.25,"rx":me.step*0.1,"ry":me.step*0.1,"width":(me.step*(29.7/2-1.75)),"height":me.step*13.25})
+            .style("fill", "#ffffff")
+            .style("stroke", "black")
+            .style("stroke-width", "1pt")
         me.stregoneria.append('text')
             .attrs({"x":me.step*0.25, "y":(-0.25)*me.step})
             .styles({"font-family":me.titleFont, "font-size":me.fontSize*4+"pt", "text-anchor":"start"})
             .text(s.name)
 
         let lh = 0.5*2/3*me.step
-        let stack_y = 12.5
+        let stack_y = 7.5
         let text_metrics = [
-            {"x":0.25, "y":0.5, "label":"Catégorie", "value":s.category+" (Voie: "+s.path+")","id":"des1", edit_field: ""},
-            {"x":0.25, "y":1.5, "label":"Jet", "value":"Rêve + "+s.roll,"id":"des2", edit_field: "" },
+            // {"x":0.25, "y":0.5, "label":"Catégorie", "value":s.category+" (Voie: "+s.path+")","id":"des1", edit_field: ""},
+            {"x":0.25, "y":0.5, "label":"Jet", "value":"Rêve + "+s.roll,"id":"des2", edit_field: "" },
             {"x":0.25, "y":stack_y, "label":"Description", "value": s.description,"id":"des4", edit_field: "description" },
-            {"x":0.25, "y":stack_y, "label":"Notes", "value": s.composantes,"id":"des5", edit_field: "composantes" },
-            {"x":0.25, "y":stack_y, "label":"Autres noms", "value": s.alternative_names,"id":"des6", edit_field: "alternative_names" },
+            // {"x":0.25, "y":stack_y, "label":"Notes", "value": s.composantes,"id":"des5", edit_field: "composantes" },
+            // {"x":0.25, "y":stack_y, "label":"Autres noms", "value": s.alternative_names,"id":"des6", edit_field: "alternative_names" },
         ]
         let delx = 3.25
         let metrics = [
-            {"x":(delx * 0) + 0.25, "y":2.5, "label":"Difficulté", "value":s.diff,"id":s.rid+"met1"},
-            {"x":(delx * 0) + 0.25, "y":3.0, "label":"Points de Rêve", "value":s.dps,"id":s.rid+"met2"},
-            {"x":(delx * 1) + 0.25, "y":2.5, "label":"Résistance", "value":s.resistance,"id":s.rid+"met3"},
-            {"x":(delx * 1) + 0.25, "y":3.0, "label":"TI", "value":s.ti,"id":s.rid+"met4"},
-            {"x":(delx * 2) + 0.25, "y":2.5, "label":"Portée", "value":s.range,"id":s.rid+"met5"},
-            {"x":(delx * 2) + 0.25, "y":3.0, "label":"Coût en Songe", "value":s.songe,"id":s.rid+"met7"},
-            {"x":(delx * 3) + 0.25, "y":2.5, "label":"Durée", "value":s.duration,"id":s.rid+"met6"},
-            {"x":(delx * 3) + 0.25, "y":3.0, "label":"", "value":"","id":s.rid+"met8"},
+            {"x":(delx * 0) + 0.25, "y":1.5, "label":"Difficulté", "value":s.diff,"id":s.rid+"met1"},
+            {"x":(delx * 1) + 0.25, "y":1.5, "label":"Résistance", "value":s.resistance,"id":s.rid+"met3"},
+            {"x":(delx * 2) + 0.25, "y":1.5, "label":"Portée", "value":s.range,"id":s.rid+"met5"},
+            {"x":(delx * 0) + 0.25, "y":2.0, "label":"PdR", "value":s.dps,"id":s.rid+"met2"},
+            {"x":(delx * 1) + 0.25, "y":2.0, "label":"Temps Incant.", "value":s.ti,"id":s.rid+"met4"},
+            {"x":(delx * 2) + 0.25, "y":2.0, "label":"Coût en Songe", "value":s.songe,"id":s.rid+"met7"},
+            {"x":(delx * 0) + 0.25, "y":2.5, "label":"Durée", "value":s.duration,"id":s.rid+"met6"},
+            // {"x":(delx * 1) + 0.25, "y":2.5, "label":"", "value":"","id":s.rid+"met8"},
         ]
         _.forEach(text_metrics, (e) => {
             me.drawLongTextBlock(me.stregoneria,e.x,e.y,e.label,e.value,e.id,e.edit_field)
         });
 
-        let cnt4 = me.superwrap("#des4",8*me.step)+1;
-        let cnt5 = me.superwrap("#des5",8*me.step)+1;
-        let cnt6 = me.superwrap("#des6",8*me.step)+1;
+        let cnt4 = me.superwrap("#des4",9*me.step)+1;
+        // let cnt5 = me.superwrap("#des5",8*me.step)+1;
+        // let cnt6 = me.superwrap("#des6",8*me.step)+1;
         d3.select("#des4_rect").attr("height",lh*cnt4)
-        d3.select("#des5_rect").attr("height",lh*cnt5)
-        d3.select("#des6_rect").attr("height",lh*cnt6)
+        // d3.select("#des5_rect").attr("height",lh*cnt5)
+        // d3.select("#des6_rect").attr("height",lh*cnt6)
         d3.select("#des4_grp")
             .attr("transform","translate("+(0.25*me.step)+","+(0.5*me.step*stack_y)+")")
-        d3.select("#des5_grp")
-            .attr("transform","translate("+(0.25*me.step)+","+(0.5*me.step*stack_y+(cnt4+1)*lh)+")")
-        d3.select("#des6_grp")
-            .attr("transform","translate("+(0.25*me.step)+","+(0.5*me.step*stack_y+(cnt4+cnt5+2)*lh)+")")
+        // d3.select("#des5_grp")
+        //     .attr("transform","translate("+(0.25*me.step)+","+(0.5*me.step*stack_y+(cnt4+1)*lh)+")")
+        // d3.select("#des6_grp")
+        //     .attr("transform","translate("+(0.25*me.step)+","+(0.5*me.step*stack_y+(cnt4+cnt5+2)*lh)+")")
         _.forEach(metrics, (e) => {
             me.drawSmallNumericBlock(me.stregoneria,e.x,e.y,e.label,e.value)
         });
         // Emplacements des charges
-        let basex = 12
-        let basey = 6.25
+        let basex = 0.5
+        let basey = 15.5
         let chup = 2.5
         _.forEach([
             {"code":"tm","name":"terre","charge":"ground_charge"},
@@ -126,46 +126,57 @@ class Stregoneria extends Modulo {
             me.spot_g = me.stregoneria.append("g")
                 .attr("id",e.code+"_spot_"+s.rid)
             me.spot_g.append("circle")
-                .attrs({"cx":(basex+1)*me.step,"cy":(basey+0.9+chup*i)*me.step,"r":1.2*me.step})
-                .styles({"fill":"#F0F0F0","stroke-width":"3pt","stroke":"#808080","stroke-dasharray":""})
+                .attrs({"cx":(basex+1+(i*2.5))*me.step,"cy":(basey+0.9)*me.step,"r":1.2*me.step})
+                .styles({"fill":"white","stroke-width":"3pt","stroke":"black","stroke-dasharray":"1 3"})
             me.spot_g.append("text")
-                .attrs({"x":(basex+1)*me.step,"y":(basey+0.1+chup*i)*me.step})
-                .styles({"fill":"#101010","stroke":"#808080", "stroke-width":"0.5pt", "text-anchor":"middle", "font-family":me.baseFont, "font-size":"8pt"})
+                .attrs({"x":(basex+1+(i*2.5))*me.step,"y":(basey+2.5)*me.step})
+                .styles({"fill":"black","stroke":"black", "stroke-width":"0.5pt", "text-anchor":"middle", "font-family":me.baseFont, "font-size":"8pt"})
                 .text(e.name.toUpperCase())
             if (s[e.charge]){
                 d3.select("#"+e.code+"_spot_"+s.rid).append("image")
                     .attr("class","relinkable")
-                    .attr("xlink:href", "static/main/svg/2024/"+e.code+"_"+s[e.charge]+".svg" )
+                    .attr("xlink:href", "static/main/svg/2026/"+e.code+"_"+s[e.charge]+".svg" )
                     .attr("width",me.step*2)
                     .attr("height",me.step*2)
-                    .attr("x",basex*me.step)
-                    .attr("y",(basey+chup*i)*me.step )
+                    .attr("x",(basex+(i*2.5))*me.step)
+                    .attr("y",(basey-0.25)*me.step )
             }
         });
         // Catégorie
         me.spot_g = me.stregoneria.append("g")
                 .attr("id","category_spot_"+s.rid)
         me.spot_g.append("circle")
-                .attrs({"cx":(basex+1)*me.step,"cy":(basey+0.9+chup*(-2.5))*me.step,"r":1.15*me.step})
-                .styles({"fill":"#F0F0F0","stroke-width":"3pt","stroke-dasharray":"","stroke":"#808080"})
+                .attrs({"cx":(basex+12.5)*me.step,"cy":(basey-14)*me.step,"r":1.15*me.step})
+                .styles({"fill":"#F0F0F0","stroke-width":"2pt","stroke-dasharray":"1 4","stroke":"#000000"})
         d3.select("#category_spot_"+s.rid).append("image")
             .attr("class","relinkable")
-            .attr("xlink:href", "static/main/svg/2024/"+s.category.toLowerCase()+".svg" )
+            .attr("xlink:href", "static/main/svg/2026/"+s.category.toLowerCase()+".svg" )
             .attr("width",me.step*2)
             .attr("height",me.step*2)
-            .attr("x",(basex)*me.step)
-            .attr("y",(basey+chup*(-2.5))*me.step )
+            .attr("x",(basex+11.5)*me.step)
+            .attr("y",(basey-15)*me.step )
+        // VOIE
+        me.spot_g.append("circle")
+                .attrs({"cx":(basex+12.5)*me.step,"cy":(basey-11)*me.step,"r":1.15*me.step})
+                .styles({"fill":"white","stroke-width":"2pt","stroke-dasharray":"1 4","stroke":"black"})
+        d3.select("#category_spot_"+s.rid).append("image")
+            .attr("class","relinkable")
+            .attr("xlink:href", "static/main/svg/2026/"+s.path.toLowerCase()+".svg" )
+            .attr("width",me.step*2)
+            .attr("height",me.step*2)
+            .attr("x",(basex+11.5)*me.step)
+            .attr("y",(basey-12)*me.step )
         // Puissance
         me.spot_g.append("circle")
-                .attrs({"cx":(basex+1)*me.step,"cy":(basey+0.9+chup*(-3.0))*me.step,"r":0.5*me.step})
-                .styles({"fill":"#F0F0F0","stroke-width":"3pt","stroke-dasharray":"","stroke":"#808080"})
+                .attrs({"cx":(basex+12.5)*me.step,"cy":(basey-15.5)*me.step,"r":0.5*me.step})
+                .styles({"fill":"white","stroke-width":"2pt","stroke-dasharray":"","stroke":"black"})
         me.stregoneria.append('text')
-            .attrs({"x":(basex+1)*me.step,"y":(basey+0.9+chup*(-2.9))*me.step})
-            .styles({"font-family":me.altFont, "font-size":me.fontSize*3+"pt", "text-anchor":"middle"})
+            .attrs({"x":(basex+12.5)*me.step,"y":(basey-15.4)*me.step})
+            .styles({"font-family":me.altFont, "font-size":me.fontSize*2+"pt", "text-anchor":"middle"})
             .text(s.puissance)
 
         // Signature
-        me.dragonadeSignature(.75,19.5,s.rid,"Fiche de Sortilège: "+s.name)
+        me.dragonadeSignature(.75,20,s.rid,"Fiche de Sortilège: "+s.name)
     }
 
 

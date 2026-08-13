@@ -23,6 +23,7 @@ class Equipment(models.Model):
     malus_armure = models.IntegerField(default=0, null=True, blank=True)
     force_min = models.IntegerField(default=0, null=True, blank=True)
     enc = models.FloatField(default=0, blank=True)
+    resistance = models.IntegerField(default=0, blank=True)
     description = models.TextField(default="", max_length=1024, blank=True)
     price = models.FloatField(default=0, blank=True)
     quantity = models.FloatField(default=0.1, blank=True)
@@ -117,9 +118,9 @@ def cat_from_first(modeladmin, request, queryset):
 class EquipmentAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ['category', 'related_attribute', 'name']
-    list_display = ["name", "rid", "category", "similitude","can_be_thrown", "cover", "plus_dom", "plus_dom_2m", "force_min", "prot", "malus_armure", "related_skill_name", "related_skill",
+    list_display = ["name", "rid", "category",  "resistance","plus_dom", "plus_dom_2m", "force_min", "prot", "malus_armure", "related_skill_name", "related_skill",
                     "related_attribute", "enc", "price", "skill_match"]
-    list_editable = [ "cover","can_be_thrown","category", "prot", "malus_armure","related_skill"]
+    list_editable = [ "category", "prot",  "resistance", "enc","price","malus_armure","related_skill"]
     list_filter = ["category", "can_be_thrown", "related_attribute", "related_skill", "special"]
     search_fields = ['name']
     actions = [refix, cat_from_first]
