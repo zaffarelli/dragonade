@@ -508,7 +508,7 @@ def value_shift(request):
                 dataset = DragonadeGround.values
             elif param == "hour_charge":
                 dataset = DragonadeHour.values
-            elif param == "element_charge":
+            elif param == "elemental_charge":
                 dataset = DragonadeElement.values
             elif param == "emanation_charge":
                 dataset = DragonadeEmanation.values
@@ -518,6 +518,7 @@ def value_shift(request):
                 dataset = SpellCategory.values
             else:
                 dataset = SpellPath .values
+            print(dataset)
             next_value_index = 0
             for k,v in enumerate(dataset):
                 if v == current_value:
