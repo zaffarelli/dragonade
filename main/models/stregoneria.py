@@ -123,8 +123,8 @@ class IncantessimoCastingTime(models.IntegerChoices):
 
 class IncantessimoFallback(models.IntegerChoices):
     NONE = 0, "N/A"
-    CHARGE_1 = 1, "1 charge / Echec"
-    CHARGE_3 = 2, "3 charges / Notable"
+    CHARGE_1 = 1, "une charge / Echec"
+    CHARGE_3 = 2, "toutes les charges / Notable"
 
 
 
@@ -187,12 +187,12 @@ class Spell(models.Model):
             self.diff = diff
             self.dps = dps
             str = f'{old_diff} {old_dps} / {diff} {diff_pen} {dps}'
-        z = 0
-        z += 1 if self.ground_charge != DragonadeGround.NONE else 0
-        z += 1 if self.hour_charge != DragonadeHour.NONE else 0
-        z += 1 if self.emanation_charge != DragonadeEmanation.NONE else 0
-        z += 1 if self.consistency_charge != DragonadeConsistency.NONE else 0
-        z += 1 if self.elemental_charge != DragonadeElement.NONE else 0
+        # z = 0
+        # z += 1 if self.ground_charge != DragonadeGround.NONE else 0
+        # z += 1 if self.hour_charge != DragonadeHour.NONE else 0
+        # z += 1 if self.emanation_charge != DragonadeEmanation.NONE else 0
+        # z += 1 if self.consistency_charge != DragonadeConsistency.NONE else 0
+        # z += 1 if self.elemental_charge != DragonadeElement.NONE else 0
 
         self.charge = 0
         self.charge += 1 if self.ground_charge != DragonadeGround.NONE else 0
@@ -201,7 +201,18 @@ class Spell(models.Model):
         self.charge += 1 if self.consistency_charge != DragonadeConsistency.NONE else 0
         self.charge += 1 if self.elemental_charge != DragonadeElement.NONE else 0
 
-        self.power = self.diff / 5 + self.dps + z + self.songe * 2
+        if self.category == IncantessimoCategory.INCANTATION:
+            if self.charge != 3:
+                self.spell_ready = False
+        elif self.category == IncantessimoCategory.RITUAL:
+            if self.charge != 4:
+                self.spell_ready = False
+        elif self.category == IncantessimoCategory.PENTACLE:
+            if self.charge != 5:
+                self.spell_ready = False
+
+
+        self.power = self.diff / 5 + self.dps + self.songe * 2
 
     def __str__(self):
         return f"{self.name} ({self.get_path_display()} {self.get_category_display()}) "
@@ -240,6 +251,7 @@ class Spell(models.Model):
         data['composantes'] = self.composantes
         data['ti'] = self.get_ti_display()[:4] + "."
         data['puissance'] = self.power
+        data['spell_ready'] = self.spell_ready
         self.data = data
         return data
 

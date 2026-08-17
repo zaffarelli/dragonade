@@ -2,7 +2,7 @@ from django.urls import re_path
 from main.views.generic import index, autochtons, creatures, travellers, maps, papers, card_reveal, draconis_artes, \
     gardiendesreves, appartuses, combattants, new_creature, new_autochton, new_traveller, new_spell, overlay_edit, kicker, \
     value_shift, nativi_list, fetch
-from main.views.incantessimi import incantessimi_list, incantessimo_show
+from main.views.incantessimi import incantessimi_list
 from main.views.stregoneria import SpellDetailView
 from main.views.chiaroscuro import inc_dec, value_push, svg_to_pdf, paginator_switch
 from django.conf import settings
@@ -37,7 +37,7 @@ urlpatterns = [
                   re_path(r'^ajax/kicker', kicker, name="kicker"),
                   re_path(r'^ajax/fetch', fetch, name="fetch"),
                   re_path(r'^ajax/value_shift', value_shift, name="value_shift"),
-                  re_path(r'^ajax/edit/stregoneria/(?P<slug>\w+)/$', SpellDetailView.as_view(), name='view_spell'),
+                  # re_path(r'^ajax/edit/stregoneria/(?P<slug>\w+)/$', SpellDetailView.as_view(), name='view_spell'),
                   # Incantessimi
                   re_path(r'^incantessimi_list$', incantessimi_list, name='incantessimi_list'),
 
