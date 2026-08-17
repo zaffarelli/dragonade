@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{%  load static %}
+
+
+{% block east %}
+{% include "main/menu.html" with title=title %}
+{% include "main/lists/stregoneria_options.html"%}
+{% endblock east %}
+
+
+{% block main %}
+<div class="zlist_container">
+    {% include "main/incantessimi/incantessimi_filters.html" %}
+    {% for x in incantessimi %}
+        {% include "main/incantessimi/incantessimo.html" with s=x num=forloop.counter %}
+    {% endfor %}
+</div>
+{% endblock main %}
+
+{% block custom_js %}
+<script>
+    _.defer(function () {
+        let co = new Chiaroscuro({
+        {
+            config | safe
+        }
+    })
+        co.perform();
+    });
+</script>
+{% endblock custom_js %}

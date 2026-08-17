@@ -9,6 +9,9 @@
       {% if entry.TARGET %}
        target="{{entry.TARGET}}"
       {%endif%}
+      {% if entry.ID %}
+       id="{{entry.ID}}"
+      {%endif%}
 >
     {% if entry.ICON%}
     <i class="fas {{entry.ICON}}">

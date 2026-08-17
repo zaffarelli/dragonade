@@ -3,6 +3,7 @@ class Stregoneria extends Modulo {
         super(co,config);
         this.name = "Stregoneria"
         this.parent = "#svg_area"
+        this.fetched = false
         console.log(config)
     }
 
@@ -41,14 +42,20 @@ class Stregoneria extends Modulo {
         let me = this;
         let s = {}
         me.klass = "Stregoneria"
-        me.rid = s.rid
-        _.forEach(me.config.data, (v,k) => {
-            if (v.rid == me.code){
-                s = v
-                return false
-            }
-        })
-        // console.log(s)
+        // me.rid = s.rid
+        console.log("DRAW STREGONERIA")
+        // if (me.fetched == true) {
+        //     _.forEach(me.config.data, (v, k) => {
+        //         if (v.rid == me.code) {
+        //             s = v
+        //             return false
+        //         }
+        //     })
+        // }else{
+        //     console.log("DATUM FETCHED!!!")
+        s = me.datum.payload
+        // }
+        console.log(s)
         let ox = 0.5, oy = 1.5
         // Statistics
         me.stregoneria = me.back.append("g")
@@ -79,18 +86,21 @@ class Stregoneria extends Modulo {
             // {"x":0.25, "y":0.5, "label":"Catégorie", "value":s.category+" (Voie: "+s.path+")","id":"des1", edit_field: ""},
             {"x":0.25, "y":0.5, "label":"Jet", "value":"Rêve + "+s.roll,"id":"des2", edit_field: "" },
             {"x":0.25, "y":stack_y, "label":"Description", "value": s.description,"id":"des4", edit_field: "description" },
-            // {"x":0.25, "y":stack_y, "label":"Notes", "value": s.composantes,"id":"des5", edit_field: "composantes" },
+            {"x":0.25, "y":stack_y, "label":"Notes", "value": s.composantes,"id":"des5", edit_field: "composantes" },
             // {"x":0.25, "y":stack_y, "label":"Autres noms", "value": s.alternative_names,"id":"des6", edit_field: "alternative_names" },
         ]
-        let delx = 3.25
+        let delx = 4
         let metrics = [
             {"x":(delx * 0) + 0.25, "y":1.5, "label":"Difficulté", "value":s.diff,"id":s.rid+"met1"},
-            {"x":(delx * 1) + 0.25, "y":1.5, "label":"Résistance", "value":s.resistance,"id":s.rid+"met3"},
-            {"x":(delx * 2) + 0.25, "y":1.5, "label":"Portée", "value":s.range,"id":s.rid+"met5"},
             {"x":(delx * 0) + 0.25, "y":2.0, "label":"PdR", "value":s.dps,"id":s.rid+"met2"},
-            {"x":(delx * 1) + 0.25, "y":2.0, "label":"Temps Incant.", "value":s.ti,"id":s.rid+"met4"},
-            {"x":(delx * 2) + 0.25, "y":2.0, "label":"Coût en Songe", "value":s.songe,"id":s.rid+"met7"},
             {"x":(delx * 0) + 0.25, "y":2.5, "label":"Durée", "value":s.duration,"id":s.rid+"met6"},
+
+            {"x":(delx * 1) + 0.25, "y":1.5, "label":"Résistance", "value":s.resistance,"id":s.rid+"met3"},
+            {"x":(delx * 1) + 0.25, "y":2.0, "label":"Temps Incant.", "value":s.ti,"id":s.rid+"met4"},
+
+            {"x":(delx * 2) + 0.25, "y":1.5, "label":"Portée", "value":s.range,"id":s.rid+"met5"},
+            {"x":(delx * 2) + 0.25, "y":2.0, "label":"Coût en Songe", "value":s.songe,"id":s.rid+"met7"},
+
             // {"x":(delx * 1) + 0.25, "y":2.5, "label":"", "value":"","id":s.rid+"met8"},
         ]
         _.forEach(text_metrics, (e) => {
@@ -98,15 +108,15 @@ class Stregoneria extends Modulo {
         });
 
         let cnt4 = me.superwrap("#des4",9*me.step)+1;
-        // let cnt5 = me.superwrap("#des5",8*me.step)+1;
+        let cnt5 = me.superwrap("#des5",9*me.step)+1;
         // let cnt6 = me.superwrap("#des6",8*me.step)+1;
         d3.select("#des4_rect").attr("height",lh*cnt4)
-        // d3.select("#des5_rect").attr("height",lh*cnt5)
+        d3.select("#des5_rect").attr("height",lh*cnt5)
         // d3.select("#des6_rect").attr("height",lh*cnt6)
         d3.select("#des4_grp")
             .attr("transform","translate("+(0.25*me.step)+","+(0.5*me.step*stack_y)+")")
-        // d3.select("#des5_grp")
-        //     .attr("transform","translate("+(0.25*me.step)+","+(0.5*me.step*stack_y+(cnt4+1)*lh)+")")
+        d3.select("#des5_grp")
+            .attr("transform","translate("+(0.25*me.step)+","+(0.5*me.step*stack_y+(cnt4+1)*lh)+")")
         // d3.select("#des6_grp")
         //     .attr("transform","translate("+(0.25*me.step)+","+(0.5*me.step*stack_y+(cnt4+cnt5+2)*lh)+")")
         _.forEach(metrics, (e) => {
@@ -156,12 +166,17 @@ class Stregoneria extends Modulo {
             .attr("x",(basex+11.5)*me.step)
             .attr("y",(basey-15)*me.step )
         // VOIE
+        let cat = s.path.toLowerCase()
+        if (cat[0]=='g'){
+            cat = "generique"
+        }
+        console.log(cat)
         me.spot_g.append("circle")
                 .attrs({"cx":(basex+12.5)*me.step,"cy":(basey-11)*me.step,"r":1.15*me.step})
                 .styles({"fill":"white","stroke-width":"2pt","stroke-dasharray":"1 4","stroke":"black"})
         d3.select("#category_spot_"+s.rid).append("image")
             .attr("class","relinkable")
-            .attr("xlink:href", "static/main/svg/2026/"+s.path.toLowerCase()+".svg" )
+            .attr("xlink:href", "static/main/svg/2026/"+cat+".svg" )
             .attr("width",me.step*2)
             .attr("height",me.step*2)
             .attr("x",(basex+11.5)*me.step)
@@ -187,8 +202,41 @@ class Stregoneria extends Modulo {
         me.code = code;
         me.fileprefix = "sortilege"
         me.filename = me.code
-        me.drawBack();
-        me.drawStregoneria();
-        me.zoomActivate();
+        me.drawBack()
+        me.drawStregoneria()
+        me.zoomActivate()
     }
+
+    postFetch(){
+        super.postFetch()
+        let me = this
+        console.log("POST FETCH STREGONERIA")
+        console.log(me.datum)
+        console.log(`${me.code} ${me.name}`)
+        me.fetched = true
+        me.drawBack()
+        me.drawStregoneria()
+        me.zoomActivate()
+    }
+
+    goBack(){
+        super.goBack()
+        // $(".zlist_container").css('display','flex')
+        $("#svg_area").remove()
+    }
+
+    handle(code){
+        console.log()
+        super.handle()
+        let me = this
+        me.code = code
+        me.fileprefix = "incantessimo"
+        me.filename = me.code
+        // $(".zlist_container").css('display','none')
+        $("<div id='svg_area'></div>").insertBefore('.zlist_container')
+        me.init()
+        me.fetch("incantessimo",code)
+
+    }
+
 }

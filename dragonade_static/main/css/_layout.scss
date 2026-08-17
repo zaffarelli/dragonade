@@ -23,7 +23,7 @@ body {
   }
 
   & .world {
-    background: $palette1;
+//     background: $palette1;
     margin-top: 0;
     margin-bottom: 0;
     z-index: 5;
@@ -66,7 +66,8 @@ body {
       left:0;
       padding:15px;
       border-radius: 15px;
-      background:$palette1;
+      background:#1010107f;
+//       background:none;
       color:$palette4;
       border-radius:10px;
       border:1px solid transparent;
@@ -74,17 +75,17 @@ body {
 
       & #svg_area{
             position:fixed;
-            background:$palette4;
-            //background:cyan;
-            left:1vw;
-            right:1vw;
-            top:1vh;
-            bottom:1vh;
+            //background:$palette4;
+            background:#101010e0;
+            left:0;
+            right:0;
+            top:0;
+            bottom:0;
             width:auto;
             height:auto;
             border-radius: 10px;
             z-index:40;
-
+            border:none;
         }
 
 

@@ -8,60 +8,67 @@ class Modulo {
         this.altFont = "Roboto Flex"
         this.titleFont = "Khand"
         this.category = ""
+        this.datum = {}
     }
 
 
-    drawPrint(){
+
+    drawPrint() {
         let me = this;
-        let offsetx = ((me.w-3*me.step) / 2)/me.step;
-        let offsety = 0;
-        let click_1 = (e,d) => {
+        let offsetx = 0 //me.step //((me.w - 3 * me.step) / 2) / me.step;
+        let offsety = 3
+        let click_1 = (e, d) => {
             me.saveSVG();
         }
-        let click_2 = (e,d) => {
+        let click_2 = (e, d) => {
             me.createPDF();
         }
-        let click_3 = (e,d) => {
-            me.edit();
+        // let click_3 = (e, d) => {
+        //     me.edit();
+        // }
+        let click_4 = (e, d) => {
+            me.goBack();
         }
+        let localfont = me.step/4
         let buttons = [
-            {"id":"btn1","label": "Save as SVG","x":offsetx,"y":offsety,"click_action":click_1},
-            {"id":"btn2","label": "Create PDF","x":offsetx+2,"y":offsety,"click_action":click_2},
-            {"id":"btn3","label": "Edit","x":offsetx+4,"y":offsety,"click_action":click_3}
+            {"id": "btn1", "label": "Sauver en SVG", "x": offsetx, "y": offsety, "click_action": click_1},
+            {"id": "btn2", "label": "Sauver en PDF", "x": offsetx, "y": offsety +1 , "click_action": click_2},
+            // {"id": "btn3", "label": "Editer", "x": offsetx, "y": offsety +2, "click_action": click_3},
+            {"id": "btn4", "label": "Retour", "x": offsetx, "y": offsety +2, "click_action": click_4}
         ]
         me.all_buttons = me.vis.append("g")
-            .attr("class","do_not_print")
-            .attr("id","all_buttons")
-            .attr("transform",`translate(${me.ox*me.step},${me.oy*me.step})`)
-        _.forEach(buttons,(v,k) => {
+            .attr("class", "do_not_print")
+            .attr("id", "all_buttons")
+            .attr("transform", `translate(${me.ox * me.step},${me.oy * me.step})`)
+        _.forEach(buttons, (v, k) => {
             let btn = me.all_buttons.append("g")
                 .on("click", v.click_action);
             btn.append("rect")
-                .attr("id",v.id)
-                .attr("class","do_not_print")
-                .attr("x",(v.x)*me.step)
-                .attr("y",(v.y)*me.step)
-                .attr("ry","3pt")
-                .attr("rx","3pt")
-                .attr("width",me.step*1.5 )
-                .attr("height",me.step*0.8 )
-                .attr('opacity',1)
-                .style('stroke-width','2pt')
-                .style('stroke','#606060')
-                .style('fill','#4f214b')
+                .attr("id", v.id)
+                .attr("class", "do_not_print")
+                .attr("x", (v.x) * me.step)
+                .attr("y", (v.y) * me.step)
+                .attr("ry", "3pt")
+                .attr("rx", "3pt")
+                .attr("width", me.step * 4)
+                .attr("height", me.step * 0.8)
+                .attr('opacity', 1)
+                .style('stroke-width', '1pt')
+                .style('stroke', '#101010')
+                .style('fill', '#606060')
             btn.append("text")
-                .attr("id","print_artefact")
-                .attr("class","do_not_print")
-                .attr("x",(v.x+0.75)*me.step)
-                .attr("y",(v.y)*me.step)
-                .attr("dy",me.step/2)
-                .attr('opacity',1)
-                .style('stroke-width','0.25pt')
-                .style('stroke','#606060')
-                .style('fill','#F0F0F0')
-                .style("text-anchor","middle")
-                .style("font-size",me.fontSize+"pt")
-                .style("font-family",me.altFont)
+                .attr("id", "print_artefact")
+                .attr("class", "do_not_print")
+                .attr("x", (v.x + 2.0) * me.step)
+                .attr("y", (v.y) * me.step)
+                .attr("dy", me.step / 2)
+                .attr('opacity', 1)
+                .style('stroke-width', '0.25pt')
+                .style('stroke', '#808080')
+                .style('fill', '#FFFFFF')
+                .style("text-anchor", "middle")
+                .style("font-size", localfont + "pt")
+                .style("font-family", me.altFont)
                 .text(v.label)
             ;
         });
@@ -78,42 +85,43 @@ class Modulo {
     }
 
 
-    createPath(str,u){
+    createPath(str, u) {
         // Do not forget spaces between entities in str !!
         // Working example: str = "M 0,0 l 12,4 5,13 -5,0 -12,-17 z"
         // u is the scale unit. Try to link it to me.step
         let res = "";
         let items = str.split(" ")
         _.forEach(items, (item) => {
-            if (item.includes(',')){
+            if (item.includes(',')) {
                 let vals = item.split(',')
-                res += (vals[0]*u)+","+(vals[1]*u)+" ";
-            }else{
-                res += item+" ";
+                res += (vals[0] * u) + "," + (vals[1] * u) + " ";
+            } else {
+                res += item + " ";
             }
         });
         return res;
     }
 
 
-    resizeEvent(){
+    resizeEvent() {
         let me = this;
-        console.log("ResizeEvent for "+me.name)
-        let width = $(me.parent).width;
-        let height = $(me.parent).height;
+        console.log("ResizeEvent for " + me.name)
+        let width = $(me.parent).width
+        let height = $(me.parent).height
         //let boundingBox = document.querySelector("#svg_area").getBoundingClientRect();
-        me.w = parseInt($(me.parent).css('width'));
-        me.h = parseInt($(me.parent).css('height'));
+        me.w = parseInt($(me.parent).css('width'))
+        me.h = parseInt($(me.parent).css('height'))
+        if (me.vis) {
+            me.vis
+                .attr("viewBox", "0 0 " + me.w + " " + me.h)
+                .attr("width", me.w)
+                .attr("height", me.h)
 
-        me.vis
-            .attr("viewBox", "0 0 " + me.w + " " + me.h)
-            .attr("width", me.w)
-            .attr("height", me.h);
-        ;
-        me.svg.attr("transform", "translate("+me.w/2 +","+ me.h / 2+")")
+            me.svg.attr("transform", "translate(" + me.w / 2 + "," + me.h / 2 + ")")
+        }
     }
 
-    drawCross(x,y){
+    drawCross(x, y) {
         let me = this;
         let offset = 3;
         let cross = me.back.append('g')
@@ -121,36 +129,36 @@ class Modulo {
         cross.append('line')
             .attr('x1', x)
             .attr('x2', x)
-            .attr('y1', y-offset)
-            .attr('y2', y+offset)
+            .attr('y1', y - offset)
+            .attr('y2', y + offset)
             .style('fill', 'transparent')
             .style('stroke', '#A02020')
             .style('stroke-width', '2pt')
         ;
         cross.append('line')
-            .attr('x1',x-offset)
-            .attr('x2', x+offset)
-            .attr('y1', y )
-            .attr('y2', y )
+            .attr('x1', x - offset)
+            .attr('x2', x + offset)
+            .attr('y1', y)
+            .attr('y2', y)
             .style('fill', '#A02020')
             .style('stroke', '#A02020')
             .style('stroke-width', '2pt')
         ;
         cross.append('text')
-            .attr("x", x+offset*5)
-            .attr("y", y+offset*5)
-            .style("text-anchor","middle")
-            .style("font-family",me.altFont)
-            .style("font-size","6pt")
-            .style("fill","#A02020")
-            .style("stroke","#202020")
-            .style("stroke-width","0.25pt")
-            .text(x+"/"+y)
+            .attr("x", x + offset * 5)
+            .attr("y", y + offset * 5)
+            .style("text-anchor", "middle")
+            .style("font-family", me.altFont)
+            .style("font-size", "6pt")
+            .style("fill", "#A02020")
+            .style("stroke", "#202020")
+            .style("stroke-width", "0.25pt")
+            .text(x + "/" + y)
         ;
 
     }
 
-    action(type,str){
+    action(type, str) {
         let me = this;
         console.log(`${me.name} Nothing to do with action on [${x}] for this module! Please override action(str) in child module.`);
     }
@@ -165,17 +173,17 @@ class Modulo {
         me.fontSize = me.step / 8;
     }
 
-    softLog(txt){
+    softLog(txt) {
         let me = this;
-        me.co.softLog(me.name,txt);
+        me.co.softLog(me.name, txt);
     }
 
-    hardLog(txt){
+    hardLog(txt) {
         let me = this;
-        me.co.hardLog(me.name,txt);
+        me.co.hardLog(me.name, txt);
     }
 
-    register(){
+    register() {
         let me = this;
         me.co.modules.push(me);
 //         console.log(me.name+" Registered");
@@ -218,9 +226,10 @@ class Modulo {
     }
 
     saveSVG() {
-        let me = this;
-        me.svg.selectAll('.do_not_print').attr('opacity', 0);
-        let base_svg = d3.select(me.parent+" svg").html();
+        let me = this
+        d3.select(me.parent + " svg").selectAll('.do_not_print').attr('opacity', 0);
+        let base_svg = d3.select(me.parent + " svg").html();
+
         let flist = '<style>';
         for (let f of me.config['fontset']) {
             flist += '@import url("https://fonts.googleapis.com/css2?family=' + f + '");';
@@ -244,7 +253,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
         nuke.href = 'data:application/octet-stream;base64,' + btoa(me.formatXml(exportable_svg));
         nuke.setAttribute("download", fname);
         nuke.click();
-        me.svg.selectAll('.do_not_print').attr('opacity', 1);
+        d3.select(me.parent + " svg").selectAll('.do_not_print').attr('opacity', 1);
+        // me.svg.selectAll('.do_not_print').attr('opacity', 1);
     }
 
     edit() {
@@ -254,7 +264,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
             "item": this.filename
         }
         $.ajax({
-            url: 'ajax/edit/'+this.category+'/'+this.filename+'/',
+            url: 'ajax/edit/' + this.category + '/' + this.filename + '/',
             type: 'GET',
 //             headers: {
 //                 'Accept': 'application/json',
@@ -298,8 +308,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
 
 //         lpage = "_" + (me.page + 1);
 
-        let svg_name = me.fileprefix+"__" + me.filename + ".svg"
-        let pdf_name = me.fileprefix+"__" + me.filename + ".pdf"
+        let svg_name = me.fileprefix + "__" + me.filename + ".svg"
+        let pdf_name = me.fileprefix + "__" + me.filename + ".pdf"
         let sheet_data = {
             'pdf_name': pdf_name,
             'svg_name': svg_name,
@@ -326,116 +336,116 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
         });
     }
 
-    drawLongTextBlock(tgt,x,y,label,value,id,edit_field=""){
+    drawLongTextBlock(tgt, x, y, label, value, id, edit_field = "") {
         let me = this;
         let label_attrs = {
-            "width":me.step*2,
-            "height":me.step*0.5,
-            "rx":me.step*0.1,
-            "ry":me.step*0.1
-            }
-        let value_attrs = {
-            "width":me.step*9.25,
-            "height":me.step*0.75,
-            "rx":me.step*0.1,
-            "ry":me.step*0.1
+            "width": me.step * 2,
+            "height": me.step * 0.5,
+            "rx": me.step * 0.1,
+            "ry": me.step * 0.1
         }
-        console.log("(*Edit_Field*) ",edit_field)
-        me.drawBlock(tgt,x,y,label_attrs,value_attrs, label,value,id,edit_field)
+        let value_attrs = {
+            "width": me.step * 9.25,
+            "height": me.step * 0.75,
+            "rx": me.step * 0.1,
+            "ry": me.step * 0.1
+        }
+        console.log("(*Edit_Field*) ", edit_field)
+        me.drawBlock(tgt, x, y, label_attrs, value_attrs, label, value, id, edit_field)
     }
 
-    drawSmallNumericBlock(tgt,x,y,label,value,id,edit_field=""){
+    drawSmallNumericBlock(tgt, x, y, label, value, id, edit_field = "") {
         let me = this;
         let label_attrs = {
-            "width":me.step*2,
-            "height":me.step*0.4,
-            "rx":me.step*0.1,
-            "ry":me.step*0.1
-            }
-        let value_attrs = {
-            "width":me.step*0.8,
-            "height":me.step*0.4,
-            "rx":me.step*0.1,
-            "ry":me.step*0.1,
+            "width": me.step * 2,
+            "height": me.step * 0.4,
+            "rx": me.step * 0.1,
+            "ry": me.step * 0.1
         }
-        me.drawBlock(tgt,x,y,label_attrs,value_attrs, label,value,id,edit_field)
+        let value_attrs = {
+            "width": me.step * 1.4,
+            "height": me.step * 0.4,
+            "rx": me.step * 0.1,
+            "ry": me.step * 0.1,
+        }
+        me.drawBlock(tgt, x, y, label_attrs, value_attrs, label, value, id, edit_field)
     }
 
-    drawBlock(tgt,x,y,label_attrs, value_attrs, label,value,id,edit_field=""){
+    drawBlock(tgt, x, y, label_attrs, value_attrs, label, value, id, edit_field = "") {
         let me = this;
         let label_styles = {
-            "fill":edit_field=="" ? "#a0a0a0": "#a0a0a0",
-            "stroke":"black",
-            "stroke-width":"0.5pt"
+            "fill": edit_field == "" ? "#a0a0a0" : "#a0a0a0",
+            "stroke": "black",
+            "stroke-width": "0.5pt"
         }
         let value_styles = {
-            "fill":"white",
-            "stroke":"black",
-            "stroke-width":"1pt"
+            "fill": "white",
+            "stroke": "black",
+            "stroke-width": "1pt"
         }
         let label_text_styles = {
-            "font-family":me.baseFont,
-            "font-size":me.fontSize+"pt",
-            "text-anchor":"middle",
+            "font-family": me.baseFont,
+            "font-size": me.fontSize + "pt",
+            "text-anchor": "middle",
             "fill": "black",
-            "stroke":"black",
-            "stroke-width":"0.25pt"
+            "stroke": "black",
+            "stroke-width": "0.25pt"
         }
         let value_text_styles = {
-            "font-family":me.altFont,
-            "font-size":me.fontSize+"pt",
-            "text-anchor":"start",
-            "fill":"black",
-            "stroke":"#808080",
-            "stroke-width":"0.25pt",
+            "font-family": me.altFont,
+            "font-size": me.fontSize + "pt",
+            "text-anchor": "start",
+            "fill": "black",
+            "stroke": "#808080",
+            "stroke-width": "0.25pt",
         }
         let grp = tgt.append('g')
-            .attr("id",id+"_grp")
-            .attr("transform","translate("+x*me.step+","+y*me.step+")")
+            .attr("id", id + "_grp")
+            .attr("transform", "translate(" + x * me.step + "," + y * me.step + ")")
         grp.append('rect')
-            .attrs({"x":0, "y":me.step*(-0.4/2) })
+            .attrs({"x": 0, "y": me.step * (-0.4 / 2)})
             .attrs(label_attrs)
             .styles(label_styles)
         grp.append('rect')
-            .attr("id",id+"_rect")
-            .attrs({"x":me.step*(2.1), "y":me.step*(-0.4/2) })
+            .attr("id", id + "_rect")
+            .attrs({"x": me.step * (2.1), "y": me.step * (-0.4 / 2)})
             .attrs(value_attrs)
             .styles(value_styles)
         grp.append('text')
-            .attrs({"x":1*me.step, "y":0, "dy":me.fontSize/3+"pt" })
+            .attrs({"x": 1 * me.step, "y": 0, "dy": me.fontSize / 3 + "pt"})
             .styles(label_text_styles)
             .text(label)
         grp.append('text')
-            .attr("class","longwrap")
-            .attr("id",id)
-            .attr("x",me.step*2.25)
-            .attr("y",me.step*0.1)
+            .attr("class", "longwrap")
+            .attr("id", id)
+            .attr("x", me.step * 2.25)
+            .attr("y", me.step * 0.1)
             .styles(value_text_styles)
             .text(value)
-        if (me.debug == true){
+        if (me.debug == true) {
             grp.append('circle')
-                .attrs({"cx":0, "cy":0, "r":me.fontSize/3+"pt" })
-                .styles({"fill":"red","stroke":"darkred","stroke-width":0.5+"pt"})
+                .attrs({"cx": 0, "cy": 0, "r": me.fontSize / 3 + "pt"})
+                .styles({"fill": "red", "stroke": "darkred", "stroke-width": 0.5 + "pt"})
         }
     }
 
-    dragonadeSignature(ox,oy,id,txt){
+    dragonadeSignature(ox, oy, id, txt) {
         let me = this
         let now = new Date()
         me.signature = me.back.append("g")
         me.back.append("g")
-            .attr("id","signature_spot_"+id)
-        d3.select("#signature_spot_"+id).append("image")
-            .attr("class","relinkable")
-            .attr("xlink:href", "static/main/svg/2024/dragonade.svg" )
-            .attr("width",2.3*me.step)
-            .attr("height",.6*me.step)
-            .attr("x",ox*me.step)
-            .attr("y",oy*me.step)
+            .attr("id", "signature_spot_" + id)
+        d3.select("#signature_spot_" + id).append("image")
+            .attr("class", "relinkable")
+            .attr("xlink:href", "static/main/svg/2024/dragonade.svg")
+            .attr("width", 2.3 * me.step)
+            .attr("height", .6 * me.step)
+            .attr("x", ox * me.step)
+            .attr("y", oy * me.step)
         me.signature.append("text")
-            .attrs({"x":(ox+2.5)*me.step,"y":(oy+.4)*me.step})
-            .styles({"font-family":me.baseFont,"text-anchor":"start","font-size":"8pt"})
-            .text(txt+" ["+now.toLocaleDateString()+" "+now.toLocaleTimeString()+"]")
+            .attrs({"x": (ox + 2.5) * me.step, "y": (oy + .4) * me.step})
+            .styles({"font-family": me.baseFont, "text-anchor": "start", "font-size": "8pt"})
+            .text(txt + " [" + now.toLocaleDateString() + " " + now.toLocaleTimeString() + "]")
 
     }
 
@@ -452,27 +462,26 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             oy = parseFloat(item.attr("y")),
             tspan = item.text(null).append("tspan").attr("x", ox).attr("y", oy).attr("dy", dy + "em");
         while (word = words.pop()) {
-          line.push(word);
-          tspan.text(line.join(' '));
-          if ((tspan.node().getComputedTextLength() >= width)||(word == "§")) {
-            line.pop();
-            tspan.text(line.join(" "));
-            if (word=="§"){
-                line = []
-            }else{
-                line = [word];
+            line.push(word);
+            tspan.text(line.join(' '));
+            if ((tspan.node().getComputedTextLength() >= width) || (word == "§")) {
+                line.pop();
+                tspan.text(line.join(" "));
+                if (word == "§") {
+                    line = []
+                } else {
+                    line = [word];
+                }
+                lineNumber += 1;
+                tspan = item.append("tspan")
+                    .attr("x", ox)
+                    .attr("y", lineNumber * lineHeight + "em")
+                    .attr("dy", 0)
+                    .text(word + " ");
             }
-            lineNumber += 1;
-            tspan = item.append("tspan")
-                .attr("x", ox)
-                .attr("y", lineNumber * lineHeight + "em")
-                .attr("dy", 0)
-                .text(word+" ");
-          }
         }
         return lineNumber
     }
-
 
 
     superwrap(tgt, width) {
@@ -488,83 +497,85 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             oy = parseFloat(item.attr("y")),
             tspan = item.text(null).append("tspan").attr("x", ox).attr("y", oy).attr("dy", dy + "em");
         while (word = words.pop()) {
-          line.push(word);
-          tspan.text(line.join(' '));
-          if ((tspan.node().getComputedTextLength() >= width)||(word == "§")) {
-            line.pop();
-            tspan.text(line.join(" "));
-            if (word=="§"){
-                line = []
-            }else{
-                line = [word];
+            line.push(word);
+            tspan.text(line.join(' '));
+            if ((tspan.node().getComputedTextLength() >= width) || (word == "§")) {
+                line.pop();
+                tspan.text(line.join(" "));
+                if (word == "§") {
+                    line = []
+                } else {
+                    line = [word];
+                }
+                lineNumber += 1;
+                tspan = item.append("tspan")
+                    .attr("x", ox)
+                    .attr("y", oy)
+                    .attr("dy", lineNumber * lineHeight + "em")
+                    .text(word + " ");
             }
-            lineNumber += 1;
-            tspan = item.append("tspan")
-                .attr("x", ox)
-                .attr("y", oy)
-                .attr("dy", lineNumber * lineHeight + "em")
-                .text(word+" ");
-          }
         }
         let bb = d3.select(tgt).node().getBoundingClientRect()
-        if (this.debug){
-        item.append("rect")
-            .attrs({"x":0,"y":0,"width":bb.width,"height":bb.height})
-            .styles({"fill":"#a020202f","stroke":"#a02020","stroke-width":"1pt"})
+        if (this.debug) {
+            item.append("rect")
+                .attrs({"x": 0, "y": 0, "width": bb.width, "height": bb.height})
+                .styles({"fill": "#a020202f", "stroke": "#a02020", "stroke-width": "1pt"})
         }
-        console.log("Superwrap >>",bb)
+        console.log("Superwrap >>", bb)
 
         return lineNumber
     }
 
-    paperX(x){
+    paperX(x) {
         let me = this
         return x * me.localstep
     }
 
-    paperY(y){
+    paperY(y) {
         let me = this
         return y * me.localstep
     }
 
-    drawBack(){
+    drawBack() {
         let me = this;
         me.back = me.svg.append('g')
-            .attr("class","circlebacks")
+            .attr("class", "circlebacks")
             .append("g")
-           // .attr("transform","translate("+(-me.step*21/2)+","+(-me.step*29.7/2)+")")
+        // .attr("transform","translate("+(-me.step*21/2)+","+(-me.step*29.7/2)+")")
         ;
         me.back.append("rect")
-            .attr("id","pagerect")
-            .attr("x",me.ox*me.step)
-            .attr("y",me.oy*me.step)
-            .attr("width",me.width )
-            .attr("height",me.height )
-            .style('stroke-width','1pt')
-            .style('stroke-dasharray','2 3')
-            .style('stroke','#606060')
-            .style('fill','#F0F0F0')
-            .attr('opacity',0.5)
+            .attr("id", "pagerect")
+            .attr("x", me.ox * me.step)
+            .attr("y", me.oy * me.step)
+            .attr("rx", .5 * me.step)
+            .attr("ry", .5 * me.step)
+            .attr("width", me.width)
+            .attr("height", me.height)
+            .style('stroke-width', '1pt')
+            .style('stroke-dasharray', '')
+            .style('stroke', '#000000')
+            .style('fill', '#F0F0F0')
+            //.attr('opacity', 0.75)
         ;
         me.drawPrint();
         if (me.debug == true) {
-            me.xunits = 20;
-            me.yunits = 28;
+            me.xunits = 14;
+            me.yunits = 20;
 
             let verticals = me.back.append('g')
                 .attr('class', 'verticals do_not_print')
                 .selectAll("g")
-                .data(d3.range(1, me.xunits+2, 1));
+                .data(d3.range(1, me.xunits + 2, 1));
             verticals.enter()
                 .append('line')
                 .attr('x1', function (d) {
-                    return (d+me.ox) * me.step
+                    return (d + me.ox) * me.step
                 })
                 .attr('x2', function (d) {
-                    return (d+me.ox) * me.step
+                    return (d + me.ox) * me.step
                 })
-                .attr('y1', me.oy*me.step)
-                .attr('y2', (me.oy+me.yunits+1) * me.step)
+                .attr('y1', me.oy * me.step)
+                .attr('y2', (me.oy + me.yunits + 1) * me.step)
                 .style('fill', 'transparent')
                 .style('stroke', '#101010')
                 .style('stroke-dasharray', '3 7')
@@ -572,16 +583,16 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             let horizontals = me.back.append('g')
                 .attr('class', 'horizontals do_not_print')
                 .selectAll("g")
-                .data(d3.range(1, me.yunits+2, 1));
+                .data(d3.range(1, me.yunits + 2, 1));
             horizontals.enter()
                 .append('line')
                 .attr('x1', me.ox * me.step)
-                .attr('x2', (me.ox+me.xunits+1) * me.step)
+                .attr('x2', (me.ox + me.xunits + 1) * me.step)
                 .attr('y1', function (d) {
-                    return (d+me.oy) * me.step
+                    return (d + me.oy) * me.step
                 })
                 .attr('y2', function (d) {
-                    return (d+me.oy) * me.step
+                    return (d + me.oy) * me.step
                 })
                 .style('fill', 'transparent')
                 .style('stroke', '#101010')
@@ -591,7 +602,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
         }
     }
 
-   register(){
+    register() {
         let me = this;
         me.co.axiomaticPerformers.push(me);
     }
@@ -599,6 +610,50 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
 
     perform() {
         let me = this;
-        console.log(me.name+" Perform");
+        console.log(me.name + " Perform");
     }
+
+    handle() {
+        let me = this;
+        console.log(me.name + " Handle");
+    }
+
+    goBack(){
+        let me = this
+        console.log("Going back!!")
+    }
+
+    postFetch(){
+        let me = this
+    }
+
+    fetch(model, rid) {
+        let me = this
+        $.ajax({
+            url: 'ajax/fetch',
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data: {
+                "rid": rid,
+                "type": model,
+            },
+            dataType: 'json',
+            success: function (answer) {
+                me.datum = {}
+                me.datum['rid'] = answer['rid']
+                me.datum['type'] = answer['type']
+                me.datum['payload'] = answer['payload']
+                me.postFetch()
+                me.co.registerActions()
+            },
+            error: function (answer) {
+                console.error('Error... ' + answer)
+                me.co.registerActions()
+            },
+        })
+    }
+
 }

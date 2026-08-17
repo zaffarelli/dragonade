@@ -37,6 +37,7 @@ class Chiaroscuro {
             mod.register();
         }
         this.tables = []
+        this.last_tabbutton = ""
     }
 
     prepareWebSocket(){
@@ -118,18 +119,38 @@ class Chiaroscuro {
 
     registerActions() {
         let me = this;
-        me.prepareAjax();
-        me.registerEditables();
-        me.registerStackPull();
-        me.registerValuePush();
-        me.registerSheets();
-        me.registerLinks();
-        me.registerMiniItems();
-        me.registerShowHide();
-        me.registerPaginator();
-        me.registerModelForm();
-        me.registerShifters();
-        me.registerTabs();
+        me.prepareAjax()
+        me.registerShortcuts()
+        me.registerEditables()
+        me.registerStackPull()
+        me.registerValuePush()
+        me.registerSheets()
+        me.registerLinks()
+        me.registerMiniItems()
+        me.registerShowHide()
+        me.registerPaginator()
+        me.registerModelForm()
+        me.registerShifters()
+        me.registerTabs()
+        me.registerListActions()
+
+    }
+
+    registerShortcuts(){
+        let me=this
+        $("body").off().on("keyup", (e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            if (e.ctrlKey && e.altKey){
+                switch (e.key) {
+                    case "o":
+                        console.log("Code:"+e.code, "Key:"+e.key)
+                        $("#options_showhide").trigger('click')
+                        break
+                }
+            }
+
+        })
     }
 
     registerTabs() {
@@ -140,6 +161,8 @@ class Chiaroscuro {
             $("#tabbutton_"+tgt).addClass("on")
             $(".tabpanel").addClass("hidden")
             $("#tabpanel_"+tgt).removeClass("hidden")
+            me.last_tabbutton = $(this).attr("id")
+            console.log(`Last tab button is [${me.last_tabbutton}].`)
         })
     }
 
@@ -162,6 +185,35 @@ class Chiaroscuro {
             }
             let html = words.join(" ")
             $("#ed").val(html)
+        })
+    }
+
+    registerListActions(){
+        let me = this
+        $('.list_action').off().on('click', function(e) {
+            let id = $(this).attr('id')
+            let words = id.split('__')
+            let rid = words[0]
+            let action = words[1]
+            switch (action){
+                case "view":
+                    console.log(`Viewing for [${rid}] required.`)
+                    me.axiomaticPerformers.forEach( (m) => {
+                        console.log(`[${m.name}] is ready to handle [${rid}]!`)
+                        m.handle(rid)
+                    })
+                    me.registerActions()
+                    break
+                case "edit":
+                    console.log(`Editing for [${words[0]}] required.`)
+                    break
+                case "export":
+                    console.log(`Exporting for [${words[0]}] required.`)
+                    break
+                default:
+                    console.warn(`Unknown list action [${words[1]}] for item [${words[0]}].`)
+                    break
+            }
         })
     }
 
@@ -206,6 +258,10 @@ class Chiaroscuro {
 //                                 $("#target_ed").val("");
 //                                 $("#ed").val("");
                                 me.registerActions();
+                                if (me.last_tabbutton != ""){
+                                    console.log(`${me.last_tabbutton}`)
+                                    $("#"+me.last_tabbutton).trigger("click")
+                                }
                             },
                             error: function (answer) {
                                 console.error('Error... ' + answer);
@@ -256,7 +312,8 @@ class Chiaroscuro {
             e.stopPropagation()
             let miniid = $(this).attr('id')
             let words = miniid.split('__')
-            console.log(`rid:${words[0]} param:${words[1]}`)
+            let model = $(this).attr('model')
+            // console.log(`rid:${words[0]} param:${words[1]}`)
             if (e.ctrlKey || e.altKey) {
                 let back = (e.altKey ? -1 : 1)
                 $.ajax({
@@ -273,9 +330,7 @@ class Chiaroscuro {
                     },
                     dataType: 'json',
                     success: function (answer) {
-                        console.log(answer)
-                        // $("#spell__"+answer.rid).html("")
-                        $("#spell__"+answer.rid).html(answer.data)
+                        $("#"+model+"__"+answer.rid).html(answer.data)
                         me.registerActions()
                     },
                     error: function (answer) {
@@ -320,9 +375,13 @@ class Chiaroscuro {
                     $('#roster_' + answer.id).removeClass("hidden")
                     $(".for_display_" + answer.id).addClass('hidden');
                     $(".for_edit_" + answer.id).removeClass('hidden');
-                    $("#target_ed").val("");
-                    $("#ed").val("");
-                    me.registerActions();
+                    $("#target_ed").val("")
+                    $("#ed").val("")
+                    me.registerActions()
+                    if (me.last_tabbutton != ""){
+                        console.log(`${me.last_tabbutton}`)
+                        $("#"+me.last_tabbutton).trigger("click")
+                    }
                 },
                 error: function (answer) {
                     console.error('Error... ' + answer);

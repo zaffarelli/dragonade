@@ -12,6 +12,7 @@ from main.models.characters import Character
 class Traveller(Character):
     player = models.CharField(max_length=128, default="", blank=True)
     destiny = models.PositiveIntegerField(default=0, blank=True)
+    is_storyteller = models.BooleanField(default=False, blank=True)
 
     def __str__(self):
         return f"v_{self.rid}"
@@ -31,8 +32,8 @@ class Traveller(Character):
 
 class TravellerAdmin(admin.ModelAdmin):
     ordering = ['-indice','name']
-    list_display = ['name', 'has_bug','bug_list', 'indice', 'indice_attributes', 'indice_skills', 'color', 'destiny', 'protection_map']
-    list_editable = ['color', 'destiny']
-    list_filter = ['color', "priority"]
+    list_display = ['name', 'player','is_storyteller', 'has_bug','bug_list', 'indice', 'indice_attributes', 'indice_skills', 'color', 'destiny', 'protection_map']
+    list_editable = ['color', 'destiny','is_storyteller']
+    list_filter = ['is_storyteller', "priority"]
     from main.utils.mechanics import pre_sim, refix
     actions = [refix, pre_sim]

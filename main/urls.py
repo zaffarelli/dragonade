@@ -1,40 +1,44 @@
 from django.urls import re_path
 from main.views.generic import index, autochtons, creatures, travellers, maps, papers, card_reveal, draconis_artes, \
-    gardiendesreves, appartuses, stregoneria, stregoneria_list, combattants, new_creature, new_autochton, new_traveller, new_spell, overlay_edit, kicker, value_shift
+    gardiendesreves, appartuses, combattants, new_creature, new_autochton, new_traveller, new_spell, overlay_edit, kicker, \
+    value_shift, nativi_list, fetch
+from main.views.incantessimi import incantessimi_list, incantessimo_show
 from main.views.stregoneria import SpellDetailView
 from main.views.chiaroscuro import inc_dec, value_push, svg_to_pdf, paginator_switch
 from django.conf import settings
 from django.conf.urls.static import static
+
 # from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
-    re_path(r'^$', index, name='index'),
-    re_path(r'^orologio$', index, name='index'),
-    re_path(r'^autochtons$', autochtons, name='autochtons'),
-    re_path(r'^creatures$', creatures, name='creatures'),
-    re_path(r'^travellers$', travellers, name='travellers'),
-    re_path(r'^piani$', maps, name='maps'),
-    re_path(r'^carte$', papers, name='papers'),
-    re_path(r'^combattimento', combattants, name='combattants'),
-    re_path(r'^risorse$', card_reveal, name='card_reveal'),
-    re_path(r'^appartuses$', appartuses, name='appartuses'),
-    re_path(r'^stregoneria$', stregoneria, name='stregoneria'),
-    re_path(r'^stregoneria_list$', stregoneria_list, name='stregoneria_list'),
-    re_path(r'^gardiendesreves$', gardiendesreves, name='gardiendesreves'),
-    re_path(r'^ajax/inc_dec$', inc_dec, name='inc_dec'),
-    re_path(r'^ajax/value_push$', value_push, name='value_push'),
-    re_path(r'^ajax/paginator$', paginator_switch, name='paginator_switch'),
-    re_path(r'^ajax/svg2pdf/(?P<slug>[\w-]+)/$', svg_to_pdf, name='svg_to_pdf'),
-    re_path(r'^new_creature', new_creature, name='new_creature'),
-    re_path(r'^new_traveller', new_traveller, name='new_traveller'),
-    re_path(r'^new_autochton', new_autochton, name='new_autochton'),
-    re_path(r'^ajax/new/spell', new_spell, name='new_spell'),
-    re_path(r'^ajax/embedded/edit', SpellDetailView.as_view()),
-    re_path(r'^ajax/overlay/edit', overlay_edit, name="overlay_edit"),
-    re_path(r'^ajax/kicker', kicker, name="kicker"),
-    re_path(r'^ajax/value_shift', value_shift, name="value_shift"),
-    re_path(r'^ajax/edit/stregoneria/(?P<slug>\w+)/$', SpellDetailView.as_view(), name='view_spell'),
+                  re_path(r'^$', index, name='index'),
+                  re_path(r'^orologio$', index, name='index'),
+                  re_path(r'^autochtons$', autochtons, name='autochtons'),
+                  re_path(r'^creatures$', creatures, name='creatures'),
+                  re_path(r'^travellers$', travellers, name='travellers'),
+                  re_path(r'^piani$', maps, name='maps'),
+                  re_path(r'^carte$', papers, name='papers'),
+                  re_path(r'^combattimento', combattants, name='combattants'),
+                  re_path(r'^risorse$', card_reveal, name='card_reveal'),
+                  re_path(r'^appartuses$', appartuses, name='appartuses'),
+                  # re_path(r'^stregoneria$', stregoneria, name='stregoneria'),
+                  re_path(r'^nativi$', nativi_list, name='nativi_list'),
+                  re_path(r'^gardiendesreves$', gardiendesreves, name='gardiendesreves'),
+                  re_path(r'^ajax/inc_dec$', inc_dec, name='inc_dec'),
+                  re_path(r'^ajax/value_push$', value_push, name='value_push'),
+                  re_path(r'^ajax/paginator$', paginator_switch, name='paginator_switch'),
+                  re_path(r'^ajax/svg2pdf/(?P<slug>[\w-]+)/$', svg_to_pdf, name='svg_to_pdf'),
+                  re_path(r'^new_creature', new_creature, name='new_creature'),
+                  re_path(r'^new_traveller', new_traveller, name='new_traveller'),
+                  re_path(r'^new_autochton', new_autochton, name='new_autochton'),
+                  re_path(r'^ajax/new/spell', new_spell, name='new_spell'),
+                  re_path(r'^ajax/embedded/edit', SpellDetailView.as_view()),
+                  re_path(r'^ajax/overlay/edit', overlay_edit, name="overlay_edit"),
+                  re_path(r'^ajax/kicker', kicker, name="kicker"),
+                  re_path(r'^ajax/fetch', fetch, name="fetch"),
+                  re_path(r'^ajax/value_shift', value_shift, name="value_shift"),
+                  re_path(r'^ajax/edit/stregoneria/(?P<slug>\w+)/$', SpellDetailView.as_view(), name='view_spell'),
+                  # Incantessimi
+                  re_path(r'^incantessimi_list$', incantessimi_list, name='incantessimi_list'),
 
-
-
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) #+ debug_toolbar_urls()
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # + debug_toolbar_urls()

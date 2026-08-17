@@ -56,7 +56,7 @@ class Character(models.Model):
     tai_guideline = models.CharField(max_length=128, default="", blank=True)
     total_attributes = models.IntegerField(default=0, blank=True)
     total_skills = models.IntegerField(default=0, blank=True)
-    updater = models.TextField(max_length=8192, default='{}', blank=True)
+    updater = models.TextField(max_length=1024*10, default='{}', blank=True)
     priority = models.IntegerField(default=0, blank=True)
     klass = models.CharField(max_length=16, default="Character", blank=True)
     protection_map = models.CharField(max_length=256, blank=True, default="H-0-X C-0-X AS-0-X AW-0-X LS-0-X LW-0-X")

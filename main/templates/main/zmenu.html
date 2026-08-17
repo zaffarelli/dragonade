@@ -4,7 +4,7 @@
 <ul id="main_menu" class="zmenu">
     {% for d1 in menu %}
     {% if d1.SUB %}
-    <li>{% include "main/objects/zmenu_entry.html" with entry=d1%}
+    <li>{% include "main/objects/zmenu_entry.html" with entry=d1 %}
         <ul>
             {% for d2 in d1.SUB %}
                 {% if d2.SUB %}

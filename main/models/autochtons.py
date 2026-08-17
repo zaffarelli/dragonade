@@ -32,14 +32,15 @@ class Autochton(Character):
     def export_to_json(self):
         super().export_to_json()
         self.data['dream'] = f"{self.dream.title} [{self.dream.subtitle}]" if self.dream else "---"
+        self.data['nameless'] = "true" if self.nameless else "false"
         return self.data
 
 
 
 class AutochtonAdmin(admin.ModelAdmin):
     ordering = ['factions','group','team_color','name']
-    list_display = ['name', 'entrance','title','aka','team_color',"spotlight","is_battle_ready", 'is_female',"age", 'team','group', 'dream','nameless' ]
-    list_editable = ['dream','team_color', "spotlight",'title','aka','team','group', 'age',"entrance", 'is_female', 'nameless']
+    list_display = ['name', 'entrance','title','aka', 'is_female',"age",'group', 'dream','nameless' ]
+    list_editable = ['dream','title','aka','group', 'age',"entrance", 'is_female', 'nameless']
     list_filter = ['dream','group','team_color','factions','nameless',"is_female", "is_battle_ready"]
     search_fields = ['name','title','factions','aka']
     from main.utils.mechanics import pre_sim, refix

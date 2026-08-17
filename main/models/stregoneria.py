@@ -85,14 +85,14 @@ class DragonadeElement(models.IntegerChoices):
     SPECIAL = 666, "Voir Texte"
 
 
-class SpellCategory(models.IntegerChoices):
+class IncantessimoCategory(models.IntegerChoices):
     NONE = 0, "-"
     INCANTATION = 1, "Incantation"
     RITUAL = 2, "Rituel"
     PENTACLE = 3, "Pentacle"
 
 
-class SpellPath(models.IntegerChoices):
+class IncantessimoPath(models.IntegerChoices):
     NONE = 0, "-"
     GENERIC = 1, "Générique"
     HYPNOS = 2, "Hypnos"
@@ -102,7 +102,7 @@ class SpellPath(models.IntegerChoices):
     MORPHEOS = 6, "Morphos"
 
 
-class SpellRoll(models.IntegerChoices):
+class IncantessimoRoll(models.IntegerChoices):
     NONE = 0, "-"
     CONTEMPLATIVE = 1, "Contemplatif"
     DESTRUCTIVE = 2, "Destructif"
@@ -112,7 +112,7 @@ class SpellRoll(models.IntegerChoices):
     STATIC = 6, "Statique"
 
 
-class SpellCastingTime(models.IntegerChoices):
+class IncantessimoCastingTime(models.IntegerChoices):
     INSTANT = 0, "Instantanné"
     ROUND = 1, "Tour"
     MINUTE = 2, "Minute"
@@ -120,6 +120,13 @@ class SpellCastingTime(models.IntegerChoices):
     DRACONIC_HOUR = 4, "Heure Draconique"
     DAY = 5, "Jour"
     WEEK = 6, "Semaine"
+
+class IncantessimoFallback(models.IntegerChoices):
+    NONE = 0, "N/A"
+    CHARGE_1 = 1, "1 charge / Echec"
+    CHARGE_3 = 2, "3 charges / Notable"
+
+
 
 
 class Spell(models.Model):
@@ -152,12 +159,13 @@ class Spell(models.Model):
     original_casting_cost = models.CharField(default="-", max_length=1024, blank=True)
     description = models.TextField(default="", max_length=1024, blank=True)
     composantes = models.TextField(default="-", max_length=1024, blank=True)
-    path = models.PositiveIntegerField(default=SpellPath.NONE, choices=SpellPath.choices, blank=True)
-    category = models.PositiveIntegerField(default=SpellCategory.NONE, choices=SpellCategory.choices, blank=True)
+    path = models.PositiveIntegerField(default=IncantessimoPath.NONE, choices=IncantessimoPath.choices, blank=True)
+    category = models.PositiveIntegerField(default=IncantessimoCategory.NONE, choices=IncantessimoCategory.choices, blank=True)
     ref = models.CharField(default="RDD 2nd p.", max_length=32, blank=True)
     source = models.CharField(default="-", max_length=64, blank=True)
-    ti = models.PositiveIntegerField(default=SpellCastingTime.INSTANT, choices=SpellCastingTime.choices, blank=True)
-    roll = models.PositiveIntegerField(default=SpellRoll.NONE, choices=SpellRoll.choices, blank=True)
+    ti = models.PositiveIntegerField(default=IncantessimoCastingTime.INSTANT, choices=IncantessimoCastingTime.choices, blank=True)
+    roll = models.PositiveIntegerField(default=IncantessimoRoll.NONE, choices=IncantessimoRoll.choices, blank=True)
+    fallback = models.PositiveIntegerField(default=IncantessimoFallback.NONE, choices=IncantessimoFallback.choices, blank=True)
     spell_ready = models.BooleanField(default=False, blank=True)
     power = models.IntegerField(default=0, blank=True)
     famous_high_dreamers = models.TextField(default="", max_length=512, blank=True)

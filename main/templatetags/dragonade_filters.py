@@ -180,7 +180,8 @@ def genderize(value):
 
 
 def svg_item(x):
-    y = "generique" if x == "générique" else x
+    print(x)
+    y = "generique" if x.lower() == "générique" else x
     return f'<span class="" title="{x}" style="display:inline-block;">' \
            f'<img src="static/main/svg/2026/{y}.svg" style="display:inline-block; width:100px;">' \
            f'</span>'
@@ -375,12 +376,10 @@ def render_text(value):
 
 
 
-@register.filter(name='as_boolean')
-def as_grav(value):
-    str = "?"
-    if isinstance(value, bool):
-        if bool(value):
-            str = "yes"
-        else:
-            str = "yes"
+@register.filter(name='as_bool')
+def as_bool(value):
+    if value in [True, "true", "1", 1, "on", "True"]:
+        str = "<i class='fa fa-check-circle' style='color:#209020;'></i>"
+    else:
+        str = "<i class='fa fa-times-circle' style='color:#903030;'></i>"
     return str

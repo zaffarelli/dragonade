@@ -376,21 +376,20 @@ def stregoneria_page(request):
     html = template.render(context, request)
     return JsonResponse({"html": html})
 
-def stregoneria_list(request):
-    from main.models.stregoneria import Spell
+
+def nativi_list(request):
     from main.models.autochtons import Autochton
-    from main.models.travellers import Traveller
     context = prepare_context(request)
-    stregoneria = []
-    for i in Spell.objects.order_by("path","-category", "pentacle_code"):
+    nativi = []
+    for i in Autochton.objects.all().order_by("dream","name"):
         datum = i.export_to_json()
-        datum['type'] = "stregoneria"
+        datum['type'] = "autochton"
         datum['code'] = i.rid
-        stregoneria.append(datum)
-    # print(f"Spells list")
-    context["stregoneria"]  = stregoneria
-    return render(request, 'main/pages/stregoneria_list.html', context)
-    #return HttpResponse(status=204)
+        print(datum)
+        nativi.append(datum)
+
+    context["nativi"] = nativi
+    return render(request, 'main/pages/nativi_list.html', context)
 
 
 
@@ -503,7 +502,7 @@ def value_shift(request):
             spell = spells.first()
             current_value = getattr(spell, param)
             answer["data"] = current_value
-            from main.models.stregoneria import DragonadeGround, DragonadeEmanation, DragonadeHour, DragonadeElement, DragonadeConsistency, SpellCategory, SpellPath
+            from main.models.stregoneria import DragonadeGround, DragonadeEmanation, DragonadeHour, DragonadeElement, DragonadeConsistency, IncantessimoCategory, IncantessimoPath
             if param == "ground_charge":
                 dataset = DragonadeGround.values
             elif param == "hour_charge":
@@ -515,22 +514,39 @@ def value_shift(request):
             elif param == "consistency_charge":
                 dataset = DragonadeConsistency.values
             elif param == "category":
-                dataset = SpellCategory.values
+                dataset = IncantessimoCategory.values
             else:
-                dataset = SpellPath .values
-            print(dataset)
+                dataset = IncantessimoPath .values
             next_value_index = 0
             for k,v in enumerate(dataset):
                 if v == current_value:
                     next_value_index = (k+back) % len(dataset)
+                    print(dataset)
+                    print(f"{k} -> {next_value_index}")
             setattr(spell, param, dataset[next_value_index])
             spell.save()
             context = {"s": spell.export_to_json()}
-            template = get_template("main/objects/spell_body.html")
+            template = get_template("main/incantessimi/incantessimo_body.html")
             answer['data'] = template.render(context)
 
     answer['rid'] = rid
     return JsonResponse(answer)
+
+def fetch(request):
+    answer = {'rid': "", "type": "", "payload": {}}
+    if is_ajax(request):
+        rid = request.POST.get('rid')
+        type = request.POST.get('type')
+        if type.lower() == "incantessimo":
+            from main.models.stregoneria import Spell
+            spells = Spell.objects.filter(rid=rid)
+            if len(spells)==1:
+                s = spells.first()
+                answer['rid'] = rid
+                answer['type'] = type
+                answer['payload'] = s.export_to_json()
+        return JsonResponse(answer)
+    return HttpResponse(status=204)
 
 def kicker(request):
     answer = {'html': "", "red_team": [], "green_team": [], "blue_team": []}

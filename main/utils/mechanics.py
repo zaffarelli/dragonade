@@ -108,20 +108,20 @@ MAIN_MENU = [
         {"NAME": "Artefacts", "LINK": "appartuses"},
         {"NAME": "Magie Draconique", "SUB": [
             {"NAME": "Cartes de Sortilège", "LINK": "stregoneria"},
-            {"NAME": "Liste des Sortilèges", "LINK": "stregoneria_list"},
+            {"NAME": "Liste des Sortilèges", "LINK": "incantessimi_list"},
             {"NAME": "Nouveau sort", "ACTION": "new_spell"},
         ]},
         {"NAME": "Rêves", "SUB": [
             {"NAME": "Nouveau Rêve", "LINK": "new_dream"},
-            {"NAME": "Campagne: El fuego del Mar", "LINK": "combattimento"},
-            {"NAME": "Campagne: Le joueur de flute", "LINK": "combattimento"},
-            {"NAME": "Orologio", "LINK": "orologio"},
+            {"NAME": "Campagne: El fuego del Mar", "LINK": "sogno"},
+            {"NAME": "Campagne: Le joueur de flute", "LINK": "sogno"},
+            {"NAME": "Campagne: La Rose Pourpre", "LINK": "sogno"},
         ]},
         {"NAME": "Créatures", "SUB": [
             {"NAME": "Statistiques", "LINK": "statistics"},
             {"NAME": "Listes...", "SUB": [
                 {"NAME": "Liste des monstres", "LINK": "creatures"},
-                {"NAME": "Liste des autochtones", "LINK": "autochtons"},
+                {"NAME": "Liste des autochtones", "LINK": "nativi"},
                 {"NAME": "Liste des voyageurs", "LINK": "travellers"},
             ]},
             {"NAME": "Nouveau...", "SUB": [
@@ -134,12 +134,13 @@ MAIN_MENU = [
         {"NAME": "Visuels", "SUB": [
             {"NAME": "Cartes", "LINK": "piani"},
             {"NAME": "Illustrations", "LINK": "flute"},
+            {"NAME": "Orologio", "LINK": "orologio"},
         ]},
         {"NAME": "Ressources", "SUB": [
             {"NAME": "Tables", "LINK": "carte"},
         ]},
         {"NAME": "Outils", "SUB": [
-            {"NAME": "Options On/Off", "ACTION": "showhide", "TARGET": "spare_right"},
+            {"NAME": "Options On/Off", "ACTION": "showhide", "TARGET": "spare_right", "ID":"options_showhide"},
             {"NAME": "Simulateurs", "SUB": [
                 {"NAME": "Mêlée", "LINK": "combattimento"},
             ]},
@@ -207,6 +208,13 @@ def random_term(length=6):
 def asB2B(str):
     from hashlib import blake2b
     h = blake2b(digest_size=8)
+    h.update(bytes(str.encode('utf-8')))
+    res = h.hexdigest().encode('utf-8')
+    return res
+
+def asShortB2B(str):
+    from hashlib import blake2b
+    h = blake2b(digest_size=3)
     h.update(bytes(str.encode('utf-8')))
     res = h.hexdigest().encode('utf-8')
     return res

@@ -1,7 +1,11 @@
 {% load static %}
 {% load dragonade_filters %}
 
-<div class="box label {{1|check_hidden}}" title="{{sk}}">{{sk|as_skill|safe}}</div>
+<div class="box label {{1|check_hidden}}" title="{{sk}}">{{sk|as_skill|safe}}
+
+[{{v}}]
+</div>
+
 <div class="box info {{1|check_hidden}} editable">
     <span class="btn_edit minus" action="inc_dec" id="{{a.type}}__{{a.id}}__{{sk}}__minus"><i class="fa fa-arrow-circle-down"></i></span>
     <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__{{sk}}__value" srcval="{{v|encoded_z|safe}}">&nbsp;{{v|colorize_val|safe}}&nbsp;</span>

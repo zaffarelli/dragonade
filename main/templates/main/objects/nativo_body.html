@@ -1,0 +1,7 @@
+{% load static %}
+{% load dragonade_filters %}
+<div class="entry_item simple" style="order:0">{{ n.name }}</div>
+<div class="entry_item simple" style="order:3; text-align:left;">{{n.dream}}</div>
+<div class="entry_item boolean" style="order:3; text-align:left;">{{n.nameless | as_bool | safe}}</div>
+<div class="entry_item simple" style="order:3; text-align:left;">{{n.aka}}</div>
+<div class="entry_item simple" style="order:4"></div>

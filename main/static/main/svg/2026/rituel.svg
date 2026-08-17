@@ -6,7 +6,7 @@
         version="1.1"
         xmlns="http://www.w3.org/2000/svg">
     <g id="incantation" class="icon catagory" transform="translate(50,50)">
-        <g style="fill:#8080d0;stroke:black;stroke-width:2pt;stroke-linejoin:round; stroke-linecap:round;">
+        <g style="fill:lightgrey;stroke:black;stroke-width:2pt;stroke-linejoin:round; stroke-linecap:round;">
             <circle r="35" style="fill:white;"/>
             <circle r="25"/>
 
