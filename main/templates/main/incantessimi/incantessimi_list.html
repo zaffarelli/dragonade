@@ -4,16 +4,13 @@
 
 {% block east %}
 {% include "main/menu.html" with title=title %}
-{% include "main/lists/stregoneria_options.html"%}
+{% include "main/incantessimi/incantessimi_options.html"%}
 {% endblock east %}
 
 
 {% block main %}
 <div class="zlist_container">
-    {% include "main/incantessimi/incantessimi_filters.html" %}
-    {% for x in incantessimi %}
-        {% include "main/incantessimi/incantessimo.html" with s=x num=forloop.counter %}
-    {% endfor %}
+    {% include "main/incantessimi/incantessimi_payload.html" %}
 </div>
 {% endblock main %}
 

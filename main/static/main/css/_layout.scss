@@ -47,7 +47,7 @@ body {
       width:$right_panel_width;
       height:auto;
       border: 1px solid transparent;
-      background:$palette1;
+      background:#101010fe;
       display:flex;
       flex-flow:column nowrap;
       justify-content: flex-start;
@@ -55,6 +55,7 @@ body {
       align-items:stretch;
       padding:5px;
       z-index:50;
+
     }
     & .corpus {
 //       position: fixed;
@@ -164,6 +165,12 @@ body {
         }
         &.options{
             flex: 0 1 auto;
+            border-radius:5pt;
+            border:1pt solid #606060;
+            & legend{
+                font-family: "Khand";
+                font-size:1.2em;
+            }
 
         }
     }
@@ -178,14 +185,15 @@ body {
 #target_ed, #ed{
     //@include dragonade_panel;
     display:block;
-    width:auto;
     height:6em;
-    margin:1ex;
-    background:#00000070;
-    border:1px groove #F0F0F0;
-    padding:5px;
-    border-radius:5px;
+    margin:3pt;
+    background:black;
     color:white;
+    border:1pt solid #505050;
+    padding:5pt;
+    border-radius:5pt;
+    width:70ex;
+    font-size:1.2em;
 }
 
 

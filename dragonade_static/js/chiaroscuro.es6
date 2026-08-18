@@ -210,6 +210,29 @@ class Chiaroscuro {
                 case "export":
                     console.log(`Exporting for [${words[0]}] required.`)
                     break
+                case "filter":
+                    console.log(`Filtrering for [${words[0]}:${words[2]}=${words[3]}] required.`)
+                    $.ajax({
+                        url: 'ajax/incantessimi_filter',
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        data: {
+                            param: words[2],
+                            value: words[3],
+                        },
+                        dataType: 'json',
+                        success: function (answer) {
+                            $(".zlist_container").html(answer.data)
+                            me.registerActions()
+                        },
+                        error: function (answer) {
+                            console.error('Error... ' + answer);
+                        },
+                    })
+                    break
                 default:
                     console.warn(`Unknown list action [${words[1]}] for item [${words[0]}].`)
                     break

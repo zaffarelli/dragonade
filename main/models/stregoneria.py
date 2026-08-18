@@ -11,6 +11,8 @@ class DragonadeDifficulty(models.IntegerChoices):
     AVERAGE = 15, "Moyenne"
     HARD = 20, "Difficile"
     VERY_HARD = 25, "Très Difficile"
+    MYTHIC = 30, "Mythique"
+    LEGENDARY = 35, "Légendaire"
 
 
 class DragonadeGround(models.IntegerChoices):
@@ -168,6 +170,8 @@ class Spell(models.Model):
     fallback = models.PositiveIntegerField(default=IncantessimoFallback.NONE, choices=IncantessimoFallback.choices, blank=True)
     spell_ready = models.BooleanField(default=False, blank=True)
     power = models.IntegerField(default=0, blank=True)
+    power_boost = models.IntegerField(default=0, blank=True)
+    avoid_original_cost = models.BooleanField(default=False, blank=True)
     famous_high_dreamers = models.TextField(default="", max_length=512, blank=True)
     data = {}
 
@@ -175,18 +179,19 @@ class Spell(models.Model):
         from main.utils.mechanics import asB2B
         self.rid = as_rid(f"{self.name}")
         self.code = asB2B(self.rid).decode('utf-8').upper()
-        if len(self.original_casting_cost) > 1:
-            chunks = self.original_casting_cost.split(' ')
-            old_diff = int(chunks[0][1:])
-            old_dps = chunks[1][1:]
-            if '+' in old_dps:
-                old_dps = old_dps[:1]
-            diff = int((-1 * math.ceil(old_diff / 2)) * 5)
-            diff_pen = old_diff % 2
-            dps = int(old_dps) + diff_pen
-            self.diff = diff
-            self.dps = dps
-            str = f'{old_diff} {old_dps} / {diff} {diff_pen} {dps}'
+        if not self.avoid_original_cost:
+            if len(self.original_casting_cost) > 1:
+                chunks = self.original_casting_cost.split(' ')
+                old_diff = int(chunks[0][1:])
+                old_dps = chunks[1][1:]
+                if '+' in old_dps:
+                    old_dps = old_dps[:1]
+                diff = int((-1 * math.ceil(old_diff / 2)) * 5)
+                diff_pen = old_diff % 2
+                dps = int(old_dps) + diff_pen
+                self.diff = diff
+                self.dps = dps
+                str = f'{old_diff} {old_dps} / {diff} {diff_pen} {dps}'
         # z = 0
         # z += 1 if self.ground_charge != DragonadeGround.NONE else 0
         # z += 1 if self.hour_charge != DragonadeHour.NONE else 0
@@ -212,7 +217,7 @@ class Spell(models.Model):
                 self.spell_ready = False
 
 
-        self.power = self.diff / 5 + self.dps + self.songe * 2
+        self.power = self.diff / 5 + self.dps + self.songe * 2 + self.power_boost
 
     def __str__(self):
         return f"{self.name} ({self.get_path_display()} {self.get_category_display()}) "
@@ -300,15 +305,13 @@ class Spell(models.Model):
 class SpellAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ["-spell_ready", "name"]
-    list_display = ["name",  "pentacle_code", "charge",  "spell_ready", "songe", "roll", "original_casting_cost",
-                    "conversion", "ground_charge","hour_charge","elemental_charge","emanation_charge","consistency_charge",
-                    "str_charges","famous_high_dreamers",
+    list_display = ["name", "avoid_original_cost", "pentacle_code", "charge",  "spell_ready", "songe", "roll", "original_casting_cost",
+                    "conversion",
+                    "str_charges",
                     "path", "ref", "category", "source"]
-    list_editable = ["original_casting_cost", "pentacle_code","songe", "roll", "spell_ready", "ground_charge","hour_charge","elemental_charge","emanation_charge","consistency_charge", "path", "ref",
-                     "category","famous_high_dreamers",
-                     "source"]
-    list_filter = ["spell_ready", "path","pentacle_code", "category", "diff", "dps", "ref", "original_casting_cost", "ground_charge",
+    list_editable = ["original_casting_cost", "avoid_original_cost", "pentacle_code","songe", "roll", "spell_ready", "source"]
+    list_filter = ["spell_ready", "path","pentacle_code", "category", "diff", "dps", "original_casting_cost", "ground_charge",
                    "elemental_charge", "emanation_charge",
                    "consistency_charge", "hour_charge", "source"]
-    search_fields = ["name", "description"]
+    search_fields = ["name", "description", "source"]
     actions = [refix]

@@ -276,7 +276,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
             {"idx": 12,"pts":2, "name":"Désolation", "svg":"tm_12.svg", "category": "Terres Médianes", "color": "#F0D080", "row":1, "hidden":1},
             {"idx": 13,"pts":2, "name":"Gouffre", "svg":"tm_13.svg", "category": "Terres Médianes", "color": "#F0D080", "row":1, "hidden":1},
             {"idx": 14,"pts":2, "name":"Nécropole", "svg":"tm_14.svg", "category": "Terres Médianes", "color": "#F0D080", "row":1, "hidden":1},
-            {"idx": 0,"pts":1, "name":"Aucune", "svg":"tm_0.svg", "category": "Terres Médianes", "color": "#A02020", "row":1, "hidden":5},
+            {"idx": 0,"pts":1, "name":"Aucune", "svg":"blank.svg", "category": "Terres Médianes", "color": "#A02020", "row":1, "hidden":5},
 
 
             {"idx": 1,"pts":4, "name":"Vaisseau", "svg":"sd_1.svg", "category": "Signes Draconiques", "color": "#F0D080", "row":2, "hidden":1},
@@ -291,7 +291,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
             {"idx": 10,"pts":4, "name":"Araignée", "svg":"sd_10.svg", "category": "Signes Draconiques", "color": "#F0D080", "row":2, "hidden":1},
             {"idx": 11,"pts":4, "name":"Roseau", "svg":"sd_11.svg", "category": "Signes Draconiques", "color": "#F0D080", "row":2, "hidden":1},
             {"idx": 12,"pts":4, "name":"Chateau Dormant", "svg":"sd_12.svg", "category": "Signes Draconiques", "color": "#F0D080", "row":2, "hidden":1},
-            {"idx": 0,"pts":1, "name":"Aucune", "svg":"sd_0.svg", "category": "Signes Draconiques", "color": "#A02020", "row":2, "hidden":5},
+            {"idx": 0,"pts":1, "name":"Aucune", "svg":"blank.svg", "category": "Signes Draconiques", "color": "#A02020", "row":2, "hidden":5},
 
 
             {"idx": 1,"pts":1, "name":"Humeur", "svg":"cd_1.svg", "category": "Consistances Draconiques", "color": "#F0D080", "row":3, "hidden":1},
@@ -301,7 +301,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
             {"idx": 5,"pts":3, "name":"Congestion", "svg":"cd_5.svg", "category": "Consistances Draconiques", "color": "#F0D080", "row":3, "hidden":1},
             {"idx": 6,"pts":3, "name":"Amas", "svg":"cd_6.svg", "category": "Consistances Draconiques", "color": "#F0D080", "row":3, "hidden":1},
             {"idx": 7,"pts":4, "name":"Cristal", "svg":"cd_7.svg", "category": "Consistances Draconiques", "color": "#F0D080", "row":3, "hidden":1},
-            {"idx": 0,"pts":1, "name":"Aucune", "svg":"cd_0.svg", "category": "Consistances Draconiques", "color": "#A02020", "row":3, "hidden":5},
+            {"idx": 0,"pts":1, "name":"Aucune", "svg":"blank.svg", "category": "Consistances Draconiques", "color": "#A02020", "row":3, "hidden":5},
 
             {"idx": 1,"pts":1, "name":"Ondée", "svg":"ed_1.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
             {"idx": 2,"pts":2, "name":"Flux", "svg":"ed_2.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
@@ -310,7 +310,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
             {"idx": 5,"pts":5, "name":"Marée", "svg":"ed_5.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
             {"idx": 6,"pts":6, "name":"Ras", "svg":"ed_6.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
             {"idx": 7,"pts":7, "name":"Déferlante", "svg":"ed_7.svg", "category": "Emanations Draconiques", "color": "#F0D080", "row":4, "hidden":1},
-            {"idx": 0,"pts":1, "name":"Aucune", "svg":"ed_0.svg", "category": "Emanations Draconiques", "color": "#A02020", "row":4, "hidden":5},
+            {"idx": 0,"pts":1, "name":"Aucune", "svg":"blank.svg", "category": "Emanations Draconiques", "color": "#A02020", "row":4, "hidden":5},
 
             {"idx": 1,"pts":1, "name":"Eau", "svg":"ld_1.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
             {"idx": 2,"pts":1, "name":"Feu", "svg":"ld_2.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
@@ -319,12 +319,12 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
             {"idx": 5,"pts":1, "name":"Bois", "svg":"ld_5.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
             {"idx": 6,"pts":1, "name":"Métal", "svg":"ld_6.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
             {"idx": 7,"pts":1, "name":"Septième", "svg":"ld_7.svg", "category": "Eléments Draconiques", "color": "#F0D080", "row":5, "hidden":1},
-            {"idx": 0,"pts":1, "name":"Aucune", "svg":"ld_0.svg", "category": "Eléments Draconiques", "color": "#A02020", "row":5, "hidden":5},
+            {"idx": 0,"pts":1, "name":"Aucune", "svg":"blank.svg", "category": "Eléments Draconiques", "color": "#A02020", "row":5, "hidden":5},
 
 
-            {"idx": 1,"pts":0, "name":"Conviction", "svg":"con.svg", "category": "Spécial", "color": "#A02020", "row":6, "hidden":1},
-            {"idx": 2,"pts":0, "name":"Intuition", "svg":"int.svg", "category": "Spécial", "color": "#A02020", "row":6, "hidden":1},
-            {"idx": 3,"pts":0, "name":"Révélation", "svg":"rev.svg", "category": "Spécial", "color": "#A02020", "row":6, "hidden":1},
+            {"idx": 1,"pts":0, "name":"Conviction sur le Rêve", "svg":"con.svg", "category": "Spécial", "color": "#A02020", "row":6, "hidden":1},
+            {"idx": 2,"pts":0, "name":"Intuition sur le Royaume", "svg":"int.svg", "category": "Spécial", "color": "#A02020", "row":6, "hidden":1},
+            {"idx": 3,"pts":0, "name":"Nouvel Art Draconique", "svg":"rev.svg", "category": "Spécial", "color": "#A02020", "row":6, "hidden":1},
             {"idx": 0,"pts":0, "name":"Aucune", "svg":"blank.svg", "category": "Spécial", "color": "#A02020", "row":6, "hidden":1},
         ]
         me.drawCardSet(dataset);

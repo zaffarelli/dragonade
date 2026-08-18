@@ -3,6 +3,8 @@ from django.shortcuts import render
 from datetime import datetime
 
 from django.template.loader import get_template
+
+from main.models.stregoneria import DragonadeDifficulty
 # from django.views.decorators.csrf import csrf_exempt
 
 from main.utils.mechanics import FONTSET, MENU_ENTRIES, is_ajax, MAIN_MENU
@@ -112,9 +114,9 @@ def papers(request):
                                                                                   "data": weapon_table_json(cat['category'])}
         else:
             context['config']['data'][f"GEAR_TABLE_{cat['category'].upper()}"] = {"name": f"Equipement {x}",
-                                                                              "code": f"GEAR_TABLE_{cat['category'].upper()}",
-                                                                              "id": 300 + x,
-                                                                              "data": gear_table_json(cat['category'])}
+                                                                                  "code": f"GEAR_TABLE_{cat['category'].upper()}",
+                                                                                  "id": 300 + x,
+                                                                                  "data": gear_table_json(cat['category'])}
         x += 1
 
     # Autochtons
@@ -381,7 +383,7 @@ def nativi_list(request):
     from main.models.autochtons import Autochton
     context = prepare_context(request)
     nativi = []
-    for i in Autochton.objects.all().order_by("dream","name"):
+    for i in Autochton.objects.all().order_by("dream", "name"):
         datum = i.export_to_json()
         datum['type'] = "autochton"
         datum['code'] = i.rid
@@ -390,7 +392,6 @@ def nativi_list(request):
 
     context["nativi"] = nativi
     return render(request, 'main/pages/nativi_list.html', context)
-
 
 
 def new_creature(request):
@@ -490,19 +491,21 @@ def overlay_edit(request):
                 spell.save()
     return JsonResponse(answer)
 
+
 def value_shift(request):
-    answer = {'rid': None, "data":''}
+    answer = {'rid': None, "data": ''}
     if is_ajax(request):
         from main.models.stregoneria import Spell
         rid = request.POST.get('rid')
         param = request.POST.get('param')
         back = int(request.POST.get('back'))
         spells = Spell.objects.filter(rid=rid)
-        if len(spells)==1:
+        if len(spells) == 1:
             spell = spells.first()
             current_value = getattr(spell, param)
             answer["data"] = current_value
-            from main.models.stregoneria import DragonadeGround, DragonadeEmanation, DragonadeHour, DragonadeElement, DragonadeConsistency, IncantessimoCategory, IncantessimoPath
+            from main.models.stregoneria import DragonadeGround, DragonadeEmanation, DragonadeHour, DragonadeElement, DragonadeConsistency, \
+                IncantessimoCategory, IncantessimoPath,DragonadeDifficulty
             if param == "ground_charge":
                 dataset = DragonadeGround.values
             elif param == "hour_charge":
@@ -515,15 +518,19 @@ def value_shift(request):
                 dataset = DragonadeConsistency.values
             elif param == "category":
                 dataset = IncantessimoCategory.values
+            elif param == "diff":
+                dataset = DragonadeDifficulty.values
+
             else:
-                dataset = IncantessimoPath .values
+                dataset = IncantessimoPath.values
             next_value_index = 0
-            for k,v in enumerate(dataset):
+            for k, v in enumerate(dataset):
                 if v == current_value:
-                    next_value_index = (k+back) % len(dataset)
+                    next_value_index = (k + back) % len(dataset)
                     print(dataset)
                     print(f"{k} -> {next_value_index}")
             setattr(spell, param, dataset[next_value_index])
+            print(f"New values is [{dataset[next_value_index]}] for [{param}].")
             spell.save()
             context = {"s": spell.export_to_json()}
             template = get_template("main/incantessimi/incantessimo_body.html")
@@ -531,6 +538,7 @@ def value_shift(request):
 
     answer['rid'] = rid
     return JsonResponse(answer)
+
 
 def fetch(request):
     answer = {'rid': "", "type": "", "payload": {}}
@@ -540,13 +548,14 @@ def fetch(request):
         if type.lower() == "incantessimo":
             from main.models.stregoneria import Spell
             spells = Spell.objects.filter(rid=rid)
-            if len(spells)==1:
+            if len(spells) == 1:
                 s = spells.first()
                 answer['rid'] = rid
                 answer['type'] = type
                 answer['payload'] = s.export_to_json()
         return JsonResponse(answer)
     return HttpResponse(status=204)
+
 
 def kicker(request):
     answer = {'html': "", "red_team": [], "green_team": [], "blue_team": []}

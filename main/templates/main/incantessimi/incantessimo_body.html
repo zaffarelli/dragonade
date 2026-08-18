@@ -8,10 +8,11 @@
 <div id="{{s.rid}}__category" model="incantessimo" class="zlist_item symbol shifter" style="order:1">{{ s.category|as_category|safe }}</div>
 <div id="{{s.rid}}__path" model="incantessimo" class="zlist_item symbol shifter" style="order:1">{{ s.path|as_category|safe }}</div>
 <div class="zlist_item label" model="incantessimo" style="order:0">{{ s.name }}<br/>{{s.pentacle_code}}</div>
-<div class="zlist_item text" model="incantessimo" style="order:3; text-align:left;">{{ s.description|render_text|safe }}</div>
+<div class="zlist_item text action" model="incantessimo" style="order:3; text-align:left;">{{ s.description|render_text|safe }}</div>
 <div class="zlist_item text" model="incantessimo" style="order:3; text-align:left;">{{ s.composantes|render_text|safe }}</div>
 <div class="zlist_item number" model="incantessimo" style="order:4">PDR<br/>{{ s.dps }}</div>
 <div class="zlist_item number" model="incantessimo" style="order:1">PUI<br/>{{s.power}}</div>
+<div class="zlist_item number" model="incantessimo" style="order:1">EXT<br/>{{s.power_boost}}</div>
 
 <div id="{{s.rid}}__ground_charge" model="incantessimo" class="zlist_item symbol shifter" style="order:15">{{ s.ground_charge|as_ground_charge|safe }}</div>
 <div id="{{s.rid}}__hour_charge" model="incantessimo" class="zlist_item symbol shifter" style="order:16">{{ s.hour_charge|as_hour_charge|safe }}</div>
@@ -20,7 +21,7 @@
 <div id="{{s.rid}}__elemental_charge" model="incantessimo" class="zlist_item symbol shifter" style="order:19">{{ s.elemental_charge|as_elemental_charge|safe }}</div>
 
 
-<div class="zlist_item number" model="incantessimo" style="order:3" title="{{s.diff}}">{%include "main/svg/diff.svg" with diff=s.diff %}</div>
+<div id="{{s.rid}}__diff"  class="zlist_item number shifter" model="incantessimo" style="order:3" title="{{s.diff}}">{%include "main/svg/diff.svg" with diff=s.diff %}</div>
 
 <div class="zlist_item simple"  model="incantessimo" style="order:4">{{ s.ti }}</div>
 <div class="zlist_item simple" model="incantessimo" style="order:5">Rêve + {{ s.roll }}</div>
