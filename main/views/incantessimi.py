@@ -12,11 +12,13 @@ def incantessimi_list(request):
     context = prepare_context(request)
     context['config']['modules'].append('stregoneria')
     incantessimi = []
-    for i in Spell.objects.order_by("power"):
+    for i in Spell.objects.order_by("name"):
         datum = i.export_to_json()
         datum['type'] = "stregoneria"
         datum['code'] = i.rid
         incantessimi.append(datum)
+    context["model"] = "Incantessimo"
+    context["models"] = "Incantessimi"
     context["incantessimi"] = incantessimi
     return render(request, 'main/incantessimi/incantessimi_list.html', context)
 
@@ -33,13 +35,15 @@ def incantessimi_filter(request):
         }
         # context = prepare_context(request)
         incantessimi = []
-        for i in Spell.objects.filter(**filters).order_by("power"):
+        for i in Spell.objects.filter(**filters).order_by("name"):
             datum = i.export_to_json()
             datum['type'] = "stregoneria"
             datum['code'] = i.rid
             incantessimi.append(datum)
         context = {}
         context["incantessimi"] = incantessimi
+        context["model"] = "Incantessimo"
+        context["models"] = "Incantessimi"
         template = get_template("main/incantessimi/incantessimi_payload.html")
         answer['data'] = template.render(context)
         return JsonResponse(answer)

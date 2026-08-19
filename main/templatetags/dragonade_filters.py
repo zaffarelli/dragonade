@@ -180,7 +180,7 @@ def genderize(value):
 
 
 def svg_item(x):
-    print(x)
+    # print(x)
     y = "generique" if x.lower() == "générique" else x
     return f'<span class="" title="{x}" style="display:inline-block;">' \
            f'<img src="static/main/svg/2026/{y}.svg" style="display:inline-block; width:100px;">' \

@@ -492,52 +492,6 @@ def overlay_edit(request):
     return JsonResponse(answer)
 
 
-def value_shift(request):
-    answer = {'rid': None, "data": ''}
-    if is_ajax(request):
-        from main.models.stregoneria import Spell
-        rid = request.POST.get('rid')
-        param = request.POST.get('param')
-        back = int(request.POST.get('back'))
-        spells = Spell.objects.filter(rid=rid)
-        if len(spells) == 1:
-            spell = spells.first()
-            current_value = getattr(spell, param)
-            answer["data"] = current_value
-            from main.models.stregoneria import DragonadeGround, DragonadeEmanation, DragonadeHour, DragonadeElement, DragonadeConsistency, \
-                IncantessimoCategory, IncantessimoPath,DragonadeDifficulty
-            if param == "ground_charge":
-                dataset = DragonadeGround.values
-            elif param == "hour_charge":
-                dataset = DragonadeHour.values
-            elif param == "elemental_charge":
-                dataset = DragonadeElement.values
-            elif param == "emanation_charge":
-                dataset = DragonadeEmanation.values
-            elif param == "consistency_charge":
-                dataset = DragonadeConsistency.values
-            elif param == "category":
-                dataset = IncantessimoCategory.values
-            elif param == "diff":
-                dataset = DragonadeDifficulty.values
-
-            else:
-                dataset = IncantessimoPath.values
-            next_value_index = 0
-            for k, v in enumerate(dataset):
-                if v == current_value:
-                    next_value_index = (k + back) % len(dataset)
-                    print(dataset)
-                    print(f"{k} -> {next_value_index}")
-            setattr(spell, param, dataset[next_value_index])
-            print(f"New values is [{dataset[next_value_index]}] for [{param}].")
-            spell.save()
-            context = {"s": spell.export_to_json()}
-            template = get_template("main/incantessimi/incantessimo_body.html")
-            answer['data'] = template.render(context)
-
-    answer['rid'] = rid
-    return JsonResponse(answer)
 
 
 def fetch(request):

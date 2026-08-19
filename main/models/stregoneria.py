@@ -14,7 +14,6 @@ class DragonadeDifficulty(models.IntegerChoices):
     MYTHIC = 30, "Mythique"
     LEGENDARY = 35, "Légendaire"
 
-
 class DragonadeGround(models.IntegerChoices):
     NONE = 0, "-"
     SANCTUARY = 1, "Sanctuaire"
@@ -115,10 +114,10 @@ class IncantessimoRoll(models.IntegerChoices):
 
 
 class IncantessimoCastingTime(models.IntegerChoices):
-    INSTANT = 0, "Instantanné"
-    ROUND = 1, "Tour"
+    INSTANT = 0, "Instantané"
+    TURN = 1, "Tour"
     MINUTE = 2, "Minute"
-    HOUR = 3, "Demi-Heure Draconique"
+    HOUR = 3, "Demi-heure Draconique"
     DRACONIC_HOUR = 4, "Heure Draconique"
     DAY = 5, "Jour"
     WEEK = 6, "Semaine"
@@ -128,8 +127,34 @@ class IncantessimoFallback(models.IntegerChoices):
     CHARGE_1 = 1, "une charge / Echec"
     CHARGE_3 = 2, "toutes les charges / Notable"
 
+class IncantessimoDuration(models.IntegerChoices):
+    INSTANT = 0, "Immédiat"
+    TURN = 1, "Tour"
+    TURNS = 2, "Tours"
+    MINUTE = 3, "Minute"
+    MINUTES = 4, "Minutes"
+    DRACONIC_HOUR = 5, "HD"
+    NEXT_BIRTH_HOUR = 6, "PHN"
+    ONE_WEEK = 7, "Semaine"
+    ONE_MONTH = 8, "Mois"
+    ONE_YEAR = 9, "Année"
+    ONE_DECADE = 10, "Décade"
+    PERMANENT = 11, "Permanent"
 
+class IncantessimoArea(models.IntegerChoices):
+    NONE = 0, "N/A"
+    PERSONAL = 1, "HR"
+    WILLPOWER = 2, "VOL m"
 
+class IncantessimoRange(models.IntegerChoices):
+    NONE = 0, "N/A"
+    PERSONAL = 1, "HR"
+    TOUCH = 2, "Toucher"
+    EMPATHY1 = 3, "EMP m"
+    EMPATHY2 = 4, "EMPx2 m"
+    EMPATHY3 = 5, "EMPx4 m"
+    EMPATHY4 = 6, "EMPx6 m"
+    EMPATHY5 = 7, "EMPx10 m"
 
 class Spell(models.Model):
     class Meta:
@@ -153,8 +178,6 @@ class Spell(models.Model):
     dps = models.PositiveIntegerField(default=3, blank=True)
     charge = models.PositiveIntegerField(default=0, blank=True)
     songe = models.PositiveIntegerField(default=0, blank=True)
-    duration = models.CharField(default="-", max_length=128, blank=True)
-    range = models.CharField(default="-", max_length=128, blank=True)
     resistance = models.CharField(default="-", max_length=128, blank=True)
     diff = models.PositiveIntegerField(default=DragonadeDifficulty.AVERAGE, choices=DragonadeDifficulty.choices,
                                        blank=True)
@@ -166,6 +189,9 @@ class Spell(models.Model):
     ref = models.CharField(default="RDD 2nd p.", max_length=32, blank=True)
     source = models.CharField(default="-", max_length=64, blank=True)
     ti = models.PositiveIntegerField(default=IncantessimoCastingTime.INSTANT, choices=IncantessimoCastingTime.choices, blank=True)
+    area = models.PositiveIntegerField(default=IncantessimoArea.NONE, choices=IncantessimoArea.choices, blank=True)
+    range = models.PositiveIntegerField(default=IncantessimoRange.NONE, choices=IncantessimoRange.choices, blank=True)
+    duration = models.PositiveIntegerField(default=IncantessimoDuration.INSTANT, choices=IncantessimoDuration.choices, blank=True)
     roll = models.PositiveIntegerField(default=IncantessimoRoll.NONE, choices=IncantessimoRoll.choices, blank=True)
     fallback = models.PositiveIntegerField(default=IncantessimoFallback.NONE, choices=IncantessimoFallback.choices, blank=True)
     spell_ready = models.BooleanField(default=False, blank=True)
@@ -177,8 +203,11 @@ class Spell(models.Model):
 
     def fix(self):
         from main.utils.mechanics import asB2B
+        while self.name.find('  ') != -1:
+            self.name.replace("  "," ")
+        self.name.strip()
         self.rid = as_rid(f"{self.name}")
-        self.code = asB2B(self.rid).decode('utf-8').upper()
+        self.code = asB2B(self.name).decode('utf-8').upper()
         if not self.avoid_original_cost:
             if len(self.original_casting_cost) > 1:
                 chunks = self.original_casting_cost.split(' ')
@@ -209,15 +238,22 @@ class Spell(models.Model):
         if self.category == IncantessimoCategory.INCANTATION:
             if self.charge != 3:
                 self.spell_ready = False
+            if self.ti > IncantessimoCastingTime.TURN:
+                self.duration = IncantessimoCastingTime.TURN
         elif self.category == IncantessimoCategory.RITUAL:
             if self.charge != 4:
                 self.spell_ready = False
+            if self.ti < IncantessimoCastingTime.MINUTE:
+                self.ti = IncantessimoCastingTime.MINUTE
         elif self.category == IncantessimoCategory.PENTACLE:
             if self.charge != 5:
                 self.spell_ready = False
+            self.ti = IncantessimoCastingTime.INSTANT
+            self.duration = IncantessimoDuration.NEXT_BIRTH_HOUR
 
 
-        self.power = self.diff / 5 + self.dps + self.songe * 2 + self.power_boost
+
+        self.power = math.floor(self.diff / 5 + self.dps + self.songe * 2 + self.power_boost)
 
     def __str__(self):
         return f"{self.name} ({self.get_path_display()} {self.get_category_display()}) "
@@ -226,6 +262,7 @@ class Spell(models.Model):
     def str_charges(self):
         str = f"{self.get_ground_charge_display()} {self.get_hour_charge_display()} {self.get_emanation_charge_display()} {self.get_consistency_charge_display()} {self.get_elemental_charge_display()}"
         return str
+
 
     def export_to_json(self):
         data = {}
@@ -241,22 +278,30 @@ class Spell(models.Model):
         data['elemental_charge'] = self.elemental_charge
         data['dps'] = self.dps
         data['diff'] = self.diff
+        data['ti_str'] = self.get_ti_display()
+        data['ti'] = self.ti
+        data['area_str'] = self.get_area_display()
+        data['area'] = self.area
         data['ref'] = self.ref
         data['charge'] = self.charge
         data['pentacle_code'] = self.pentacle_code
         data['power'] = self.power
         data['duration'] = self.duration
+        data['duration_str'] = self.get_duration_display()
+        data['range_str'] = self.get_range_display()
         data['range'] = self.range
         data['songe'] = self.songe
+        data['power_boost'] = self.power_boost
         data['resistance'] = self.resistance
         data['roll'] = self.get_roll_display()
         data['path'] = self.get_path_display()
         data['category'] = self.get_category_display()
         data['description'] = self.description
         data['composantes'] = self.composantes
-        data['ti'] = self.get_ti_display()[:4] + "."
         data['puissance'] = self.power
         data['spell_ready'] = self.spell_ready
+        data['source'] = self.source
+        data['original_casting_cost'] = self.original_casting_cost
         self.data = data
         return data
 
@@ -265,6 +310,13 @@ class Spell(models.Model):
         self.export_to_json()
         struct = json.loads(json.dumps(self.data))
         return struct
+
+    def applyValuePush(self, att, val):
+        setattr(self, att, val)
+        self.save()
+        return True
+
+
 
     @property
     def conversion(self):
@@ -305,12 +357,12 @@ class Spell(models.Model):
 class SpellAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ["-spell_ready", "name"]
-    list_display = ["name", "avoid_original_cost", "pentacle_code", "charge",  "spell_ready", "songe", "roll", "original_casting_cost",
+    list_display = ['id',"rid","code","name", "avoid_original_cost", "pentacle_code","ti","duration", "charge",  "spell_ready", "songe", "roll", "original_casting_cost",
                     "conversion",
                     "str_charges",
                     "path", "ref", "category", "source"]
-    list_editable = ["original_casting_cost", "avoid_original_cost", "pentacle_code","songe", "roll", "spell_ready", "source"]
-    list_filter = ["spell_ready", "path","pentacle_code", "category", "diff", "dps", "original_casting_cost", "ground_charge",
+    list_editable = ["original_casting_cost", "avoid_original_cost","ti", "pentacle_code","songe", "roll", "spell_ready", "source"]
+    list_filter = ["spell_ready", "path","pentacle_code","roll", "category", "diff", "dps", "original_casting_cost", "ground_charge",
                    "elemental_charge", "emanation_charge",
                    "consistency_charge", "hour_charge", "source"]
     search_fields = ["name", "description", "source"]

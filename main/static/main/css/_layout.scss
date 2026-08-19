@@ -185,7 +185,7 @@ body {
 #target_ed, #ed{
     //@include dragonade_panel;
     display:block;
-    height:6em;
+    height:1em;
     margin:3pt;
     background:black;
     color:white;
@@ -194,6 +194,13 @@ body {
     border-radius:5pt;
     width:70ex;
     font-size:1.2em;
+}
+
+#ed{
+    height:32em;
+    &:focus{
+        background:#102030;
+    }
 }
 
 

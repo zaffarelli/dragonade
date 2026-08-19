@@ -170,7 +170,7 @@ class Modulo {
         me.debug = false;
         me.step = 50;
         me.basefont = "Wellfleet";
-        me.fontSize = me.step / 8;
+        me.fontSize = me.step / 8
     }
 
     softLog(txt) {
@@ -379,9 +379,9 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             "stroke-width": "0.5pt"
         }
         let value_styles = {
-            "fill": "white",
+            "fill": "none",
             "stroke": "black",
-            "stroke-width": "1pt"
+            "stroke-width": "0pt"
         }
         let label_text_styles = {
             "font-family": me.baseFont,

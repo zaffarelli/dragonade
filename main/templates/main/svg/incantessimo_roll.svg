@@ -1,0 +1,40 @@
+<?xml version="1.2" encoding="UTF-8" standalone="yes"?>
+<svg width="10mm" height="10mm" viewBox="0 0 100 100" version="1.1" class="svg_incantessimo_roll" xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <rect style="fill:black;stroke:silver;stroke-width:1pt;" width="100" height="100" x="0" y="0" rx="10" ry="10"/>
+        {% if value == "-" %}
+        <text x="50" y="40" dy="24pt" style="font-family:khand;font-size:48pt;fill:red;stroke:darkred;stroke-width:1pt;text-anchor:middle;">
+        N/A
+        </text>
+        {%else%}
+        <circle
+            cx="50"
+            cy="20"
+            r = "10pt"       {% if value == "Contemplatif" %}style="fill:#2288ff"{% endif %}
+        {% if value == "Dynamique" %}style="fill:#22ff88"{% endif %}
+        {% if value == "Statique" %}style="fill:#8822ff"{% endif %}
+        {% if value == "Génératif" %}style="fill:#88ff22"{% endif %}
+        {% if value == "Mnémonique" %}style="fill:#ff8822"{% endif %}
+        {% if value == "Destructif" %}style="fill:#ff2288"{% endif %}
+        />
+
+<!--        <text x="50" y="20" dy="20pt" style="font-family:khand;font-size:42pt;fill:black;stroke:black;stroke-width:1pt;text-anchor:middle;">-->
+
+<!--        </text>-->
+<!--        <text x="50" y="40" dy="24pt" style="font-family:khand;font-size:42pt;fill:darkcyan;stroke:cyan;stroke-width:1pt;text-anchor:middle;">-->
+
+<!--        </text>-->
+        <text x="50" y="80" style="font-family:khand;font-size:42pt;fill:white;stroke:#606060;stroke-width:1pt;text-anchor:middle;">
+        {% if value == "Contemplatif" %}CON{% endif %}
+        {% if value == "Destructif" %}DES{% endif %}
+        {% if value == "Dynamique" %}DYN{% endif %}
+        {% if value == "Génératif" %}GEN{% endif %}
+        {% if value == "Mnémonique" %}MNE{% endif %}
+        {% if value == "Statique" %}STA{% endif %}
+        </text>
+
+
+
+        {% endif %}
+    </g>
+</svg>

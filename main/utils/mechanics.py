@@ -176,8 +176,9 @@ def fetch_maps():
     return map_list
 
 
-ZAFF_MATCHES = [('é', 'WeA_'), ('é', 'WeG_'), ('à', 'WeG_'), ('ï', 'WiT_'), ('ë', 'WeT_'), ('ä', 'WaT_'), ('ù', 'WuG_'),
-                ('ç', 'WcC_'), ('ô', 'WoC_'), ('ê', 'WeC_'), ('â', 'WaC_'), (' ', 'Wsp_'), ("'", 'Wsq_'), ('"', 'Wdq_')]
+ZAFF_MATCHES = [('é', 'WeA_'), ('è', 'WeG_'), ('à', 'WaG_'), ('ï', 'WiT_'), ('ë', 'WeT_'), ('ä', 'WaT_'), ('ù', 'WuG_'),
+                ('ç', 'WcC_'), ('ô', 'WoC_'), ('ê', 'WeC_'), ('â', 'WaC_'), (' ', 'Wsp_'), ("'", 'Wsq_'), ('"', 'Wdq_')
+                ]
 
 
 def zaff_encode(str):
@@ -207,7 +208,7 @@ def random_term(length=6):
 
 def asB2B(str):
     from hashlib import blake2b
-    h = blake2b(digest_size=8)
+    h = blake2b(digest_size=5)
     h.update(bytes(str.encode('utf-8')))
     res = h.hexdigest().encode('utf-8')
     return res

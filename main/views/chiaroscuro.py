@@ -55,6 +55,59 @@ def inc_dec(request):
 
     return HttpResponse(status=204)
 
+def value_shift(request):
+    answer = {'rid': None, "data": ''}
+    if is_ajax(request):
+        from main.models.stregoneria import Spell
+        print(request.POST)
+        rid = request.POST.get('rid')
+        id = request.POST.get('id')
+        param = request.POST.get('param')
+        back = int(request.POST.get('back'))
+        model = request.POST.get('model')
+        spells = Spell.objects.filter(rid=rid)
+        print(f"{rid} {param} {model} {back}")
+        if len(spells) == 1:
+            spell = spells.first()
+            current_value = getattr(spell, param)
+            answer["rid"] = rid
+            answer["model"] = model.title()
+            from main.models.stregoneria import DragonadeGround, DragonadeEmanation, DragonadeHour, DragonadeElement, DragonadeConsistency, \
+                IncantessimoCategory, IncantessimoPath,DragonadeDifficulty
+            if param == "ground_charge":
+                dataset = DragonadeGround.values
+            elif param == "hour_charge":
+                dataset = DragonadeHour.values
+            elif param == "elemental_charge":
+                dataset = DragonadeElement.values
+            elif param == "emanation_charge":
+                dataset = DragonadeEmanation.values
+            elif param == "consistency_charge":
+                dataset = DragonadeConsistency.values
+            elif param == "category":
+                dataset = IncantessimoCategory.values
+            elif param == "diff":
+                dataset = DragonadeDifficulty.values
+
+            else:
+                dataset = IncantessimoPath.values
+            next_value_index = 0
+            for k, v in enumerate(dataset):
+                if v == current_value:
+                    next_value_index = (k + back) % len(dataset)
+                    print(dataset)
+                    print(f"{k} -> {next_value_index}")
+            setattr(spell, param, dataset[next_value_index])
+            print(f"New values is [{dataset[next_value_index]}] for [{param}].")
+            spell.save()
+            context = {"s": spell.export_to_json(), "model": model.title()}
+
+            template = get_template("main/incantessimi/incantessimo_body.html")
+            answer['data'] = template.render(context)
+
+    answer['rid'] = rid
+    return JsonResponse(answer)
+
 
 def value_push(request):
     cando = False
@@ -64,9 +117,11 @@ def value_push(request):
             from main.models.autochtons import Autochton
             from main.models.creatures import Creature
             from main.models.travellers import Traveller
+            from main.models.stregoneria import Spell
             answer = {}
             new_roster = ''
             params = request.POST.get('refs').split('__')
+            rid = request.POST.get('rid')
             new_value = request.POST.get('new_value')
             value = zaff_decode(new_value)
             print("New value     =>", new_value)
@@ -74,6 +129,7 @@ def value_push(request):
             print("Params =>", params)
             if len(params) >= 3:
                 class_name = params[0]
+                print(f"Class: {class_name}")
                 id = params[1]
                 attribute = params[2]
                 if class_name.title() == "Autochton":
@@ -82,6 +138,11 @@ def value_push(request):
                 if class_name.title() == "Creature":
                     item = Creature.objects.get(id=id)
                     cando = True
+                if class_name.title() == "Incantessimo":
+                    print(f"spell: {rid}")
+                    item = Spell.objects.get(rid=rid)
+                    print(item)
+                    cando = True
                 if class_name.title() == "Traveller":
                     item = Traveller.objects.get(id=id)
                     print("Traveller found: ", item.rid)
@@ -89,12 +150,12 @@ def value_push(request):
         if cando:
             print("success!!")
             change_result = item.applyValuePush(attribute, value)
-            context = {'a': item.toJson()}
-            template = get_template('main/objects/roster.html')
+            context = {'s': item.toJson(), "model": class_name.title()}
+            template = get_template('main/incantessimi/incantessimo_body.html')
             new_roster = template.render(context, request)
-            answer['id'] = item.id
+            answer['rid'] = item.rid
             answer['change_result'] = change_result
-            answer['new_roster'] = new_roster
+            answer['data'] = new_roster
             return JsonResponse(answer)
     return HttpResponse(status=204)
 

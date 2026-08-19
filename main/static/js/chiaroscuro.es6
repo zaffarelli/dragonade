@@ -1,4 +1,4 @@
-const ZAFF_MATCHES = [['é', 'WeA_'], ['é', 'WeG_'], ['à', 'WeG_'], ['ï', 'WiT_'], ['ë', 'WeT_'], ['ä', 'WaT_'],
+const ZAFF_MATCHES = [['é', 'WeA_'], ['è', 'WeG_'], ['à', 'WaG_'], ['ï', 'WiT_'], ['ë', 'WeT_'], ['ä', 'WaT_'],
     ['ù', 'WuG_'],['ç', 'WcC_'], ['ô', 'WoC_'], ['ê', 'WeC_'], ['â', 'WaC_'], [' ', 'Wsp_'], ["'", 'Wsq_'], ['"', 'Wdq_']]
 
 class Chiaroscuro {
@@ -122,8 +122,10 @@ class Chiaroscuro {
         me.prepareAjax()
         me.registerShortcuts()
         me.registerEditables()
+        me.registerEditor()
         me.registerStackPull()
         me.registerValuePush()
+        me.registerValuePushEditor()
         me.registerSheets()
         me.registerLinks()
         me.registerMiniItems()
@@ -328,15 +330,42 @@ class Chiaroscuro {
         });
     }
 
+   registerEditor() {
+        let me = this;
+        $('.editor').off().on('click', function (e) {
+            e.preventDefault()
+            e.stopPropagation()
+            let action = $(this).attr('action')
+            let model = $(this).attr('model')
+            let id = $(this).attr('id')
+            if (action == "value") {
+                if (e.ctrlKey){
+                    let params = id.split("__")
+                    let value = $(this).attr("srcval")
+                    let encoded_value = me.zaff_decode(value)
+                    let data = model + "__" + params[0] + "__" + params[1]
+                    $("#target_ed").val(data)
+                    $("#ed").val(encoded_value)
+                    $("#echo").html(value)
+                    me.registerActions()
+                }
+            } else {
+                console.warning("Unknown action...")
+            }
+        });
+    }
+
+
     registerShifters(){
         let me = this
         $('.shifter').off().on('click', function(e){
             e.preventDefault()
             e.stopPropagation()
-            let miniid = $(this).attr('id')
-            let words = miniid.split('__')
+            let xxx = $(this).attr('id')
             let model = $(this).attr('model')
-            // console.log(`rid:${words[0]} param:${words[1]}`)
+            let words = xxx.split('__')
+            console.log(`${model}::${xxx}`)
+            console.log(words)
             if (e.ctrlKey || e.altKey) {
                 let back = (e.altKey ? -1 : 1)
                 $.ajax({
@@ -349,11 +378,14 @@ class Chiaroscuro {
                     data: {
                         "rid": words[0],
                         "param": words[1],
+                        "id": words[2],
+                        "model": model,
                         "back": back
                     },
                     dataType: 'json',
                     success: function (answer) {
-                        $("#"+model+"__"+answer.rid).html(answer.data)
+                        console.log(`xxx:${answer.model} yyy:${answer.rid}`)
+                        $("#"+answer.model.toLowerCase()+"__"+answer.rid).html(answer.data)
                         me.registerActions()
                     },
                     error: function (answer) {
@@ -402,7 +434,6 @@ class Chiaroscuro {
                     $("#ed").val("")
                     me.registerActions()
                     if (me.last_tabbutton != ""){
-                        console.log(`${me.last_tabbutton}`)
                         $("#"+me.last_tabbutton).trigger("click")
                     }
                 },
@@ -437,7 +468,6 @@ class Chiaroscuro {
                 dataType: 'json',
                 success: function (answer) {
                     $('.list.'+target).html(answer.html);
-                    console.log(answer.html)
                     me.registerActions();
                 },
                 error: function (answer) {
@@ -446,6 +476,55 @@ class Chiaroscuro {
             });
         });
     }
+
+    registerValuePushEditor() {
+        let me = this
+        $('#valuepush_editor').off().on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            let new_value = $('#ed').val()
+            let value = me.zaff_encode(new_value)
+            let refs = $("#target_ed").val();
+            let words = refs.split("__")
+            if (words.includes("bulk")){
+                value = me.zaff_encode($("#ed").val())
+            }
+            console.log(refs)
+            $.ajax({
+                url: 'ajax/value_push',
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: {
+                    "new_value": value,
+                    "rid":words[1],
+                    "refs": refs
+                },
+                dataType: 'json',
+                success: function (answer) {
+                    $("#"+words[0]+"__"+words[1]).html(answer.data)
+                    $("#target_ed").val("")
+                    $("#ed").val("")
+                    me.registerActions()
+                },
+                error: function (answer) {
+                    console.error('Error... ' + answer)
+                    me.registerActions()
+                },
+            })
+        })
+        $("#ed").off().on("click",function(e){
+            if (e.altKey) {
+                $("#ed").val("")
+                $("#target_ed").val("")
+                $("#echo").val("")
+            }
+        })
+    }
+
+
 
 
     registerSheets() {
@@ -718,17 +797,16 @@ class Chiaroscuro {
     }
 
     perform() {
+        /* let url = `ws://192.168.0.25:8083/ws/socket-server/`;
+        */
         let me = this;
         let no_global = true
-        //let url = `ws://192.168.0.25:8083/ws/socket-server/`;
         let host = window.location.hostname
         let protocol = window.location.port
         let url = `ws://${host}:${protocol}/ws/socket-server/`
-        console.log(url)
         me.chatSocket = new WebSocket(url)
         me.chatSocket.onmessage = function(e){
             let data = JSON.parse(e.data)
-//             console.log("Data:",data)
             if (data.type === "select"){
                 $("#info").prepend(
                 `<div>
@@ -742,8 +820,6 @@ class Chiaroscuro {
         }
         me.prepareAjax();
         me.registerActions();
-        //window.addEventListener('resize',resizeEvent);
-//         console.log("Global Perform");
         _.forEach(me.globalPerformers,
             (m) => {
                 m.perform();
@@ -755,7 +831,6 @@ class Chiaroscuro {
         }
         me.prepareWebSocket()
         console.log("Check WS")
-        //me.resizeEvent();
     }
 
     zaff_encode(str){

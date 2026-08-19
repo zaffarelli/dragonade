@@ -14,7 +14,7 @@ class Stregoneria extends Modulo {
         me.supertitle = "";
         me.category = "stregoneria"
 
-        me.fontSize = me.step / 6;
+        me.fontSize = 10 //me.step / 6
         // Drawing Size
         me.height = me.step * 21.0
         me.width = me.step * 29.7/2
@@ -93,13 +93,14 @@ class Stregoneria extends Modulo {
         let metrics = [
             {"x":(delx * 0) + 0.25, "y":1.5, "label":"Difficulté", "value":s.diff,"id":s.rid+"met1"},
             {"x":(delx * 0) + 0.25, "y":2.0, "label":"PdR", "value":s.dps,"id":s.rid+"met2"},
-            {"x":(delx * 0) + 0.25, "y":2.5, "label":"Durée", "value":s.duration,"id":s.rid+"met6"},
+            {"x":(delx * 0) + 0.25, "y":2.5, "label":"Durée", "value":s.duration_str,"id":s.rid+"met3"},
 
-            {"x":(delx * 1) + 0.25, "y":1.5, "label":"Résistance", "value":s.resistance,"id":s.rid+"met3"},
-            {"x":(delx * 1) + 0.25, "y":2.0, "label":"Temps Incant.", "value":s.ti,"id":s.rid+"met4"},
+            {"x":(delx * 1) + 0.25, "y":1.5, "label":"Résistance", "value":s.resistance,"id":s.rid+"met4"},
+            {"x":(delx * 1) + 0.25, "y":2.0, "label":"Temps Incant.", "value":s.ti_str,"id":s.rid+"met5"},
+            {"x":(delx * 1) + 0.25, "y":2.5, "label":"Zone/Taille", "value":s.area_str,"id":s.rid+"met6"},
 
-            {"x":(delx * 2) + 0.25, "y":1.5, "label":"Portée", "value":s.range,"id":s.rid+"met5"},
-            {"x":(delx * 2) + 0.25, "y":2.0, "label":"Coût en Songe", "value":s.songe,"id":s.rid+"met7"},
+            {"x":(delx * 2) + 0.25, "y":1.5, "label":"Portée", "value":s.range_str,"id":s.rid+"met7"},
+            {"x":(delx * 2) + 0.25, "y":2.0, "label":"Coût en Songe", "value":s.songe,"id":s.rid+"met8"},
 
             // {"x":(delx * 1) + 0.25, "y":2.5, "label":"", "value":"","id":s.rid+"met8"},
         ]
@@ -156,15 +157,15 @@ class Stregoneria extends Modulo {
         me.spot_g = me.stregoneria.append("g")
                 .attr("id","category_spot_"+s.rid)
         me.spot_g.append("circle")
-                .attrs({"cx":(basex+12.5)*me.step,"cy":(basey-14)*me.step,"r":1.15*me.step})
-                .styles({"fill":"#F0F0F0","stroke-width":"2pt","stroke-dasharray":"1 4","stroke":"#000000"})
+                .attrs({"cx":(basex+12.5)*me.step,"cy":(basey-3)*me.step,"r":1*me.step})
+                .styles({"fill":"#F0F0F0","stroke-width":"0pt","stroke-dasharray":"1 4","stroke":"#000000"})
         d3.select("#category_spot_"+s.rid).append("image")
             .attr("class","relinkable")
             .attr("xlink:href", "static/main/svg/2026/"+s.category.toLowerCase()+".svg" )
             .attr("width",me.step*2)
             .attr("height",me.step*2)
             .attr("x",(basex+11.5)*me.step)
-            .attr("y",(basey-15)*me.step )
+            .attr("y",(basey-4)*me.step )
         // VOIE
         let cat = s.path.toLowerCase()
         if (cat[0]=='g'){
@@ -172,15 +173,15 @@ class Stregoneria extends Modulo {
         }
         console.log(cat)
         me.spot_g.append("circle")
-                .attrs({"cx":(basex+12.5)*me.step,"cy":(basey-11)*me.step,"r":1.15*me.step})
-                .styles({"fill":"white","stroke-width":"2pt","stroke-dasharray":"1 4","stroke":"black"})
+                .attrs({"cx":(basex+12.5)*me.step,"cy":(basey-1)*me.step,"r":1*me.step})
+                .styles({"fill":"#F0F0F0","stroke-width":"0pt","stroke-dasharray":"1 4","stroke":"black"})
         d3.select("#category_spot_"+s.rid).append("image")
             .attr("class","relinkable")
             .attr("xlink:href", "static/main/svg/2026/"+cat+".svg" )
             .attr("width",me.step*2)
             .attr("height",me.step*2)
             .attr("x",(basex+11.5)*me.step)
-            .attr("y",(basey-12)*me.step )
+            .attr("y",(basey-2)*me.step )
         // Puissance
         me.spot_g.append("circle")
                 .attrs({"cx":(basex+12.5)*me.step,"cy":(basey-15.5)*me.step,"r":0.5*me.step})

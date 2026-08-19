@@ -1,6 +1,6 @@
 {% load static %}
 {% load dragonade_filters %}
 
-<div class="zlist_entry" id="incantessimo__{{s.rid}}">
+<div class="zlist_entry" id="{{model|lower}}__{{s.rid}}">
     {% include "main/incantessimi/incantessimo_body.html" with s=s num=num%}
 </div>
