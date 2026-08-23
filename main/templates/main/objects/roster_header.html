@@ -1,12 +1,12 @@
 {% load static %}
 {% load dragonade_filters %}
 
-<div class="sheet header" id="sh_{{a.id}}">
-    <div class="box header" style="text-align:left;">
-        <span class="skill_switch" id="{{a.id}}_switch"><i class="fa fa-edit"></i></span>
+<div class="sheet header" id="sh__{{a.rid}}">
+    <div class="box label full large classy">
+        <span class="skill_switch" id="{{a.rid}}__switch" style="float:right;"><i class="fa fa-times"></i></span>
     </div>
     <div class="box label full large classy">
-        {{a.name}} {% if a.has_bug %}<i class="fa fa-times" style="color:red;" title="{{a.bug_list}}"></i>{% endif %}
+{{a.name}} {% if a.has_bug %}<i class="fa fa-times" style="color:red;" title="{{a.bug_list}}"></i>{% endif %}
     </div>
 
     <div class="box label full" title="Joueur">

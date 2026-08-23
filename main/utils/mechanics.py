@@ -102,14 +102,8 @@ MENU_ENTRIES = [
 MAIN_MENU = [
     {"NAME": "DRAGONADE", "ICON": "fa-bars", "SUB": [
         {"NAME": "Parallaxe", "SUB": [
-            {"NAME": "Mise en place (Gardien)", "LINK": "gardiendesreves"},
-            {"NAME": "Révélation (Voyageurs)", "LINK": "risorse"},
-        ]},
-        {"NAME": "Artefacts", "LINK": "appartuses"},
-        {"NAME": "Magie Draconique", "SUB": [
-            {"NAME": "Cartes de Sortilège", "LINK": "stregoneria"},
-            {"NAME": "Liste des Sortilèges", "LINK": "incantessimi_list"},
-            {"NAME": "Nouveau sort", "ACTION": "new_spell"},
+            {"NAME": "Gardien", "LINK": "gardiendesreves"},
+            {"NAME": "Voyageurs", "LINK": "risorse"},
         ]},
         {"NAME": "Rêves", "SUB": [
             {"NAME": "Nouveau Rêve", "LINK": "new_dream"},
@@ -117,20 +111,15 @@ MAIN_MENU = [
             {"NAME": "Campagne: Le joueur de flute", "LINK": "sogno"},
             {"NAME": "Campagne: La Rose Pourpre", "LINK": "sogno"},
         ]},
-        {"NAME": "Créatures", "SUB": [
-            {"NAME": "Statistiques", "LINK": "statistics"},
-            {"NAME": "Listes...", "SUB": [
-                {"NAME": "Liste des monstres", "LINK": "creatures"},
-                {"NAME": "Liste des autochtones", "LINK": "nativi"},
-                {"NAME": "Liste des voyageurs", "LINK": "travellers"},
-            ]},
-            {"NAME": "Nouveau...", "SUB": [
-                {"NAME": "Nouveau monstre", "ACTION": "new_creature"},
-                {"NAME": "Nouvel autochtone", "ACTION": "new_autochton"},
-                {"NAME": "Nouveau voyageur", "ACTION": "new_traveller"},
-            ]},
+        {"NAME": "Personnages", "SUB": [
+            {"NAME": "Viaggiatori", "LINK": "viaggiatori_list"},
+            {"NAME": "Nativi", "LINK": "nativi_list"},
+            {"NAME": "Creature", "LINK": "creature_list"},
         ]},
-
+        {"NAME": "Arts Draconiques", "SUB": [
+            {"NAME": "Incantessimi", "LINK": "incantessimi_list"},
+            {"NAME": "Artefatti", "LINK": "artefatti_list"},
+        ]},
         {"NAME": "Visuels", "SUB": [
             {"NAME": "Cartes", "LINK": "piani"},
             {"NAME": "Illustrations", "LINK": "flute"},

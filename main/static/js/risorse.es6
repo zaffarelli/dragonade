@@ -330,7 +330,9 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
         me.drawCardSet(dataset);
     }
 
-
+    shuffleSelect(){
+        
+    }
 
     drawCardSet(set){
         let me = this;

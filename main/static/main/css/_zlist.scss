@@ -1,8 +1,7 @@
 
-.zlist_container{
+.zlist_container, .zlist_header, .zlist_footer{
     width:96vw;
     margin:5pt;
-    height:91vh;
     display:flex;
     flex-flow:column nowrap;
     font-family:Roboto;
@@ -11,7 +10,6 @@
     align-items: flex-start;
     align-content: stretch;
     gap:3pt;
-//     border:2pt solid black;
     overflow-y:scroll;
     background:none;
 
@@ -77,7 +75,7 @@
             }
 
             &.filter{
-                width:12ex;
+                width:24ex;
                 font-size:1.5em;
                 cursor:pointer;
                 &:hover{
@@ -101,4 +99,13 @@
             }
         }
     }
+}
+
+.zlist_container{
+    height:85vh;
+}
+
+.zlist_header, .zlist_footer{
+    flex-flow:column wrap;
+    height:3vh;
 }

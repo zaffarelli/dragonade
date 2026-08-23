@@ -1,24 +1,28 @@
 
 .roster{
     background:transparent;
-
+    margin-left:15vw;
+    margin-top:1vh;
     height:90vh;
-    width:70vw;
-//     margin:auto;
-    bottom:10px;
-    overflow-y:scroll;
+    width:50vw;
+//     overflow-y:scroll;
+    border:3pt solid black;
+    border-radius:5pt;
+    padding:5pt;
+    font-size:12pt;
 
     & .tabnav{
         background: #1030207F;
-        width:50%;
+        width:100%;
         & .tabbutton{
+            font-size: 12pt;
 
         }
     }
 
     & .header{
         background: #1020307F;
-        width:50%;
+        width:100%;
         & .full{
             background: #1020307F;
             color:white;
@@ -26,14 +30,14 @@
             padding:5pt;
         }
         & .large{
-            font-family: "Pirata One";
+            font-family: "Khand";
             font-size:2em;
         }
     }
 
     & .tabpanel{
         background:#202020;
-        width:50%;
+        width:100%;
         height:1100px;
         display:flex;
         flex-flow: column wrap;
@@ -44,7 +48,7 @@
 
 
     & .classy{
-        font-family: "Pirata One"
+        font-family: "Khand"
     }
 
 
@@ -75,16 +79,16 @@
 
      & .sheet {
         display: grid;
-        flex: 0 0 auto;
+        flex: 0 0 16ex;
         font-family:$font;
-        font-size:$roster_font_height;
+        //font-size:$roster_font_height;
         border:1px solid $palette2;
         background:#606080;
 
 
         border-radius:5px;
         margin:5px;
-        padding:3px;
+        padding:1px;
         gap: 0px;
         box-shadow: 0 0 16px $palette0;
 
@@ -119,6 +123,7 @@
 
                 &.editable{
                     cursor:pointer;
+//                     background:#cc6611;
                     & .btn_edit{
                         &.minus:hover{
                             color:lime;
@@ -131,7 +136,7 @@
                         &.value{
                             display:inline-block;
 
-                            min-width:4ex;
+                            min-width:2ex;
                             text-align:center;
                             &:hover{
                                 background:$palette1;
@@ -143,7 +148,7 @@
         }
 
         &.skills{
-            grid-template-columns: 150px 75px;
+            grid-template-columns: 200px 75px;
             grid-template-rows: repeat(6,1.65em);
             & .label {
                 grid-column: 1 / span 1;

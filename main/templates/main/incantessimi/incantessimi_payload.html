@@ -1,7 +1,0 @@
-{% load static %}
-{% load dragonade_filters %}
-
-{% include "main/incantessimi/incantessimi_filters.html" %}
-{% for x in incantessimi %}
-{% include "main/incantessimi/incantessimo.html" with s=x num=forloop.counter %}
-{% endfor %}

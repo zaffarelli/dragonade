@@ -73,7 +73,7 @@ CHARACTER_STATISTICS = {
 
     "SKILLS": {
         "WEAPONS": {
-            "DEFAULT": 0,
+            "DEFAULT": -1,
             "NAME": "Martiales",
             "LIST": [
                 {"NAME": "WEA_01", "TEXT": "Arbalètes"},
@@ -100,49 +100,6 @@ CHARACTER_STATISTICS = {
                 "WEA_01", "WEA_02", "WEA_03", "WEA_04", "WEA_05", "WEA_06", "WEA_07", "WEA_08", "WEA_09", "WEA_10",
                 "WEA_11", "WEA_12", "WEA_13", "WEA_14", "WEA_15", "WEA_16", "WEA_17", "WEA_18"
             ],
-            "LIST2": [
-                {"NAME": "WEA_01", "TEXT": "Arbalète"},
-                {"NAME": "WEA_02", "TEXT": "Arc"},
-                {"NAME": "WEA_03", "TEXT": "Arme d'Hast"},
-                {"NAME": "WEA_04", "TEXT": "Bâton"},
-                {"NAME": "WEA_05", "TEXT": "Bouclier Léger"},
-                {"NAME": "WEA_06", "TEXT": "Bouclier Moyen"},
-                {"NAME": "WEA_07", "TEXT": "Bouclier Lourd"},
-                {"NAME": "WEA_08", "TEXT": "Coutelas"},
-                {"NAME": "WEA_09", "TEXT": "Dague"},
-                {"NAME": "WEA_10", "TEXT": "Double Dragonne"},
-                {"NAME": "WEA_11", "TEXT": "Dragonne"},
-                {"NAME": "WEA_12", "TEXT": "Epée Bâtarde"},
-                {"NAME": "WEA_13", "TEXT": "Epée Cyane"},
-                {"NAME": "WEA_14", "TEXT": "Epée Gnome"},
-                {"NAME": "WEA_15", "TEXT": "Epée Sorde"},
-                {"NAME": "WEA_16", "TEXT": "Esparlongue"},
-                {"NAME": "WEA_17", "TEXT": "Esquive"},
-                {"NAME": "WEA_18", "TEXT": "Fléau Léger"},
-                {"NAME": "WEA_19", "TEXT": "Fléau Lourd"},
-                {"NAME": "WEA_20", "TEXT": "Fouet"},
-                {"NAME": "WEA_21", "TEXT": "Fronde"},
-                {"NAME": "WEA_22", "TEXT": "Gourdin"},
-                {"NAME": "WEA_23", "TEXT": "Grande Hache"},
-                {"NAME": "WEA_24", "TEXT": "Hache de Bataille"},
-                {"NAME": "WEA_25", "TEXT": "Hachette"},
-                {"NAME": "WEA_26", "TEXT": "Harpon"},
-                {"NAME": "WEA_27", "TEXT": "Javelot"},
-                {"NAME": "WEA_28", "TEXT": "Lance courte"},
-                {"NAME": "WEA_29", "TEXT": "Lutte"},
-                {"NAME": "WEA_30", "TEXT": "Masse d'Armes"},
-                {"NAME": "WEA_31", "TEXT": "Masse Lourde"},
-                {"NAME": "WEA_32", "TEXT": "Pique"},
-                {"NAME": "WEA_33", "TEXT": "Pugilat"},
-                {"NAME": "WEA_34", "TEXT": "Regard"},
-            ],
-
-            "KNOWN2": [
-                "WEA_01", "WEA_02", "WEA_03", "WEA_04", "WEA_05", "WEA_06", "WEA_07", "WEA_08", "WEA_09", "WEA_10",
-                "WEA_11", "WEA_12", "WEA_13", "WEA_14", "WEA_15", "WEA_16", "WEA_17", "WEA_18", "WEA_19", "WEA_20",
-                "WEA_21", "WEA_22", "WEA_23", "WEA_24", "WEA_25", "WEA_26", "WEA_27", "WEA_28", "WEA_29", "WEA_30",
-                "WEA_31", "WEA_32", "WEA_33", "WEA_34"
-            ]
         },
         "GENERIC": {
             "DEFAULT": -1,

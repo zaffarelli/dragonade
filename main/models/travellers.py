@@ -27,6 +27,8 @@ class Traveller(Character):
 
     def fix(self):
         super().fix()
+        if self.is_storyteller:
+            self.player = "Gardien des Rêves"
         # self.klass = "Traveller"
 
 

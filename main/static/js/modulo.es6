@@ -257,7 +257,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
         // me.svg.selectAll('.do_not_print').attr('opacity', 1);
     }
 
-    edit() {
+    oldedit() {
         let me = this;
         let json_data = {
             "category": this.category,
@@ -625,6 +625,17 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
 
     postFetch(){
         let me = this
+    }
+
+    postEdit(){
+        let me = this
+    }
+
+    edit(model,rid){
+        let me = this
+        let data = null
+        console.log(`[${me.name}] is ready to edit [${model}::${rid}] !`)
+        return data
     }
 
     fetch(model, rid) {

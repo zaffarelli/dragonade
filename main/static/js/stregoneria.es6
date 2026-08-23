@@ -1,15 +1,14 @@
 class Stregoneria extends Modulo {
-    constructor(co,config) {
-        super(co,config);
+    constructor(co, config) {
+        super(co, config);
         this.name = "Stregoneria"
         this.parent = "#svg_area"
         this.fetched = false
-        console.log(config)
     }
 
-    init() {
+init() {
         super.init();
-        let me = this;
+        let me = this
         me.version = "1.0.0";
         me.supertitle = "";
         me.category = "stregoneria"

@@ -1,17 +1,10 @@
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from datetime import datetime
-
 from django.template.loader import get_template
-
-from main.models.stregoneria import DragonadeDifficulty
-# from django.views.decorators.csrf import csrf_exempt
-
 from main.utils.mechanics import FONTSET, MENU_ENTRIES, is_ajax, MAIN_MENU
-from main.utils.ref_dragonade import stress_table_json, action_quality_json, soak_table_json, pdom_table_json, \
-    sus_table_json, scon_table_json, comp_table_json, gear_table_json, weapon_table_json, secondaries_table_json, miscellaneous_table_json
-
-# from main.models.stregoneria import Spell
+from main.utils.ref_dragonade import stress_table_json, action_quality_json, soak_table_json, pdom_table_json, sus_table_json, scon_table_json, comp_table_json, \
+    gear_table_json, weapon_table_json, secondaries_table_json, miscellaneous_table_json
 from main.views.chiaroscuro import prepare_pagination
 
 CHAR_PER_PAGE = 12
@@ -47,6 +40,8 @@ def card_reveal(request):
 
 
 def gardiendesreves(request):
+    from main.models.equipment import Equipment
+    Equipment.extract_all()
     context = prepare_context(request)
     context['config']['modules'].append('risorse')
     context['config']['menu_entries'] = MENU_ENTRIES
@@ -70,6 +65,7 @@ def papers(request):
     from main.models.travellers import Traveller
     from main.models.autochtons import Autochton
     from main.models.teams import Team
+
     # Load all papers
     # Some of them are collection (e.g. SCREEN1)
     context = prepare_context(request)
@@ -492,21 +488,80 @@ def overlay_edit(request):
     return JsonResponse(answer)
 
 
+def edit(request):
+    from main.models.stregoneria import Spell
+    from main.models.autochtons import Autochton
+    from main.models.travellers import Traveller
+    from main.models.creatures import Creature
+    answer = {'rid': "", "model": "", "payload": {}}
+    if is_ajax(request):
+        rid = request.POST.get('rid')
+        model = request.POST.get('model')
+        if model.lower() == "incantessimo":
+            spells = Spell.objects.filter(rid=rid)
+            if len(spells) == 1:
+                i = spells.first()
+                answer['rid'] = rid
+                answer['model'] = model
+                answer['payload'] = i.export_to_json()
+        elif model.lower() == "nativo":
+            items = Autochton.objects.filter(rid=rid)
+            if len(items) == 1:
+                i = items.first()
+                answer['payload'] = i.export_to_json()
+                context = {}
+                context['a'] = answer['payload']
+                context['model'] = model
+                template = get_template("main/objects/roster.html")
+                html = template.render(context, request)
+                answer['html'] = html
+        elif model.lower() == "viaggiatore":
+            items = Traveller.objects.filter(rid=rid)
+            if len(items) == 1:
+                i = items.first()
+                answer['payload'] = i.export_to_json()
+                context = {}
+                context['a'] = answer['payload']
+                context['model'] = model
+                template = get_template("main/objects/roster.html")
+                html = template.render(context, request)
+                answer['html'] = html
+        elif model.lower() == "creature":
+            items = Creature.objects.filter(rid=rid)
+            if len(items) == 1:
+                i = items.first()
+                answer['payload'] = i.export_to_json()
+                context = {}
+                context['a'] = answer['payload']
+                context['model'] = model
+                template = get_template("main/objects/roster.html")
+                html = template.render(context, request)
+                answer['html'] = html
+        return JsonResponse(answer)
+    return HttpResponse(status=204)
 
 
 def fetch(request):
+    from main.models.stregoneria import Spell
+    from main.models.autochtons import Autochton
     answer = {'rid': "", "type": "", "payload": {}}
     if is_ajax(request):
         rid = request.POST.get('rid')
         type = request.POST.get('type')
         if type.lower() == "incantessimo":
-            from main.models.stregoneria import Spell
             spells = Spell.objects.filter(rid=rid)
             if len(spells) == 1:
-                s = spells.first()
+                i = spells.first()
                 answer['rid'] = rid
                 answer['type'] = type
-                answer['payload'] = s.export_to_json()
+                answer['payload'] = i.export_to_json()
+        elif type.lower() == "nativo":
+            items = Autochton.objects.filter(rid=rid)
+            if len(items) == 1:
+                i = items.first()
+                answer['rid'] = rid
+                answer['type'] = type
+                answer['payload'] = i.export_to_json()
         return JsonResponse(answer)
     return HttpResponse(status=204)
 

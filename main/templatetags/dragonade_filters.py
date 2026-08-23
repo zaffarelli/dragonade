@@ -383,3 +383,11 @@ def as_bool(value):
     else:
         str = "<i class='fa fa-times-circle' style='color:#903030;'></i>"
     return str
+
+
+@register.filter(name='as_filter_value')
+def as_filter_value(value):
+    result = value
+    if isinstance(value,bool):
+        result = "true" if value else "false"
+    return result

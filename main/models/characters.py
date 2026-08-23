@@ -8,6 +8,8 @@ import random
 import json
 
 
+
+
 class Character(models.Model):
     class Meta:
         abstract = True
@@ -24,6 +26,7 @@ class Character(models.Model):
     entrance = models.CharField(max_length=256, default="", blank=True)
     birthhour = models.IntegerField(default=0, blank=True)
     is_female = models.BooleanField(default=False, blank=True)
+
     is_lefty = models.BooleanField(default=False, blank=True)
     is_battle_ready = models.BooleanField(default=False, blank=True)
     age = models.PositiveIntegerField(default=20, blank=True)
@@ -60,6 +63,9 @@ class Character(models.Model):
     priority = models.IntegerField(default=0, blank=True)
     klass = models.CharField(max_length=16, default="Character", blank=True)
     protection_map = models.CharField(max_length=256, blank=True, default="H-0-X C-0-X AS-0-X AW-0-X LS-0-X LW-0-X")
+
+
+
     data = {}
 
     def __str__(self):
@@ -69,7 +75,7 @@ class Character(models.Model):
         # print("Class ===> ", self.type[:3])
         if len(self.rid) == 0:
             self.rid = as_rid(self.name)
-            self.rid = self.type[:3].upper() + "__" + self.rid
+            self.rid = self.type[:3].upper() + "_" + self.rid
 
             # print("New RID", self.rid)
 
@@ -104,6 +110,7 @@ class Character(models.Model):
             self.save()
         return result
 
+
     def has_bug(self):
         return len(self.bug_list)>0
 
@@ -127,8 +134,8 @@ class Character(models.Model):
         self.tai_guideline = tai_guidelines(self.data['attributes']['TAI'])
         if self.height > 0:
             self.imc = math.floor(self.weight / ((self.height / 100) ** 2) * 10) / 10
-        self.updater = self.toJson()
-        self.json_dump()
+        # self.updater = self.toJson()
+        # self.json_dump()
 
     def calculate_team(self):
         import hashlib
@@ -223,7 +230,8 @@ class Character(models.Model):
         self.is_lefty = self.data['features']['LEFTY'] == "G"
         self.gear = self.data['features']['GEAR']
         self.spells = self.data['features']['SPELLS']
-        # self.spells_as_list = self.data['features']['SPELLS'].split(" ")
+        self.spells_as_list = self.data['features']['SPELLS'].split(" ")
+
 
     def ref_to_struct(self, src_ref):
         """        
@@ -242,8 +250,7 @@ class Character(models.Model):
                 cnt = 0
                 list = getattr(self, transversal[0].lower()).split(' ')
                 for item in src_struct['LIST']:
-                    self.data[transversal[0].lower()][item['NAME']] = int(list[cnt]) if cnt < len(list) else src_struct[
-                        'DEFAULT']
+                    self.data[transversal[0].lower()][item['NAME']] = int(list[cnt]) if cnt < len(list) else src_struct['DEFAULT']
                     cnt += 1
             elif len(transversal) == 2:
                 # Skills
@@ -272,7 +279,10 @@ class Character(models.Model):
         return sorted_all
 
     def export_to_json(self):
+        from datetime import datetime
+        now = datetime.now().strftime("%Y/%m/%d, %H:%M:%S")
         self.data = {}
+        self.data['last_update'] = now
         self.data['rid'] = self.rid
         self.data['id'] = self.id
         self.data['name'] = self.name
@@ -329,14 +339,15 @@ class Character(models.Model):
         self.data['features']['AKA'] = self.aka
         self.data['features']['FIGURE'] = self.figure
         self.data['features']['GENDER'] = "F" if self.is_female else "M"
+        self.data['is_female'] = self.is_female
         self.data['features']['LEFTY'] = "G" if self.is_lefty else "D"
 
         self.data['features']['weapons'] = self.gear_to_weapons()
         self.data['features']['other'] = self.gear_to_other()
         self.data['features']['armors'] = self.gear_to_armors()
         self.data['features']['protection_map'] = self.protection_map
-        a, b = self.collect_spells()
-        self.data['features']['spells'] = a
+        spells_list, b = self.collect_spells()
+        self.data['features']['spells'] = spells_list
         self.data['features']['shortcuts'] = self.shortcuts()
 
         self.data['birthhour'] = self.birthhour
@@ -346,7 +357,7 @@ class Character(models.Model):
 
         self.data['priority'] = self.priority
         self.data['roster_text'] = self.roster_as_text()
-
+        self.data['has_bug'] = self.has_bug()
         self.json_dump()
         # return self.data
 
@@ -400,7 +411,7 @@ class Character(models.Model):
             if len(word) > 0:
                 pieces = word.split("-")
                 pmap[pieces[0]] = {"protection": pieces[1], "source": pieces[2]}
-        print(pmap)
+        # print(pmap)
 
         armors = Equipment.objects.filter(prot__gte=1, rid__in=self.gear.split(" ")).order_by("materiaux")
         for armor in armors:

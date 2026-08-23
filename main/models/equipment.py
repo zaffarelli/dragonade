@@ -45,6 +45,8 @@ class Equipment(models.Model):
         #             new_covers.append(cover)
         #     self.cover = " ".join(new_covers)
         #     self.cover = self.cover.replace("T","H").replace("B","A").replace("J","L").replace("1","S").replace("2","W")
+
+        self.name = self.name.replace("  "," ")
         self.name = self.name.strip()
         if self.category in ["ana"]: # Armes naturelles
             self.price = 0
@@ -65,6 +67,7 @@ class Equipment(models.Model):
                 if skill["NAME"].upper() == self.related_skill.upper():
                     self.skill_match = skill["TEXT"]
                     break
+
 
     def __str__(self):
         return f"{self.name} [{self.category}]"
@@ -100,6 +103,14 @@ class Equipment(models.Model):
             list.append({"name":item.name, "rid": item.rid})
         return list
 
+    @classmethod
+    def extract_all(cls):
+        list = []
+        for item in cls.objects.order_by("name").exclude(special=True).order_by("category"):
+            list.append({"name":item.name, "rid": item.rid, "price":item.price, "enc":item.enc})
+            price = f"{int(item.price):2}s {int(item.price * 100) % 100:2}d"
+            print(f"{item.name.strip():30}µ{item.rid:30}µ{item.get_category_display():50}µ{price:20} µ{item.enc:5}§")
+        return list
 
 
 
@@ -113,6 +124,8 @@ def cat_from_first(modeladmin, request, queryset):
                 item.category = cat
                 item.save()
     short_description = "Category from the first item"
+
+
 
 
 class EquipmentAdmin(admin.ModelAdmin):

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{%  load static %}
+
+
+{% block east %}
+<div class="title">
+    {% include "main/dragonade_title.html" with title=title %}
+</div>
+{% include "main/chiaroscuro/items_options.html"%}
+{% endblock east %}
+
+
+{% block main %}
+<div class="zlist_header">
+{% include "main/chiaroscuro/items_filters.html" %}
+</div>
+<div class="zlist_container">
+    {% include "main/chiaroscuro/items_payload.html" %}
+</div>
+<div class="zlist_footer">
+    <div class="zlist_entry" id="{{i.model|lower}}__filters">
+        <div id="{{model|lower}}__new" class="zlist_item filter list_action" style="order:0; text-align:left;"><i class="fa fa-plus"></i> {{model}}</div>
+        <div class="zlist_item filter list_action" style="order:1; font-size:0.8em;">ctrl+alt+o<br/>pour cacher les options</div>
+    </div>
+</div>
+{% endblock main %}
+
+{% block custom_js %}
+<script>
+    _.defer(function () {
+        let co = new Chiaroscuro({
+        {
+            config | safe
+        }
+    })
+        co.perform();
+    });
+</script>
+{% endblock custom_js %}

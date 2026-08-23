@@ -32,6 +32,10 @@ class Chiaroscuro {
             let mod = new Stregoneria(this, config);
             mod.register();
         }
+        if (config["modules"].includes("taccuino") == true) {
+            let mod = new Taccuino(this, config);
+            mod.register();
+        }
         if (config["modules"].includes("combattimento") == true) {
             let mod = new Combattimento(this, config);
             mod.register();
@@ -194,6 +198,7 @@ class Chiaroscuro {
         let me = this
         $('.list_action').off().on('click', function(e) {
             let id = $(this).attr('id')
+            let model = $(this).attr('model')
             let words = id.split('__')
             let rid = words[0]
             let action = words[1]
@@ -207,7 +212,12 @@ class Chiaroscuro {
                     me.registerActions()
                     break
                 case "edit":
-                    console.log(`Editing for [${words[0]}] required.`)
+                    let d = {}
+                    me.axiomaticPerformers.forEach( (m) => {
+                        m.edit(model,words[0])
+                    })
+
+                    me.registerActions()
                     break
                 case "export":
                     console.log(`Exporting for [${words[0]}] required.`)
@@ -215,13 +225,14 @@ class Chiaroscuro {
                 case "filter":
                     console.log(`Filtrering for [${words[0]}:${words[2]}=${words[3]}] required.`)
                     $.ajax({
-                        url: 'ajax/incantessimi_filter',
+                        url: 'ajax/'+words[0].toLowerCase()+'_filter',
                         method: 'POST',
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/x-www-form-urlencoded'
                         },
                         data: {
+                            model: words[0],
                             param: words[2],
                             value: words[3],
                         },
@@ -236,7 +247,7 @@ class Chiaroscuro {
                     })
                     break
                 default:
-                    console.warn(`Unknown list action [${words[1]}] for item [${words[0]}].`)
+                    console.warn(`Unknown list action [${action}] for item [${rid}].`)
                     break
             }
         })
@@ -586,15 +597,18 @@ class Chiaroscuro {
             me.registerActions();
         });
         $('.skill_switch').off().on('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            let miniid = $(this).attr('id');
-            let words = miniid.split('_');
-            let id = words[0];
-            $(".roster").addClass('hidden');
-            $("#roster_" + id).removeClass('hidden');
-            $(".for_display_" + id).toggleClass('hidden');
-            $(".for_edit_" + id).toggleClass('hidden');
+            e.preventDefault()
+            e.stopPropagation()
+            let id = $(this).attr('id')
+            let words = id.split('__')
+            console.log(`skill_switch ${words[0]}`)
+            $("#roster__"+words[0]).remove()
+            $("#svg_area").remove()
+            // let id = words[0];
+            // $(".roster").addClass('hidden');
+            // $("#roster_" + id).removeClass('hidden');
+            // $(".for_display_" + id).toggleClass('hidden');
+            // $(".for_edit_" + id).toggleClass('hidden');
             me.registerActions();
         });
     }
