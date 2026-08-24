@@ -1,11 +1,11 @@
 from django.urls import re_path
 from main.views.generic import index, autochtons, creatures, travellers, maps, papers, card_reveal, draconis_artes, \
-    gardiendesreves, appartuses, combattants, new_creature, new_autochton, new_traveller, new_spell, overlay_edit, kicker, \
-    fetch, edit
+    gardiendesreves, appartuses, combattants, new_creature, new_autochton, new_traveller, new_spell, overlay_edit, kicker
 
-from main.views.stregoneria import SpellDetailView
+
+from main.views.incantessimi import IncantessimoDetailView
 from main.views.chiaroscuro import inc_dec, value_push, svg_to_pdf, paginator_switch, value_shift, incantessimi_list, incantessimi_filters, nativi_list, \
-    nativi_filters, viaggiatori_list, viaggiatori_filters, creature_list, creature_filters
+    nativi_filters, viaggiatori_list, viaggiatori_filters, creature_list, creature_filters, artefatti_list, artefatti_filters, fetch, edit
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -31,9 +31,11 @@ urlpatterns = [
                   re_path(r'^new_traveller', new_traveller, name='new_traveller'),
                   re_path(r'^new_autochton', new_autochton, name='new_autochton'),
                   re_path(r'^ajax/new/spell', new_spell, name='new_spell'),
-                  re_path(r'^ajax/embedded/edit', SpellDetailView.as_view()),
+                  re_path(r'^ajax/embedded/edit', IncantessimoDetailView.as_view()),
                   re_path(r'^ajax/overlay/edit', overlay_edit, name="overlay_edit"),
                   re_path(r'^ajax/kicker', kicker, name="kicker"),
+
+
                   re_path(r'^ajax/fetch', fetch, name="fetch"),
                   re_path(r'^ajax/edit', edit, name="edit"),
                   re_path(r'^ajax/value_shift', value_shift, name="value_shift"),
@@ -49,5 +51,8 @@ urlpatterns = [
                   # Incantessimi
                   re_path(r'^incantessimi_list$', incantessimi_list, name='incantessimi_list'),
                   re_path(r'^ajax/incantessimo_filter$', incantessimi_filters, name='incantessimi_filter'),
+                  # Artefatti
+                  re_path(r'^artefatti_list$', artefatti_list, name='artefatti_list'),
+                  re_path(r'^ajax/artefatti_filter$', artefatti_filters, name='artefatti_filters'),
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # + debug_toolbar_urls()

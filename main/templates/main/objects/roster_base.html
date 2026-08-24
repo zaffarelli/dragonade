@@ -1,87 +1,175 @@
 {% load static %}
 {% load dragonade_filters %}
 
-<div class="sheet base" id="sb_{{a.id}}">
-    <div class="box line">
-        <div class="box label nw">Age</div>
-        <div class="box info nw editable">
-            <span class="btn_edit value"
-                  action="value" id="{{a.type}}__{{a.id}}__AGE__value"
-                  srcval="{{a.features.AGE}}">&nbsp;{{a.features.AGE}}&nbsp;ans
-            </span>
-        </div>
-        <div class="box label ne">Sexe</div>
-        <div class="box info ne editable">
-            <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__GENDER__value"
-                  srcval="{{a.features.GENDER|encoded_z|safe}}">{{a.features.GENDER|genderize|safe}}
-            </span>
-        </div>
-        <div class="box label sw">Main Forte</div>
-        <div class="box info sw editable">
-            <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__LEFTY__value"
-                  srcval="{{a.features.LEFTY|encoded_z|safe}}">
-            {{a.features.LEFTY|lefty|safe}}
-            </span>
-        </div>
-        <div class="box label se">Heure de Naissance</div>
-        <div class="box info se">{{a.birthhour|as_hour|safe}}</div>
+<div class="tri" id="tri_{{a.id}}">
+    <div class="row">
+        {% for att,v in a.attributes.items %}
+            {% if forloop.counter0|modulo_of_four_is_0 %}
+            <div class="block_third">
+                <div class="title">{{att|as_attribute_sub_group}}</div>
+            {% endif %}
+            {% include "main/objects/attribute_lines.html" with a=a att=att v=v %}
+            {% if forloop.counter0|modulo_of_four_is_3 %}
+            </div>
+            {% endif %}
+        {% endfor %}
     </div>
+    <div class="row">
+        <div class="block_third">
+            <div class="title">Calculs</div>
+            <div class="stat">
+                <div class="label">Total Attributs</div>
+                <div class="data">{{a.misc.total_attributes}}</div>
+            </div>
+            <div class="stat">
+                <div class="label">Total Compétences</div>
+                <div class="data">{{a.misc.total_skills}}</div>
+            </div>
+            <div class="stat">
+                <div class="label">Stress Acquis</div>
+                <div class="data">{{a.stress_acquired}}</div>
+            </div>
+            <div class="stat">
+                <div class="label">Stress Utilisé</div>
+                <div class="data">{{a.stress_used}}</div>
+            </div>
+            <div class="stat">
+                <div class="label">Stress Restant</div>
+                <div class="data">{{a.stress_remaining}}</div>
+            </div>
+        </div>
+
+        <div class="block_third">
+            <div class="title">Divers</div>
+            <div class="stat">
+                <div class="label">Age</div>
+                <div class="data editable">
+                    <span class="btn_edit value text" action="value" id="{{a.type}}__{{a.id}}__AGE__value" srcval="{{a.features.AGE}}">&nbsp;{{a.features.AGE}}&nbsp</span> ans
+                </div>
+            </div>
+            <div class="stat">
+                <div class="label">Sexe</div>
+                <div class="data text editable">
+                    <span class="btn_edit value text" action="value" id="{{a.type}}__{{a.id}}__GENDER__value" srcval="{{a.features.GENDER}}">&nbsp;{{a.features.GENDER}}&nbsp</span>
+                </div>
+            </div>
+            <div class="stat">
+                <div class="label">Taille</div>
+                <div class="data editable">
+                    <span class="btn_edit value text" action="value" id="{{a.type}}__{{a.id}}__HEIGHT__value" srcval="{{a.features.HEIGHT}}">&nbsp;{{a.features.HEIGHT}}&nbsp</span> cm
+                </div>
+            </div>
+            <div class="stat">
+                <div class="label">Poids</div>
+                <div class="data editable">
+                    <span class="btn_edit value text" action="value" id="{{a.type}}__{{a.id}}__WEIGHT__value" srcval="{{a.features.WEIGHT}}">&nbsp;{{a.features.WEIGHT}}&nbsp</span> kg
+                </div>
+            </div>
+            <div class="stat">
+                <div class="label">Main forte</div>
+                <div class="data text editable">
+                    <span class="btn_edit value text" action="value" id="{{a.type}}__{{a.id}}__LEFTY__value" srcval="{{a.features.LEFTY}}">{{a.features.LEFTY|lefty|safe}}</span>
+                </div>
+            </div>
+            <div class="stat">
+                <div class="label">Heure de Naissance</div>
+                <div class="data text editable">
+                    <span class="btn_edit value text" action="value" id="{{a.type}}__{{a.id}}__birthhour__value" srcval="{{a.birthhour|as_hour|safe}}">{{a.birthhour|as_hour|safe}}</span>
+                </div>
+            </div>
+            <div class="stat">
+                <div class="label">Protection Globale</div>
+                <div class="data text editable">{{a.misc.PROT}}</div>
+            </div>
+
+
+        </div>
+
+        <div class="block_third">
+            <div class="title">Attributs Secondaires</div>
+            <div class="stat">
+                <div class="label">TIR</div>
+                <div class="data">{{a.secondaries.TIR|colorize_val|safe}}</div>
+            </div>
+            <div class="stat">
+                <div class="label">MEL</div>
+                <div class="data">{{a.secondaries.MEL|colorize_val|safe}}</div>
+            </div>
+            <div class="stat">
+                <div class="label">LAN</div>
+                <div class="data">{{a.secondaries.LAN|colorize_val|safe}}</div>
+            </div>
+            <div class="stat">
+                <div class="label">DER</div>
+                <div class="data">{{a.secondaries.DER|colorize_val|safe}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="block_third"></div>
+        <div class="block_third"></div>
+        <div class="block_third">
+            <div class="title">Caractéristiques Dérivées</div>
+            <div class="stat">
+                <div class="label">VIE: Points de Vie)</div>
+                <div class="data">{{a.misc.VIE}}</div>
+            </div>
+            <div class="stat">
+                <div class="label">FAT : Fatigue (PdF)</div>
+                <div class="data">{{a.misc.FAT}} ({{a.misc.pf}} PdF)</div>
+            </div>
+            <div class="stat">
+                <div class="label">FAB : Fable</div>
+                <div class="data">{{a.misc.FAB}}</div>
+            </div>
+            <div class="stat">
+                <div class="label">SON : Songe</div>
+                <div class="data">{{a.misc.SON}}</div>
+            </div>
+            <div class="stat">
+                <div class="label">REV : Rêve</div>
+                <div class="data">{{a.misc.REV}}</div>
+            </div>
+            <div class="stat">
+                <div class="label">IMP : Impact</div>
+                <div class="data">{{a.misc.IMP|signed}}</div>
+            </div>
+            <div class="stat">
+                <div class="label">RES : Résilience</div>
+                <div class="data">{{a.misc.RES}}</div>
+            </div>
+            <div class="stat">
+                <div class="label">SUS : Sustentation</div>
+                <div class="data">{{a.misc.SUS}}</div>
+            </div>
+            <div class="stat">
+                <div class="label">ENC : Encombrement</div>
+                <div class="data">{{a.misc.ENC}}</div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+</div>
+
+
+<div class="sheet base" id="sb_{{a.id}}">
+
     <div class="box line">
-        <div class="box label nw">Taille</div>
-        <div class="box info nw editable">
-            <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__HEIGHT__value"
-                  srcval="{{a.features.HEIGHT|encoded_z|safe}}">{{a.features.HEIGHT}}
-            </span> cm
-        </div>
-        <div class="box label ne">Poids</div>
-        <div class="box info ne editable">
-            <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__WEIGHT__value"
-                  srcval="{{a.features.WEIGHT|encoded_z|safe}}"> {{a.features.WEIGHT}}
-            </span> kg
-        </div>
         <div class="box label sw">IMC</div>
         <div class="box info sw">{{a.features.imc}}</div>
         <div class="box label se">TGL</div>
         <div class="box info se">{{a.features.tai_guideline}}</div>
     </div>
-    {% for att,v in a.attributes.items %}
-    {% if forloop.counter0|modulo_of_four_is_0 %}
-    <div class="box label sub">{{att|as_attribute_sub_group}}</div>
-    <div class="box subset">
-        {% endif %}
-        {% include "main/attribute_lines.html" with a=a att=att v=v %}
-        {% if forloop.counter0|modulo_of_four_is_3 %}
-    </div>
-    {% endif %}
-    {% endfor %}
 
 
-    <div class="box label sub">Secondaires</div>
-    <div class="box subset">
-        <div class="box label nw">TIR</div>
-        <div class="box info nw">{{a.secondaries.TIR|colorize_val|safe}}</div>
-        <div class="box label ne">LAN</div>
-        <div class="box info ne">{{a.secondaries.LAN|colorize_val|safe}}</div>
-        <div class="box label sw">MEL</div>
-        <div class="box info sw">{{a.secondaries.MEL|colorize_val|safe}}</div>
-        <div class="box label se">DER</div>
-        <div class="box info se">{{a.secondaries.DER|colorize_val|safe}}</div>
-    </div>
 
 
-    <div class="box line">
-        <div class="box label nw">VIE</div>
-        <div class="box info nw">{{a.misc.VIE}}</div>
-        <div class="box label ne">Fatigue</div>
-        <div class="box info ne">{{a.misc.FAT}} ({{a.misc.pf}})</div>
-        <div class="box label sw">FABLE</div>
-        <div class="box info sw">{{a.misc.FAB|colorize_val|safe}}</div>
-        <div class="box label se">SONGE</div>
-        <div class="box info se editable">
-                        <span class="box info se btn_edit value" action="value" id="{{a.type}}__{{a.id}}__SON__value"
-                              srcval="{{a.misc.SON|encoded_z|safe}}">&nbsp;{{a.misc.SON|colorize_val|safe}}&nbsp;</span>
-        </div>
-    </div>
+
 
     <div class="box line">
         <div class="box label nw">REVE</div>
@@ -105,11 +193,7 @@
         <div class="box info se">{{a.misc.ENC}}</div>
     </div>
 
-    <div class="box triset">
-        <div class="box label left"></div>
-        <div class="box label mid">Total Attributs:<br/>{{a.misc.total_attributes}}</div>
-        <div class="box label right">Total Compétences:<br/>{{a.misc.total_skills}}</div>
-    </div>
+
 
 
     <div class="box triset">

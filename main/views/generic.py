@@ -6,6 +6,12 @@ from main.utils.mechanics import FONTSET, MENU_ENTRIES, is_ajax, MAIN_MENU
 from main.utils.ref_dragonade import stress_table_json, action_quality_json, soak_table_json, pdom_table_json, sus_table_json, scon_table_json, comp_table_json, \
     gear_table_json, weapon_table_json, secondaries_table_json, miscellaneous_table_json
 from main.views.chiaroscuro import prepare_pagination
+from main.models.incantessimi import Incantessimo
+from main.models.nativi import Nativo
+from main.models.viaggiatori import Viaggiatore
+from main.models.creature import Creatura
+from main.models.equipment import Equipment
+from main.models.teams import Team
 
 CHAR_PER_PAGE = 12
 
@@ -61,10 +67,6 @@ def maps(request):
 
 
 def papers(request):
-    from main.models.equipment import Equipment
-    from main.models.travellers import Traveller
-    from main.models.autochtons import Autochton
-    from main.models.teams import Team
 
     # Load all papers
     # Some of them are collection (e.g. SCREEN1)
@@ -117,7 +119,7 @@ def papers(request):
 
     # Autochtons
     characters = []
-    for t in Autochton.objects.filter(dream__current=True).order_by("team", "name"):
+    for t in Nativo.objects.filter(dream__current=True).order_by("team", "name"):
         t.export_to_json()
         datum = t.data
         datum['text'] = t.name
@@ -186,13 +188,13 @@ def load(request):
 
 
 def draconis_artes(request):
-    from main.models.draconic_arts import Spell
+    from main.models.incantessimi import Incantessimo
     context = prepare_context(request)
     context['title'] = "Arts Draconiques"
     context['config']['modules'].append('risorse')
     context['config']['menu_entries'] = MENU_ENTRIES
     spells = list_for()
-    for i in Spell.objects.all().order_by("name"):
+    for i in Incantessimo.objects.all().order_by("name"):
         spells.append(i.export_to_json())
     context['spells'] = spells
     return render(request, 'main/pages/draconis_artes.html', context=context)
@@ -201,9 +203,9 @@ def draconis_artes(request):
 # Simulateur de Mêlée
 def combattants(request):
     context = prepare_context(request)
-    travellers = list_for("traveller")
-    autochtons = list_for("autochton")
-    creatures = list_for("creature")
+    travellers = list_for("Viaggiatore")
+    autochtons = list_for("Nativo")
+    creatures = list_for("Creatura")
     page = 1
     context['list']['traveller'] = travellers
     context = prepare_pagination(context, travellers, page, type="traveller", purpose="select")
@@ -241,7 +243,7 @@ def appartuses(request):
 
 # Autochtons
 def autochtons(request):
-    from main.models.stregoneria import Spell
+    from main.models.incantessimi import Spell
     from main.models.equipment import Equipment
     context = prepare_context(request)
     t = "autochton"
@@ -261,7 +263,7 @@ def autochtons(request):
 # Creatures
 def creatures(request):
     from main.models.creatures import Creature
-    from main.models.stregoneria import Spell
+    from main.models.incantessimi import Spell
     from main.models.equipment import Equipment
     context = prepare_context(request)
     t = "creature"
@@ -280,7 +282,7 @@ def creatures(request):
 # Travellers
 def travellers(request):
     from main.models.travellers import Traveller
-    from main.models.stregoneria import Spell
+    from main.models.incantessimi import Spell
     from main.models.equipment import Equipment
     context = prepare_context(request)
     t = 'traveller'
@@ -298,23 +300,18 @@ def travellers(request):
 
 
 def list_for(t):
-    from main.models.stregoneria import Spell
-    from main.models.autochtons import Autochton
-    from main.models.travellers import Traveller
-    from main.models.creatures import Creature
-    from main.models.appartus import Appartus
     items = []
     klass = None
     if t == "traveller":
-        klass = Traveller
+        klass = Viaggiatore
     elif t == "autochton":
-        klass = Autochton
+        klass = Nativo
     elif t == "creature":
-        klass = Creature
+        klass = Creatura
     elif t == "stregoneria":
-        klass = Spell
-    elif t == "appartus":
-        klass = Appartus
+        klass = Incantessimo
+    elif t == "artefatto":
+        klass = Artefatto
     for x in klass.objects.all().order_by("name"):
         datum = x.toJson()
         datum['name'] = x.name
@@ -326,7 +323,7 @@ def list_for(t):
 
 # Spells
 def stregoneria(request):
-    from main.models.stregoneria import Spell
+    from main.models.incantessimi import Spell
     from main.models.autochtons import Autochton
     from main.models.travellers import Traveller
     context = prepare_context(request)
@@ -360,7 +357,7 @@ def stregoneria(request):
 
 
 def stregoneria_page(request):
-    from main.models.stregoneria import Spell
+    from main.models.incantessimi import Spell
     context = prepare_context(request)
     stregoneria = []
     for i in Spell.objects.order_by("-category", "name"):
@@ -400,7 +397,7 @@ def new_creature(request):
 
 
 def new_spell(request):
-    from main.models.stregoneria import Spell
+    from main.models.incantessimi import Spell
     if is_ajax(request):
         name = request.POST.get('spell_name')
         s = Spell.new(name)
@@ -430,7 +427,7 @@ def overlay_edit(request):
     answer = {}
     changes = False
     import json
-    from main.models.stregoneria import Spell
+    from main.models.incantessimi import Spell
     if is_ajax(request):
         json = json.loads(request.POST.get("item_info"))
         if json["model"] == "stregoneria":
@@ -488,82 +485,6 @@ def overlay_edit(request):
     return JsonResponse(answer)
 
 
-def edit(request):
-    from main.models.stregoneria import Spell
-    from main.models.autochtons import Autochton
-    from main.models.travellers import Traveller
-    from main.models.creatures import Creature
-    answer = {'rid': "", "model": "", "payload": {}}
-    if is_ajax(request):
-        rid = request.POST.get('rid')
-        model = request.POST.get('model')
-        if model.lower() == "incantessimo":
-            spells = Spell.objects.filter(rid=rid)
-            if len(spells) == 1:
-                i = spells.first()
-                answer['rid'] = rid
-                answer['model'] = model
-                answer['payload'] = i.export_to_json()
-        elif model.lower() == "nativo":
-            items = Autochton.objects.filter(rid=rid)
-            if len(items) == 1:
-                i = items.first()
-                answer['payload'] = i.export_to_json()
-                context = {}
-                context['a'] = answer['payload']
-                context['model'] = model
-                template = get_template("main/objects/roster.html")
-                html = template.render(context, request)
-                answer['html'] = html
-        elif model.lower() == "viaggiatore":
-            items = Traveller.objects.filter(rid=rid)
-            if len(items) == 1:
-                i = items.first()
-                answer['payload'] = i.export_to_json()
-                context = {}
-                context['a'] = answer['payload']
-                context['model'] = model
-                template = get_template("main/objects/roster.html")
-                html = template.render(context, request)
-                answer['html'] = html
-        elif model.lower() == "creature":
-            items = Creature.objects.filter(rid=rid)
-            if len(items) == 1:
-                i = items.first()
-                answer['payload'] = i.export_to_json()
-                context = {}
-                context['a'] = answer['payload']
-                context['model'] = model
-                template = get_template("main/objects/roster.html")
-                html = template.render(context, request)
-                answer['html'] = html
-        return JsonResponse(answer)
-    return HttpResponse(status=204)
-
-
-def fetch(request):
-    from main.models.stregoneria import Spell
-    from main.models.autochtons import Autochton
-    answer = {'rid': "", "type": "", "payload": {}}
-    if is_ajax(request):
-        rid = request.POST.get('rid')
-        type = request.POST.get('type')
-        if type.lower() == "incantessimo":
-            spells = Spell.objects.filter(rid=rid)
-            if len(spells) == 1:
-                i = spells.first()
-                answer['rid'] = rid
-                answer['type'] = type
-                answer['payload'] = i.export_to_json()
-        elif type.lower() == "nativo":
-            items = Autochton.objects.filter(rid=rid)
-            if len(items) == 1:
-                i = items.first()
-                answer['rid'] = rid
-                answer['type'] = type
-                answer['payload'] = i.export_to_json()
-        return JsonResponse(answer)
-    return HttpResponse(status=204)
 
 
 def kicker(request):

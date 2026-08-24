@@ -1,25 +1,25 @@
 from django.contrib import admin
 
 # Register your models here.
-from main.models.autochtons import Autochton, AutochtonAdmin
-from main.models.creatures import Creature, CreatureAdmin
-from main.models.travellers import Traveller, TravellerAdmin
+from main.models.nativi import Nativo, NativoAdmin
+from main.models.creature import Creatura, CreaturaAdmin
+from main.models.viaggiatori import Viaggiatore, ViaggiatoreAdmin
 from main.models.contestants import ContestantAdmin, Contestant
 from main.models.combats import CombatAdmin, Combat
 from main.models.combat_rounds import CombatRound, CombatRoundAdmin
 from main.models.dreams import Dream, DreamAdmin
 from main.models.equipment import Equipment, EquipmentAdmin
-from main.models.stregoneria import Spell, SpellAdmin
-from main.models.appartus import Appartus, AppartusAdmin
+from main.models.incantessimi import Incantessimo, IncantessimoAdmin
+from main.models.artefatti import Artefatto, ArtefattoAdmin
 from main.models.teams import Team, TeamAdmin
 
-admin.site.register(Autochton, AutochtonAdmin)
-admin.site.register(Traveller, TravellerAdmin)
-admin.site.register(Creature, CreatureAdmin)
+admin.site.register(Nativo, NativoAdmin)
+admin.site.register(Viaggiatore, ViaggiatoreAdmin)
+admin.site.register(Creatura, CreaturaAdmin)
 admin.site.register(Dream, DreamAdmin)
 admin.site.register(Equipment, EquipmentAdmin)
-admin.site.register(Spell, SpellAdmin)
-admin.site.register(Appartus, AppartusAdmin)
+admin.site.register(Incantessimo, IncantessimoAdmin)
+admin.site.register(Artefatto, ArtefattoAdmin)
 admin.site.register(Team, TeamAdmin)
 admin.site.register(Contestant, ContestantAdmin)
 admin.site.register(Combat, CombatAdmin)

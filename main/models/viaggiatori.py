@@ -9,7 +9,10 @@ import json
 from main.models.characters import Character
 
 
-class Traveller(Character):
+class Viaggiatore(Character):
+    class Meta:
+        verbose_name = "Viaggiatore"
+        verbose_name_plural = "Viaggiatori"
     player = models.CharField(max_length=128, default="", blank=True)
     destiny = models.PositiveIntegerField(default=0, blank=True)
     is_storyteller = models.BooleanField(default=False, blank=True)
@@ -32,7 +35,7 @@ class Traveller(Character):
         # self.klass = "Traveller"
 
 
-class TravellerAdmin(admin.ModelAdmin):
+class ViaggiatoreAdmin(admin.ModelAdmin):
     ordering = ['-indice','name']
     list_display = ['name', 'player','is_storyteller', 'has_bug','bug_list', 'indice', 'indice_attributes', 'indice_skills', 'color', 'destiny', 'protection_map']
     list_editable = ['color', 'destiny','is_storyteller']

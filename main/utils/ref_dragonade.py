@@ -226,7 +226,8 @@ def skill_cost(skill, value):
             if s['NAME'] == skill:
                 if value > d:
                     cost = stress_cost(d, value, d)
-                    comment = f"- {skill:6} [{d:3}]: {d:3} => {value:2} = {cost:5}"
+                    comment = f"- {s['TEXT']:30} [{skill:6}] [Contrainte:{d:3}]: {d:3} => {value:2} = {cost:5}"
+                    print(comment)
                     break
     return cost, comment
 

@@ -1,17 +1,25 @@
-from django.http import JsonResponse, Http404, HttpResponse
-from django.template.loader import get_template
 from main.utils.mechanics import is_ajax, zaff_decode
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.template.loader import get_template
 from main.utils.mechanics import is_ajax
-from main.models.stregoneria import Spell
-from main.models.autochtons import Autochton
-from main.models.travellers import Traveller
-from main.models.creatures import Creature
-
+from main.models.nativi import Nativo
+from main.models.artefatti import Artefatto
+from main.models.creature import Creatura
+from main.models.viaggiatori import Viaggiatore
+from main.models.incantessimi import Incantessimo
 
 ITEMS_PER_LIST = 15
+
+
+def model_to_class(cls_str):
+    klasses = [Incantessimo, Artefatto, Viaggiatore, Nativo, Creatura]
+    for klass in klasses:
+        print(f"Match: {cls_str}")
+        if klass.__name__ == cls_str:
+            print(f"Match: {cls_str} --> {klass.__name__}")
+            return klass
+    return None
 
 
 def inc_dec(request):
@@ -20,9 +28,6 @@ def inc_dec(request):
     item = None
     if is_ajax(request):
         if request.method == 'POST':
-            from main.models.autochtons import Autochton
-            from main.models.creatures import Creature
-            from main.models.travellers import Traveller
             answer = {}
             attribute = None
             new_roster = ''
@@ -33,14 +38,17 @@ def inc_dec(request):
                 attribute = params[2]
                 change = params[3]
                 item = None
-                if class_name.lower() == "autochton":
-                    item = Autochton.objects.get(id=id)
+                if class_name.lower() == "nativo":
+                    item = Nativo.objects.get(id=id)
                     cando = True
-                if class_name.lower() == "creature":
-                    item = Creature.objects.get(id=id)
+                if class_name.lower() == "creatura":
+                    item = Creatura.objects.get(id=id)
                     cando = True
-                if class_name.lower() == "traveller":
-                    item = Traveller.objects.get(id=id)
+                if class_name.lower() == "incantessimo":
+                    item = Incantessimo.objects.get(id=id)
+                    cando = True
+                if class_name.lower() == "viaggiatore":
+                    item = Viaggiatore.objects.get(id=id)
                     cando = True
                 # if cando:
                 #     change_result = item.applyIncDec(attribute, change)
@@ -54,20 +62,22 @@ def inc_dec(request):
             if cando:
                 print("success!!")
                 change_result = item.applyIncDec(attribute, change)
-                context = {'a': item.toJson()}
+                context = {'a': item.export_to_json()}
                 template = get_template('main/objects/roster.html')
                 new_roster = template.render(context, request)
                 answer['id'] = item.id
+                answer['rid'] = item.rid
                 answer['change_result'] = change_result
                 answer['new_roster'] = new_roster
                 return JsonResponse(answer)
 
     return HttpResponse(status=204)
 
+
 def value_shift(request):
     answer = {'rid': None, "data": ''}
     if is_ajax(request):
-        from main.models.stregoneria import Spell
+        from main.models.incantessimi import Spell
         print(request.POST)
         rid = request.POST.get('rid')
         id = request.POST.get('id')
@@ -81,8 +91,8 @@ def value_shift(request):
             current_value = getattr(spell, param)
             answer["rid"] = rid
             answer["model"] = model.title()
-            from main.models.stregoneria import DragonadeGround, DragonadeEmanation, DragonadeHour, DragonadeElement, DragonadeConsistency, \
-                IncantessimoCategory, IncantessimoPath,DragonadeDifficulty
+            from main.models.incantessimi import DragonadeGround, DragonadeEmanation, DragonadeHour, DragonadeElement, DragonadeConsistency, \
+                IncantessimoCategory, IncantessimoPath, DragonadeDifficulty
             if param == "ground_charge":
                 dataset = DragonadeGround.values
             elif param == "hour_charge":
@@ -123,10 +133,6 @@ def value_push(request):
     print("CO: VALUE PUSH")
     if is_ajax(request):
         if request.method == 'POST':
-            from main.models.autochtons import Autochton
-            from main.models.creatures import Creature
-            from main.models.travellers import Traveller
-            from main.models.stregoneria import Spell
             answer = {}
             new_roster = ''
             params = request.POST.get('refs').split('__')
@@ -142,18 +148,18 @@ def value_push(request):
                 id = params[1]
                 attribute = params[2]
                 if class_name.title() == "Autochton":
-                    item = Autochton.objects.get(id=id)
+                    item = Nativo.objects.get(id=id)
                     cando = True
                 if class_name.title() == "Creature":
-                    item = Creature.objects.get(id=id)
+                    item = Creatura.objects.get(id=id)
                     cando = True
                 if class_name.title() == "Incantessimo":
                     print(f"spell: {rid}")
-                    item = Spell.objects.get(rid=rid)
+                    item = Incantessimo.objects.get(rid=rid)
                     print(item)
                     cando = True
                 if class_name.title() == "Traveller":
-                    item = Traveller.objects.get(id=id)
+                    item = Viaggiatore.objects.get(id=id)
                     print("Traveller found: ", item.rid)
                     cando = True
         if cando:
@@ -163,6 +169,7 @@ def value_push(request):
             template = get_template('main/incantessimi/incantessimo_body.html')
             new_roster = template.render(context, request)
             answer['rid'] = item.rid
+            answer['id'] = item.id
             answer['change_result'] = change_result
             answer['data'] = new_roster
             return JsonResponse(answer)
@@ -232,11 +239,10 @@ def prepare_pagination(context, all_items, page=1, type="", purpose="view"):
     return context
 
 
-
 # Incantessimi
 def incantessimi_options():
     zfilters = []
-    from main.models.stregoneria import IncantessimoPath
+    from main.models.incantessimi import IncantessimoPath
     for k, p in enumerate(IncantessimoPath.values):
         if p > 0:
             pa = {"param": "path", "value": p, "label": IncantessimoPath.labels[k]}
@@ -307,10 +313,11 @@ def nativi_filters(request):
     options["zfilters"] = nativi_options()
     return items_filters(request, options)
 
+
 # Creature
 def creature_options():
     zfilters = []
-    from main.models.creatures import DragonadeCreatureType
+    from main.models.creature import DragonadeCreatureType
     for k, p in enumerate(DragonadeCreatureType.values):
         if p > 0:
             pa = {"param": "creature_type", "value": p, "label": DragonadeCreatureType.labels[k]}
@@ -320,15 +327,35 @@ def creature_options():
 
 def creature_list(request):
     options = {}
-    options['model'] = "Creature"
+    options['model'] = "Creatura"
     options["zfilters"] = creature_options()
     return items_list(request, options)
 
 
 def creature_filters(request):
     options = {}
-    options['model'] = "Creature"
+    options['model'] = "Creatura"
     options["zfilters"] = creature_options()
+    return items_filters(request, options)
+
+
+# Artefatto
+def artefatti_options():
+    zfilters = []
+    return zfilters
+
+
+def artefatti_list(request):
+    options = {}
+    options['model'] = "Artefatto"
+    options["zfilters"] = artefatti_options()
+    return items_list(request, options)
+
+
+def artefatti_filters(request):
+    options = {}
+    options['model'] = "Artefatto"
+    options["zfilters"] = artefatti_options()
     return items_filters(request, options)
 
 
@@ -338,43 +365,24 @@ def items_list(request, options={}):
     """
     from main.views.generic import prepare_context
     context = prepare_context(request)
-    if options["model"] == "Incantessimo":
-        context['config']['modules'].append('stregoneria')
+    k = model_to_class(options["model"])
+    if k:
+        if options["model"] == 'Incantessimo':
+            context['config']['modules'].append('stregoneria')
+        elif options["model"] == 'Artefatto':
+            context['config']['modules'].append('appartus')
+        else:
+            context['config']['modules'].append('taccuino')
         items = []
-        for i in Spell.objects.order_by("name"):
-            datum = i.export_to_json()
-            # datum['type'] = "stregoneria"
-            # datum['code'] = i.rid
-            items.append(datum)
-        context["title"] = "Arts Draconiques"
-        context["model"] = "Incantessimo"
-    elif options["model"] == "Nativo":
-        context['config']['modules'].append('taccuino')
-        items = []
-        for i in Autochton.objects.order_by("name"):
+        for i in k.objects.order_by("name"):
             datum = i.export_to_json()
             items.append(datum)
-        context["title"] = "Autochtones"
-        context["model"] = "Nativo"
-    elif options["model"] == "Viaggiatore":
-        context['config']['modules'].append('taccuino')
-        items = []
-        for i in Traveller.objects.order_by("name"):
-            datum = i.export_to_json()
-            items.append(datum)
-        context["title"] = "Voyageurs"
-        context["model"] = "Viaggiatore"
-    elif options["model"] == "Creature":
-        context['config']['modules'].append('taccuino')
-        items = []
-        for i in Creature.objects.order_by("name"):
-            datum = i.export_to_json()
-            items.append(datum)
-        context["title"] = "Créatures"
-        context["model"] = "Creature"
-    context["items"] = items
-    context["zfilters"] = options["zfilters"]
-    return render(request, 'main/chiaroscuro/items_list.html', context)
+        context["title"] = k.__name__
+        context["model"] = options['model']
+        context["items"] = items
+        context["zfilters"] = options["zfilters"]
+        return render(request, 'main/chiaroscuro/items_list.html', context)
+    return HttpResponse(status=204)
 
 
 def items_filters(request, options={}):
@@ -385,7 +393,7 @@ def items_filters(request, options={}):
         context = {}
         param = request.POST.get('param')
         value = request.POST.get('value')
-        if value.lower() in ["true","false"]:
+        if value.lower() in ["true", "false"]:
             v = value == "true"
         else:
             v = value
@@ -393,32 +401,54 @@ def items_filters(request, options={}):
             f"{param}": v
         }
         items = []
-        if options["model"].lower() == "incantessimo":
-            for i in Spell.objects.filter(**filters).order_by("name"):
+        k = model_to_class(options["model"])
+        if k:
+            for i in k.objects.filter(**filters).order_by("name"):
                 datum = i.export_to_json()
                 items.append(datum)
-            context["model"] = "Incantessimo"
-        elif options["model"].lower() == "nativo":
-            items = []
-            for i in Autochton.objects.filter(**filters).order_by("name"):
-                datum = i.export_to_json()
-                items.append(datum)
-            context["model"] = "Nativo"
-        elif options["model"].lower() == "viaggiatore":
-            items = []
-            for i in Traveller.objects.filter(**filters).order_by("name"):
-                datum = i.export_to_json()
-                items.append(datum)
-            context["model"] = "Viaggiatore"
-        elif options["model"].lower() == "creature":
-            items = []
-            for i in Creature.objects.filter(**filters).order_by("name"):
-                datum = i.export_to_json()
-                items.append(datum)
-            context["model"] = "Creature"
-        context["items"] = items
-        context["zfilters"] = options["zfilters"]
-        template = get_template("main/chiaroscuro/items_payload.html")
-        answer['data'] = template.render(context)
-        return JsonResponse(answer)
+            context["model"] = k.__name__
+            context["items"] = items
+            context["zfilters"] = options["zfilters"]
+            template = get_template("main/chiaroscuro/items_payload.html")
+            answer['data'] = template.render(context)
+            return JsonResponse(answer)
+    return HttpResponse(status=204)
+
+
+def edit(request):
+    answer = {'rid': "", "model": "", "payload": {}}
+    if is_ajax(request):
+        rid = request.POST.get('rid')
+        model = request.POST.get('model').title()
+        k = model_to_class(model)
+        if k:
+            items = k.objects.filter(rid=rid)
+            if len(items) == 1:
+                i = items.first()
+                answer['rid'] = rid
+                answer['model'] = k.__name__
+                answer['payload'] = i.export_to_json()
+                context = {}
+                context['a'] = answer['payload']
+                template = get_template("main/objects/roster.html")
+                html = template.render(context, request)
+                answer['html'] = html
+                return JsonResponse(answer)
+    return HttpResponse(status=204)
+
+
+def fetch(request):
+    answer = {'rid': "", "model": "", "payload": {}}
+    if is_ajax(request):
+        rid = request.POST.get('rid')
+        model = request.POST.get('model').title()
+        k = model_to_class(model)
+        if k:
+            items = k.objects.filter(rid=rid)
+            if len(items) == 1:
+                i = items.first()
+                answer['rid'] = i.rid
+                answer['model'] = model
+                answer['payload'] = i.export_to_json()
+                return JsonResponse(answer)
     return HttpResponse(status=204)

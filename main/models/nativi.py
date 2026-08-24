@@ -11,7 +11,10 @@ from main.models.characters import Character
 from main.models.dreams import Dream
 
 
-class Autochton(Character, JsonableMixin):
+class Nativo(Character, JsonableMixin):
+    class Meta:
+        verbose_name = "Nativo"
+        verbose_name_plural = "Nativi"
     # dream = models.ForeignKey(Dream, null=True, blank=True, on_delete=models.SET_NULL)
     dream = models.CharField(max_length=264, default="",blank=True)
     spotlight = models.BooleanField(default=False, blank=True)
@@ -44,7 +47,7 @@ class Autochton(Character, JsonableMixin):
 
 
 
-class AutochtonAdmin(admin.ModelAdmin):
+class NativoAdmin(admin.ModelAdmin):
     ordering = ['factions','group','team_color','name']
     list_display = ['name', 'entrance','title','aka', 'is_female',"age",'group', 'nameless','dream' ]
     list_editable = ['title','aka','group', 'age',"entrance", 'is_female', 'nameless', "dream"]

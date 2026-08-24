@@ -1,7 +1,7 @@
 
 
 from django.views.generic import TemplateView, DetailView
-from main.models.stregoneria import Spell
+from main.models.incantessimi import Incantessimo
 #
 # class SpellView(TemplateView):
 #    model = Spell
@@ -18,8 +18,8 @@ from main.models.stregoneria import Spell
 #         )
 #         return response
 
-class SpellDetailView(DetailView):
-    model = Spell
+class IncantessimoDetailView(DetailView):
+    model = Incantessimo
     context_object_name = 'i'
     slug_field = 'rid'
     slug_url_kwarg = 'slug'

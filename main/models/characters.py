@@ -64,7 +64,10 @@ class Character(models.Model):
     klass = models.CharField(max_length=16, default="Character", blank=True)
     protection_map = models.CharField(max_length=256, blank=True, default="H-0-X C-0-X AS-0-X AW-0-X LS-0-X LW-0-X")
 
-
+    travel_points = models.IntegerField(default=0, blank=True)
+    stress_acquired = models.IntegerField(default=0, blank=True)
+    stress_used = models.IntegerField(default=0, blank=True)
+    stress_remaining = models.IntegerField(default=0, blank=True)
 
     data = {}
 
@@ -172,7 +175,7 @@ class Character(models.Model):
 
         for a in self.data['attributes']:
             self.indice_attributes += stress_cost(-5, self.data['attributes'][a], -5)
-            self.total_attributes += self.data['attributes'][a]
+            self.total_attributes += self.data['attributes'][a] + 5
         self.indice_skills = 0
         for skill_cat in self.data['skills']:
             for k, v in self.data['skills'][skill_cat].items():
@@ -192,10 +195,10 @@ class Character(models.Model):
             # print("* ",kc)
             for ks in vc['LIST']:
                 v = self.value_for(ks['NAME'])
-                self.total_skills += v
                 default += vc['DEFAULT']
                 if (v != vc["DEFAULT"]):
                     nondefault_cnt += 1
+                    self.total_skills += v - vc["DEFAULT"]
                 # print("** ", ks, v)
         # print("**** default = ", default, "total non default:", nondefault_cnt, self.name)
         a, b = self.collect_spells()
@@ -358,6 +361,13 @@ class Character(models.Model):
         self.data['priority'] = self.priority
         self.data['roster_text'] = self.roster_as_text()
         self.data['has_bug'] = self.has_bug()
+
+        self.data['travel_points'] = self.travel_points
+        self.data['stress_used'] = self.stress_used
+        self.data['stress_acquired'] = self.stress_acquired
+        self.data['stress_remaining'] = self.stress_remaining
+
+
         self.json_dump()
         # return self.data
 
@@ -428,10 +438,10 @@ class Character(models.Model):
         return list
 
     def collect_spells(self):
-        from main.models.stregoneria import Spell
+        from main.models.incantessimi import Incantessimo
         indice_points = 0
         list = []
-        spells = Spell.objects.filter(rid__in=self.spells.split(" ")).order_by("category")
+        spells = Incantessimo.objects.filter(rid__in=self.spells.split(" ")).order_by("category")
         for spell in spells:
             roll = self.value_for(f"DRA_{spell.roll:02}")
             roll += self.value_for(f"FAB")

@@ -24,7 +24,7 @@ class Chiaroscuro {
             let mod = new Piani(this, config);
             mod.register();
         }
-        if (config["modules"].includes("appartuses") == true) {
+        if (config["modules"].includes("appartus") == true) {
             let mod = new Appartus(this, config);
             mod.register();
         }
@@ -268,6 +268,7 @@ class Chiaroscuro {
                         change = params[3];
                     //}
                     let data = params[0] + "__" + params[1] + "__" + params[2] + "__" + change;
+                    console.log(data)
                     if (change != '') {
                         $.ajax({
                             url: 'ajax/inc_dec',
@@ -281,18 +282,9 @@ class Chiaroscuro {
                             },
                             dataType: 'json',
                             success: function (answer) {
-//                                 $('#roster_' + answer.id).html(answer.new_roster);
-//                                 $(".for_display_" + answer.id).addClass('hidden');
-//                                 $(".for_edit_" + answer.id).removeClass('hidden');
-                                $('#roster_' + answer.id).remove()
-                                //$div = $('<div>',{id:'roster_'+answer.id,class:"roster"})
-                                $('.container').append(answer.new_roster);
-                                console.log(answer.new_roster)
-                                $('#roster_' + answer.id).removeClass("hidden")
-                                $(".for_display_" + answer.id).addClass('hidden');
-                                $(".for_edit_" + answer.id).removeClass('hidden');
-//                                 $("#target_ed").val("");
-//                                 $("#ed").val("");
+                                $('#roster__' + answer.rid).remove()
+                                $('#svg_area').append(answer.new_roster);
+                                $('#roster__' + answer.rid).removeClass("hidden")
                                 me.registerActions();
                                 if (me.last_tabbutton != ""){
                                     console.log(`${me.last_tabbutton}`)
@@ -434,13 +426,13 @@ class Chiaroscuro {
                 },
                 dataType: 'json',
                 success: function (answer) {
-                    $('#roster_' + answer.id).remove()
+                    $('#roster__' + answer.rid).remove()
                     //$div = $('<div>',{id:'roster_'+answer.id,class:"roster"})
                     $('.container').append(answer.new_roster);
-                    console.log(answer.new_roster)
-                    $('#roster_' + answer.id).removeClass("hidden")
-                    $(".for_display_" + answer.id).addClass('hidden');
-                    $(".for_edit_" + answer.id).removeClass('hidden');
+                    // console.log(answer.new_roster)
+                    $('#roster__' + answer.rid).removeClass("hidden")
+                    // $(".for_display_" + answer.id).addClass('hidden');
+                    // $(".for_edit_" + answer.id).removeClass('hidden');
                     $("#target_ed").val("")
                     $("#ed").val("")
                     me.registerActions()

@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib import admin
-from main.models.travellers import Traveller
+from main.models.viaggiatori import Viaggiatore
 
 
 class Team(models.Model):
@@ -11,7 +11,7 @@ class Team(models.Model):
     def travellers_list(self):
         list = []
         for rid in self.rids.split(" "):
-            travellers = Traveller.objects.filter(rid=rid)
+            travellers = Viaggiatore.objects.filter(rid=rid)
             for traveller in travellers:
                 list.append(traveller)
         return list

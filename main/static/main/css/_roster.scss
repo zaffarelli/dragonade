@@ -1,6 +1,6 @@
 
 .roster{
-    background:transparent;
+    background:#1020307F;
     margin-left:15vw;
     margin-top:1vh;
     height:90vh;
@@ -13,7 +13,7 @@
 
     & .tabnav{
         background: #1030207F;
-        width:100%;
+        width:auto;
         & .tabbutton{
             font-size: 12pt;
 
@@ -21,10 +21,10 @@
     }
 
     & .header{
-        background: #1020307F;
+//         background: #1020307F;
         width:100%;
         & .full{
-            background: #1020307F;
+//             background: #1020307F;
             color:white;
             border-radius:5pt;
             padding:5pt;
@@ -52,6 +52,8 @@
     }
 
 
+
+
     &.skillstable{
         &.autochton{
             background: #1030207F;
@@ -77,6 +79,81 @@
         }
     }
 
+    & .tri{
+        font-size:12pt;
+        height:auto;
+        width:calc(100%-6pt);
+        display:flex;
+        flex-flow:column nowrap;
+        justify-items: flex-start;
+        align-items: space-between;
+        align-content: strech;
+        gap: 3pt;
+        background:#606080;
+
+        & .row{
+            flex: 0 1 auto;
+            display:flex;
+            flex-flow:row nowrap;
+            justify-items: flex-start;
+            align-content: space-between;
+            align-items: space-between;
+            gap: 2pt;
+            color:white;
+            height:auto;
+
+            & .block_third{
+                flex: 0 0 33%;
+                flex-flow:row wrap;
+                height:100%;
+                display:flex;
+                justify-items: flex-start;
+                align-items: center;
+                align-content: flex-start;
+                gap: 1pt;
+
+
+                & .title{
+                    order:0;
+                    flex: 0 0 90%;
+                    padding:3pt;
+                    font-size:14pt;
+                    font-weight:bold;
+                    border:none;
+                }
+                & .stat{
+                    order:1;
+                    flex: 0 0 100%;
+                    display:flex;
+                    flex-flow:row nowrap;
+                    justify-items: flex-start;
+                    align-items: flex-start;
+                    align-content: flex-start;
+                    gap: 5pt;
+
+                    & .label{
+                        order:1;
+                        flex: 2 1 auto;
+                        background:$palette1;
+                        padding:3pt;
+                    }
+                    & .data{
+                        order:2;
+                        flex: 0 0 8ex;
+                        background:$palette0;
+                        padding:3pt;
+                        font-size:14pt;
+                        font-weight:bold;
+                        &.text{
+                            flex: 0 0 16ex;
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
      & .sheet {
         display: grid;
         flex: 0 0 16ex;
@@ -97,6 +174,8 @@
             padding: 3px;
             border:1px solid $palette1;
             height:auto;
+
+
 
             &.button{
                 display:inline-block;
@@ -121,6 +200,7 @@
                 background: darken($palette1,50%);
                 color: white;
 
+
                 &.editable{
                     cursor:pointer;
 //                     background:#cc6611;
@@ -137,9 +217,13 @@
                             display:inline-block;
 
                             min-width:2ex;
+                            width:2ex;
                             text-align:center;
                             &:hover{
                                 background:$palette1;
+                            }
+                            &.text{
+                                width:30ex;
                             }
                         }
                     }
@@ -181,7 +265,7 @@
         }
 
         &.base{
-                width:125ex;
+                width:150ex;
         }
 
         &.magic, &.weapons, &.protection {

@@ -11,10 +11,11 @@ class AppartusCategory(models.IntegerChoices):
     MISCELLANEOUS = 666, "Divers"
 
 
-class Appartus(models.Model):
+class Artefatto(models.Model):
     class Meta:
         ordering = ['name']
-        verbose_name_plural = "Appartuses"
+        verbose_name = "Artefatto"
+        verbose_name_plural = "Artefatti"
 
     name = models.CharField(default="", max_length=256)
     rid = models.CharField(default="xxx", max_length=256, blank=True)
@@ -99,7 +100,7 @@ class Appartus(models.Model):
         struct = json.loads(json.dumps(self.data))
         return struct
 
-class AppartusAdmin(admin.ModelAdmin):
+class ArtefattoAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ['name']
     list_display = ["name", "rid","code","charges", "equipment_match", "mod_init", "mod_touch", "mod_dmg", "owner", "category", "glance",

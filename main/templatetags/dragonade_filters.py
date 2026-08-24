@@ -7,20 +7,22 @@ register = template.Library()
 def colorize_val(value):
     str = value
     if isinstance(value, int):
-        if value >= 15:
-            str = f'<span style="color:blue;">{value}</span>'
-        elif value >= 10:
+        if value >= 10:
             str = f'<span style="color:cyan;">{value}</span>'
+        elif value >= 7:
+            str = f'<span style="color:darkcyan;">{value}</span>'
         elif value >= 5:
-            str = f'<span style="color:green;">{value}</span>'
+            str = f'<span style="color:lime;">{value}</span>'
         elif value >= 3:
+            str = f'<span style="color:yellowgreen;">{value}</span>'
+        elif value == 0:
             str = f'<span style="color:yellow;">{value}</span>'
-        elif value >= 0:
+        elif value >= -2:
             str = f'<span style="color:orange;">{value}</span>'
         elif value >= -3:
             str = f'<span style="color:orangered;">{value}</span>'
         elif value >= -5:
-            str = f'<span style="color:red;">{value}</span>'
+            str = f'<span style="color:maroon;">{value}</span>'
     return str
 
 

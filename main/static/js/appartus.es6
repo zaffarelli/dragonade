@@ -1,7 +1,7 @@
 class Appartus extends Modulo {
     constructor(co,config) {
         super(co,config);
-        this.name = "Appartuses";
+        this.name = "Appartus";
         this.parent = "#svg_area";
     }
 
@@ -10,9 +10,10 @@ class Appartus extends Modulo {
         let me = this;
         me.version = "0.7";
         me.supertitle = "";
+        me.fontSize = 10 //me.step / 6
         // Drawing Size
         me.height = me.step * 21.0
-        me.width = me.step * 29.7
+        me.width = me.step * 29.7/2
         me.ox = 0
         me.oy = 0
         // View Size
@@ -117,36 +118,60 @@ class Appartus extends Modulo {
 
     drawAppartus(){
         let me = this;
-        let a = {}
-        _.forEach(me.config.data, (v,k) => {
-            if (v.rid == me.code){
-                a = v
-                return false
-            }
-        });
+        // let a = {}
+        // _.forEach(me.config.data, (v,k) => {
+        //     if (v.rid == me.code){
+        //         a = v
+        //         return false
+        //     }
+        // });
+        let a = me.datum.payload
         let ox = 0.5, oy = 1.5
         // Statistics
         me.appartus = me.back.append("g")
-            .attr("class","appartus")
-            .attr("id","appartus "+a.id)
-            .attr("transform","translate("+me.step*ox+","+me.step*oy+")")
+            .attr("class","artefatto")
+            .attr("id","artefatto_"+a.rid)
+            .attr("transform","translate("+ox*me.step+","+oy*me.step+")")
         me.appartus.append('rect')
-            .attr("class","green_top")
-            .attrs({"x":0, "y":me.step*0,"rx":me.step*0.05,"ry":me.step*0.05,"width":me.step*14,"height":me.step*4})
-            .style("fill", "none")
-            .style("stroke", "#808080")
-            .style("stroke-width", "3pt")
+            .attr("class","rect_top")
+            .attrs({"x":0*me.step, "y":me.step*0,"rx":me.step*0.1,"ry":me.step*0.1,"width":me.step*(29.7/2-1.75),"height":me.step*3.0})
+            .style("fill", "#ffffff")
+            .style("stroke", "black")
+            .style("stroke-width", "1pt")
         me.appartus.append('rect')
-            .attr("class","rectangle_bottom")
+            .attr("class","rect_bottom")
             .attr("id","rectbot")
-            .attrs({"x":0*me.step, "y":me.step*5,"rx":me.step*0.05,"ry":me.step*0.05,"width":me.step*14,"height":me.step*4})
-            .style("fill", "none")
-            .style("stroke", "#808080")
-            .style("stroke-width", "3pt")
+            .attrs({"x":0, "y":me.step*3.25,"rx":me.step*0.1,"ry":me.step*0.1,"width":(me.step*(29.7/2-1.75)),"height":me.step*13.25})
+            .style("fill", "#ffffff")
+            .style("stroke", "black")
+            .style("stroke-width", "1pt")
         me.appartus.append('text')
             .attrs({"x":me.step*0.25, "y":(-0.25)*me.step})
-            .styles({"font-family":"Are You Serious", "font-size":me.fontSize*4+"pt", "text-anchor":"start"})
+            .styles({"font-family":me.titleFont, "font-size":me.fontSize*4+"pt", "text-anchor":"start"})
             .text(a.name)
+
+        // // Statistics
+        // me.appartus = me.back.append("g")
+        //     .attr("class","appartus")
+        //     .attr("id","appartus "+a.id)
+        //     .attr("transform","translate("+me.step*ox+","+me.step*oy+")")
+        // me.appartus.append('rect')
+        //     .attr("class","green_top")
+        //     .attrs({"x":0, "y":me.step*0,"rx":me.step*0.05,"ry":me.step*0.05,"width":me.step*14,"height":me.step*4})
+        //     .style("fill", "none")
+        //     .style("stroke", "#808080")
+        //     .style("stroke-width", "3pt")
+        // me.appartus.append('rect')
+        //     .attr("class","rectangle_bottom")
+        //     .attr("id","rectbot")
+        //     .attrs({"x":0*me.step, "y":me.step*5,"rx":me.step*0.05,"ry":me.step*0.05,"width":me.step*14,"height":me.step*4})
+        //     .style("fill", "none")
+        //     .style("stroke", "#808080")
+        //     .style("stroke-width", "3pt")
+        // me.appartus.append('text')
+        //     .attrs({"x":me.step*0.25, "y":(-0.25)*me.step})
+        //     .styles({"font-family":me.titleFont, "font-size":me.fontSize*4+"pt", "text-anchor":"start"})
+        //     .text(a.name)
         me.appartus.append('text')
             .attrs({"x":me.step*13.75, "y":-0.25*me.step})
             .styles({"font-family":"Wellfleet", "font-size":me.fontSize*4+"pt", "text-anchor":"end"})
@@ -242,4 +267,35 @@ class Appartus extends Modulo {
         me.drawAppartus();
         me.zoomActivate();
     }
+
+    postFetch(){
+        super.postFetch()
+        let me = this
+        console.log("POST FETCH APPARTUS")
+        console.log(me.datum)
+        console.log(`${me.code} ${me.name}`)
+        me.fetched = true
+        me.drawBack()
+        me.drawAppartus()
+        me.zoomActivate()
+    }
+
+    goBack(){
+        super.goBack()
+        $("#svg_area").remove()
+    }
+
+    handle(code){
+        super.handle()
+        let me = this
+        me.code = code
+        me.fileprefix = "artefatto"
+        me.filename = me.code
+        $("<div id='svg_area'></div>").insertBefore('.zlist_container')
+        me.init()
+        me.fetch("artefatto",code)
+
+    }
+
+
 }

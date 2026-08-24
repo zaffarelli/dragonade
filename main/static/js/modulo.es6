@@ -640,6 +640,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
 
     fetch(model, rid) {
         let me = this
+        console.log(`Fetching [${model}]`)
         $.ajax({
             url: 'ajax/fetch',
             method: 'POST',
@@ -649,13 +650,13 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             },
             data: {
                 "rid": rid,
-                "type": model,
+                "model": model,
             },
             dataType: 'json',
             success: function (answer) {
                 me.datum = {}
                 me.datum['rid'] = answer['rid']
-                me.datum['type'] = answer['type']
+                me.datum['model'] = answer['model']
                 me.datum['payload'] = answer['payload']
                 me.postFetch()
                 me.co.registerActions()

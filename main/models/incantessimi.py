@@ -156,9 +156,11 @@ class IncantessimoRange(models.IntegerChoices):
     EMPATHY4 = 6, "EMPx6 m"
     EMPATHY5 = 7, "EMPx10 m"
 
-class Spell(models.Model):
+class Incantessimo(models.Model):
     class Meta:
         ordering = ["-spell_ready", 'name']
+        verbose_name = "Incantessimo"
+        verbose_name_plural = "Incantessimi"
 
     name = models.CharField(default="", max_length=256)
     rid = models.CharField(default="xxx", max_length=256, blank=True)
@@ -354,7 +356,7 @@ class Spell(models.Model):
         return item
 
 
-class SpellAdmin(admin.ModelAdmin):
+class IncantessimoAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ["-spell_ready", "name"]
     list_display = ['id',"rid","code","name", "avoid_original_cost", "pentacle_code","ti","duration", "charge",  "spell_ready", "songe", "roll", "original_casting_cost",

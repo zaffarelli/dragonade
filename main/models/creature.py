@@ -20,7 +20,10 @@ class DragonadeCreatureType(models.IntegerChoices):
     CONSTRUCT = 8, "Construct"
 
 
-class Creature(Character):
+class Creatura(Character):
+    class Meta:
+        verbose_name = "Creatura"
+        verbose_name_plural = "Creature"
     # class CreatureType(models.TextChoices):
     #     ANIMAL = "ANI", "Animal"
     #     HUMANOID = "HUM", "Humanoïde"
@@ -47,7 +50,7 @@ class Creature(Character):
         # self.klass = "Creature"
 
 
-class CreatureAdmin(admin.ModelAdmin):
+class CreaturaAdmin(admin.ModelAdmin):
     ordering = ['name']
     list_display = ['name', 'rid', 'creature_type','team_color']
     list_filter = ["creature_type",'team_color']
