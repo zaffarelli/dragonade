@@ -8,11 +8,12 @@
     <g id="intuition" class="icon sp" transform="translate(50,50)">
         <g style="fill:none;stroke:black;stroke-width:3pt;stroke-linejoin:round;">
 <!--            <path d="M -40,-25 l 80,0 -40,70 z"/>-->
-            <path style="fill:#606080;" d="M -40,-25 l 80,0 -40,70 z"/>
-
+            <path style="fill:#801080;" d="M -40,-35 l 80,0 -40,70 z"/>
+            <circle cy="-12"  r="16" style="fill:white;"></circle>
         </g>
         <text style="font-weight:600;font-size:11pt;line-height:1.25;font-family:Neucha;fill:#101010;text-anchor:middle;"
-              x="0" y="60">Intuition
+              x="0" y="50">Intuition
+            <tspan x="0" y="62">sur le Rêve</tspan>
         </text>
 
     </g>

@@ -65,6 +65,11 @@ class Chiaroscuro {
             }))
             return false;
         })
+        $("#parallax_random").off().on('submit', (e) => {
+            e.preventDefault();
+
+            return false;
+        })
     }
 
     softLog(name, txt) {
