@@ -588,7 +588,7 @@ class Chiaroscuro {
             console.debug("Showing #roster_" + id + ".sheet")
             me.registerActions();
         });
-        $('.skill_switch').off().on('click', function (e) {
+        $('.closer').off().on('click', function (e) {
             e.preventDefault()
             e.stopPropagation()
             let id = $(this).attr('id')

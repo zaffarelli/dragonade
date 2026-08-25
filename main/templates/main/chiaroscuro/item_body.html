@@ -50,7 +50,8 @@
 <div model="{{model|lower}}" class="zlist_item number" style="order:-1;" >{{i.id}}</div>
 <div id="{{i.rid}}__view" model="{{model|lower}}" class="zlist_item normal list_action" style="order:0; text-align:left;" title="view"><i class="fa fa-eye"></i></div>
 <div id="{{i.rid}}__edit" model="{{model|lower}}" class="zlist_item normal list_action" style="order:0; text-align:left;" title="edit"><i class="fa fa-cog"></i></div>
-<div class="zlist_item label" model="{{model|lower}}" style="order:0">{% if i.misc.title %}{{i.misc.title}}&nbsp;{%endif%}{{ i.name }}{% if i.features.AKA %}<br/>&laquo; {{i.features.AKA}} &raquo;{%endif%}</div>
+<div class="zlist_item label" model="{{model|lower}}" style="order:0">{{ i.name }}{% if i.misc.title %}<br/>({{i.misc.title}}){%endif%}</div>
+<div class="zlist_item label" model="{{model|lower}}" style="order:0">{{i.features.AKA}}</div>
 <div class="zlist_item label" model="{{model|lower}}" style="order:0">{{ i.dream }}</div>
 
 <div class="zlist_item number" model="{{model|lower}}" style="order:3">DEST.<br/>{{ i.destiny }}</div>

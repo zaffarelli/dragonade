@@ -1,35 +1,28 @@
 {% load static %}
 {% load dragonade_filters %}
 
-<div class="sheet header" id="sh__{{a.rid}}">
-    <div class="box label full large classy">
-        <span class="skill_switch" id="{{a.rid}}__switch" style="float:right;"><i class="fa fa-times"></i></span>
-    </div>
-    <div class="box label full large classy">
-{{a.name}} {% if a.has_bug %}<i class="fa fa-times" style="color:red;" title="{{a.bug_list}}"></i>{% endif %}
-    </div>
+<div class="top" id="sh__{{a.rid}}">
+    <div class="row">
+        <div class="whole name">
+            {{a.name}}
+            <span class="closer" id="{{a.rid}}__switch" style="float:right;"><i class="fa fa-times"></i></span>
+        </div>
 
-    <div class="box label full" title="Joueur">
-        {% if a.player %}
-        ({{a.player|safe}})
+        {% if a.is_storyteller %}
+        {%else%}
+        <div class="whole">
+            par {{a.player|safe}}
+        </div>
         {%endif%}
+        {% if a.misc.ENTRANCE %}
+        <div class="whole">
+            {{a.misc.ENTRANCE}}&nbsp;
+        </div>
+        {%endif%}
+        {% if a.features.AKA %}&nbsp;
+        <div class="whole">
+            aka {{a.features.AKA}}
+        </div>
+        {% endif %}
     </div>
-
-    <div class="box label full editable">
-        <span class="btn_edit value" title="Entrée"
-              action="value" id="{{a.type}}__{{a.id}}__ENTRANCE__value"
-              srcval="{{a.misc.ENTRANCE|encoded_z|safe}}">&nbsp;{{a.misc.ENTRANCE}}&nbsp;
-        </span>
-    </div>
-
-    <div class="box label full editable">
-    {% if a.features.AKA %}&nbsp;
-        aka <span class="btn_edit value" title="AKA"
-              action="value" id="{{a.type}}__{{a.id}}__AKA__value"
-              srcval="{{a.features.AKA|encoded_z|safe}}">&nbsp;{{a.features.AKA}}
-
-        </span>
-    {% endif %}
-    </div>
-
 </div>

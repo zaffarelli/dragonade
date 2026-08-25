@@ -1,4 +1,6 @@
 
+
+
 .roster{
     background:#1020307F;
     margin-left:15vw;
@@ -20,20 +22,21 @@
         }
     }
 
-    & .header{
-//         background: #1020307F;
-        width:100%;
-        & .full{
-//             background: #1020307F;
+    & .top{
+        & .row{
+            font-size:14pt;
             color:white;
-            border-radius:5pt;
-            padding:5pt;
-        }
-        & .large{
-            font-family: "Khand";
-            font-size:2em;
-        }
+            & .whole{
+              font-family: "Khand";
+
+              &.name{
+                font-size:32pt;
+                font-weight:bold;
+              }
+            }
+       }
     }
+
 
     & .tabpanel{
         background:#202020;
@@ -48,9 +51,12 @@
 
 
     & .classy{
-        font-family: "Khand"
+        font-family: "Khand";
     }
 
+    & .pretty{
+        font-family: "Khand";
+    }
 
 
 
@@ -80,38 +86,48 @@
     }
 
     & .tri{
-        font-size:12pt;
+        font-size:14pt;
         height:auto;
-        width:100%;
+        width:calc(100%-16pt);
         display:flex;
         flex-flow:column nowrap;
-        justify-items: flex-start;
+        justify-content: flex-start;
         align-items: space-between;
-        align-content: strech;
+        align-content: stretch;
+        padding:8pt;
         gap: 3pt;
         background:#606080;
+
         & .row{
             flex: 0 1 auto;
             display:flex;
             flex-flow:row nowrap;
-            justify-items: flex-start;
-            align-content: space-between;
-            align-items: space-between;
-            gap: 2pt;
+            justify-content: flex-start;
+            align-items: center;
+
+            gap: 3pt;
             color:white;
             height:auto;
-//             border:3pt dotted red;
-//             border-radius:10pt;
-//             background:maroon;
+
+            & .whole{
+                font-family: "Khand";
+                &.large{
+                    flex: 0 0 100%;
+                }
+                &.name{
+                    font-size:2em;
+                }
+            }
+
             & .block_third{
                 flex: 0 0 33%;
                 flex-flow:row wrap;
                 height:100%;
                 display:flex;
-                justify-items: flex-start;
-                align-items: flex-start;
+                justify-content: flex-start;
+                align-items: center;
                 align-content: flex-start;
-                gap: 5pt;
+                gap: 3pt;
 
 
                 & .title{
@@ -120,22 +136,23 @@
                     padding:0;
                     font-size:14pt;
                     font-weight:bold;
-                    border:none;
+                    border-radius:2pt;
+                    font-family:Khand;
                 }
                 & .stat{
                     order:1;
                     flex: 0 0 100%;
                     display:flex;
                     flex-flow:row nowrap;
-                    justify-items: flex-start;
+                    justify-content: flex-start;
                     align-items: flex-start;
-                    align-content: flex-start;
-                    gap: 5pt;
+                    gap: 1pt;
 
                     & .label{
                         order:1;
                         flex: 2 1 auto;
                         background:$palette1;
+                        border-radius:2pt;
                         padding:3pt;
                     }
                     & .data{
@@ -145,6 +162,8 @@
                         padding:3pt;
                         font-size:14pt;
                         font-weight:bold;
+                        border-radius:2pt;
+                        text-align:center;
                         &.text{
                             flex: 0 0 16ex;
                         }
@@ -153,6 +172,25 @@
 
             }
         }
+
+
+       & .summary{
+            display:block;
+            color:white;
+            background:#101010;
+            font-family:$mono;
+            font-size:1em;
+            width:auto;
+            margin-right:100%;
+            padding:5pt;
+            min-height:50em;
+            margin:5pt auto;
+            overflow:auto;
+            border:1pt solid white;
+            border-radius:5pt;
+       }
+
+
     }
 
      & .sheet {
@@ -196,6 +234,9 @@
             &.label{
                 background-color: $palette2;
                 color:white;
+                &.pretty{
+                    font-family:"Khand";
+                    }
             }
             &.info{
                 background: darken($palette1,50%);
@@ -266,7 +307,7 @@
         }
 
         &.base{
-                width:150ex;
+                width:auto;
         }
 
         &.magic, &.weapons, &.protection {
@@ -442,19 +483,6 @@
             overflow:auto;
        }
 
-       &.summary{
-            display:block;
-            color:white;
-            background:#101010;
-            font-family:$mono;
-            font-size:0.83em;
-            width:125ex;
-            min-height:50em;
-            margin:5pt auto;
-            overflow:auto;
-            border:1px solid white;
-       }
-
 
         &.base{order:1;}
         &.skills{order:8;}
@@ -490,3 +518,9 @@
     margin:3pt;
 }
 
+.btn_edit.value{
+    border-bottom:1pt solid darkcyan;
+    background:#303050;
+    border-radius:3pt;
+    padding:0;
+}

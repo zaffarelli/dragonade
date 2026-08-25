@@ -117,8 +117,8 @@ class IncantessimoCastingTime(models.IntegerChoices):
     INSTANT = 0, "Instantané"
     TURN = 1, "Tour"
     MINUTE = 2, "Minute"
-    HOUR = 3, "Demi-heure Draconique"
-    DRACONIC_HOUR = 4, "Heure Draconique"
+    HOUR = 3, "Demi HD"
+    DRACONIC_HOUR = 4, "HD"
     DAY = 5, "Jour"
     WEEK = 6, "Semaine"
 

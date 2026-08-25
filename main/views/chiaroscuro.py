@@ -77,14 +77,14 @@ def inc_dec(request):
 def value_shift(request):
     answer = {'rid': None, "data": ''}
     if is_ajax(request):
-        from main.models.incantessimi import Spell
+        from main.models.incantessimi import Incantessimo
         print(request.POST)
         rid = request.POST.get('rid')
         id = request.POST.get('id')
         param = request.POST.get('param')
         back = int(request.POST.get('back'))
         model = request.POST.get('model')
-        spells = Spell.objects.filter(rid=rid)
+        spells = Incantessimo.objects.filter(rid=rid)
         print(f"{rid} {param} {model} {back}")
         if len(spells) == 1:
             spell = spells.first()
@@ -119,9 +119,9 @@ def value_shift(request):
             setattr(spell, param, dataset[next_value_index])
             print(f"New values is [{dataset[next_value_index]}] for [{param}].")
             spell.save()
-            context = {"s": spell.export_to_json(), "model": model.title()}
+            context = {"i": spell.export_to_json(), "model": model.title()}
 
-            template = get_template("main/incantessimi/incantessimo_body.html")
+            template = get_template("main/chiaroscuro/item_body.html")
             answer['data'] = template.render(context)
 
     answer['rid'] = rid
@@ -165,8 +165,8 @@ def value_push(request):
         if cando:
             print("success!!")
             change_result = item.applyValuePush(attribute, value)
-            context = {'s': item.toJson(), "model": class_name.title()}
-            template = get_template('main/incantessimi/incantessimo_body.html')
+            context = {'i': item.toJson(), "model": class_name.title()}
+            template = get_template('main/chiaroscuro/item_body.html')
             new_roster = template.render(context, request)
             answer['rid'] = item.rid
             answer['id'] = item.id
@@ -430,6 +430,7 @@ def edit(request):
                 answer['payload'] = i.export_to_json()
                 context = {}
                 context['a'] = answer['payload']
+                context['model'] = k.__name__
                 template = get_template("main/objects/roster.html")
                 html = template.render(context, request)
                 answer['html'] = html

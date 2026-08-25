@@ -69,6 +69,8 @@ class Character(models.Model):
     stress_used = models.IntegerField(default=0, blank=True)
     stress_remaining = models.IntegerField(default=0, blank=True)
 
+    description = models.TextField(max_length=1024, default="", blank=True)
+
     data = {}
 
     def __str__(self):
@@ -227,6 +229,7 @@ class Character(models.Model):
         self.fable = int(self.data['misc']['FAB'])
         self.songe = int(self.data['misc']['SON'])
         self.entrance = self.data['misc']['ENTRANCE']
+        self.description = self.data['misc']['DESCRIPTION']
         self.age = self.data['features']['AGE']
         self.aka = self.data['features']['AKA']
         self.is_female = self.data['features']['GENDER'] == "F"
@@ -319,6 +322,7 @@ class Character(models.Model):
                 self.data['misc'][k['NAME']] = val
 
         self.data['misc']['ENTRANCE'] = self.entrance
+        self.data['misc']['DESCRIPTION'] = self.description
         self.data['misc']['indice_a'] = self.indice_attributes
         self.data['misc']['indice_s'] = self.indice_skills
         self.data['misc']['indice'] = self.indice
@@ -626,11 +630,11 @@ class Character(models.Model):
             lines.append(f"{self.title}")
         ty = "Créature"
         subty = ""
-        if self.type == "Traveller":
+        if self.type == "Viaggiatore":
             ty = f"({self.player})"
-        if self.type == "Autochton":
+        if self.type == "Nativo":
             ty = "Autochtone"
-        if self.type == "Creature":
+        if self.type == "Creatura":
             subty = (f" ({self.get_creature_type_display()})")
             ty += subty
 
@@ -661,7 +665,7 @@ class Character(models.Model):
         lines.append(attributes)
 
         categories = {
-            "M": {"title": "Armes (0)", "list": []},
+            "M": {"title": "Armes (-1)", "list": []},
             "G": {"title": "Génériques (-1)", "list": []},
             "P": {"title": "Particulières (-2)", "list": []},
             "S": {"title": "Spécifiques (-3)", "list": []},
@@ -715,6 +719,7 @@ class Character(models.Model):
                 weapons += f"{w['dom_1']:{space}>10} "
             weapons += f" {w['init']:{space}>4} {w['score']:{space}>5}</BR>"
         lines.append(weapons)
+        lines.append(f"Description: {self.data['misc']['DESCRIPTION']}</BR>")
         if self.data['features']['armors']:
             protection = f"{'Protection':{space}<35}{'Malus':{space}>7}{'Prot':{space}>6}<br/>"
             for a in self.data['features']['armors']:
