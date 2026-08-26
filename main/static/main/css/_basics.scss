@@ -8,9 +8,10 @@ $palette3: #a69cac; // Panel text
 $palette4: lighten($palette1,75%); // Paper
 $palette5: complement(lighten($palette1,20%)); // Highlight
 
-$font:"Roboto";
+$font_title:"Khand";
+$font:"Voltaire";
 $mono:"Roboto Mono";
-$font_height:12pt;
+$font_height:10pt;
 
 
 $body_color: $palette4;

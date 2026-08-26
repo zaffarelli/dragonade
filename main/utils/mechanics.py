@@ -17,7 +17,9 @@ FONTSET = [
     "Roboto+Mono",
     "Roboto+Flex",
     "Sansation",
-    "Pirata+One"
+    "Pirata+One",
+    "Khand",
+    "Voltaire",
 ]
 # Testing (Transfert to the previous one if valid)
 if settings.DEBUG == False:
@@ -37,6 +39,7 @@ if settings.DEBUG == False:
         "Jolly+Lodger",
         "Pirata One",
         "Sono",
+        "Khand",
     ]
 
 

@@ -131,9 +131,9 @@ def cat_from_first(modeladmin, request, queryset):
 class EquipmentAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ['category', 'related_attribute', 'name']
-    list_display = ["name", "rid", "category",  "resistance","plus_dom", "plus_dom_2m", "force_min", "prot", "malus_armure", "related_skill_name", "related_skill",
-                    "related_attribute", "enc", "price", "skill_match"]
-    list_editable = [ "category", "prot",  "resistance", "enc","price","malus_armure","related_skill"]
+    list_display = ["id","rid","name", "category", "enc", "price", "resistance","plus_dom", "plus_dom_2m", "force_min", "prot", "malus_armure", "related_skill_name", "related_skill",
+                    "related_attribute",  "skill_match"]
+    list_editable = [ "category", "enc","price"]
     list_filter = ["category", "can_be_thrown", "related_attribute", "related_skill", "special"]
     search_fields = ['name']
     actions = [refix, cat_from_first]
