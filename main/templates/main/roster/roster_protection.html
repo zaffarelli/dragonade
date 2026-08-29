@@ -1,0 +1,41 @@
+{% load static %}
+{% load dragonade_filters %}
+
+{{a.armors}}
+<div class="row">
+    {% for p in a.armors %}
+    <div class="block_third">
+        <div class="title">{{p.name}}</div>
+        <div class="stat">
+            <div class="label short">Protection</div>
+            <div class="data auto">{{p.prot}}</div>
+        </div>
+        <div class="stat">
+            <div class="label short">Couverture</div>
+            <div class="data auto">{{p.cover}}</div>
+        </div>
+        <div class="stat">
+            <div class="label short">Malus</div>
+            <div class="data auto">{{p.malus_armure}}</div>
+        </div>
+        <div class="stat">
+            <div class="label short">FOR minimale</div>
+            <div class="data auto">{{p.force_min}}</div>
+        </div>
+        <div class="stat">
+            <div class="label short">Encombrement</div>
+            <div class="data auto">{{p.enc}}</div>
+        </div>
+        <div class="stat">
+            <div class="label short">Prix</div>
+            <div class="data auto">{{p.price|as_money}}</div>
+        </div>
+    </div>
+    {% endfor %}
+    <div class="block_third">
+        <div class="title">Protection Globale</div>
+        <div class="stat">
+            <div class="data large">{{a.numeric_cover|as_protection|safe}}</div>
+        </div>
+    </div>
+</div>

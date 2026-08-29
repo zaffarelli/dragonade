@@ -15,63 +15,12 @@ ITEMS_PER_LIST = 15
 def model_to_class(cls_str):
     klasses = [Incantessimo, Artefatto, Viaggiatore, Nativo, Creatura]
     for klass in klasses:
-        print(f"Match: {cls_str}")
         if klass.__name__ == cls_str:
-            print(f"Match: {cls_str} --> {klass.__name__}")
+            # print(f"Match: {cls_str} --> {klass.__name__}")
             return klass
     return None
 
 
-def inc_dec(request):
-    cando = False
-    answer = {}
-    item = None
-    if is_ajax(request):
-        if request.method == 'POST':
-            answer = {}
-            attribute = None
-            new_roster = ''
-            params = request.POST.get('params').split('__')
-            if len(params) == 4:
-                class_name = params[0]
-                id = int(params[1])
-                attribute = params[2]
-                change = params[3]
-                item = None
-                if class_name.lower() == "nativo":
-                    item = Nativo.objects.get(id=id)
-                    cando = True
-                if class_name.lower() == "creatura":
-                    item = Creatura.objects.get(id=id)
-                    cando = True
-                if class_name.lower() == "incantessimo":
-                    item = Incantessimo.objects.get(id=id)
-                    cando = True
-                if class_name.lower() == "viaggiatore":
-                    item = Viaggiatore.objects.get(id=id)
-                    cando = True
-                # if cando:
-                #     change_result = item.applyIncDec(attribute, change)
-                #     context = {'a': item.toJson()}
-                #     template = get_template('main/objects/roster.html')
-                #     new_roster = template.render(context, request)
-                #     answer['id'] = item.id
-                # answer['change_result'] = change_result
-                # answer['new_roster'] = new_roster
-                # return JsonResponse(answer)
-            if cando:
-                print("success!!")
-                change_result = item.applyIncDec(attribute, change)
-                context = {'a': item.export_to_json()}
-                template = get_template('main/objects/roster.html')
-                new_roster = template.render(context, request)
-                answer['id'] = item.id
-                answer['rid'] = item.rid
-                answer['change_result'] = change_result
-                answer['new_roster'] = new_roster
-                return JsonResponse(answer)
-
-    return HttpResponse(status=204)
 
 
 def value_shift(request):
@@ -436,6 +385,49 @@ def edit(request):
                 answer['html'] = html
                 return JsonResponse(answer)
     return HttpResponse(status=204)
+
+def inc_dec(request):
+    cando = False
+    answer = {}
+    item = None
+    if is_ajax(request):
+        if request.method == 'POST':
+            answer = {}
+            attribute = None
+            new_roster = ''
+            params = request.POST.get('params').split('__')
+            if len(params) == 4:
+                model = params[0]
+                id = int(params[1])
+                attribute = params[2]
+                change = params[3]
+                item = None
+                if model.lower() == "nativo":
+                    item = Nativo.objects.get(id=id)
+                    cando = True
+                if model.lower() == "creatura":
+                    item = Creatura.objects.get(id=id)
+                    cando = True
+                if model.lower() == "incantessimo":
+                    item = Incantessimo.objects.get(id=id)
+                    cando = True
+                if model.lower() == "viaggiatore":
+                    item = Viaggiatore.objects.get(id=id)
+                    cando = True
+            if cando:
+                print("success!!")
+                change_result = item.applyIncDec(attribute, change)
+                context = {'a': item.export_to_json(), "model":model.title()}
+                template = get_template('main/objects/roster.html')
+                new_roster = template.render(context, request)
+                answer['id'] = item.id
+                answer['rid'] = item.rid
+                answer['change_result'] = change_result
+                answer['new_roster'] = new_roster
+                return JsonResponse(answer)
+
+    return HttpResponse(status=204)
+
 
 
 def fetch(request):

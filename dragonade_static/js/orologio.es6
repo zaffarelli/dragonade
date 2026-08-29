@@ -85,7 +85,7 @@ class Orologio extends Modulo {
             .style('stroke-linecap', 'round')
             .style('stroke-width', '1pt')
             .style('fill', '#303030')
-            .style('font-family', 'Neucha')
+            .style('font-family', me.baseFont)
             .style('font-size', (me.fontsize * 2) + 'pt')
             .style('text-anchor', 'middle')
             .text("")

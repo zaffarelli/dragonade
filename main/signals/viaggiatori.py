@@ -6,3 +6,4 @@ from main.models.viaggiatori import Viaggiatore
 @receiver(pre_save, sender=Viaggiatore, dispatch_uid='pre_save_traveller')
 def pre_save_traveller(sender, instance, **kwargs):
     instance.fix()
+

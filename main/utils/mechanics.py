@@ -7,19 +7,9 @@ from dragonade import settings
 
 # Mandatory Fonts
 FONTSET = [
-    "Neucha",
-    "Are+You+Serious",
-    "Smythe",
-    "Kanit",
-    "Grenze+Gotisch",
-    "Wellfleet",
-    "Roboto",
-    "Roboto+Mono",
-    "Roboto+Flex",
-    "Sansation",
-    "Pirata+One",
     "Khand",
-    "Voltaire",
+    "Fira+Sans+Condensed",
+    "Fira+Mono",
 ]
 # Testing (Transfert to the previous one if valid)
 if settings.DEBUG == False:

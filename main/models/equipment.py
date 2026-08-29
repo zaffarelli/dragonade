@@ -1,11 +1,13 @@
 from django.db import models
 from django.contrib import admin
+
+from main.mixins.chiaroscuro_mixin import ChiaroscuroMixin
 from main.utils.mechanics import as_rid
 from django.utils import timezone
 from main.utils.ref_dragonade import GEAR_CAT
 
 
-class Equipment(models.Model):
+class Equipment(models.Model, ChiaroscuroMixin):
     class Meta:
         ordering = ['name']
     name = models.CharField(default="", max_length=256)
@@ -36,6 +38,7 @@ class Equipment(models.Model):
     skill_match = models.CharField(default="", max_length=32, blank=True)
 
     def fix(self):
+        self.chiaroscuro()
         self.rid = as_rid(f"{self.name}_{self.category}")
         # if self.cover != "":
         #     new_covers = []
@@ -81,6 +84,13 @@ class Equipment(models.Model):
                     if str == key:
                         return True
         return res
+
+    def export_to_json(self):
+        self.model_to_data()
+        return self._data
+
+    def co_push(self):
+        pass
 
     @property
     def related_skill_name(self):

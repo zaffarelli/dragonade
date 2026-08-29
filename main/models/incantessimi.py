@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib import admin
+
+from main.mixins.chiaroscuro_mixin import ChiaroscuroMixin
 from main.utils.mechanics import as_rid
 from django.utils import timezone
 import math
@@ -13,6 +15,7 @@ class DragonadeDifficulty(models.IntegerChoices):
     VERY_HARD = 25, "Très Difficile"
     MYTHIC = 30, "Mythique"
     LEGENDARY = 35, "Légendaire"
+
 
 class DragonadeGround(models.IntegerChoices):
     NONE = 0, "-"
@@ -122,10 +125,12 @@ class IncantessimoCastingTime(models.IntegerChoices):
     DAY = 5, "Jour"
     WEEK = 6, "Semaine"
 
+
 class IncantessimoFallback(models.IntegerChoices):
     NONE = 0, "N/A"
     CHARGE_1 = 1, "une charge / Echec"
     CHARGE_3 = 2, "toutes les charges / Notable"
+
 
 class IncantessimoDuration(models.IntegerChoices):
     INSTANT = 0, "Immédiat"
@@ -141,10 +146,12 @@ class IncantessimoDuration(models.IntegerChoices):
     ONE_DECADE = 10, "Décade"
     PERMANENT = 11, "Permanent"
 
+
 class IncantessimoArea(models.IntegerChoices):
     NONE = 0, "N/A"
     PERSONAL = 1, "HR"
     WILLPOWER = 2, "VOL m"
+
 
 class IncantessimoRange(models.IntegerChoices):
     NONE = 0, "N/A"
@@ -156,7 +163,8 @@ class IncantessimoRange(models.IntegerChoices):
     EMPATHY4 = 6, "EMPx6 m"
     EMPATHY5 = 7, "EMPx10 m"
 
-class Incantessimo(models.Model):
+
+class Incantessimo(models.Model, ChiaroscuroMixin):
     class Meta:
         ordering = ["-spell_ready", 'name']
         verbose_name = "Incantessimo"
@@ -204,9 +212,10 @@ class Incantessimo(models.Model):
     data = {}
 
     def fix(self):
+        self.chiaroscuro()
         from main.utils.mechanics import asB2B
         while self.name.find('  ') != -1:
-            self.name.replace("  "," ")
+            self.name.replace("  ", " ")
         self.name.strip()
         self.rid = as_rid(f"{self.name}")
         self.code = asB2B(self.name).decode('utf-8').upper()
@@ -253,59 +262,36 @@ class Incantessimo(models.Model):
             self.ti = IncantessimoCastingTime.INSTANT
             self.duration = IncantessimoDuration.NEXT_BIRTH_HOUR
 
-
-
         self.power = math.floor(self.diff / 5 + self.dps + self.songe * 2 + self.power_boost)
 
     def __str__(self):
         return f"{self.name} ({self.get_path_display()} {self.get_category_display()}) "
+
 
     @property
     def str_charges(self):
         str = f"{self.get_ground_charge_display()} {self.get_hour_charge_display()} {self.get_emanation_charge_display()} {self.get_consistency_charge_display()} {self.get_elemental_charge_display()}"
         return str
 
-
     def export_to_json(self):
-        data = {}
-        data['name'] = self.name
-        data['id'] = self.id
-        data['rid'] = self.rid
-        data['alternative_names'] = self.alternative_names
-        data['casting_time'] = self.casting_time
-        data['ground_charge'] = self.ground_charge
-        data['hour_charge'] = self.hour_charge
-        data['emanation_charge'] = self.emanation_charge
-        data['consistency_charge'] = self.consistency_charge
-        data['elemental_charge'] = self.elemental_charge
-        data['dps'] = self.dps
-        data['diff'] = self.diff
-        data['ti_str'] = self.get_ti_display()
-        data['ti'] = self.ti
-        data['area_str'] = self.get_area_display()
-        data['area'] = self.area
-        data['ref'] = self.ref
-        data['charge'] = self.charge
-        data['pentacle_code'] = self.pentacle_code
-        data['power'] = self.power
-        data['duration'] = self.duration
-        data['duration_str'] = self.get_duration_display()
-        data['range_str'] = self.get_range_display()
-        data['range'] = self.range
-        data['songe'] = self.songe
-        data['power_boost'] = self.power_boost
-        data['resistance'] = self.resistance
-        data['roll'] = self.get_roll_display()
-        data['path'] = self.get_path_display()
-        data['category'] = self.get_category_display()
-        data['description'] = self.description
-        data['composantes'] = self.composantes
-        data['puissance'] = self.power
-        data['spell_ready'] = self.spell_ready
-        data['source'] = self.source
-        data['original_casting_cost'] = self.original_casting_cost
-        self.data = data
-        return data
+        self.model_to_data()
+        return self._data
+
+
+    def co_push(self):
+        """
+            The Chiaroscuro push function add more fileds to the data structure prepared, like addition interpretation of values or alternative names.
+        """
+        self._data['duration_str'] = self.get_duration_display()
+        self._data['range_str'] = self.get_range_display()
+        self._data['area_str'] = self.get_area_display()
+        self._data['ti_str'] = self.get_ti_display()
+        self._data['roll'] = self.get_roll_display()
+        self._data['path'] = self.get_path_display()
+        self._data['category'] = self.get_category_display()
+
+
+
 
     def toJson(self):
         import json
@@ -317,8 +303,6 @@ class Incantessimo(models.Model):
         setattr(self, att, val)
         self.save()
         return True
-
-
 
     @property
     def conversion(self):
@@ -359,12 +343,13 @@ class Incantessimo(models.Model):
 class IncantessimoAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ["-spell_ready", "name"]
-    list_display = ['id',"rid","code","name", "avoid_original_cost", "pentacle_code","ti","duration", "charge",  "spell_ready", "songe", "roll", "original_casting_cost",
+    list_display = ['id', "rid", "code", "name", "avoid_original_cost", "pentacle_code", "ti", "duration", "charge", "spell_ready", "songe", "roll",
+                    "original_casting_cost",
                     "conversion",
                     "str_charges",
                     "path", "ref", "category", "source"]
-    list_editable = ["original_casting_cost", "avoid_original_cost","ti", "pentacle_code","songe", "roll", "spell_ready", "source"]
-    list_filter = ["spell_ready", "path","pentacle_code","roll", "category", "diff", "dps", "original_casting_cost", "ground_charge",
+    list_editable = ["original_casting_cost", "avoid_original_cost", "ti", "pentacle_code", "songe", "roll", "spell_ready", "source"]
+    list_filter = ["spell_ready", "path", "pentacle_code", "roll", "category", "diff", "dps", "original_casting_cost", "ground_charge",
                    "elemental_charge", "emanation_charge",
                    "consistency_charge", "hour_charge", "source"]
     search_fields = ["name", "description", "source"]

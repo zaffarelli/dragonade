@@ -6,12 +6,12 @@ class MainConfig(AppConfig):
     name = 'main'
 
     def ready(self):
-        import main.signals.autochtons
-        import main.signals.travellers
-        import main.signals.creatures
+        import main.signals.nativi
+        import main.signals.viaggiatori
+        import main.signals.creature
         import main.signals.contestants
         import main.signals.combats
-        import main.signals.dreams
+        import main.signals.sogni
         import main.signals.equipement
-        import main.signals.stregoneria
-        import main.signals.appartus
+        import main.signals.incantessimi
+        import main.signals.artefatti

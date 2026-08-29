@@ -12,13 +12,21 @@
     border-radius:5pt;
     padding:5pt;
     font-size:12pt;
+    font-family:$font;
 
     & .tabnav{
         background: #1030207F;
         width:auto;
+        display:flex;
+        flex-flow: row wrap;
+        justify-content: stretch;
+        align-content: flex-start;
+        align-items: flex-start;
+        gap: 2pt;
         & .tabbutton{
-            font-size: 12pt;
-
+            flex: 1 1 auto;
+            font-size:1.1em;
+            font-family:$font_title;
         }
     }
 
@@ -27,7 +35,7 @@
             font-size:14pt;
             color:white;
             & .whole{
-              font-family: "Khand";
+              font-family: $font_title;
 
               &.name{
                 font-size:32pt;
@@ -51,11 +59,11 @@
 
 
     & .classy{
-        font-family: "Khand";
+        font-family: $font_title;
     }
 
     & .pretty{
-        font-family: "Khand";
+        font-family: $font_title;
     }
 
 
@@ -110,7 +118,7 @@
             height:auto;
 
             & .whole{
-                font-family: "Khand";
+                font-family: $font_title;
                 &.large{
                     flex: 0 0 100%;
                 }
@@ -154,6 +162,10 @@
                         background:$palette1;
                         border-radius:2pt;
                         padding:3pt;
+
+                        &.short{
+                            flex: 0 1 20ex;
+                        }
                     }
                     & .data{
                         order:2;
@@ -169,6 +181,9 @@
                         }
                         &.large{
                             flex: 5 0 98%;
+                        }
+                        &.auto{
+                            flex: 1 1 auto;
                         }
                     }
                 }
@@ -229,7 +244,7 @@
                 width:16ex;
                 line-height:0.95em;
 
-                font-family:"Roboto Mono";
+                font-family:$mono;
                 cursor:pointer;
             }
 
@@ -238,7 +253,7 @@
                 background-color: $palette2;
                 color:white;
                 &.pretty{
-                    font-family:"Khand";
+                    font-family:$font_title;
                     }
             }
             &.info{

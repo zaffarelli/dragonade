@@ -9,8 +9,8 @@ $palette4: lighten($palette1,75%); // Paper
 $palette5: complement(lighten($palette1,20%)); // Highlight
 
 $font_title:"Khand";
-$font:"Voltaire";
-$mono:"Roboto Mono";
+$font:"Fira Sans Condensed";
+$mono:"Fira Mono";
 $font_height:10pt;
 
 
@@ -77,7 +77,7 @@ $sub_box: complement($standard_box);
     color: white;
     border-radius:3pt;
     border:1pt solid #202020;
-    font-family: $font;
+    //font-family: $font;
     line-height:1.8em;
     border-radius:3pt;
     padding:3pt;

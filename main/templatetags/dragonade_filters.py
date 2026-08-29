@@ -1,5 +1,4 @@
 from django import template
-
 register = template.Library()
 
 
@@ -393,3 +392,49 @@ def as_filter_value(value):
     if isinstance(value,bool):
         result = "true" if value else "false"
     return result
+
+@register.filter(name='as_doma')
+def as_doma(value):
+    result = "-"
+    if value == 1:
+        result = "1 (d4)"
+    elif value == 2:
+        result = "2 (d6)"
+    elif value == 3:
+        result = "3 (d8)"
+    elif value == 4:
+        result = "4 (d10)"
+    elif value == 5:
+        result = "5 (d12)"
+    elif value == 6:
+        result = "6 (d20)"
+    return result
+
+@register.filter(name='as_protection')
+def as_protection(value):
+    from django.template.loader import get_template
+    cov = value.split(" ")
+    x = {
+        'H': 0,
+        'C': 1,
+        'SA': 2,
+        'WA': 3,
+        'SL': 4,
+        'WL': 5
+    }
+    template = get_template('main/roster/roster_armor_map.html')
+    image = template.render(x, None)
+    return image
+
+
+@register.filter(name='as_money')
+def as_money(value):
+    import math
+    sols = math.floor(value)
+    deniers = math.floor((value - sols)*100)
+    s = ""
+    if sols > 0:
+        s += f"{sols} sols "
+    if deniers > 0:
+        s += f"{deniers} deniers "
+    return s

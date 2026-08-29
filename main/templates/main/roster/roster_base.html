@@ -1,14 +1,16 @@
 {% load static %}
 {% load dragonade_filters %}
 
+
 <div class="tri" id="tri_{{a.id}}">
     <div class="row">
-        {% for att,v in a.attributes.items %}
+
+        {% for att,v in a.attr.items %}
             {% if forloop.counter0|modulo_of_four_is_0 %}
             <div class="block_third">
                 <div class="title">{{att|as_attribute_sub_group}}</div>
             {% endif %}
-            {% include "main/objects/attribute_lines.html" with a=a att=att v=v %}
+            {% include "main/roster/roster_attribute_lines.html" with a=a att=att v=v %}
             {% if forloop.counter0|modulo_of_four_is_3 %}
             </div>
             {% endif %}
@@ -19,11 +21,11 @@
             <div class="title">Calculs</div>
             <div class="stat">
                 <div class="label">Total Attributs</div>
-                <div class="data">{{a.misc.total_attributes}}</div>
+                <div class="data">{{a.total_attributes}} / 126</div>
             </div>
             <div class="stat">
                 <div class="label">Total Compétences</div>
-                <div class="data">{{a.misc.total_skills}}</div>
+                <div class="data">{{a.total_skills}} / 145</div>
             </div>
             <div class="stat">
                 <div class="label">Stress Acquis</div>
@@ -44,31 +46,31 @@
             <div class="stat">
                 <div class="label">Age</div>
                 <div class="data editable">
-                    <span class="editor value text" action="value" id="{{a.type}}__{{a.rid}}__AGE__value" srcval="{{a.features.AGE}}">&nbsp;{{a.features.AGE}}&nbsp</span> ans
+                    <span class="editor value text" action="value" id="{{a.type}}__{{a.rid}}__AGE__value" srcval="{{a.features.AGE}}">&nbsp;{{a.age}}&nbsp</span> ans
                 </div>
             </div>
             <div class="stat">
                 <div class="label">Sexe</div>
                 <div class="data text editable">
-                    <span class="editor value text" action="value" id="{{a.type}}__{{a.rid}}__GENDER__value" srcval="{{a.features.GENDER}}">&nbsp;{{a.features.GENDER}}&nbsp</span>
+                    <span class="editor value text" action="value" id="{{a.type}}__{{a.rid}}__GENDER__value" srcval="{{a.features.GENDER}}">&nbsp;{{a.GENDER}}&nbsp</span>
                 </div>
             </div>
             <div class="stat">
                 <div class="label">Taille</div>
                 <div class="data editable">
-                    <span class="editor value text" action="value" id="{{a.type}}__{{a.rid}}__HEIGHT__value" srcval="{{a.features.HEIGHT}}">&nbsp;{{a.features.HEIGHT}}&nbsp</span> cm
+                    <span class="editor value text" action="value" id="{{a.type}}__{{a.rid}}__HEIGHT__value" srcval="{{a.features.HEIGHT}}">&nbsp;{{a.height}}&nbsp</span> cm
                 </div>
             </div>
             <div class="stat">
                 <div class="label">Poids</div>
                 <div class="data editable">
-                    <span class="editor value text" action="value" model="{{model|lower}}" id="{{a.rid}}__WEIGHT" srcval="{{a.features.WEIGHT}}">&nbsp;{{a.features.WEIGHT}}&nbsp</span> kg
+                    <span class="editor value text" action="value" model="{{model|lower}}" id="{{a.rid}}__WEIGHT" srcval="{{a.features.WEIGHT}}">&nbsp;{{a.weight}}&nbsp</span> kg
                 </div>
             </div>
             <div class="stat">
                 <div class="label">Main forte</div>
                 <div class="data text editable">
-                    <span class="editor value text" action="value" id="{{a.type}}__{{a.rid}}__LEFTY__value" srcval="{{a.features.LEFTY}}">{{a.features.LEFTY|lefty|safe}}</span>
+                    <span class="editor value text" action="value" id="{{a.type}}__{{a.rid}}__LEFTY__value" srcval="{{a.features.LEFTY}}">{{a.LEFTY|lefty|safe}}</span>
                 </div>
             </div>
             <div class="stat">
@@ -79,26 +81,26 @@
             </div>
             <div class="stat">
                 <div class="label">Protection Globale</div>
-                <div class="data text editable">{{a.misc.PROT}}</div>
+                <div class="data text editable">{{a.PROT}}</div>
             </div>
         </div>
         <div class="block_third">
             <div class="title">Attributs Secondaires</div>
             <div class="stat">
                 <div class="label">TIR</div>
-                <div class="data">{{a.secondaries.TIR|colorize_val|safe}}</div>
+                <div class="data">{{a.seco.TIR|colorize_val|safe}}</div>
             </div>
             <div class="stat">
                 <div class="label">MEL</div>
-                <div class="data">{{a.secondaries.MEL|colorize_val|safe}}</div>
+                <div class="data">{{a.seco.MEL|colorize_val|safe}}</div>
             </div>
             <div class="stat">
                 <div class="label">LAN</div>
-                <div class="data">{{a.secondaries.LAN|colorize_val|safe}}</div>
+                <div class="data">{{a.seco.LAN|colorize_val|safe}}</div>
             </div>
             <div class="stat">
                 <div class="label">DER</div>
-                <div class="data">{{a.secondaries.DER|colorize_val|safe}}</div>
+                <div class="data">{{a.seco.DER|colorize_val|safe}}</div>
             </div>
         </div>
     </div>
@@ -107,46 +109,46 @@
         <div class="block_third">
             <div class="title">Description</div>
             <div class="stat">
-                <div class="data large">{{a.misc.DESCRIPTION|render_text|safe}}</div>
+                <div class="data large">{{a.description|render_text|safe}}</div>
             </div>
         </div>
         <div class="block_third">
             <div class="title">Caractéristiques Dérivées</div>
             <div class="stat">
                 <div class="label">VIE : Points de Vie</div>
-                <div class="data">{{a.misc.VIE}}</div>
+                <div class="data">{{a.VIE}}</div>
             </div>
             <div class="stat">
                 <div class="label">FAT : Fatigue (PdF)</div>
-                <div class="data">{{a.misc.FAT}} ({{a.misc.pf}} PdF)</div>
+                <div class="data">{{a.FAT}} ({{a.fatigue_points}} PdF)</div>
             </div>
             <div class="stat">
                 <div class="label">FAB : Fable</div>
-                <div class="data">{{a.misc.FAB}}</div>
+                <div class="data">{{a.FAB}}</div>
             </div>
             <div class="stat">
                 <div class="label">SON : Songe</div>
-                <div class="data">{{a.misc.SON}}</div>
+                <div class="data">{{a.SON}}</div>
             </div>
             <div class="stat">
                 <div class="label">REV : Rêve</div>
-                <div class="data">{{a.misc.REV}}</div>
+                <div class="data">{{a.REV}}</div>
             </div>
             <div class="stat">
                 <div class="label">IMP : Impact</div>
-                <div class="data">{{a.misc.IMP|signed}}</div>
+                <div class="data">{{a.IMP|signed}}</div>
             </div>
             <div class="stat">
                 <div class="label">RES : Résilience</div>
-                <div class="data">{{a.misc.RES}}</div>
+                <div class="data">{{a.RES}}</div>
             </div>
             <div class="stat">
                 <div class="label">SUS : Sustentation</div>
-                <div class="data">{{a.misc.SUS}}</div>
+                <div class="data">{{a.SUS}}</div>
             </div>
             <div class="stat">
                 <div class="label">ENC : Encombrement</div>
-                <div class="data">{{a.misc.ENC}}</div>
+                <div class="data">{{a.ENC}}</div>
             </div>
         </div>
     </div>

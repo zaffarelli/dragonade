@@ -6,20 +6,20 @@
         version="1.1"
         xmlns="http://www.w3.org/2000/svg">
     <g id="tm_10" class="icon tm" transform="translate(50,50)">
-        <g style="fill:white;stroke:black;stroke-width:3pt;stroke-linejoin:round;">
+        <g style="fill:white;stroke:black;stroke-width:2pt;stroke-linejoin:round;">
             <circle r="8" cx="-30" cy="30" style="fill:#808080; stroke-width:2pt;"/>
             <path style="fill:silver" d="M -30,-30 l 60,0 00,60 -60,0 z"/>
             <path d="M -40,0 l 40,-40 40,40 -40,40 z"/>
             <path style="fill:transparent;stroke:black;stroke-width:2pt;stroke-linejoin:round;"
                   d="M -20,0 q 10,10 20,0 q 10,-10 20,0 m -40,10 q 10,10 20,0 q 10,-10 20,0 m -20,-35 a 8,8 1 0 1 8,8  a 8,8 0 1 1 -8,-8 "/>
             <text x="38" y="-20"
-                  style="font-weight:600;font-size:8pt;font-family:Neucha;fill:#101010;text-anchor:middle;stroke-width:0.25pt;">
+                  style="font-weight:600;font-size:8pt;font-family:Fira Sans;fill:#101010;text-anchor:middle;stroke-width:0.25pt;">
                 10
             </text>
             <circle cx="28" cy="38" r="3" style="fill:black; stroke-width:0"/>
             <circle cx="38" cy="28" r="3" style="fill:black; stroke-width:0"/>
         </g>
-        <text style="font-weight:600;font-size:11pt;line-height:1.25;font-family:Neucha;fill:#101010;text-anchor:middle;"
+        <text style="font-weight:600;font-size:11pt;line-height:1.25;font-family:Fira Sans;fill:#101010;text-anchor:middle;"
               x="0" y="60">Lac
         </text>
 

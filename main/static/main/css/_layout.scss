@@ -168,7 +168,7 @@ body {
             border-radius:5pt;
             border:1pt solid #606060;
             & legend{
-                font-family: "Khand";
+                font-family: $font_title;
                 font-size:1.2em;
             }
 
@@ -309,7 +309,7 @@ body {
     & .mini {
         flex: 1 1 25ch;
         padding:2px;
-        font-family:Wellfleet;
+        font-family:$font;
         height:4.0em;
         & .options{
             color:$palette3;
@@ -336,7 +336,7 @@ body {
         flex: 1 1 20ch;
         font-size:14pt;
         padding:2pt;
-        font-family:"Grenze";
+        font-family:$font;
         background:black;
         text-align:center;
         height:5.0em;
@@ -356,7 +356,7 @@ body {
 
     }
     & .paginator{
-        font-family: Wellfleet;
+        font-family: $font;
         font-size:8pt;
         flex:1 1 50ch;
         text-align:center;
@@ -499,7 +499,7 @@ body {
             order:1;
             background:#101010;
             flex: 1 1 2ex;
-            font-family: "Roboto Mono";
+            font-family: $mono;
         }
         & .base{
             order:2;
@@ -544,7 +544,7 @@ body {
         width:100vw;
         height:100vh;
         background:#101010DF;
-        font-family:Roboto;
+        font-family:$font;
         & .detail{
             margin-top:5em;
             & .base{
@@ -635,7 +635,7 @@ body {
     & .ref_entry{
          border:1pt solid #404040;
          border-radius: 1pt;
-        font-family: "Roboto";
+        font-family: $font;
         font-size:9pt;
         flex:1 1 auto;
         display:flex;
@@ -710,7 +710,7 @@ body {
     overflow-y: auto;
 
     display:flex;
-    font-family:Roboto;
+    font-family:$font;
     font-size:0.8em;
     flex-flow:column nowrap;
     justify-content:flex-start;
@@ -734,7 +734,7 @@ body {
         align-content:flex-start;
         align-items:stretch;
         & .battle_roster{
-            font-family:Roboto;
+            font-family:$font;
             flex:0 1 auto;
             width:40ex;
             padding:1ex;
@@ -746,7 +746,7 @@ body {
                 padding:3pt;
             }
             & .icon_block{
-                font-family:Roboto Mono;
+                font-family:$mono;
                 border:2pt solid transparent;
                 background:#303030;
                 border-radius:3pt;
@@ -791,7 +791,7 @@ body {
         border-radius:16pt;
 //         overflow-y:display;
         & .battle_round{
-            font-family:Roboto;
+            font-family:$font;
             padding:4pt;
             border-radius:6pt;
 //             flex:1 1 auto;
@@ -898,7 +898,7 @@ body {
 }
 
 .tabbutton{
-    font-family:"Roboto";
+    font-family:$mono;
     font-size:9pt;
     display:inline-block;
     color:black;

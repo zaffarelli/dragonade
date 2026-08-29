@@ -1,0 +1,38 @@
+{% load static %}
+{% load dragonade_filters %}
+
+{{a.weapons}}
+<div class="row">
+    {% for w in a.weapons %}
+    <div class="block_third">
+        <div class="title">{{w.name}}</div>
+        <div class="stat">
+            <div class="label short">Jet d'Attaque</div>
+            <div class="data auto">{{w.category|upper}} + {{w.related_skill_text}}<br/>({{w.stat_value}} + {{w.related_skill_value}})</div>
+        </div>
+        <div class="stat">
+            <div class="label short">Arme de lancer</div>
+            <div class="data auto"> {{w.can_be_thrown}}</div>
+        </div>
+        <div class="stat">
+            <div class="label short">Impact</div>
+            <div class="data auto"> {{w.IMP}}</div>
+        </div>
+        <div class="stat">
+            <div class="label short">DOMA (1m/2m)</div>
+            <div class="data auto">{{w.plus_dom|as_doma}} / {{w.plus_dom_2m|as_doma}}</div>
+        </div>
+        <div class="stat">
+            <div class="label short">Encombrement</div>
+            <div class="data auto">{{w.enc}}</div>
+        </div>
+        <div class="stat">
+            <div class="label short">Prix</div>
+            <div class="data auto">{{w.price|as_money}}</div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+

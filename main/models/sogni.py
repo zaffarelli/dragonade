@@ -1,11 +1,13 @@
 from django.db import models
 from django.contrib import admin
+
+from main.mixins.chiaroscuro_mixin import ChiaroscuroMixin
 from main.utils.mechanics import as_rid, asShortB2B
 from django.utils import timezone
 
 
 
-class Dream(models.Model):
+class Sogno(models.Model, ChiaroscuroMixin):
     title = models.CharField(default="", max_length=256, blank=True)
     subtitle = models.CharField(default="", max_length=256, blank=True)
     rid = models.CharField(default="xxx", max_length=256, blank=True)
@@ -18,16 +20,17 @@ class Dream(models.Model):
     population = models.PositiveIntegerField(default=0,blank=True)
 
     def fix(self):
+        self.chiaroscuro()
         self.rid = as_rid(f"{self.title}_{self.subtitle}")
         self.code = asShortB2B(self.rid).decode('utf-8').upper()
-        from main.models.autochtons import Autochton
-        self.population = len(Autochton.objects.filter(dream=self))
+        from main.models.nativi import Nativo
+        self.population = len(Nativo.objects.filter(dream=self.rid))
 
     def __str__(self):
         return f"{self.title} [{self.code}]"
 
 
-class DreamAdmin(admin.ModelAdmin):
+class SognoAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ["date_run",'title','session_number']
     list_display = ["code", "title","current", "subtitle", "date_run", "session_number", "description", "population"]

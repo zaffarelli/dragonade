@@ -53,7 +53,7 @@ class Risorse extends Modulo {
             .style("text-anchor","middle")
             .style("fill","white")
             .style("stroke","silver")
-            .text("?")
+            .text("")
         console.log(me.name+" initialized..." );
     }
 

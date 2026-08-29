@@ -5,56 +5,62 @@ CHARACTER_STATISTICS = {
     "ATTRIBUTES": {
         "DEFAULT": 3,
         "LIST": [
-            {"NAME": "AGI", "TEXT": "Agilité"},
-            {"NAME": "CON", "TEXT": "Constitution"},
-            {"NAME": "FOR", "TEXT": "Force"},
-            {"NAME": "TAI", "TEXT": "Taille"},
-            {"NAME": "EMP", "TEXT": "Empathie"},
-            {"NAME": "ODG", "TEXT": "Odorat/Goût"},
-            {"NAME": "OUI", "TEXT": "Ouïe"},
-            {"NAME": "VUE", "TEXT": "Vue"},
-            {"NAME": "APP", "TEXT": "Apparence"},
-            {"NAME": "DEX", "TEXT": "Dextérité"},
-            {"NAME": "INT", "TEXT": "Intelligence"},
-            {"NAME": "VOL", "TEXT": "Volonté"}
-        ],
-        "KNOWN": ["AGI", "CON", "FOR", "TAI", "EMP", "ODG", "OUI", "VUE", "APP", "DEX", "INT", "VOL"]
-
+            {"NAME": "AGI", "TEXT": "Agilité", "ORDER": 0},
+            {"NAME": "CON", "TEXT": "Constitution", "ORDER": 1},
+            {"NAME": "FOR", "TEXT": "Force", "ORDER": 2},
+            {"NAME": "TAI", "TEXT": "Taille", "ORDER": 3},
+            {"NAME": "EMP", "TEXT": "Empathie", "ORDER": 4},
+            {"NAME": "ODG", "TEXT": "Odorat/Goût", "ORDER": 5},
+            {"NAME": "OUI", "TEXT": "Ouïe", "ORDER": 6},
+            {"NAME": "VUE", "TEXT": "Vue", "ORDER": 7},
+            {"NAME": "APP", "TEXT": "Apparence", "ORDER": 8},
+            {"NAME": "DEX", "TEXT": "Dextérité", "ORDER": 9},
+            {"NAME": "INT", "TEXT": "Intelligence", "ORDER": 10},
+            {"NAME": "VOL", "TEXT": "Volonté", "ORDER": 11}
+        ]
     },
     "SECONDARIES": {
         "LIST": [
             {"NAME": "TIR", "TEXT": "Tir", "RATIONALE": " (DEX + VUE) / 2", "PARAMS": "DEX VUE",
-             "FORMULA": lambda p: math.ceil((p[0] + p[1]) / 2)},
+             "FORMULA": lambda p: math.ceil((p[0] + p[1]) / 2), "ORDER": 0
+             },
             {"NAME": "MEL", "TEXT": "Mêlée", "RATIONALE": " (FOR + AGI) / 2", "PARAMS": "FOR AGI",
-             "FORMULA": lambda p: math.ceil((p[0] + p[1]) / 2)},
+             "FORMULA": lambda p: math.ceil((p[0] + p[1]) / 2), "ORDER": 1
+             },
             {"NAME": "DER", "TEXT": "Dérobade", "RATIONALE": " (12 - TAI + AGI) / 2", "PARAMS": "TAI AGI",
-             "FORMULA": lambda p: math.ceil((12 - p[0] + p[1]) / 2)},
+             "FORMULA": lambda p: math.ceil((12 - p[0] + p[1]) / 2), "ORDER": 2
+             },
             {"NAME": "LAN", "TEXT": "Lancer", "RATIONALE": " (TIR + FOR) / 2", "PARAMS": "TIR FOR",
-             "FORMULA": lambda p: math.ceil((p[0] + p[1]) / 2)}
-        ],
-        "KNOWN": ["DER", "LAN", "MEL", "TIR"]
+             "FORMULA": lambda p: math.ceil((p[0] + p[1]) / 2), "ORDER": 3
+             }
+        ]
     },
     "MISC": {
         "LIST": [
-            {"NAME": "FAB", "TEXT": "Rêve", "RATIONALE": " (CON + EMP + APP) / 3", "PARAMS": "CON EMP APP",
-             "FORMULA": lambda p: round((p[0] + p[1] + p[2]) / 3)},
+            {"NAME": "FAB", "TEXT": "Fable", "RATIONALE": " (VUE + FOR + INT) / 3", "PARAMS": "VUE FOR INT",
+             "FORMULA": lambda p: round((p[0] + p[1] + p[2]) / 3)
+             },
             {"NAME": "VIE", "TEXT": "Points de Vie", "RATIONALE": " CON + TAI", "PARAMS": "CON TAI",
-             "FORMULA": lambda p: p[0] + p[1]},
+             "FORMULA": lambda p: p[0] + p[1]
+             },
             {"NAME": "FAT", "TEXT": "Fatigue", "RATIONALE": " (CON + VOL) / 2", "PARAMS": "CON VOL",
-             "FORMULA": lambda p: math.ceil((p[0] + p[1]) / 2)},
+             "FORMULA": lambda p: round((p[0] + p[1]) / 2)
+             },
             {"NAME": "IMP", "TEXT": "Impact", "RATIONALE": " ArrondiBas((FOR + TAI) / 4) - 2", "PARAMS": "FOR TAI",
-             "FORMULA": lambda p: math.floor((p[0] + p[1]) / 4) - 2},
+             "FORMULA": lambda p: math.floor((p[0] + p[1]) / 4) - 2
+             },
             {"NAME": "SUS", "TEXT": "Sustentation", "RATIONALE": " ArrondiBas((CON + 4) / 4) + 1", "PARAMS": "CON",
-             "FORMULA": lambda p: math.floor((p[0] + 4) / 4) + 1},
+             "FORMULA": lambda p: math.floor((p[0] + 4) / 4) + 1
+             },
             {"NAME": "RES", "TEXT": "Résilience", "RATIONALE": "ArrondiBas((CON + TAI) / 5)", "PARAMS": "CON TAI",
-             "FORMULA": lambda p: math.floor((p[0] + p[1]) / 5)},
-            {"NAME": "ENC", "TEXT": "Encombrement", "RATIONALE": " (TAI + FOR)  [garder une décimale]",
-             "PARAMS": "TAI CON", "FORMULA": lambda p: ((p[0] + p[1]) / 2) * 2},
+             "FORMULA": lambda p: math.floor((p[0] + p[1]) / 5)
+             },
+            {"NAME": "ENC", "TEXT": "Encombrement", "RATIONALE": " (TAI + FOR)  [garder une décimale]", "PARAMS": "TAI CON",
+             "FORMULA": lambda p: ((p[0] + p[1]) / 2) * 2
+             },
             {"NAME": "SON", "TEXT": "Songe", "RATIONALE": "-"},
-            {"NAME": "REV", "TEXT": "Fable", "RATIONALE": "-"},
-            {"NAME": "ENTRANCE", "TEXT": "Entrée", "RATIONALE": "-"}
-        ],
-        "KNOWN": ["FAB", "VIE", "FAT", "IMP", "SUS", "RES", "ENC", "SON", "REV", "ENTRANCE"]
+            {"NAME": "REV", "TEXT": "Rêve", "RATIONALE": "(SON + FAB)", "PARAMS": "SON FAB", "FORMULA": lambda p: p[0] + p[1]},
+        ]
     },
     "FEATURES": {
         "LIST": [
@@ -65,147 +71,141 @@ CHARACTER_STATISTICS = {
             {"NAME": "GENDER", "TEXT": "Entrée", "RATIONALE": "-"},
             {"NAME": "LEFTY", "TEXT": "Entrée", "RATIONALE": "-"},
             {"NAME": "GEAR", "TEXT": "Armes", "RATIONALE": "-"},
-            {"NAME": "SPELLS", "TEXT": "Magie", "RATIONALE": "-"}
-        ],
-        "KNOWN":
-            ["HEIGHT", "WEIGHT", "AGE", "AKA", "GENDER", "LEFTY", "GEAR", "SPELLS"]
+            {"NAME": "SPELLS", "TEXT": "Magie", "RATIONALE": "-"},
+            {"NAME": "ENTRANCE", "TEXT": "Entrée", "RATIONALE": "-"}
+        ]
     },
-
     "SKILLS": {
         "WEAPONS": {
             "DEFAULT": -1,
             "NAME": "Martiales",
             "LIST": [
-                {"NAME": "WEA_01", "TEXT": "Arbalètes"},
-                {"NAME": "WEA_02", "TEXT": "Arcs"},
-                {"NAME": "WEA_03", "TEXT": "Armes à deux mains"},
-                {"NAME": "WEA_04", "TEXT": "Armes d'Hast"},
-                {"NAME": "WEA_05", "TEXT": "Bâtons"},
-                {"NAME": "WEA_06", "TEXT": "Boucliers"},
-                {"NAME": "WEA_07", "TEXT": "Esquive"},
-                {"NAME": "WEA_08", "TEXT": "Frondes"},
-                {"NAME": "WEA_09", "TEXT": "Fouets"},
-                {"NAME": "WEA_10", "TEXT": "Hâches"},
-                {"NAME": "WEA_11", "TEXT": "Javelots"},
-                {"NAME": "WEA_12", "TEXT": "Lames Courtes"},
-                {"NAME": "WEA_13", "TEXT": "Lames Longues"},
-                {"NAME": "WEA_14", "TEXT": "Lutte"},
-                {"NAME": "WEA_15", "TEXT": "Masses"},
-                {"NAME": "WEA_16", "TEXT": "Lances"},
-                {"NAME": "WEA_17", "TEXT": "Poignards"},
-                {"NAME": "WEA_18", "TEXT": "Pugilat"},
-                # Lames longues, Lames courtes, Armes à deux mains, Masses, Haches, Piques, Bâtons, Arcs, Arbalètes, Frondes, Esquive, Pugilat, Lutte, Boucliers
-            ],
-            "KNOWN": [
-                "WEA_01", "WEA_02", "WEA_03", "WEA_04", "WEA_05", "WEA_06", "WEA_07", "WEA_08", "WEA_09", "WEA_10",
-                "WEA_11", "WEA_12", "WEA_13", "WEA_14", "WEA_15", "WEA_16", "WEA_17", "WEA_18"
-            ],
+                {"NAME": "WEA_01", "TEXT": "Arbalètes", "ORDER": 0},
+                {"NAME": "WEA_02", "TEXT": "Arcs", "ORDER": 1},
+                {"NAME": "WEA_03", "TEXT": "Armes à deux mains", "ORDER": 2},
+                {"NAME": "WEA_04", "TEXT": "Armes d'Hast", "ORDER": 3},
+                {"NAME": "WEA_05", "TEXT": "Bâtons", "ORDER": 4},
+                {"NAME": "WEA_06", "TEXT": "Boucliers", "ORDER": 5},
+                {"NAME": "WEA_07", "TEXT": "Esquive", "ORDER": 6},
+                {"NAME": "WEA_08", "TEXT": "Frondes", "ORDER": 7},
+                {"NAME": "WEA_09", "TEXT": "Fouets", "ORDER": 8},
+                {"NAME": "WEA_10", "TEXT": "Hâches", "ORDER": 9},
+                {"NAME": "WEA_11", "TEXT": "Javelots", "ORDER": 10},
+                {"NAME": "WEA_12", "TEXT": "Lames Courtes", "ORDER": 11},
+                {"NAME": "WEA_13", "TEXT": "Lames Longues", "ORDER": 12},
+                {"NAME": "WEA_14", "TEXT": "Lutte", "ORDER": 13},
+                {"NAME": "WEA_15", "TEXT": "Masses", "ORDER": 14},
+                {"NAME": "WEA_16", "TEXT": "Lances", "ORDER": 15},
+                {"NAME": "WEA_17", "TEXT": "Poignards", "ORDER": 16},
+                {"NAME": "WEA_18", "TEXT": "Pugilat", "ORDER": 17},
+            ]
         },
         "GENERIC": {
             "DEFAULT": -1,
             "NAME": "Génériques",
             "LIST": [
-                {"NAME": "GEN_01", "TEXT": "Bricolage"},
-                {"NAME": "GEN_02", "TEXT": "Chant"},
-                {"NAME": "GEN_03", "TEXT": "Concentration"},
-                {"NAME": "GEN_04", "TEXT": "Course"},
-                {"NAME": "GEN_05", "TEXT": "Cuisine"},
-                {"NAME": "GEN_06", "TEXT": "Danse"},
-                {"NAME": "GEN_07", "TEXT": "Dessin"},
-                {"NAME": "GEN_08", "TEXT": "Discrétion"},
-                {"NAME": "GEN_09", "TEXT": "Eloquence"},
-                {"NAME": "GEN_10", "TEXT": "Escalade"},
-                {"NAME": "GEN_11", "TEXT": "Saut"},
-                {"NAME": "GEN_12", "TEXT": "Sculpture"},
-                {"NAME": "GEN_13", "TEXT": "Séduction"},
-                {"NAME": "GEN_14", "TEXT": "Vigilance"}
-            ],
-            "KNOWN": [
-                "GEN_01", "GEN_02", "GEN_03", "GEN_04", "GEN_05", "GEN_06", "GEN_07", "GEN_08", "GEN_09", "GEN_10",
-                "GEN_11", "GEN_12", "GEN_13", "GEN_14"
+                {"NAME": "GEN_01", "TEXT": "Bricolage", "ORDER": 0},
+                {"NAME": "GEN_02", "TEXT": "Chant", "ORDER": 1},
+                {"NAME": "GEN_03", "TEXT": "Concentration", "ORDER": 2},
+                {"NAME": "GEN_04", "TEXT": "Course", "ORDER": 3},
+                {"NAME": "GEN_05", "TEXT": "Cuisine", "ORDER": 4},
+                {"NAME": "GEN_06", "TEXT": "Danse", "ORDER": 5},
+                {"NAME": "GEN_07", "TEXT": "Dessin", "ORDER": 6},
+                {"NAME": "GEN_08", "TEXT": "Discrétion", "ORDER": 7},
+                {"NAME": "GEN_09", "TEXT": "Eloquence", "ORDER": 8},
+                {"NAME": "GEN_10", "TEXT": "Escalade", "ORDER": 9},
+                {"NAME": "GEN_11", "TEXT": "Saut", "ORDER": 10},
+                {"NAME": "GEN_12", "TEXT": "Sculpture", "ORDER": 11},
+                {"NAME": "GEN_13", "TEXT": "Séduction", "ORDER": 12},
+                {"NAME": "GEN_14", "TEXT": "Vigilance", "ORDER": 13}
             ]
         },
         "PECULIAR": {
             "DEFAULT": -2,
             "NAME": "Particulières",
             "LIST": [
-                {"NAME": "PEC_01", "TEXT": "Charpenterie"},
-                {"NAME": "PEC_02", "TEXT": "Comédie"},
-                {"NAME": "PEC_03", "TEXT": "Commerce"},
-                {"NAME": "PEC_04", "TEXT": "Couture"},
-                {"NAME": "PEC_05", "TEXT": "Equitation"},
-                {"NAME": "PEC_06", "TEXT": "Maçonnerie"},
-                {"NAME": "PEC_07", "TEXT": "Musique"},
-                {"NAME": "PEC_08", "TEXT": "Pickpocket"},
-                {"NAME": "PEC_09", "TEXT": "Survie (Cité)"},
-                {"NAME": "PEC_10", "TEXT": "Survie (Désert)"},
-                # {"NAME": "PEC_11", "TEXT": "Survie (Extérieur)"},
-                {"NAME": "PEC_12", "TEXT": "Survie (Forêt)"},
-                {"NAME": "PEC_13", "TEXT": "Survie (Glaces)"},
-                {"NAME": "PEC_14", "TEXT": "Survie (Marais)"},
-                {"NAME": "PEC_15", "TEXT": "Survie (Montagne)"},
-                {"NAME": "PEC_16", "TEXT": "Survie (Sous-Sol)"},
-                {"NAME": "PEC_17", "TEXT": "Travestissement"}
-            ],
-            "KNOWN": [
-                "PEC_01", "PEC_02", "PEC_03", "PEC_04", "PEC_05", "PEC_06", "PEC_07", "PEC_08", "PEC_09", "PEC_10",
-                "PEC_12", "PEC_13", "PEC_14", "PEC_15", "PEC_16", "PEC_17"
+                {"NAME": "PEC_01", "TEXT": "Charpenterie", "ORDER": 0},
+                {"NAME": "PEC_02", "TEXT": "Comédie", "ORDER": 1},
+                {"NAME": "PEC_03", "TEXT": "Commerce", "ORDER": 2},
+                {"NAME": "PEC_04", "TEXT": "Couture", "ORDER": 3},
+                {"NAME": "PEC_05", "TEXT": "Equitation", "ORDER": 4},
+                {"NAME": "PEC_06", "TEXT": "Maçonnerie", "ORDER": 5},
+                {"NAME": "PEC_07", "TEXT": "Musique", "ORDER": 6},
+                {"NAME": "PEC_08", "TEXT": "Pickpocket", "ORDER": 7},
+                {"NAME": "PEC_09", "TEXT": "Survie (Cité)", "ORDER": 8},
+                {"NAME": "PEC_10", "TEXT": "Survie (Désert)", "ORDER": 9},
+                {"NAME": "PEC_12", "TEXT": "Survie (Forêt)", "ORDER": 10},
+                {"NAME": "PEC_13", "TEXT": "Survie (Glaces)", "ORDER": 11},
+                {"NAME": "PEC_14", "TEXT": "Survie (Marais)", "ORDER": 12},
+                {"NAME": "PEC_15", "TEXT": "Survie (Montagne)", "ORDER": 13},
+                {"NAME": "PEC_16", "TEXT": "Survie (Sous-Sol)", "ORDER": 14},
+                {"NAME": "PEC_17", "TEXT": "Travestissement", "ORDER": 15}
             ]
         },
         "SPECIALIZED": {
             "DEFAULT": -3,
             "NAME": "Spécialisées",
             "LIST": [
-                {"NAME": "SPE_01", "TEXT": "Acrobatie"},
-                {"NAME": "SPE_02", "TEXT": "Chirurgie"},
-                {"NAME": "SPE_03", "TEXT": "Jeu"},
-                {"NAME": "SPE_04", "TEXT": "Jonglerie"},
-                {"NAME": "SPE_05", "TEXT": "Maroquinerie"},
-                {"NAME": "SPE_06", "TEXT": "Métallurgie"},
-                {"NAME": "SPE_07", "TEXT": "Natation"},
-                {"NAME": "SPE_08", "TEXT": "Navigation"},
-                {"NAME": "SPE_09", "TEXT": "Orfèvrerie"},
-                {"NAME": "SPE_10", "TEXT": "Serrurerie"}
-            ],
-            "KNOWN": [
-                "SPE_01", "SPE_02", "SPE_03", "SPE_04", "SPE_05", "SPE_06", "SPE_07", "SPE_08", "SPE_09", "SPE_10"
+                {"NAME": "SPE_01", "TEXT": "Acrobatie", "ORDER": 0},
+                {"NAME": "SPE_02", "TEXT": "Chirurgie", "ORDER": 1},
+                {"NAME": "SPE_03", "TEXT": "Jeu", "ORDER": 2},
+                {"NAME": "SPE_04", "TEXT": "Jonglerie", "ORDER": 3},
+                {"NAME": "SPE_05", "TEXT": "Maroquinerie", "ORDER": 4},
+                {"NAME": "SPE_06", "TEXT": "Métallurgie", "ORDER": 5},
+                {"NAME": "SPE_07", "TEXT": "Natation", "ORDER": 6},
+                {"NAME": "SPE_08", "TEXT": "Navigation", "ORDER": 7},
+                {"NAME": "SPE_09", "TEXT": "Orfèvrerie", "ORDER": 8},
+                {"NAME": "SPE_10", "TEXT": "Serrurerie", "ORDER": 9}
             ]
         },
         "KNOWLEDGE": {
             "DEFAULT": -4,
             "NAME": "Connaissances",
             "LIST": [
-                {"NAME": "KNO_01", "TEXT": "Alchimie"},
-                {"NAME": "KNO_02", "TEXT": "Architecture"},
-                {"NAME": "KNO_03", "TEXT": "Astrologie"},
-                {"NAME": "KNO_05", "TEXT": "Botanique"},
-                {"NAME": "KNO_06", "TEXT": "Ecriture"},
-                {"NAME": "KNO_07", "TEXT": "Légendes"},
-                {"NAME": "KNO_08", "TEXT": "Mathématiques"},
-                {"NAME": "KNO_09", "TEXT": "Médecine"},
-                {"NAME": "KNO_10", "TEXT": "Zoologie"}
-            ],
-            "KNOWN": [
-                "KNO_01", "KNO_02", "KNO_03", "KNO_04", "KNO_05", "KNO_06", "KNO_07", "KNO_08", "KNO_09", "KNO_10"
+                {"NAME": "KNO_01", "TEXT": "Alchimie", "ORDER": 0},
+                {"NAME": "KNO_02", "TEXT": "Architecture", "ORDER": 1},
+                {"NAME": "KNO_03", "TEXT": "Astrologie", "ORDER": 2},
+                {"NAME": "KNO_05", "TEXT": "Botanique", "ORDER": 3},
+                {"NAME": "KNO_06", "TEXT": "Ecriture", "ORDER": 4},
+                {"NAME": "KNO_07", "TEXT": "Légendes", "ORDER": 5},
+                {"NAME": "KNO_08", "TEXT": "Mathématiques", "ORDER": 6},
+                {"NAME": "KNO_09", "TEXT": "Médecine", "ORDER": 7},
+                {"NAME": "KNO_10", "TEXT": "Zoologie", "ORDER": 8}
             ]
         },
         "DRACONIC": {
             "DEFAULT": -5,
             "NAME": "Draconiques",
             "LIST": [
-                {"NAME": "DRA_01", "TEXT": "Contemplatif"},
-                {"NAME": "DRA_02", "TEXT": "Destructif"},
-                {"NAME": "DRA_03", "TEXT": "Dynamique"},
-                {"NAME": "DRA_04", "TEXT": "Génératif"},
-                {"NAME": "DRA_05", "TEXT": "Mnémonique"},
-                {"NAME": "DRA_06", "TEXT": "Statique"}
-            ],
-            "KNOWN": [
-                "DRA_01", "DRA_02", "DRA_03", "DRA_04", "DRA_05", "DRA_06"
+                {"NAME": "DRA_01", "TEXT": "Contemplatif", "ORDER": 0},
+                {"NAME": "DRA_02", "TEXT": "Destructif", "ORDER": 1},
+                {"NAME": "DRA_03", "TEXT": "Dynamique", "ORDER": 2},
+                {"NAME": "DRA_04", "TEXT": "Génératif", "ORDER": 3},
+                {"NAME": "DRA_05", "TEXT": "Mnémonique", "ORDER": 4},
+                {"NAME": "DRA_06", "TEXT": "Statique", "ORDER": 5}
             ]
         }
     }
 }
+
+
+def known(dataset_str, value):
+    """
+        Check for the presence of a value in the LIST.NAME property for each "X:Y" named dataset.
+        :returns: string with the dataset name if found, blank otherwise.
+    """
+    result = ""
+    source = CHARACTER_STATISTICS
+    verbs = dataset_str.split(":")
+    for verb in verbs:
+        source = source[verb]
+    elems = source["LIST"]
+    for elem in elems:
+        if elem["NAME"] == value.upper():
+            result = dataset_str
+            break
+    return result
+
 
 SHORTCUTS = [
     ["Vue + Vigilance", "VUE", "GEN_14"],
@@ -262,9 +262,9 @@ TABLES = {  # 0    1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16
 }
 
 QualiteDesActions = [
-    {"NAME": "CRITIQUE", "TEXT": "Réussite Critique", "BasePts": 7, "COEF": 4, "formula": lambda x: x +15},
-    {"NAME": "SIGNIFICATIVE", "TEXT": "Réussite Significative", "BasePts": 6, "COEF": 3, "formula": lambda x: x +10},
-    {"NAME": "PARTICULIERE", "TEXT": "Réussite Particulière", "BasePts": 5, "COEF": 2, "formula": lambda x: x +5},
+    {"NAME": "CRITIQUE", "TEXT": "Réussite Critique", "BasePts": 7, "COEF": 4, "formula": lambda x: x + 15},
+    {"NAME": "SIGNIFICATIVE", "TEXT": "Réussite Significative", "BasePts": 6, "COEF": 3, "formula": lambda x: x + 10},
+    {"NAME": "PARTICULIERE", "TEXT": "Réussite Particulière", "BasePts": 5, "COEF": 2, "formula": lambda x: x + 5},
     {"NAME": "REUSSITE", "TEXT": "Réussite", "BasePts": 4, "COEF": 1, "formula": lambda x: x},
     {"NAME": "ECHEC", "TEXT": "Echec", "BasePts": 3, "COEF": 1, "formula": lambda x: x - 1},
     {"NAME": "NOTABLE", "TEXT": "Echec Notable", "BasePts": 2, "COEF": 0.5, "formula": lambda x: math.ceil(x / 2 - 1)},
@@ -317,7 +317,7 @@ def action_quality_json():
         "values": [],
         "col_back_header": [],
         "row_back_header": [],
-        "options": {"even_odd": True, "cell_widths": [3, 3, 3, 3, 3], "cell_height": 1.5, "row_header_width": 4,"big_values":True}
+        "options": {"even_odd": True, "cell_widths": [3, 3, 3, 3, 3], "cell_height": 1.5, "row_header_width": 4, "big_values": True}
     }
     cols = []
     rows = []
@@ -466,7 +466,7 @@ def scon_table_json():
     }
     values = []
     for val in table["rows"]:
-        value = f"{math.floor((val) / 5) }"
+        value = f"{math.floor((val) / 5)}"
         values.append(value)
     table["values"] = values
     return json.dumps(table)
@@ -528,10 +528,10 @@ def weapon_table_json(cat=""):
             break
     table = {
         "title": f"{title.title()}",
-        "cols": ["Equipement", "Compétence", "1M", "2M", "Res","Enc", "Prix"],
+        "cols": ["Equipement", "Compétence", "1M", "2M", "Res", "Enc", "Prix"],
         "rows": [],
         "values": [],
-        "options": {"cell_widths": [6, 8, 1, 1,1, 1, 2], "cell_format": ["left", "left", "center", "", "", ""], "cell_height": 0.5,
+        "options": {"cell_widths": [6, 8, 1, 1, 1, 1, 2], "cell_format": ["left", "left", "center", "", "", ""], "cell_height": 0.5,
                     "even_odd": True}
     }
     rows = []
@@ -609,7 +609,7 @@ def tai_guidelines(tai):
     height_ratio = 1.025
     height = base_average_height
     weight = base_average_weight
-    for x in range(2, tai):
+    for x in range(2, int(tai)):
         height *= height_ratio
         weight *= weight_ratio
     height = math.ceil(height)

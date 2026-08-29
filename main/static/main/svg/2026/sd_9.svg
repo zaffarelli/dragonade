@@ -14,7 +14,7 @@
                     m 4,-26  l 2,6 -12,8 -8,12 -2,12 4,12 4,4 4,-8 4,-10 2,-12 -2,-16 10,2 -2,-8 m -16,38 l 1,1
                 "/>
             <text x="38" y="-20"
-                  style="font-weight:600;font-size:8pt;font-family:Neucha;fill:#101010;text-anchor:middle;stroke-width:0.25pt;">
+                  style="font-weight:600;font-size:8pt;font-family:Fira Sans;fill:#101010;text-anchor:middle;stroke-width:0.25pt;">
                 9
             </text>
             <circle cx="28" cy="38" r="3" style="fill:black; stroke-width:0"/>
@@ -22,10 +22,10 @@
             <circle cx="38" cy="28" r="3" style="fill:black; stroke-width:0"/>
             <circle cx="38" cy="20" r="3" style="fill:black; stroke-width:0"/>
         </g>
-        <text style="font-weight:600;font-size:11pt;line-height:1.25;font-family:Neucha;fill:#101010;text-anchor:middle;"
+        <text style="font-weight:600;font-size:11pt;line-height:1.25;font-family:Fira Sans;fill:#101010;text-anchor:middle;"
               x="0" y="54">Poisson
         </text>
-        <text style="font-weight:600;font-size:11pt;line-height:1.25;font-family:Neucha;fill:#101010;text-anchor:middle;"
+        <text style="font-weight:600;font-size:11pt;line-height:1.25;font-family:Fira Sans;fill:#101010;text-anchor:middle;"
               x="0" y="60" dy="6">Acrobate
         </text>
     </g>

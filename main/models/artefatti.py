@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib import admin
+
+from main.mixins.chiaroscuro_mixin import ChiaroscuroMixin
 from main.utils.mechanics import as_rid
 import json
 
@@ -11,7 +13,7 @@ class AppartusCategory(models.IntegerChoices):
     MISCELLANEOUS = 666, "Divers"
 
 
-class Artefatto(models.Model):
+class Artefatto(models.Model,ChiaroscuroMixin):
     class Meta:
         ordering = ['name']
         verbose_name = "Artefatto"
@@ -46,6 +48,7 @@ class Artefatto(models.Model):
     data = {}
 
     def fix(self):
+        self.chiaroscuro()
         from main.utils.mechanics import asB2B
         self.rid = as_rid(f"{self.name}{self.category}")
         self.code = asB2B(self.rid).decode('utf-8').upper()

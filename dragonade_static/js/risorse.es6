@@ -45,6 +45,15 @@ class Risorse extends Modulo {
             .append("svg:g")
             .attr("transform", "translate(0,0)")
         ;
+        me.svg.append("text")
+            .attr("id","power")
+            .attr("x",(me.gdr ? 80 : 180)*me.step)
+            .attr("y",(me.gdr ? 60 : 30)*me.step)
+            .style("font-size","256pt")
+            .style("text-anchor","middle")
+            .style("fill","white")
+            .style("stroke","silver")
+            .text("")
         console.log(me.name+" initialized..." );
     }
 
@@ -330,9 +339,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
         me.drawCardSet(dataset);
     }
 
-    shuffleSelect(){
-        
-    }
+
 
     drawCardSet(set){
         let me = this;
@@ -346,8 +353,10 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
                 v["y"] = 5 + (v["row"]-1)*12;
                 v["hidden"] = 0;
             }else{
-               v["x"] = 14.75+Math.cos(teta*k)*(radius*2);
-               v["y"] = 11.5+Math.sin(teta*k)*(radius*2);
+               v["x"] = 14.75+Math.cos(teta*k)*((radius+5)*2);
+               v["y"] = 11.5+Math.sin(teta*k)*((radius+5)*2);
+               // v["x"] = 14
+               // v["y"] = 24
             }
             console.log(k,v["x"],v["y"])
             v["number"] = k;
@@ -391,15 +400,43 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
                     me.selection = []
                     let vals = "0 0 0 0 0 0"
                     if (e.shiftKey){
+                        d3.selectAll(".trump .verso").attr("opacity",(d) => 1)
+                        d3.selectAll(".trump .recto").attr("opacity",(d) => 0)
                         vals = ""
-                        let ranges = [[0,14],[0,13],[0,7],[0,7],[0,7],[-3,3]]
-                        _.forEach(ranges, function(r){
+                        let ranges = [[1,14],[1,13],[1,7],[1,7],[1,7],[1,3]]
+                        _.forEach(ranges, function(r,k){
                           let x = Math.floor(Math.random() * (r[1] - r[0] +1)) + r[0]
                           if (x < 0){
                               x = 0
                           }
                           vals += `${x} `
                         })
+                        let power = Math.floor(Math.random()*100)+1
+                        let v = vals.trimEnd().split(" ")
+                        if (power > 90){
+                        }else if (power > 60){
+                            let x = Math.floor(Math.random()*5)+1
+                            v[x] = 0
+                            v[5] = 0
+                        }else{
+                            let x = Math.floor(Math.random()*5)+1
+                            v[x] = 0
+                            let y = Math.floor(Math.random()*5)+1
+                            while (y == x) {
+                                y = Math.floor(Math.random()*5)+1;
+                            }
+                            v[y] = 0
+                            v[5] = 0
+                        }
+                        d3.select('#power').text(power+"%")
+                        console.log(v)
+                        console.log("Power "+power)
+                        _.forEach(v, function(r,k) {
+                            let code = (k+1)+"_"+r
+                            d3.select("#trump__"+code).selectAll(".verso").attr("opacity",(d) => 0)
+                            d3.select("#trump__"+code).selectAll(".recto").attr("opacity",(d) => 1)
+                        })
+                        vals = v.join(" ")
                         $("#message").val(vals)
                     }else{
                         $("#message").val(vals)
@@ -439,7 +476,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
 
         me.risorsa.append("image")
                 .attr('class','recto')
-                .attr("xlink:href", d => "/static/main/svg/2024/"+d["svg"] )
+                .attr("xlink:href", d => "/static/main/svg/2026/"+d["svg"] )
                 .attr("width", me.step*5)
                 .attr("height", me.step * 5)
                 .attr("x", d => (1) * me.step)
@@ -453,7 +490,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
                 .attr('ry',me.step*0.5)
                 .attr('width',me.step*7)
                 .attr('height',me.step*9)
-                .style('fill', '#102030')
+                .style('fill', me.gdr == true ? '#102030':'#301020')
                 .style('stroke', '#909090')
                 .style('stroke-width', '5pt')
                 .attr("opacity", d => d["hidden"])
@@ -559,6 +596,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
                                 c["hidden"] = 1
                                 c["x"] = 10+Math.cos(teta*colhidden)*(radius*3);
                                 c["y"] = 10+Math.sin(teta*colhidden)*(radius*2);
+                                // c["x"] = 14
+                                // c["y"] = 24
                                 colhidden += 1
                         }
 //                     }

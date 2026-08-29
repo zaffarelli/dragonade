@@ -8,7 +8,7 @@ import math
 import random
 import json
 from main.models.characters import Character
-from main.models.dreams import Dream
+from main.models.sogni import Sogno
 
 
 class Nativo(Character, JsonableMixin):

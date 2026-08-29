@@ -33,11 +33,12 @@
             vertical-align:middle;
             text-align:center;
             border:1pt solid #808080;
+            font-family:$font;
             &.title{
                 font-weight:bold;
                 width:20ex;
                 text-align:left;
-                font-family:"Khand";
+                font-family:$font_title;
                 font-size:1.8em;
                 padding:5pt;
             }
@@ -51,7 +52,7 @@
                 overflow-y:scroll;
             }
             &.label{
-                font-family:"Khand";
+                font-family:$font_title;
                 background:transparent;
                 border:none;
                 width:20ex;
@@ -63,12 +64,10 @@
                 background:#9080907f;
             }
             &.simple{
-                font-family:"Fira Sans";
                 width:15ex;
             }
 
             &.normal{
-                font-family:"Fira Sans";
                 font-size:2em;
                 cursor:pointer;
                 border:none;
@@ -85,7 +84,6 @@
             }
 
             &.boolean{
-                font-family:"Fira Sans";
                 width:2ex;
                 border:none;
             }
