@@ -17,8 +17,11 @@
         {% endfor %}
 <!--    </div>-->
 <!--    <div class="row">-->
+
+
+        {% if model == "Viaggiatore" %}
         <div class="block_third"  style="order:9;">
-            <div class="title">Calculs</div>
+            <div class="title">Experience & Calculs</div>
             <div class="stat">
                 <div class="label">Total Attributs</div>
                 <div class="data">{{a.total_attributes}} / 126</div>
@@ -40,7 +43,24 @@
                 <div class="data">{{a.stress_remaining}}</div>
             </div>
         </div>
+        {% endif %}
 
+        {% if model == "Nativo" %}
+        <div class="block_third"  style="order:9;">
+            <div class="title">Equilibrage</div>
+            <div class="stat">
+                <div class="label">Total Attributs</div>
+                <div class="data">{{a.total_attributes}} / 126</div>
+            </div>
+            <div class="stat">
+                <div class="label">Total Compétences</div>
+                <div class="data">{{a.total_skills}} / 145</div>
+            </div>
+        </div>
+        {% endif %}
+
+
+        {% if model != "Creature" %}
         <div class="block_third"  style="order:8;">
             <div class="title">Divers</div>
             <div class="stat">
@@ -103,6 +123,7 @@
                 <div class="data">{{a.seco.DER|colorize_val|safe}}</div>
             </div>
         </div>
+        {% endif %}
 <!--    </div>-->
 <!--    <div class="row">-->
 

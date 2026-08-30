@@ -6,22 +6,49 @@ register = template.Library()
 def colorize_val(value):
     str = value
     if isinstance(value, int):
-        if value >= 10:
-            str = f'<span style="color:cyan;">{value}</span>'
-        elif value >= 7:
-            str = f'<span style="color:darkcyan;">{value}</span>'
-        elif value >= 5:
-            str = f'<span style="color:lime;">{value}</span>'
-        elif value >= 3:
-            str = f'<span style="color:yellowgreen;">{value}</span>'
-        elif value == 0:
-            str = f'<span style="color:yellow;">{value}</span>'
-        elif value >= -2:
-            str = f'<span style="color:orange;">{value}</span>'
-        elif value >= -3:
-            str = f'<span style="color:orangered;">{value}</span>'
-        elif value >= -5:
-            str = f'<span style="color:maroon;">{value}</span>'
+        cols = [
+            "#f04080",
+            "#e04010",
+            "#d04020",
+            "#c06030",
+            "#b06040",
+            "#a06050",
+            "#908060",
+            "#808070",
+            "#708080",
+            "#60a090",
+            "#50a0a0",
+            "#40a0b0",
+            "#30c0c0",
+            "#20c0d0",
+            "#10c0e0",
+            "#00e0f0"
+        ]
+        if value > 10:
+            idx = 15
+        else:
+            idx = value +5
+
+        str = f'<span style="color:{cols[idx]};">{value}</span>'
+
+        # if value >= 10:
+        #     str = f'<span style="color:cyan;">{value}</span>'
+        # elif value >= 7:
+        #     str = f'<span style="color:darkcyan;">{value}</span>'
+        # elif value >= 5:
+        #     str = f'<span style="color:lime;">{value}</span>'
+        # elif value >= 3:
+        #     str = f'<span style="color:yellowgreen;">{value}</span>'
+        # elif value > 0:
+        #     str = f'<span style="color:#80f080;">{value}</span>'
+        # elif value == 0:
+        #     str = f'<span style="color:#808080;">{value}</span>'
+        # elif value >= -2:
+        #     str = f'<span style="color:#808080;">{value}</span>'
+        # elif value >= -3:
+        #     str = f'<span style="color:#808080;">{value}</span>'
+        # elif value >= -5:
+        #     str = f'<span style="color:maroon;">{value}</span>'
     return str
 
 

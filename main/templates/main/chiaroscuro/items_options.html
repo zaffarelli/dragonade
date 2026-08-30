@@ -9,3 +9,23 @@
         <div class='btn option_btn' id="valuepush_editor"><i class="fas fa-circle-arrow-up"></i>&nbsp;Valider</div>
     </fieldset>
 </div>
+
+
+{% if model == "Viaggiatore" %}
+<div class="middle">
+    <div class="middleblock references">
+        <fieldset class="option_block">
+            <legend>Références: Sortilèges</legend>
+            {% for s in references.incantessimi %}
+                <div class="ref_entry incantessimi stackpush" param="{{s.rid}}"><div class="name">{{s.name}}</div><div class="rid">{{s.rid}}</div> </div>
+            {% endfor %}
+        </fieldset>
+        <fieldset class="option_block">
+            <legend>Références: Equipement</legend>
+            {% for s in references.equipment %}
+                <div class="ref_entry gear stackpush" param="{{s.rid}}"><div class="name">{{s.name}}</div><div class="rid">{{s.rid}}</div> </div>
+            {% endfor %}
+        </fieldset>
+    </div>
+</div>
+{% endif %}

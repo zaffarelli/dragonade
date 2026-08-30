@@ -1,3 +1,4 @@
+from main.models.equipment import Equipment
 from main.utils.mechanics import is_ajax, zaff_decode
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
@@ -96,25 +97,25 @@ def value_push(request):
                 print(f"Class: {class_name}")
                 id = params[1]
                 attribute = params[2]
-                if class_name.title() == "Autochton":
-                    item = Nativo.objects.get(id=id)
+                if class_name.title() == "Nativo":
+                    item = Nativo.objects.get(rid=rid)
                     cando = True
                 if class_name.title() == "Creature":
-                    item = Creatura.objects.get(id=id)
+                    item = Creatura.objects.get(rid=rid)
                     cando = True
                 if class_name.title() == "Incantessimo":
                     print(f"spell: {rid}")
                     item = Incantessimo.objects.get(rid=rid)
                     print(item)
                     cando = True
-                if class_name.title() == "Traveller":
-                    item = Viaggiatore.objects.get(id=id)
+                if class_name.title() == "Viaggiatore":
+                    item = Viaggiatore.objects.get(rid=rid)
                     print("Traveller found: ", item.rid)
                     cando = True
         if cando:
             print("success!!")
             change_result = item.applyValuePush(attribute, value)
-            context = {'i': item.toJson(), "model": class_name.title()}
+            context = {'i': item.export_to_json(), "model": class_name.title()}
             template = get_template('main/chiaroscuro/item_body.html')
             new_roster = template.render(context, request)
             answer['rid'] = item.rid
@@ -222,6 +223,7 @@ def viaggiatori_options():
     ]
     for filter in filters:
         zfilters.append(filter)
+
     return zfilters
 
 
@@ -329,6 +331,13 @@ def items_list(request, options={}):
         context["title"] = k.__name__
         context["model"] = options['model']
         context["items"] = items
+        spells_j = Incantessimo.references()
+        refs = {}
+        refs['incantessimi'] = spells_j
+        equipment = Equipment.references()
+        refs['equipment'] = equipment
+        context["references"] = refs
+
         context["zfilters"] = options["zfilters"]
         return render(request, 'main/chiaroscuro/items_list.html', context)
     return HttpResponse(status=204)

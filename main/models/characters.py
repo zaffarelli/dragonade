@@ -200,17 +200,23 @@ class Character(models.Model, ChiaroscuroMixin):
             print("")
         print("(Les attributs sont considérés à -5)")
 
+    def expected_totals(self):
+        attr_total, skill_total = 0,0
+        if self.__class__.__name__ == "Viaggiatore":
+            attr_total, skill_total = 126,145
+        elif self.__class__.__name__ == "Nativo":
+            attr_total, skill_total = 114,50
+        elif self.__class__.__name__ == "Creatura":
+            attr_total, skill_total = 0, 0
+        return attr_total, skill_total
+
     def calc_indice(self):
-        pass
-        # # Character.stress_map()
-        # from main.utils.ref_dragonade import stress_cost, skill_cost
-        # self.indice_attributes = 0
-        # self.total_attributes = 0
-        #
-        # for a in self.attributes.split(" "):
-        #     # self.indice_attributes += stress_cost(-5, self.data['attributes'][a], -5)
-        #     self.total_attributes += int(a) + 5
-        # self.indice_skills = 0
+        from main.utils.ref_dragonade import stress_cost, skill_cost
+        self.total_attributes = 0
+
+        for a in self.attributes.split(" "):
+            self.total_attributes += int(a) + 5
+
         # for skill_cat in self.data['skills']:
         #     for k, v in self.data['skills'][skill_cat].items():
         #         c, txt = skill_cost(k, v)
@@ -219,29 +225,32 @@ class Character(models.Model, ChiaroscuroMixin):
         # self.indice_attributes = int(self.indice_attributes / 3)
         # self.indice_skills = int(self.indice_skills / 3)
         # self.indice = self.indice_attributes + self.indice_skills
-        #
         # self.indice = self.total_attributes - (12 * 4)
         # self.indice += self.data['misc']['SON'] * 3
-        # self.total_skills = 0
-        # default = 0
-        # nondefault_cnt = 0
-        # for kc, vc in CHARACTER_STATISTICS['SKILLS'].items():
-        #     # print("* ",kc)
-        #     for ks in vc['LIST']:
-        #         v = self.value_for(ks['NAME'])
-        #         default += vc['DEFAULT']
-        #         if (v != vc["DEFAULT"]):
-        #             nondefault_cnt += 1
-        #             self.total_skills += v - vc["DEFAULT"]
-        #         # print("** ", ks, v)
-        # # print("**** default = ", default, "total non default:", nondefault_cnt, self.name)
+
+        self.total_skills = 0
+        default = 0
+        nondefault_cnt = 0
+        for kc, vc in CHARACTER_STATISTICS['SKILLS'].items():
+            for ks in vc['LIST']:
+                v = int(self.value_for(ks['NAME']))
+                base = vc['DEFAULT']
+                default += base
+                if v != base:
+                    nondefault_cnt += 1
+                    self.total_skills += v - base
         # a, b = self.collect_spells()
-        # # print("Total spells", b)
+        # print("Total spells", b)
         # self.indice += self.total_skills + b
         # self.indice -= default
         # self.indice += self.data['misc']['PROT'] * 2
         # self.indice += self.data['misc']['SON'] ** 2
-        # self.reve = self.data['misc']['SON'] + self.data['misc']['FAB']
+        self.REV = self.SON + self.FAB
+        a,s = self.expected_totals()
+        self.total_attributes -= a
+        self.total_skills -= s
+
+
 
     # def updateFromStruct(self):
     #     list = []
@@ -364,7 +373,7 @@ class Character(models.Model, ChiaroscuroMixin):
         self.ref_to_struct('SKILLS_SPECIALIZED')
         self.ref_to_struct('SKILLS_KNOWLEDGE')
         self.ref_to_struct('SKILLS_DRACONIC')
-        self._data['fatigue_points'] = self.computeFatigue(self.FAT)
+        self._data['fatigue_points'], self._data['fatigue_map'] = self.computeFatigue(self.FAT)
         self._data['has_bug'] = self.has_bug()
         self._data['spells'] = self.collect_spells()
         self._data['shortcuts'] = self.shortcuts()
@@ -380,12 +389,19 @@ class Character(models.Model, ChiaroscuroMixin):
         self._data['last_update'] = now
 
     def computeFatigue(self, x):
-        i = 1
-        pf = 0
-        while i <= x:
-            pf += 2 + math.ceil(i / 2)
-            i += 1
-        return pf
+        i = x
+        pf_total = 0
+        str = ""
+        k = 0
+        while i > 0:
+            pf = 2 + math.ceil(i / 2)
+            for z in range(pf):
+                str += f"o "
+                k += 1
+            str += "__nl__"
+            i -= 1
+            pf_total += pf
+        return pf_total,str
 
     def gear_to_weapons(self):
         """
@@ -616,55 +632,97 @@ class Character(models.Model, ChiaroscuroMixin):
         skills = ""
         for k, v in categories.items():
             skills += v["title"] + ": "
-            skills += ", ".join(v["list"]) + ".<BR/>"
+            skills += ", ".join(v["list"]) + ".<br/>"
         lines.append(skills)
 
-        life = "PdV<br/>"
-        for x in range(self.VIE):
-            life += "&#9744; "
-            if x % 5 == 4:
-                life += "<br/>"
-        life += "<br/>"
-        fatigue = "PdF<br/> "
-        len = 6
-        for x in range(self.FAT, 0, -1):
-            for y in range(10):
-                if y < len:
-                    fatigue += f"&#9744; "
+        weapons = f"{'Arme':{space}<20} {'DOMA':{space}>6} {'2M':{space}>6} {'INIT':>6} {"Jet":>10} {'Score':>8}<br/>"
+        for w in self._data["weapons"]:
+            weapons += f"{w['name']:{space}<20} "
+            print(w)
+            if w['category'] == "mel":
+                if w['plus_dom'] != 0:
+                    d1 = f"{w['plus_dom']}+{self.IMP}"
+                    weapons += f"{d1:{space}>6} "
                 else:
-                    if x % 2 == 1:
-                        len -= 1
-                        break
-            fatigue = fatigue + "<br/>"
-        fatigue += "<BR/>"
+                    weapons += f"{'-':{space}>6} "
 
-        # weapons = f"{'Arme':{space}<20} {'1M':{space}>4} /{'2M':{space}>4} INIT Score</BR>"
-        # for w in self.data['features']['weapons']:
-        #     weapons += f"{w['name']:{space}<20} "
-        #     if w['category'] == "mel":
-        #         if w['dom_1'] != '-':
-        #             d1 = f"{w['dom_1']}+{dom}"
-        #             weapons += f"{d1:{space}>4} "
-        #         else:
-        #             weapons += f"{'-':{space}>4} "
-        #         weapons += "/"
-        #         if w['dom_2'] != '-':
-        #             d2 = f"{w['dom_2']}+{math.floor(dom * 1.5)}"
-        #             weapons += f"{d2:{space}>4} "
-        #         else:
-        #             weapons += f"{'-':{space}>4} "
-        #     else:
-        #         weapons += f"{w['dom_1']:{space}>10} "
-        #     weapons += f" {w['init']:{space}>4} {w['score']:{space}>5}</BR>"
-        # lines.append(weapons)
-        # lines.append(f"Description: {self.data['misc']['DESCRIPTION']}</BR>")
-        # if self.data['features']['armors']:
-        #     protection = f"{'Protection':{space}<35}{'Malus':{space}>7}{'Prot':{space}>6}<br/>"
-        #     for a in self.data['features']['armors']:
-        #         protection += f"{a['name']:{space}<35}{a['malus_armure']:{space}>7}{a['prot']:{space}>6}</BR>"
-        #     lines.append(protection)
-        lines.append(life)
-        lines.append(fatigue)
+                if w['plus_dom_2m'] != 0:
+                    d2 = f"{w['plus_dom_2m']}+{math.floor(self.IMP * 1.5)}"
+                    weapons += f"{d2:{space}>6} "
+                else:
+                    weapons += f"{'-':{space}>6} "
+            else:
+                weapons += f"{w['plus_dom']:{space}>13} "
+            weapons += f"{w['mod_ini']:{space}>6} {w['stat_skill']:{space}>10} {w['base_score']:{space}>8}<br/>"
+        lines.append(weapons)
+
+
+        protection = f'{"Pièce d'Armure/Protection":{space}<35}{"Malus":{space}>25}{"Prot":{space}>6}<br/>'
+        for a in self._data['armors']:
+            all_malus = f'AGI {a["malus_AGI"]} DEX {a["malus_DEX"]} VUE {a["malus_VUE"]} OUI {a["malus_OUI"]}'
+            protection += f"{a['name']:{space}<35}{all_malus:{space}>25}{a['prot']:{space}>6}<br/>"
+        lines.append(protection)
+
+
+        lines.append(f"Description: {self.description}<br/>")
+
+
+        lines_VIE = []
+        life = ""
+        # &#9744;
+        for x in range(self.VIE):
+            life += "o "
+            if x % 5 == 4:
+                lines_VIE.append(f"{life}")
+                life = ""
+        if len(life)>0:
+            lines_VIE.append(f"{life}")
+
+        lines_REV = []
+        dream = ""
+        # &#9744;
+        for x in range(self.REV*3):
+            dream += "o "
+            if x % self.REV == self.REV-1:
+                lines_REV.append(f"{dream}")
+                dream = ""
+        if len(dream)>0:
+            lines_REV.append(f"{dream}")
+
+
+        _, fatigue = self.computeFatigue(self.FAT)
+        #fatigue = fatigue.replace("o","&#9744;")
+        lines_FAT = fatigue.split("__nl__")
+        txt_v = f"PdV ({self.VIE})"
+        txt_f = f"PdF ({self.FAT})"
+        txt_r = f"PdR ({self.REV})"
+        lines.append(f"{txt_v:<14}{txt_f:<20}{txt_r:<20}")
+        for x in range(max(len(lines_VIE),len(lines_FAT),len(lines_REV))):
+            s = ""
+            nope = 0
+            if x<len(lines_VIE):
+                s += f"{lines_VIE[x]:<14}"
+            else:
+                s += f"{'':<14}"
+                nope += 1
+            if x < len(lines_FAT):
+                s += f"{lines_FAT[x]:<20}"
+            else:
+                s += f"{'':<20}"
+                nope += 1
+            if x<len(lines_REV):
+                s += f"{lines_REV[x]:<20}"
+            else:
+                s += f"{'':<20}"
+                nope += 1
+            if nope == 3:
+                s = ""
+            print(s)
+            s = s.replace("o","&#9744;")
+            lines.append(s)
+
+
+
         return lines
 
     def pre_sim(self, combat, name="", occurrence=0, color=""):
@@ -685,7 +743,7 @@ class Character(models.Model, ChiaroscuroMixin):
 
     def roster_as_text(self):
         roster = "<br/>".join(self.roster())
-        roster = roster.replace("§", "&nbsp;")
+        roster = roster.replace("§", " ").replace("<br/>", "\n").replace("<BR/>", "\n")
         return roster
 
     @classmethod

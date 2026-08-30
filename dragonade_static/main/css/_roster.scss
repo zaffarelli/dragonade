@@ -2,8 +2,6 @@
 
 
 .roster{
-
-
     &.viaggiatore{
         background:#102030aF;
     }
@@ -96,32 +94,32 @@
         font-family: $font_title;
     }
 
-
-
-    &.skillstable{
-        &.autochton{
-//             background: #1030207F;
-            & .header{
-                color:white;
-                background:$palette2;
-            }
-        }
-        &.traveller{
-//             background: #1020307F;
-            & .header{
-                color:white;
-                background:$palette2;
-            }
-        }
-
-        &.creature{
-//             background: #3010207F;
-            & .header{
-                color:white;
-                background:$palette2;
-            }
-        }
-    }
+//
+//
+//     &.skillstable{
+//         &.autochton{
+// //             background: #1030207F;
+//             & .header{
+//                 color:white;
+//                 background:$palette2;
+//             }
+//         }
+//         &.traveller{
+// //             background: #1020307F;
+//             & .header{
+//                 color:white;
+//                 background:$palette2;
+//             }
+//         }
+//
+//         &.creature{
+// //             background: #3010207F;
+//             & .header{
+//                 color:white;
+//                 background:$palette2;
+//             }
+//         }
+//     }
 
     & .tri{
         font-size:14pt;
@@ -210,6 +208,11 @@
                         &.short{
                             flex: 0 1 20ex;
                         }
+
+                        &.lazy{
+                            flex: 1 1 auto;
+                        }
+
                     }
                     & .data{
                         order:2;
@@ -228,6 +231,23 @@
                         }
                         &.auto{
                             flex: 1 1 auto;
+                        }
+                        &.lazy{
+                            background:none;
+                            flex: 0 0 12ex;
+                            & .btn_edit{
+                                display:inline-block;
+                                width:2ex;
+                                background:transparent;
+                                &.value{
+                                    width:4ex;
+                                    border-radius:3pt;
+                                    background:#101010;
+                                }
+
+                                border:1px solid transparent;
+                                padding: 0;
+                            }
                         }
                         &.mono{
                             font-family:$mono;
@@ -263,321 +283,321 @@
 
     }
 
-     & .sheet {
-        display: grid;
-        flex: 0 0 16ex;
-        font-family:$font;
-        //font-size:$roster_font_height;
-        border:1px solid $palette2;
-        background:#606080;
-
-
-        border-radius:5px;
-        margin:5px;
-        padding:1px;
-        gap: 0px;
-        box-shadow: 0 0 16px $palette0;
-
-        & .box {
-            border-radius: 1px;
-            padding: 3px;
-            border:1px solid $palette1;
-            height:auto;
-
-
-
-            &.button{
-                display:inline-block;
-                background:#c0c0c0;
-                color:black;
-                text-align:center;
-                border-radius:5pt;
-                border:2pt ridge #808080;
-                width:16ex;
-                line-height:0.95em;
-
-                font-family:$mono;
-                cursor:pointer;
-            }
-
-
-            &.label{
-                background-color: $palette2;
-                color:white;
-                &.pretty{
-                    font-family:$font_title;
-                    }
-            }
-            &.info{
-                background: darken($palette1,50%);
-                color: white;
-
-
-                &.editable{
-                    cursor:pointer;
-//                     background:#cc6611;
-                    & .btn_edit{
-                        &.minus:hover{
-                            color:lime;
-                            width:2ex;
-                        }
-                        &.plus:hover{
-                            color:orangered;
-                            width:2ex;
-                        }
-                        &.value{
-                            display:inline-block;
-
-                            min-width:2ex;
-                            width:2ex;
-                            text-align:center;
-                            &:hover{
-                                background:$palette1;
-                            }
-                            &.text{
-                                width:30ex;
-                            }
-                        }
-                    }
-               }
-            }
-        }
-
-        &.skills{
-            grid-template-columns: 200px 75px;
-            grid-template-rows: repeat(6,1.65em);
-            & .label {
-                grid-column: 1 / span 1;
-
-            }
-            & .info {
-                grid-column: 2 / span 1;
-            }
-            & .header {
-                grid-column: 1 / span 2;
-                font-weight:bold;
-            }
-
-        }
-
-        &.magic, &.weapons, &.protection{
-            grid-template-columns: 75px 150px;
-            & .label {
-                grid-column: 1 / span 1;
-
-            }
-            & .info {
-                grid-column: 2 / span 1;
-            }
-            & .header {
-                grid-column: 1 / span 2;
-            }
-            overflow-y:auto;
-            //min-height:200px;
-        }
-
-        &.base{
-                width:auto;
-        }
-
-        &.magic, &.weapons, &.protection {
-            width:125ex;
-        }
-
-        &.base, &.magic, &.weapons, &.protection {
-            grid-template-columns: repeat(8,1fr);
-            grid-template-rows: repeat(20,2em);
-
-            flex: 0 1 auto;
-            & .header {
-                grid-column: 1 / span 8;
-            }
-
-            & .label {
-                grid-column: 1 / span 4;
-                &.sub{
-                    grid-row: span 2;
-                    align-self:stretch;
-                    vertical-align:middle;
-                }
-                &.nw{
-                    grid-column: 1 / span 1;
-                }
-                &.ne{
-                    grid-column: 3 / span 1;
-                }
-                &.sw{
-                    grid-column: 1 / span 1;
-                }
-                &.se{
-                    grid-column: 3 / span 1;
-                }
-
-                &.full{
-                    grid-column: 1 / span 8;
-
-                    &.large{
-                        font-size:2em;
-                        grid-row: span 2;
-                    }
-
-                }
-
-                &.left{
-                    grid-column: 1 / span 4;
-                    grid-row: 1 / span 2;
-                }
-                &.mid{
-                    grid-column: 5  / span 2;
-                    grid-row: 1 / span 2;
-                }
-                &.right{
-                    grid-column: 7  / span 2;
-                    grid-row: 1 / span 2;
-                }
-            }
-            & .info {
-                grid-column: 5 / span 4 ;
-                &.nw{
-                    grid-column: 2 / span 1;
-                }
-                &.ne{
-                    grid-column: 4 / span 1;
-                }
-                &.sw{
-                    grid-column: 2 / span 1;
-                }
-                &.se{
-                    grid-column: 4 / span 1;
-                }
-
-            }
-            & .large{
-                grid-row: span 4;
-            }
-
-            & .subset{
-                border:1px solid $palette2;
-                gap: 1px;
-                padding:2px;
-                grid-column: 5 / span 4;
-                grid-row: span 2;
-                display: grid;
-                grid-template-columns: subgrid;
-                grid-template-rows: subgrid;
-            }
-            & .line{
-                border:1px solid $palette2;
-                gap: 1px;
-                padding:2px;
-                grid-column: 1 / span 8;
-                grid-row: span 2;
-                display:grid;
-                grid-template-columns: repeat(4,1fr) ;
-                grid-template-rows: repeat(2,1fr);
-                & .nw{
-                    &.label{
-                        grid-column: 1;
-                        grid-row: 1 ;
-                    }
-                    &.info{
-                        grid-column: 2;
-                        grid-row: 1 ;
-                    }
-                }
-                & .ne{
-                   &.label{
-                        grid-column: 1;
-                        grid-row: 2 ;
-                   }
-                   &.info{
-                        grid-column: 2;
-                        grid-row: 2 ;
-                   }
-                }
-                & .sw{
-                   &.label{
-                        grid-column: 3;
-                        grid-row: 1 ;
-                   }
-                   &.info{
-                        grid-column: 4;
-                        grid-row: 1;
-                   }
-                }
-                & .se{
-                   &.label{
-                        grid-column: 3;
-                        grid-row: 2;
-                   }
-                   &.info{
-                        grid-column: 4;
-                        grid-row: 2 ;
-                   }
-                }
-
-            }
-
-           & .triset{
-                border:1px solid $palette2;
-                gap: 1px;
-                padding:2px;
-                grid-column: 1 / span 8;
-                grid-row: span 2;
-                display: grid;
-
-                grid-template-columns: subgrid;
-                grid-template-rows: subgrid;
-           }
-       }
-
-        &.weapons{
-            grid-template-rows: repeat(10,2em);
-            width:125ex;
-        }
-
-        &.protection{
-            grid-template-rows: repeat(5,2em);
-            width:125ex;
-        }
-
-       &.gear, &.spells{
-            display:block;
-            color:white;
-            background:#304030;
-            border:1px solid white;
-            font-family:$mono;
-            font-size:0.83em;
-            max-height:40em;
-            width:125ex;
-            overflow:auto;
-       }
-
-
-        &.base{order:1;}
-        &.skills{order:8;}
-        &.weapons{order:11;}
-        &.protection{order:12;}
-        &.gear{order:14;}
-        &.spells{order:10;}
-        &.magic{order:9;}
-        &.summary{order:2;}
-
-
-    }
-
-
-    & .box.info.editable{
-        & .btn_edit{
-            &.value{
-                border:2px solid $palette4;
-                border-radius:3px;
-                background:black;
-                cursor:crosshair;
-           }
-        }
-    }
-    }
+//      & .sheet {
+//         display: grid;
+//         flex: 0 0 16ex;
+//         font-family:$font;
+//         //font-size:$roster_font_height;
+//         border:1px solid $palette2;
+//         background:#606080;
+//
+//
+//         border-radius:5px;
+//         margin:5px;
+//         padding:1px;
+//         gap: 0px;
+//         box-shadow: 0 0 16px $palette0;
+//
+//         & .box {
+//             border-radius: 1px;
+//             padding: 3px;
+//             border:1px solid $palette1;
+//             height:auto;
+//
+//
+//
+//             &.button{
+//                 display:inline-block;
+//                 background:#c0c0c0;
+//                 color:black;
+//                 text-align:center;
+//                 border-radius:5pt;
+//                 border:2pt ridge #808080;
+//                 width:16ex;
+//                 line-height:0.95em;
+//
+//                 font-family:$mono;
+//                 cursor:pointer;
+//             }
+//
+//
+//             &.label{
+//                 background-color: $palette2;
+//                 color:white;
+//                 &.pretty{
+//                     font-family:$font_title;
+//                     }
+//             }
+//             &.info{
+//                 background: darken($palette1,50%);
+//                 color: white;
+//
+//
+//                 &.editable{
+//                     cursor:pointer;
+// //                     background:#cc6611;
+//                     & .btn_edit{
+//                         &.minus:hover{
+//                             color:lime;
+//                             width:2ex;
+//                         }
+//                         &.plus:hover{
+//                             color:orangered;
+//                             width:2ex;
+//                         }
+//                         &.value{
+//                             display:inline-block;
+//
+// //                             min-width:2ex;
+// //                             width:2ex;
+//                             text-align:center;
+//                             &:hover{
+//                                 background:$palette1;
+//                             }
+//                             &.text{
+//                                 width:30ex;
+//                             }
+//                         }
+//                     }
+//                }
+//             }
+//         }
+//
+//         &.skills{
+//             grid-template-columns: 200px 75px;
+//             grid-template-rows: repeat(6,1.65em);
+//             & .label {
+//                 grid-column: 1 / span 1;
+//
+//             }
+//             & .info {
+//                 grid-column: 2 / span 1;
+//             }
+//             & .header {
+//                 grid-column: 1 / span 2;
+//                 font-weight:bold;
+//             }
+//
+//         }
+//
+//         &.magic, &.weapons, &.protection{
+//             grid-template-columns: 75px 150px;
+//             & .label {
+//                 grid-column: 1 / span 1;
+//
+//             }
+//             & .info {
+//                 grid-column: 2 / span 1;
+//             }
+//             & .header {
+//                 grid-column: 1 / span 2;
+//             }
+//             overflow-y:auto;
+//             //min-height:200px;
+//         }
+//
+//         &.base{
+//                 width:auto;
+//         }
+//
+//         &.magic, &.weapons, &.protection {
+//             width:125ex;
+//         }
+//
+//         &.base, &.magic, &.weapons, &.protection {
+//             grid-template-columns: repeat(8,1fr);
+//             grid-template-rows: repeat(20,2em);
+//
+//             flex: 0 1 auto;
+//             & .header {
+//                 grid-column: 1 / span 8;
+//             }
+//
+//             & .label {
+//                 grid-column: 1 / span 4;
+//                 &.sub{
+//                     grid-row: span 2;
+//                     align-self:stretch;
+//                     vertical-align:middle;
+//                 }
+//                 &.nw{
+//                     grid-column: 1 / span 1;
+//                 }
+//                 &.ne{
+//                     grid-column: 3 / span 1;
+//                 }
+//                 &.sw{
+//                     grid-column: 1 / span 1;
+//                 }
+//                 &.se{
+//                     grid-column: 3 / span 1;
+//                 }
+//
+//                 &.full{
+//                     grid-column: 1 / span 8;
+//
+//                     &.large{
+//                         font-size:2em;
+//                         grid-row: span 2;
+//                     }
+//
+//                 }
+//
+//                 &.left{
+//                     grid-column: 1 / span 4;
+//                     grid-row: 1 / span 2;
+//                 }
+//                 &.mid{
+//                     grid-column: 5  / span 2;
+//                     grid-row: 1 / span 2;
+//                 }
+//                 &.right{
+//                     grid-column: 7  / span 2;
+//                     grid-row: 1 / span 2;
+//                 }
+//             }
+//             & .info {
+//                 grid-column: 5 / span 4 ;
+//                 &.nw{
+//                     grid-column: 2 / span 1;
+//                 }
+//                 &.ne{
+//                     grid-column: 4 / span 1;
+//                 }
+//                 &.sw{
+//                     grid-column: 2 / span 1;
+//                 }
+//                 &.se{
+//                     grid-column: 4 / span 1;
+//                 }
+//
+//             }
+//             & .large{
+//                 grid-row: span 4;
+//             }
+//
+//             & .subset{
+//                 border:1px solid $palette2;
+//                 gap: 1px;
+//                 padding:2px;
+//                 grid-column: 5 / span 4;
+//                 grid-row: span 2;
+//                 display: grid;
+//                 grid-template-columns: subgrid;
+//                 grid-template-rows: subgrid;
+//             }
+//             & .line{
+//                 border:1px solid $palette2;
+//                 gap: 1px;
+//                 padding:2px;
+//                 grid-column: 1 / span 8;
+//                 grid-row: span 2;
+//                 display:grid;
+//                 grid-template-columns: repeat(4,1fr) ;
+//                 grid-template-rows: repeat(2,1fr);
+//                 & .nw{
+//                     &.label{
+//                         grid-column: 1;
+//                         grid-row: 1 ;
+//                     }
+//                     &.info{
+//                         grid-column: 2;
+//                         grid-row: 1 ;
+//                     }
+//                 }
+//                 & .ne{
+//                    &.label{
+//                         grid-column: 1;
+//                         grid-row: 2 ;
+//                    }
+//                    &.info{
+//                         grid-column: 2;
+//                         grid-row: 2 ;
+//                    }
+//                 }
+//                 & .sw{
+//                    &.label{
+//                         grid-column: 3;
+//                         grid-row: 1 ;
+//                    }
+//                    &.info{
+//                         grid-column: 4;
+//                         grid-row: 1;
+//                    }
+//                 }
+//                 & .se{
+//                    &.label{
+//                         grid-column: 3;
+//                         grid-row: 2;
+//                    }
+//                    &.info{
+//                         grid-column: 4;
+//                         grid-row: 2 ;
+//                    }
+//                 }
+//
+//             }
+//
+//            & .triset{
+//                 border:1px solid $palette2;
+//                 gap: 1px;
+//                 padding:2px;
+//                 grid-column: 1 / span 8;
+//                 grid-row: span 2;
+//                 display: grid;
+//
+//                 grid-template-columns: subgrid;
+//                 grid-template-rows: subgrid;
+//            }
+//        }
+//
+//         &.weapons{
+//             grid-template-rows: repeat(10,2em);
+//             width:125ex;
+//         }
+//
+//         &.protection{
+//             grid-template-rows: repeat(5,2em);
+//             width:125ex;
+//         }
+//
+//        &.gear, &.spells{
+//             display:block;
+//             color:white;
+//             background:#304030;
+//             border:1px solid white;
+//             font-family:$mono;
+//             font-size:0.83em;
+//             max-height:40em;
+//             width:125ex;
+//             overflow:auto;
+//        }
+//
+//
+//         &.base{order:1;}
+//         &.skills{order:8;}
+//         &.weapons{order:11;}
+//         &.protection{order:12;}
+//         &.gear{order:14;}
+//         &.spells{order:10;}
+//         &.magic{order:9;}
+//         &.summary{order:2;}
+//
+//
+//     }
+//
+//
+//     & .box.info.editable{
+//         & .btn_edit{
+//             &.value{
+//                 border:2px solid $palette4;
+//                 border-radius:3px;
+//                 background:black;
+//                 cursor:crosshair;
+//            }
+//         }
+//     }
+     }
 
 }
 
@@ -588,9 +608,9 @@
     margin:3pt;
 }
 
-.btn_edit.value{
-    border-bottom:1pt solid darkcyan;
-    background:#303050;
-    border-radius:3pt;
-    padding:0;
-}
+// .btn_edit.value{
+//     border-bottom:1pt solid darkcyan;
+//     background:#303050;
+//     border-radius:3pt;
+//     padding:0;
+// }

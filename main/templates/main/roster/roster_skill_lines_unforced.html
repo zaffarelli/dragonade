@@ -2,6 +2,6 @@
 {% load dragonade_filters %}
 
 <div class="stat">
-    <div class="label {{v|check_hidden}}">{{sk|as_skill|safe}}</div>
-    <div class="data {{v|check_hidden}} editable">{{v|colorize_val|safe}}</div>
+    <div class="label lazy {{v|check_hidden}}">{{sk|as_skill|safe}}</div>
+    <div class="data lazy {{v|check_hidden}} editable">{{v|colorize_val|safe}}</div>
 </div>
