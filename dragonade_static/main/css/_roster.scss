@@ -141,17 +141,22 @@
             display:flex;
             flex-flow:row nowrap;
             border: 1pt solid #8080807f;
+            gap: 3pt;
+            color:white;
+            height:auto;
             &.lax{
                 flex-flow:row wrap;
 //                 border:2pt solid red;
             }
-
+            &.lox{
+                flex-flow:column wrap;
+                border:2pt solid red;
+                width:auto;
+            }
             justify-content: flex-start;
             align-items: flex-start;
 
-            gap: 3pt;
-            color:white;
-            height:auto;
+
 
             & .whole{
                 font-family: $font_title;
@@ -165,8 +170,10 @@
 
             & .block_third{
                 flex: 0 0 33%;
+                &.fat{
+                    flex: 0 0 66%;
+                }
                 flex-flow:row wrap;
-//                 height:100%;
                 display:flex;
                 justify-content: flex-start;
                 align-items: center;
@@ -221,6 +228,14 @@
                         }
                         &.auto{
                             flex: 1 1 auto;
+                        }
+                        &.mono{
+                            font-family:$mono;
+                            color:silver;
+                            font-size:11pt;
+                            text-align:left;
+                            border-radius:8pt;
+                            background:#1010107f;
                         }
                     }
                 }
