@@ -3,10 +3,10 @@
 
 <fieldset class="sheet stackbox gear stackpull" action="{{a.type}}__{{a.id}}__GEAR__bulk" param="{{a.features.GEAR}}" title="{{a.rid}} = {{a.features.GEAR}}">
     <legend>Equipement</legend>
-    {{a.features.GEAR|as_stack_list|safe}}
+    {{a.gear|as_stack_list|safe}}
 </fieldset>
 
 <fieldset class="sheet stackbox spells stackpull" action="{{a.type}}__{{a.id}}__SPELLS__bulk" param="{{a.features.SPELLS}}" title="{{a.rid}} = {{a.features.SPELLS}}">
     <legend>Sortilèges</legend>
-    {{a.features.SPELLS|as_stack_list|safe}}
+    {{a.spells|as_stack_list|safe}}
 </fieldset>

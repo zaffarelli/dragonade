@@ -3,7 +3,7 @@ import json
 
 CHARACTER_STATISTICS = {
     "ATTRIBUTES": {
-        "DEFAULT": 3,
+        "DEFAULT": 1,
         "LIST": [
             {"NAME": "AGI", "TEXT": "Agilité", "ORDER": 0},
             {"NAME": "CON", "TEXT": "Constitution", "ORDER": 1},

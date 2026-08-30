@@ -10,6 +10,7 @@ from main.utils.ref_dragonade import GEAR_CAT
 class Equipment(models.Model, ChiaroscuroMixin):
     class Meta:
         ordering = ['name']
+
     name = models.CharField(default="", max_length=256)
     rid = models.CharField(default="xxx", max_length=256, blank=True)
     category = models.CharField(default="gen", max_length=3, choices=GEAR_CAT)
@@ -22,7 +23,13 @@ class Equipment(models.Model, ChiaroscuroMixin):
     materiaux = models.CharField(default="", max_length=64, blank=True)
     related_skill = models.CharField(default="", max_length=32, blank=True)
     related_attribute = models.CharField(default="", max_length=8, blank=True)
-    malus_armure = models.IntegerField(default=0, null=True, blank=True)
+    malus_AGI = models.IntegerField(default=0, null=True, blank=True)
+    malus_DEX = models.IntegerField(default=0, null=True, blank=True)
+    malus_VUE = models.IntegerField(default=0, null=True, blank=True)
+    malus_OUI = models.IntegerField(default=0, null=True, blank=True)
+
+    range = models.IntegerField(default=0, null=True, blank=True)
+
     force_min = models.IntegerField(default=0, null=True, blank=True)
     enc = models.FloatField(default=0, blank=True)
     resistance = models.IntegerField(default=0, blank=True)
@@ -49,12 +56,12 @@ class Equipment(models.Model, ChiaroscuroMixin):
         #     self.cover = " ".join(new_covers)
         #     self.cover = self.cover.replace("T","H").replace("B","A").replace("J","L").replace("1","S").replace("2","W")
 
-        self.name = self.name.replace("  "," ")
+        self.name = self.name.replace("  ", " ")
         self.name = self.name.strip()
-        if self.category in ["ana"]: # Armes naturelles
+        if self.category in ["ana"]:  # Armes naturelles
             self.price = 0
             self.enc = 0
-        if self.category in ["mel","tir","lan"]:
+        if self.category in ["mel", "tir", "lan"]:
             from main.utils.ref_dragonade import CHARACTER_STATISTICS
             self.skill_match = ""
             # print("SEARCH", self.name.upper())
@@ -70,12 +77,21 @@ class Equipment(models.Model, ChiaroscuroMixin):
                 if skill["NAME"].upper() == self.related_skill.upper():
                     self.skill_match = skill["TEXT"]
                     break
+        if self.malus_AGI > 0:
+            self.malus_AGI = -self.malus_AGI
+        if self.malus_DEX > 0:
+            self.malus_DEX = -self.malus_DEX
+        if self.malus_VUE > 0:
+            self.malus_VUE = -self.malus_VUE
+        if self.malus_OUI > 0:
+            self.malus_OUI = -self.malus_OUI
+
 
 
     def __str__(self):
         return f"{self.name} [{self.category}]"
 
-    def covers(self,str=""):
+    def covers(self, str=""):
         res = False
         if self.category == "amu":
             if self.cover != "":
@@ -95,7 +111,7 @@ class Equipment(models.Model, ChiaroscuroMixin):
     @property
     def related_skill_name(self):
         names = []
-        if self.category in ["mel","tir","lan"]:
+        if self.category in ["mel", "tir", "lan"]:
             if self.related_skill != "":
                 from main.utils.ref_dragonade import CHARACTER_STATISTICS
                 skills = self.related_skill.upper().strip().split(" ")
@@ -110,22 +126,21 @@ class Equipment(models.Model, ChiaroscuroMixin):
     def references(klass):
         list = []
         for item in klass.objects.order_by("name"):
-            list.append({"name":item.name, "rid": item.rid})
+            list.append({"name": item.name, "rid": item.rid})
         return list
 
     @classmethod
     def extract_all(cls):
         list = []
         for item in cls.objects.order_by("name").exclude(special=True).order_by("category"):
-            list.append({"name":item.name, "rid": item.rid, "price":item.price, "enc":item.enc})
+            list.append({"name": item.name, "rid": item.rid, "price": item.price, "enc": item.enc})
             price = f"{int(item.price):2}s {int(item.price * 100) % 100:2}d"
             print(f"{item.name.strip():30}µ{item.rid:30}µ{item.get_category_display():50}µ{price:20} µ{item.enc:5}§")
         return list
 
 
-
 def cat_from_first(modeladmin, request, queryset):
-    if len(queryset)>2:
+    if len(queryset) > 2:
         cat = ""
         for item in queryset:
             if cat == "":
@@ -136,15 +151,13 @@ def cat_from_first(modeladmin, request, queryset):
     short_description = "Category from the first item"
 
 
-
-
 class EquipmentAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ['category', 'related_attribute', 'name']
-    list_display = ["id","rid","name", "category", "enc", "price", "resistance","plus_dom", "plus_dom_2m", "force_min", "prot", "malus_armure", "related_skill_name", "related_skill",
-                    "related_attribute",  "skill_match"]
-    list_editable = [ "category", "enc","price"]
-    list_filter = ["category", "can_be_thrown", "related_attribute", "related_skill", "special"]
+    list_display = ["id", "rid", "name","range", "category", "enc", "price", "resistance", "plus_dom", "plus_dom_2m", "force_min", "prot", "malus_AGI", "malus_DEX",
+                    "malus_VUE", "malus_OUI",
+                    "related_attribute", "skill_match"]
+    list_editable = ["category", "enc", "price","range"]
+    list_filter = ["category", "can_be_thrown", "special"]
     search_fields = ['name']
     actions = [refix, cat_from_first]
-

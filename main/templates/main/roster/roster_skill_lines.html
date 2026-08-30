@@ -1,0 +1,15 @@
+{% load static %}
+{% load dragonade_filters %}
+
+
+<div class="stat">
+    <div class="label">{{sk|as_skill|safe}} [{{v}}]</div>
+    <div class="data editable">
+        <span class="btn_edit minus" action="inc_dec" id="{{model|lower}}__{{a.id}}__{{sk}}__minus"><i class="fa fa-arrow-circle-down"></i></span>
+        <span class="btn_edit value" action="value" id="{{model|lower}}__{{a.id}}__{{sk}}__value" srcval="{{v|encoded_z|safe}}">&nbsp;{{v|colorize_val|safe}}&nbsp;</span>
+        <span class="btn_edit plus" action="inc_dec" id="{{model|lower}}__{{a.id}}__{{sk}}__plus"><i class="fa fa-arrow-circle-up"></i></span>
+    </div>
+</div>
+
+
+

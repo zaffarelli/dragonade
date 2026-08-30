@@ -1,7 +1,18 @@
 {% load static %}
 {% load dragonade_filters %}
 <div class="tri">
-    <div class="summary">
-        {{a.roster_text|safe}}
+    <div class="row lax">
+        <div class="block_third" style="order:1;">
+            <div class="title">COMPETENCES</div>
+            {% for x in a.skills_summary %}
+            {% include "main/roster/roster_skill_lines_unforced.html" with a=a sk=x.text v=x.value%}
+            {% endfor %}
+        </div>
+        <div class="block_third fat" style="order:2;">
+            <div class="title">Résumé</div>
+            <div class="stat">
+             <div class="data large mono">{{a.roster_text|safe}}</div>
+            </div>
+        </div>
     </div>
 </div>

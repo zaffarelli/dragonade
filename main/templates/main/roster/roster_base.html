@@ -3,11 +3,11 @@
 
 
 <div class="tri" id="tri_{{a.id}}">
-    <div class="row">
+    <div class="row lax">
 
         {% for att,v in a.attr.items %}
             {% if forloop.counter0|modulo_of_four_is_0 %}
-            <div class="block_third">
+            <div class="block_third"  style="order:1;">
                 <div class="title">{{att|as_attribute_sub_group}}</div>
             {% endif %}
             {% include "main/roster/roster_attribute_lines.html" with a=a att=att v=v %}
@@ -15,9 +15,9 @@
             </div>
             {% endif %}
         {% endfor %}
-    </div>
-    <div class="row">
-        <div class="block_third">
+<!--    </div>-->
+<!--    <div class="row">-->
+        <div class="block_third"  style="order:9;">
             <div class="title">Calculs</div>
             <div class="stat">
                 <div class="label">Total Attributs</div>
@@ -41,7 +41,7 @@
             </div>
         </div>
 
-        <div class="block_third">
+        <div class="block_third"  style="order:8;">
             <div class="title">Divers</div>
             <div class="stat">
                 <div class="label">Age</div>
@@ -84,7 +84,7 @@
                 <div class="data text editable">{{a.PROT}}</div>
             </div>
         </div>
-        <div class="block_third">
+        <div class="block_third" style="order:7;">
             <div class="title">Attributs Secondaires</div>
             <div class="stat">
                 <div class="label">TIR</div>
@@ -103,16 +103,17 @@
                 <div class="data">{{a.seco.DER|colorize_val|safe}}</div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="block_third"></div>
-        <div class="block_third">
+<!--    </div>-->
+<!--    <div class="row">-->
+
+
+        <div class="block_third" style="order:5;">
             <div class="title">Description</div>
             <div class="stat">
                 <div class="data large">{{a.description|render_text|safe}}</div>
             </div>
         </div>
-        <div class="block_third">
+        <div class="block_third"  style="order:4;">
             <div class="title">Caractéristiques Dérivées</div>
             <div class="stat">
                 <div class="label">VIE : Points de Vie</div>

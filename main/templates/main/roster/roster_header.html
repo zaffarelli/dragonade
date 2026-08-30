@@ -7,22 +7,28 @@
             {{a.name}}
             <span class="closer" id="{{a.rid}}__switch" style="float:right;"><i class="fa fa-times"></i></span>
         </div>
-
-        {% if a.is_storyteller %}
-        {%else%}
-        <div class="whole">
-            par {{a.player|safe}}
-        </div>
+        {%if model == "Creatura" %}
+            <div class="whole">
+                {{a.creature_type_str}}
+            </div>
         {%endif%}
-        {% if a.misc.ENTRANCE %}
-        <div class="whole">
-            {{a.misc.ENTRANCE}}&nbsp;
-        </div>
+        {% if a.entrance %}
+            <div class="whole">
+                {{a.entrance}}&nbsp;
+            </div>
         {%endif%}
-        {% if a.features.AKA %}&nbsp;
-        <div class="whole">
-            aka {{a.features.AKA}}
-        </div>
+        {% if model == "Viaggiatore" %}
+            {% if a.is_storyteller %}
+            {%else%}
+            <div class="whole">
+                par {{a.player|safe}}
+            </div>
+            {%endif%}
+            {% if a.features.AKA %}&nbsp;
+            <div class="whole">
+                aka {{a.features.AKA}}
+            </div>
+            {% endif %}
         {% endif %}
     </div>
 </div>

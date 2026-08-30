@@ -2,7 +2,18 @@
 
 
 .roster{
-    background:#1020307F;
+
+
+    &.viaggiatore{
+        background:#102030aF;
+    }
+    &.nativo{
+        background:#103020aF;
+    }
+    &.creatura{
+        background:#301020aF;
+    }
+
     margin-left:15vw;
     margin-top:1vh;
     height:90vh;
@@ -15,7 +26,7 @@
     font-family:$font;
 
     & .tabnav{
-        background: #1030207F;
+        background:transparent;
         width:auto;
         display:flex;
         flex-flow: row wrap;
@@ -23,10 +34,28 @@
         align-content: flex-start;
         align-items: flex-start;
         gap: 2pt;
+
+
+
         & .tabbutton{
             flex: 1 1 auto;
-            font-size:1.1em;
+            font-size:1.2em;
             font-family:$font_title;
+            text-align:center;
+            padding:3pt;
+            border-radius:5pt;
+            border:3pt solid transparent;
+            color:white;
+            background:transparent;
+            &:hover{
+                background:#1010107f;
+                color:yellow;
+            }
+            cursor:pointer;
+            &.on{
+                background:#3030303f;
+
+            }
         }
     }
 
@@ -47,7 +76,8 @@
 
 
     & .tabpanel{
-        background:#202020;
+        //background:#A02020;
+        background:transparent;
         width:100%;
         height:1100px;
         display:flex;
@@ -70,14 +100,14 @@
 
     &.skillstable{
         &.autochton{
-            background: #1030207F;
+//             background: #1030207F;
             & .header{
                 color:white;
                 background:$palette2;
             }
         }
         &.traveller{
-            background: #1020307F;
+//             background: #1020307F;
             & .header{
                 color:white;
                 background:$palette2;
@@ -85,7 +115,7 @@
         }
 
         &.creature{
-            background: #3010207F;
+//             background: #3010207F;
             & .header{
                 color:white;
                 background:$palette2;
@@ -104,18 +134,29 @@
         align-content: stretch;
         padding:8pt;
         gap: 3pt;
-        background:#606080;
+        background:#3030303f;
 
         & .row{
             flex: 0 1 auto;
             display:flex;
             flex-flow:row nowrap;
-            justify-content: flex-start;
-            align-items: center;
-
+            border: 1pt solid #8080807f;
             gap: 3pt;
             color:white;
             height:auto;
+            &.lax{
+                flex-flow:row wrap;
+//                 border:2pt solid red;
+            }
+            &.lox{
+                flex-flow:column wrap;
+                border:2pt solid red;
+                width:auto;
+            }
+            justify-content: flex-start;
+            align-items: flex-start;
+
+
 
             & .whole{
                 font-family: $font_title;
@@ -129,8 +170,10 @@
 
             & .block_third{
                 flex: 0 0 33%;
+                &.fat{
+                    flex: 0 0 66%;
+                }
                 flex-flow:row wrap;
-                height:100%;
                 display:flex;
                 justify-content: flex-start;
                 align-items: center;
@@ -153,7 +196,8 @@
                     display:flex;
                     flex-flow:row nowrap;
                     justify-content: flex-start;
-                    align-items: flex-start;
+                    align-items: stretch;
+
                     gap: 1pt;
 
                     & .label{
@@ -184,6 +228,14 @@
                         }
                         &.auto{
                             flex: 1 1 auto;
+                        }
+                        &.mono{
+                            font-family:$mono;
+                            color:silver;
+                            font-size:11pt;
+                            text-align:left;
+                            border-radius:8pt;
+                            background:#1010107f;
                         }
                     }
                 }

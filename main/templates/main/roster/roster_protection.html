@@ -1,8 +1,8 @@
 {% load static %}
 {% load dragonade_filters %}
 
-{{a.armors}}
-<div class="row">
+<fieldset class="row lax">
+    <legend>Armures</legend>
     {% for p in a.armors %}
     <div class="block_third">
         <div class="title">{{p.name}}</div>
@@ -15,8 +15,12 @@
             <div class="data auto">{{p.cover}}</div>
         </div>
         <div class="stat">
-            <div class="label short">Malus</div>
-            <div class="data auto">{{p.malus_armure}}</div>
+            <div class="label short">Malus (AGI DEX VUE OUI)</div>
+            <div class="data auto">{{p.malus_AGI}} {{p.malus_DEX}} {{p.malus_VUE}} {{p.malus_OUI}}</div>
+        </div>
+        <div class="stat">
+            <div class="label short">Resistance (Matériau)</div>
+            <div class="data auto">{{p.resistance|signed}} ({{p.materiaux}})</div>
         </div>
         <div class="stat">
             <div class="label short">FOR minimale</div>
@@ -33,9 +37,12 @@
     </div>
     {% endfor %}
     <div class="block_third">
-        <div class="title">Protection Globale</div>
+        <div class="title">Protection globale des pièces d'armure</div>
         <div class="stat">
-            <div class="data large">{{a.numeric_cover|as_protection|safe}}</div>
+            <div class="data large">{{a.protection_map|as_protection|safe}}</div>
+        </div>
+        <div class="stat">
+            <div class="data large">Pénalités: AGI {{a.malus_AGI|signed}} DEX {{a.malus_DEX|signed}} VUE {{a.malus_VUE|signed}} OUI {{a.malus_OUI|signed}}</div>
         </div>
     </div>
-</div>
+</fieldset>

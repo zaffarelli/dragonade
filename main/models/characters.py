@@ -1,13 +1,8 @@
 from django.db import models
-from django.contrib import admin
-from django.conf import settings
-
 from main.mixins.chiaroscuro_mixin import ChiaroscuroMixin
 from main.utils.ref_dragonade import CHARACTER_STATISTICS, tai_guidelines, SHORTCUTS, stress_cost
 from main.utils.mechanics import as_rid, Nougardine, roll, Severity, Chaser
 import math
-import random
-import json
 
 
 class Character(models.Model, ChiaroscuroMixin):
@@ -26,7 +21,6 @@ class Character(models.Model, ChiaroscuroMixin):
     entrance = models.CharField(max_length=256, default="", blank=True)
     birthhour = models.IntegerField(default=0, blank=True)
     is_female = models.BooleanField(default=False, blank=True)
-
     is_lefty = models.BooleanField(default=False, blank=True)
     is_battle_ready = models.BooleanField(default=False, blank=True)
     age = models.PositiveIntegerField(default=20, blank=True)
@@ -47,13 +41,11 @@ class Character(models.Model, ChiaroscuroMixin):
     gamers_team = models.BooleanField(default=False, blank=True)
     gear = models.TextField(max_length=1024, default="", blank=True)
     spells = models.TextField(max_length=1024, default="", blank=True)
-
     bug_list = models.TextField(default="", max_length=1024, blank=True)
-
     imc = models.FloatField(default=0, blank=True)
     place = models.CharField(max_length=256, default="", blank=True)
-    attributes = models.CharField(max_length=64, default="3 3 3 3 3 3 3 3 3 3 3 3", blank=True)
-    secondaries = models.CharField(max_length=64, default="0 0 0 0", blank=True)
+    attributes = models.CharField(max_length=64, default="", blank=True)
+    secondaries = models.CharField(max_length=64, default="", blank=True)
     skills_weapons = models.CharField(max_length=128, default="", blank=True)
     skills_generic = models.CharField(max_length=128, default="", blank=True)
     skills_peculiar = models.CharField(max_length=128, default="", blank=True)
@@ -69,27 +61,28 @@ class Character(models.Model, ChiaroscuroMixin):
     # updater = models.TextField(max_length=1024 * 10, default='{}', blank=True)
     priority = models.IntegerField(default=0, blank=True)
     klass = models.CharField(max_length=16, default="Character", blank=True)
-    protection_map = models.CharField(max_length=256, blank=True, default="H-0-X C-0-X AS-0-X AW-0-X LS-0-X LW-0-X")
+    protection_map = models.CharField(max_length=256, blank=True, default="H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X")
 
     travel_points = models.IntegerField(default=0, blank=True)
     stress_acquired = models.IntegerField(default=0, blank=True)
     stress_used = models.IntegerField(default=0, blank=True)
     stress_remaining = models.IntegerField(default=0, blank=True)
 
-    description = models.TextField(max_length=1024, default="", blank=True)
+    malus_AGI = models.IntegerField(default=0, blank=True)
+    malus_DEX = models.IntegerField(default=0, blank=True)
+    malus_VUE = models.IntegerField(default=0, blank=True)
+    malus_OUI = models.IntegerField(default=0, blank=True)
 
-    data = {}
+    description = models.TextField(max_length=1024, default="", blank=True)
+    # data = {}
 
     def __str__(self):
         return f"p_{self.id}"
 
     def make_rid(self):
-        # print("Class ===> ", self.type[:3])
         if len(self.rid) == 0:
             self.rid = as_rid(self.name)
             self.rid = self.type[:3].upper() + "_" + self.rid
-
-            # print("New RID", self.rid)
 
     @property
     def type(self):
@@ -132,18 +125,17 @@ class Character(models.Model, ChiaroscuroMixin):
 
     def fix(self):
         self.chiaroscuro()
-        self.initialize()
-        self.bug_list = ""
-        self.make_rid()
+        # initializers
         if len(self.protection_map) == 0:
             self.protection_map = "H-0-X C-0-X AS-0-X AW-0-X LS-0-X LW-0-X"
         if self.birthhour == 0:
-            self.birthhour = random.randrange(1, 12)
+            self.birthhour = roll(faces=12, explodes=False)
+        self.initialize()
+        self.make_rid()
+
+        self.bug_list = "BUGS:"
         self.calc_indice()
         self.challenge_equipment_and_skills()
-        self.tai_guideline = tai_guidelines(self.value_for('TAI'))
-        if self.height > 0:
-            self.imc = math.floor(self.weight / ((self.height / 100) ** 2) * 10) / 10
         secondaries = [0, 0, 0, 0]
         for k in CHARACTER_STATISTICS['SECONDARIES']['LIST']:
             if "FORMULA" in k:
@@ -154,8 +146,32 @@ class Character(models.Model, ChiaroscuroMixin):
             if "FORMULA" in k:
                 val = self.from_formula(k['PARAMS'], k['FORMULA'])
                 setattr(self, k["NAME"], val)
+        self.tai_guideline = tai_guidelines(self.value_for('TAI'))
+        if self.height > 0:
+            self.imc = math.floor(self.weight / ((self.height / 100) ** 2) * 10) / 10
         self.fix_protection_map()
-        self.export_to_json()
+        # self.export_to_json()
+
+    def initialize(self):
+        """
+            Initialize model properties:
+            - attributes to 1
+            - secondaries to 1
+            - skills_x properties with default values according to reference.
+            And do all of this according to the reference.
+        """
+        from main.utils.ref_dragonade import CHARACTER_STATISTICS
+        if len(self.attributes) == 0:
+            list = ["1" for _ in CHARACTER_STATISTICS['ATTRIBUTES']['LIST']]
+            self.attributes = " ".join(list)
+        if len(self.secondaries) == 0:
+            list = ["1" for _ in CHARACTER_STATISTICS['SECONDARIES']['LIST']]
+            self.secondaries = " ".join(list)
+        for k, cat in CHARACTER_STATISTICS['SKILLS'].items():
+            list = [f"{cat['DEFAULT']}" for _ in cat['LIST']]
+            tgt_property = f"skills_{k.lower()}"
+            if len(getattr(self, tgt_property)) == 0:
+                setattr(self, tgt_property, " ".join(list))
 
     def calculate_team(self):
         import hashlib
@@ -256,10 +272,9 @@ class Character(models.Model, ChiaroscuroMixin):
 
     def ref_to_struct(self, src_ref):
         """        
-        :param src_ref: source reference among the user filled properties of the instance 
-        :return: nothing / works directly on the instance
-        Examples: - self.attributes --> self._data['attributes']
-                  - self.skills_generic --> self._data['skills']['generic']
+            self.attributes -> self._data['attributes'], self.skills_generic -> self._data['skills']['generic']
+            :param src_ref: source reference among the user filled properties o f the instance
+            :returns: nothing / works directly on the instance
         """
         if len(src_ref) > 0:
             transversal = src_ref.split('_')
@@ -295,6 +310,7 @@ class Character(models.Model, ChiaroscuroMixin):
     def skills_summary(self):
         """
             Select only skills with a non default value.
+            :returns: JSON list of the skills with a non default value.
         """
         all = []
         SKILLS = CHARACTER_STATISTICS["SKILLS"]
@@ -306,21 +322,33 @@ class Character(models.Model, ChiaroscuroMixin):
             data = getattr(self, "skills_" + skill_set)
             default = REF["DEFAULT"]
             arr = data.split(" ")
-            for item in REF["LIST"]:
-                pos = item["ORDER"]
-                v = int(arr[pos])
-                if v > default:
-                    count_postes[default * (-1)] += 1
-                    count_vals[v] += 1
-                    all.append({"value": v, "category": REF['NAME'][:1], "text": item["TEXT"]})
+            if len(arr)==len(REF["LIST"]):
+                for item in REF["LIST"]:
+                    if "ORDER" in item:
+                        pos = item["ORDER"]
+                        v = int(arr[pos])
+                        if v > default:
+                            count_postes[default * (-1)] += 1
+                            count_vals[v] += 1
+                            all.append({"value": v, "category": REF['NAME'][:1], "text": item["TEXT"]})
+            else:
+                self.bug_list += f"{self.rid} doesn't have the correct property for [{skill_set}]."
         sorted_all = sorted(all, key=lambda k: k['text'], reverse=False)
         return sorted_all
 
     def export_to_json(self):
+        """
+            :returns: JSON structure for the instance.
+        """
         self.model_to_data()
         return self._data
 
     def co_push(self):
+        """
+            Push the contextual data to the self._data structure.
+            Most of the job is done through the chiaroscuro mixin, here we only add convenience entries or business centerd entries.
+            :returns: The updated self._data structure
+        """
         # print("### CO_PUSH character")
         self._data["attr"] = {}
         self._data["seco"] = {}
@@ -338,8 +366,7 @@ class Character(models.Model, ChiaroscuroMixin):
         self.ref_to_struct('SKILLS_DRACONIC')
         self._data['fatigue_points'] = self.computeFatigue(self.FAT)
         self._data['has_bug'] = self.has_bug()
-        spells_list, b = self.collect_spells()
-        self._data['spells'] = spells_list
+        self._data['spells'] = self.collect_spells()
         self._data['shortcuts'] = self.shortcuts()
         self._data['weapons'] = self.gear_to_weapons()
         self._data['other'] = self.gear_to_other()
@@ -361,6 +388,10 @@ class Character(models.Model, ChiaroscuroMixin):
         return pf
 
     def gear_to_weapons(self):
+        """
+            Grab elements from the gear stack list that are neither weapons.
+            :returns: JSON list of the elements fetched.
+        """
         from main.models.equipment import Equipment
         list = []
         weapons = Equipment.objects.filter(category__in=['mel', 'tir', 'lan'], rid__in=self.gear.split(" ")).order_by(
@@ -373,21 +404,25 @@ class Character(models.Model, ChiaroscuroMixin):
             # Data specific to the character applied to the wepon's data
             d['stat_value'] = stat_value
             d['related_skill_value'] = skill
-            d['related_skill_text'] = "Poignards"
+            d['IMP'] = self.IMP
+            d['related_skill_text'] = d["related_skill"]
+            d['base_score'] = int(stat_value) + int(skill)
             d['stat_skill'] = f"{stat_value}+{skill}={int(stat_value) + int(skill)}"
             list.append(d)
         return list
 
     def gear_to_other(self):
+        """
+            Grab elements from the gear stack list and get all of those that are neither armor or weapon.
+            :returns: JSON list of the elements fetched.
+        """
         from main.models.equipment import Equipment
         list = []
-        # others = Equipment.objects.exclude(category__in=['mel', 'tir', 'lan']).filter(
-        #     rid__in=self.gear.split(" ")).order_by("category")
-        # for other in others:
-        #     list.append({
-        #         "name": other.name,
-        #         "category": other.category
-        #     })
+        others = Equipment.objects.exclude(category__in=['mel', 'tir', 'lan']).filter(
+            rid__in=self.gear.split(" ")).order_by("category")
+        for other in others:
+            o = other.export_to_json()
+            list.append(o)
         return list
 
     def gear_to_armors(self):
@@ -417,28 +452,12 @@ class Character(models.Model, ChiaroscuroMixin):
 
     def collect_spells(self):
         from main.models.incantessimi import Incantessimo
-        indice_points = 0
         list = []
-        # spells = Incantessimo.objects.filter(rid__in=self.spells.split(" ")).order_by("category")
-        # for spell in spells:
-        #     roll = 0
-        #     if spell.roll > 0:
-        #         roll += self.value_for(f"DRA_{spell.roll+1:02}")
-        #     roll += self.value_for(f"REV")
-        #     list.append({
-        #         "name": spell.name,
-        #         "roll": roll,
-        #         "diff": spell.diff,
-        #         "dps": spell.dps,
-        #         "category": spell.get_category_display(),
-        #         "path": spell.path,
-        #         'roll_str': spell.get_roll_display(),
-        #         'path_str': spell.get_path_display(),
-        #         'category_str': spell.get_category_display()
-        #     })
-        #     indice_points += spell.diff / 5
-        sorted_all = sorted(list, key=lambda k: k['diff'], reverse=True)
-        return sorted_all, indice_points
+        incantessimi = Incantessimo.objects.filter(rid__in=self.spells.split(" ")).order_by("category")
+        for incantessimo in incantessimi:
+            list.append(incantessimo.rid)
+        # sorted_all = sorted(list, key=lambda k: k['diff'], reverse=False)
+        return list
 
     def shortcuts(self):
         list = []
@@ -453,12 +472,12 @@ class Character(models.Model, ChiaroscuroMixin):
         return list
 
     def from_formula(self, params, formula):
-        pvalues = []
+        parameter_values = []
         for p in params.split(" "):
             if len(p) > 0:
                 val = int(self.value_for(p))
-                pvalues.append(val)
-        return formula(pvalues)
+                parameter_values.append(val)
+        return formula(parameter_values)
 
     def value_for(self, str):
         # print(f"### Value for")
@@ -470,14 +489,14 @@ class Character(models.Model, ChiaroscuroMixin):
             if "ORDER" in entry:
                 verbs = where.lower().split(':')
                 datalist = getattr(self, "_".join(verbs))
-                # print(f"Key:{'_'.join(verbs):20} Value:{datalist} [Type:{type(datalist)}]")
-                # print(f"### ORDER = {entry['ORDER']}")
+                print(f"Key:{'_'.join(verbs):20} Value:{datalist} [Type:{type(datalist)}]")
+                print(f"### ORDER = {entry['ORDER']}")
                 if type(datalist).__name__ == 'str':
                     parts = datalist.split(" ")
                     result = parts[entry["ORDER"]]
                 else:
                     result = datalist[entry["ORDER"]]
-                # print(f"### Result = {result}")
+                print(f"### Result = {result}")
             else:
                 result = getattr(self, entry['NAME'])
         return result
@@ -507,7 +526,7 @@ class Character(models.Model, ChiaroscuroMixin):
     def entry_for(self, str, stat):
         """
             :param str: the dataset_name
-            :param: stat: the value that entry must match with property NAME
+            :param stat: the value that entry must match with property NAME
             :returns: the full entry, or {}
         """
         from main.utils.ref_dragonade import CHARACTER_STATISTICS
@@ -524,8 +543,8 @@ class Character(models.Model, ChiaroscuroMixin):
 
     def index_for(self, str):
         """
-        @params str: The code for the stat
-        @returns the position in the description as a:b:c
+        :param str: The code for the stat
+        :returns: the position in the description as a:b:c
         """
         from main.utils.ref_dragonade import known
         choices = ["ATTRIBUTES", "SKILLS:WEAPONS", "SKILLS:GENERIC", "SKILLS:PECULIAR", "SKILLS:SPECIALIZED", "SKILLS:KNOWLEDGE", "SKILLS:DRACONIC",
@@ -536,38 +555,7 @@ class Character(models.Model, ChiaroscuroMixin):
                 break
         return result
 
-    def json_dump(self):
-        pass
-        # import os
-        # filename = f'{self.rid}.json'
-        # json_name = os.path.join(settings.MEDIA_ROOT, 'datablocks/' + filename)
-        # js = json.dumps(self.data)
-        # with open(json_name, "w") as f:
-        #     f.write(js)
-        #     f.close()
 
-    def initialize(self):
-        """
-            Set the attributes and skills_x properties with default values according to reference.
-        """
-        from main.utils.ref_dragonade import CHARACTER_STATISTICS
-        if len(self.attributes) == 0:
-            list = []
-            for att in CHARACTER_STATISTICS['ATTRIBUTES']:
-                list.append("3")
-            self.attributes = " ".join(list)
-        if len(self.secondaries) == 0:
-            list = []
-            for att in CHARACTER_STATISTICS['SECONDARIES']:
-                list.append("0")
-            self.secondaries = " ".join(list)
-        for k, cat in CHARACTER_STATISTICS['SKILLS'].items():
-            list = []
-            for item in cat['LIST']:
-                list.append(f"{cat['DEFAULT']}")
-            tgt_property = f"skills_{k.lower()}"
-            if len(getattr(self, tgt_property)) == 0:
-                setattr(self, tgt_property, " ".join(list))
 
     def roster(self):
         # return "Disabled for now."
@@ -717,8 +705,10 @@ class Character(models.Model, ChiaroscuroMixin):
             item = creature.first()
         return item
 
+
     def challenge_equipment_and_skills(self):
-        weapons = self.gear_to_weapons()
+        pass
+        #weapons = self.gear_to_weapons()
         # bugs = []
         # for weapon in weapons:
         #     if self.value_for(weapon['skill']) == 0:
@@ -727,34 +717,40 @@ class Character(models.Model, ChiaroscuroMixin):
 
     def fix_protection_map(self):
         armors = self.gear_to_armors()
+        self.malus_AGI = 0
+        self.malus_DEX = 0
+        self.malus_VUE = 0
+        self.malus_OUI = 0
         map = {}
         parts = self.protection_map.split(" ")
         for part in parts:
             x = part.split("-")
-            map[x[0]] = {"Part":x[0],"Prot":0,"Str":x[2]}
+            map[x[0]] = {"Part": x[0], "Prot": 0, "Str": x[2]}
         for armor in armors:
             pro = armor["prot"]
             covers = armor["cover"].split(" ")
             for cover in covers:
                 if cover in ["H"]:
                     p = "H"
-                elif cover in ["C","T"]:
+                elif cover in ["C", "T"]:
                     p = "C"
-                elif cover in ["AS", "SA"]:
-                    p = "AS"
-                elif cover in ["AW", "WA"]:
-                    p = "AW"
-                elif cover in ["SL", "LS"]:
-                    p = "LS"
-                elif cover in ["WL", "LW"]:
-                    p = "LW"
+                elif cover in ["AS", "SA","A"]:
+                    p = "A"
+                elif cover in ["AW", "WA", "B"]:
+                    p = "B"
+                elif cover in ["SL", "LS", "L"]:
+                    p = "L"
+                elif cover in ["WL", "LW", "M"]:
+                    p = "M"
                 else:
                     p = ""
-                if len(p)>0:
+                if len(p) > 0:
                     map[p]["Prot"] += pro
+            self.malus_AGI += armor["malus_AGI"]
+            self.malus_DEX += armor["malus_DEX"]
+            self.malus_VUE += armor["malus_VUE"]
+            self.malus_OUI += armor["malus_OUI"]
         pmap = []
-        print(map)
-        for k,m in map.items():
-            print(m,k)
+        for k, m in map.items():
             pmap.append(f'{m["Part"]}-{m["Prot"]}-{m["Str"]}')
         self.protection_map = " ".join(pmap)

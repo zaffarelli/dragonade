@@ -29,10 +29,10 @@ def colorize_val(value):
 def signed(value):
     str = value
     if isinstance(value, int):
-        if value >= 0:
+        if value > 0:
             str = f"+{value}"
         else:
-            str = f"-{value}"
+            str = f"{value}"
     return str
 
 
@@ -312,7 +312,10 @@ def acro(value):
 
 @register.filter(name='as_stack_list')
 def as_stack_list(value):
-    items = value.split(" ")
+    if type(value).__name__ == "str":
+        items = value.split(" ")
+    else:
+        items = value
     str = ""
     for item in items:
         str += f"<span class='gearit' item='{item}'>{item}</span> "
@@ -413,15 +416,11 @@ def as_doma(value):
 @register.filter(name='as_protection')
 def as_protection(value):
     from django.template.loader import get_template
-    cov = value.split(" ")
-    x = {
-        'H': 0,
-        'C': 1,
-        'SA': 2,
-        'WA': 3,
-        'SL': 4,
-        'WL': 5
-    }
+    covers = value.split(" ")
+    x = {}
+    for cover in covers:
+        parts = cover.split("-")
+        x[parts[0]] = int(parts[1])
     template = get_template('main/roster/roster_armor_map.html')
     image = template.render(x, None)
     return image

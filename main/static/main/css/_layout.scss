@@ -897,21 +897,3 @@ body {
     }
 }
 
-.tabbutton{
-    font-family:$mono;
-    font-size:9pt;
-    display:inline-block;
-    color:black;
-    text-align:center;
-    padding:3pt;
-    border-radius:3pt;
-    width:21ex;
-    color:#F0F0F0;
-    background:#303030;
-
-    cursor:pointer;
-    &.on{
-        color:#101010;
-        background:#C0C0C0;
-    }
-}

@@ -1,10 +1,5 @@
 from django.db import models
 from django.contrib import admin
-from django.conf import settings
-from main.utils.ref_dragonade import CHARACTER_STATISTICS
-import math
-import random
-import json
 from main.models.characters import Character
 
 
@@ -24,37 +19,22 @@ class Creatura(Character):
     class Meta:
         verbose_name = "Creatura"
         verbose_name_plural = "Creature"
-    # class CreatureType(models.TextChoices):
-    #     ANIMAL = "ANI", "Animal"
-    #     HUMANOID = "HUM", "Humanoïde"
-    #     NIGHTMARE_CREATURE = "NIC", "Créature de Cauchemard"
-    #     NIGHTMARE_ENTITY = "NIE", "Entité de Cauchemard"
-    #     FAERIE = "FAE", "Fée"
-    #     ELEMENTAL = "ELE", "Elémentaire"
-    #     ONIRIDE = "ONI", "Oniride"
 
-    # creature_type = models.CharField(max_length=3, choices=CreatureType.choices, default=CreatureType.ANIMAL, blank=True)
     creature_type = models.IntegerField(choices=DragonadeCreatureType.choices, default=DragonadeCreatureType.ANIMAL, blank=True)
 
     def __str__(self):
-        return f"v_{self.rid}"
+        return f"{self.rid}"
 
-    def export_to_json(self):
-        super().export_to_json()
-        self.data['creature_type'] = self.get_creature_type_display()
-        return self.data
+    def co_push(self):
+        super().co_push()
+        self._data["creature_type_str"] = self.get_creature_type_display()
 
-    def fix(self):
-        super().fix()
-        print(f"RID: {self.rid}")
-        # self.klass = "Creature"
 
 
 class CreaturaAdmin(admin.ModelAdmin):
     ordering = ['name']
-    list_display = ['name', 'rid', 'creature_type','team_color']
-    list_filter = ["creature_type",'team_color']
-    list_editable = ["creature_type",'team_color']
+    list_display = ['id','rid','name', 'attributes','secondaries', 'creature_type', 'team_color']
+    list_filter = ["creature_type", 'team_color']
+    list_editable = ['attributes','secondaries',"creature_type", 'team_color']
     from main.utils.mechanics import pre_sim, refix
     actions = [refix, pre_sim]
-

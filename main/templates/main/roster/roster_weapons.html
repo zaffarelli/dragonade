@@ -1,19 +1,33 @@
 {% load static %}
 {% load dragonade_filters %}
 
-{{a.weapons}}
-<div class="row">
+<fieldset class="row lax">
+    <legend>Armes</legend>
     {% for w in a.weapons %}
     <div class="block_third">
         <div class="title">{{w.name}}</div>
         <div class="stat">
-            <div class="label short">Jet d'Attaque</div>
-            <div class="data auto">{{w.category|upper}} + {{w.related_skill_text}}<br/>({{w.stat_value}} + {{w.related_skill_value}})</div>
+            <div class="label short">Jet d'Attaqu<br/>Base</div>
+            <div class="data auto">{{w.category|upper}} + {{w.related_skill_text}}<br/>{{w.stat_value}} + {{w.related_skill_value}} = {{w.base_score}}</div>
         </div>
+        {% if w.category == "mel" %}
         <div class="stat">
             <div class="label short">Arme de lancer</div>
-            <div class="data auto"> {{w.can_be_thrown}}</div>
+            <div class="data auto"> {{w.can_be_thrown|as_bool|safe}}</div>
         </div>
+        {% if w.can_be_thrown %}
+        <div class="stat">
+            <div class="label short">Portée (Incrément)</div>
+            <div class="data auto"> {{w.range}} mètres</div>
+        </div>
+        {% endif%}
+        {% endif %}
+        {% if w.category != "mel" %}
+        <div class="stat">
+            <div class="label short">Portée (Incrément)</div>
+            <div class="data auto"> {{w.range}} mètres</div>
+        </div>
+        {% endif %}
         <div class="stat">
             <div class="label short">Impact</div>
             <div class="data auto"> {{w.IMP}}</div>
@@ -32,7 +46,7 @@
         </div>
     </div>
     {% endfor %}
-</div>
+</fieldset>
 
 
 
