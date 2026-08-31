@@ -109,16 +109,17 @@ MAIN_MENU = [
             {"NAME": "Nativi", "LINK": "nativi_list"},
             {"NAME": "Creature", "LINK": "creature_list"},
         ]},
-        {"NAME": "Arts Draconiques", "SUB": [
+        {"NAME": "Ressources", "SUB": [
             {"NAME": "Incantessimi", "LINK": "incantessimi_list"},
             {"NAME": "Artefatti", "LINK": "artefatti_list"},
+            {"NAME": "Oggetti", "LINK": "oggetti_list"},
         ]},
         {"NAME": "Visuels", "SUB": [
             {"NAME": "Cartes", "LINK": "piani"},
             {"NAME": "Illustrations", "LINK": "flute"},
             {"NAME": "Orologio", "LINK": "orologio"},
         ]},
-        {"NAME": "Ressources", "SUB": [
+        {"NAME": "Autre", "SUB": [
             {"NAME": "Tables", "LINK": "carte"},
         ]},
         {"NAME": "Outils", "SUB": [

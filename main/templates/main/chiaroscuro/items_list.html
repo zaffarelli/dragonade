@@ -13,13 +13,13 @@
 
 {% block main %}
 <div class="zlist_header">
-{% include "main/chiaroscuro/items_filters.html" %}
+    {% include "main/chiaroscuro/items_filters.html" %}
 </div>
 <div class="zlist_container">
     {% include "main/chiaroscuro/items_payload.html" %}
 </div>
 <div class="zlist_footer">
-    <div class="zlist_entry" id="{{i.model|lower}}__filters">
+    <div class="zlist_entry" id="{{model|lower}}__actions">
         <div id="{{model|lower}}__new" class="zlist_item filter list_action" style="order:0; text-align:left;"><i class="fa fa-plus"></i> {{model}}</div>
         <div class="zlist_item filter list_action" style="order:1; font-size:0.8em;">ctrl+alt+o<br/>pour cacher les options</div>
     </div>

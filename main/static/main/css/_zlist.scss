@@ -4,24 +4,29 @@
     margin:5pt;
     display:flex;
     flex-flow:column nowrap;
-    font-family:Roboto;
+    font-family:$font;
     font-size:10pt;
     justify-content: flex-start;
     align-items: flex-start;
     align-content: stretch;
     gap:3pt;
-    overflow-y:scroll;
     background:none;
 
     & .zlist_entry{
         flex:0 1 auto;
         display:flex;
-        flex-flow:row nowarp;
+        flex-flow:row wrap;
+
+
+
         justify-content: flex-start;
         align-items: stretch;
         align-content: center;
         background:#4040507f;
         gap:3pt;
+        width:auto;
+
+
         & .zlist_item{
             padding:3pt;
             border-radius:3pt;
@@ -100,10 +105,35 @@
 }
 
 .zlist_container{
-    height:85vh;
+    height:81vh;
+    overflow-y:scroll;
 }
 
-.zlist_header, .zlist_footer{
-    flex-flow:column wrap;
+.zlist_footer{
+    flex-flow:row wrap;
     height:3vh;
+    background:#3030307f;
+    & .zlist_entry{
+        background:#3030307f;
+        }
+    background:#3030307f;
 }
+
+.zlist_header{
+    flex-flow:row wrap;
+    height:7vh;
+    width:auto;
+    font-size:0.73em;
+    justify-content:flex-start;
+    align-content:  space-between;
+    align-items: stretch;
+    & .zlist_entry{
+        flex:1 6 auto;
+        border-radius:5pt;
+        display:inline-block;
+        font-weight:normal;
+        background:#3030307f;
+
+    }
+}
+

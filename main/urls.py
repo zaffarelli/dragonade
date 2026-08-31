@@ -1,11 +1,11 @@
 from django.urls import re_path
-from main.views.generic import index, autochtons, creatures, travellers, maps, papers, card_reveal, draconis_artes, \
+from main.views.generic import index, autochtons, creatures, travellers, maps, papers, card_reveal, \
     gardiendesreves, appartuses, combattants, new_creature, new_autochton, new_traveller, new_spell, overlay_edit, kicker
 
 
 from main.views.incantessimi import IncantessimoDetailView
 from main.views.chiaroscuro import inc_dec, value_push, svg_to_pdf, paginator_switch, value_shift, incantessimi_list, incantessimi_filters, nativi_list, \
-    nativi_filters, viaggiatori_list, viaggiatori_filters, creature_list, creature_filters, artefatti_list, artefatti_filters, fetch, edit
+    nativi_filters, viaggiatori_list, viaggiatori_filters, creature_list, creature_filters, artefatti_list, artefatti_filters, fetch, edit, oggetti_list, oggetti_filters
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -53,6 +53,8 @@ urlpatterns = [
                   re_path(r'^ajax/incantessimo_filter$', incantessimi_filters, name='incantessimi_filter'),
                   # Artefatti
                   re_path(r'^artefatti_list$', artefatti_list, name='artefatti_list'),
-                  re_path(r'^ajax/artefatti_filter$', artefatti_filters, name='artefatti_filters'),
-
+                  re_path(r'^ajax/artefatto_filter$', artefatti_filters, name='artefatti_filters'),
+                  # Oggetti
+                  re_path(r'^oggetti_list$', oggetti_list, name='oggetti_list'),
+                  re_path(r'^ajax/oggetto_filter$', oggetti_filters, name='oggetti_filters'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # + debug_toolbar_urls()

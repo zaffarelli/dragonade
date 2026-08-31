@@ -10,7 +10,7 @@ from main.models.incantessimi import Incantessimo
 from main.models.nativi import Nativo
 from main.models.viaggiatori import Viaggiatore
 from main.models.creature import Creatura
-from main.models.equipment import Equipment
+from main.models.oggetti import Oggetto
 from main.models.teams import Team
 
 CHAR_PER_PAGE = 12

@@ -282,32 +282,6 @@ Difficultes = [
     {"NAME": "TD", "TEXT": "Très Difficile", "COEF": 5, "VALUE": 25}
 ]
 
-GEAR_CAT = (
-    ("---", "Unsorted"),
-    ("bag", "Cuirs & Bagages"),
-    ("jut", "Jute, Fils & Cordes"),
-    ("lai", "Laine & lin"),
-    ("vel", "Velours & Soies"),
-    ("feu", "Feux"),
-    ("cui", "Poterie, Cuisine"),
-    ("out", "Outillage"),
-    ("soi", "Soins"),
-    ("ecr", "Ecriture"),
-    ("jou", "Jouer"),
-    ("loc", "Locomotion"),
-    ("sus", "Sustentation"),
-    ("hbs", "Herbes de Soins"),
-    ("hbd", "Herbes Diverses"),
-    ("ReD", "Remèdes & Antidotes"),
-    ("sel", "Sels Alchimiques"),
-    ("mel", "Armes de Mêlée"),
-    ("tir", "Armes de Tir"),
-    ("lan", "Armes de Lancer"),
-    ("amu", "Armures"),
-    ("ana", "Armes Naturelles"),
-    ("gem", "Gemmes & Joyaux"),
-
-)
 
 STRESS_COEFF = 3
 

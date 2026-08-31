@@ -432,12 +432,8 @@ class Chiaroscuro {
                 dataType: 'json',
                 success: function (answer) {
                     $('#roster__' + answer.rid).remove()
-                    //$div = $('<div>',{id:'roster_'+answer.id,class:"roster"})
-                    $('.container').append(answer.new_roster);
-                    // console.log(answer.new_roster)
+                    // $('#svg_area').append(answer.html);
                     $('#roster__' + answer.rid).removeClass("hidden")
-                    // $(".for_display_" + answer.id).addClass('hidden');
-                    // $(".for_edit_" + answer.id).removeClass('hidden');
                     $("#target_ed").val("")
                     $("#ed").val("")
                     me.registerActions()
@@ -494,6 +490,8 @@ class Chiaroscuro {
             let value = me.zaff_encode(new_value)
             let refs = $("#target_ed").val();
             let words = refs.split("__")
+            console.log("registerValuePushEditor")
+            console.log(words)
             if (words.includes("bulk")){
                 value = me.zaff_encode($("#ed").val())
             }
@@ -512,10 +510,15 @@ class Chiaroscuro {
                 },
                 dataType: 'json',
                 success: function (answer) {
-                    $("#"+words[0]+"__"+words[1]).html(answer.data)
+                    $('#roster__' + answer.rid).remove()
+                    $('#svg_area').append(answer.html);
+                    $('#roster__' + answer.rid).removeClass("hidden")
                     $("#target_ed").val("")
                     $("#ed").val("")
                     me.registerActions()
+                    if (me.last_tabbutton != ""){
+                        $("#"+me.last_tabbutton).trigger("click")
+                    }
                 },
                 error: function (answer) {
                     console.error('Error... ' + answer)

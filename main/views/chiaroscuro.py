@@ -1,4 +1,4 @@
-from main.models.equipment import Equipment
+from main.models.oggetti import Oggetto
 from main.utils.mechanics import is_ajax, zaff_decode
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
@@ -9,15 +9,16 @@ from main.models.artefatti import Artefatto
 from main.models.creature import Creatura
 from main.models.viaggiatori import Viaggiatore
 from main.models.incantessimi import Incantessimo
+from main.models.oggetti import Oggetto
+from main.models.sogni import Sogno
 
 ITEMS_PER_LIST = 15
 
 
 def model_to_class(cls_str):
-    klasses = [Incantessimo, Artefatto, Viaggiatore, Nativo, Creatura]
+    klasses = [Incantessimo, Artefatto, Viaggiatore, Nativo, Creatura, Oggetto, Sogno]
     for klass in klasses:
         if klass.__name__ == cls_str:
-            # print(f"Match: {cls_str} --> {klass.__name__}")
             return klass
     return None
 
@@ -320,6 +321,31 @@ def artefatti_filters(request):
     options["zfilters"] = artefatti_options()
     return items_filters(request, options)
 
+# Oggetti
+def oggetti_options():
+    zfilters = []
+    from main.models.oggetti import OggettoCategory
+    for k, p in enumerate(OggettoCategory.values):
+        if p > 0:
+            pa = {"param": "category", "value": p, "label": OggettoCategory.labels[k]}
+            zfilters.append(pa)
+    return zfilters
+
+
+def oggetti_list(request):
+    options = {}
+    options['model'] = "Oggetto"
+    options["zfilters"] = oggetti_options()
+    return items_list(request, options)
+
+
+def oggetti_filters(request):
+    options = {}
+    options['model'] = "Oggetto"
+    options["zfilters"] = oggetti_options()
+    return items_filters(request, options)
+
+
 
 # Generics
 def items_list(request, options={}):
@@ -345,7 +371,7 @@ def items_list(request, options={}):
         spells_j = Incantessimo.references()
         refs = {}
         refs['incantessimi'] = spells_j
-        equipment = Equipment.references()
+        equipment = Oggetto.references()
         refs['equipment'] = equipment
         context["references"] = refs
 

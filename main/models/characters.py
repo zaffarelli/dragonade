@@ -407,22 +407,31 @@ class Character(models.Model, ChiaroscuroMixin):
             Grab elements from the gear stack list that are neither weapons.
             :returns: JSON list of the elements fetched.
         """
-        from main.models.equipment import Equipment
+        from main.models.oggetti import Oggetto
         list = []
-        weapons = Equipment.objects.filter(category__in=['mel', 'tir', 'lan'], rid__in=self.gear.split(" ")).order_by(
+        weapons = Oggetto.objects.filter(category__in=['mel', 'tir', 'lan'], rid__in=self.gear.split(" ")).order_by(
             "category")
         for weapon in weapons:
             stat_value = self.value_for(weapon.category.upper())
-            skill = self.value_for(weapon.related_skill.upper())
-            # All data for the weapon
+            related_skills = weapon.related_skill.split(" ")
             d = weapon.export_to_json()
+            worst = 1000
+            for related_skill in related_skills:
+                val = self.value_for(related_skill)
+                if int(val) < worst:
+                    worst = int(val)
+                    d['related_skill_value'] = int(val)
+                    e = self.entry_for("SKILLS:WEAPONS",related_skill)
+                    if e != {}:
+                        d['related_skill_text'] = e["TEXT"]
+
+            # All data for the weapon
+
             # Data specific to the character applied to the wepon's data
             d['stat_value'] = stat_value
-            d['related_skill_value'] = skill
             d['IMP'] = self.IMP
-            d['related_skill_text'] = d["related_skill"]
-            d['base_score'] = int(stat_value) + int(skill)
-            d['stat_skill'] = f"{stat_value}+{skill}={int(stat_value) + int(skill)}"
+            d['base_score'] = int(stat_value) + int(d['related_skill_value'])
+            d['stat_skill'] = f"{stat_value}+{d['related_skill_value']}={int(stat_value) + int(d['related_skill_value'])}"
             list.append(d)
         return list
 
@@ -431,9 +440,9 @@ class Character(models.Model, ChiaroscuroMixin):
             Grab elements from the gear stack list and get all of those that are neither armor or weapon.
             :returns: JSON list of the elements fetched.
         """
-        from main.models.equipment import Equipment
+        from main.models.oggetti import Oggetto
         list = []
-        others = Equipment.objects.exclude(category__in=['mel', 'tir', 'lan']).filter(
+        others = Oggetto.objects.exclude(category__in=['mel', 'tir', 'lan']).filter(
             rid__in=self.gear.split(" ")).order_by("category")
         for other in others:
             o = other.export_to_json()
@@ -441,7 +450,7 @@ class Character(models.Model, ChiaroscuroMixin):
         return list
 
     def gear_to_armors(self):
-        from main.models.equipment import Equipment
+        from main.models.oggetti import Oggetto
         list = []
         pmap = {}
         words = self.protection_map.split(" ")
@@ -449,7 +458,7 @@ class Character(models.Model, ChiaroscuroMixin):
             if len(word) > 0:
                 pieces = word.split("-")
                 pmap[pieces[0]] = {"protection": pieces[1], "source": pieces[2]}
-        armors = Equipment.objects.filter(prot__gte=1, rid__in=self.gear.split(" ")).order_by("materiaux")
+        armors = Oggetto.objects.filter(prot__gte=1, rid__in=self.gear.split(" ")).order_by("materiaux")
         for armor in armors:
             x = armor.prot
             a = armor.export_to_json()

@@ -12,6 +12,6 @@ class MainConfig(AppConfig):
         import main.signals.contestants
         import main.signals.combats
         import main.signals.sogni
-        import main.signals.equipement
+        import main.signals.oggetti
         import main.signals.incantessimi
         import main.signals.artefatti

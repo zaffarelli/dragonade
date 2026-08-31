@@ -494,14 +494,14 @@ body {
         border:2px solid #808080;
         border-radius:5px;
         flex: 1 1 22ex;
-        & .ref{
+        & .ref, & .name{
             text-align:center;
             order:1;
             background:#101010;
             flex: 1 1 2ex;
             font-family: $mono;
         }
-        & .base{
+        & .base, & .rid{
             order:2;
             background:#100707;
             flex: 1 1 20ex;
@@ -622,7 +622,12 @@ body {
 .option_block{
     & legend{
         color:#F0F0F0;
-        font-variant:small-caps;
+        font-family:$font_title;
+        font-size:12pt;
+//         font-variant:small-caps;
+        border-radius: 8pt;
+        border: 1pt solid #80807f;
+        padding: 0 3pt;
     }
     overflow-y: scroll;
     height:10em;
@@ -632,11 +637,11 @@ body {
     align-content:space-between;
     align-items:stretch;
     gap:1ex;
+    border-color:#8080807f;
     & .ref_entry{
-         border:1pt solid #404040;
-         border-radius: 1pt;
+        border:1pt solid none;
         font-family: $font;
-        font-size:9pt;
+
         flex:1 1 auto;
         display:flex;
         flex-flow:row wrap;
@@ -658,8 +663,8 @@ body {
             text-align:left;
             flex:1 1 30ex;
             color:white;
-            border:2pt solid transparent;
-            border-radius: 3pt;
+//             border:2pt solid transparent;
+//             border-radius: 3pt;
             padding:2pt;
             background:#202020;
         }

@@ -4,16 +4,73 @@ from django.contrib import admin
 from main.mixins.chiaroscuro_mixin import ChiaroscuroMixin
 from main.utils.mechanics import as_rid
 from django.utils import timezone
-from main.utils.ref_dragonade import GEAR_CAT
+
+# from main.utils.ref_dragonade import GEAR_CAT
+
+#
+# GEAR_CAT = (
+#     ("---", "Unsorted"),
+#     ("bag", "Cuirs & Bagages"),
+#     ("jut", "Jute, Fils & Cordes"),
+#     ("lai", "Laine & lin"),
+#     ("vel", "Velours & Soies"),
+#     ("feu", "Feux"),
+#     ("cui", "Poterie, Cuisine"),
+#     ("out", "Outillage"),
+#     ("soi", "Soins"),
+#     ("ecr", "Ecriture"),
+#     ("jou", "Jouer"),
+#     ("loc", "Locomotion"),
+#     ("sus", "Sustentation"),
+#     ("hbs", "Herbes de Soins"),
+#     ("hbd", "Herbes Diverses"),
+#     ("ReD", "Remèdes & Antidotes"),
+#     ("sel", "Sels Alchimiques"),
+#     ("mel", "Armes de Mêlée"),
+#     ("tir", "Armes de Tir"),
+#     ("lan", "Armes de Lancer"),
+#     ("amu", "Armures"),
+#     ("ana", "Armes Naturelles"),
+#     ("gem", "Gemmes & Joyaux"),
+#
+# )
 
 
-class Equipment(models.Model, ChiaroscuroMixin):
+class OggettoCategory(models.IntegerChoices):
+    NONE = 1, "n/a"
+    BAG = 2, "Cuirs & Bagages"
+    JUT = 3, "Jute, Fils & Cordes"
+    LAI = 4, "Laine & lin"
+    VEL = 5, "Velours & Soies"
+    FEU = 6, "Feux"
+    CUI = 7, "Poterie, Cuisine"
+    OUT = 8, "Outillage"
+    SOI = 9, "Soins"
+    ECR = 10, "Ecriture"
+    JOU = 11, "Jouer"
+    LOC = 12, "Locomotion"
+    SUS = 13, "Sustentation"
+    HBS = 14, "Herbes de Soins"
+    HBD = 15, "Herbes Diverses"
+    REM = 16, "Remèdes & Antidotes"
+    SEL = 17, "Sels Alchimiques"
+    MEL = 18, "Armes de Mêlée"
+    TIR = 19, "Armes de Tir"
+    LAN = 20, "Armes de Lancer"
+    AMU = 21, "Armures"
+    ANA = 22, "Armes Naturelles"
+    GEM = 23, "Gemmes & Joyaux"
+
+
+class Oggetto(models.Model, ChiaroscuroMixin):
     class Meta:
-        ordering = ['name']
+        ordering = ['category']
+        verbose_name = "Oggetto"
+        verbose_name_plural = "Oggetti"
 
     name = models.CharField(default="", max_length=256)
     rid = models.CharField(default="xxx", max_length=256, blank=True)
-    category = models.CharField(default="gen", max_length=3, choices=GEAR_CAT)
+    category = models.IntegerField(default=OggettoCategory.NONE, choices=OggettoCategory.choices)
     can_be_thrown = models.BooleanField(default=False, blank=True)
     plus_dom = models.IntegerField(default=0, null=True, blank=True)
     plus_dom_2m = models.IntegerField(default=0, null=True, blank=True)
@@ -73,10 +130,15 @@ class Equipment(models.Model, ChiaroscuroMixin):
                     break
                 # else:
                 #     print(f'     Not matching with [{self.name.upper()}]')
-            for skill in CHARACTER_STATISTICS['SKILLS']['WEAPONS']['LIST']:
-                if skill["NAME"].upper() == self.related_skill.upper():
-                    self.skill_match = skill["TEXT"]
-                    break
+            if len(self.related_skill) > 0:
+                skill_match = []
+                related_skills = self.related_skill.upper().split(" ")
+                for related_skill in related_skills:
+                    for skill in CHARACTER_STATISTICS['SKILLS']['WEAPONS']['LIST']:
+                        if skill["NAME"].upper() == related_skill:
+                            skill_match.append(skill["TEXT"])
+                            break
+                self.skill_match = ", ".join(skill_match)
         if self.malus_AGI > 0:
             self.malus_AGI = -self.malus_AGI
         if self.malus_DEX > 0:
@@ -85,8 +147,6 @@ class Equipment(models.Model, ChiaroscuroMixin):
             self.malus_VUE = -self.malus_VUE
         if self.malus_OUI > 0:
             self.malus_OUI = -self.malus_OUI
-
-
 
     def __str__(self):
         return f"{self.name} [{self.category}]"
@@ -151,13 +211,14 @@ def cat_from_first(modeladmin, request, queryset):
     short_description = "Category from the first item"
 
 
-class EquipmentAdmin(admin.ModelAdmin):
+class OggettoAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ['category', 'related_attribute', 'name']
-    list_display = ["id", "rid", "name","range", "category", "enc", "price", "resistance", "plus_dom", "plus_dom_2m", "force_min", "prot", "malus_AGI", "malus_DEX",
+    list_display = ["rid", "id", "category", "name", "enc", "price", "resistance", "plus_dom", "plus_dom_2m", "force_min", "prot",
+                    "malus_AGI", "malus_DEX",
                     "malus_VUE", "malus_OUI",
                     "related_attribute", "skill_match"]
-    list_editable = ["category", "enc", "price","range"]
+    list_editable = ["category", "enc", "price"]
     list_filter = ["category", "can_be_thrown", "special"]
     search_fields = ['name']
     actions = [refix, cat_from_first]
