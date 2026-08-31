@@ -89,14 +89,16 @@ def value_push(request):
             rid = request.POST.get('rid')
             new_value = request.POST.get('new_value')
             value = zaff_decode(new_value)
+            value = value.replace("  "," ")
+            value = value.strip()
             print("New value     =>", new_value)
             print("Value to push =>", value)
             print("Params =>", params)
             if len(params) >= 3:
-                class_name = params[0]
+                class_name = params[0].title()
                 print(f"Class: {class_name}")
-                id = params[1]
-                attribute = params[2]
+                rid = params[1]
+                attribute = params[2].lower()
                 if class_name.title() == "Nativo":
                     item = Nativo.objects.get(rid=rid)
                     cando = True
@@ -113,15 +115,24 @@ def value_push(request):
                     print("Traveller found: ", item.rid)
                     cando = True
         if cando:
-            print("success!!")
+            print(f"### VALUE PUSH ### {item.name}: Pushing [{attribute}] with [{value}]!!")
             change_result = item.applyValuePush(attribute, value)
-            context = {'i': item.export_to_json(), "model": class_name.title()}
+            x = item.export_to_json()
+            model = class_name.title()
+            context = {'i': x, "model": model}
             template = get_template('main/chiaroscuro/item_body.html')
             new_roster = template.render(context, request)
             answer['rid'] = item.rid
             answer['id'] = item.id
             answer['change_result'] = change_result
             answer['data'] = new_roster
+            context = {}
+            context['a'] = x
+            context['model'] = model
+            template = get_template("main/objects/roster.html")
+            html = template.render(context, request)
+            answer['html'] = html
+
             return JsonResponse(answer)
     return HttpResponse(status=204)
 

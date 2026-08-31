@@ -1,12 +1,20 @@
 {% load static %}
 {% load dragonade_filters %}
 
-<fieldset class="sheet stackbox gear stackpull" action="{{model|lower}}__{{a.rid}}__GEAR__bulk" param="{{a.gear}}" title="{{a.rid}} = {{a.gear}}">
-    <legend>Equipement</legend>
-    {{a.gear|as_stack_list|safe}}
-</fieldset>
+<div class="tri full">
+    <div class="row lax">
+        <fieldset class="block_third raw">
+            <legend>Equipement</legend>
+            <div class="block_third stackbox gear stackpull" action="{{model|lower}}__{{a.rid}}__GEAR__bulk" param="{{a.gear}}">
+                {{a.gear|as_stack_list|safe}}
+            </div>
+        </fieldset>
 
-<fieldset class="sheet stackbox spells stackpull" action="{{model|lower}}__{{a.rid}}__SPELLS__bulk" param="{{a.spells}}" title="{{a.rid}} = {{a.spells}}">
-    <legend>Sortilèges</legend>
-    {{a.spells|as_stack_list|safe}}
-</fieldset>
+        <fieldset class="block_third raw">
+            <legend>Sortilèges</legend>
+            <div class="block_third  stackbox spells stackpull" action="{{model|lower}}__{{a.rid}}__SPELLS__bulk" param="{{a.spells}}">
+                {{a.spells|as_stack_list|safe}}
+            </div>
+        </fieldset>
+    </div>
+</div>

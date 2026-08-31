@@ -123,33 +123,39 @@
 
     & .tri{
         font-size:14pt;
-        height:auto;
-        width:calc(100%-16pt);
         display:flex;
         flex-flow:column nowrap;
         justify-content: flex-start;
         align-items: space-between;
-        align-content: stretch;
+//         align-content: stretch;
         padding:8pt;
         gap: 3pt;
         background:#3030303f;
-
+//         border:1pt solid orange;
+        height:auto;
+        width:calc(100%-16pt);
+        &.full{
+            width:96%;
+            margin: 0 16pt;
+        }
         & .row{
-            flex: 0 1 auto;
+            flex: 1 1 auto;
             display:flex;
             flex-flow:row nowrap;
-            border: 1pt solid #8080807f;
+            border: 1pt solid transparent;
             gap: 3pt;
             color:white;
             height:auto;
+            width:auto;
             &.lax{
                 flex-flow:row wrap;
+                width:100%;
 //                 border:2pt solid red;
             }
             &.lox{
                 flex-flow:column wrap;
-                border:2pt solid red;
-                width:auto;
+//                 border:2pt solid red;
+
             }
             justify-content: flex-start;
             align-items: flex-start;
@@ -178,6 +184,15 @@
                 align-content: flex-start;
                 gap: 3pt;
 
+                &.raw{
+                    order:0;
+                    flex: 1 1 99%;
+                    padding:8pt;;
+                    border-radius:2pt;
+//                     background:#5050507f;
+                    border-radius:8pt;
+                    border:1pt solid #8080807f;
+                }
 
                 & .title{
                     order:0;

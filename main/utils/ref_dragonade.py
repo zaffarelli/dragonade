@@ -70,7 +70,7 @@ CHARACTER_STATISTICS = {
             {"NAME": "AKA", "TEXT": "Entrée", "RATIONALE": "-"},
             {"NAME": "GENDER", "TEXT": "Entrée", "RATIONALE": "-"},
             {"NAME": "LEFTY", "TEXT": "Entrée", "RATIONALE": "-"},
-            {"NAME": "GEAR", "TEXT": "Armes", "RATIONALE": "-"},
+            {"NAME": "GEAR", "TEXT": "Equipement", "RATIONALE": "-"},
             {"NAME": "SPELLS", "TEXT": "Magie", "RATIONALE": "-"},
             {"NAME": "ENTRANCE", "TEXT": "Entrée", "RATIONALE": "-"}
         ]
@@ -197,13 +197,16 @@ def known(dataset_str, value):
     result = ""
     source = CHARACTER_STATISTICS
     verbs = dataset_str.split(":")
+    # print(f"#VERBS.... {verbs}")
     for verb in verbs:
         source = source[verb]
     elems = source["LIST"]
     for elem in elems:
         if elem["NAME"] == value.upper():
+            # print(f"# Found : {value.upper()}")
             result = dataset_str
             break
+    # print(f"#KNOWN.... {result}")
     return result
 
 

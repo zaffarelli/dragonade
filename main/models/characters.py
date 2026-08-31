@@ -74,6 +74,7 @@ class Character(models.Model, ChiaroscuroMixin):
     malus_OUI = models.IntegerField(default=0, blank=True)
 
     description = models.TextField(max_length=1024, default="", blank=True)
+
     # data = {}
 
     def __str__(self):
@@ -99,7 +100,7 @@ class Character(models.Model, ChiaroscuroMixin):
 
         if offset:
             val = self.value_for(att)
-            print(f"{val} type:{type(val).__name__}")
+            # print(f"{val} type:{type(val).__name__}")
             if type(val).__name__ == "str":
                 val = int(val)
             val += offset
@@ -110,9 +111,9 @@ class Character(models.Model, ChiaroscuroMixin):
         return result
 
     def applyValuePush(self, att, val):
-        self.export_to_json()
+        # self.export_to_json()
         result = self.overwrite_for(att, val)
-        # print(result)
+        print(result)
         if result:
             # self.updateFromStruct()
             self.save()
@@ -201,11 +202,11 @@ class Character(models.Model, ChiaroscuroMixin):
         print("(Les attributs sont considérés à -5)")
 
     def expected_totals(self):
-        attr_total, skill_total = 0,0
+        attr_total, skill_total = 0, 0
         if self.__class__.__name__ == "Viaggiatore":
-            attr_total, skill_total = 126,145
+            attr_total, skill_total = 126, 145
         elif self.__class__.__name__ == "Nativo":
-            attr_total, skill_total = 114,50
+            attr_total, skill_total = 114, 50
         elif self.__class__.__name__ == "Creatura":
             attr_total, skill_total = 0, 0
         return attr_total, skill_total
@@ -246,11 +247,9 @@ class Character(models.Model, ChiaroscuroMixin):
         # self.indice += self.data['misc']['PROT'] * 2
         # self.indice += self.data['misc']['SON'] ** 2
         self.REV = self.SON + self.FAB
-        a,s = self.expected_totals()
+        a, s = self.expected_totals()
         self.total_attributes -= a
         self.total_skills -= s
-
-
 
     # def updateFromStruct(self):
     #     list = []
@@ -331,7 +330,7 @@ class Character(models.Model, ChiaroscuroMixin):
             data = getattr(self, "skills_" + skill_set)
             default = REF["DEFAULT"]
             arr = data.split(" ")
-            if len(arr)==len(REF["LIST"]):
+            if len(arr) == len(REF["LIST"]):
                 for item in REF["LIST"]:
                     if "ORDER" in item:
                         pos = item["ORDER"]
@@ -401,7 +400,7 @@ class Character(models.Model, ChiaroscuroMixin):
             str += "__nl__"
             i -= 1
             pf_total += pf
-        return pf_total,str
+        return pf_total, str
 
     def gear_to_weapons(self):
         """
@@ -457,7 +456,7 @@ class Character(models.Model, ChiaroscuroMixin):
             a["numeric_cover"] = ""
             parts = armor.cover.split(" ")
             for part in parts:
-                print(a["numeric_cover"])
+                # print(a["numeric_cover"])
                 if part == "-":
                     a["numeric_cover"] += f"0 "
                 else:
@@ -505,14 +504,14 @@ class Character(models.Model, ChiaroscuroMixin):
             if "ORDER" in entry:
                 verbs = where.lower().split(':')
                 datalist = getattr(self, "_".join(verbs))
-                print(f"Key:{'_'.join(verbs):20} Value:{datalist} [Type:{type(datalist)}]")
-                print(f"### ORDER = {entry['ORDER']}")
+                # print(f"Key:{'_'.join(verbs):20} Value:{datalist} [Type:{type(datalist)}]")
+                # print(f"### ORDER = {entry['ORDER']}")
                 if type(datalist).__name__ == 'str':
                     parts = datalist.split(" ")
                     result = parts[entry["ORDER"]]
                 else:
                     result = datalist[entry["ORDER"]]
-                print(f"### Result = {result}")
+                # print(f"### Result = {result}")
             else:
                 result = getattr(self, entry['NAME'])
         return result
@@ -521,7 +520,9 @@ class Character(models.Model, ChiaroscuroMixin):
         # print("OVERWRITE FOR")
         result = False
         where = self.index_for(str)
+        # print(f"## WHERE {where}")
         entry = self.entry_for(where, str)
+        # print(f"## ENTRY {entry}")
         if entry != {}:
             if "ORDER" in entry:
                 verbs = where.lower().split(':')
@@ -534,7 +535,7 @@ class Character(models.Model, ChiaroscuroMixin):
                 self.save()
                 result = True
             else:
-                setattr(self, entry['NAME'], val)
+                setattr(self, entry['NAME'].lower(), val)
                 self.save()
                 result = True
         return result
@@ -548,13 +549,16 @@ class Character(models.Model, ChiaroscuroMixin):
         from main.utils.ref_dragonade import CHARACTER_STATISTICS
         root = CHARACTER_STATISTICS
         result = {}
+        # print(f"ENTRY FOR {str} {stat}")
         if len(str) > 0:
             words = str.upper().split(':')
             for word in words:
                 root = root[word]
             for item in root["LIST"]:
-                if item["NAME"] == stat:
+                if item["NAME"] == stat.upper():
                     result = item
+                    break
+        # print(f"ENTRY RESULT {item}")
         return result
 
     def index_for(self, str):
@@ -562,6 +566,7 @@ class Character(models.Model, ChiaroscuroMixin):
         :param str: The code for the stat
         :returns: the position in the description as a:b:c
         """
+        # print("INDEX FOR")
         from main.utils.ref_dragonade import known
         choices = ["ATTRIBUTES", "SKILLS:WEAPONS", "SKILLS:GENERIC", "SKILLS:PECULIAR", "SKILLS:SPECIALIZED", "SKILLS:KNOWLEDGE", "SKILLS:DRACONIC",
                    "SECONDARIES", "MISC", "FEATURES"]
@@ -570,8 +575,6 @@ class Character(models.Model, ChiaroscuroMixin):
             if len(result) > 0:
                 break
         return result
-
-
 
     def roster(self):
         # return "Disabled for now."
@@ -635,10 +638,10 @@ class Character(models.Model, ChiaroscuroMixin):
             skills += ", ".join(v["list"]) + ".<br/>"
         lines.append(skills)
 
-        weapons = f"{'Arme':{space}<20} {'DOMA':{space}>6} {'2M':{space}>6} {'INIT':>6} {"Jet":>10} {'Score':>8}<br/>"
+        weapons = f"{'Arme':{space}<20} {'DOMA':{space}>6} {'2M':{space}>6} {'INIT':>6} {'Jet':>10} {'Score':>8}<br/>"
         for w in self._data["weapons"]:
             weapons += f"{w['name']:{space}<20} "
-            print(w)
+            # print(w)
             if w['category'] == "mel":
                 if w['plus_dom'] != 0:
                     d1 = f"{w['plus_dom']}+{self.IMP}"
@@ -656,16 +659,13 @@ class Character(models.Model, ChiaroscuroMixin):
             weapons += f"{w['mod_ini']:{space}>6} {w['stat_skill']:{space}>10} {w['base_score']:{space}>8}<br/>"
         lines.append(weapons)
 
-
-        protection = f'{"Pièce d'Armure/Protection":{space}<35}{"Malus":{space}>25}{"Prot":{space}>6}<br/>'
+        protection = f'{"Armure/Protection":{space}<35}{"Malus":{space}>25}{"Prot":{space}>6}<br/>'
         for a in self._data['armors']:
             all_malus = f'AGI {a["malus_AGI"]} DEX {a["malus_DEX"]} VUE {a["malus_VUE"]} OUI {a["malus_OUI"]}'
             protection += f"{a['name']:{space}<35}{all_malus:{space}>25}{a['prot']:{space}>6}<br/>"
         lines.append(protection)
 
-
         lines.append(f"Description: {self.description}<br/>")
-
 
         lines_VIE = []
         life = ""
@@ -675,32 +675,31 @@ class Character(models.Model, ChiaroscuroMixin):
             if x % 5 == 4:
                 lines_VIE.append(f"{life}")
                 life = ""
-        if len(life)>0:
+        if len(life) > 0:
             lines_VIE.append(f"{life}")
 
         lines_REV = []
         dream = ""
         # &#9744;
-        for x in range(self.REV*3):
+        for x in range(self.REV * 3):
             dream += "o "
-            if x % self.REV == self.REV-1:
+            if x % self.REV == self.REV - 1:
                 lines_REV.append(f"{dream}")
                 dream = ""
-        if len(dream)>0:
+        if len(dream) > 0:
             lines_REV.append(f"{dream}")
 
-
         _, fatigue = self.computeFatigue(self.FAT)
-        #fatigue = fatigue.replace("o","&#9744;")
+        # fatigue = fatigue.replace("o","&#9744;")
         lines_FAT = fatigue.split("__nl__")
         txt_v = f"PdV ({self.VIE})"
         txt_f = f"PdF ({self.FAT})"
         txt_r = f"PdR ({self.REV})"
         lines.append(f"{txt_v:<14}{txt_f:<20}{txt_r:<20}")
-        for x in range(max(len(lines_VIE),len(lines_FAT),len(lines_REV))):
+        for x in range(max(len(lines_VIE), len(lines_FAT), len(lines_REV))):
             s = ""
             nope = 0
-            if x<len(lines_VIE):
+            if x < len(lines_VIE):
                 s += f"{lines_VIE[x]:<14}"
             else:
                 s += f"{'':<14}"
@@ -710,18 +709,16 @@ class Character(models.Model, ChiaroscuroMixin):
             else:
                 s += f"{'':<20}"
                 nope += 1
-            if x<len(lines_REV):
+            if x < len(lines_REV):
                 s += f"{lines_REV[x]:<20}"
             else:
                 s += f"{'':<20}"
                 nope += 1
             if nope == 3:
                 s = ""
-            print(s)
-            s = s.replace("o","&#9744;")
+            # print(s)
+            s = s.replace("o", "&#9744;")
             lines.append(s)
-
-
 
         return lines
 
@@ -763,10 +760,9 @@ class Character(models.Model, ChiaroscuroMixin):
             item = creature.first()
         return item
 
-
     def challenge_equipment_and_skills(self):
         pass
-        #weapons = self.gear_to_weapons()
+        # weapons = self.gear_to_weapons()
         # bugs = []
         # for weapon in weapons:
         #     if self.value_for(weapon['skill']) == 0:
@@ -780,6 +776,7 @@ class Character(models.Model, ChiaroscuroMixin):
         self.malus_VUE = 0
         self.malus_OUI = 0
         map = {}
+        self.protection_map = "H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X"
         parts = self.protection_map.split(" ")
         for part in parts:
             x = part.split("-")
@@ -792,7 +789,7 @@ class Character(models.Model, ChiaroscuroMixin):
                     p = "H"
                 elif cover in ["C", "T"]:
                     p = "C"
-                elif cover in ["AS", "SA","A"]:
+                elif cover in ["AS", "SA", "A"]:
                     p = "A"
                 elif cover in ["AW", "WA", "B"]:
                     p = "B"
