@@ -185,8 +185,8 @@ class Oggetto(models.Model, ChiaroscuroMixin):
     @classmethod
     def references(klass):
         list = []
-        for item in klass.objects.order_by("name"):
-            list.append({"name": item.name, "rid": item.rid})
+        for item in klass.objects.order_by("-category","name"):
+            list.append({"name": '['+item.get_category_display()[:4]+'] '+item.name ,"rid": item.rid})
         return list
 
     @classmethod

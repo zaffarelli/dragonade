@@ -23,8 +23,6 @@ def model_to_class(cls_str):
     return None
 
 
-
-
 def value_shift(request):
     answer = {'rid': None, "data": ''}
     if is_ajax(request):
@@ -90,7 +88,7 @@ def value_push(request):
             rid = request.POST.get('rid')
             new_value = request.POST.get('new_value')
             value = zaff_decode(new_value)
-            value = value.replace("  "," ")
+            value = value.replace("  ", " ")
             value = value.strip()
             print("New value     =>", new_value)
             print("Value to push =>", value)
@@ -321,6 +319,7 @@ def artefatti_filters(request):
     options["zfilters"] = artefatti_options()
     return items_filters(request, options)
 
+
 # Oggetti
 def oggetti_options():
     zfilters = []
@@ -344,7 +343,6 @@ def oggetti_filters(request):
     options['model'] = "Oggetto"
     options["zfilters"] = oggetti_options()
     return items_filters(request, options)
-
 
 
 # Generics
@@ -432,6 +430,7 @@ def edit(request):
                 return JsonResponse(answer)
     return HttpResponse(status=204)
 
+
 def inc_dec(request):
     cando = False
     answer = {}
@@ -463,7 +462,7 @@ def inc_dec(request):
             if cando:
                 print("success!!")
                 change_result = item.applyIncDec(attribute, change)
-                context = {'a': item.export_to_json(), "model":model.title()}
+                context = {'a': item.export_to_json(), "model": model.title()}
                 template = get_template('main/objects/roster.html')
                 new_roster = template.render(context, request)
                 answer['id'] = item.id
@@ -473,7 +472,6 @@ def inc_dec(request):
                 return JsonResponse(answer)
 
     return HttpResponse(status=204)
-
 
 
 def fetch(request):

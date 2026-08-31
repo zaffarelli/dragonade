@@ -124,11 +124,11 @@
     height:7vh;
     width:auto;
     font-size:0.73em;
-    justify-content:flex-start;
-    align-content:  space-between;
-    align-items: stretch;
+    justify-content:space-between;
+    align-content: flex-start;
+    align-items: flex-start;
     & .zlist_entry{
-        flex:1 6 auto;
+        flex:0 6 20ex;
         border-radius:5pt;
         display:inline-block;
         font-weight:normal;

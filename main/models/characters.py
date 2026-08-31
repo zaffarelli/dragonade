@@ -409,10 +409,11 @@ class Character(models.Model, ChiaroscuroMixin):
         """
         from main.models.oggetti import Oggetto
         list = []
-        weapons = Oggetto.objects.filter(category__in=['mel', 'tir', 'lan'], rid__in=self.gear.split(" ")).order_by(
+        weapons = Oggetto.objects.filter(category__in=[18,19,20], rid__in=self.gear.split(" ")).order_by(
             "category")
         for weapon in weapons:
-            stat_value = self.value_for(weapon.category.upper())
+            svs = {"18":"MEL","19":"TIR","20":"LAN"}
+            stat_value = self.value_for(svs[str(weapon.category)])
             related_skills = weapon.related_skill.split(" ")
             d = weapon.export_to_json()
             worst = 1000
@@ -429,9 +430,10 @@ class Character(models.Model, ChiaroscuroMixin):
 
             # Data specific to the character applied to the wepon's data
             d['stat_value'] = stat_value
+            d['stat_name'] = svs[str(weapon.category)]
             d['IMP'] = self.IMP
             d['base_score'] = int(stat_value) + int(d['related_skill_value'])
-            d['stat_skill'] = f"{stat_value}+{d['related_skill_value']}={int(stat_value) + int(d['related_skill_value'])}"
+            d['stat_skill'] = f"{svs[str(weapon.category)]}+{d['related_skill_value']}={int(stat_value) + int(d['related_skill_value'])}"
             list.append(d)
         return list
 
@@ -442,7 +444,7 @@ class Character(models.Model, ChiaroscuroMixin):
         """
         from main.models.oggetti import Oggetto
         list = []
-        others = Oggetto.objects.exclude(category__in=['mel', 'tir', 'lan']).filter(
+        others = Oggetto.objects.exclude(category__in=[18,19,20]).filter(
             rid__in=self.gear.split(" ")).order_by("category")
         for other in others:
             o = other.export_to_json()

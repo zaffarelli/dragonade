@@ -8,7 +8,7 @@
         <div class="title">{{w.name}}</div>
         <div class="stat">
             <div class="label short">Attaque<br/>Score</div>
-            <div class="data auto">{{w.category|upper}} + {{w.related_skill_text}}<br/>{{w.stat_value}} + {{w.related_skill_value}} = {{w.base_score}}</div>
+            <div class="data auto">{{w.stat_name}} + {{w.related_skill_text}}<br/>{{w.stat_value}} + {{w.related_skill_value}} = {{w.base_score}}</div>
         </div>
         {% if w.category == "mel" %}
         <div class="stat">
