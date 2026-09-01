@@ -483,3 +483,23 @@ def as_cover(value):
     template = get_template('main/roster/small_roster_armor_map.html')
     image = template.render(x, None)
     return image
+
+@register.filter(name='as_text_cover')
+def as_text_cover(value):
+    s = []
+    if len(value)>0:
+        cs = value.split(" ")
+        for c in cs:
+            if c == "C":
+                s.append("Torse")
+            elif c == "H":
+                s.append("Tête")
+            elif c == "A":
+                s.append("Bras fort")
+            elif c == "B":
+                s.append("Bras")
+            elif c == "L":
+                s.append("Jambe forte")
+            elif c == "M":
+                s.append("Jambe")
+    return ", ".join(s)

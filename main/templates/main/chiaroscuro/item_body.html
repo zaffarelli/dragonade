@@ -111,7 +111,7 @@
 <div class="zlist_item number" model="{{model|lower}}" style="order:0">RES.<br/>{{ i.resistance }}</div>
 <div class="zlist_item number" model="{{model|lower}}" style="order:0">QUAL.<br/>{{ i.quality }}</div>
 <div class="zlist_item symbol" model="{{model|lower}}" style="order:0">{{ i.cover|as_cover|safe }}</div>
-<div class="zlist_item label" model="{{model|lower}}" style="order:0">{{ i.cover }}</div>
+<div class="zlist_item label" model="{{model|lower}}" style="order:0">{{ i.cover|as_text_cover|safe }}</div>
 <div class="zlist_item number" model="{{model|lower}}" style="order:0">AGI<br/>{{ i.malus_AGI }}</div>
 <div class="zlist_item number" model="{{model|lower}}" style="order:0">DEX<br/>{{ i.malus_DEX }}</div>
 <div class="zlist_item number" model="{{model|lower}}" style="order:0">VUE<br/>{{ i.malus_VUE }}</div>
