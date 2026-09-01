@@ -310,7 +310,9 @@ class Character(models.Model, ChiaroscuroMixin):
                     self._data[branch][transversal[1].lower()] = {}
                     arr = getattr(self, src_ref.lower()).split(' ')
                     for item in src_struct['LIST']:
-                        self._data[branch][transversal[1].lower()][item['NAME']] = int(arr[cnt]) if cnt < len(arr) else src_struct['DEFAULT']
+                        self._data[branch][transversal[1].lower()][item['NAME']] = {"val":666,"abs":666}
+                        self._data[branch][transversal[1].lower()][item['NAME']]['val'] = int(arr[cnt]) if cnt < len(arr) else src_struct['DEFAULT']
+                        self._data[branch][transversal[1].lower()][item['NAME']]['abs'] = self._data[branch][transversal[1].lower()][item['NAME']]['val']-src_struct['DEFAULT']
                         cnt += 1
             else:
                 print(f"!!! Error: Don't know what to do with [{src_ref}]...")

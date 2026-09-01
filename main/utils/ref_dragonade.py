@@ -97,7 +97,7 @@ CHARACTER_STATISTICS = {
                 {"NAME": "WEA_15", "TEXT": "Masses", "ORDER": 14},
                 {"NAME": "WEA_16", "TEXT": "Lances", "ORDER": 15},
                 {"NAME": "WEA_17", "TEXT": "Poignards", "ORDER": 16},
-                {"NAME": "WEA_18", "TEXT": "Pugilat", "ORDER": 17},
+                {"NAME": "WEA_18", "TEXT": "Castagne", "ORDER": 17},
             ]
         },
         "GENERIC": {
@@ -114,10 +114,14 @@ CHARACTER_STATISTICS = {
                 {"NAME": "GEN_08", "TEXT": "Discrétion", "ORDER": 7},
                 {"NAME": "GEN_09", "TEXT": "Eloquence", "ORDER": 8},
                 {"NAME": "GEN_10", "TEXT": "Escalade", "ORDER": 9},
-                {"NAME": "GEN_11", "TEXT": "Saut", "ORDER": 10},
-                {"NAME": "GEN_12", "TEXT": "Sculpture", "ORDER": 11},
-                {"NAME": "GEN_13", "TEXT": "Séduction", "ORDER": 12},
-                {"NAME": "GEN_14", "TEXT": "Vigilance", "ORDER": 13}
+                {"NAME": "GEN_16", "TEXT": "Pêche", "ORDER": 10},
+                {"NAME": "GEN_11", "TEXT": "Saut", "ORDER": 11},
+                {"NAME": "GEN_12", "TEXT": "Sculpture", "ORDER": 12},
+                {"NAME": "GEN_13", "TEXT": "Séduction", "ORDER": 13},
+                {"NAME": "GEN_15", "TEXT": "Tactique", "ORDER": 14},
+                {"NAME": "GEN_14", "TEXT": "Vigilance", "ORDER": 15},
+
+
             ]
         },
         "PECULIAR": {
@@ -163,14 +167,15 @@ CHARACTER_STATISTICS = {
             "NAME": "Connaissances",
             "LIST": [
                 {"NAME": "KNO_01", "TEXT": "Alchimie", "ORDER": 0},
-                {"NAME": "KNO_02", "TEXT": "Architecture", "ORDER": 1},
-                {"NAME": "KNO_03", "TEXT": "Astrologie", "ORDER": 2},
-                {"NAME": "KNO_05", "TEXT": "Botanique", "ORDER": 3},
+                {"NAME": "KNO_10", "TEXT": "Animaux", "ORDER": 1},
+                {"NAME": "KNO_02", "TEXT": "Architecture", "ORDER": 2},
+                {"NAME": "KNO_03", "TEXT": "Astrologie", "ORDER": 3},
                 {"NAME": "KNO_06", "TEXT": "Ecriture", "ORDER": 4},
                 {"NAME": "KNO_07", "TEXT": "Légendes", "ORDER": 5},
                 {"NAME": "KNO_08", "TEXT": "Mathématiques", "ORDER": 6},
                 {"NAME": "KNO_09", "TEXT": "Médecine", "ORDER": 7},
-                {"NAME": "KNO_10", "TEXT": "Zoologie", "ORDER": 8}
+                {"NAME": "KNO_05", "TEXT": "Plantes", "ORDER": 8},
+                {"NAME": "KNO_11", "TEXT": "Stratégie", "ORDER": 9}
             ]
         },
         "DRACONIC": {

@@ -5,44 +5,44 @@
     <div class="row lax">
 
         <div class="block_third" >
-            <div class="title">MARTIALES (-1)</div>
+            <div class="title">Mariales (-1)</div>
             {% for sk,v in a.skil.weapons.items %}
-            {% include "main/roster/roster_skill_lines.html" with a=a sk=sk v=v%}
+            {% include "main/roster/roster_skill_lines.html" with a=a sk=sk v=v.val b=v.abs%}
             {% endfor %}
         </div>
 
         <div class="block_third">
-            <div class="title">GENERALES(-1)</div>
+            <div class="title">Générales (-1)</div>
             {% for sk,v in a.skil.generic.items %}
-            {% include "main/roster/roster_skill_lines.html" with a=a sk=sk v=v%}
+            {% include "main/roster/roster_skill_lines.html" with a=a sk=sk v=v.val b=v.abs%}
             {% endfor %}
         </div>
 
         <div class="block_third">
-            <div class="title">PARTICULIERES (-2)</div>
+            <div class="title">Particulières (-2)</div>
             {% for sk,v in a.skil.peculiar.items %}
-            {% include "main/roster/roster_skill_lines.html" with a=a sk=sk v=v%}
+            {% include "main/roster/roster_skill_lines.html" with a=a sk=sk v=v.val b=v.abs%}
             {% endfor %}
         </div>
 
         <div class="block_third">
-            <div class="title">SPECIALISEES (-3)</div>
+            <div class="title">Spécialisées (-3)</div>
             {% for sk,v in a.skil.specialized.items %}
-            {% include "main/roster/roster_skill_lines.html" with a=a sk=sk v=v%}
+            {% include "main/roster/roster_skill_lines.html" with a=a sk=sk v=v.val b=v.abs%}
             {% endfor %}
         </div>
 
         <div class="block_third">
-            <div class="title">CONNAISSANCES (-4)</div>
+            <div class="title">Connaissances (-4)</div>
             {% for sk,v in a.skil.knowledge.items %}
-            {% include "main/roster/roster_skill_lines.html" with a=a sk=sk v=v%}
+            {% include "main/roster/roster_skill_lines.html" with a=a sk=sk v=v.val b=v.abs%}
             {% endfor %}
         </div>
 
         <div class="block_third">
-            <div class="title">DRACONIQUES (-5)</div>
+            <div class="title">Draconiques (-5)</div>
             {% for sk,v in a.skil.draconic.items %}
-            {% include "main/roster/roster_skill_lines.html" with a=a sk=sk v=v%}
+            {% include "main/roster/roster_skill_lines.html" with a=a sk=sk v=v.val b=v.abs%}
             {% endfor %}
         </div>
 

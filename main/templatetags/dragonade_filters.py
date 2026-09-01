@@ -289,13 +289,6 @@ def as_elemental_charge(value):
 @register.filter(name='encoded_z')
 def encoded_z(value):
     from main.utils.mechanics import zaff_encode
-    # import base64
-    # import html
-    # val = str(value)
-    # x = base64.b64encode(bytes(val, 'utf-8'))
-    # print("x",str(x))
-    # y = str(x).replace("b'", "").replace("'", "")
-    # # print(value,y,type(x))
     res = zaff_encode(str(value))
     return res
 
@@ -303,14 +296,6 @@ def encoded_z(value):
 @register.filter(name='decoded_z')
 def decoded_z(value):
     from main.utils.mechanics import zaff_decode
-    from main.utils.mechanics import zaff_encode
-    # import base64
-    # import html
-    # val = str(value)
-    # x = base64.b64encode(bytes(val, 'utf-8'))
-    # print("x",str(x))
-    # y = str(x).replace("b'", "").replace("'", "")
-    # # print(value,y,type(x))
     res = zaff_decode(str(value))
     return res
 

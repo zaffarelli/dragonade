@@ -24,11 +24,11 @@
             <div class="title">Experience & Calculs</div>
             <div class="stat">
                 <div class="label">Total Attributs</div>
-                <div class="data">{{a.total_attributes}}</div>
+                <div class="data">{{a.total_attributes|signed}}</div>
             </div>
             <div class="stat">
                 <div class="label">Total Compétences</div>
-                <div class="data">{{a.total_skills}}</div>
+                <div class="data">{{a.total_skills|signed}}</div>
             </div>
             <div class="stat">
                 <div class="label">Stress Acquis</div>
@@ -65,7 +65,7 @@
             <div class="title">Divers</div>
             <div class="stat">
                 <div class="label">Age</div>
-                <div class="data editable">
+                <div class="data text editable">
                     <span class="editor value text" action="value" id="{{a.type}}__{{a.rid}}__AGE__value" srcval="{{a.features.AGE}}">&nbsp;{{a.age}}&nbsp</span> ans
                 </div>
             </div>
@@ -77,13 +77,13 @@
             </div>
             <div class="stat">
                 <div class="label">Taille</div>
-                <div class="data editable">
+                <div class="data text editable">
                     <span class="editor value text" action="value" id="{{a.type}}__{{a.rid}}__HEIGHT__value" srcval="{{a.features.HEIGHT}}">&nbsp;{{a.height}}&nbsp</span> cm
                 </div>
             </div>
             <div class="stat">
                 <div class="label">Poids</div>
-                <div class="data editable">
+                <div class="data text editable">
                     <span class="editor value text" action="value" model="{{model|lower}}" id="{{a.rid}}__WEIGHT" srcval="{{a.features.WEIGHT}}">&nbsp;{{a.weight}}&nbsp</span> kg
                 </div>
             </div>
