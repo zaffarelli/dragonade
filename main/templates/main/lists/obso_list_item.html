@@ -1,7 +1,0 @@
-{% load static %}
-{% load dragonade_filters %}
-
-<div class="list_entry {{x.type}}" id="mini__{{x.id}}" code="{{x.code}}" title="{% if x.type == 'stregoneria' %}Voie: {{x.path}} Catégorie: {{x.category}}{%elif x.type == 'autochton' %}Entrée en matière: {{x.entrance}}{%elif x.type == 'traveller' %}Joueur: {{x.player|safe}}{%elif x.type == 'creature' %}Type: {{x.creature_type|title}}{% endif%}">
-    <span class="base">{{x.name|safe}}</span>
-    {% include "main/lists/entry_options.html" with x=x %}
-</div>

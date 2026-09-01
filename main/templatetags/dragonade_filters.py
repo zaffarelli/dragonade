@@ -464,3 +464,22 @@ def as_money(value):
     if deniers > 0:
         s += f"{deniers} deniers "
     return s
+
+@register.filter(name='as_cover')
+def as_cover(value):
+    from django.template.loader import get_template
+    covers = value.split(" ")
+    base = "#2020207f"
+    x = {
+        "H": base,
+        "C": base,
+        "A": base,
+        "B": base,
+        "L": base,
+        "M": base,
+    }
+    for cover in covers:
+        x[cover] = "#F0C080"
+    template = get_template('main/roster/small_roster_armor_map.html')
+    image = template.render(x, None)
+    return image

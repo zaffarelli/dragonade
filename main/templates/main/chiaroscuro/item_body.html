@@ -94,7 +94,7 @@
 <div id="{{i.rid}}__rules"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" model="{{model|lower}}" style="order:3; text-align:left;">{{ i.rules|render_text|safe }}</div>
 <div id="{{i.rid}}__notes"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" model="{{model|lower}}" style="order:3; text-align:left;">{{ i.notes|render_text|safe }}</div>
 
-<div class="zlist_item number" model="{{model|lower}}" style="order:6" title="has bug">{{ i.has_bug|as_bool|safe }}</div>
+<div class="zlist_item symbol" model="{{model|lower}}" style="order:6" title="has bug">{{ i.has_bug|as_bool|safe }}</div>
 
 
 
@@ -103,13 +103,21 @@
 <div model="{{model|lower}}" class="zlist_item number" style="order:-1;" >{{i.id}}</div>
 <div id="{{i.rid}}__view" model="{{model|lower}}" class="zlist_item normal list_action" style="order:0; text-align:left;" title="view"><i class="fa fa-eye"></i></div>
 <div id="{{i.rid}}__edit" model="{{model|lower}}" class="zlist_item normal list_action" style="order:0; text-align:left;" title="edit"><i class="fa fa-cog"></i></div>
-<div class="zlist_item label" model="{{model|lower}}" style="order:0">{{ i.category }}</div>
+<div class="zlist_item label" model="{{model|lower}}" style="order:0">{{ i.category_text }}</div>
 <div class="zlist_item label" model="{{model|lower}}" style="order:0">{% if i.misc.title %}{{i.misc.title}}&nbsp;{%endif%}{{ i.name }}{% if i.features.AKA %}<br/>&laquo; {{i.features.AKA}} &raquo;{%endif%}</div>
-
-<div id="{{i.rid}}__glance"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" model="{{model|lower}}" style="order:3; text-align:left;">{{ i.glance|render_text|safe }}</div>
+{% if i.category == 21%}
+<div class="zlist_item label" model="{{model|lower}}" style="order:0">{{ i.materiaux }}</div>
+<div class="zlist_item number" model="{{model|lower}}" style="order:0">PROT.<br/>{{ i.prot }}</div>
+<div class="zlist_item number" model="{{model|lower}}" style="order:0">RES.<br/>{{ i.resistance }}</div>
+<div class="zlist_item number" model="{{model|lower}}" style="order:0">QUAL.<br/>{{ i.quality }}</div>
+<div class="zlist_item symbol" model="{{model|lower}}" style="order:0">{{ i.cover|as_cover|safe }}</div>
+<div class="zlist_item label" model="{{model|lower}}" style="order:0">{{ i.cover }}</div>
+<div class="zlist_item number" model="{{model|lower}}" style="order:0">AGI<br/>{{ i.malus_AGI }}</div>
+<div class="zlist_item number" model="{{model|lower}}" style="order:0">DEX<br/>{{ i.malus_DEX }}</div>
+<div class="zlist_item number" model="{{model|lower}}" style="order:0">VUE<br/>{{ i.malus_VUE }}</div>
+<div class="zlist_item number" model="{{model|lower}}" style="order:0">OUI.<br/>{{ i.malus_OUI }}</div>
+{%endif%}
 <div id="{{i.rid}}__description"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" model="{{model|lower}}" style="order:3; text-align:left;">{{ i.description|render_text|safe }}</div>
-<div id="{{i.rid}}__rules"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" model="{{model|lower}}" style="order:3; text-align:left;">{{ i.rules|render_text|safe }}</div>
-<div id="{{i.rid}}__notes"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" model="{{model|lower}}" style="order:3; text-align:left;">{{ i.notes|render_text|safe }}</div>
 
 <div class="zlist_item number" model="{{model|lower}}" style="order:6" title="has bug">{{ i.has_bug|as_bool|safe }}</div>
 
