@@ -815,11 +815,9 @@ class Character(models.Model, ChiaroscuroMixin):
             for stat in root["LIST"]:
                 tgt = stat["NAME"]
                 val = self.value_for(tgt)
-                if val in skills_map["values"]:
+                if int(val)>0:
                     for k, v in skills_map["values"].items():
                         if int(k) < int(val):
-                            if val == "8":
-                                print(val)
                             nice_value = ""
                             nice_spot = ""
                             perfect_values = v["perfect_matches"]
@@ -928,3 +926,27 @@ class Character(models.Model, ChiaroscuroMixin):
             track_enhanced(CHARACTER_STATISTICS["SKILLS"]["WEAPONS"])
             import json
             print(json.dumps(skills_map, indent=2))
+
+            # Control
+            spots_ok = True
+            for k,v in skills_map["spots"].items():
+                e = v["perfect_matches"]
+                a = v["partial_matches"]
+                se = len(e)
+                sa = len(a)
+                if v["count"] != se+sa:
+                    spots_ok = False
+                    break
+            values_ok = True
+            for k,v in skills_map["values"].items():
+                e = v["perfect_matches"]
+                a = v["partial_matches"]
+                se = len(e)
+                sa = len(a)
+                if v["count"] != se+sa:
+                    values_ok = False
+                    break
+            if spots_ok and values_ok:
+                self.bugs.append("(---) Skills control ok.")
+            else:
+                self.bugs.append("(???) Missing skills control")
