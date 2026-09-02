@@ -64,44 +64,44 @@
         <div class="block_third"  style="order:8;">
             <div class="title">Divers</div>
             <div class="stat">
-                <div class="label">Age</div>
+                <div class="label fixed">Age</div>
                 <div class="data text editable">
                     <span class="editor value text" action="value" id="{{a.type}}__{{a.rid}}__AGE__value" srcval="{{a.features.AGE}}">&nbsp;{{a.age}}&nbsp</span> ans
                 </div>
             </div>
             <div class="stat">
-                <div class="label">Sexe</div>
+                <div class="label fixed">Sexe</div>
                 <div class="data text editable">
-                    <span class="editor value text" action="value" id="{{a.type}}__{{a.rid}}__GENDER__value" srcval="{{a.features.GENDER}}">&nbsp;{{a.GENDER}}&nbsp</span>
+                    <span class="editor value text" action="value" id="{{a.type}}__{{a.rid}}__GENDER__value" srcval="{{a.features.GENDER}}">&nbsp;{{a.GENDER|genderize|safe}}&nbsp</span>
                 </div>
             </div>
             <div class="stat">
-                <div class="label">Taille</div>
+                <div class="label fixed">Taille</div>
                 <div class="data text editable">
                     <span class="editor value text" action="value" id="{{a.type}}__{{a.rid}}__HEIGHT__value" srcval="{{a.features.HEIGHT}}">&nbsp;{{a.height}}&nbsp</span> cm
                 </div>
             </div>
             <div class="stat">
-                <div class="label">Poids</div>
+                <div class="label fixed">Poids</div>
                 <div class="data text editable">
                     <span class="editor value text" action="value" model="{{model|lower}}" id="{{a.rid}}__WEIGHT" srcval="{{a.features.WEIGHT}}">&nbsp;{{a.weight}}&nbsp</span> kg
                 </div>
             </div>
             <div class="stat">
-                <div class="label">Main forte</div>
+                <div class="label fixed">Main forte</div>
                 <div class="data text editable">
                     <span class="editor value text" action="value" id="{{a.type}}__{{a.rid}}__LEFTY__value" srcval="{{a.features.LEFTY}}">{{a.LEFTY|lefty|safe}}</span>
                 </div>
             </div>
             <div class="stat">
-                <div class="label">Heure de Naissance</div>
-                <div class="data text editable">
+                <div class="label fixed">Heure de Naissance</div>
+                <div class="data auto">
                     <span class="editor value text" action="value" id="{{a.type}}__{{a.rid}}__birthhour__value" srcval="{{a.birthhour|as_hour|safe}}">{{a.birthhour|as_hour|safe}}</span>
                 </div>
             </div>
             <div class="stat">
-                <div class="label">Protection Globale</div>
-                <div class="data text editable">{{a.PROT}}</div>
+                <div class="label fixed">Destinée</div>
+                <div class="data auto">{{a.destiny}}</div>
             </div>
         </div>
         <div class="block_third" style="order:7;">
@@ -132,6 +132,12 @@
             <div class="title">Description</div>
             <div class="stat">
                 <div class="data large">{{a.description|render_text|safe}}</div>
+            </div>
+        </div>
+        <div class="block_third" style="order:20;">
+            <div class="title">BUGS</div>
+            <div class="stat">
+                <div class="data large">{{a.bug_list|render_text|safe}}</div>
             </div>
         </div>
         <div class="block_third"  style="order:4;">

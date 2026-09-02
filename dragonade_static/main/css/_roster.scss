@@ -134,6 +134,7 @@
 //         border:1pt solid orange;
         height:auto;
         width:calc(100%-16pt);
+        overflow-y:scroll;
         &.full{
             width:96%;
             margin: 0 16pt;
@@ -175,7 +176,7 @@
             & .block_third{
                 flex: 0 0 33%;
                 &.fat{
-                    flex: 0 0 66%;
+                    flex: 0 0 48%;
                 }
                 flex-flow:row wrap;
                 display:flex;
@@ -220,8 +221,12 @@
                         border-radius:2pt;
                         padding:3pt;
 
+                        &.fixed{
+                            flex: 0 0 12ex;
+                        }
+
                         &.short{
-                            flex: 0 1 20ex;
+                            flex: 0 1 auto;
                         }
 
                         &.lazy{
@@ -239,17 +244,24 @@
                         border-radius:2pt;
                         text-align:center;
                         &.text{
-                            flex: 0 0 16ex;
+                            flex: 1 0 50ex;
+                            font-weight:normal;
+                            text-align:left;
+                            font-size:13pt;
                         }
                         &.large{
                             flex: 5 0 98%;
+                            font-weight:normal;
+                            text-align:left;
+                            font-size:13pt;
+                            min-height:3em;
                         }
                         &.auto{
                             flex: 1 1 auto;
                         }
                         &.lazy{
                             background:none;
-                            flex: 0 0 12ex;
+                            flex: 0 0 14ex;
                             & .btn_edit{
                                 display:inline-block;
                                 width:2ex;

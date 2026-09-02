@@ -7,31 +7,31 @@
     <div class="block_third">
         <div class="title">{{p.name}}</div>
         <div class="stat">
-            <div class="label short">Protection</div>
+            <div class="label fixed">Protection</div>
             <div class="data auto">{{p.prot}}</div>
         </div>
         <div class="stat">
-            <div class="label short">Couverture</div>
+            <div class="label fixed">Couverture</div>
             <div class="data auto">{{p.cover}}</div>
         </div>
         <div class="stat">
-            <div class="label short">Malus (AGI DEX VUE OUI)</div>
+            <div class="label fixed">Malus (AGI DEX VUE OUI)</div>
             <div class="data auto">{{p.malus_AGI}} {{p.malus_DEX}} {{p.malus_VUE}} {{p.malus_OUI}}</div>
         </div>
         <div class="stat">
-            <div class="label short">Resistance (Matériau)</div>
+            <div class="label fixed">Resistance (Matériau)</div>
             <div class="data auto">{{p.resistance|signed}} ({{p.materiaux}})</div>
         </div>
         <div class="stat">
-            <div class="label short">FOR minimale</div>
+            <div class="label fixed">FOR minimale</div>
             <div class="data auto">{{p.force_min}}</div>
         </div>
         <div class="stat">
-            <div class="label short">Encombrement</div>
+            <div class="label fixed">Encombrement</div>
             <div class="data auto">{{p.enc}}</div>
         </div>
         <div class="stat">
-            <div class="label short">Prix</div>
+            <div class="label fixed">Prix</div>
             <div class="data auto">{{p.price|as_money}}</div>
         </div>
     </div>
@@ -39,10 +39,10 @@
     <div class="block_third">
         <div class="title">Protection globale des pièces d'armure</div>
         <div class="stat">
-            <div class="data large">{{a.protection_map|as_protection|safe}}</div>
+            <div class="data large" style="text-align:center;">{{a.protection_map|as_protection|safe}}</div>
         </div>
         <div class="stat">
-            <div class="data large">Pénalités: AGI {{a.malus_AGI|signed}} DEX {{a.malus_DEX|signed}} VUE {{a.malus_VUE|signed}} OUI {{a.malus_OUI|signed}}</div>
+            <div class="data large" style="text-align:center;">Pénalités: AGI {{a.malus_AGI|signed}} DEX {{a.malus_DEX|signed}} VUE {{a.malus_VUE|signed}} OUI {{a.malus_OUI|signed}}</div>
         </div>
     </div>
 </fieldset>

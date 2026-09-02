@@ -1,12 +1,12 @@
 {% load static %}
 {% load dragonade_filters %}
 
-<div class="sheet magic">
-    <div class="box header" style="text-align:left;">
-    <span class="btn_edit value" action="value" id="{{a.type}}__{{a.id}}__SPELLS__value" srcval="{{a.features.SPELLS|encoded_z|safe}}">
-        MAGIE
-    </span>
-    </div>
-    {% include "main/roster/roster_spells.html"%}
-</div>
 
+<div class="tri">
+    <fieldset class="row lax">
+    <legend>Magie</legend>
+    {% for s in a.spells %}
+        {% include "main/roster/roster_spell.html" with a=a s=s%}
+    {% endfor %}
+    </fieldset>
+</div>

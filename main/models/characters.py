@@ -2,6 +2,7 @@ from django.db import models
 from main.mixins.chiaroscuro_mixin import ChiaroscuroMixin
 from main.utils.ref_dragonade import CHARACTER_STATISTICS, tai_guidelines, SHORTCUTS, stress_cost
 from main.utils.mechanics import as_rid, Nougardine, roll, Severity, Chaser
+from datetime import datetime
 import math
 
 
@@ -58,7 +59,6 @@ class Character(models.Model, ChiaroscuroMixin):
     tai_guideline = models.CharField(max_length=128, default="", blank=True)
     total_attributes = models.IntegerField(default=0, blank=True)
     total_skills = models.IntegerField(default=0, blank=True)
-    # updater = models.TextField(max_length=1024 * 10, default='{}', blank=True)
     priority = models.IntegerField(default=0, blank=True)
     klass = models.CharField(max_length=16, default="Character", blank=True)
     protection_map = models.CharField(max_length=256, blank=True, default="H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X")
@@ -74,8 +74,7 @@ class Character(models.Model, ChiaroscuroMixin):
     malus_OUI = models.IntegerField(default=0, blank=True)
 
     description = models.TextField(max_length=1024, default="", blank=True)
-
-    # data = {}
+    bugs = []
 
     def __str__(self):
         return f"p_{self.id}"
@@ -90,7 +89,7 @@ class Character(models.Model, ChiaroscuroMixin):
         return self.__class__.__name__
 
     def applyIncDec(self, att, chg):
-        self.export_to_json()
+        # self.export_to_json()
         result = False
         offset = 0
         if chg == 'plus':
@@ -120,11 +119,12 @@ class Character(models.Model, ChiaroscuroMixin):
         return result
 
     def has_bug(self):
-        return len(self.bug_list) > 0
+        return len(self.bugs) > 0
 
     has_bug.boolean = True
 
     def fix(self):
+        self.bugs = []
         self.chiaroscuro()
         # initializers
         if len(self.protection_map) == 0:
@@ -133,10 +133,6 @@ class Character(models.Model, ChiaroscuroMixin):
             self.birthhour = roll(faces=12, explodes=False)
         self.initialize()
         self.make_rid()
-
-        self.bug_list = "BUGS:"
-        self.calc_indice()
-        self.challenge_equipment_and_skills()
         secondaries = [0, 0, 0, 0]
         for k in CHARACTER_STATISTICS['SECONDARIES']['LIST']:
             if "FORMULA" in k:
@@ -151,6 +147,11 @@ class Character(models.Model, ChiaroscuroMixin):
         if self.height > 0:
             self.imc = math.floor(self.weight / ((self.height / 100) ** 2) * 10) / 10
         self.fix_protection_map()
+        self.calc_indice()
+        self.challenge_equipment()
+        self.challenge_skills()
+        self.bug_list = "\n".join(self.bugs)
+        print(self.bug_list)
         # self.export_to_json()
 
     def initialize(self):
@@ -212,23 +213,9 @@ class Character(models.Model, ChiaroscuroMixin):
         return attr_total, skill_total
 
     def calc_indice(self):
-        from main.utils.ref_dragonade import stress_cost, skill_cost
         self.total_attributes = 0
-
         for a in self.attributes.split(" "):
             self.total_attributes += int(a) + 5
-
-        # for skill_cat in self.data['skills']:
-        #     for k, v in self.data['skills'][skill_cat].items():
-        #         c, txt = skill_cost(k, v)
-        #         if c > -1:
-        #             self.indice_skills += c
-        # self.indice_attributes = int(self.indice_attributes / 3)
-        # self.indice_skills = int(self.indice_skills / 3)
-        # self.indice = self.indice_attributes + self.indice_skills
-        # self.indice = self.total_attributes - (12 * 4)
-        # self.indice += self.data['misc']['SON'] * 3
-
         self.total_skills = 0
         default = 0
         nondefault_cnt = 0
@@ -240,43 +227,10 @@ class Character(models.Model, ChiaroscuroMixin):
                 if v != base:
                     nondefault_cnt += 1
                     self.total_skills += v - base
-        # a, b = self.collect_spells()
-        # print("Total spells", b)
-        # self.indice += self.total_skills + b
-        # self.indice -= default
-        # self.indice += self.data['misc']['PROT'] * 2
-        # self.indice += self.data['misc']['SON'] ** 2
         self.REV = self.SON + self.FAB
         a, s = self.expected_totals()
         self.total_attributes -= a
         self.total_skills -= s
-
-    # def updateFromStruct(self):
-    #     list = []
-    #     for k in CHARACTER_STATISTICS['ATTRIBUTES']['LIST']:
-    #         list.append(f"{self.data['attributes'][k['NAME']]}")
-    #     self.attributes = " ".join(list)
-    #
-    #     for key, category in CHARACTER_STATISTICS['SKILLS'].items():
-    #         list = []
-    #         for k in category['LIST']:
-    #             vs = f"{self.data['skills'][key.lower()][k['NAME']]}"
-    #             list.append(vs)
-    #         setattr(self, f"skills_{key.lower()}", " ".join(list))
-    #
-    #     self.height = int(self.data['features']['HEIGHT'])
-    #     self.weight = int(self.data['features']['WEIGHT'])
-    #     self.fable = int(self.data['misc']['FAB'])
-    #     self.songe = int(self.data['misc']['SON'])
-    #     self.entrance = self.data['misc']['ENTRANCE']
-    #     self.description = self.data['misc']['DESCRIPTION']
-    #     self.age = self.data['features']['AGE']
-    #     self.aka = self.data['features']['AKA']
-    #     self.is_female = self.data['features']['GENDER'] == "F"
-    #     self.is_lefty = self.data['features']['LEFTY'] == "G"
-    #     self.gear = self.data['features']['GEAR']
-    #     self.spells = self.data['features']['SPELLS']
-    #     self.spells_as_list = self.data['features']['SPELLS'].split(" ")
 
     def ref_to_struct(self, src_ref):
         """        
@@ -310,9 +264,10 @@ class Character(models.Model, ChiaroscuroMixin):
                     self._data[branch][transversal[1].lower()] = {}
                     arr = getattr(self, src_ref.lower()).split(' ')
                     for item in src_struct['LIST']:
-                        self._data[branch][transversal[1].lower()][item['NAME']] = {"val":666,"abs":666}
+                        self._data[branch][transversal[1].lower()][item['NAME']] = {"val": 666, "abs": 666}
                         self._data[branch][transversal[1].lower()][item['NAME']]['val'] = int(arr[cnt]) if cnt < len(arr) else src_struct['DEFAULT']
-                        self._data[branch][transversal[1].lower()][item['NAME']]['abs'] = self._data[branch][transversal[1].lower()][item['NAME']]['val']-src_struct['DEFAULT']
+                        self._data[branch][transversal[1].lower()][item['NAME']]['abs'] = self._data[branch][transversal[1].lower()][item['NAME']]['val'] - \
+                                                                                          src_struct['DEFAULT']
                         cnt += 1
             else:
                 print(f"!!! Error: Don't know what to do with [{src_ref}]...")
@@ -342,7 +297,7 @@ class Character(models.Model, ChiaroscuroMixin):
                             count_vals[v] += 1
                             all.append({"value": v, "category": REF['NAME'][:1], "text": item["TEXT"]})
             else:
-                self.bug_list += f"{self.rid} doesn't have the correct property for [{skill_set}]."
+                self.bugs.append(f"{self.rid} doesn't have the correct property for [{skill_set}].")
         sorted_all = sorted(all, key=lambda k: k['text'], reverse=False)
         return sorted_all
 
@@ -359,7 +314,6 @@ class Character(models.Model, ChiaroscuroMixin):
             Most of the job is done through the chiaroscuro mixin, here we only add convenience entries or business centerd entries.
             :returns: The updated self._data structure
         """
-        # print("### CO_PUSH character")
         self._data["attr"] = {}
         self._data["seco"] = {}
         self._data["skil"] = {}
@@ -385,9 +339,9 @@ class Character(models.Model, ChiaroscuroMixin):
         self._data['LEFTY'] = self.is_lefty
         self._data["skills_summary"] = self.skills_summary()
         self._data['roster_text'] = self.roster_as_text()
-        from datetime import datetime
         now = datetime.now().strftime("%Y/%m/%d, %H:%M:%S")
         self._data['last_update'] = now
+        self._data['bug_list'] = self.bug_list
 
     def computeFatigue(self, x):
         i = x
@@ -411,10 +365,10 @@ class Character(models.Model, ChiaroscuroMixin):
         """
         from main.models.oggetti import Oggetto
         list = []
-        weapons = Oggetto.objects.filter(category__in=[18,19,20], rid__in=self.gear.split(" ")).order_by(
+        weapons = Oggetto.objects.filter(category__in=[18, 19, 20], rid__in=self.gear.split(" ")).order_by(
             "category")
         for weapon in weapons:
-            svs = {"18":"MEL","19":"TIR","20":"LAN"}
+            svs = {"18": "MEL", "19": "TIR", "20": "LAN"}
             stat_value = self.value_for(svs[str(weapon.category)])
             related_skills = weapon.related_skill.split(" ")
             d = weapon.export_to_json()
@@ -424,12 +378,9 @@ class Character(models.Model, ChiaroscuroMixin):
                 if int(val) < worst:
                     worst = int(val)
                     d['related_skill_value'] = int(val)
-                    e = self.entry_for("SKILLS:WEAPONS",related_skill)
+                    e = self.entry_for("SKILLS:WEAPONS", related_skill)
                     if e != {}:
                         d['related_skill_text'] = e["TEXT"]
-
-            # All data for the weapon
-
             # Data specific to the character applied to the wepon's data
             d['stat_value'] = stat_value
             d['stat_name'] = svs[str(weapon.category)]
@@ -446,7 +397,7 @@ class Character(models.Model, ChiaroscuroMixin):
         """
         from main.models.oggetti import Oggetto
         list = []
-        others = Oggetto.objects.exclude(category__in=[18,19,20]).filter(
+        others = Oggetto.objects.exclude(category__in=[18, 19, 20]).filter(
             rid__in=self.gear.split(" ")).order_by("category")
         for other in others:
             o = other.export_to_json()
@@ -483,15 +434,15 @@ class Character(models.Model, ChiaroscuroMixin):
         list = []
         incantessimi = Incantessimo.objects.filter(rid__in=self.spells.split(" ")).order_by("category")
         for incantessimo in incantessimi:
-            list.append(incantessimo.rid)
+            list.append(incantessimo.export_to_json())
         # sorted_all = sorted(list, key=lambda k: k['diff'], reverse=False)
         return list
 
     def shortcuts(self):
         list = []
         # for sc in SHORTCUTS:
-        #     attr = self.value_for(sc[1])
-        #     skill = self.value_for(sc[2])
+        #     attr = int(self.value_for(sc[1]))
+        #     skill = int(self.value_for(sc[2]))
         #     # print(sc, attr, skill)
         #     list.append({
         #         "roll": sc[0],
@@ -567,11 +518,13 @@ class Character(models.Model, ChiaroscuroMixin):
             words = str.upper().split(':')
             for word in words:
                 root = root[word]
-            for item in root["LIST"]:
-                if item["NAME"] == stat.upper():
-                    result = item
-                    break
-        # print(f"ENTRY RESULT {item}")
+            if "LIST" in root:
+                for item in root["LIST"]:
+                    if item["NAME"] == stat.upper():
+                        result = item
+                        break
+            else:
+                print(f"We might be lost in `entry_for` str=[{str}] stat=[{stat}]: [{root}]")
         return result
 
     def index_for(self, str):
@@ -590,6 +543,10 @@ class Character(models.Model, ChiaroscuroMixin):
         return result
 
     def roster(self):
+        """
+            Build exportable roster for the character.
+            HTML compatible.
+        """
         # return "Disabled for now."
         lines = []
         lines.append(f"{self.name}")
@@ -604,13 +561,12 @@ class Character(models.Model, ChiaroscuroMixin):
         if self.type == "Viaggiatore":
             ty = f"({self.player})"
         if self.type == "Nativo":
-            ty = "Autochtone"
+            ty = "Nativo"
         if self.type == "Creatura":
             subty = (f" ({self.get_creature_type_display()})")
             ty += subty
 
         lines.append(f"{ty}")
-        attributes = ""
         space = "§"
         x = 0
         a = ["", "", "", ""]
@@ -773,14 +729,13 @@ class Character(models.Model, ChiaroscuroMixin):
             item = creature.first()
         return item
 
-    def challenge_equipment_and_skills(self):
-        pass
-        # weapons = self.gear_to_weapons()
-        # bugs = []
-        # for weapon in weapons:
-        #     if self.value_for(weapon['skill']) == 0:
-        #         bugs.append(f"Arme trouvée pour laquelle le personnage n'a pas de compétence... {weapon['name']} {weapon['skill']}")
-        # self.bug_list = "\n".join(bugs)
+    def challenge_equipment(self):
+        weapons = self.gear_to_weapons()
+        for weapon in weapons:
+            x = int(self.value_for(weapon['related_skill']))
+            if x == -1:
+                print(f"*** {weapon['related_skill']} {x}")
+                self.bugs.append(f"(??) Pas de compétence avec {weapon['name']} ({weapon['related_skill']})§")
 
     def fix_protection_map(self):
         armors = self.gear_to_armors()
@@ -822,3 +777,154 @@ class Character(models.Model, ChiaroscuroMixin):
         for k, m in map.items():
             pmap.append(f'{m["Part"]}-{m["Prot"]}-{m["Str"]}')
         self.protection_map = " ".join(pmap)
+
+    def challenge_skills(self):
+        """
+            Checks for the amount of by default skills against skills enhanced with stress
+        """
+
+        def track_perfect(root):
+            default = -root["DEFAULT"]
+            for stat in root["LIST"]:
+                tgt = stat["NAME"]
+                val = self.value_for(tgt)
+                if val in skills_map["values"]:
+                    for k, v in skills_map["values"].items():
+                        if int(k) == int(val):
+                            nice_value = ""
+                            nice_spot = ""
+                            arrv = v["perfect_matches"]
+                            sizev = len(arrv)
+                            if v["count"] > sizev and tgt not in v["perfect_matches"]:
+                                nice_value = k
+                            for l, w in skills_map["spots"].items():
+                                if l == str(default):
+                                    # print("-----------------",l, w['count'])
+                                    arrs = w["perfect_matches"]
+                                    sizes = len(arrs)
+                                    if w["count"] > sizes and tgt not in w["perfect_matches"]:
+                                        nice_spot = l
+                                        break
+                            if len(nice_value) > 0 and len(nice_spot) > 0:
+                                skills_map["values"][nice_value]["perfect_matches"].append(tgt)
+                                if len(nice_spot) > 0:
+                                    skills_map["spots"][nice_spot]["perfect_matches"].append(tgt)
+
+        def track_enhanced(root):
+            default = -root["DEFAULT"]
+            for stat in root["LIST"]:
+                tgt = stat["NAME"]
+                val = self.value_for(tgt)
+                if val in skills_map["values"]:
+                    for k, v in skills_map["values"].items():
+                        if int(k) < int(val):
+                            if val == "8":
+                                print(val)
+                            nice_value = ""
+                            nice_spot = ""
+                            perfect_values = v["perfect_matches"]
+                            enhanced_values = v["partial_matches"]
+                            spv = len(perfect_values)
+                            sev = len(enhanced_values)
+                            if (v["count"] > spv+sev) and tgt not in v["perfect_matches"] and tgt not in v["partial_matches"]:
+                                nice_value = k
+                            for l, w in skills_map["spots"].items():
+                                if l == str(default):
+                                    # print("-----------------",l, w['count'])
+                                    perfect_spots = w["perfect_matches"]
+                                    enhanced_spots = w["partial_matches"]
+                                    sps = len(perfect_spots)
+                                    ses = len(enhanced_spots)
+                                    if (w["count"] > sps+ses) and tgt not in w["perfect_matches"]  and tgt not in w["partial_matches"]:
+                                    #if tgt not in w["perfect_matches"] and tgt not in w["partial_matches"]:
+                                        nice_spot = l
+                                        break
+                            if len(nice_value) > 0 and len(nice_spot) > 0:
+                                skills_map["values"][nice_value]["partial_matches"].append(tgt)
+                                if len(nice_spot) > 0:
+                                    skills_map["spots"][nice_spot]["partial_matches"].append(tgt)
+
+        if self.type != "Viaggiatore":
+            pass
+        else:
+            skills_map = {
+                "name": self.name,
+                "spots": {
+                    "5": {
+                        "count": 1,
+                        "perfect_matches": [],
+                        "partial_matches": []
+                    },
+                    "4": {
+                        "count": 3,
+                        "perfect_matches": [],
+                        "partial_matches": []
+                    },
+                    "3": {
+                        "count": 6,
+                        "perfect_matches": [],
+                        "partial_matches": []
+                    },
+                    "2": {
+                        "count": 8,
+                        "perfect_matches": [],
+                        "partial_matches": []
+                    },
+                    "1": {
+                        "count": 10,
+                        "perfect_matches": [],
+                        "partial_matches": []
+                    },
+                },
+                "values": {
+                    "7": {
+                        "count": 1,
+                        "perfect_matches": [],
+                        "partial_matches": []
+                    },
+                    "6": {
+                        "count": 2,
+                        "perfect_matches": [],
+                        "partial_matches": []
+                    },
+                    "5": {
+                        "count": 3,
+                        "perfect_matches": [],
+                        "partial_matches": []
+                    },
+                    "4": {
+                        "count": 4,
+                        "perfect_matches": [],
+                        "partial_matches": []
+                    },
+                    "3": {
+                        "count": 5,
+                        "perfect_matches": [],
+                        "partial_matches": []
+                    },
+                    "2": {
+                        "count": 6,
+                        "perfect_matches": [],
+                        "partial_matches": []
+                    },
+                    "1": {
+                        "count": 7,
+                        "perfect_matches": [],
+                        "partial_matches": []
+                    },
+                }
+            }
+            track_perfect(CHARACTER_STATISTICS["SKILLS"]["DRACONIC"])
+            track_perfect(CHARACTER_STATISTICS["SKILLS"]["KNOWLEDGE"])
+            track_perfect(CHARACTER_STATISTICS["SKILLS"]["SPECIALIZED"])
+            track_perfect(CHARACTER_STATISTICS["SKILLS"]["PECULIAR"])
+            track_perfect(CHARACTER_STATISTICS["SKILLS"]["GENERIC"])
+            track_perfect(CHARACTER_STATISTICS["SKILLS"]["WEAPONS"])
+            track_enhanced(CHARACTER_STATISTICS["SKILLS"]["DRACONIC"])
+            track_enhanced(CHARACTER_STATISTICS["SKILLS"]["KNOWLEDGE"])
+            track_enhanced(CHARACTER_STATISTICS["SKILLS"]["SPECIALIZED"])
+            track_enhanced(CHARACTER_STATISTICS["SKILLS"]["PECULIAR"])
+            track_enhanced(CHARACTER_STATISTICS["SKILLS"]["GENERIC"])
+            track_enhanced(CHARACTER_STATISTICS["SKILLS"]["WEAPONS"])
+            import json
+            print(json.dumps(skills_map, indent=2))

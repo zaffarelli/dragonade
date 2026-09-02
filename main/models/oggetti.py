@@ -78,7 +78,8 @@ class Oggetto(models.Model, ChiaroscuroMixin):
     plus_dom_2m = models.IntegerField(default=0, null=True, blank=True)
     prot = models.IntegerField(default=0, null=True, blank=True)
     quality = models.IntegerField(default=0, null=True, blank=True)
-    classe_engagement = models.IntegerField(default=0, null=True, blank=True)
+    engagement = models.IntegerField(default=0, null=True, blank=True)
+    maneuver = models.IntegerField(default=0, null=True, blank=True)
     cover = models.CharField(default="", max_length=64, blank=True)
     materiaux = models.CharField(default="", max_length=64, blank=True)
     related_skill = models.CharField(default="", max_length=32, blank=True)
@@ -260,11 +261,16 @@ def cat_from_first(modeladmin, request, queryset):
 class OggettoAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ['category', 'related_attribute', 'name']
-    list_display = ["rid", "id", "category", "name", "cover", "enc", "price", "resistance", "materiaux", "prot", "quality",
-                    "malus_AGI", "malus_DEX",
-                    "malus_VUE", "malus_OUI",
+    # Armors
+    # list_display = ["rid", "id", "category", "name", "cover", "enc", "price", "resistance", "materiaux", "prot", "quality",
+    #                 "malus_AGI", "malus_DEX",
+    #                 "malus_VUE", "malus_OUI","force_min"
+    #                 ]
+    # list_editable = ["category", "cover", "materiaux", "resistance","quality","force_min"]
+    # Weapons
+    list_display = ["rid", "id", "category", "name", "maneuver","related_skill", "related_skill_name", "engagement", "enc", "price", "resistance","force_min"
                     ]
-    list_editable = ["category", "cover", "materiaux", "resistance","quality"]
+    list_editable = ["category", "related_skill","maneuver","engagement", "enc", "price", "resistance","force_min"]
     list_filter = ["category", "can_be_thrown", "special"]
     search_fields = ['name']
     actions = [refix, cat_from_first]

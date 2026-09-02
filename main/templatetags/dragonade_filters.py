@@ -51,6 +51,34 @@ def colorize_val(value):
         #     str = f'<span style="color:maroon;">{value}</span>'
     return str
 
+@register.filter(name='colorize_abs')
+def colorize_abs(value):
+    str = value
+    if isinstance(value, int):
+        cols = [
+            "#108010",
+            "#208020",
+            "#308030",
+            "#408040",
+            "#508050",
+            "#608060",
+            "#708070",
+            "#808080",
+            "#908090",
+            "#a080a0",
+            "#b080b0",
+            "#c080c0",
+            "#d080d0",
+            "#e080e0",
+            "#f080f0"
+        ]
+        idx = value
+        if idx>len(cols):
+            idx = len(cols)-1
+        str = f'<span style="color:{cols[idx]};">{value}</span>'
+    return str
+
+
 
 @register.filter(name='signed')
 def signed(value):
@@ -191,18 +219,16 @@ def hidden_if_blank(value):
 
 @register.filter(name='lefty')
 def lefty(value):
-    if value == "D":
-        result = "Droitier"
-    else:
+    result = "Droitier"
+    if value == True:
         result = "Gaucher"
     return result
 
 
 @register.filter(name='genderize')
 def genderize(value):
-    if value == "M":
-        result = "Masculin"
-    else:
+    result = "Masculin"
+    if value == True:
         result = "Féminin"
     return result
 
