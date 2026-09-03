@@ -25,7 +25,7 @@ class Viaggiatore(Character):
 class ViaggiatoreAdmin(admin.ModelAdmin):
     from main.utils.mechanics import pre_sim, refix
     ordering = ['-indice', 'name']
-    list_display = ['id', 'rid', 'name', "skills_generic", "skills_knowledge",'player', 'is_storyteller', 'bug_list', 'color', 'destiny']
-    list_editable = ['color', 'destiny', 'is_storyteller', "skills_generic", "skills_knowledge"]
+    list_display = ['id', 'rid', 'name', "height", "skills_generic", "skills_knowledge",'player', 'is_storyteller', 'bug_list', 'color', 'destiny']
+    list_editable = ["height", 'color', 'destiny', 'is_storyteller', "skills_generic", "skills_knowledge"]
     list_filter = ['is_storyteller', "priority"]
     actions = [refix, pre_sim]

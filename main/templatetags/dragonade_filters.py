@@ -73,8 +73,10 @@ def colorize_abs(value):
             "#f080f0"
         ]
         idx = value
-        if idx>len(cols):
+        if idx>=len(cols):
             idx = len(cols)-1
+        if idx < 0:
+            idx = 0
         str = f'<span style="color:{cols[idx]};">{value}</span>'
     return str
 

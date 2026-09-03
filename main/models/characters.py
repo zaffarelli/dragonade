@@ -1,6 +1,6 @@
 from django.db import models
 from main.mixins.chiaroscuro_mixin import ChiaroscuroMixin
-from main.utils.ref_dragonade import CHARACTER_STATISTICS, tai_guidelines, SHORTCUTS, stress_cost
+from main.utils.ref_dragonade import CHARACTER_STATISTICS, SHORTCUTS, stress_cost
 from main.utils.mechanics import as_rid, Nougardine, roll, Severity, Chaser
 from datetime import datetime
 import math
@@ -25,8 +25,8 @@ class Character(models.Model, ChiaroscuroMixin):
     is_lefty = models.BooleanField(default=False, blank=True)
     is_battle_ready = models.BooleanField(default=False, blank=True)
     age = models.PositiveIntegerField(default=20, blank=True)
-    height = models.PositiveIntegerField(default=10, blank=True)
-    weight = models.PositiveIntegerField(default=50, blank=True)
+    height = models.PositiveIntegerField(default=150, blank=True)
+    weight = models.PositiveIntegerField(default=0, blank=True)
     SON = models.IntegerField(default=0, blank=True)
     FAB = models.IntegerField(default=0, blank=True)
     REV = models.IntegerField(default=0, blank=True)
@@ -62,6 +62,7 @@ class Character(models.Model, ChiaroscuroMixin):
     priority = models.IntegerField(default=0, blank=True)
     klass = models.CharField(max_length=16, default="Character", blank=True)
     protection_map = models.CharField(max_length=256, blank=True, default="H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X")
+    skills_map_str = models.TextField(max_length=2048, default="{}", blank=True)
 
     travel_points = models.IntegerField(default=0, blank=True)
     stress_acquired = models.IntegerField(default=0, blank=True)
@@ -143,9 +144,12 @@ class Character(models.Model, ChiaroscuroMixin):
             if "FORMULA" in k:
                 val = self.from_formula(k['PARAMS'], k['FORMULA'])
                 setattr(self, k["NAME"], val)
-        self.tai_guideline = tai_guidelines(self.value_for('TAI'))
-        if self.height > 0:
-            self.imc = math.floor(self.weight / ((self.height / 100) ** 2) * 10) / 10
+        #self.tai_guideline = tai_guidelines(self.value_for('TAI'))
+        self.compute_weight()
+
+        #
+        # if self.height > 0:
+        #     self.imc = math.floor(self.weight / ((self.height / 100) ** 2) * 10) / 10
         self.fix_protection_map()
         self.calc_indice()
         self.challenge_equipment()
@@ -153,6 +157,19 @@ class Character(models.Model, ChiaroscuroMixin):
         self.bug_list = "\n".join(self.bugs)
         print(self.bug_list)
         # self.export_to_json()
+
+    def compute_weight(self):
+        """
+            IMC = 15 -> 35
+            IMC = 10 + 2 * TAI + 1xCON + 1xFOR
+        """
+        if self.height <=0:
+            self.height = 170
+        height = self.height / 100
+        IMC = 15 + int(self.value_for("CON")) + int(self.value_for("FOR")) - int(self.value_for("AGI"))  + int(self.value_for("AGI"))
+        weight = IMC * height ** 2
+        self.imc = IMC
+        self.weight = round(weight)
 
     def initialize(self):
         """
@@ -784,6 +801,12 @@ class Character(models.Model, ChiaroscuroMixin):
         """
 
         def track_perfect(root):
+            """
+                From a root in CHARACTER_STATISTICS:
+                    - Tracks the exact values that should be given at character creation.
+                    - Tracks if those values are matching the spots from character creation.
+                    - This gives map on how the character was first created.
+            """
             default = -root["DEFAULT"]
             for stat in root["LIST"]:
                 tgt = stat["NAME"]
@@ -811,6 +834,12 @@ class Character(models.Model, ChiaroscuroMixin):
                                     skills_map["spots"][nice_spot]["perfect_matches"].append(tgt)
 
         def track_enhanced(root):
+            """
+                From a root in CHARACTER_STATISTICS:
+                    - Tracks the scores that are greater than expected than the values that should be given at character creation.
+                    - Tracks if those scores are matching the spots from character creation.
+                    - This completes the full map of skills affectation at creation.
+            """
             default = -root["DEFAULT"]
             for stat in root["LIST"]:
                 tgt = stat["NAME"]
@@ -927,6 +956,8 @@ class Character(models.Model, ChiaroscuroMixin):
             import json
             print(json.dumps(skills_map, indent=2))
 
+
+
             # Control
             spots_ok = True
             for k,v in skills_map["spots"].items():
@@ -950,3 +981,5 @@ class Character(models.Model, ChiaroscuroMixin):
                 self.bugs.append("(---) Skills control ok.")
             else:
                 self.bugs.append("(???) Missing skills control")
+
+            self.skills_map_str = json.dumps(skills_map)

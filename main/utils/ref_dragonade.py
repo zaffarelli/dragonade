@@ -133,18 +133,19 @@ CHARACTER_STATISTICS = {
                 {"NAME": "PEC_02", "TEXT": "Comédie", "ORDER": 1},
                 {"NAME": "PEC_03", "TEXT": "Commerce", "ORDER": 2},
                 {"NAME": "PEC_04", "TEXT": "Couture", "ORDER": 3},
-                {"NAME": "PEC_05", "TEXT": "Equitation", "ORDER": 4},
-                {"NAME": "PEC_06", "TEXT": "Maçonnerie", "ORDER": 5},
-                {"NAME": "PEC_07", "TEXT": "Musique", "ORDER": 6},
-                {"NAME": "PEC_08", "TEXT": "Pickpocket", "ORDER": 7},
-                {"NAME": "PEC_09", "TEXT": "Survie (Cité)", "ORDER": 8},
-                {"NAME": "PEC_10", "TEXT": "Survie (Désert)", "ORDER": 9},
-                {"NAME": "PEC_12", "TEXT": "Survie (Forêt)", "ORDER": 10},
-                {"NAME": "PEC_13", "TEXT": "Survie (Glaces)", "ORDER": 11},
-                {"NAME": "PEC_14", "TEXT": "Survie (Marais)", "ORDER": 12},
-                {"NAME": "PEC_15", "TEXT": "Survie (Montagne)", "ORDER": 13},
-                {"NAME": "PEC_16", "TEXT": "Survie (Sous-Sol)", "ORDER": 14},
-                {"NAME": "PEC_17", "TEXT": "Travestissement", "ORDER": 15}
+                {"NAME": "PEC_05", "TEXT": "Déguisement", "ORDER": 4},
+                {"NAME": "PEC_06", "TEXT": "Equitation", "ORDER": 5},
+                {"NAME": "PEC_07", "TEXT": "Maçonnerie", "ORDER": 6},
+                {"NAME": "PEC_08", "TEXT": "Musique", "ORDER": 7},
+                {"NAME": "PEC_09", "TEXT": "Jeu de Mains", "ORDER": 8},
+                {"NAME": "PEC_10", "TEXT": "Survie en Cité", "ORDER": 9},
+                {"NAME": "PEC_11", "TEXT": "Survie dans le Désert", "ORDER": 10},
+                {"NAME": "PEC_12", "TEXT": "Survie en Forêt", "ORDER": 11},
+                {"NAME": "PEC_13", "TEXT": "Survie dans les Glaces", "ORDER": 12},
+                {"NAME": "PEC_14", "TEXT": "Survie dans les Marais", "ORDER": 13},
+                {"NAME": "PEC_15", "TEXT": "Survie en Montagne", "ORDER": 14},
+                {"NAME": "PEC_16", "TEXT": "Survie en Sous-Sol", "ORDER": 15},
+
             ]
         },
         "SPECIALIZED": {
@@ -581,20 +582,4 @@ def load_from_file():
             e.save()
 
 
-def tai_guidelines(tai):
-    base_average_weight = 56
-    base_average_height = 150
-    # lowest_weight_ratio = 0.9
-    # highest_weight_ratio = 1.1
-    # lowest_height_ratio = 0.85
-    # highest_height_ratio = 1.15
-    weight_ratio = 1.06
-    height_ratio = 1.025
-    height = base_average_height
-    weight = base_average_weight
-    for x in range(2, int(tai)):
-        height *= height_ratio
-        weight *= weight_ratio
-    height = math.ceil(height)
-    weight = math.ceil(weight)
-    return f"TAI={tai}: H={height} / W={weight}"
+

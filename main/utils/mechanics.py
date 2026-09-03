@@ -7,14 +7,16 @@ from dragonade import settings
 
 # Mandatory Fonts
 FONTSET = [
-    "Khand",
+    "Simonetta",
     "Fira+Sans+Condensed",
     "Fira+Mono",
 ]
 # Testing (Transfert to the previous one if valid)
 if settings.DEBUG == False:
     FONTSET += [
-        "Emilys Candy",
+        "Kranky",
+        "Pangolin",
+        "Underdog",
         "Acme",
         "Protest Revolution",
         "Henny+Penny",

@@ -38,7 +38,7 @@
         & .tabbutton{
             flex: 1 1 auto;
             font-size:1.2em;
-            font-family:$font_title;
+            font-family:$font;
             text-align:center;
             padding:3pt;
             border-radius:5pt;
@@ -93,33 +93,6 @@
     & .pretty{
         font-family: $font_title;
     }
-
-//
-//
-//     &.skillstable{
-//         &.autochton{
-// //             background: #1030207F;
-//             & .header{
-//                 color:white;
-//                 background:$palette2;
-//             }
-//         }
-//         &.traveller{
-// //             background: #1020307F;
-//             & .header{
-//                 color:white;
-//                 background:$palette2;
-//             }
-//         }
-//
-//         &.creature{
-// //             background: #3010207F;
-//             & .header{
-//                 color:white;
-//                 background:$palette2;
-//             }
-//         }
-//     }
 
     & .tri{
         font-size:14pt;
@@ -202,7 +175,7 @@
                     font-size:14pt;
                     font-weight:bold;
                     border-radius:2pt;
-                    font-family:Khand;
+                    font-family:$font_title;
                 }
                 & .stat{
                     order:1;

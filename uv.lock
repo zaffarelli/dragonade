@@ -349,7 +349,7 @@ wheels = [
 
 [[package]]
 name = "dragonade"
-version = "1.4.10"
+version = "1.4.11"
 source = { virtual = "." }
 dependencies = [
     { name = "asgiref" },
