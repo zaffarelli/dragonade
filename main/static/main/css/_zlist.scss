@@ -16,29 +16,28 @@
         flex:0 1 auto;
         display:flex;
         flex-flow:row wrap;
-
-
-
         justify-content: flex-start;
         align-items: stretch;
         align-content: center;
-        background:#4040507f;
         gap:3pt;
         width:auto;
-
+        &.even{
+            background:#1020207f;
+        }
+        &.odd{
+            background:#2010207f;
+        }
 
         & .zlist_item{
             padding:3pt;
             border-radius:3pt;
             flex:0 1 auto;
             display:inline-block;
-            background:#202020;
-            background:none;
             color:white;
             vertical-align:middle;
             text-align:center;
-            border:1pt solid #808080;
             font-family:$font;
+            background:#4040407f;
             &.title{
                 font-weight:bold;
                 width:20ex;
@@ -51,21 +50,16 @@
                 width:40ex;
                 height:auto;
                 bottom:2px;
-                border:none;
                 padding:3pt;
                 font-size:1.1em;
                 overflow-y:scroll;
             }
             &.label{
                 font-family:$font_title;
-                background:transparent;
-                border:none;
                 width:20ex;
                 font-size:1.4em;
-
             }
             &.symbol{
-
                 background:#9080907f;
             }
             &.simple{
@@ -75,7 +69,6 @@
             &.normal{
                 font-size:2em;
                 cursor:pointer;
-                border:none;
             }
 
             &.filter{
@@ -87,19 +80,16 @@
                 }
                 border:none;
             }
-
             &.boolean{
                 width:2ex;
                 border:none;
             }
-
             &.number{
                 font-size:1.5em;
-//                 background:silver;
-//                 color:black;
                 width:4ex;
-                border:none;
             }
+            border:2pt solid #202020;
+            border-radius: 5pt;
         }
     }
 }

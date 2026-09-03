@@ -3,5 +3,9 @@
 
 
 {% for i in items %}
-    {% include "main/chiaroscuro/item.html" %}
+    {% if forloop.counter|divisibleby:2 %}
+    {% include "main/chiaroscuro/item.html" with c="even"%}
+    {%else%}
+    {% include "main/chiaroscuro/item.html" with c="odd"%}
+    {%endif%}
 {% endfor %}

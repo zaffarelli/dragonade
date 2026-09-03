@@ -19,7 +19,7 @@ class Character(models.Model, ChiaroscuroMixin):
     group = models.CharField(max_length=256, default="", blank=True)
     team = models.CharField(max_length=256, default="", blank=True)
     factions = models.CharField(max_length=256, default="", blank=True)
-    entrance = models.CharField(max_length=256, default="", blank=True)
+    entrance = models.TextField(max_length=1024, default="", blank=True)
     birthhour = models.IntegerField(default=0, blank=True)
     is_female = models.BooleanField(default=False, blank=True)
     is_lefty = models.BooleanField(default=False, blank=True)
@@ -489,7 +489,11 @@ class Character(models.Model, ChiaroscuroMixin):
                 # print(f"### ORDER = {entry['ORDER']}")
                 if type(datalist).__name__ == 'str':
                     parts = datalist.split(" ")
-                    result = parts[entry["ORDER"]]
+                    x = entry["ORDER"]
+                    if x<len(parts):
+                        result = parts[x]
+                    else:
+                        print(f"Data out of bounds for {where}")
                 else:
                     result = datalist[entry["ORDER"]]
                 # print(f"### Result = {result}")
@@ -795,6 +799,10 @@ class Character(models.Model, ChiaroscuroMixin):
             pmap.append(f'{m["Part"]}-{m["Prot"]}-{m["Str"]}')
         self.protection_map = " ".join(pmap)
 
+    def randomize(self):
+        pass
+
+
     def challenge_skills(self):
         """
             Checks for the amount of by default skills against skills enhanced with stress
@@ -983,3 +991,4 @@ class Character(models.Model, ChiaroscuroMixin):
                 self.bugs.append("(???) Missing skills control")
 
             self.skills_map_str = json.dumps(skills_map)
+

@@ -638,6 +638,13 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
         return data
     }
 
+    randomize(model,rid){
+        let me = this
+        let data = null
+        console.log(`[${me.name}] is ready to randomize [${model}::${rid}] !`)
+        return data
+    }
+
     fetch(model, rid) {
         let me = this
         console.log(`Fetching [${model}]`)

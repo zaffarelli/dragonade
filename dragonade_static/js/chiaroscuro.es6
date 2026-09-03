@@ -217,9 +217,15 @@ class Chiaroscuro {
                     me.registerActions()
                     break
                 case "edit":
-                    let d = {}
                     me.axiomaticPerformers.forEach( (m) => {
                         m.edit(model,words[0])
+                    })
+
+                    me.registerActions()
+                    break
+                case "randomize":
+                    me.axiomaticPerformers.forEach( (m) => {
+                        m.randomize(model,words[0])
                     })
 
                     me.registerActions()

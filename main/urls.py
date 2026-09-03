@@ -5,7 +5,7 @@ from main.views.generic import index, autochtons, creatures, travellers, maps, p
 
 from main.views.incantessimi import IncantessimoDetailView
 from main.views.chiaroscuro import inc_dec, value_push, svg_to_pdf, paginator_switch, value_shift, incantessimi_list, incantessimi_filters, nativi_list, \
-    nativi_filters, viaggiatori_list, viaggiatori_filters, creature_list, creature_filters, artefatti_list, artefatti_filters, fetch, edit, oggetti_list, oggetti_filters
+    nativi_filters, viaggiatori_list, viaggiatori_filters, creature_list, creature_filters, artefatti_list, artefatti_filters, fetch, edit, randomize, oggetti_list, oggetti_filters
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -38,6 +38,7 @@ urlpatterns = [
 
                   re_path(r'^ajax/fetch', fetch, name="fetch"),
                   re_path(r'^ajax/edit', edit, name="edit"),
+                  re_path(r'^ajax/randomize', randomize, name="randomize"),
                   re_path(r'^ajax/value_shift', value_shift, name="value_shift"),
                   # Viaggiatori
                   re_path(r'^viaggiatori_list$', viaggiatori_list, name='viaggiatori_list'),

@@ -36,8 +36,8 @@ class Nativo(Character, JsonableMixin):
 class NativoAdmin(admin.ModelAdmin):
     from main.utils.mechanics import pre_sim, refix
     ordering = ['factions', 'group', 'team_color', 'name']
-    list_display = ['id', 'rid', 'name', 'attributes', 'secondaries', 'entrance', 'title', 'aka', 'is_female', "age", 'group', 'nameless', 'dream']
-    list_editable = ['title', 'aka', 'attributes', 'secondaries','group', 'age', "entrance", 'is_female', 'nameless', "dream"]
+    list_display = ['id', 'rid', 'name', 'skills_generic', 'skills_knowledge', 'entrance', 'title', 'aka', 'is_female', "age", 'group', 'nameless', 'dream']
+    list_editable = ['title', 'aka', 'skills_generic', 'skills_knowledge','group', 'age', "entrance", 'is_female', 'nameless', "dream"]
     list_filter = ['dream', 'group', 'team_color', 'factions', 'nameless', "is_female", "is_battle_ready"]
     search_fields = ['name', 'title', 'factions', 'aka']
     actions = [refix, pre_sim]

@@ -50,19 +50,22 @@
 <div model="{{model|lower}}" class="zlist_item number" style="order:-1;" >{{i.id}}</div>
 <div id="{{i.rid}}__view" model="{{model|lower}}" class="zlist_item normal list_action" style="order:0; text-align:left;" title="view"><i class="fa fa-eye"></i></div>
 <div id="{{i.rid}}__edit" model="{{model|lower}}" class="zlist_item normal list_action" style="order:0; text-align:left;" title="edit"><i class="fa fa-cog"></i></div>
-<div class="zlist_item label" model="{{model|lower}}" style="order:0">{{ i.name }}{% if i.misc.title %}<br/>({{i.misc.title}}){%endif%}</div>
-<div class="zlist_item label" model="{{model|lower}}" style="order:0">{{i.features.AKA}}</div>
-<div class="zlist_item label" model="{{model|lower}}" style="order:0">{{ i.dream }}</div>
+<div id="{{i.rid}}__randomize" model="{{model|lower}}" class="zlist_item normal list_action" style="order:0; text-align:left;" title="edit"><i class="fa fa-dice"></i></div>
 
-<div class="zlist_item number" model="{{model|lower}}" style="order:3">DEST.<br/>{{ i.destiny }}</div>
+<div class="zlist_item label" model="{{model|lower}}" style="order:0">{{ i.name }}{% if i.title %}<br/>({{i.title}}){%endif%}</div>
+<div class="zlist_item label" model="{{model|lower}}" style="order:1">{{i.player}}</div>
+<div class="zlist_item label" model="{{model|lower}}" style="order:2">{{i.aka}}</div>
+<div id="{{i.rid}}__entrance"  srcval="{{i.entrance|encoded_z|safe}}" action="value"  class="zlist_item text editor" model="{{model|lower}}" style="order:3; text-align:left;">{{ i.entrance|render_text|safe }}</div>
 
-<div id="{{i.rid}}__player"  srcval="{{i.player|encoded_z|safe}}" action="value"  class="zlist_item text editor" model="{{model|lower}}" style="order:3; text-align:left;">{{ i.player|render_text|safe }}</div>
+<div class="zlist_item number" model="{{model|lower}}" style="order:4">DEST.<br/>{{ i.destiny }}</div>
+
+
 <div class="zlist_item number" model="{{model|lower}}" style="order:6" title="is female">{{ i.is_female|as_bool|safe }}</div>
 <div class="zlist_item number" model="{{model|lower}}" style="order:6" title="nameless">{{ i.nameless|as_bool|safe }}</div>
 <div class="zlist_item number" model="{{model|lower}}" style="order:6" title="has bug">{{ i.has_bug|as_bool|safe }}</div>
 
-<div class="zlist_item number" model="{{model|lower}}" style="order:10">ATR.<br/>{{ i.misc.total_attributes }}</div>
-<div class="zlist_item number" model="{{model|lower}}" style="order:10">CMP.<br/>{{ i.misc.total_skills }}</div>
+<div class="zlist_item number" model="{{model|lower}}" style="order:10">ATR.<br/>{{ i.total_attributes }}</div>
+<div class="zlist_item number" model="{{model|lower}}" style="order:10">CMP.<br/>{{ i.total_skills }}</div>
 
 {% else %}
 {% if model == "Creatura" %}

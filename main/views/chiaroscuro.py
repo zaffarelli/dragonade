@@ -430,6 +430,31 @@ def edit(request):
                 return JsonResponse(answer)
     return HttpResponse(status=204)
 
+def randomize(request):
+    answer = {'rid': "", "model": "", "payload": {}}
+    if is_ajax(request):
+        rid = request.POST.get('rid')
+        model = request.POST.get('model').title()
+        k = model_to_class(model)
+        if k:
+            items = k.objects.filter(rid=rid)
+            if len(items) == 1:
+                i = items.first()
+                i.randomize()
+                i.save()
+                answer['rid'] = rid
+                answer['model'] = k.__name__
+                answer['payload'] = i.export_to_json()
+                context = {}
+                context['a'] = answer['payload']
+                context['model'] = k.__name__
+                template = get_template("main/objects/roster.html")
+                html = template.render(context, request)
+                answer['html'] = html
+                return JsonResponse(answer)
+    return HttpResponse(status=204)
+
+
 
 def inc_dec(request):
     cando = False
