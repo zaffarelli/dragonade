@@ -5,12 +5,13 @@ from django.template.loader import get_template
 from main.utils.mechanics import FONTSET, MENU_ENTRIES, is_ajax, MAIN_MENU
 from main.utils.ref_dragonade import stress_table_json, action_quality_json, soak_table_json, pdom_table_json, sus_table_json, scon_table_json, comp_table_json, \
     gear_table_json, weapon_table_json, secondaries_table_json, miscellaneous_table_json
-from main.views.chiaroscuro import prepare_pagination
+# from main.views.chiaroscuro import prepare_pagination
 from main.models.incantessimi import Incantessimo
 from main.models.nativi import Nativo
 from main.models.viaggiatori import Viaggiatore
 from main.models.creature import Creatura
 from main.models.oggetti import Oggetto
+from main.models.artefatti import Artefatto
 from main.models.teams import Team
 
 CHAR_PER_PAGE = 12
@@ -46,8 +47,8 @@ def card_reveal(request):
 
 
 def gardiendesreves(request):
-    from main.models.equipment import Equipment
-    Equipment.extract_all()
+    # from main.models.oggetti import Oggetto
+    # Oggetto.extract_all()
     context = prepare_context(request)
     context['config']['modules'].append('risorse')
     context['config']['menu_entries'] = MENU_ENTRIES
@@ -103,7 +104,7 @@ def papers(request):
     context['config']['data']["MISC_TABLE"] = {"name": "Miscellaneous", "code": "MISC_TABLE", "id": 251,
                                                "data": miscellaneous_table_json()}
     x = 1
-    for cat in Equipment.objects.filter(special=False).values('category').distinct():
+    for cat in Oggetto.objects.filter(special=False).values('category').distinct():
         print(cat)
         if cat['category'] == "mel":
             context['config']['data'][f"GEAR_TABLE_{cat['category'].upper()}"] = {"name": f"Equipement {x}",
@@ -202,6 +203,7 @@ def draconis_artes(request):
 
 # Simulateur de Mêlée
 def combattants(request):
+    pass
     context = prepare_context(request)
     travellers = list_for("Viaggiatore")
     autochtons = list_for("Nativo")
@@ -226,77 +228,77 @@ def combattants(request):
     return render(request, 'main/pages/combattants.html', context=context)
 
 
-# Artefacts
-def appartuses(request):
-    from main.models.appartus import Appartus
-    context = prepare_context(request)
-    context['title'] = "Appartus & Merveilles Draconiques"
-    context['config']['modules'].append('appartuses')
-    context['config']['menu_entries'] = MENU_ENTRIES
-    page = 1
-    appartuses = list_for("appartus")
-    for i in Appartus.objects.all().order_by("name"):
-        appartuses.append(i.export_to_json())
-    context = prepare_pagination(context, appartuses, page, "appartuses")
-    return render(request, 'main/pages/appartuses.html', context)
+# # Artefacts
+# def appartuses(request):
+#     from main.models.appartus import Appartus
+#     context = prepare_context(request)
+#     context['title'] = "Appartus & Merveilles Draconiques"
+#     context['config']['modules'].append('appartuses')
+#     context['config']['menu_entries'] = MENU_ENTRIES
+#     page = 1
+#     appartuses = list_for("appartus")
+#     for i in Appartus.objects.all().order_by("name"):
+#         appartuses.append(i.export_to_json())
+#     context = prepare_pagination(context, appartuses, page, "appartuses")
+#     return render(request, 'main/pages/appartuses.html', context)
+#
+
+# # Autochtons
+# def autochtons(request):
+#     from main.models.incantessimi import Spell
+#     from main.models.equipment import Equipment
+#     context = prepare_context(request)
+#     t = "autochton"
+#     items = list_for(t)
+#     page = 1
+#     context = prepare_pagination(context, items, page, type=t, purpose="view")
+#     context['title'] = "Les Autochtones"
+#     # Options
+#     context['reference'] = {}
+#     spells_j = Spell.references()
+#     context['reference']['spells'] = spells_j
+#     gear_j = Equipment.references()
+#     context['reference']['gear'] = gear_j
+#     return render(request, 'main/pages/autochtons.html', context=context)
 
 
-# Autochtons
-def autochtons(request):
-    from main.models.incantessimi import Spell
-    from main.models.equipment import Equipment
-    context = prepare_context(request)
-    t = "autochton"
-    items = list_for(t)
-    page = 1
-    context = prepare_pagination(context, items, page, type=t, purpose="view")
-    context['title'] = "Les Autochtones"
-    # Options
-    context['reference'] = {}
-    spells_j = Spell.references()
-    context['reference']['spells'] = spells_j
-    gear_j = Equipment.references()
-    context['reference']['gear'] = gear_j
-    return render(request, 'main/pages/autochtons.html', context=context)
+# # Creatures
+# def creatures(request):
+#     from main.models.creatures import Creature
+#     from main.models.incantessimi import Spell
+#     from main.models.equipment import Equipment
+#     context = prepare_context(request)
+#     t = "creature"
+#     items = list_for(t)
+#     page = 1
+#     context = prepare_pagination(context, items, page, type=t)
+#     context['title'] = "Les Creatures"
+#     context['reference'] = {}
+#     spells_j = Spell.references()
+#     context['reference']['spells'] = spells_j
+#     equipment = Equipment.references()
+#     context['reference']['equipment'] = equipment
+#     return render(request, 'main/pages/creatures.html', context=context)
+#
 
-
-# Creatures
-def creatures(request):
-    from main.models.creatures import Creature
-    from main.models.incantessimi import Spell
-    from main.models.equipment import Equipment
-    context = prepare_context(request)
-    t = "creature"
-    items = list_for(t)
-    page = 1
-    context = prepare_pagination(context, items, page, type=t)
-    context['title'] = "Les Creatures"
-    context['reference'] = {}
-    spells_j = Spell.references()
-    context['reference']['spells'] = spells_j
-    equipment = Equipment.references()
-    context['reference']['equipment'] = equipment
-    return render(request, 'main/pages/creatures.html', context=context)
-
-
-# Travellers
-def travellers(request):
-    from main.models.travellers import Traveller
-    from main.models.incantessimi import Spell
-    from main.models.equipment import Equipment
-    context = prepare_context(request)
-    t = 'traveller'
-    items = list_for(t)
-    page = 1
-    context = prepare_pagination(context, items, page, type=t, purpose="view")
-    context['title'] = "Les Voyageurs"
-    # options
-    spells_j = Spell.references()
-    context['reference'] = {}
-    context['reference']['spells'] = spells_j
-    equipment = Equipment.references()
-    context['reference']['equipment'] = equipment
-    return render(request, 'main/pages/travellers.html', context=context)
+# # Travellers
+# def travellers(request):
+#     from main.models.travellers import Traveller
+#     from main.models.incantessimi import Spell
+#     from main.models.equipment import Equipment
+#     context = prepare_context(request)
+#     t = 'traveller'
+#     items = list_for(t)
+#     page = 1
+#     context = prepare_pagination(context, items, page, type=t, purpose="view")
+#     context['title'] = "Les Voyageurs"
+#     # options
+#     spells_j = Spell.references()
+#     context['reference'] = {}
+#     context['reference']['spells'] = spells_j
+#     equipment = Equipment.references()
+#     context['reference']['equipment'] = equipment
+#     return render(request, 'main/pages/travellers.html', context=context)
 
 
 def list_for(t):
@@ -312,6 +314,8 @@ def list_for(t):
         klass = Incantessimo
     elif t == "artefatto":
         klass = Artefatto
+    elif t == "ogetto":
+        klass = Ogetto
     for x in klass.objects.all().order_by("name"):
         datum = x.toJson()
         datum['name'] = x.name
@@ -322,106 +326,106 @@ def list_for(t):
 
 
 # Spells
-def stregoneria(request):
-    from main.models.incantessimi import Spell
-    from main.models.autochtons import Autochton
-    from main.models.travellers import Traveller
-    context = prepare_context(request)
-    context['title'] = "Sortilèges & Effets Draconiques"
-    context['config']['modules'].append('stregoneria')
-    context['config']['menu_entries'] = MENU_ENTRIES
-    haut_revants = []
-    for t in Traveller.objects.all():
-        if len(t.spells) > 0:
-            datum = t.export_to_json()
-            datum["spells_as_list"] = t.spells.split(" ")
-            haut_revants.append(datum)
-    for a in Autochton.objects.all():
-        if len(a.spells) > 0:
-            datum = a.export_to_json()
-            datum["spells_as_list"] = a.spells.split(" ")
-            haut_revants.append(datum)
-    context['config']['haut_revants'] = haut_revants
-    stregoneria = []
-    for i in Spell.objects.order_by("-category", "name"):
-        datum = i.export_to_json()
-        datum['type'] = "stregoneria"
-        datum['code'] = i.rid
-        stregoneria.append(datum)
-    context['config']['data'] = stregoneria
-    print(stregoneria)
-    page = 1
-    context = prepare_pagination(context, stregoneria, page, "stregoneria")
+# def stregoneria(request):
+#     from main.models.incantessimi import Spell
+#     from main.models.autochtons import Autochton
+#     from main.models.travellers import Traveller
+#     context = prepare_context(request)
+#     context['title'] = "Sortilèges & Effets Draconiques"
+#     context['config']['modules'].append('stregoneria')
+#     context['config']['menu_entries'] = MENU_ENTRIES
+#     haut_revants = []
+#     for t in Traveller.objects.all():
+#         if len(t.spells) > 0:
+#             datum = t.export_to_json()
+#             datum["spells_as_list"] = t.spells.split(" ")
+#             haut_revants.append(datum)
+#     for a in Autochton.objects.all():
+#         if len(a.spells) > 0:
+#             datum = a.export_to_json()
+#             datum["spells_as_list"] = a.spells.split(" ")
+#             haut_revants.append(datum)
+#     context['config']['haut_revants'] = haut_revants
+#     stregoneria = []
+#     for i in Spell.objects.order_by("-category", "name"):
+#         datum = i.export_to_json()
+#         datum['type'] = "stregoneria"
+#         datum['code'] = i.rid
+#         stregoneria.append(datum)
+#     context['config']['data'] = stregoneria
+#     print(stregoneria)
+#     page = 1
+#     context = prepare_pagination(context, stregoneria, page, "stregoneria")
+#
+#     return render(request, 'main/pages/stregoneria.html', context)
 
-    return render(request, 'main/pages/stregoneria.html', context)
+#
+# def stregoneria_page(request):
+#     from main.models.incantessimi import Spell
+#     context = prepare_context(request)
+#     stregoneria = []
+#     for i in Spell.objects.order_by("-category", "name"):
+#         datum = i.export_to_json()
+#         datum['type'] = "stregoneria"
+#         datum['code'] = i.rid
+#         stregoneria.append(datum)
+#     page = int(request.POST["page"])
+#     context = prepare_pagination(context, stregoneria, page, "stregoneria")
+#     template = get_template("main/lists/list_content.html")
+#     html = template.render(context, request)
+#     return JsonResponse({"html": html})
+#
+#
+# def nativi_list(request):
+#     from main.models.autochtons import Autochton
+#     context = prepare_context(request)
+#     nativi = []
+#     for i in Autochton.objects.all().order_by("dream", "name"):
+#         datum = i.export_to_json()
+#         datum['type'] = "autochton"
+#         datum['code'] = i.rid
+#         print(datum)
+#         nativi.append(datum)
+#
+#     context["nativi"] = nativi
+#     return render(request, 'main/pages/nativi_list.html', context)
 
-
-def stregoneria_page(request):
-    from main.models.incantessimi import Spell
-    context = prepare_context(request)
-    stregoneria = []
-    for i in Spell.objects.order_by("-category", "name"):
-        datum = i.export_to_json()
-        datum['type'] = "stregoneria"
-        datum['code'] = i.rid
-        stregoneria.append(datum)
-    page = int(request.POST["page"])
-    context = prepare_pagination(context, stregoneria, page, "stregoneria")
-    template = get_template("main/lists/list_content.html")
-    html = template.render(context, request)
-    return JsonResponse({"html": html})
-
-
-def nativi_list(request):
-    from main.models.autochtons import Autochton
-    context = prepare_context(request)
-    nativi = []
-    for i in Autochton.objects.all().order_by("dream", "name"):
-        datum = i.export_to_json()
-        datum['type'] = "autochton"
-        datum['code'] = i.rid
-        print(datum)
-        nativi.append(datum)
-
-    context["nativi"] = nativi
-    return render(request, 'main/pages/nativi_list.html', context)
-
-
-def new_creature(request):
-    from main.models.creatures import Creature
-    from main.utils.mechanics import random_term
-    c = Creature()
-    c.name = "Nouvelle " + random_term()
-    c.save()
-    return HttpResponse(status=204)
-
-
-def new_spell(request):
-    from main.models.incantessimi import Spell
-    if is_ajax(request):
-        name = request.POST.get('spell_name')
-        s = Spell.new(name)
-        print(f"New spell created: {s.name} [{s.rid}]")
-    return HttpResponse(status=204)
-
-
-def new_traveller(request):
-    from main.models.travellers import Traveller
-    from main.utils.mechanics import random_term
-    c = Traveller()
-    c.name = "Jane " + random_term()
-    c.save()
-    return HttpResponse(status=204)
-
-
-def new_autochton(request):
-    from main.models.autochtons import Autochton
-    from main.utils.mechanics import random_term
-    c = Autochton()
-    c.name = "Joe " + random_term()
-    c.save()
-    return HttpResponse(status=204)
-
+#
+# def new_creature(request):
+#     from main.models.creatures import Creature
+#     from main.utils.mechanics import random_term
+#     c = Creature()
+#     c.name = "Nouvelle " + random_term()
+#     c.save()
+#     return HttpResponse(status=204)
+#
+#
+# def new_spell(request):
+#     from main.models.incantessimi import Spell
+#     if is_ajax(request):
+#         name = request.POST.get('spell_name')
+#         s = Spell.new(name)
+#         print(f"New spell created: {s.name} [{s.rid}]")
+#     return HttpResponse(status=204)
+#
+#
+# def new_traveller(request):
+#     from main.models.travellers import Traveller
+#     from main.utils.mechanics import random_term
+#     c = Traveller()
+#     c.name = "Jane " + random_term()
+#     c.save()
+#     return HttpResponse(status=204)
+#
+#
+# def new_autochton(request):
+#     from main.models.autochtons import Autochton
+#     from main.utils.mechanics import random_term
+#     c = Autochton()
+#     c.name = "Joe " + random_term()
+#     c.save()
+#     return HttpResponse(status=204)
+#
 
 def overlay_edit(request):
     answer = {}

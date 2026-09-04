@@ -1,11 +1,22 @@
 {% load static %}
 {% load dragonade_filters %}
 
-<div class="top" id="sh__{{a.rid}}">
+<div class="top" id="sh__{{a.id}}">
     <div class="row">
         <div class="whole name">
             {{a.name}}
-            <span class="closer" id="{{a.rid}}__switch" style="float:right;"><i class="fa fa-times"></i></span>
+            <span class="closer" id="{{a.id}}__switch" style="float:right;"><i class="fa fa-times"></i></span>
+            <span class="closer" id="{{a.id}}__randomize" style="float:left;" title="Randomize this!!">
+                {%if model == "Viaggiatore" %}
+                    <i class="fa fa-chess-queen"></i>
+                {%else%}
+                    {% if model == "Nativo" %}
+                        <i class="fa fa-chess-pawn"></i>
+                    {%else%}
+                        <i class="fa fa-chess-knight"></i>
+                    {%endif%}
+                {%endif%}
+            &nbsp;</span>
         </div>
         {%if model == "Creatura" %}
             <div class="whole">
@@ -20,7 +31,11 @@
         {% if model == "Viaggiatore" %}
             {% if a.is_storyteller %}
             <div class="whole">
+                {% if a.is_female %}
+                Voyageuse du Gardien des Rêves
+                {% else %}
                 Voyageur du Gardien des Rêves
+                {% endif %}
             </div>
             {%else%}
             <div class="whole">

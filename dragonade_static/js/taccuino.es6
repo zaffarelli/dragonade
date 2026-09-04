@@ -11,10 +11,10 @@ class Taccuino extends Modulo {
         let me = this;
     }
 
-    edit(model,rid){
-        let data = super.edit(model,rid)
+    edit(model,id){
+        let data = super.edit(model,id)
         let me = this
-        console.log(`[${me.name}] is ready to edit [${model}::${rid}] !`)
+        console.log(`[${me.name}] is ready to edit [${model}::${id}] !`)
         $.ajax({
             url: 'ajax/edit',
             method: 'POST',
@@ -23,13 +23,13 @@ class Taccuino extends Modulo {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             data: {
-                "rid": rid,
+                "id": id,
                 "model": model,
             },
             dataType: 'json',
             success: function (answer) {
                 me.datum = {}
-                me.datum['rid'] = answer['rid']
+                me.datum['id'] = answer['id']
                 me.datum['type'] = answer['type']
                 me.datum['payload'] = answer['payload']
                 $("<div id='svg_area'></div>").insertBefore('.zlist_container')
@@ -47,8 +47,8 @@ class Taccuino extends Modulo {
         return data
     }
 
-    randomize(model,rid){
-        let data = super.edit(model,rid)
+    randomize(model,id){
+        let data = super.edit(model,id)
         let me = this
         console.log(`[${me.name}] is ready to edit [${model}::${rid}] !`)
         $.ajax({
@@ -59,13 +59,13 @@ class Taccuino extends Modulo {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             data: {
-                "rid": rid,
+                "id": rid,
                 "model": model,
             },
             dataType: 'json',
             success: function (answer) {
                 me.datum = {}
-                me.datum['rid'] = answer['rid']
+                me.datum['id'] = answer['id']
                 me.datum['type'] = answer['type']
                 me.datum['payload'] = answer['payload']
                 $("<div id='svg_area'></div>").insertBefore('.zlist_container')

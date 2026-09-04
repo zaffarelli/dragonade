@@ -32,7 +32,7 @@
             </div>
             <div class="stat">
                 <div class="label">Stress Acquis</div>
-                <div class="data">{{a.stress_acquired}}</div>
+                <div class="data">{%if a.stress_acquired > 0 %}{{a.stress_acquired}}{%else%}Infini{%endif%}</div>
             </div>
             <div class="stat">
                 <div class="label">Stress Utilisé</div>
@@ -40,7 +40,7 @@
             </div>
             <div class="stat">
                 <div class="label">Stress Restant</div>
-                <div class="data">{{a.stress_remaining}}</div>
+                <div class="data">{%if a.stress_acquired > 0 %}{{a.stress_remaining}}{%else%}Infini{%endif%}</div>
             </div>
         </div>
         {% endif %}

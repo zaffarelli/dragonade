@@ -3,7 +3,18 @@
 
 
 <div class="stat">
-    <div class="label lazy" title="{{sk}}">{{sk|as_skill|safe}}</div>
+    <div class="label lazy" style="color:#a0a0a0;" title="{{sk}}">{{sk|as_skill|safe}}
+        <span class="creation_value cv{{cv}}" param="cv{{cv}}">{% if cv %}&nbsp;<i class="fa fa-asterisk"
+            {% if a.skills_creation_ok == True %}
+                style="color:darkcyan;"
+            {%else%}
+                style="color:orangered;"
+            {%endif%}
+            >
+        </i>&nbsp;{{cv|colorize_val|safe}}
+        {%endif%}
+        </span>
+    </div>
     <div class="data lazy editable">
         <span style="width:2ex;">{{b|colorize_abs|safe}}</span>
         <span class="btn_edit minus" action="inc_dec" id="{{model|lower}}__{{a.id}}__{{sk}}__minus"><i class="fa fa-arrow-circle-down"></i></span>

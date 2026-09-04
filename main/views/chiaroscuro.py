@@ -33,45 +33,45 @@ def value_shift(request):
         param = request.POST.get('param')
         back = int(request.POST.get('back'))
         model = request.POST.get('model')
-        spells = Incantessimo.objects.filter(rid=rid)
-        print(f"{rid} {param} {model} {back}")
-        if len(spells) == 1:
-            spell = spells.first()
-            current_value = getattr(spell, param)
-            answer["rid"] = rid
-            answer["model"] = model.title()
-            from main.models.incantessimi import DragonadeGround, DragonadeEmanation, DragonadeHour, DragonadeElement, DragonadeConsistency, \
-                IncantessimoCategory, IncantessimoPath, DragonadeDifficulty
-            if param == "ground_charge":
-                dataset = DragonadeGround.values
-            elif param == "hour_charge":
-                dataset = DragonadeHour.values
-            elif param == "elemental_charge":
-                dataset = DragonadeElement.values
-            elif param == "emanation_charge":
-                dataset = DragonadeEmanation.values
-            elif param == "consistency_charge":
-                dataset = DragonadeConsistency.values
-            elif param == "category":
-                dataset = IncantessimoCategory.values
-            elif param == "diff":
-                dataset = DragonadeDifficulty.values
-
-            else:
-                dataset = IncantessimoPath.values
-            next_value_index = 0
-            for k, v in enumerate(dataset):
-                if v == current_value:
-                    next_value_index = (k + back) % len(dataset)
-                    print(dataset)
-                    print(f"{k} -> {next_value_index}")
-            setattr(spell, param, dataset[next_value_index])
-            print(f"New values is [{dataset[next_value_index]}] for [{param}].")
-            spell.save()
-            context = {"i": spell.export_to_json(), "model": model.title()}
-
-            template = get_template("main/chiaroscuro/item_body.html")
-            answer['data'] = template.render(context)
+        k = model_to_class(model)
+        if k:
+            items = klass.objects.filter(id=id)
+            print(f"{id} {param} {model} {back}")
+            if len(items) == 1:
+                item = items.first()
+                current_value = getattr(item, param)
+                answer["rid"] = rid
+                answer["model"] = model.title()
+                from main.models.incantessimi import DragonadeGround, DragonadeEmanation, DragonadeHour, DragonadeElement, DragonadeConsistency, \
+                    IncantessimoCategory, IncantessimoPath, DragonadeDifficulty
+                if param == "ground_charge":
+                    dataset = DragonadeGround.values
+                elif param == "hour_charge":
+                    dataset = DragonadeHour.values
+                elif param == "elemental_charge":
+                    dataset = DragonadeElement.values
+                elif param == "emanation_charge":
+                    dataset = DragonadeEmanation.values
+                elif param == "consistency_charge":
+                    dataset = DragonadeConsistency.values
+                elif param == "category":
+                    dataset = IncantessimoCategory.values
+                elif param == "diff":
+                    dataset = DragonadeDifficulty.values
+                else:
+                    dataset = IncantessimoPath.values
+                next_value_index = 0
+                for k, v in enumerate(dataset):
+                    if v == current_value:
+                        next_value_index = (k + back) % len(dataset)
+                        print(dataset)
+                        print(f"{k} -> {next_value_index}")
+                setattr(item, param, dataset[next_value_index])
+                print(f"New values is [{dataset[next_value_index]}] for [{param}].")
+                item.save()
+                context = {"i": item.export_to_json(), "model": model.title()}
+                template = get_template("main/chiaroscuro/item_body.html")
+                answer['data'] = template.render(context)
 
     answer['rid'] = rid
     return JsonResponse(answer)
@@ -83,56 +83,37 @@ def value_push(request):
     if is_ajax(request):
         if request.method == 'POST':
             answer = {}
-            new_roster = ''
             params = request.POST.get('refs').split('__')
-            rid = request.POST.get('rid')
             new_value = request.POST.get('new_value')
             value = zaff_decode(new_value)
             value = value.replace("  ", " ")
             value = value.strip()
-            print("New value     =>", new_value)
-            print("Value to push =>", value)
-            print("Params =>", params)
             if len(params) >= 3:
-                class_name = params[0].title()
-                print(f"Class: {class_name}")
-                rid = params[1]
-                attribute = params[2].lower()
-                if class_name.title() == "Nativo":
-                    item = Nativo.objects.get(rid=rid)
-                    cando = True
-                if class_name.title() == "Creature":
-                    item = Creatura.objects.get(rid=rid)
-                    cando = True
-                if class_name.title() == "Incantessimo":
-                    print(f"spell: {rid}")
-                    item = Incantessimo.objects.get(rid=rid)
-                    print(item)
-                    cando = True
-                if class_name.title() == "Viaggiatore":
-                    item = Viaggiatore.objects.get(rid=rid)
-                    print("Traveller found: ", item.rid)
-                    cando = True
-        if cando:
-            print(f"### VALUE PUSH ### {item.name}: Pushing [{attribute}] with [{value}]!!")
-            change_result = item.applyValuePush(attribute, value)
-            x = item.export_to_json()
-            model = class_name.title()
-            context = {'i': x, "model": model}
-            template = get_template('main/chiaroscuro/item_body.html')
-            new_roster = template.render(context, request)
-            answer['rid'] = item.rid
-            answer['id'] = item.id
-            answer['change_result'] = change_result
-            answer['data'] = new_roster
-            context = {}
-            context['a'] = x
-            context['model'] = model
-            template = get_template("main/objects/roster.html")
-            html = template.render(context, request)
-            answer['html'] = html
-
-            return JsonResponse(answer)
+                model = params[0].title()
+                k = model_to_class(model)
+                if k:
+                    id = params[1]
+                    attribute = params[2].lower()
+                    item = k.objects.get(id=id)
+                    if item:
+                        cando = True
+            if cando:
+                change_result = item.applyValuePush(attribute, value)
+                x = item.export_to_json()
+                context = {'i': x, "model": model}
+                template = get_template('main/chiaroscuro/item_body.html')
+                new_roster = template.render(context, request)
+                answer['rid'] = item.rid
+                answer['id'] = item.id
+                answer['change_result'] = change_result
+                answer['data'] = new_roster
+                context = {}
+                context['a'] = x
+                context['model'] = model
+                template = get_template("main/objects/roster.html")
+                html = template.render(context, request)
+                answer['html'] = html
+                return JsonResponse(answer)
     return HttpResponse(status=204)
 
 
@@ -158,45 +139,45 @@ def svg_to_pdf(request, slug):
         response['status'] = 'ok'
     return JsonResponse(response)
 
-
-def paginator_switch(request):
-    if is_ajax(request):
-        params = request.POST["params"]
-        p = request.POST["purpose"]
-        return paginate(request, t=params, purpose=p)
-    return JsonResponse({"html": 'Bad Paginator!'})
-
-
-def paginate(request, t="", purpose="view"):
-    from main.views.generic import prepare_context, list_for
-    context = prepare_context(request)
-    items = list_for(t)
-    page = int(request.POST["page"])
-    context = prepare_pagination(context, items, page, t, purpose)
-    local_context = {}
-    local_context["list"] = context['list'][t]
-    template = get_template("main/lists/list_content.html")
-    html = template.render(local_context, request)
-    return JsonResponse({"html": html})
-
-
-def prepare_pagination(context, all_items, page=1, type="", purpose="view"):
-    from django.core.paginator import Paginator
-    if type == "":
-        context['error'] = "Not type given to paginator"
-    else:
-        paginator = Paginator(all_items, ITEMS_PER_LIST)
-        p = paginator.page(page)
-        pagination = {}
-        pagination['type'] = type
-        pagination['purpose'] = purpose
-        pagination['previous_page'] = p.previous_page_number() if p.has_previous() else page
-        pagination['current_page'] = page
-        pagination['next_page'] = p.next_page_number() if p.has_next() else page
-        pagination['num_pages'] = paginator.num_pages
-        pagination['elements'] = p.object_list
-        context['list'][type] = pagination
-    return context
+#
+# def paginator_switch(request):
+#     if is_ajax(request):
+#         params = request.POST["params"]
+#         p = request.POST["purpose"]
+#         return paginate(request, t=params, purpose=p)
+#     return JsonResponse({"html": 'Bad Paginator!'})
+#
+#
+# def paginate(request, t="", purpose="view"):
+#     from main.views.generic import prepare_context, list_for
+#     context = prepare_context(request)
+#     items = list_for(t)
+#     page = int(request.POST["page"])
+#     context = prepare_pagination(context, items, page, t, purpose)
+#     local_context = {}
+#     local_context["list"] = context['list'][t]
+#     template = get_template("main/lists/list_content.html")
+#     html = template.render(local_context, request)
+#     return JsonResponse({"html": html})
+#
+#
+# def prepare_pagination(context, all_items, page=1, type="", purpose="view"):
+#     from django.core.paginator import Paginator
+#     if type == "":
+#         context['error'] = "Not type given to paginator"
+#     else:
+#         paginator = Paginator(all_items, ITEMS_PER_LIST)
+#         p = paginator.page(page)
+#         pagination = {}
+#         pagination['type'] = type
+#         pagination['purpose'] = purpose
+#         pagination['previous_page'] = p.previous_page_number() if p.has_previous() else page
+#         pagination['current_page'] = page
+#         pagination['next_page'] = p.next_page_number() if p.has_next() else page
+#         pagination['num_pages'] = paginator.num_pages
+#         pagination['elements'] = p.object_list
+#         context['list'][type] = pagination
+#     return context
 
 
 # Incantessimi
@@ -409,16 +390,16 @@ def items_filters(request, options={}):
 
 
 def edit(request):
-    answer = {'rid': "", "model": "", "payload": {}}
+    answer = {'id': "", "model": "", "payload": {}}
     if is_ajax(request):
-        rid = request.POST.get('rid')
+        id = request.POST.get('id')
         model = request.POST.get('model').title()
         k = model_to_class(model)
         if k:
-            items = k.objects.filter(rid=rid)
+            items = k.objects.filter(id=id)
             if len(items) == 1:
                 i = items.first()
-                answer['rid'] = rid
+                answer['id'] = id
                 answer['model'] = k.__name__
                 answer['payload'] = i.export_to_json()
                 context = {}
@@ -431,18 +412,18 @@ def edit(request):
     return HttpResponse(status=204)
 
 def randomize(request):
-    answer = {'rid': "", "model": "", "payload": {}}
+    answer = {'id': "", "model": "", "payload": {}}
     if is_ajax(request):
-        rid = request.POST.get('rid')
+        id = request.POST.get('id')
         model = request.POST.get('model').title()
         k = model_to_class(model)
         if k:
-            items = k.objects.filter(rid=rid)
+            items = k.objects.filter(id=id)
             if len(items) == 1:
                 i = items.first()
                 i.randomize()
                 i.save()
-                answer['rid'] = rid
+                answer['id'] = rid
                 answer['model'] = k.__name__
                 answer['payload'] = i.export_to_json()
                 context = {}

@@ -22,8 +22,8 @@ class Viaggiatore(Character):
         super().fix()
         if self.is_storyteller:
             self.player = "Gardien des Rêves"
-            self.stress_acquired = 666666
-        if len(self.entrance)>0:
+            self.stress_acquired = -1
+        if len(self.entrance) > 0:
             entrance = self.entrance.split(', ')
             entrance.sort()
             self.entrance = ", ".join(entrance)
@@ -31,21 +31,21 @@ class Viaggiatore(Character):
     def randomize(self):
         if self.is_storyteller:
             self.birthhour = roll(12)
-            attributes = ["4","4","4","5","5","5","5","6","6","7","7","8"]
+            attributes = ["4", "4", "4", "5", "5", "5", "5", "6", "6", "7", "7", "8"]
             random.shuffle(attributes)
             self.attributes = " ".join(attributes)
             all_values = [
                 "7",
-                "6","6",
-                "5","5","5",
-                "4","4","4","4",
-                "3","3","3","3","3",
-                "2","2","2","2","2","2",
-                "1","1","1","1","1","1","1"]
+                "6", "6",
+                "5", "5", "5",
+                "4", "4", "4", "4",
+                "3", "3", "3", "3", "3",
+                "2", "2", "2", "2", "2", "2",
+                "1", "1", "1", "1", "1", "1", "1"]
             random.shuffle(all_values)
-            r = roll(1,10)
-            spots = [1,3,6,8,6,4]
-            skills = [[],[],[],[],[],[]]
+            r = roll(1, 10)
+            spots = [1, 3, 6, 8, 6, 4]
+            skills = [[], [], [], [], [], []]
             skills[0] = ["-5" for _ in range(6)]
             skills[1] = ["-4" for _ in range(10)]
             skills[2] = ["-3" for _ in range(10)]
@@ -72,15 +72,10 @@ class Viaggiatore(Character):
             self.skills_weapons = " ".join(skills[5])
 
 
-
-
-
-
-
 class ViaggiatoreAdmin(admin.ModelAdmin):
     from main.utils.mechanics import pre_sim, refix
     ordering = ['-indice', 'name']
-    list_display = ['id', 'rid', 'name', "height", "aka", "is_female", "entrance",'player', 'is_storyteller', 'bug_list', 'color', 'destiny']
+    list_display = ['id', 'rid', 'name', "height", "aka", "is_female", "entrance", 'player', 'is_storyteller', 'bug_list', 'color', 'destiny']
     list_editable = ["height", 'color', "is_female", 'destiny', 'is_storyteller', "aka", "entrance"]
     list_filter = ['is_storyteller', "priority"]
     actions = [refix, pre_sim]

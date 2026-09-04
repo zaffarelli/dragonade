@@ -144,6 +144,38 @@ class Chiaroscuro {
         me.registerShifters()
         me.registerTabs()
         me.registerListActions()
+        me.registerHighlight()
+
+    }
+
+    registerHighlight(){
+        let me = this
+        // $(".creation_value").off("mouseout")
+        //     .on("mouseout", (e) => {
+        //         let val=$(this).attr("rotofil")
+        //         console.log("Mouseout "+val)
+        //         e.preventDefault()
+        //         e.stopPropagation()
+        //
+        //         if (e.ctrlKey) {
+        //             $('.creation_value').removeClass("hidden")
+        //         }
+        //     })
+        $(".creation_value").off("mouseover")
+            .on("mouseover", function(e){
+                let specific_class=$(this).attr("param")
+                console.log("Mouseover "+specific_class)
+                e.preventDefault()
+                e.stopPropagation()
+
+                if (e.ctrlKey){
+                    $('.creation_value').addClass("hidden")
+                    console.log(specific_class)
+                    $('.'+specific_class).removeClass("hidden")
+                }else{
+                    $('.creation_value').removeClass("hidden")
+                }
+            })
 
     }
 
@@ -200,6 +232,10 @@ class Chiaroscuro {
     }
 
     registerListActions(){
+        /**
+         * From zlist, actions can be done using the option panel... or not
+         * @type {Chiaroscuro}
+         */
         let me = this
         $('.list_action').off().on('click', function(e) {
             let id = $(this).attr('id')
@@ -511,7 +547,7 @@ class Chiaroscuro {
                 },
                 data: {
                     "new_value": value,
-                    "rid":words[1],
+                    "id":words[1],
                     "refs": refs
                 },
                 dataType: 'json',

@@ -105,7 +105,7 @@ CHARACTER_STATISTICS = {
             "DEFAULT": -1,
             "NAME": "Génériques",
             "LIST": [
-                {"NAME": "GEN_01", "TEXT": "Bricolage", "ORDER": 0},
+                {"NAME": "GEN_01", "TEXT": "Artisanat", "ORDER": 0},
                 {"NAME": "GEN_02", "TEXT": "Chant", "ORDER": 1},
                 {"NAME": "GEN_03", "TEXT": "Concentration", "ORDER": 2},
                 {"NAME": "GEN_04", "TEXT": "Course", "ORDER": 3},
@@ -122,7 +122,6 @@ CHARACTER_STATISTICS = {
                 {"NAME": "GEN_15", "TEXT": "Tactique", "ORDER": 14},
                 {"NAME": "GEN_14", "TEXT": "Vigilance", "ORDER": 15},
 
-
             ]
         },
         "PECULIAR": {
@@ -135,16 +134,16 @@ CHARACTER_STATISTICS = {
                 {"NAME": "PEC_04", "TEXT": "Couture", "ORDER": 3},
                 {"NAME": "PEC_05", "TEXT": "Déguisement", "ORDER": 4},
                 {"NAME": "PEC_06", "TEXT": "Equitation", "ORDER": 5},
-                {"NAME": "PEC_07", "TEXT": "Maçonnerie", "ORDER": 6},
-                {"NAME": "PEC_08", "TEXT": "Musique", "ORDER": 7},
-                {"NAME": "PEC_09", "TEXT": "Jeu de Mains", "ORDER": 8},
+                {"NAME": "PEC_07", "TEXT": "Jeu de Mains", "ORDER": 6},
+                {"NAME": "PEC_08", "TEXT": "Maçonnerie", "ORDER": 7},
+                {"NAME": "PEC_09", "TEXT": "Musique", "ORDER": 8},
                 {"NAME": "PEC_10", "TEXT": "Survie en Cité", "ORDER": 9},
                 {"NAME": "PEC_11", "TEXT": "Survie dans le Désert", "ORDER": 10},
                 {"NAME": "PEC_12", "TEXT": "Survie en Forêt", "ORDER": 11},
                 {"NAME": "PEC_13", "TEXT": "Survie dans les Glaces", "ORDER": 12},
                 {"NAME": "PEC_14", "TEXT": "Survie dans les Marais", "ORDER": 13},
-                {"NAME": "PEC_15", "TEXT": "Survie en Montagne", "ORDER": 14},
-                {"NAME": "PEC_16", "TEXT": "Survie en Sous-Sol", "ORDER": 15},
+                {"NAME": "PEC_15", "TEXT": "Survie en Montagnes", "ORDER": 14},
+                {"NAME": "PEC_16", "TEXT": "Survie en Sous-sols", "ORDER": 15},
 
             ]
         },
@@ -153,10 +152,10 @@ CHARACTER_STATISTICS = {
             "NAME": "Spécialisées",
             "LIST": [
                 {"NAME": "SPE_01", "TEXT": "Acrobatie", "ORDER": 0},
-                {"NAME": "SPE_02", "TEXT": "Chirurgie", "ORDER": 1},
-                {"NAME": "SPE_03", "TEXT": "Jeu", "ORDER": 2},
-                {"NAME": "SPE_04", "TEXT": "Jonglerie", "ORDER": 3},
-                {"NAME": "SPE_05", "TEXT": "Maroquinerie", "ORDER": 4},
+                {"NAME": "SPE_02", "TEXT": "Jeu", "ORDER": 1},
+                {"NAME": "SPE_03", "TEXT": "Jonglerie", "ORDER": 2},
+                {"NAME": "SPE_04", "TEXT": "Maroquinerie", "ORDER": 3},
+                {"NAME": "SPE_05", "TEXT": "Médecine", "ORDER": 4},
                 {"NAME": "SPE_06", "TEXT": "Métallurgie", "ORDER": 5},
                 {"NAME": "SPE_07", "TEXT": "Natation", "ORDER": 6},
                 {"NAME": "SPE_08", "TEXT": "Navigation", "ORDER": 7},
@@ -169,15 +168,15 @@ CHARACTER_STATISTICS = {
             "NAME": "Connaissances",
             "LIST": [
                 {"NAME": "KNO_01", "TEXT": "Alchimie", "ORDER": 0},
-                {"NAME": "KNO_10", "TEXT": "Animaux", "ORDER": 1},
-                {"NAME": "KNO_02", "TEXT": "Architecture", "ORDER": 2},
-                {"NAME": "KNO_03", "TEXT": "Astrologie", "ORDER": 3},
-                {"NAME": "KNO_06", "TEXT": "Ecriture", "ORDER": 4},
-                {"NAME": "KNO_07", "TEXT": "Légendes", "ORDER": 5},
-                {"NAME": "KNO_08", "TEXT": "Mathématiques", "ORDER": 6},
-                {"NAME": "KNO_09", "TEXT": "Médecine", "ORDER": 7},
-                {"NAME": "KNO_05", "TEXT": "Plantes", "ORDER": 8},
-                {"NAME": "KNO_11", "TEXT": "Stratégie", "ORDER": 9}
+                {"NAME": "KNO_02", "TEXT": "Animaux", "ORDER": 1},
+                {"NAME": "KNO_03", "TEXT": "Architecture", "ORDER": 2},
+                {"NAME": "KNO_04", "TEXT": "Astrologie", "ORDER": 3},
+                {"NAME": "KNO_05", "TEXT": "Chirurgie", "ORDER": 4},
+                {"NAME": "KNO_06", "TEXT": "Ecriture", "ORDER": 5},
+                {"NAME": "KNO_07", "TEXT": "Légendes", "ORDER": 6},
+                {"NAME": "KNO_08", "TEXT": "Mathématiques", "ORDER": 7},
+                {"NAME": "KNO_09", "TEXT": "Plantes", "ORDER": 8},
+                {"NAME": "KNO_10", "TEXT": "Stratégie", "ORDER": 9}
             ]
         },
         "DRACONIC": {
@@ -288,7 +287,6 @@ Difficultes = [
     {"NAME": "DI", "TEXT": "Difficile", "COEF": 4, "VALUE": 20},
     {"NAME": "TD", "TEXT": "Très Difficile", "COEF": 5, "VALUE": 25}
 ]
-
 
 STRESS_COEFF = 3
 
@@ -580,6 +578,3 @@ def load_from_file():
             e.name = line
             e.category = '---'
             e.save()
-
-
-

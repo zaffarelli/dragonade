@@ -631,21 +631,21 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
         let me = this
     }
 
-    edit(model,rid){
+    edit(model,id){
         let me = this
         let data = null
-        console.log(`[${me.name}] is ready to edit [${model}::${rid}] !`)
+        console.log(`[${me.name}] is ready to edit [${model}::${id}] !`)
         return data
     }
 
-    randomize(model,rid){
+    randomize(model,id){
         let me = this
         let data = null
-        console.log(`[${me.name}] is ready to randomize [${model}::${rid}] !`)
+        console.log(`[${me.name}] is ready to randomize [${model}::${id}] !`)
         return data
     }
 
-    fetch(model, rid) {
+    fetch(model, id) {
         let me = this
         console.log(`Fetching [${model}]`)
         $.ajax({
@@ -656,13 +656,13 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             data: {
-                "rid": rid,
+                "id": rid,
                 "model": model,
             },
             dataType: 'json',
             success: function (answer) {
                 me.datum = {}
-                me.datum['rid'] = answer['rid']
+                me.datum['id'] = answer['id']
                 me.datum['model'] = answer['model']
                 me.datum['payload'] = answer['payload']
                 me.postFetch()

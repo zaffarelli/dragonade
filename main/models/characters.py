@@ -1,9 +1,13 @@
+from multiprocessing.util import abstract_sockets_supported
+
 from django.db import models
 from main.mixins.chiaroscuro_mixin import ChiaroscuroMixin
+from main.models.oggetti import OggettoCategory
 from main.utils.ref_dragonade import CHARACTER_STATISTICS, SHORTCUTS, stress_cost
 from main.utils.mechanics import as_rid, Nougardine, roll, Severity, Chaser
 from datetime import datetime
 import math
+import json
 
 
 class Character(models.Model, ChiaroscuroMixin):
@@ -23,6 +27,7 @@ class Character(models.Model, ChiaroscuroMixin):
     birthhour = models.IntegerField(default=0, blank=True)
     is_female = models.BooleanField(default=False, blank=True)
     is_lefty = models.BooleanField(default=False, blank=True)
+    skills_creation_ok = models.BooleanField(default=False, blank=True)
     is_battle_ready = models.BooleanField(default=False, blank=True)
     age = models.PositiveIntegerField(default=20, blank=True)
     height = models.PositiveIntegerField(default=150, blank=True)
@@ -144,7 +149,7 @@ class Character(models.Model, ChiaroscuroMixin):
             if "FORMULA" in k:
                 val = self.from_formula(k['PARAMS'], k['FORMULA'])
                 setattr(self, k["NAME"], val)
-        #self.tai_guideline = tai_guidelines(self.value_for('TAI'))
+        # self.tai_guideline = tai_guidelines(self.value_for('TAI'))
         self.compute_weight()
 
         #
@@ -163,10 +168,10 @@ class Character(models.Model, ChiaroscuroMixin):
             IMC = 15 -> 35
             IMC = 10 + 2 * TAI + 1xCON + 1xFOR
         """
-        if self.height <=0:
+        if self.height <= 0:
             self.height = 170
         height = self.height / 100
-        IMC = 15 + int(self.value_for("CON")) + int(self.value_for("FOR")) - int(self.value_for("AGI"))  + int(self.value_for("AGI"))
+        IMC = 15 + int(self.value_for("CON")) + int(self.value_for("FOR")) - int(self.value_for("AGI")) + int(self.value_for("AGI"))
         weight = IMC * height ** 2
         self.imc = IMC
         self.weight = round(weight)
@@ -255,6 +260,11 @@ class Character(models.Model, ChiaroscuroMixin):
             :param src_ref: source reference among the user filled properties o f the instance
             :returns: nothing / works directly on the instance
         """
+        j = json.loads(self.skills_map_str)
+        if "all" in j:
+            cvs = j["all"]
+        else:
+            cvs = {}
         if len(src_ref) > 0:
             transversal = src_ref.split('_')
             src_struct = CHARACTER_STATISTICS
@@ -281,10 +291,13 @@ class Character(models.Model, ChiaroscuroMixin):
                     self._data[branch][transversal[1].lower()] = {}
                     arr = getattr(self, src_ref.lower()).split(' ')
                     for item in src_struct['LIST']:
-                        self._data[branch][transversal[1].lower()][item['NAME']] = {"val": 666, "abs": 666}
+
+                        self._data[branch][transversal[1].lower()][item['NAME']] = {"val": 666, "abs": 666, "cv": ""}
                         self._data[branch][transversal[1].lower()][item['NAME']]['val'] = int(arr[cnt]) if cnt < len(arr) else src_struct['DEFAULT']
                         self._data[branch][transversal[1].lower()][item['NAME']]['abs'] = self._data[branch][transversal[1].lower()][item['NAME']]['val'] - \
                                                                                           src_struct['DEFAULT']
+                        if item['NAME'] in cvs:
+                            self._data[branch][transversal[1].lower()][item['NAME']]['cv'] = cvs[item['NAME']]
                         cnt += 1
             else:
                 print(f"!!! Error: Don't know what to do with [{src_ref}]...")
@@ -354,6 +367,7 @@ class Character(models.Model, ChiaroscuroMixin):
         self._data['armors'] = self.gear_to_armors()
         self._data['GENDER'] = self.is_female
         self._data['LEFTY'] = self.is_lefty
+
         self._data["skills_summary"] = self.skills_summary()
         self._data['roster_text'] = self.roster_as_text()
         now = datetime.now().strftime("%Y/%m/%d, %H:%M:%S")
@@ -376,15 +390,19 @@ class Character(models.Model, ChiaroscuroMixin):
         return pf_total, str
 
     def gear_to_weapons(self):
+        # print("******* GEAR TO WEAPONS *******")
         """
             Grab elements from the gear stack list that are neither weapons.
             :returns: JSON list of the elements fetched.
         """
         from main.models.oggetti import Oggetto
         list = []
-        weapons = Oggetto.objects.filter(category__in=[18, 19, 20], rid__in=self.gear.split(" ")).order_by(
+        # print(self.gear.split(" "))
+        weapons = Oggetto.objects.filter(category__in=[OggettoCategory.MEL, OggettoCategory.TIR, OggettoCategory.LAN], rid__in=self.gear.split(" ")).order_by(
             "category")
+        # print(len(weapons))
         for weapon in weapons:
+            # print(weapon)
             svs = {"18": "MEL", "19": "TIR", "20": "LAN"}
             stat_value = self.value_for(svs[str(weapon.category)])
             related_skills = weapon.related_skill.split(" ")
@@ -405,6 +423,7 @@ class Character(models.Model, ChiaroscuroMixin):
             d['base_score'] = int(stat_value) + int(d['related_skill_value'])
             d['stat_skill'] = f"{svs[str(weapon.category)]}+{d['related_skill_value']}={int(stat_value) + int(d['related_skill_value'])}"
             list.append(d)
+            print(d)
         return list
 
     def gear_to_other(self):
@@ -490,7 +509,7 @@ class Character(models.Model, ChiaroscuroMixin):
                 if type(datalist).__name__ == 'str':
                     parts = datalist.split(" ")
                     x = entry["ORDER"]
-                    if x<len(parts):
+                    if x < len(parts):
                         result = parts[x]
                     else:
                         print(f"Data out of bounds for {where}")
@@ -802,7 +821,6 @@ class Character(models.Model, ChiaroscuroMixin):
     def randomize(self):
         pass
 
-
     def challenge_skills(self):
         """
             Checks for the amount of by default skills against skills enhanced with stress
@@ -838,8 +856,8 @@ class Character(models.Model, ChiaroscuroMixin):
                                         break
                             if len(nice_value) > 0 and len(nice_spot) > 0:
                                 skills_map["values"][nice_value]["perfect_matches"].append(tgt)
-                                if len(nice_spot) > 0:
-                                    skills_map["spots"][nice_spot]["perfect_matches"].append(tgt)
+                                skills_map["spots"][nice_spot]["perfect_matches"].append(tgt)
+                                skills_map["all"][tgt] = nice_value
 
         def track_enhanced(root):
             """
@@ -852,7 +870,7 @@ class Character(models.Model, ChiaroscuroMixin):
             for stat in root["LIST"]:
                 tgt = stat["NAME"]
                 val = self.value_for(tgt)
-                if int(val)>0:
+                if int(val) > 0:
                     for k, v in skills_map["values"].items():
                         if int(k) < int(val):
                             nice_value = ""
@@ -861,7 +879,7 @@ class Character(models.Model, ChiaroscuroMixin):
                             enhanced_values = v["partial_matches"]
                             spv = len(perfect_values)
                             sev = len(enhanced_values)
-                            if (v["count"] > spv+sev) and tgt not in v["perfect_matches"] and tgt not in v["partial_matches"]:
+                            if (v["count"] > spv + sev) and tgt not in v["perfect_matches"] and tgt not in v["partial_matches"]:
                                 nice_value = k
                             for l, w in skills_map["spots"].items():
                                 if l == str(default):
@@ -870,20 +888,56 @@ class Character(models.Model, ChiaroscuroMixin):
                                     enhanced_spots = w["partial_matches"]
                                     sps = len(perfect_spots)
                                     ses = len(enhanced_spots)
-                                    if (w["count"] > sps+ses) and tgt not in w["perfect_matches"]  and tgt not in w["partial_matches"]:
-                                    #if tgt not in w["perfect_matches"] and tgt not in w["partial_matches"]:
+                                    if (w["count"] > sps + ses) and tgt not in w["perfect_matches"] and tgt not in w["partial_matches"]:
+                                        # if tgt not in w["perfect_matches"] and tgt not in w["partial_matches"]:
                                         nice_spot = l
                                         break
                             if len(nice_value) > 0 and len(nice_spot) > 0:
                                 skills_map["values"][nice_value]["partial_matches"].append(tgt)
-                                if len(nice_spot) > 0:
-                                    skills_map["spots"][nice_spot]["partial_matches"].append(tgt)
+                                skills_map["spots"][nice_spot]["partial_matches"].append(tgt)
+                                skills_map["all"][tgt] = nice_value
+
+        def compute_stress(root):
+            stress = 0
+            default = root["DEFAULT"]
+            for stat in root["LIST"]:
+                tgt = stat["NAME"]
+                val = int(self.value_for(tgt))
+                forget = True
+                if val > default:
+                    forget = False
+                    start_value = default
+                    s = 0
+                    for l, w in skills_map["values"].items():
+                        # If target in perfect match: nothing to do
+                        if tgt in w["partial_matches"]:
+                            start_value = int(l)
+                            print(start_value)
+                        if tgt in w["perfect_matches"]:
+                            forget = True
+                    if not forget:
+                        x = ""
+                        abss = start_value - default
+                        absv = val - default
+                        while abss < absv:
+                            abss += 1
+                            s = abss
+                            x += f"{s:2}"
+                            x += f"({abss + default:2}) "
+                            stress += s
+                        print(f"{tgt:8} Compute from {start_value} to {val - default} >>> {s:3} stress [{x:50}]")
+
+                else:
+                    # if value is default: nothing to do
+                    pass
+            return stress
 
         if self.type != "Viaggiatore":
             pass
         else:
             skills_map = {
                 "name": self.name,
+                "all": {},
                 "spots": {
                     "5": {
                         "count": 1,
@@ -955,40 +1009,49 @@ class Character(models.Model, ChiaroscuroMixin):
             track_perfect(CHARACTER_STATISTICS["SKILLS"]["PECULIAR"])
             track_perfect(CHARACTER_STATISTICS["SKILLS"]["GENERIC"])
             track_perfect(CHARACTER_STATISTICS["SKILLS"]["WEAPONS"])
-            track_enhanced(CHARACTER_STATISTICS["SKILLS"]["DRACONIC"])
-            track_enhanced(CHARACTER_STATISTICS["SKILLS"]["KNOWLEDGE"])
-            track_enhanced(CHARACTER_STATISTICS["SKILLS"]["SPECIALIZED"])
-            track_enhanced(CHARACTER_STATISTICS["SKILLS"]["PECULIAR"])
-            track_enhanced(CHARACTER_STATISTICS["SKILLS"]["GENERIC"])
+
             track_enhanced(CHARACTER_STATISTICS["SKILLS"]["WEAPONS"])
-            import json
-            print(json.dumps(skills_map, indent=2))
-
-
+            track_enhanced(CHARACTER_STATISTICS["SKILLS"]["GENERIC"])
+            track_enhanced(CHARACTER_STATISTICS["SKILLS"]["PECULIAR"])
+            track_enhanced(CHARACTER_STATISTICS["SKILLS"]["SPECIALIZED"])
+            track_enhanced(CHARACTER_STATISTICS["SKILLS"]["KNOWLEDGE"])
+            track_enhanced(CHARACTER_STATISTICS["SKILLS"]["DRACONIC"])
 
             # Control
             spots_ok = True
-            for k,v in skills_map["spots"].items():
+            for k, v in skills_map["spots"].items():
                 e = v["perfect_matches"]
                 a = v["partial_matches"]
                 se = len(e)
                 sa = len(a)
-                if v["count"] != se+sa:
+                if v["count"] != se + sa:
                     spots_ok = False
                     break
             values_ok = True
-            for k,v in skills_map["values"].items():
+            for k, v in skills_map["values"].items():
                 e = v["perfect_matches"]
                 a = v["partial_matches"]
                 se = len(e)
                 sa = len(a)
-                if v["count"] != se+sa:
+                if v["count"] != se + sa:
                     values_ok = False
                     break
             if spots_ok and values_ok:
                 self.bugs.append("(---) Skills control ok.")
+                self.skills_creation_ok = True
             else:
                 self.bugs.append("(???) Missing skills control")
+                self.skills_creation_ok = False
 
             self.skills_map_str = json.dumps(skills_map)
 
+            # Computing Stress
+            self.stress_used = 0
+            self.stress_used += compute_stress(CHARACTER_STATISTICS["SKILLS"]["DRACONIC"])
+            self.stress_used += compute_stress(CHARACTER_STATISTICS["SKILLS"]["KNOWLEDGE"])
+            self.stress_used += compute_stress(CHARACTER_STATISTICS["SKILLS"]["SPECIALIZED"])
+            self.stress_used += compute_stress(CHARACTER_STATISTICS["SKILLS"]["PECULIAR"])
+            self.stress_used += compute_stress(CHARACTER_STATISTICS["SKILLS"]["GENERIC"])
+            self.stress_used += compute_stress(CHARACTER_STATISTICS["SKILLS"]["WEAPONS"])
+
+            self.stress_remaining = self.stress_acquired - self.stress_used

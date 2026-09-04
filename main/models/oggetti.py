@@ -262,15 +262,15 @@ class OggettoAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ['category', 'related_attribute', 'name']
     # Armors
-    # list_display = ["rid", "id", "category", "name", "cover", "enc", "price", "resistance", "materiaux", "prot", "quality",
-    #                 "malus_AGI", "malus_DEX",
-    #                 "malus_VUE", "malus_OUI","force_min"
-    #                 ]
-    # list_editable = ["category", "cover", "materiaux", "resistance","quality","force_min"]
-    # Weapons
-    list_display = ["rid", "id", "category", "name", "maneuver","related_skill", "related_skill_name", "engagement", "enc", "price", "resistance","force_min"
+    list_display = ["rid","name", "id", "category", "cover", "enc", "price", "resistance", "materiaux", "prot", "quality",
+                    "malus_AGI", "malus_DEX",
+                    "malus_VUE", "malus_OUI","force_min"
                     ]
-    list_editable = ["category", "related_skill","maneuver","engagement", "enc", "price", "resistance","force_min"]
-    list_filter = ["category", "can_be_thrown", "special"]
+    list_editable = ["category", "cover", "materiaux", "resistance","quality","force_min"]
+    # Weapons
+    # list_display = ["rid", "id", "category", "name", "maneuver","related_skill", "related_skill_name", "engagement", "enc", "price", "resistance","force_min"
+    #                 ]
+    # list_editable = ["category", "related_skill","maneuver","engagement", "enc", "price", "resistance","force_min"]
+    list_filter = ["category", "can_be_thrown", "special", "materiaux", "cover"]
     search_fields = ['name']
     actions = [refix, cat_from_first]

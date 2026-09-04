@@ -1,11 +1,16 @@
 {% load static %}
 {% load dragonade_filters %}
 
+
 <fieldset class="row lax">
     <legend>Armes</legend>
     {% for w in a.weapons %}
+
     <div class="block_third">
-        <div class="title">{{w.name}}</div>
+        <div class="title">
+            {% if w.special %}<i class="fa fa-star" style="color:orange;"></i>&nbsp;{%endif%}
+            {{w.name}}
+        </div>
         <div class="stat">
             <div class="label fixed">Attaque<br/>Score</div>
             <div class="data auto">{{w.stat_name}} + {{w.related_skill_text}}<br/>{{w.stat_value}} + {{w.related_skill_value}} = {{w.base_score}}</div>
