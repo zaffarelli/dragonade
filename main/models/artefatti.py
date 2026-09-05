@@ -45,6 +45,7 @@ class Artefatto(models.Model,ChiaroscuroMixin):
 
     price = models.PositiveIntegerField(default=1000, blank=True)
     power = models.IntegerField(default=0, blank=True)
+    sogni = models.CharField(max_length=256, default="DEF", blank=True)
     data = {}
 
     def fix(self):

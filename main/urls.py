@@ -2,7 +2,7 @@ from django.urls import re_path
 from main.views.generic import index, maps, papers, card_reveal, gardiendesreves, combattants, overlay_edit, kicker
 from main.views.chiaroscuro import inc_dec, value_push, svg_to_pdf, value_shift, incantessimi_list, incantessimi_filters, nativi_list, \
     nativi_filters, viaggiatori_list, viaggiatori_filters, creature_list, creature_filters, artefatti_list, artefatti_filters, fetch, edit, randomize, \
-    oggetti_list, oggetti_filters
+    oggetti_list, oggetti_filters, sogno_nuovo, sogno_precedente, sogno_seguente
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -23,6 +23,13 @@ urlpatterns = [
                   re_path(r'^ajax/edit', edit, name="edit"),
                   re_path(r'^ajax/randomize', randomize, name="randomize"),
                   re_path(r'^ajax/value_shift', value_shift, name="value_shift"),
+
+                  # Sogno
+                  re_path(r'^ajax/nuovo_sogno', sogno_nuovo, name="sogno_nuovo"),
+                  re_path(r'^ajax/sogno_seguente', sogno_seguente, name="sogno_seguente"),
+                  re_path(r'^ajax/sogno_precedente', sogno_precedente, name="sogno_precedente"),
+
+
                   # Viaggiatori
                   re_path(r'^viaggiatori_list$', viaggiatori_list, name='viaggiatori_list'),
                   re_path(r'^ajax/viaggiatore_filter$', viaggiatori_filters, name='viaggiatori_filter'),

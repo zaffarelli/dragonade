@@ -101,10 +101,9 @@ MAIN_MENU = [
             {"NAME": "Voyageurs", "LINK": "risorse"},
         ]},
         {"NAME": "Rêves", "SUB": [
-            {"NAME": "Nouveau Rêve", "LINK": "new_dream"},
-            {"NAME": "Campagne: El fuego del Mar", "LINK": "sogno"},
-            {"NAME": "Campagne: Le joueur de flute", "LINK": "sogno"},
-            {"NAME": "Campagne: La Rose Pourpre", "LINK": "sogno"},
+            {"NAME": "Nouveau Rêve", "LINK": "nuovo_sogno"},
+            {"NAME": "Suivant", "LINK": "sogno_seguente"},
+            {"NAME": "Précédent", "LINK": "sogno_precedente"},
         ]},
         {"NAME": "Personnages", "SUB": [
             {"NAME": "Viaggiatori", "LINK": "viaggiatori_list"},

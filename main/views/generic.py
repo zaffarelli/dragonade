@@ -1,6 +1,8 @@
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from datetime import datetime
+
+from django.template import RequestContext
 from django.template.loader import get_template
 from main.utils.mechanics import FONTSET, MENU_ENTRIES, is_ajax, MAIN_MENU
 from main.utils.ref_dragonade import stress_table_json, action_quality_json, soak_table_json, pdom_table_json, sus_table_json, scon_table_json, comp_table_json, \
@@ -18,13 +20,18 @@ CHAR_PER_PAGE = 12
 
 
 def prepare_context(request):
-    d = datetime.now()
+    request_context = RequestContext(request)
+    st = request_context.get("sogno_txt")
+    sa = request_context.get("sogno_acro")
+
     context = {
         'config': {
             'fontset': FONTSET,
             'modules': [],
             'zmenu': MAIN_MENU
         },
+        'sogno_txt': st,
+        'sogno_acro': sa,
         'list': {}
     }
     return context
@@ -326,38 +333,6 @@ def list_for(t):
 
 
 # Spells
-# def stregoneria(request):
-#     from main.models.incantessimi import Spell
-#     from main.models.autochtons import Autochton
-#     from main.models.travellers import Traveller
-#     context = prepare_context(request)
-#     context['title'] = "Sortilèges & Effets Draconiques"
-#     context['config']['modules'].append('stregoneria')
-#     context['config']['menu_entries'] = MENU_ENTRIES
-#     haut_revants = []
-#     for t in Traveller.objects.all():
-#         if len(t.spells) > 0:
-#             datum = t.export_to_json()
-#             datum["spells_as_list"] = t.spells.split(" ")
-#             haut_revants.append(datum)
-#     for a in Autochton.objects.all():
-#         if len(a.spells) > 0:
-#             datum = a.export_to_json()
-#             datum["spells_as_list"] = a.spells.split(" ")
-#             haut_revants.append(datum)
-#     context['config']['haut_revants'] = haut_revants
-#     stregoneria = []
-#     for i in Spell.objects.order_by("-category", "name"):
-#         datum = i.export_to_json()
-#         datum['type'] = "stregoneria"
-#         datum['code'] = i.rid
-#         stregoneria.append(datum)
-#     context['config']['data'] = stregoneria
-#     print(stregoneria)
-#     page = 1
-#     context = prepare_pagination(context, stregoneria, page, "stregoneria")
-#
-#     return render(request, 'main/pages/stregoneria.html', context)
 
 #
 # def stregoneria_page(request):

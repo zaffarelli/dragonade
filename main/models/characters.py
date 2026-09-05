@@ -69,6 +69,8 @@ class Character(models.Model, ChiaroscuroMixin):
     protection_map = models.CharField(max_length=256, blank=True, default="H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X")
     skills_map_str = models.TextField(max_length=2048, default="{}", blank=True)
 
+    sogni = models.CharField(max_length=256, default="DEF", blank=True)
+
     travel_points = models.IntegerField(default=0, blank=True)
     stress_acquired = models.IntegerField(default=0, blank=True)
     stress_used = models.IntegerField(default=0, blank=True)

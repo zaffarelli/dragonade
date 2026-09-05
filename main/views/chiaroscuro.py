@@ -1,3 +1,5 @@
+from django.template import RequestContext
+
 from main.models.oggetti import Oggetto
 from main.utils.mechanics import is_ajax, zaff_decode
 from django.http import JsonResponse, HttpResponse
@@ -332,6 +334,12 @@ def items_list(request, options={}):
     """
     from main.views.generic import prepare_context
     context = prepare_context(request)
+
+    # sa = request_context.get("sogno_acro")
+    # print(sa)
+
+    print(context)
+
     k = model_to_class(options["model"])
     if k:
         if options["model"] == 'Incantessimo':
@@ -341,7 +349,7 @@ def items_list(request, options={}):
         else:
             context['config']['modules'].append('taccuino')
         items = []
-        for i in k.objects.order_by("name"):
+        for i in k.objects.order_by("name"): #.filter(sogni__contains=context["sogno_acro"]):
             datum = i.export_to_json()
             items.append(datum)
         context["title"] = k.__name__
@@ -494,4 +502,20 @@ def fetch(request):
                 answer['model'] = model
                 answer['payload'] = i.export_to_json()
                 return JsonResponse(answer)
+    return HttpResponse(status=204)
+
+def sogno_nuovo(request):
+    # todo
+    return HttpResponse(status=204)
+
+def sogno_precedente(request):
+    return sogno_nav(request,-1)
+
+
+def sogno_seguente(request):
+    return sogno_nav(request,1)
+
+
+def sogno_nav(request,x):
+    Sogno.nav(x)
     return HttpResponse(status=204)

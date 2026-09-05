@@ -209,6 +209,7 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
     power_boost = models.IntegerField(default=0, blank=True)
     avoid_original_cost = models.BooleanField(default=False, blank=True)
     famous_high_dreamers = models.TextField(default="", max_length=512, blank=True)
+    sogni = models.CharField(max_length=256, default="DEF", blank=True)
     data = {}
 
     def fix(self):

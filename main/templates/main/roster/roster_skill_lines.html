@@ -15,7 +15,7 @@
         {%endif%}
         </span>
     </div>
-    <div class="data lazy editable">
+    <div class="data lazy interactive_element">
         <span style="width:2ex;">{{b|colorize_abs|safe}}</span>
         <span class="btn_edit minus" action="inc_dec" id="{{model|lower}}__{{a.id}}__{{sk}}__minus"><i class="fa fa-arrow-circle-down"></i></span>
         <span class="btn_edit value" action="value" id="{{model|lower}}__{{a.id}}__{{sk}}__value" srcval="{{v|encoded_z|safe}}">&nbsp;{{v|colorize_val|safe}}&nbsp;</span>

@@ -76,7 +76,8 @@
                 font-size:1.5em;
                 cursor:pointer;
                 &:hover{
-                    background:darkcyan;
+                    background:$hlbg;
+                    color:$hlco;
                 }
                 border:none;
             }
@@ -114,7 +115,7 @@
     height:7vh;
     width:auto;
     font-size:0.73em;
-    justify-content:space-between;
+    justify-content:flex-start;
     align-content: flex-start;
     align-items: flex-start;
     & .zlist_entry{

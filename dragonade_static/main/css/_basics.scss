@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+$hlbg: #602060;
+$hlco: #f0c080;
+
 $palette0: #101010; // Text
 $palette1: #2532377F; // Background
 $palette10: #253237; // Background
@@ -72,18 +75,16 @@ $sub_box: complement($standard_box);
 
 @mixin btn_look{
     display:inline-block;
-    background: #606060;
-    width:20ex;
+    background: #505050;
     color: white;
-    border-radius:3pt;
+    width:16ex;
     border:1pt solid #202020;
-    //font-family: $font;
     line-height:1.8em;
-    border-radius:3pt;
-    padding:3pt;
+    border-radius:5pt;
+    padding:5pt;
     &:hover{
-        background:#4b1f4a;
-        color:#f0c040;
+        background:$hlbg;
+        color:$hlco;
         cursor:pointer;
     }
 }
@@ -134,3 +135,4 @@ $grav_mod:#96b93b;
 $grav_maj:#b9ac3b;
 $grav_gra:#b97a3b;
 $grav_ser:#b94d3b;
+

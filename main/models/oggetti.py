@@ -88,6 +88,7 @@ class Oggetto(models.Model, ChiaroscuroMixin):
     malus_DEX = models.IntegerField(default=0, null=True, blank=True)
     malus_VUE = models.IntegerField(default=0, null=True, blank=True)
     malus_OUI = models.IntegerField(default=0, null=True, blank=True)
+    sogni = models.CharField(max_length=256, default="DEF", blank=True)
 
     range = models.IntegerField(default=0, null=True, blank=True)
 
