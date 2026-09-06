@@ -20,20 +20,12 @@ CHAR_PER_PAGE = 12
 
 
 def prepare_context(request):
-    request_context = RequestContext(request)
-    st = request_context.get("sogno_txt")
-    sa = request_context.get("sogno_acro")
-
-    context = {
-        'config': {
+    context = {}
+    context['config'] = {
             'fontset': FONTSET,
             'modules': [],
             'zmenu': MAIN_MENU
-        },
-        'sogno_txt': st,
-        'sogno_acro': sa,
-        'list': {}
-    }
+        }
     return context
 
 
@@ -70,7 +62,7 @@ def maps(request):
     context['config']['modules'].append('piani')
     context['config']['maps'] = fetch_maps()
     context['title'] = "Cartes & Plans"
-    print(context['config']['maps'])
+    # print(context['config']['maps'])
     return render(request, 'main/pages/piani.html', context=context)
 
 
@@ -195,17 +187,17 @@ def load(request):
     load_from_file()
 
 
-def draconis_artes(request):
-    from main.models.incantessimi import Incantessimo
-    context = prepare_context(request)
-    context['title'] = "Arts Draconiques"
-    context['config']['modules'].append('risorse')
-    context['config']['menu_entries'] = MENU_ENTRIES
-    spells = list_for()
-    for i in Incantessimo.objects.all().order_by("name"):
-        spells.append(i.export_to_json())
-    context['spells'] = spells
-    return render(request, 'main/pages/draconis_artes.html', context=context)
+# def draconis_artes(request):
+#     from main.models.incantessimi import Incantessimo
+#     context = prepare_context(request)
+#     context['title'] = "Arts Draconiques"
+#     context['config']['modules'].append('risorse')
+#     context['config']['menu_entries'] = MENU_ENTRIES
+#     spells = list_for()
+#     for i in Incantessimo.objects.all().order_by("name"):
+#         spells.append(i.export_to_json())
+#     context['spells'] = spells
+#     return render(request, 'main/pages/draconis_artes.html', context=context)
 
 
 # Simulateur de Mêlée

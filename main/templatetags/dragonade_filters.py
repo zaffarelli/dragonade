@@ -111,13 +111,15 @@ def as_draconichour(value):
 
 
 @register.filter(name='as_hour')
-def as_hour(value):
-    str = ""
+def as_hour(v):
+    value = int(v)
     if isinstance(value, int):
         vals = ["Vaisseau", "Sirène", "Faucon", "Couronne", "Dragon", "Epées", "Lyre", "Serpent", "Poisson-Acrobate",
                 "Araignée", "Roseau", "Chateau-Dormant"]
         if value > 0:
             str = vals[value - 1]
+        else:
+            str = "n/a"
     return str
 
 
@@ -359,6 +361,8 @@ def as_stack_list(value):
     str = ""
     for item in items:
         str += f"<span class='gearit' item='{item}'>{item}</span> "
+    if len(str)==0:
+        str = " "
     return str
 
 
@@ -412,10 +416,11 @@ def as_avoidance(value):
 
 @register.filter(name='render_text')
 def render_text(value):
-    result = f'N/A'
     if isinstance(value, str):
         v = value.split("§")
         result = "<br/>".join(v)
+    if len(result)==0:
+        result = f'N/A'
     return result
 
 
@@ -426,6 +431,14 @@ def as_bool(value):
         str = "<i class='fa fa-check-circle' style='color:#209020;'></i>"
     else:
         str = "<i class='fa fa-times-circle' style='color:#903030;'></i>"
+    return str
+
+@register.filter(name='as_okko')
+def as_okko(value):
+    if value in [True, "true", "1", 1, "on", "True"]:
+        str = "<i class='fa fa-check' style='color:#209020;'></i>"
+    else:
+        str = "<i class='fa fa-times' style='color:#903030;'></i>"
     return str
 
 

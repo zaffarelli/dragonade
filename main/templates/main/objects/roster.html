@@ -1,7 +1,7 @@
 {% load static %}
 {% load dragonade_filters %}
 
-<div class='roster skillstable {{model|lower}} hidden' kid="ss_{{a.id}}" id="roster__{{a.rid}}">
+<div class='roster skillstable {{model|lower}} hidden' id="roster__{{a.id}}">
     {% include "main/roster/roster_header.html" %}
     <div class="tabnav">
         <span class="tabbutton on" id="tabbutton_base" param="base">Base</span>

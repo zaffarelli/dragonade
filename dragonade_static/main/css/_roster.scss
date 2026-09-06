@@ -217,7 +217,7 @@
                         border-radius:2pt;
                         text-align:center;
                         &.text{
-                            flex: 1 0 50ex;
+                            flex: 1 0 auto;
                             font-weight:normal;
                             text-align:left;
                             font-size:13pt;
@@ -227,10 +227,11 @@
                             font-weight:normal;
                             text-align:left;
                             font-size:13pt;
-                            min-height:3em;
+                            min-height:8em;
                         }
                         &.auto{
                             flex: 1 1 auto;
+                            font-weight:normal;
                         }
                         &.lazy{
                             background:none;
@@ -258,8 +259,9 @@
                             background:#1010107f;
                         }
                         &.interactive_element{
-                            cursor:help;
-                            border:1pt double red;
+                            cursor:crosshair;
+                            border:1pt double $hlco;
+                            background: $hlbg;
                         }
                     }
                 }

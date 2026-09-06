@@ -16,7 +16,7 @@ class Sogno(models.Model, ChiaroscuroMixin):
     code = models.CharField(default="", max_length=6, blank=True)
     acronym = models.CharField(default="", max_length=10, blank=True)
     description = models.CharField(default="", max_length=256, blank=True)
-    session_number = models.PositiveIntegerField(default=1, blank=True)
+    sort_order = models.PositiveIntegerField(default=1, blank=True)
     date_run = models.DateField(default=timezone.now, blank=True)
     description = models.TextField(default="", max_length=1024, blank=True)
     current = models.BooleanField(default=False, blank=True)
@@ -43,15 +43,25 @@ class Sogno(models.Model, ChiaroscuroMixin):
         return f"{self.title} [{self.code}]"
 
     @classmethod
-    def go(cls,x):
-        cnt = len(cls.objects.all())
-        current = cls.objects.filter
+    def nav(cls,x):
+        all = cls.objects.all()
+        cnt = len(all)
+        current = cls.objects.filter(current=True).first()
+        idx = (current.sort_order+x)%cnt
+        for s in all:
+            if idx == s.sort_order:
+                s.current = True
+            else:
+                s.current = False
+            s.save()
+
+
 
 
 class SognoAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
-    ordering = ["date_run", 'title', 'session_number']
-    list_display = ["id", "rid", "acronym", "code", "title", "current", "subtitle", "date_run", "session_number", "description", "viaggiatori", "nativi",
+    ordering = ['sort_order',"date_run", 'title' ]
+    list_display = ["id", "rid", "acronym", "code", "title", "current", "subtitle", "date_run", "sort_order", "description", "viaggiatori", "nativi",
                     "creature"]
-    list_editable = ["acronym", "session_number", "current", "title", "subtitle", "description"]
+    list_editable = ["acronym", "sort_order", "current", "title", "subtitle", "description"]
     actions = [refix]

@@ -1,5 +1,5 @@
 const ZAFF_MATCHES = [['é', 'WeA_'], ['è', 'WeG_'], ['à', 'WaG_'], ['ï', 'WiT_'], ['ë', 'WeT_'], ['ä', 'WaT_'],
-    ['ù', 'WuG_'],['ç', 'WcC_'], ['ô', 'WoC_'], ['ê', 'WeC_'], ['â', 'WaC_'], [' ', 'Wsp_'], ["'", 'Wsq_'], ['"', 'Wdq_']]
+    ['ù', 'WuG_'], ['ç', 'WcC_'], ['ô', 'WoC_'], ['ê', 'WeC_'], ['â', 'WaC_'], [' ', 'Wsp_'], ["'", 'Wsq_'], ['"', 'Wdq_']]
 
 class Chiaroscuro {
     constructor(config) {
@@ -44,14 +44,14 @@ class Chiaroscuro {
         this.last_tabbutton = ""
     }
 
-    prepareWebSocket(){
+    prepareWebSocket() {
         let me = this;
         $("#parallax_reveal").off().on('submit', (e) => {
             e.preventDefault();
             let message = e.target.message.value
             me.chatSocket.send(JSON.stringify({
-                'type':'reveal',
-                'message':message
+                'type': 'reveal',
+                'message': message
             }))
             return false;
         })
@@ -60,8 +60,8 @@ class Chiaroscuro {
             let message = e.target.message.value
             let message_type = e.target.message.value
             me.chatSocket.send(JSON.stringify({
-                'type':'select',
-                'message':message
+                'type': 'select',
+                'message': message
             }))
             return false;
         })
@@ -148,7 +148,7 @@ class Chiaroscuro {
 
     }
 
-    registerHighlight(){
+    registerHighlight() {
         let me = this
         // $(".creation_value").off("mouseout")
         //     .on("mouseout", (e) => {
@@ -162,32 +162,32 @@ class Chiaroscuro {
         //         }
         //     })
         $(".creation_value").off("mouseover")
-            .on("mouseover", function(e){
-                let specific_class=$(this).attr("param")
-                console.log("Mouseover "+specific_class)
+            .on("mouseover", function (e) {
+                let specific_class = $(this).attr("param")
+                console.log("Mouseover " + specific_class)
                 e.preventDefault()
                 e.stopPropagation()
 
-                if (e.ctrlKey){
+                if (e.ctrlKey) {
                     $('.creation_value').addClass("hidden")
                     console.log(specific_class)
-                    $('.'+specific_class).removeClass("hidden")
-                }else{
+                    $('.' + specific_class).removeClass("hidden")
+                } else {
                     $('.creation_value').removeClass("hidden")
                 }
             })
 
     }
 
-    registerShortcuts(){
-        let me=this
+    registerShortcuts() {
+        let me = this
         $("body").off().on("keyup", (e) => {
             e.preventDefault()
             e.stopPropagation()
-            if (e.ctrlKey && e.altKey){
+            if (e.ctrlKey && e.altKey) {
                 switch (e.key) {
                     case "o":
-                        console.log("Code:"+e.code, "Key:"+e.key)
+                        console.log("Code:" + e.code, "Key:" + e.key)
                         $("#options_showhide").trigger('click')
                         break
                 }
@@ -201,9 +201,9 @@ class Chiaroscuro {
         $('.tabbutton').off().on('click', function (e) {
             let tgt = $(this).attr("param")
             $(".tabbutton").removeClass("on")
-            $("#tabbutton_"+tgt).addClass("on")
+            $("#tabbutton_" + tgt).addClass("on")
             $(".tabpanel").addClass("hidden")
-            $("#tabpanel_"+tgt).removeClass("hidden")
+            $("#tabpanel_" + tgt).removeClass("hidden")
             me.last_tabbutton = $(this).attr("id")
             console.log(`Last tab button is [${me.last_tabbutton}].`)
         })
@@ -223,7 +223,7 @@ class Chiaroscuro {
             let list = $("#ed").val()
             let words = list.split(" ")
             let word = $(this).attr('param')
-            if (!words.includes(word)){
+            if (!words.includes(word)) {
                 words.push(word)
             }
             let html = words.join(" ")
@@ -231,37 +231,37 @@ class Chiaroscuro {
         })
     }
 
-    registerListActions(){
+    registerListActions() {
         /**
          * From zlist, actions can be done using the option panel... or not
          * @type {Chiaroscuro}
          */
         let me = this
-        $('.list_action').off().on('click', function(e) {
+        $('.list_action').off().on('click', function (e) {
             let id = $(this).attr('id')
             let model = $(this).attr('model')
             let words = id.split('__')
             let rid = words[0]
             let action = words[1]
-            switch (action){
+            switch (action) {
                 case "view":
                     console.log(`Viewing for [${rid}] required.`)
-                    me.axiomaticPerformers.forEach( (m) => {
+                    me.axiomaticPerformers.forEach((m) => {
                         console.log(`[${m.name}] is ready to handle [${rid}]!`)
                         m.handle(rid)
                     })
                     me.registerActions()
                     break
                 case "edit":
-                    me.axiomaticPerformers.forEach( (m) => {
-                        m.edit(model,words[0])
+                    me.axiomaticPerformers.forEach((m) => {
+                        m.edit(model, words[0])
                     })
 
                     me.registerActions()
                     break
                 case "randomize":
-                    me.axiomaticPerformers.forEach( (m) => {
-                        m.randomize(model,words[0])
+                    me.axiomaticPerformers.forEach((m) => {
+                        m.randomize(model, words[0])
                     })
 
                     me.registerActions()
@@ -272,7 +272,7 @@ class Chiaroscuro {
                 case "filter":
                     console.log(`Filtrering for [${words[0]}:${words[2]}=${words[3]}] required.`)
                     $.ajax({
-                        url: 'ajax/'+words[0].toLowerCase()+'_filter',
+                        url: 'ajax/' + words[0].toLowerCase() + '_filter',
                         method: 'POST',
                         headers: {
                             'Accept': 'application/json',
@@ -312,7 +312,7 @@ class Chiaroscuro {
                 let params = id.split("__");
                 if (params.length > 3) {
                     //if (e.ctrlKey) {
-                        change = params[3];
+                    change = params[3];
                     //}
                     let data = params[0] + "__" + params[1] + "__" + params[2] + "__" + change;
                     console.log(data)
@@ -329,13 +329,13 @@ class Chiaroscuro {
                             },
                             dataType: 'json',
                             success: function (answer) {
-                                $('#roster__' + answer.rid).remove()
+                                $('#roster__' + answer.id).remove()
                                 $('#svg_area').append(answer.new_roster);
-                                $('#roster__' + answer.rid).removeClass("hidden")
+                                $('#roster__' + answer.id).removeClass("hidden")
                                 me.registerActions();
-                                if (me.last_tabbutton != ""){
+                                if (me.last_tabbutton != "") {
                                     console.log(`${me.last_tabbutton}`)
-                                    $("#"+me.last_tabbutton).trigger("click")
+                                    $("#" + me.last_tabbutton).trigger("click")
                                 }
                             },
                             error: function (answer) {
@@ -380,35 +380,39 @@ class Chiaroscuro {
         });
     }
 
-   registerEditor() {
+    registerEditor() {
         let me = this;
         $('.editor').off().on('click', function (e) {
             e.preventDefault()
             e.stopPropagation()
-            let action = $(this).attr('action')
-            let model = $(this).attr('model')
             let id = $(this).attr('id')
-            if (action == "value") {
-                if (e.ctrlKey){
-                    let params = id.split("__")
-                    let value = $(this).attr("srcval")
-                    let encoded_value = me.zaff_decode(value)
-                    let data = model + "__" + params[0] + "__" + params[1]
-                    $("#target_ed").val(data)
-                    $("#ed").val(encoded_value)
-                    $("#echo").html(value)
-                    me.registerActions()
+            let params = id.split("__")
+            if (params.length >= 4) {
+                if (params[3] == "value") {
+                    if (e.ctrlKey) {
+                        let value = $(this).attr("srcval")
+                        let encoded_value = me.zaff_decode(value)
+                        let data = params[0] + "__" + params[1] + "__" + params[2]
+                        console.log("RegisterEditor")
+                        console.log(data)
+                        console.log(">>>",encoded_value)
+                        $("#ed").val(encoded_value)
+                        $("#target_ed").val(data)
+                        $(this).parent(".interactive_element").addClass("selected")
+                        // $("#echo").html(value)
+                        me.registerActions()
+                    }
                 }
             } else {
-                console.warning("Unknown action...")
+                console.warning("invalid action...")
             }
-        });
+        })
     }
 
 
-    registerShifters(){
+    registerShifters() {
         let me = this
-        $('.shifter').off().on('click', function(e){
+        $('.shifter').off().on('click', function (e) {
             e.preventDefault()
             e.stopPropagation()
             let xxx = $(this).attr('id')
@@ -435,7 +439,7 @@ class Chiaroscuro {
                     dataType: 'json',
                     success: function (answer) {
                         console.log(`xxx:${answer.model} yyy:${answer.rid}`)
-                        $("#"+answer.model.toLowerCase()+"__"+answer.rid).html(answer.data)
+                        $("#" + answer.model.toLowerCase() + "__" + answer.rid).html(answer.data)
                         me.registerActions()
                     },
                     error: function (answer) {
@@ -456,7 +460,7 @@ class Chiaroscuro {
             let value = me.zaff_encode(new_value)
             let refs = $("#target_ed").val();
             let words = refs.split("__")
-            if (words.includes("bulk")){
+            if (words.includes("bulk")) {
                 value = me.zaff_encode($("#ed").val())
 
             }
@@ -473,14 +477,14 @@ class Chiaroscuro {
                 },
                 dataType: 'json',
                 success: function (answer) {
-                    $('#roster__' + answer.rid).remove()
+                    $('#roster__' + answer.id).remove()
                     // $('#svg_area').append(answer.html);
-                    $('#roster__' + answer.rid).removeClass("hidden")
+                    $('#roster__' + answer.id).removeClass("hidden")
                     $("#target_ed").val("")
                     $("#ed").val("")
                     me.registerActions()
-                    if (me.last_tabbutton != ""){
-                        $("#"+me.last_tabbutton).trigger("click")
+                    if (me.last_tabbutton != "") {
+                        $("#" + me.last_tabbutton).trigger("click")
                     }
                 },
                 error: function (answer) {
@@ -513,7 +517,7 @@ class Chiaroscuro {
                 },
                 dataType: 'json',
                 success: function (answer) {
-                    $('.list.'+target).html(answer.html);
+                    $('.list.' + target).html(answer.html);
                     me.registerActions();
                 },
                 error: function (answer) {
@@ -534,7 +538,7 @@ class Chiaroscuro {
             let words = refs.split("__")
             console.log("registerValuePushEditor")
             console.log(words)
-            if (words.includes("bulk")){
+            if (words.includes("bulk")) {
                 value = me.zaff_encode($("#ed").val())
             }
             console.log(refs)
@@ -547,19 +551,20 @@ class Chiaroscuro {
                 },
                 data: {
                     "new_value": value,
-                    "id":words[1],
+                    "model": words[0],
+                    "id": words[1],
                     "refs": refs
                 },
                 dataType: 'json',
                 success: function (answer) {
-                    $('#roster__' + answer.rid).remove()
+                    $('#roster__' + answer.id).remove()
                     $('#svg_area').append(answer.html);
-                    $('#roster__' + answer.rid).removeClass("hidden")
+                    $('#roster__' + answer.id).removeClass("hidden")
                     $("#target_ed").val("")
                     $("#ed").val("")
                     me.registerActions()
-                    if (me.last_tabbutton != ""){
-                        $("#"+me.last_tabbutton).trigger("click")
+                    if (me.last_tabbutton != "") {
+                        $("#" + me.last_tabbutton).trigger("click")
                     }
                 },
                 error: function (answer) {
@@ -568,7 +573,7 @@ class Chiaroscuro {
                 },
             })
         })
-        $("#ed").off().on("click",function(e){
+        $("#ed").off().on("click", function (e) {
             if (e.altKey) {
                 $("#ed").val("")
                 $("#target_ed").val("")
@@ -576,8 +581,6 @@ class Chiaroscuro {
             }
         })
     }
-
-
 
 
     registerSheets() {
@@ -592,13 +595,13 @@ class Chiaroscuro {
             $('.list_entry').removeClass('mark');
             $(this).addClass('mark');
             let klass = ""
-            if ($(this).hasClass("stregoneria")){
+            if ($(this).hasClass("stregoneria")) {
                 klass = "stregoneria"
             }
-            switch (klass){
+            switch (klass) {
                 case "stregoneria":
                     console.log("Stregoneria")
-                    me.axiomaticPerformers.forEach( (m) => {
+                    me.axiomaticPerformers.forEach((m) => {
                         m.perform(code)
                     });
                     me.registerActions()
@@ -610,7 +613,6 @@ class Chiaroscuro {
                     me.registerActions()
                     break
             }
-
 
 
 //             $(".for_display_" + id).removeClass('hidden');
@@ -644,7 +646,7 @@ class Chiaroscuro {
             let id = $(this).attr('id')
             let words = id.split('__')
             console.log(`skill_switch ${words[0]}`)
-            $("#roster__"+words[0]).remove()
+            $("#roster__" + words[0]).remove()
             $("#svg_area").remove()
             // let id = words[0];
             // $(".roster").addClass('hidden');
@@ -671,7 +673,7 @@ class Chiaroscuro {
             $("#item__" + id).removeClass('hidden');
             $(".for_display_" + id).removeClass('hidden');
             $(".for_edit_" + id).addClass('hidden');
-            me.axiomaticPerformers.forEach( (m) => {
+            me.axiomaticPerformers.forEach((m) => {
                 m.perform(code)
             });
             me.registerActions();
@@ -684,15 +686,15 @@ class Chiaroscuro {
             let code = $(this).attr('param');
             let action = $(this).attr('action');
             let target = $(this).attr('target');
-            console.log(id,code,action,target)
+            console.log(id, code, action, target)
             let reds = []
             let blues = []
-            if (action == 'run'){
-                $(".mate.red").each(function(){
+            if (action == 'run') {
+                $(".mate.red").each(function () {
                     reds.push($(this).attr("param"))
                 })
                 console.log(reds)
-                $(".mate.blue").each(function(){
+                $(".mate.blue").each(function () {
                     blues.push($(this).attr("param"))
                 })
                 console.log(blues)
@@ -714,30 +716,30 @@ class Chiaroscuro {
                 },
                 dataType: 'json',
                 success: function (answer) {
-                    if (action == 'view'){
+                    if (action == 'view') {
                         $(".container").html("")
                         $(".container").append(answer.html)
                         $(".roster").removeClass("hidden")
                     }
-                    if (action == 'select'){
-                            $(".middleblock.options").html("")
-                            $(".middleblock.options").append(answer.html)
+                    if (action == 'select') {
+                        $(".middleblock.options").html("")
+                        $(".middleblock.options").append(answer.html)
                     }
-                    if (action == 'ini'){
-                        if (target == 'combat'){
+                    if (action == 'ini') {
+                        if (target == 'combat') {
                             $(".middleblock.options").html("")
                             $(".middleblock.options").append(answer.html)
                         }
                     }
-                    if (action == 'run'){
-                        if (target == 'combat'){
+                    if (action == 'run') {
+                        if (target == 'combat') {
                             $(".middleblock.options").html("")
                             $(".middleblock.options").append(answer.html)
                             $("#svg_area").html(answer.main_html)
                         }
                     }
-                    if (action == 'next'){
-                        if (target == 'combat'){
+                    if (action == 'next') {
+                        if (target == 'combat') {
                             $(".middleblock.options").html("")
                             $(".middleblock.options").append(answer.html)
                             $("#svg_area").html(answer.main_html)
@@ -746,7 +748,7 @@ class Chiaroscuro {
                     me.registerActions();
                 },
                 error: function (answer) {
-                    console.error('Error... ',answer);
+                    console.error('Error... ', answer);
                 },
             });
             me.registerActions();
@@ -762,7 +764,7 @@ class Chiaroscuro {
             e.stopPropagation();
             let link_to = $(this).attr('link_to');
             if (link_to != "") {
-                console.log("Going to "+link_to)
+                console.log("Going to " + link_to)
                 window.location = link_to;
             }
         })
@@ -778,7 +780,7 @@ class Chiaroscuro {
                     'Accept': 'application/json',
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                data: {spell_name:spell_name},
+                data: {spell_name: spell_name},
                 dataType: 'json',
                 success: function (answer) {
                     console.log(answer)
@@ -800,53 +802,53 @@ class Chiaroscuro {
             e.stopPropagation();
             let tgt = $(this).attr("target");
             console.log("SHOWHIDE")
-            if ($(this).hasClass("times")){
-                $("."+tgt).addClass("hidden");
+            if ($(this).hasClass("times")) {
+                $("." + tgt).addClass("hidden");
                 $(".showhide.eye").removeClass("hidden");
-                $(".corpus").css("right","0");
+                $(".corpus").css("right", "0");
                 console.log("SHOWHIDE times")
                 me.resizeEvent();
-            }else if ($(this).hasClass("eye")){
-                $("."+tgt).removeClass("hidden");
+            } else if ($(this).hasClass("eye")) {
+                $("." + tgt).removeClass("hidden");
                 $(".showhide.eye").addClass("hidden");
-                $(".corpus").css("right","30vw");
+                $(".corpus").css("right", "30vw");
                 console.log("SHOWHIDE eye")
                 me.resizeEvent();
-            }else{
-                $("."+tgt).toggleClass("hidden");
-                if ($("."+tgt).hasClass("hidden")){
-                    $(".corpus").css("right","0");
-                }else{
-                    $(".corpus").css("right","20vw");
+            } else {
+                $("." + tgt).toggleClass("hidden");
+                if ($("." + tgt).hasClass("hidden")) {
+                    $(".corpus").css("right", "0");
+                } else {
+                    $(".corpus").css("right", "20vw");
                 }
                 me.resizeEvent();
             }
         });
     }
 
-    resizeEvent(){
+    resizeEvent() {
         console.log("Chiaroscuro Resize Event")
-        let me= this;
-        _.forEach(me.globalPerformers,
-                (m) => {
-                    console.log(m.name," Resize Event")
-                    m.resizeEvent();
-                }
-            );
-        _.forEach(me.axiomaticPerformers,
-                (m) => {
-                    console.log(m.name," Resize Event")
-                    m.resizeEvent();
-                }
-            );
-
-    }
-
-    dispatchMessage(type,message){
         let me = this;
         _.forEach(me.globalPerformers,
             (m) => {
-                m.action(type,message);
+                console.log(m.name, " Resize Event")
+                m.resizeEvent();
+            }
+        );
+        _.forEach(me.axiomaticPerformers,
+            (m) => {
+                console.log(m.name, " Resize Event")
+                m.resizeEvent();
+            }
+        );
+
+    }
+
+    dispatchMessage(type, message) {
+        let me = this;
+        _.forEach(me.globalPerformers,
+            (m) => {
+                m.action(type, message);
             }
         );
 
@@ -861,17 +863,17 @@ class Chiaroscuro {
         let protocol = window.location.port
         let url = `ws://${host}:${protocol}/ws/socket-server/`
         me.chatSocket = new WebSocket(url)
-        me.chatSocket.onmessage = function(e){
+        me.chatSocket.onmessage = function (e) {
             let data = JSON.parse(e.data)
-            if (data.type === "select"){
+            if (data.type === "select") {
                 $("#info").prepend(
-                `<div>
+                    `<div>
                     <p>${data.message}</p>
                 </div>`
                 )
-                me.dispatchMessage(data.type,data.message);
-            }else{
-                me.dispatchMessage(data.type,data.message);
+                me.dispatchMessage(data.type, data.message);
+            } else {
+                me.dispatchMessage(data.type, data.message);
             }
         }
         me.prepareAjax();
@@ -882,14 +884,14 @@ class Chiaroscuro {
                 no_global = false;
             }
         );
-        if (no_global){
+        if (no_global) {
             me.revealUI();
         }
         me.prepareWebSocket()
         console.log("Check WS")
     }
 
-    zaff_encode(str){
+    zaff_encode(str) {
         let zstr = str
         _.forEach(ZAFF_MATCHES, (m) => {
             zstr = zstr.replaceAll(m[0], m[1])
@@ -897,7 +899,7 @@ class Chiaroscuro {
         return zstr
     }
 
-    zaff_decode(zstr){
+    zaff_decode(zstr) {
         let str = zstr
         _.forEach(ZAFF_MATCHES, (m) => {
             str = str.replaceAll(m[1], m[0])
@@ -906,11 +908,11 @@ class Chiaroscuro {
     }
 
 
-    fetchExternalSvgResource(file,tgt){
+    fetchExternalSvgResource(file, tgt) {
         let me = this;
         d3.xml(file).then(data => {
-                d3.select(tgt).node().append(data.documentElement)
-            })
+            d3.select(tgt).node().append(data.documentElement)
+        })
 //         d3.xml(file, function(error, documentFragment) {
 //                 if (error) {
 //                     console.log(error);
@@ -927,9 +929,9 @@ class Chiaroscuro {
 //             });
     }
 
-    registerModelForm(){
+    registerModelForm() {
         let me = this
-        $(".model_form_validate").off().on("click", function(e){
+        $(".model_form_validate").off().on("click", function (e) {
             let target = $("#editor").attr("param")
             let target_words = target.split("__")
             console.log(target)
@@ -938,15 +940,15 @@ class Chiaroscuro {
             let code = target_words[1]
             let rid = target_words[2]
             console.log(model)
-            let json_data={
+            let json_data = {
                 model: model,
-                code:code,
-                rid:rid,
-                properties:{}
+                code: code,
+                rid: rid,
+                properties: {}
             }
 
 //             let properties = {}
-            $("#editor textarea.modifiable").each(function(e){
+            $("#editor textarea.modifiable").each(function (e) {
                 let p = $(this).attr("param")
                 let v = $(this).val()
                 json_data.properties[p] = v
@@ -954,7 +956,7 @@ class Chiaroscuro {
             })
 //             console.log("Properties: ",properties)
 //              json_data.properties = properties
-             let js = JSON.stringify(json_data)
+            let js = JSON.stringify(json_data)
 //             let j = JSON.stringify(json_data)
 //             let k = JSON.parse(j)
             console.info(js)
@@ -965,8 +967,8 @@ class Chiaroscuro {
                     'Accept': 'application/json',
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                data: {item_info:js},
-                 dataType: 'json',
+                data: {item_info: js},
+                dataType: 'json',
                 success: function (answer) {
                     console.log(answer)
                     me.registerActions();

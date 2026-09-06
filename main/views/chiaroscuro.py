@@ -81,7 +81,7 @@ def value_shift(request):
 
 def value_push(request):
     cando = False
-    print("CO: VALUE PUSH")
+
     if is_ajax(request):
         if request.method == 'POST':
             answer = {}
@@ -90,12 +90,14 @@ def value_push(request):
             value = zaff_decode(new_value)
             value = value.replace("  ", " ")
             value = value.strip()
+            print("CO: VALUE PUSH")
+            print(params)
             if len(params) >= 3:
                 model = params[0].title()
                 k = model_to_class(model)
                 if k:
                     id = params[1]
-                    attribute = params[2].lower()
+                    attribute = params[2]
                     item = k.objects.get(id=id)
                     if item:
                         cando = True
@@ -334,12 +336,6 @@ def items_list(request, options={}):
     """
     from main.views.generic import prepare_context
     context = prepare_context(request)
-
-    # sa = request_context.get("sogno_acro")
-    # print(sa)
-
-    print(context)
-
     k = model_to_class(options["model"])
     if k:
         if options["model"] == 'Incantessimo':
@@ -349,7 +345,8 @@ def items_list(request, options={}):
         else:
             context['config']['modules'].append('taccuino')
         items = []
-        for i in k.objects.order_by("name"): #.filter(sogni__contains=context["sogno_acro"]):
+        sa,st = get_sogno()
+        for i in k.objects.order_by("name").filter(sogni__contains=sa):
             datum = i.export_to_json()
             items.append(datum)
         context["title"] = k.__name__
@@ -373,6 +370,7 @@ def items_filters(request, options={}):
     answer = {}
     if is_ajax(request):
         context = {}
+        sa,st = get_sogno()
         param = request.POST.get('param')
         value = request.POST.get('value')
         if value.lower() in ["true", "false"]:
@@ -380,7 +378,8 @@ def items_filters(request, options={}):
         else:
             v = value
         filters = {
-            f"{param}": v
+            f"{param}": v,
+            f"sogni__contains":sa,
         }
         items = []
         k = model_to_class(options["model"])
@@ -395,6 +394,17 @@ def items_filters(request, options={}):
             answer['data'] = template.render(context)
             return JsonResponse(answer)
     return HttpResponse(status=204)
+
+def get_sogno():
+    from main.models.sogni import Sogno
+    sogno_acro = "DEF"
+    sogno_txt  = "FICS 11"
+    sogni = Sogno.objects.filter(current=True)
+    if len(sogni)>0:
+        sogno = sogni.first()
+        sogno_acro = sogno.acronym
+        sogno_txt  = sogno.title
+    return sogno_acro, sogno_txt
 
 
 def edit(request):

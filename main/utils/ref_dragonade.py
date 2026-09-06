@@ -64,15 +64,18 @@ CHARACTER_STATISTICS = {
     },
     "FEATURES": {
         "LIST": [
-            {"NAME": "HEIGHT", "TEXT": "Hauteur en centimètres", "COMPUTE": "user_choice", "RATIONALE": "-"},
-            {"NAME": "WEIGHT", "TEXT": "Poids en kilogrammes", "COMPUTE": "user_choice", "RATIONALE": "-"},
-            {"NAME": "AGE", "TEXT": "Entrée", "RATIONALE": "-"},
-            {"NAME": "AKA", "TEXT": "Entrée", "RATIONALE": "-"},
-            {"NAME": "GENDER", "TEXT": "Entrée", "RATIONALE": "-"},
-            {"NAME": "LEFTY", "TEXT": "Entrée", "RATIONALE": "-"},
-            {"NAME": "GEAR", "TEXT": "Equipement", "RATIONALE": "-"},
-            {"NAME": "SPELLS", "TEXT": "Magie", "RATIONALE": "-"},
-            {"NAME": "ENTRANCE", "TEXT": "Entrée", "RATIONALE": "-"}
+            {"NAME": "height", "TEXT": "Hauteur en centimètres", "COMPUTE": "user_choice", "RATIONALE": "-"},
+            {"NAME": "weight", "TEXT": "Poids en kilogrammes", "COMPUTE": "user_choice", "RATIONALE": "-"},
+            {"NAME": "age", "TEXT": "Entrée", "RATIONALE": "-"},
+            {"NAME": "aka", "TEXT": "Entrée", "RATIONALE": "-"},
+            {"NAME": "is_female", "TEXT": "Entrée", "RATIONALE": "-"},
+            {"NAME": "is_lefty", "TEXT": "Entrée", "RATIONALE": "-"},
+            {"NAME": "gear", "TEXT": "Equipement", "RATIONALE": "-"},
+            {"NAME": "spells", "TEXT": "Magie", "RATIONALE": "-"},
+            {"NAME": "destiny", "TEXT": "Destinée", "RATIONALE": "-"},
+            {"NAME": "entrance", "TEXT": "Entrée", "RATIONALE": "-"},
+            {"NAME": "description", "TEXT": "Description", "RATIONALE": "-"},
+            {"NAME": "birthhour", "TEXT": "Heure de Naissance", "RATIONALE": "-"}
         ]
     },
     "SKILLS": {

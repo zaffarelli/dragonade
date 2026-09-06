@@ -1,22 +1,43 @@
 {% load static %}
 {% load dragonade_filters %}
 
-<div class="block_third fat">
+<div class="block_third segregate">
     <div class="title">{{s.name}}<br/>{{s.path}} ({{s.category}})</div>
     <div class="stat">
-        <div class="label fixed">Jet</div>
-        <div class="data text">REV + {{s.roll}} / {{s.diff}}</div>
+        <div class="label">Jet</div>
+        <div class="data auto">REV + {{s.roll}} / {{s.diff}}</div>
     </div>
     <div class="stat">
         <div class="label">Points de Rêve</div>
-        <div class="data">{{s.dps}}</div>
+        <div class="data fixed">{{s.dps}}</div>
     </div>
     <div class="stat">
+        <div class="label">Durée</div>
+        <div class="data fixed">{{s.duration}}</div>
+    </div>
+    <div class="stat">
+        <div class="label">Portée</div>
+        <div class="data fixed">{{s.range}}</div>
+    </div>
+    <div class="stat">
+        <div class="label">Temps d'Incantation</div>
+        <div class="data fixed">{{s.ti}}</div>
+    </div>
+    <div class="stat">
+        <div class="label">Zone</div>
+        <div class="data fixed">{{s.area}}</div>
+    </div>
+    <div class="stat">
+        <div class="label">Sacrifice de Songe</div>
+        <div class="data fixed">{{s.songe}}</div>
+    </div>
+
+    <div class="stat">
         <div class="label fixed">Description</div>
-        <div class="data text">{{s.description|render_text|safe}}</div>
+        <div class="data auto">{{s.description|render_text|safe}}</div>
     </div>
     <div class="stat">
         <div class="label fixed">Notes</div>
-        <div class="data text">{{s.composantes|render_text|safe}}</div>
+        <div class="data auto">{{s.composantes|render_text|safe}}</div>
     </div>
 </div>

@@ -5,14 +5,14 @@
     <div class="row lax">
         <fieldset class="block_third raw">
             <legend>Equipement</legend>
-            <div class="block_third stackbox gear stackpull" action="{{model|lower}}__{{a.id}}__GEAR__bulk" param="{{a.gear}}">
+            <div class="block_third stackbox gear stackpull" action="{{model|lower}}__{{a.id}}__gear__bulk" param="{{a.gear}}">
                 {{a.gear|as_stack_list|safe}}
             </div>
         </fieldset>
 
         <fieldset class="block_third raw">
             <legend>Sortilèges</legend>
-            <div class="block_third  stackbox spells stackpull" action="{{model|lower}}__{{a.id}}__SPELLS__bulk" param="{{a.spells}}">
+            <div class="block_third  stackbox spells stackpull" action="{{model|lower}}__{{a.id}}__spells__bulk" param="{{a.spells}}">
                 {{a.spells|as_stack_list|safe}}
             </div>
         </fieldset>

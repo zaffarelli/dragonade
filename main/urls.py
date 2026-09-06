@@ -25,9 +25,9 @@ urlpatterns = [
                   re_path(r'^ajax/value_shift', value_shift, name="value_shift"),
 
                   # Sogno
-                  re_path(r'^ajax/nuovo_sogno', sogno_nuovo, name="sogno_nuovo"),
-                  re_path(r'^ajax/sogno_seguente', sogno_seguente, name="sogno_seguente"),
-                  re_path(r'^ajax/sogno_precedente', sogno_precedente, name="sogno_precedente"),
+                  re_path(r'^nuovo_sogno', sogno_nuovo, name="sogno_nuovo"),
+                  re_path(r'^sogno_seguente', sogno_seguente, name="sogno_seguente"),
+                  re_path(r'^sogno_precedente', sogno_precedente, name="sogno_precedente"),
 
 
                   # Viaggiatori

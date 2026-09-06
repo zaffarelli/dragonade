@@ -28,6 +28,7 @@ class Character(models.Model, ChiaroscuroMixin):
     is_female = models.BooleanField(default=False, blank=True)
     is_lefty = models.BooleanField(default=False, blank=True)
     skills_creation_ok = models.BooleanField(default=False, blank=True)
+    attributes_creation_ok = models.BooleanField(default=False, blank=True)
     is_battle_ready = models.BooleanField(default=False, blank=True)
     age = models.PositiveIntegerField(default=20, blank=True)
     height = models.PositiveIntegerField(default=150, blank=True)
@@ -118,11 +119,8 @@ class Character(models.Model, ChiaroscuroMixin):
         return result
 
     def applyValuePush(self, att, val):
-        # self.export_to_json()
         result = self.overwrite_for(att, val)
-        print(result)
         if result:
-            # self.updateFromStruct()
             self.save()
         return result
 
@@ -161,8 +159,8 @@ class Character(models.Model, ChiaroscuroMixin):
         self.calc_indice()
         self.challenge_equipment()
         self.challenge_skills()
-        self.bug_list = "\n".join(self.bugs)
-        print(self.bug_list)
+        self.bug_list = "§".join(self.bugs)
+        # print(self.bug_list)
         # self.export_to_json()
 
     def compute_weight(self):
@@ -251,7 +249,7 @@ class Character(models.Model, ChiaroscuroMixin):
                 if v != base:
                     nondefault_cnt += 1
                     self.total_skills += v - base
-        self.REV = self.SON + self.FAB
+        self.REV = int(self.SON) + int(self.FAB)
         a, s = self.expected_totals()
         self.total_attributes -= a
         self.total_skills -= s
@@ -362,13 +360,13 @@ class Character(models.Model, ChiaroscuroMixin):
         self.ref_to_struct('SKILLS_DRACONIC')
         self._data['fatigue_points'], self._data['fatigue_map'] = self.computeFatigue(self.FAT)
         self._data['has_bug'] = self.has_bug()
-        self._data['spells'] = self.collect_spells()
+        self._data['spells_details'] = self.collect_spells()
         self._data['shortcuts'] = self.shortcuts()
         self._data['weapons'] = self.gear_to_weapons()
         self._data['other'] = self.gear_to_other()
         self._data['armors'] = self.gear_to_armors()
-        self._data['GENDER'] = self.is_female
-        self._data['LEFTY'] = self.is_lefty
+        # self._data['GENDER'] = self.is_female
+        # self._data['LEFTY'] = self.is_lefty
 
         self._data["skills_summary"] = self.skills_summary()
         self._data['roster_text'] = self.roster_as_text()
@@ -415,8 +413,8 @@ class Character(models.Model, ChiaroscuroMixin):
                 if int(val) < worst:
                     worst = int(val)
                     d['related_skill_value'] = int(val)
-                    e = self.entry_for("SKILLS:WEAPONS", related_skill)
-                    if e != {}:
+                    e,_ = self.entry_for(related_skill)
+                    if e:
                         d['related_skill_text'] = e["TEXT"]
             # Data specific to the character applied to the wepon's data
             d['stat_value'] = stat_value
@@ -425,7 +423,7 @@ class Character(models.Model, ChiaroscuroMixin):
             d['base_score'] = int(stat_value) + int(d['related_skill_value'])
             d['stat_skill'] = f"{svs[str(weapon.category)]}+{d['related_skill_value']}={int(stat_value) + int(d['related_skill_value'])}"
             list.append(d)
-            print(d)
+            # print(d)
         return list
 
     def gear_to_other(self):
@@ -435,7 +433,7 @@ class Character(models.Model, ChiaroscuroMixin):
         """
         from main.models.oggetti import Oggetto
         list = []
-        others = Oggetto.objects.exclude(category__in=[18, 19, 20]).filter(
+        others = Oggetto.objects.exclude(category__in=[OggettoCategory.MEL, OggettoCategory.TIR, OggettoCategory.LAN]).filter(
             rid__in=self.gear.split(" ")).order_by("category")
         for other in others:
             o = other.export_to_json()
@@ -497,92 +495,113 @@ class Character(models.Model, ChiaroscuroMixin):
         return formula(parameter_values)
 
     def value_for(self, str):
-        # print(f"### Value for")
-        result = -1000
-        where = self.index_for(str)
-        entry = self.entry_for(where, str)
-        if entry != {}:
+        result = None
+        entry, statistic_property = self.entry_for(str)
+        if entry:
             # print(f"### Values : {str} => {where}")
             if "ORDER" in entry:
-                verbs = where.lower().split(':')
-                datalist = getattr(self, "_".join(verbs))
-                # print(f"Key:{'_'.join(verbs):20} Value:{datalist} [Type:{type(datalist)}]")
-                # print(f"### ORDER = {entry['ORDER']}")
+                datalist = getattr(self, statistic_property)
                 if type(datalist).__name__ == 'str':
                     parts = datalist.split(" ")
                     x = entry["ORDER"]
                     if x < len(parts):
                         result = parts[x]
                     else:
-                        print(f"Data out of bounds for {where}")
+                        print(f"Data out of bounds for {statistic_property}")
                 else:
                     result = datalist[entry["ORDER"]]
                 # print(f"### Result = {result}")
             else:
-                result = getattr(self, entry['NAME'])
+                result = getattr(self, statistic_property)
         return result
 
     def overwrite_for(self, str, val):
-        # print("OVERWRITE FOR")
         result = False
-        where = self.index_for(str)
-        # print(f"## WHERE {where}")
-        entry = self.entry_for(where, str)
-        # print(f"## ENTRY {entry}")
-        if entry != {}:
+        entry,statistic_property = self.entry_for(str)
+        print(f"Entry for [{str}] is {statistic_property}: {entry}")
+        if entry:
             if "ORDER" in entry:
-                verbs = where.lower().split(':')
-                # print(f"***Trying to get {'_'.join(verbs)}")
-                datalist = getattr(self, "_".join(verbs))
-                # print(f"*** {datalist} type:{type(datalist)}")
+                datalist = getattr(self, statistic_property)
                 parts = datalist.split(" ")
                 parts[entry["ORDER"]] = f"{val}"
-                setattr(self, "_".join(verbs), " ".join(parts))
+                setattr(self, statistic_property, " ".join(parts))
                 self.save()
                 result = True
             else:
-                setattr(self, entry['NAME'].lower(), val)
+                setattr(self, statistic_property, val)
                 self.save()
                 result = True
         return result
 
-    def entry_for(self, str, stat):
+    def entry_for(self, stat):
         """
-            :param str: the dataset_name
             :param stat: the value that entry must match with property NAME
             :returns: the full entry, or {}
         """
         from main.utils.ref_dragonade import CHARACTER_STATISTICS
+        found = None
+        statistic_property = None
         root = CHARACTER_STATISTICS
-        result = {}
-        # print(f"ENTRY FOR {str} {stat}")
-        if len(str) > 0:
-            words = str.upper().split(':')
-            for word in words:
-                root = root[word]
-            if "LIST" in root:
-                for item in root["LIST"]:
-                    if item["NAME"] == stat.upper():
-                        result = item
+        for bname, branch in root.items():
+            if "LIST" in branch:
+                for item in branch["LIST"]:
+                    if item["NAME"] == stat:
+                        if "ORDER" in item:
+                            statistic_property = f"{bname.lower()}"
+                        else:
+                            statistic_property = f"{item['NAME']}"
+                        found = item
                         break
             else:
-                print(f"We might be lost in `entry_for` str=[{str}] stat=[{stat}]: [{root}]")
-        return result
-
-    def index_for(self, str):
-        """
-        :param str: The code for the stat
-        :returns: the position in the description as a:b:c
-        """
-        # print("INDEX FOR")
-        from main.utils.ref_dragonade import known
-        choices = ["ATTRIBUTES", "SKILLS:WEAPONS", "SKILLS:GENERIC", "SKILLS:PECULIAR", "SKILLS:SPECIALIZED", "SKILLS:KNOWLEDGE", "SKILLS:DRACONIC",
-                   "SECONDARIES", "MISC", "FEATURES"]
-        for choice in choices:
-            result = known(choice, str)
-            if len(result) > 0:
+                for sbname, subbranch in branch.items():
+                    if "LIST" in subbranch:
+                        for item in subbranch["LIST"]:
+                            # print(f'Searching... {stat}')
+                            if item["NAME"] == stat:
+                                # print(f'Found {item["NAME"]} for {stat}')
+                                found = item
+                                if "ORDER" in item:
+                                    statistic_property = f"{bname.lower()}_{sbname.lower()}"
+                                else:
+                                    statistic_property = f"{item['NAME'].lower()}"
+                                break
+            if found:
                 break
-        return result
+
+
+        # result = {}
+        # # print(f"ENTRY FOR {str} {stat}")
+        # if len(str) > 0:
+        #     words = str.upper().split(':')
+        #     for word in words:
+        #         root = root[word]
+        #     if "LIST" in root:
+        #         for item in root["LIST"]:
+        #             if item["NAME"] == stat.upper():
+        #                 result = item
+        #                 break
+        #     else:
+        #         print(f"We might be lost in `entry_for` str=[{str}] stat=[{stat}]: [{root}]")
+        return found, statistic_property
+
+    # def index_for(self, str):
+    #     """
+    #     :param str: The code for the stat
+    #     :returns: the position in the description as a:b:c
+    #     """
+    #     result = None
+    #     print("INDEX FOR",str)
+    #     from main.utils.ref_dragonade import known
+    #     choices = ["ATTRIBUTES", "SKILLS:WEAPONS", "SKILLS:GENERIC", "SKILLS:PECULIAR", "SKILLS:SPECIALIZED", "SKILLS:KNOWLEDGE", "SKILLS:DRACONIC",
+    #                "SECONDARIES", "MISC", "FEATURES"]
+    #     for choice in choices:
+    #         root = CHARACTER_STATISTICS[choice]
+    #         # result = known(choice, str)
+    #         for item in root["LIST"]:
+    #             if item["NAME"] == str:
+    #                 result = item
+    #                 break
+    #     return result
 
     def roster(self):
         """
@@ -914,7 +933,7 @@ class Character(models.Model, ChiaroscuroMixin):
                         # If target in perfect match: nothing to do
                         if tgt in w["partial_matches"]:
                             start_value = int(l)
-                            print(start_value)
+                            # print(start_value)
                         if tgt in w["perfect_matches"]:
                             forget = True
                     if not forget:
@@ -927,7 +946,7 @@ class Character(models.Model, ChiaroscuroMixin):
                             x += f"{s:2}"
                             x += f"({abss + default:2}) "
                             stress += s
-                        print(f"{tgt:8} Compute from {start_value} to {val - default} >>> {s:3} stress [{x:50}]")
+                        # print(f"{tgt:8} Compute from {start_value} to {val - default} >>> {s:3} stress [{x:50}]")
 
                 else:
                     # if value is default: nothing to do
@@ -1055,5 +1074,45 @@ class Character(models.Model, ChiaroscuroMixin):
             self.stress_used += compute_stress(CHARACTER_STATISTICS["SKILLS"]["PECULIAR"])
             self.stress_used += compute_stress(CHARACTER_STATISTICS["SKILLS"]["GENERIC"])
             self.stress_used += compute_stress(CHARACTER_STATISTICS["SKILLS"]["WEAPONS"])
+            skill_stress = self.stress_used
+            # Check Attributes
+            starting_values = [8, 7, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4]
+            arr = self.attributes.split(" ")
+            current_attributes = [int(v) for v in arr]
+            idx = 0
+            while idx < 12:
+                if starting_values[idx] in current_attributes:
+                    current_attributes.remove(starting_values[idx])
+                    starting_values[idx] = -1
+                idx += 1
+            starting_values = [a for a in starting_values if a != -1]
+            starting_values.sort(reverse=True)
+            current_attributes.sort(reverse=True)
+            idx = 0
+            attr_ok = True
+            while idx < len(current_attributes):
+                if current_attributes[idx] <= starting_values[idx]:
+                    attr_ok = False
+                idx += 1
+            if attr_ok:
+                self.bugs.append("(---) Attributes control ok.")
+                self.attributes_creation_ok = True
+            else:
+                self.bugs.append("(???) Attributes Error")
+                self.attributes_creation_ok = False
 
+            # print(current_attributes, starting_values)
+            attr_stress = 0
+            # Attr higher than expected
+            while len(current_attributes) > 0:
+                ca = current_attributes[0]
+                bsv = starting_values[0]
+                sv = bsv
+                while sv < ca:
+                    attr_stress += sv + 6  # -(-5) +1
+                    sv += 1
+                current_attributes.remove(ca)
+                starting_values.remove(bsv)
+            self.stress_used += attr_stress
+            # print(current_attributes, starting_values, skill_stress, attr_stress)
             self.stress_remaining = self.stress_acquired - self.stress_used

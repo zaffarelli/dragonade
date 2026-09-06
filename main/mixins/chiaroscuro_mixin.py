@@ -17,7 +17,8 @@ class ChiaroscuroMixin:
     _co_str = ""
 
     def chiaroscuro(self):
-        print(f"{self.__class__.__name__} è chiaroscuro")
+        # print(f"{self.__class__.__name__} è chiaroscuro")
+        pass
 
     def model_to_data(self):
         import json
