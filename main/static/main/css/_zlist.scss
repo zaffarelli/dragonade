@@ -1,3 +1,6 @@
+$list-font_size: 9pt;
+$title-font_size: 12pt;
+
 
 .zlist_container, .zlist_header, .zlist_footer{
     width:96vw;
@@ -5,22 +8,24 @@
     display:flex;
     flex-flow:column nowrap;
     font-family:$font;
-    font-size:10pt;
+    font-height:$list-font_size;
     justify-content: flex-start;
-    align-items: flex-start;
-    align-content: stretch;
+    align-items: stetch;
+    align-content: flext-start;
     gap:3pt;
-    background:none;
+    background:transparent;
+//     border:1pt solid lime;
 
     & .zlist_entry{
-        flex:0 1 auto;
+        flex:1 1 auto;
         display:flex;
         flex-flow:row wrap;
-        justify-content: flex-start;
+        justify-content: space-around;
         align-items: stretch;
-        align-content: center;
+//         align-content: stretch;
+//         border:1pt solid pink;
         gap:3pt;
-        width:auto;
+//         width:auto;
         &.even{
             background:#1020207f;
         }
@@ -39,35 +44,41 @@
             font-family:$font;
             background:#4040407f;
             &.title{
-                font-weight:bold;
-                width:20ex;
-                text-align:left;
+                flex: 5 5 auto;
                 font-family:$font_title;
-                font-size:1.8em;
-                padding:5pt;
+                font-size:18pt;
+            }
+            &.buffer{
+                flex: 5 5 auto;
             }
             &.text{
                 width:40ex;
                 height:auto;
                 bottom:2px;
                 padding:3pt;
-                font-size:1.1em;
+
                 overflow-y:scroll;
+                text-align:left;
+                color:silver;
             }
             &.label{
-                font-family:$font_title;
                 width:20ex;
-                font-size:1.4em;
+                font-size:$title-font_size;
             }
             &.symbol{
                 background:#9080907f;
             }
             &.simple{
-                width:15ex;
+                text-align:left;
+                color:silver;
+                & b{
+                    font-size:$title-font_size;
+                    color:white;
+                }
             }
 
             &.normal{
-                font-size:2em;
+                font-size:$title-font_size;
                 cursor:pointer;
             }
 
@@ -86,7 +97,7 @@
                 border:none;
             }
             &.number{
-                font-size:1.5em;
+                font-height:$title-font_size;
                 width:4ex;
             }
             border:2pt solid #202020;

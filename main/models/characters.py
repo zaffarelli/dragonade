@@ -70,6 +70,8 @@ class Character(models.Model, ChiaroscuroMixin):
     protection_map = models.CharField(max_length=256, blank=True, default="H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X")
     skills_map_str = models.TextField(max_length=2048, default="{}", blank=True)
 
+    pure_skills_total = models.CharField(default="",max_length=32, blank=True)
+
     sogni = models.CharField(max_length=256, default="DEF", blank=True)
 
     travel_points = models.IntegerField(default=0, blank=True)
@@ -133,6 +135,8 @@ class Character(models.Model, ChiaroscuroMixin):
         self.bugs = []
         self.chiaroscuro()
         # initializers
+        if len(self.pure_skills_total) == 0:
+            self.pure_skills_total = "0 0 0 0 0 0"
         if len(self.protection_map) == 0:
             self.protection_map = "H-0-X C-0-X AS-0-X AW-0-X LS-0-X LW-0-X"
         if self.birthhour == 0:
@@ -315,20 +319,23 @@ class Character(models.Model, ChiaroscuroMixin):
         for skill_set in skill_sets:
             REF = SKILLS[skill_set.upper()]
             data = getattr(self, "skills_" + skill_set)
+
             default = REF["DEFAULT"]
-            arr = data.split(" ")
+            arrtemp = data.split(" ")
+            arr = [int(x) for x in arrtemp]
+            # print(skill_set,arr)
             if len(arr) == len(REF["LIST"]):
                 for item in REF["LIST"]:
                     if "ORDER" in item:
                         pos = item["ORDER"]
-                        v = int(arr[pos])
+                        v = arr[pos]
                         if v > default:
                             count_postes[default * (-1)] += 1
                             count_vals[v] += 1
                             all.append({"value": v, "category": REF['NAME'][:1], "text": item["TEXT"]})
             else:
                 self.bugs.append(f"{self.rid} doesn't have the correct property for [{skill_set}].")
-        sorted_all = sorted(all, key=lambda k: k['text'], reverse=False)
+        sorted_all = sorted(all, key=lambda k: k['value'], reverse=True)
         return sorted_all
 
     def export_to_json(self):
@@ -342,14 +349,13 @@ class Character(models.Model, ChiaroscuroMixin):
         """
             Push the contextual data to the self._data structure.
             Most of the job is done through the chiaroscuro mixin, here we only add convenience entries or business centerd entries.
+            Be careful not too associate add ons to existing properties of the object.
             :returns: The updated self._data structure
         """
         self._data["attr"] = {}
         self._data["seco"] = {}
         self._data["skil"] = {}
         self._data["deri"] = {}
-
-        # self.data['deri'][k['NAME']] = val
         self.ref_to_struct('ATTRIBUTES')
         self.ref_to_struct('SECONDARIES')
         self.ref_to_struct('SKILLS_WEAPONS')
@@ -365,11 +371,18 @@ class Character(models.Model, ChiaroscuroMixin):
         self._data['weapons'] = self.gear_to_weapons()
         self._data['other'] = self.gear_to_other()
         self._data['armors'] = self.gear_to_armors()
-        # self._data['GENDER'] = self.is_female
-        # self._data['LEFTY'] = self.is_lefty
-
         self._data["skills_summary"] = self.skills_summary()
         self._data['roster_text'] = self.roster_as_text()
+
+        t = self.pure_skills_total.split(" ")
+        tt = [int(x) for x in t]
+        self._data['pure_total_weapons'] = tt[0]
+        self._data['pure_total_generic'] = tt[1]
+        self._data['pure_total_peculiar'] = tt[2]
+        self._data['pure_total_specialized'] = tt[3]
+        self._data['pure_total_knowledge'] = tt[4]
+        self._data['pure_total_draconic'] = tt[5]
+
         now = datetime.now().strftime("%Y/%m/%d, %H:%M:%S")
         self._data['last_update'] = now
         self._data['bug_list'] = self.bug_list
@@ -471,8 +484,8 @@ class Character(models.Model, ChiaroscuroMixin):
         incantessimi = Incantessimo.objects.filter(rid__in=self.spells.split(" ")).order_by("category")
         for incantessimo in incantessimi:
             list.append(incantessimo.export_to_json())
-        # sorted_all = sorted(list, key=lambda k: k['diff'], reverse=False)
-        return list
+        sorted_all = sorted(list, key=lambda k: k['path'], reverse=False)
+        return sorted_all
 
     def shortcuts(self):
         list = []
@@ -1116,3 +1129,20 @@ class Character(models.Model, ChiaroscuroMixin):
             self.stress_used += attr_stress
             # print(current_attributes, starting_values, skill_stress, attr_stress)
             self.stress_remaining = self.stress_acquired - self.stress_used
+
+            temp = self.pure_skills_total.split(" ")
+            arr = [int(a) for a in temp]
+            arr[0] = self.pure_total(self.skills_weapons)
+            arr[1] = self.pure_total(self.skills_generic)
+            arr[2] = self.pure_total(self.skills_peculiar)
+            arr[3] = self.pure_total(self.skills_specialized)
+            arr[4] = self.pure_total(self.skills_knowledge)
+            arr[5] = self.pure_total(self.skills_draconic)
+            retemp = [str(a) for a in arr]
+            self.pure_skills_total = " ".join(retemp)
+
+    def pure_total(self,arr):
+        temp = arr.split(" ")
+        vector = [int(a) for a in temp]
+        total = sum(vector)
+        return total

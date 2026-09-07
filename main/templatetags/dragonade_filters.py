@@ -112,14 +112,13 @@ def as_draconichour(value):
 
 @register.filter(name='as_hour')
 def as_hour(v):
-    value = int(v)
-    if isinstance(value, int):
+    str = "n/a"
+    if isinstance(v, int):
+        value = int(v)
         vals = ["Vaisseau", "Sirène", "Faucon", "Couronne", "Dragon", "Epées", "Lyre", "Serpent", "Poisson-Acrobate",
                 "Araignée", "Roseau", "Chateau-Dormant"]
         if value > 0:
             str = vals[value - 1]
-        else:
-            str = "n/a"
     return str
 
 
@@ -158,8 +157,8 @@ def as_skill(value):
 @register.filter(name='check_hidden')
 def check_hidden(value):
     str = ""
-    if int(value) < 1:
-        str = ' hidden'
+    # if int(value) < 1:
+    #     str = ' hidden'
     return str
 
 
@@ -469,14 +468,16 @@ def as_doma(value):
 @register.filter(name='as_protection')
 def as_protection(value):
     from django.template.loader import get_template
-    covers = value.split(" ")
-    x = {}
-    for cover in covers:
-        parts = cover.split("-")
-        x[parts[0]] = int(parts[1])
-    template = get_template('main/roster/roster_armor_map.html')
-    image = template.render(x, None)
-    return image
+    if len(value)>0:
+        covers = value.split(" ")
+        x = {}
+        for cover in covers:
+            parts = cover.split("-")
+            x[parts[0]] = int(parts[1])
+        template = get_template('main/roster/roster_armor_map.html')
+        image = template.render(x, None)
+        return image
+    return "n/a"
 
 
 @register.filter(name='as_money')

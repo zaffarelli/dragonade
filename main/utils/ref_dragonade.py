@@ -75,7 +75,8 @@ CHARACTER_STATISTICS = {
             {"NAME": "destiny", "TEXT": "Destinée", "RATIONALE": "-"},
             {"NAME": "entrance", "TEXT": "Entrée", "RATIONALE": "-"},
             {"NAME": "description", "TEXT": "Description", "RATIONALE": "-"},
-            {"NAME": "birthhour", "TEXT": "Heure de Naissance", "RATIONALE": "-"}
+            {"NAME": "birthhour", "TEXT": "Heure de Naissance", "RATIONALE": "-"},
+            {"NAME": "sogni", "TEXT": "Rêves Joués", "RATIONALE": "-"},
         ]
     },
     "SKILLS": {

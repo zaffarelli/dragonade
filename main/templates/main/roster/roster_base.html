@@ -21,7 +21,25 @@
 
         {% if model == "Viaggiatore" %}
         <div class="block_third"  style="order:9;">
-            <div class="title">Experience & Calculs</div>
+            <div class="title">Expérience & Calculs</div>
+            <div class="stat">
+                <div class="label fixed">Rêve(s)</div>
+                <div class="data auto interactive_element">
+                    <span class="editor" id="{{model|lower}}__{{a.id}}__sogni__value" srcval="{{a.sogni}}">{{a.sogni}}</span>
+                </div>
+            </div>
+            <div class="stat">
+                <div class="label fixed">Destinée</div>
+                <div class="data auto interactive_element">
+                    <span class="editor" id="{{model|lower}}__{{a.id}}__destiny__value" srcval="{{a.destiny}}">{{a.destiny}}</span>
+                </div>
+            </div>
+            <div class="stat">
+                <div class="label fixed">Pts Voyage</div>
+                <div class="data auto interactive_element">
+                    <span class="editor" id="{{model|lower}}__{{a.id}}__travel_points__value" srcval="{{a.travel_points}}">{{a.travel_points}}</span>
+                </div>
+            </div>
             <div class="stat">
                 <div class="label">Total Attributs</div>
                 <div class="data">{{a.total_attributes|signed}}</div>
@@ -110,18 +128,7 @@
                     <span class="editor" id="{{model|lower}}__{{a.id}}__birthhour__value" srcval="{{a.birthhour}}">{{a.birthhour|as_hour|safe}}</span>
                 </div>
             </div>
-            <div class="stat">
-                <div class="label fixed">Destinée</div>
-                <div class="data auto interactive_element">
-                    <span class="editor" id="{{model|lower}}__{{a.id}}__destiny__value" srcval="{{a.destiny}}">{{a.destiny}}</span>
-                </div>
-            </div>
-            <div class="stat">
-                <div class="label fixed">Pts Voyage</div>
-                <div class="data auto interactive_element">
-                    <span class="editor" id="{{model|lower}}__{{a.id}}__travel_points__value" srcval="{{a.travel_points}}">{{a.travel_points}}</span>
-                </div>
-            </div>
+
         </div>
         <div class="block_third" style="order:7;">
             <div class="title">Attributs Secondaires</div>

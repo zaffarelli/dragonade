@@ -265,6 +265,14 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
 
         self.power = math.floor(self.diff / 5 + self.dps + self.songe * 2 + self.power_boost)
 
+
+    @classmethod
+    def all_dreams(cls):
+        items = cls.objects.all()
+        for item in items:
+            item.sogni = "DEF SRP JDF EFDM"
+            item.save()
+
     def __str__(self):
         return f"{self.name} ({self.get_path_display()} {self.get_category_display()}) "
 
@@ -290,6 +298,7 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
         self._data['roll'] = self.get_roll_display()
         self._data['path'] = self.get_path_display()
         self._data['category'] = self.get_category_display()
+
 
 
 

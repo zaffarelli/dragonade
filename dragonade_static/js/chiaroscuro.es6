@@ -241,14 +241,14 @@ class Chiaroscuro {
             let id = $(this).attr('id')
             let model = $(this).attr('model')
             let words = id.split('__')
-            let rid = words[0]
+            let x = words[0]
             let action = words[1]
             switch (action) {
                 case "view":
-                    console.log(`Viewing for [${rid}] required.`)
+                    console.log(`Viewing for [${x}] required.`)
                     me.axiomaticPerformers.forEach((m) => {
-                        console.log(`[${m.name}] is ready to handle [${rid}]!`)
-                        m.handle(rid)
+                        console.log(`[${m.name}] is ready to handle [${x}]!`)
+                        m.handle(x)
                     })
                     me.registerActions()
                     break
@@ -398,7 +398,7 @@ class Chiaroscuro {
                         console.log(">>>",encoded_value)
                         $("#ed").val(encoded_value)
                         $("#target_ed").val(data)
-
+                        $(this).parent(".interactive_element").addClass("selected")
                         // $("#echo").html(value)
                         me.registerActions()
                     }
@@ -416,9 +416,9 @@ class Chiaroscuro {
             e.preventDefault()
             e.stopPropagation()
             let xxx = $(this).attr('id')
-            let model = $(this).attr('model')
+            // let model = $(this).attr('model')
             let words = xxx.split('__')
-            console.log(`${model}::${xxx}`)
+            console.log(words)
             console.log(words)
             if (e.ctrlKey || e.altKey) {
                 let back = (e.altKey ? -1 : 1)
@@ -430,16 +430,16 @@ class Chiaroscuro {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
                     data: {
-                        "rid": words[0],
-                        "param": words[1],
-                        "id": words[2],
-                        "model": model,
+                        "model": words[0],
+                        "id": words[1],
+                        "param": words[2],
                         "back": back
                     },
                     dataType: 'json',
                     success: function (answer) {
-                        console.log(`xxx:${answer.model} yyy:${answer.rid}`)
-                        $("#" + answer.model.toLowerCase() + "__" + answer.rid).html(answer.data)
+                        console.log(answer.model,answer.id)
+                        console.log(answer.data)
+                        $("#" + answer.model.toLowerCase() + "__" + answer.id).html(answer.data)
                         me.registerActions()
                     },
                     error: function (answer) {

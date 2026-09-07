@@ -2,34 +2,34 @@
 {% load dragonade_filters %}
 
 <div class="block_third segregate">
-    <div class="title">{{s.name}}<br/>{{s.path}} ({{s.category}})</div>
+    <div class="title">{{s.name|upper}}<br/>{{s.path}} ({{s.category}}) [{{s.power}}]</div>
     <div class="stat">
-        <div class="label">Jet</div>
-        <div class="data auto">REV + {{s.roll}} / {{s.diff}}</div>
+        <div class="label lazy">Jet</div>
+        <div class="data lazy">REV + {{s.roll}} / {{s.diff}}</div>
     </div>
     <div class="stat">
-        <div class="label">Points de Rêve</div>
-        <div class="data fixed">{{s.dps}}</div>
+        <div class="label lazy">Points de Rêve</div>
+        <div class="data lazy">{{s.dps}}</div>
     </div>
     <div class="stat">
-        <div class="label">Durée</div>
-        <div class="data fixed">{{s.duration}}</div>
+        <div class="label lazy">Durée</div>
+        <div class="data lazy">{{s.duration_str}}</div>
     </div>
     <div class="stat">
-        <div class="label">Portée</div>
-        <div class="data fixed">{{s.range}}</div>
+        <div class="label lazy">Portée</div>
+        <div class="data lazy">{{s.range_str}}</div>
     </div>
     <div class="stat">
-        <div class="label">Temps d'Incantation</div>
-        <div class="data fixed">{{s.ti}}</div>
+        <div class="label lazy">Temps d'Incantation</div>
+        <div class="data lazy">{{s.ti_str}}</div>
     </div>
     <div class="stat">
-        <div class="label">Zone</div>
-        <div class="data fixed">{{s.area}}</div>
+        <div class="label lazy">Zone</div>
+        <div class="data lazy">{{s.area_str}}</div>
     </div>
     <div class="stat">
-        <div class="label">Sacrifice de Songe</div>
-        <div class="data fixed">{{s.songe}}</div>
+        <div class="label lazy">Sacrifice de Songe</div>
+        <div class="data lazy">{{s.songe}}</div>
     </div>
 
     <div class="stat">

@@ -656,7 +656,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             data: {
-                "id": rid,
+                "id": id,
                 "model": model,
             },
             dataType: 'json',

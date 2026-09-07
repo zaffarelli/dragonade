@@ -2,8 +2,8 @@
 {% load dragonade_filters %}
 {% for f in zfilters %}
 <div class="zlist_entry">
-    <div id="{{model|lower}}__filter__{{f.param}}__{{f.value|as_filter_value}}" class="zlist_item filter list_action" style="order:-1; text-align:left;"><i
-            class="fa fa-eye"></i> {{f.label}}
+    <div id="{{model|lower}}____filter__{{f.param}}__{{f.value|as_filter_value}}" class="zlist_item filter list_action" style="order:-1; text-align:left;">
+        <i class="fa {%if f.icon%}{{f.icon}}{%else%}fa-eye{%endif%}"></i> {{f.label}}
     </div>
 </div>
 {% endfor %}

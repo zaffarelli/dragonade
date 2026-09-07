@@ -11,53 +11,28 @@
     &.creatura{
         background:#301020aF;
     }
-
     margin-left:15vw;
     margin-top:1vh;
-    height:90vh;
+    height:92vh;
     width:50vw;
-//     overflow-y:scroll;
-    border:3pt solid black;
+    border:3pt double #c0c0c07f;
     border-radius:5pt;
     padding:5pt;
-    font-size:12pt;
+    font-size:10pt;
     font-family:$font;
 
-    & .tabnav{
-        background:transparent;
-        width:auto;
-        display:flex;
-        flex-flow: row wrap;
-        justify-content: stretch;
-        align-content: flex-start;
-        align-items: flex-start;
-        gap: 2pt;
 
-
-
-        & .tabbutton{
-            flex: 1 1 auto;
-            font-size:1.2em;
-            font-family:$font;
-            text-align:center;
-            padding:3pt;
-            border-radius:5pt;
-            border:3pt solid transparent;
-            color:white;
-            background:transparent;
-            &:hover{
-                background:#1010107f;
-                color:yellow;
-            }
-            cursor:pointer;
-            &.on{
-                background:#3030303f;
-
-            }
-        }
-    }
+//     border:1pt solid black;
+    display:flex;
+    flex-flow: column nowrap;
+    justify-content:flex-start;
+    align-items:stretch;
+    align-content:stretch;
 
     & .top{
+        order:1;
+        flex:0 1 2vh;
+        border:1pt solid transparent;
         & .row{
             font-size:14pt;
             color:white;
@@ -73,17 +48,62 @@
     }
 
 
-    & .tabpanel{
-        //background:#A02020;
+    & .tabnav{
+        order:2;
+        flex:0 0 1vh;
+        border:1px solid transparent;
         background:transparent;
-        width:100%;
-        height:1100px;
+
         display:flex;
-        flex-flow: column wrap;
+        flex-flow: row wrap;
+        justify-content: stretch;
+        align-content: flex-start;
+        align-items: flex-start;
+//         height:1vh;
+        gap: 2pt;
+
+
+
+        & .tabbutton{
+            flex: 1 1 auto;
+            font-size:1.2em;
+            font-family:$font;
+            text-align:center;
+            padding:3pt;
+            border-radius:5pt;
+            border:3pt solid transparent;
+            color:white;
+            background:#8080807f;
+            &:hover{
+                background:#1010107f;
+                color:yellow;
+            }
+            cursor:pointer;
+            &.on{
+                background:#3030303f;
+
+            }
+        }
+    }
+
+
+
+    & .tabpanel{
+        order:3;
+        flex:1 1 auto;
+        border:1pt solid transparent;
+        background:transparent;
+//         background:purple;
+        width:100%;
+//         height:auto;
+//         margin-bottom:1vh;
+        display:flex;
+        flex-flow: column nowrap;
         justify-content: flex-start;
         align-content: flex-start;
         align-items: flex-start;
         gap: 2pt;
+        overflow-y:auto;
 
 
     & .classy{
@@ -95,7 +115,7 @@
     }
 
     & .tri{
-        font-size:14pt;
+        font-size:13pt;
         display:flex;
         flex-flow:column nowrap;
         justify-content: flex-start;
@@ -104,10 +124,13 @@
         padding:8pt;
         gap: 3pt;
         background:#3030303f;
-//         border:1pt solid orange;
+        border:1pt solid transparent;
         height:auto;
+        margin:0;
+        bottom:10pt;
         width:calc(100%-16pt);
         overflow-y:scroll;
+
         &.full{
             width:96%;
             margin: 0 16pt;
@@ -116,30 +139,40 @@
             flex: 1 1 auto;
             display:flex;
             flex-flow:row nowrap;
-            border: 1pt solid transparent;
-            gap: 3pt;
+            & legend{
+                &:before{
+                    content:" ";
+                }
+                &:after{
+                    content:" ";
+                }
+            }
+            gap: 8pt;
             color:white;
             height:auto;
             width:auto;
+            padding:3pt;
+            justify-content: space-around;
             &.lax{
                 flex-flow:row wrap;
-                width:100%;
-//                 border:2pt solid red;
+                justify-content: flex-first;
+                width:97%;
+                border:2pt solid #0000007f;
+                border-radius:6pt;
             }
             &.lox{
                 flex-flow:column wrap;
 //                 border:2pt solid red;
 
             }
-            justify-content: flex-start;
             align-items: flex-start;
-
+            border: 1pt solid red;
 
 
             & .whole{
                 font-family: $font_title;
                 &.large{
-                    flex: 0 0 100%;
+                    flex: 0 0 99%;
                 }
                 &.name{
                     font-size:2em;
@@ -147,9 +180,13 @@
             }
 
             & .block_third{
-                flex: 0 0 33%;
+                flex: 0 0 31%;
+                border:1pt solid transparent;
                 &.fat{
                     flex: 0 0 48%;
+                }
+                &.segregate{
+                    border:1pt solid #1010107f;
                 }
                 flex-flow:row wrap;
                 display:flex;
@@ -189,7 +226,7 @@
 
                     & .label{
                         order:1;
-                        flex: 2 1 auto;
+                        flex: 1 0 auto;
                         background:$palette1;
                         border-radius:2pt;
                         padding:3pt;
@@ -230,8 +267,12 @@
                             min-height:8em;
                         }
                         &.auto{
-                            flex: 1 1 auto;
+                            flex: 1 0 20ex;
                             font-weight:normal;
+                            text-align:left;
+                            color:silver;
+                            max-height:3em;
+                            overflow-y:auto;
                         }
                         &.lazy{
                             background:none;
@@ -260,8 +301,11 @@
                         }
                         &.interactive_element{
                             cursor:crosshair;
-                            border:1pt double $hlco;
-                            background: $hlbg;
+                            border:1pt dotted $hlco;
+                            &.selected{
+                                border:1pt solid $hlco;
+                                background: $hlbg;
+                            }
                         }
                     }
                 }
@@ -299,6 +343,17 @@
     @include btn_look;
     width:auto;
     margin:3pt;
+}
+
+.editor{
+    min-height:16pt;
+    min-width:16pt;
+    color:silver;
+    background:#101010;
+    border-radius:5pt;
+    padding:3pt;
+    font-weight:normal;
+    font-size: 12pt;
 }
 
 // .btn_edit.value{

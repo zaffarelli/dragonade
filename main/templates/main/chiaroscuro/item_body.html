@@ -3,31 +3,32 @@
 
 
 {% if model == "Incantessimo" %}
-<div model="{{model|lower}}" class="zlist_item number" style="order:-1;" >{{i.id}}</div>
-<div id="{{i.id}}__view" model="{{model|lower}}" class="zlist_item normal list_action" style="order:0; text-align:left;" title="view"><i class="fa fa-eye"></i></div>
-<div id="{{i.id}}__category__{{i.id}}" model="{{model|lower}}" class="zlist_item symbol shifter" style="order:1">{{ i.category|as_category|safe }}</div>
-<div id="{{i.id}}__path__{{i.id}}" model="{{model|lower}}" class="zlist_item symbol shifter" style="order:1">{{ i.path|as_category|safe }}</div>
-<div class="zlist_item label" model="{{model|lower}}" style="order:0">{{ i.name }}<br/>{% if i.pentacle_code %}*{{i.pentacle_code}}*{%endif%}<br/>[{{i.source}}]</div>
+<div class="zlist_item normal list_action" id="{{model|lower}}__{{i.id}}__view" title="view"><i class="fa fa-eye"></i></div>
+<div class="zlist_item symbol shifter" id="{{model|lower}}__{{i.id}}__category">{{ i.category|as_category|safe }}</div>
+<div class="zlist_item symbol shifter" id="{{model|lower}}__{{i.id}}__path">{{ i.path|as_category|safe }}</div>
+<div class="zlist_item title">{{i.name}}</div>
 
-<div id="{{i.id}}__description"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" model="{{model|lower}}" style="order:3; text-align:left;">{{ i.description|render_text|safe }}</div>
-<div id="{{i.id}}__composantes"  srcval="{{i.composantes|encoded_z|safe}}" action="value" class="zlist_item text editor" model="{{model|lower}}" style="order:3; text-align:left;">{{ i.composantes|render_text|safe }}</div>
-<div id="{{i.id}}__original_casting_cost"  srcval="{{i.original_casting_cost|encoded_z|safe}}" action="value" class="zlist_item text editor" model="{{model|lower}}" style="order:3; text-align:left;">{{ i.original_casting_cost|render_text|safe }}</div>
+<div id="{{model|lower}}__{{i.id}}__description__value" srcval="{{i.description|encoded_z|safe}}" class="zlist_item text editor">{{ i.description|render_text|safe }}</div>
+<div id="{{model|lower}}__{{i.id}}__composantes__value" srcval="{{i.composantes|encoded_z|safe}}" class="zlist_item text editor">{{ i.composantes|render_text|safe }}</div>
+<div id="{{model|lower}}__{{i.id}}__original_casting_cost__value" srcval="{{i.original_casting_cost|encoded_z|safe}}" class="zlist_item simple editor">{{ i.original_casting_cost|render_text|safe }}</div>
 
-<div class="zlist_item number" model="{{model|lower}}" style="order:4">PDR<br/>{{ i.dps }}</div>
-<div class="zlist_item number" model="{{model|lower}}" style="order:4">PUI<br/>{{i.power}}</div>
-<div class="zlist_item number" model="{{model|lower}}" style="order:4">EXT<br/>{{i.power_boost}}</div>
+<div class="zlist_item buffer"></div>
+<div class="zlist_item simple"><b>Points<br/>Rêve</b><br/>{{ i.dps }}</div>
+<div class="zlist_item simple"><b>Temps<br/>d'Incant.</b><br/>{{ i.ti_str }}</div>
+<div class="zlist_item simple"><b>Portée</b><br/>{{ i.range_str }}</div>
+<div class="zlist_item simple"><b>Zone</b><br/>{{ i.area_str }}</div>
+<div class="zlist_item simple"><b>Puis.</b><br/>{{i.power}}</div>
+<div class="zlist_item simple"><b>+P</b><br/>{{i.power_boost}}</div>
 
-<div id="{{i.id}}__ground_charge__{{i.id}}" model="{{model|lower}}" class="zlist_item symbol shifter" style="order:15">{{ i.ground_charge|as_ground_charge|safe }}</div>
-<div id="{{i.id}}__hour_charge__{{i.id}}" model="{{model|lower}}" class="zlist_item symbol shifter" style="order:16">{{ i.hour_charge|as_hour_charge|safe }}</div>
-<div id="{{i.id}}__emanation_charge__{{i.id}}" model="{{model|lower}}" class="zlist_item symbol shifter" style="order:17">{{ i.emanation_charge|as_emanation_charge|safe }}</div>
-<div id="{{i.id}}__consistency_charge__{{i.id}}" model="{{model|lower}}" class="zlist_item symbol shifter" style="order:18">{{ i.consistency_charge|as_consistency_charge|safe }}</div>
-<div id="{{i.id}}__elemental_charge"__{{i.id}} model="{{model|lower}}" class="zlist_item symbol shifter" style="order:19">{{ i.elemental_charge|as_elemental_charge|safe }}</div>
+<div id="{{model|lower}}__{{i.id}}__ground_charge" class="zlist_item symbol shifter">{{ i.ground_charge|as_ground_charge|safe }}</div>
+<div id="{{model|lower}}__{{i.id}}__hour_charge" class="zlist_item symbol shifter">{{ i.hour_charge|as_hour_charge|safe }}</div>
+<div id="{{model|lower}}__{{i.id}}__emanation_charge" class="zlist_item symbol shifter">{{ i.emanation_charge|as_emanation_charge|safe }}</div>
+<div id="{{model|lower}}__{{i.id}}__consistency_charge" class="zlist_item symbol shifter">{{ i.consistency_charge|as_consistency_charge|safe }}</div>
+<div id="{{model|lower}}__{{i.id}}__elemental_charge" class="zlist_item symbol shifter">{{ i.elemental_charge|as_elemental_charge|safe }}</div>
 
-
-<div id="{{i.id}}__diff__{{i.id}}"  class="zlist_item number shifter" model="{{model|lower}}" style="order:3" title="{{i.diff}}">{%include "main/svg/diff.svg" with diff=i.diff %}</div>
-
-<div class="zlist_item number"  model="{{model|lower}}" style="order:4">{% include "main/svg/incantessimo_roll.svg" with value=i.roll %}</div>
-<div class="zlist_item number" model="{{model|lower}}" style="order:6">{{ i.spell_ready|as_bool|safe }}</div>
+<div id="{{model|lower}}__{{i.id}}__diff"  class="zlist_item number shifter" title="{{i.diff}}">{%include "main/svg/diff.svg" with diff=i.diff %}</div>
+<div class="zlist_item number">{% include "main/svg/incantessimo_roll.svg" with value=i.roll %}</div>
+<div class="zlist_item number">{{ i.spell_ready|as_bool|safe }}</div>
 
 {% else %}
 {% if model == "Nativo" %}

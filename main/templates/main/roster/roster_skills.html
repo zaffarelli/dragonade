@@ -5,42 +5,42 @@
     <div class="row lax">
 
         <div class="block_third" >
-            <div class="title">Martiales (-1)</div>
+            <div class="title">Martiales (-1) [T:{{a.pure_total_weapons}}]</div>
             {% for sk,v in a.skil.weapons.items %}
             {% include "main/roster/roster_skill_lines.html" with a=a sk=sk v=v.val b=v.abs cv=v.cv %}
             {% endfor %}
         </div>
 
         <div class="block_third">
-            <div class="title">Générales (-1)</div>
+            <div class="title">Générales (-1) [T:{{a.pure_total_generic}}]</div>
             {% for sk,v in a.skil.generic.items %}
             {% include "main/roster/roster_skill_lines.html" with a=a sk=sk v=v.val b=v.abs cv=v.cv %}
             {% endfor %}
         </div>
 
         <div class="block_third">
-            <div class="title">Particulières (-2)</div>
+            <div class="title">Particulières (-2) [T:{{a.pure_total_peculiar}}]</div>
             {% for sk,v in a.skil.peculiar.items %}
             {% include "main/roster/roster_skill_lines.html" with a=a sk=sk v=v.val b=v.abs cv=v.cv %}
             {% endfor %}
         </div>
 
         <div class="block_third">
-            <div class="title">Spécialisées (-3)</div>
+            <div class="title">Spécialisées (-3) [T:{{a.pure_total_specialized}}]</div>
             {% for sk,v in a.skil.specialized.items %}
             {% include "main/roster/roster_skill_lines.html" with a=a sk=sk v=v.val b=v.abs cv=v.cv %}
             {% endfor %}
         </div>
 
         <div class="block_third">
-            <div class="title">Connaissances (-4)</div>
+            <div class="title">Connaissances (-4) [T:{{a.pure_total_knowledge}}]</div>
             {% for sk,v in a.skil.knowledge.items %}
             {% include "main/roster/roster_skill_lines.html" with a=a sk=sk v=v.val b=v.abs cv=v.cv %}
             {% endfor %}
         </div>
 
         <div class="block_third">
-            <div class="title">Draconiques (-5)</div>
+            <div class="title">Draconiques (-5) [T:{{a.pure_total_draconic}}]</div>
             {% for sk,v in a.skil.draconic.items %}
             {% include "main/roster/roster_skill_lines.html" with a=a sk=sk v=v.val b=v.abs cv=v.cv %}
             {% endfor %}

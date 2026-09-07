@@ -26,6 +26,8 @@ def prepare_context(request):
             'modules': [],
             'zmenu': MAIN_MENU
         }
+    # from main.models.incantessimi import Incantessimo
+    # Incantessimo.all_dreams()
     return context
 
 

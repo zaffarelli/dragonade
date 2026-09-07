@@ -10,7 +10,7 @@ from main.models.nativi import Nativo
 from main.models.artefatti import Artefatto
 from main.models.creature import Creatura
 from main.models.viaggiatori import Viaggiatore
-from main.models.incantessimi import Incantessimo
+from main.models.incantessimi import Incantessimo, IncantessimoCategory
 from main.models.oggetti import Oggetto
 from main.models.sogni import Sogno
 
@@ -30,20 +30,19 @@ def value_shift(request):
     if is_ajax(request):
         from main.models.incantessimi import Incantessimo
         print(request.POST)
-        rid = request.POST.get('rid')
         id = request.POST.get('id')
         param = request.POST.get('param')
         back = int(request.POST.get('back'))
-        model = request.POST.get('model')
+        model = request.POST.get('model').title()
         k = model_to_class(model)
+        print(f"{id} {param} {model} {back}")
         if k:
-            items = klass.objects.filter(id=id)
-            print(f"{id} {param} {model} {back}")
+            items = k.objects.filter(id=id)
             if len(items) == 1:
+                print("**** OBJECT FOUND !!!")
                 item = items.first()
                 current_value = getattr(item, param)
-                answer["rid"] = rid
-                answer["model"] = model.title()
+                answer["id"] = id
                 from main.models.incantessimi import DragonadeGround, DragonadeEmanation, DragonadeHour, DragonadeElement, DragonadeConsistency, \
                     IncantessimoCategory, IncantessimoPath, DragonadeDifficulty
                 if param == "ground_charge":
@@ -74,8 +73,10 @@ def value_shift(request):
                 context = {"i": item.export_to_json(), "model": model.title()}
                 template = get_template("main/chiaroscuro/item_body.html")
                 answer['data'] = template.render(context)
-
-    answer['rid'] = rid
+        else:
+            print(model,k,"Class not found")
+        answer["model"] = model.title()
+        answer['id'] = id
     return JsonResponse(answer)
 
 
@@ -107,7 +108,7 @@ def value_push(request):
                 context = {'i': x, "model": model}
                 template = get_template('main/chiaroscuro/item_body.html')
                 new_roster = template.render(context, request)
-                answer['rid'] = item.rid
+                # answer['rid'] = item.rid
                 answer['id'] = item.id
                 answer['change_result'] = change_result
                 answer['data'] = new_roster
@@ -192,6 +193,10 @@ def incantessimi_options():
         if p > 0:
             pa = {"param": "path", "value": p, "label": IncantessimoPath.labels[k]}
             zfilters.append(pa)
+    for incantessimo in Incantessimo.objects.filter(category=IncantessimoCategory.PENTACLE):
+        if incantessimo.pentacle_code != "":
+            zfilters.append({"param":"pentacle_code","value":incantessimo.pentacle_code,"label":incantessimo.name,"icon":"fa-star"})
+
     return zfilters
 
 
@@ -346,10 +351,15 @@ def items_list(request, options={}):
             context['config']['modules'].append('taccuino')
         items = []
         sa,st = get_sogno()
-        for i in k.objects.order_by("name").filter(sogni__contains=sa):
+        filters = {
+        }
+        if options["model"] in ['Viaggiatore', 'Nativo']:
+            filters[f"sogni__contains"] = sa
+        for i in k.objects.order_by("name").filter(**filters):
             datum = i.export_to_json()
             items.append(datum)
         context["title"] = k.__name__
+        context["sogno"] = st
         context["model"] = options['model']
         context["items"] = items
         spells_j = Incantessimo.references()
@@ -378,9 +388,10 @@ def items_filters(request, options={}):
         else:
             v = value
         filters = {
-            f"{param}": v,
-            f"sogni__contains":sa,
+            f"{param}": v
         }
+        if options["model"] in ['Viaggiatore', 'Nativo']:
+            filters[f"sogni__contains"] = sa
         items = []
         k = model_to_class(options["model"])
         if k:
@@ -388,6 +399,7 @@ def items_filters(request, options={}):
                 datum = i.export_to_json()
                 items.append(datum)
             context["model"] = k.__name__
+            context["sogno"] = st
             context["items"] = items
             context["zfilters"] = options["zfilters"]
             template = get_template("main/chiaroscuro/items_payload.html")
@@ -499,16 +511,16 @@ def inc_dec(request):
 
 
 def fetch(request):
-    answer = {'rid': "", "model": "", "payload": {}}
+    answer = {'id': "", "model": "", "payload": {}}
     if is_ajax(request):
-        rid = request.POST.get('rid')
+        id = request.POST.get('id')
         model = request.POST.get('model').title()
         k = model_to_class(model)
         if k:
-            items = k.objects.filter(rid=rid)
+            items = k.objects.filter(id=id)
             if len(items) == 1:
                 i = items.first()
-                answer['rid'] = i.rid
+                answer['id'] = i.id
                 answer['model'] = model
                 answer['payload'] = i.export_to_json()
                 return JsonResponse(answer)
