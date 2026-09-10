@@ -172,9 +172,10 @@ class Character(models.Model, ChiaroscuroMixin):
             IMC = 15 -> 35
             IMC = 10 + 2 * TAI + 1xCON + 1xFOR
         """
-        if self.height <= 0:
-            self.height = 170
-        height = self.height / 100
+        h = int(self.height)
+        if h <= 0:
+            h = 170
+        height = h / 100
         IMC = 15 + int(self.value_for("CON")) + int(self.value_for("FOR")) - int(self.value_for("AGI")) + int(self.value_for("AGI"))
         weight = IMC * height ** 2
         self.imc = IMC
@@ -903,10 +904,11 @@ class Character(models.Model, ChiaroscuroMixin):
             default = -root["DEFAULT"]
             for stat in root["LIST"]:
                 tgt = stat["NAME"]
-                val = self.value_for(tgt)
-                if int(val) > 0:
+                val = int(self.value_for(tgt))
+                if val > 0:
                     for k, v in skills_map["values"].items():
-                        if int(k) < int(val):
+                        ki = int(k)
+                        if ki < val:
                             nice_value = ""
                             nice_spot = ""
                             perfect_values = v["perfect_matches"]
@@ -917,19 +919,55 @@ class Character(models.Model, ChiaroscuroMixin):
                                 nice_value = k
                             for l, w in skills_map["spots"].items():
                                 if l == str(default):
-                                    # print("-----------------",l, w['count'])
                                     perfect_spots = w["perfect_matches"]
                                     enhanced_spots = w["partial_matches"]
                                     sps = len(perfect_spots)
                                     ses = len(enhanced_spots)
                                     if (w["count"] > sps + ses) and tgt not in w["perfect_matches"] and tgt not in w["partial_matches"]:
-                                        # if tgt not in w["perfect_matches"] and tgt not in w["partial_matches"]:
                                         nice_spot = l
                                         break
                             if len(nice_value) > 0 and len(nice_spot) > 0:
                                 skills_map["values"][nice_value]["partial_matches"].append(tgt)
                                 skills_map["spots"][nice_spot]["partial_matches"].append(tgt)
                                 skills_map["all"][tgt] = nice_value
+
+        def legacy_track_enhanced(root):
+            """
+                From a root in CHARACTER_STATISTICS:
+                    - Tracks the scores that are greater than expected than the values that should be given at character creation.
+                    - Tracks if those scores are matching the spots from character creation.
+                    - This completes the full map of skills affectation at creation.
+            """
+            default = -root["DEFAULT"]
+            for stat in root["LIST"]:
+                tgt = stat["NAME"]
+                val = int(self.value_for(tgt))
+                if val > 0:
+                    for k, v in skills_map["values"].items():
+                        ki = int(k)
+                        if ki < val:
+                            nice_value = ""
+                            nice_spot = ""
+                            perfect_values = v["perfect_matches"]
+                            enhanced_values = v["partial_matches"]
+                            spv = len(perfect_values)
+                            sev = len(enhanced_values)
+                            if (v["count"] > spv + sev) and tgt not in v["perfect_matches"] and tgt not in v["partial_matches"]:
+                                nice_value = k
+                            for l, w in skills_map["spots"].items():
+                                if l == str(default):
+                                    perfect_spots = w["perfect_matches"]
+                                    enhanced_spots = w["partial_matches"]
+                                    sps = len(perfect_spots)
+                                    ses = len(enhanced_spots)
+                                    if (w["count"] > sps + ses) and tgt not in w["perfect_matches"] and tgt not in w["partial_matches"]:
+                                        nice_spot = l
+                                        break
+                            if len(nice_value) > 0 and len(nice_spot) > 0:
+                                skills_map["values"][nice_value]["partial_matches"].append(tgt)
+                                skills_map["spots"][nice_spot]["partial_matches"].append(tgt)
+                                skills_map["all"][tgt] = nice_value
+
 
         def compute_stress(root):
             stress = 0
@@ -1088,46 +1126,8 @@ class Character(models.Model, ChiaroscuroMixin):
             self.stress_used += compute_stress(CHARACTER_STATISTICS["SKILLS"]["GENERIC"])
             self.stress_used += compute_stress(CHARACTER_STATISTICS["SKILLS"]["WEAPONS"])
             skill_stress = self.stress_used
-            # Check Attributes
-            starting_values = [8, 7, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4]
-            arr = self.attributes.split(" ")
-            current_attributes = [int(v) for v in arr]
-            idx = 0
-            while idx < 12:
-                if starting_values[idx] in current_attributes:
-                    current_attributes.remove(starting_values[idx])
-                    starting_values[idx] = -1
-                idx += 1
-            starting_values = [a for a in starting_values if a != -1]
-            starting_values.sort(reverse=True)
-            current_attributes.sort(reverse=True)
-            idx = 0
-            attr_ok = True
-            while idx < len(current_attributes):
-                if current_attributes[idx] <= starting_values[idx]:
-                    attr_ok = False
-                idx += 1
-            if attr_ok:
-                self.bugs.append("(---) Attributes control ok.")
-                self.attributes_creation_ok = True
-            else:
-                self.bugs.append("(???) Attributes Error")
-                self.attributes_creation_ok = False
 
-            # print(current_attributes, starting_values)
-            attr_stress = 0
-            # Attr higher than expected
-            while len(current_attributes) > 0:
-                ca = current_attributes[0]
-                bsv = starting_values[0]
-                sv = bsv
-                while sv < ca:
-                    attr_stress += sv + 6  # -(-5) +1
-                    sv += 1
-                current_attributes.remove(ca)
-                starting_values.remove(bsv)
-            self.stress_used += attr_stress
-            # print(current_attributes, starting_values, skill_stress, attr_stress)
+            self.challenge_attributes()
             self.stress_remaining = self.stress_acquired - self.stress_used
 
             temp = self.pure_skills_total.split(" ")
@@ -1140,6 +1140,48 @@ class Character(models.Model, ChiaroscuroMixin):
             arr[5] = self.pure_total(self.skills_draconic)
             retemp = [str(a) for a in arr]
             self.pure_skills_total = " ".join(retemp)
+
+    def challenge_attributes(self):
+        # Check Attributes
+        starting_values = [8, 7, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4]
+        arr = self.attributes.split(" ")
+        current_attributes = [int(v) for v in arr]
+        idx = 0
+        while idx < 12:
+            if starting_values[idx] in current_attributes:
+                current_attributes.remove(starting_values[idx])
+                starting_values[idx] = -1
+            idx += 1
+        starting_values = [a for a in starting_values if a != -1]
+        starting_values.sort(reverse=True)
+        current_attributes.sort(reverse=True)
+        idx = 0
+        attr_ok = True
+        while idx < len(current_attributes):
+            if current_attributes[idx] <= starting_values[idx]:
+                attr_ok = False
+            idx += 1
+        if attr_ok:
+            self.bugs.append("(---) Attributes control ok.")
+            self.attributes_creation_ok = True
+        else:
+            self.bugs.append("(???) Attributes Error")
+            self.attributes_creation_ok = False
+
+        # print(current_attributes, starting_values)
+        attr_stress = 0
+        # Attr higher than expected
+        while len(current_attributes) > 0:
+            ca = current_attributes[0]
+            bsv = starting_values[0]
+            sv = bsv
+            while sv < ca:
+                attr_stress += sv + 6  # -(-5) +1
+                sv += 1
+            current_attributes.remove(ca)
+            starting_values.remove(bsv)
+        self.stress_used += attr_stress
+        # print(current_attributes, starting_values, skill_stress, attr_stress)
 
     def pure_total(self,arr):
         temp = arr.split(" ")

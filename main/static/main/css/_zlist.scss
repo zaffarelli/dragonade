@@ -5,24 +5,18 @@ $title-font_size: 12pt;
 .zlist_container, .zlist_header, .zlist_footer{
     width:96vw;
     margin:5pt;
-    display:flex;
-    flex-flow:column nowrap;
     font-family:$font;
     font-height:$list-font_size;
-    justify-content: flex-start;
-    align-items: stetch;
-    align-content: flext-start;
-    gap:3pt;
     background:transparent;
-//     border:1pt solid lime;
+    height:auto;
 
     & .zlist_entry{
         flex:1 1 auto;
         display:flex;
         flex-flow:row wrap;
-        justify-content: space-around;
+        justify-content: stretch;
         align-items: stretch;
-//         align-content: stretch;
+        align-content: stretch;
 //         border:1pt solid pink;
         gap:3pt;
 //         width:auto;
@@ -77,6 +71,12 @@ $title-font_size: 12pt;
                 }
             }
 
+            &.icon{
+                font-size:2em;
+                cursor:pointer;
+            }
+
+
             &.normal{
                 font-size:$title-font_size;
                 cursor:pointer;
@@ -106,24 +106,11 @@ $title-font_size: 12pt;
     }
 }
 
-.zlist_container{
-    height:81vh;
-    overflow-y:scroll;
-}
 
-.zlist_footer{
-    flex-flow:row wrap;
-    height:3vh;
-    background:#3030307f;
-    & .zlist_entry{
-        background:#3030307f;
-        }
-    background:#3030307f;
-}
 
 .zlist_header{
     flex-flow:row wrap;
-    height:7vh;
+    height:4vh;
     width:auto;
     font-size:0.73em;
     justify-content:flex-start;
@@ -139,3 +126,31 @@ $title-font_size: 12pt;
     }
 }
 
+.zlist_container{
+    height:81vh;
+    overflow-y:scroll;
+    display:flex;
+    flex-flow:column nowrap;
+    justify-content: flex-start;
+    align-items: flex_start;
+//     align-content: flex-start;
+    gap:3pt;
+}
+
+.zlist_footer{
+    flex-flow:row nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    height:3vh;
+    background:#3030307f;
+    & .zlist_entry{
+        display:flex;
+        flex-flow:row wrap;
+        justify-content: flex-start;
+        align-items: stretch;
+        align-content: flex-start;
+        background:#3030307f;
+        }
+    background:#3030307f;
+}

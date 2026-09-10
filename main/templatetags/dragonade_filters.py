@@ -236,6 +236,14 @@ def genderize(value):
     return result
 
 
+@register.filter(name='as_sex')
+def as_sex(value):
+    result = "<i class='fa fa-mars' style='color:cyan;'></i>"
+    if value == True:
+        result = "<i class='fa fa-venus' style='color:pink;'></i>"
+    return result
+
+
 def svg_item(x):
     # print(x)
     y = "generique" if x.lower() == "générique" else x

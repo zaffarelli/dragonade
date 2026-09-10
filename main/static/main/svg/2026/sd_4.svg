@@ -24,7 +24,7 @@
             <circle cx="38" cy="20" r="3" style="fill:black; stroke-width:0"/>
         </g>
         <text style="font-weight:600;font-size:11pt;line-height:1.25;font-family:Fira Sans;fill:#101010;text-anchor:middle;"
-              x="0" y="60">Couronne
+              x="0" y="55">Couronne
         </text>
     </g>
 </svg>

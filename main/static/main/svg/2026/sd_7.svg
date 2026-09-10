@@ -5,33 +5,10 @@
    viewBox="0 0 100 120"
    version="1.1"
    id="svg5"
-   sodipodi:docname="sd_7.svg"
-   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
      id="defs5" />
-  <sodipodi:namedview
-     id="namedview5"
-     pagecolor="#ffffff"
-     bordercolor="#000000"
-     borderopacity="0.25"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:document-units="mm"
-     inkscape:zoom="10.230556"
-     inkscape:cx="47.211512"
-     inkscape:cy="56.692913"
-     inkscape:window-width="2560"
-     inkscape:window-height="1371"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="g5" />
   <g
      id="sd_7"
      class="icon sd"
@@ -83,7 +60,7 @@
     <text
        style="font-weight:600;font-size:11pt;line-height:1.25;font-family:Fira Sans;fill:#101010;text-anchor:middle;"
        x="0"
-       y="60"
+       y="55"
        id="text5">Lyre
         </text>
   </g>

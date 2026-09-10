@@ -10,7 +10,7 @@
     >
 
         <g style="fill:white;stroke:black;stroke-width:2pt;stroke-linejoin:round;">
-            <circle r="8" cx="-30" cy="30" style="fill:#F0F0F0; stroke-width:2pt;"/>
+            <circle r="8" cx="-30" cy="30" style="fill:#c0c0c0; stroke-width:2pt;"/>
             <path style="fill:silver" d="M -30,-30 l 60,0 00,60 -60,0 z"/>
             <path d="M -40,0 l 40,-40 40,40 -40,40 z"/>
             <path style="fill:transparent;stroke:black;stroke-width:2pt;stroke-linejoin:round;"

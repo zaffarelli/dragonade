@@ -238,30 +238,33 @@ class Chiaroscuro {
          */
         let me = this
         $('.list_action').off().on('click', function (e) {
-            let id = $(this).attr('id')
-            let model = $(this).attr('model')
-            let words = id.split('__')
-            let x = words[0]
-            let action = words[1]
+            let xxx = $(this).attr('id')
+            let words = xxx.split('__')
+            let model = words[0]
+            let id = words[1]
+            let action = words[2]
+            let param = words[3]
+            let value = words[4]
+
             switch (action) {
                 case "view":
-                    console.log(`Viewing for [${x}] required.`)
+                    console.log(`Viewing for [${id}] required.`)
                     me.axiomaticPerformers.forEach((m) => {
-                        console.log(`[${m.name}] is ready to handle [${x}]!`)
-                        m.handle(x)
+                        console.log(`[${m.name}] is ready to handle [${id}]!`)
+                        m.handle(id)
                     })
                     me.registerActions()
                     break
                 case "edit":
                     me.axiomaticPerformers.forEach((m) => {
-                        m.edit(model, words[0])
+                        m.edit(model, id)
                     })
 
                     me.registerActions()
                     break
                 case "randomize":
                     me.axiomaticPerformers.forEach((m) => {
-                        m.randomize(model, words[0])
+                        m.randomize(model, id)
                     })
 
                     me.registerActions()
@@ -279,9 +282,9 @@ class Chiaroscuro {
                             'Content-Type': 'application/x-www-form-urlencoded'
                         },
                         data: {
-                            model: words[0],
-                            param: words[2],
-                            value: words[3],
+                            model: model,
+                            param: param,
+                            value: value,
                         },
                         dataType: 'json',
                         success: function (answer) {
@@ -294,7 +297,7 @@ class Chiaroscuro {
                     })
                     break
                 default:
-                    console.warn(`Unknown list action [${action}] for item [${rid}].`)
+                    console.warn(`Unknown list action [${action}] for item [${id}].`)
                     break
             }
         })
@@ -404,7 +407,7 @@ class Chiaroscuro {
                     }
                 }
             } else {
-                console.warning("invalid action...")
+                console.warn("invalid action...")
             }
         })
     }
