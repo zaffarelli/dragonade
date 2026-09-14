@@ -235,6 +235,15 @@ def genderize(value):
         result = "Féminin"
     return result
 
+@register.filter(name='as_stress')
+def as_stress(value):
+    if int(value) < 0:
+        result = "Infini"
+    else:
+        result = value
+    return result
+
+
 
 @register.filter(name='as_sex')
 def as_sex(value):

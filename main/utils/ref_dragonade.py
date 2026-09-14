@@ -77,6 +77,8 @@ CHARACTER_STATISTICS = {
             {"NAME": "description", "TEXT": "Description", "RATIONALE": "-"},
             {"NAME": "birthhour", "TEXT": "Heure de Naissance", "RATIONALE": "-"},
             {"NAME": "sogni", "TEXT": "Rêves Joués", "RATIONALE": "-"},
+            {"NAME": "stress_acquired", "TEXT": "Stress acquis", "RATIONALE": "-"},
+            {"NAME": "travel_points", "TEXT": "Points de Voyage", "RATIONALE": "-"},
         ]
     },
     "SKILLS": {

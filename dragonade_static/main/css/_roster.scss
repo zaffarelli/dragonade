@@ -302,6 +302,7 @@
                         &.interactive_element{
                             cursor:crosshair;
                             border:1pt dotted $hlco;
+                            color:$hlco;
                             &.selected{
                                 border:1pt solid $hlco;
                                 background: $hlbg;
@@ -348,8 +349,8 @@
 .editor{
     min-height:16pt;
     min-width:16pt;
-    color:silver;
-    background:#101010;
+//     color:silver;
+//     background:#101010;
     border-radius:5pt;
     padding:3pt;
     font-weight:normal;

@@ -77,5 +77,5 @@ class ViaggiatoreAdmin(admin.ModelAdmin):
     ordering = ['-indice', 'name']
     list_display = ['id', 'rid', 'name', "sogni","height", "aka", "is_female", "entrance", 'player', 'is_storyteller', 'bug_list', 'color', 'destiny']
     list_editable = ["sogni","height", 'color', "is_female", 'destiny', 'is_storyteller', "aka", "entrance"]
-    list_filter = ["sogni",'is_storyteller', "priority"]
+    list_filter = ["sogni",'is_storyteller', "old_creation_attributes" ]
     actions = [refix, pre_sim]

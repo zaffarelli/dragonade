@@ -25,19 +25,19 @@
             <div class="stat">
                 <div class="label fixed">Rêve(s)</div>
                 <div class="data auto interactive_element">
-                    <span class="editor" id="{{model|lower}}__{{a.id}}__sogni__value" srcval="{{a.sogni}}">{{a.sogni}}</span>
+                    <span class="editor" id="{{a.type}}__{{a.id}}__sogni__value" srcval="{{a.sogni}}">{{a.sogni}}</span>
                 </div>
             </div>
             <div class="stat">
                 <div class="label fixed">Destinée</div>
                 <div class="data auto interactive_element">
-                    <span class="editor" id="{{model|lower}}__{{a.id}}__destiny__value" srcval="{{a.destiny}}">{{a.destiny}}</span>
+                    <span class="editor" id="{{a.type}}__{{a.id}}__destiny__value" srcval="{{a.destiny}}">{{a.destiny}}</span>
                 </div>
             </div>
             <div class="stat">
                 <div class="label fixed">Pts Voyage</div>
                 <div class="data auto interactive_element">
-                    <span class="editor" id="{{model|lower}}__{{a.id}}__travel_points__value" srcval="{{a.travel_points}}">{{a.travel_points}}</span>
+                    <span class="editor" id="{{a.type}}__{{a.id}}__travel_points__value" srcval="{{a.travel_points}}">{{a.travel_points}}</span>
                 </div>
             </div>
             <div class="stat">
@@ -50,7 +50,9 @@
             </div>
             <div class="stat">
                 <div class="label">Stress Acquis</div>
-                <div class="data">{%if a.stress_acquired > 0 %}{{a.stress_acquired}}{%else%}Infini{%endif%}</div>
+                <div class="data interactive_element">
+                    <span class="editor" id="{{a.type}}__{{a.id}}__stress_acquired__value" srcval="{{a.stress_acquired}}">{{a.stress_acquired|as_stress}}</span>
+                </div>
             </div>
             <div class="stat">
                 <div class="label">Stress Utilisé</div>
@@ -58,7 +60,7 @@
             </div>
             <div class="stat">
                 <div class="label">Stress Restant</div>
-                <div class="data">{%if a.stress_acquired > 0 %}{{a.stress_remaining}}{%else%}Infini{%endif%}</div>
+                <div class="data">{{a.stress_remaining|as_stress}}</div>
             </div>
         </div>
         {% endif %}
@@ -84,32 +86,32 @@
             <div class="stat">
                 <div class="label fixed">Entrée</div>
                 <div class="data auto interactive_element">
-                    <span class="editor" id="{{model|lower}}__{{a.id}}__entrance__value" srcval="{{a.entrance}}">{{a.entrance}}</span>
+                    <span class="editor" id="{{a.type}}__{{a.id}}__entrance__value" srcval="{{a.entrance}}">{{a.entrance}}</span>
                 </div>
             </div>
             <div class="stat">
                 <div class="label fixed">Surnom(s)</div>
                 <div class="data auto interactive_element">
-                    <span class="editor" id="{{model|lower}}__{{a.id}}__aka__value" srcval="{{a.aka}}">{{a.aka}}</span>
+                    <span class="editor" id="{{a.type}}__{{a.id}}__aka__value" srcval="{{a.aka}}">{{a.aka}}</span>
                 </div>
             </div>
 
             <div class="stat">
                 <div class="label fixed">Age</div>
                 <div class="data auto interactive_element">
-                    <span class="editor" id="{{model|lower}}__{{a.id}}__age__value" srcval="{{a.age}}">{{a.age}}</span>&nbsp;ans
+                    <span class="editor" id="{{a.type}}__{{a.id}}__age__value" srcval="{{a.age}}">{{a.age}}</span>&nbsp;ans
                 </div>
             </div>
             <div class="stat">
                 <div class="label fixed">Sexe</div>
                 <div class="data auto interactive_element">
-                    <span class="editor" action="value" id="{{model|lower}}__{{a.id}}__is_female__value" srcval="{{a.is_gender}}">{{a.is_female|genderize|safe}}&nbsp</span>
+                    <span class="editor" action="value" id="{{a.type}}__{{a.id}}__is_female__value" srcval="{{a.is_gender}}">{{a.is_female|genderize|safe}}&nbsp</span>
                 </div>
             </div>
             <div class="stat">
                 <div class="label fixed">Taille</div>
                 <div class="data auto interactive_element">
-                    <span class="editor" action="value" id="{{model|lower}}__{{a.id}}__height__value" srcval="{{a.height}}">{{a.height}}</span>&nbsp;cm
+                    <span class="editor" action="value" id="{{a.type}}__{{a.id}}__height__value" srcval="{{a.height}}">{{a.height}}</span>&nbsp;cm
                 </div>
             </div>
             <div class="stat">
@@ -119,13 +121,13 @@
             <div class="stat">
                 <div class="label fixed">Main forte</div>
                 <div class="data auto interactive_element">
-                    <span class="editor" id="{{model|lower}}__{{a.id}}__is_lefty__value" srcval="{{a.is_lefty}}">{{a.is_lefty|lefty|safe}}</span>
+                    <span class="editor" id="{{a.type}}__{{a.id}}__is_lefty__value" srcval="{{a.is_lefty}}">{{a.is_lefty|lefty|safe}}</span>
                 </div>
             </div>
             <div class="stat">
                 <div class="label fixed">Heure de Naissance</div>
                 <div class="data auto interactive_element">
-                    <span class="editor" id="{{model|lower}}__{{a.id}}__birthhour__value" srcval="{{a.birthhour}}">{{a.birthhour|as_hour|safe}}</span>
+                    <span class="editor" id="{{a.type}}__{{a.id}}__birthhour__value" srcval="{{a.birthhour}}">{{a.birthhour|as_hour|safe}}</span>
                 </div>
             </div>
 
@@ -158,7 +160,7 @@
             <div class="title">Description</div>
             <div class="stat">
                 <div class="data large interactive_element">
-                    <span class="editor" id="{{model|lower}}__{{a.id}}__description__value" srcval="{{a.description}}">{{a.description|render_text|safe}}</span>
+                    <span class="editor" id="{{a.type}}__{{a.id}}__description__value" srcval="{{a.description}}">{{a.description|render_text|safe}}</span>
                 </div>
             </div>
         </div>
@@ -185,7 +187,7 @@
             <div class="stat">
                 <div class="label">SON : Songe</div>
                 <div class="data interactive_element">
-                    <span class="editor" action="value" id="{{model|lower}}__{{a.id}}__SON__value" srcval="{{a.SON}}">{{a.SON}}</span>
+                    <span class="editor" action="value" id="{{a.type}}__{{a.id}}__SON__value" srcval="{{a.SON}}">{{a.SON}}</span>
                 </div>
             </div>
             <div class="stat">
