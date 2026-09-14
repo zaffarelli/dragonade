@@ -4,7 +4,7 @@
 
 <div class="stat">
     <div class="label lazy" style="color:#a0a0a0;" title="{{sk}} ({{cv.rationale|title}})">{{sk|as_skill|safe}}
-        <span class="creation_value cv{{cv}}" param="cv{{cv.category}}">
+        <span class="creation_value cv{{cv.value}}" param="cv{{cv.value}}">
             {% if cv %}&nbsp;
 
                     {% if cv.category == 1 %}
@@ -12,16 +12,25 @@
                         style="color:#1b1b1b;"
                         >
                     {%elif cv.category == 2 %}
-                        <i class="fa fa-circle-arrow-down"
-                            style="color:darkgreen;"
+                        <i class="fa fa-circle-plus"
+                            style="color:darkgray;"
                         >
                     {%elif cv.category == 3 %}
                         <i class="fa fa-circle-check"
-                            style="color:darkkhaki;"
+                            {% if a.skills_creation_ok %}
+                            style="color:darkcyan;"
+                           {%else%}
+                            style="color:khaki;"
+                           {%endif%}
                         >
                     {%elif cv.category == 4 %}
                         <i class="fa fa-circle-arrow-up"
-                            style="color:darkcyan;"
+                            {% if a.skills_creation_ok %}
+                            style="color:cyan;"
+                           {%else%}
+                            style="color:darkkhaki;"
+                           {%endif%}
+
                         >
                     {%endif%}
 

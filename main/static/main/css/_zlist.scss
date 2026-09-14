@@ -1,5 +1,6 @@
-$list-font_size: 9pt;
-$title-font_size: 12pt;
+$list-font_size: 10pt;
+$title-font_size: 16pt;
+
 
 
 .zlist_container, .zlist_header, .zlist_footer{
@@ -13,7 +14,7 @@ $title-font_size: 12pt;
     & .zlist_entry{
         flex:1 1 auto;
         display:flex;
-        flex-flow:row wrap;
+        flex-flow:row nowrap;
         justify-content: stretch;
         align-items: stretch;
         align-content: stretch;
@@ -109,15 +110,18 @@ $title-font_size: 12pt;
 
 
 .zlist_header{
+    order:1;
+    flex:0 1 4vh;
     flex-flow:row wrap;
-    height:4vh;
-    width:auto;
     font-size:0.73em;
     justify-content:flex-start;
-    align-content: flex-start;
     align-items: flex-start;
+    align-content: flex-start;
+
+
+
     & .zlist_entry{
-        flex:0 6 20ex;
+        flex:0 0 20ex;
         border-radius:5pt;
         display:inline-block;
         font-weight:normal;
@@ -127,17 +131,20 @@ $title-font_size: 12pt;
 }
 
 .zlist_container{
-    height:81vh;
+    order:2;
+    flex:0 0 81vh;
     overflow-y:scroll;
     display:flex;
     flex-flow:column nowrap;
     justify-content: flex-start;
-    align-items: flex_start;
-//     align-content: flex-start;
+    align-items: stretch;
+
     gap:3pt;
 }
 
 .zlist_footer{
+    order:3;
+    flex:0 1 auto;
     flex-flow:row nowrap;
     justify-content: flex-start;
     align-items: flex-start;

@@ -69,6 +69,7 @@ class Character(models.Model, ChiaroscuroMixin):
     klass = models.CharField(max_length=16, default="Character", blank=True)
     protection_map = models.CharField(max_length=256, blank=True, default="H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X")
     skills_map_str = models.TextField(max_length=2048, default="{}", blank=True)
+    archetype_str = models.TextField(max_length=2048, default="{}", blank=True)
 
     pure_skills_total = models.CharField(default="", max_length=32, blank=True)
 
@@ -94,10 +95,6 @@ class Character(models.Model, ChiaroscuroMixin):
         if len(self.rid) == 0:
             self.rid = as_rid(self.name)
             self.rid = self.type[:3].upper() + "_" + self.rid
-
-    @property
-    def type(self):
-        return self.__class__.__name__
 
     def applyIncDec(self, att, chg):
         # self.export_to_json()
@@ -375,14 +372,15 @@ class Character(models.Model, ChiaroscuroMixin):
         self._data["skills_summary"] = self.skills_summary()
         self._data['roster_text'] = self.roster_as_text()
 
-        t = self.pure_skills_total.split(" ")
-        tt = [int(x) for x in t]
-        self._data['pure_total_weapons'] = tt[0]
-        self._data['pure_total_generic'] = tt[1]
-        self._data['pure_total_peculiar'] = tt[2]
-        self._data['pure_total_specialized'] = tt[3]
-        self._data['pure_total_knowledge'] = tt[4]
-        self._data['pure_total_draconic'] = tt[5]
+        if self.type=="Viaggiatore":
+            t = self.pure_skills_total.split(" ")
+            tt = [int(x) for x in t]
+            self._data['pure_total_weapons'] = tt[0]
+            self._data['pure_total_generic'] = tt[1]
+            self._data['pure_total_peculiar'] = tt[2]
+            self._data['pure_total_specialized'] = tt[3]
+            self._data['pure_total_knowledge'] = tt[4]
+            self._data['pure_total_draconic'] = tt[5]
 
         now = datetime.now().strftime("%Y/%m/%d, %H:%M:%S")
         self._data['last_update'] = now
@@ -860,40 +858,7 @@ class Character(models.Model, ChiaroscuroMixin):
             Checks for the amount of by default skills against skills enhanced with stress
         """
 
-        # def track_perfect(root):
-        #     """
-        #         From a root in CHARACTER_STATISTICS:
-        #             - Tracks the exact values that should be given at character creation.
-        #             - Tracks if those values are matching the spots from character creation.
-        #             - This gives map on how the character was first created.
-        #     """
-        #     default = -root["DEFAULT"]
-        #     for stat in root["LIST"]:
-        #         tgt = stat["NAME"]
-        #         val = self.value_for(tgt)
-        #         if val in skills_map["values"]:
-        #             for k, v in skills_map["values"].items():
-        #                 if int(k) == int(val):
-        #                     nice_value = ""
-        #                     nice_spot = ""
-        #                     arrv = v["perfect_matches"]
-        #                     sizev = len(arrv)
-        #                     if v["count"] > sizev and tgt not in v["perfect_matches"]:
-        #                         nice_value = k
-        #                     for l, w in skills_map["spots"].items():
-        #                         if l == str(default):
-        #                             # print("-----------------",l, w['count'])
-        #                             arrs = w["perfect_matches"]
-        #                             sizes = len(arrs)
-        #                             if w["count"] > sizes and tgt not in w["perfect_matches"]:
-        #                                 nice_spot = l
-        #                                 break
-        #                     if len(nice_value) > 0 and len(nice_spot) > 0:
-        #                         skills_map["values"][nice_value]["perfect_matches"].append(tgt)
-        #                         skills_map["spots"][nice_spot]["perfect_matches"].append(tgt)
-        #                         skills_map["all"][tgt] = nice_value
-
-        def track_enhanced():
+        def track_skills_at_creation():
             """
                 From a root in CHARACTER_STATISTICS:
                     - Tracks the scores that are greater than expected than the values that should be given at character creation.
@@ -904,26 +869,21 @@ class Character(models.Model, ChiaroscuroMixin):
             root = CHARACTER_STATISTICS["SKILLS"]
             for x in range(20,0,-1):
                 skills_map["values"][f"{x:02}"] = {"perfects": [], "enhanced": [], "low": [], "default": []}
+            use_archetype = False
+            if self.archetype_str != "{}":
+                archetype = json.loads(self.archetype_str)
+                use_archetype = True
             skills_map["all"] = {}
             levels = skills_map["values"]
-
             # 2) Values
             creation_values = [7, 6, 6, 5, 5, 5, 4, 4, 4, 4, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1]
-
             # 3) Spots (-5,-4,-3,-2,-1)
-            creation_spots = [
-                -5,
-                -4, -4, -4,
-                -3, -3, -3, -3, -3, -3,
-                -2, -2, -2, -2, -2, -2, -2, -2,
-                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
-            ]
+            creation_spots = [-5]+[-4 for _ in range(3)]+[-3 for _ in range(6)]+[-2 for _ in range(8)]+[-1 for _ in range(10)]
 
-            # For each level of the mapping
-            for level_key, level in levels.items():
+            for branch_key, branch in root.items():
                 # check all levels in the reference
-                # print(f"Level_key is {level_key}.")
-                for branch_key, branch in root.items():
+                for level_key, level in levels.items():
+                    # For each level of the mapping
                     default = branch["DEFAULT"]
                     for stat in branch["LIST"]:
                         tgt = stat["NAME"]
@@ -931,96 +891,77 @@ class Character(models.Model, ChiaroscuroMixin):
                         lvl = int(level_key)
                         absolute = val - default
                         # The pool contains all the values skills already placed
-                        pool = skills_map["all"]
-                        if val == default:
-                            # This is a default value, like -5 in draconic (-5) or -1 in weapons (-1)
-                            # Untouched values like this are always in the default sub pool
-                            if tgt not in pool:
+                        if tgt not in skills_map["all"]:
+                            if val == default:
+                                # This is a default value, like -5 in draconic (-5) or -1 in weapons (-1)
+                                # Untouched values like this are always in the default sub pool
                                 if absolute == lvl:
-                                    level['default'].append(tgt)
+                                    # level['default'].append(tgt)
                                     skills_map["all"][tgt] = {"category": 1, "value": val, "rationale": "DEFAULT", "code": tgt, "default":default}
-                        elif default < val < 1:
-                            # We are with a value between default and 1
-                            # e.g. -4 to 0 for a draconic (-5) or -3 to 0 for a knowledge (-4)
-                            # This is a low one, that will have nothing to do with the creation values
-                            if tgt not in pool:
+                            elif default < val < 1:
+                                # We are with a value between default and 1
+                                # e.g. -4 to 0 for a draconic (-5) or -3 to 0 for a knowledge (-4)
+                                # This is a low one, that will have nothing to do with the creation values
                                 if absolute == lvl:
-                                    level['low'].append(tgt)
+                                    # level['low'].append(tgt)
                                     skills_map["all"][tgt] = {"category": 2, "value": val, "rationale": "LOW", "code": tgt, "default":default}
-                        elif val >= 1:
-                            if tgt not in pool:
-                                if lvl in creation_values and default in creation_spots:
-                                    if val == lvl:
-                                        creation_values.remove(lvl)
-                                        creation_spots.remove(default)
-                                        level['perfects'].append(tgt)
-                                        skills_map["all"][tgt] = {"category": 3, "value": val, "rationale": "PERFECT", "code": tgt, "default":default}
-                                    if val > lvl:
-                                        creation_values.remove(lvl)
-                                        creation_spots.remove(default)
-                                        level['enhanced'].append(tgt)
-                                        skills_map["all"][tgt] = {"category": 4, "value": lvl, "rationale": "ENHANCED", "code": tgt, "default":default}
+                            elif val >= 1:
+                                if lvl in creation_values:
+                                    if default in creation_spots:
+                                        if val == lvl:
+                                            # Perfect
+                                            creation_values.remove(lvl)
+                                            creation_spots.remove(default)
+                                            # level['perfects'].append(tgt)
+                                            skills_map["all"][tgt] = {"category": 3, "value": val, "rationale": "PERFECT", "code": tgt, "default":default}
+                                        elif val > lvl:
+                                            # Enhanced
+                                            creation_values.remove(lvl)
+                                            creation_spots.remove(default)
+                                            # level['enhanced'].append(tgt)
+                                            skills_map["all"][tgt] = {"category": 4, "value": lvl, "rationale": "ENHANCED", "code": tgt, "default":default}
+                                    else:
+                                        # low
+                                        # level['low'].append(tgt)
+                                        skills_map["all"][tgt] = {"category": 2, "value": val, "rationale": "LOW", "code": tgt, "default":default}
+                                else:
+                                    if default not in creation_spots:
+                                        if use_archetype:
+                                            if tgt in archetype:
+                                                entry = archetype[tgt]
+                                                if entry["value"] < val:
+                                                    skills_map["all"][tgt] = {"category": 4, "value": val, "rationale": "ENHANCED", "code": tgt,
+                                                                              "default": default}
+                                                elif entry["value"] == val:
+                                                    skills_map["all"][tgt] = {"category": 3, "value": val, "rationale": "PERFECT", "code": tgt,
+                                                                              "default": default}
+                                                else:
+                                                    skills_map["all"][tgt] = {"category": 2, "value": val, "rationale": "LOW", "code": tgt, "default": default}
 
-            # print(creation_values)
-            # print(creation_spots)
-            result = len(creation_values)+len(creation_spots) == 0
+                                        else:
+                                            # low
+                                            # level['low'].append(tgt)
+                                            skills_map["all"][tgt] = {"category": 2, "value": val, "rationale": "LOW", "code": tgt, "default":default}
+            self.skills_creation_ok = len(creation_values)+len(creation_spots) == 0
             skills_map["values"] = levels
-            # print(json.dumps(skills_map,indent=2))
-            return result
+            # print(json.dumps(skills_map["all"],indent=2))
 
-        # def legacy_track_enhanced(root):
-        #     """
-        #         From a root in CHARACTER_STATISTICS:
-        #             - Tracks the scores that are greater than expected than the values that should be given at character creation.
-        #             - Tracks if those scores are matching the spots from character creation.
-        #             - This completes the full map of skills affectation at creation.
-        #     """
-        #     default = -root["DEFAULT"]
-        #     for stat in root["LIST"]:
-        #         tgt = stat["NAME"]
-        #         val = int(self.value_for(tgt))
-        #         if val > 0:
-        #             for k, v in skills_map["values"].items():
-        #                 ki = int(k)
-        #                 if ki < val:
-        #                     nice_value = ""
-        #                     nice_spot = ""
-        #                     perfect_values = v["perfect_matches"]
-        #                     enhanced_values = v["partial_matches"]
-        #                     spv = len(perfect_values)
-        #                     sev = len(enhanced_values)
-        #                     if (v["count"] > spv + sev) and tgt not in v["perfect_matches"] and tgt not in v["partial_matches"]:
-        #                         nice_value = k
-        #                     for l, w in skills_map["spots"].items():
-        #                         if l == str(default):
-        #                             perfect_spots = w["perfect_matches"]
-        #                             enhanced_spots = w["partial_matches"]
-        #                             sps = len(perfect_spots)
-        #                             ses = len(enhanced_spots)
-        #                             if (w["count"] > sps + ses) and tgt not in w["perfect_matches"] and tgt not in w["partial_matches"]:
-        #                                 nice_spot = l
-        #                                 break
-        #                     if len(nice_value) > 0 and len(nice_spot) > 0:
-        #                         skills_map["values"][nice_value]["partial_matches"].append(tgt)
-        #                         skills_map["spots"][nice_spot]["partial_matches"].append(tgt)
-        #                         skills_map["all"][tgt] = nice_value
 
         def compute_stress():
             stress = 0
-            for l, w in skills_map["all"].items():
-                if w["category"] == 4:
-                    val = int(self.value_for(l))
-                    a = w['value']
+            for k, v in skills_map["all"].items():
+                if v["category"] == 4:
+                    val = int(self.value_for(k))
+                    a = v['value']
                     b = val
-                    d = w['default']
+                    d = v['default']
                     while a < b:
                         aa = a - d
                         ab = b - d
-                        print(f"{a} => {b} ({aa} => {ab}) : {ab}")
+                        # print(f"{a} => {b} ({aa} => {ab}) : {ab}")
                         stress += ab
                         a += 1
-
-            return stress
+            self.stress_used = stress
 
         if self.type != "Viaggiatore":
             pass
@@ -1030,20 +971,15 @@ class Character(models.Model, ChiaroscuroMixin):
                 "all": {},
                 "values": {}
             }
-            self.skills_creation_ok = track_enhanced()
+            track_skills_at_creation()
             if self.skills_creation_ok:
                 self.bugs.append("(---) Skills control ok.")
             else:
                 self.bugs.append("(???) Missing skills control")
             self.skills_map_str = json.dumps(skills_map)
+            self.store_archetype()
             # Computing Stress
-            self.stress_used = compute_stress()
-            # self.stress_used += compute_stress(CHARACTER_STATISTICS["SKILLS"]["DRACONIC"])
-            # self.stress_used += compute_stress(CHARACTER_STATISTICS["SKILLS"]["KNOWLEDGE"])
-            # self.stress_used += compute_stress(CHARACTER_STATISTICS["SKILLS"]["SPECIALIZED"])
-            # self.stress_used += compute_stress(CHARACTER_STATISTICS["SKILLS"]["PECULIAR"])
-            # self.stress_used += compute_stress(CHARACTER_STATISTICS["SKILLS"]["GENERIC"])
-            # self.stress_used += compute_stress(CHARACTER_STATISTICS["SKILLS"]["WEAPONS"])
+            compute_stress()
             self.challenge_attributes()
             self.stress_remaining = self.stress_acquired - self.stress_used
 
@@ -1058,8 +994,23 @@ class Character(models.Model, ChiaroscuroMixin):
             retemp = [str(a) for a in arr]
             self.pure_skills_total = " ".join(retemp)
 
+    def store_archetype(self):
+        if self.archetype_str == "{}":
+            archetype = {}
+            skills_map = json.loads(self.skills_map_str)
+            for k,v in skills_map["all"].items():
+                if v["category"] == 3:
+                    archetype[k] = v
+            self.archetype_str = json.dumps(archetype)
+            print(f"Archetype for {self.name} updated.")
+        else:
+            print(f"Archetype already exists for [{self.name}].")
+
+
+
     def challenge_attributes(self):
         # Check Attributes
+        old =             [9, 8, 7, 6, 6, 5, 5, 5, 4, 4, 4, 4]
         starting_values = [8, 7, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4]
         arr = self.attributes.split(" ")
         current_attributes = [int(v) for v in arr]
@@ -1070,6 +1021,7 @@ class Character(models.Model, ChiaroscuroMixin):
                 starting_values[idx] = -1
             idx += 1
         starting_values = [a for a in starting_values if a != -1]
+        print(starting_values)
         starting_values.sort(reverse=True)
         current_attributes.sort(reverse=True)
         idx = 0
@@ -1098,7 +1050,7 @@ class Character(models.Model, ChiaroscuroMixin):
             current_attributes.remove(ca)
             starting_values.remove(bsv)
         self.stress_used += attr_stress
-        # print(current_attributes, starting_values, skill_stress, attr_stress)
+        print(f"Attributes stress {attr_stress}")
 
     def pure_total(self, arr):
         temp = arr.split(" ")

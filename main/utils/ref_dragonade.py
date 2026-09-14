@@ -80,28 +80,70 @@ CHARACTER_STATISTICS = {
         ]
     },
     "SKILLS": {
-        "WEAPONS": {
-            "DEFAULT": -1,
-            "NAME": "Martiales",
+        "DRACONIC": {
+            "DEFAULT": -5,
+            "NAME": "Draconiques",
             "LIST": [
-                {"NAME": "WEA_01", "TEXT": "Esquive", "ORDER": 0},
-                {"NAME": "WEA_02", "TEXT": "Lutte", "ORDER": 1},
-                {"NAME": "WEA_03", "TEXT": "Pugilat", "ORDER": 2},
-                {"NAME": "WEA_04", "TEXT": "Arbalètes", "ORDER": 3},
-                {"NAME": "WEA_05", "TEXT": "Arcs", "ORDER": 4},
-                {"NAME": "WEA_06", "TEXT": "Armes à deux mains", "ORDER": 5},
-                {"NAME": "WEA_07", "TEXT": "Armes d'Hast", "ORDER": 6},
-                {"NAME": "WEA_08", "TEXT": "Bâtons", "ORDER": 7},
-                {"NAME": "WEA_09", "TEXT": "Boucliers", "ORDER": 8},
-                {"NAME": "WEA_10", "TEXT": "Fouets", "ORDER": 9},
-                {"NAME": "WEA_11", "TEXT": "Frondes", "ORDER": 10},
-                {"NAME": "WEA_12", "TEXT": "Hâches", "ORDER": 11},
-                {"NAME": "WEA_13", "TEXT": "Javelots", "ORDER": 12},
-                {"NAME": "WEA_14", "TEXT": "Lames Courtes", "ORDER": 13},
-                {"NAME": "WEA_15", "TEXT": "Lames Longues", "ORDER": 14},
-                {"NAME": "WEA_16", "TEXT": "Masses", "ORDER": 15},
-                {"NAME": "WEA_17", "TEXT": "Lances", "ORDER": 16},
-                {"NAME": "WEA_18", "TEXT": "Poignards", "ORDER": 17},
+                {"NAME": "DRA_01", "TEXT": "Contemplatif", "ORDER": 0},
+                {"NAME": "DRA_02", "TEXT": "Destructif", "ORDER": 1},
+                {"NAME": "DRA_03", "TEXT": "Dynamique", "ORDER": 2},
+                {"NAME": "DRA_04", "TEXT": "Génératif", "ORDER": 3},
+                {"NAME": "DRA_05", "TEXT": "Mnémonique", "ORDER": 4},
+                {"NAME": "DRA_06", "TEXT": "Statique", "ORDER": 5}
+            ]
+        },
+        "KNOWLEDGE": {
+            "DEFAULT": -4,
+            "NAME": "Connaissances",
+            "LIST": [
+                {"NAME": "KNO_01", "TEXT": "Alchimie", "ORDER": 0},
+                {"NAME": "KNO_02", "TEXT": "Animaux", "ORDER": 1},
+                {"NAME": "KNO_03", "TEXT": "Architecture", "ORDER": 2},
+                {"NAME": "KNO_04", "TEXT": "Astrologie", "ORDER": 3},
+                {"NAME": "KNO_05", "TEXT": "Chirurgie", "ORDER": 4},
+                {"NAME": "KNO_06", "TEXT": "Ecriture", "ORDER": 5},
+                {"NAME": "KNO_07", "TEXT": "Légendes", "ORDER": 6},
+                {"NAME": "KNO_08", "TEXT": "Mathématiques", "ORDER": 7},
+                {"NAME": "KNO_09", "TEXT": "Plantes", "ORDER": 8},
+                {"NAME": "KNO_10", "TEXT": "Stratégie", "ORDER": 9}
+            ]
+        },
+        "SPECIALIZED": {
+            "DEFAULT": -3,
+            "NAME": "Spécialisées",
+            "LIST": [
+                {"NAME": "SPE_01", "TEXT": "Acrobatie", "ORDER": 0},
+                {"NAME": "SPE_02", "TEXT": "Jeu", "ORDER": 1},
+                {"NAME": "SPE_03", "TEXT": "Jonglerie", "ORDER": 2},
+                {"NAME": "SPE_04", "TEXT": "Maroquinerie", "ORDER": 3},
+                {"NAME": "SPE_05", "TEXT": "Médecine", "ORDER": 4},
+                {"NAME": "SPE_06", "TEXT": "Métallurgie", "ORDER": 5},
+                {"NAME": "SPE_07", "TEXT": "Natation", "ORDER": 6},
+                {"NAME": "SPE_08", "TEXT": "Navigation", "ORDER": 7},
+                {"NAME": "SPE_09", "TEXT": "Orfèvrerie", "ORDER": 8},
+                {"NAME": "SPE_10", "TEXT": "Serrurerie", "ORDER": 9}
+            ]
+        },
+        "PECULIAR": {
+            "DEFAULT": -2,
+            "NAME": "Particulières",
+            "LIST": [
+                {"NAME": "PEC_01", "TEXT": "Charpenterie", "ORDER": 0},
+                {"NAME": "PEC_02", "TEXT": "Comédie", "ORDER": 1},
+                {"NAME": "PEC_03", "TEXT": "Commerce", "ORDER": 2},
+                {"NAME": "PEC_04", "TEXT": "Couture", "ORDER": 3},
+                {"NAME": "PEC_05", "TEXT": "Déguisement", "ORDER": 4},
+                {"NAME": "PEC_06", "TEXT": "Equitation", "ORDER": 5},
+                {"NAME": "PEC_07", "TEXT": "Jeu de Mains", "ORDER": 6},
+                {"NAME": "PEC_08", "TEXT": "Maçonnerie", "ORDER": 7},
+                {"NAME": "PEC_09", "TEXT": "Musique", "ORDER": 8},
+                {"NAME": "PEC_10", "TEXT": "Survie en Cité", "ORDER": 9},
+                {"NAME": "PEC_11", "TEXT": "Survie dans le Désert", "ORDER": 10},
+                {"NAME": "PEC_12", "TEXT": "Survie en Forêt", "ORDER": 11},
+                {"NAME": "PEC_13", "TEXT": "Survie dans les Glaces", "ORDER": 12},
+                {"NAME": "PEC_14", "TEXT": "Survie dans les Marais", "ORDER": 13},
+                {"NAME": "PEC_15", "TEXT": "Survie en Montagnes", "ORDER": 14},
+                {"NAME": "PEC_16", "TEXT": "Survie en Sous-sols", "ORDER": 15},
 
             ]
         },
@@ -128,73 +170,31 @@ CHARACTER_STATISTICS = {
 
             ]
         },
-        "PECULIAR": {
-            "DEFAULT": -2,
-            "NAME": "Particulières",
+        "WEAPONS": {
+            "DEFAULT": -1,
+            "NAME": "Martiales",
             "LIST": [
-                {"NAME": "PEC_01", "TEXT": "Charpenterie", "ORDER": 0},
-                {"NAME": "PEC_02", "TEXT": "Comédie", "ORDER": 1},
-                {"NAME": "PEC_03", "TEXT": "Commerce", "ORDER": 2},
-                {"NAME": "PEC_04", "TEXT": "Couture", "ORDER": 3},
-                {"NAME": "PEC_05", "TEXT": "Déguisement", "ORDER": 4},
-                {"NAME": "PEC_06", "TEXT": "Equitation", "ORDER": 5},
-                {"NAME": "PEC_07", "TEXT": "Jeu de Mains", "ORDER": 6},
-                {"NAME": "PEC_08", "TEXT": "Maçonnerie", "ORDER": 7},
-                {"NAME": "PEC_09", "TEXT": "Musique", "ORDER": 8},
-                {"NAME": "PEC_10", "TEXT": "Survie en Cité", "ORDER": 9},
-                {"NAME": "PEC_11", "TEXT": "Survie dans le Désert", "ORDER": 10},
-                {"NAME": "PEC_12", "TEXT": "Survie en Forêt", "ORDER": 11},
-                {"NAME": "PEC_13", "TEXT": "Survie dans les Glaces", "ORDER": 12},
-                {"NAME": "PEC_14", "TEXT": "Survie dans les Marais", "ORDER": 13},
-                {"NAME": "PEC_15", "TEXT": "Survie en Montagnes", "ORDER": 14},
-                {"NAME": "PEC_16", "TEXT": "Survie en Sous-sols", "ORDER": 15},
+                {"NAME": "WEA_01", "TEXT": "Esquive", "ORDER": 0},
+                {"NAME": "WEA_02", "TEXT": "Lutte", "ORDER": 1},
+                {"NAME": "WEA_03", "TEXT": "Pugilat", "ORDER": 2},
+                {"NAME": "WEA_04", "TEXT": "Arbalètes", "ORDER": 3},
+                {"NAME": "WEA_05", "TEXT": "Arcs", "ORDER": 4},
+                {"NAME": "WEA_06", "TEXT": "Armes à deux mains", "ORDER": 5},
+                {"NAME": "WEA_07", "TEXT": "Armes d'Hast", "ORDER": 6},
+                {"NAME": "WEA_08", "TEXT": "Bâtons", "ORDER": 7},
+                {"NAME": "WEA_09", "TEXT": "Boucliers", "ORDER": 8},
+                {"NAME": "WEA_10", "TEXT": "Fouets", "ORDER": 9},
+                {"NAME": "WEA_11", "TEXT": "Frondes", "ORDER": 10},
+                {"NAME": "WEA_12", "TEXT": "Hâches", "ORDER": 11},
+                {"NAME": "WEA_13", "TEXT": "Javelots", "ORDER": 12},
+                {"NAME": "WEA_14", "TEXT": "Lames Courtes", "ORDER": 13},
+                {"NAME": "WEA_15", "TEXT": "Lames Longues", "ORDER": 14},
+                {"NAME": "WEA_16", "TEXT": "Masses", "ORDER": 15},
+                {"NAME": "WEA_17", "TEXT": "Lances", "ORDER": 16},
+                {"NAME": "WEA_18", "TEXT": "Poignards", "ORDER": 17},
 
             ]
         },
-        "SPECIALIZED": {
-            "DEFAULT": -3,
-            "NAME": "Spécialisées",
-            "LIST": [
-                {"NAME": "SPE_01", "TEXT": "Acrobatie", "ORDER": 0},
-                {"NAME": "SPE_02", "TEXT": "Jeu", "ORDER": 1},
-                {"NAME": "SPE_03", "TEXT": "Jonglerie", "ORDER": 2},
-                {"NAME": "SPE_04", "TEXT": "Maroquinerie", "ORDER": 3},
-                {"NAME": "SPE_05", "TEXT": "Médecine", "ORDER": 4},
-                {"NAME": "SPE_06", "TEXT": "Métallurgie", "ORDER": 5},
-                {"NAME": "SPE_07", "TEXT": "Natation", "ORDER": 6},
-                {"NAME": "SPE_08", "TEXT": "Navigation", "ORDER": 7},
-                {"NAME": "SPE_09", "TEXT": "Orfèvrerie", "ORDER": 8},
-                {"NAME": "SPE_10", "TEXT": "Serrurerie", "ORDER": 9}
-            ]
-        },
-        "KNOWLEDGE": {
-            "DEFAULT": -4,
-            "NAME": "Connaissances",
-            "LIST": [
-                {"NAME": "KNO_01", "TEXT": "Alchimie", "ORDER": 0},
-                {"NAME": "KNO_02", "TEXT": "Animaux", "ORDER": 1},
-                {"NAME": "KNO_03", "TEXT": "Architecture", "ORDER": 2},
-                {"NAME": "KNO_04", "TEXT": "Astrologie", "ORDER": 3},
-                {"NAME": "KNO_05", "TEXT": "Chirurgie", "ORDER": 4},
-                {"NAME": "KNO_06", "TEXT": "Ecriture", "ORDER": 5},
-                {"NAME": "KNO_07", "TEXT": "Légendes", "ORDER": 6},
-                {"NAME": "KNO_08", "TEXT": "Mathématiques", "ORDER": 7},
-                {"NAME": "KNO_09", "TEXT": "Plantes", "ORDER": 8},
-                {"NAME": "KNO_10", "TEXT": "Stratégie", "ORDER": 9}
-            ]
-        },
-        "DRACONIC": {
-            "DEFAULT": -5,
-            "NAME": "Draconiques",
-            "LIST": [
-                {"NAME": "DRA_01", "TEXT": "Contemplatif", "ORDER": 0},
-                {"NAME": "DRA_02", "TEXT": "Destructif", "ORDER": 1},
-                {"NAME": "DRA_03", "TEXT": "Dynamique", "ORDER": 2},
-                {"NAME": "DRA_04", "TEXT": "Génératif", "ORDER": 3},
-                {"NAME": "DRA_05", "TEXT": "Mnémonique", "ORDER": 4},
-                {"NAME": "DRA_06", "TEXT": "Statique", "ORDER": 5}
-            ]
-        }
     }
 }
 

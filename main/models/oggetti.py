@@ -199,6 +199,11 @@ class Oggetto(models.Model, ChiaroscuroMixin):
     def __str__(self):
         return f"{self.name} [{self.get_category_display()}]"
 
+    def applyValuePush(self, att, val):
+        setattr(self, att, val)
+        self.save()
+        return True
+
     def covers(self, str=""):
         res = False
         if self.category == OggettoCategory.AMU:

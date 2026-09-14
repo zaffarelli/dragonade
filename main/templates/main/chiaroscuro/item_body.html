@@ -3,14 +3,14 @@
 
 
 {% if model == "Incantessimo" %}
-<div class="zlist_item normal list_action" id="{{model|lower}}__{{i.id}}__view" title="view"><i class="fa fa-eye"></i></div>
-<div class="zlist_item symbol shifter" id="{{model|lower}}__{{i.id}}__category">{{ i.category|as_category|safe }}</div>
-<div class="zlist_item symbol shifter" id="{{model|lower}}__{{i.id}}__path">{{ i.path|as_category|safe }}</div>
-<div class="zlist_item title">{{i.name}}</div>
+<div class="zlist_item icon list_action" id="{{i.type}}__{{i.id}}__view" title="view"><i class="fa fa-eye"></i></div>
+<div class="zlist_item symbol shifter" id="{{i.type}}__{{i.id}}__category">{{ i.category|as_category|safe }}</div>
+<div class="zlist_item symbol shifter" id="{{i.type}}__{{i.id}}__path">{{ i.path|as_category|safe }}</div>
+<div class="zlist_item label" style='order:0;'>{{i.name}}</div>
 
-<div id="{{model|lower}}__{{i.id}}__description__value" srcval="{{i.description|encoded_z|safe}}" class="zlist_item text editor">{{ i.description|render_text|safe }}</div>
-<div id="{{model|lower}}__{{i.id}}__composantes__value" srcval="{{i.composantes|encoded_z|safe}}" class="zlist_item text editor">{{ i.composantes|render_text|safe }}</div>
-<div id="{{model|lower}}__{{i.id}}__original_casting_cost__value" srcval="{{i.original_casting_cost|encoded_z|safe}}" class="zlist_item simple editor">{{ i.original_casting_cost|render_text|safe }}</div>
+<div id="{{i.type}}__{{i.id}}__description__value" srcval="{{i.description|encoded_z|safe}}" class="zlist_item text editor">{{ i.description|render_text|safe }}</div>
+<div id="{{i.type}}__{{i.id}}__composantes__value" srcval="{{i.composantes|encoded_z|safe}}" class="zlist_item text editor">{{ i.composantes|render_text|safe }}</div>
+<div id="{{i.type}}__{{i.id}}__original_casting_cost__value" srcval="{{i.original_casting_cost|encoded_z|safe}}" class="zlist_item simple editor">{{ i.original_casting_cost|render_text|safe }}</div>
 
 <div class="zlist_item buffer"></div>
 <div class="zlist_item simple"><b>Points<br/>Rêve</b><br/>{{ i.dps }}</div>
@@ -20,35 +20,38 @@
 <div class="zlist_item simple"><b>Puis.</b><br/>{{i.power}}</div>
 <div class="zlist_item simple"><b>+P</b><br/>{{i.power_boost}}</div>
 
-<div id="{{model|lower}}__{{i.id}}__ground_charge" class="zlist_item symbol shifter">{{ i.ground_charge|as_ground_charge|safe }}</div>
-<div id="{{model|lower}}__{{i.id}}__hour_charge" class="zlist_item symbol shifter">{{ i.hour_charge|as_hour_charge|safe }}</div>
-<div id="{{model|lower}}__{{i.id}}__emanation_charge" class="zlist_item symbol shifter">{{ i.emanation_charge|as_emanation_charge|safe }}</div>
-<div id="{{model|lower}}__{{i.id}}__consistency_charge" class="zlist_item symbol shifter">{{ i.consistency_charge|as_consistency_charge|safe }}</div>
-<div id="{{model|lower}}__{{i.id}}__elemental_charge" class="zlist_item symbol shifter">{{ i.elemental_charge|as_elemental_charge|safe }}</div>
+<div id="{{i.type}}__{{i.id}}__ground_charge" class="zlist_item symbol shifter">{{ i.ground_charge|as_ground_charge|safe }}</div>
+<div id="{{i.type}}__{{i.id}}__hour_charge" class="zlist_item symbol shifter">{{ i.hour_charge|as_hour_charge|safe }}</div>
+<div id="{{i.type}}__{{i.id}}__emanation_charge" class="zlist_item symbol shifter">{{ i.emanation_charge|as_emanation_charge|safe }}</div>
+<div id="{{i.type}}__{{i.id}}__consistency_charge" class="zlist_item symbol shifter">{{ i.consistency_charge|as_consistency_charge|safe }}</div>
+<div id="{{i.type}}__{{i.id}}__elemental_charge" class="zlist_item symbol shifter">{{ i.elemental_charge|as_elemental_charge|safe }}</div>
 
-<div id="{{model|lower}}__{{i.id}}__diff"  class="zlist_item number shifter" title="{{i.diff}}">{%include "main/svg/diff.svg" with diff=i.diff %}</div>
+<div id="{{i.type}}__{{i.id}}__diff"  class="zlist_item number shifter" title="{{i.diff}}">{%include "main/svg/diff.svg" with diff=i.diff %}</div>
 <div class="zlist_item number">{% include "main/svg/incantessimo_roll.svg" with value=i.roll %}</div>
 <div class="zlist_item number">{{ i.spell_ready|as_bool|safe }}</div>
 
 {% else %}
 {% if model == "Nativo" %}
-<div model="{{model|lower}}" class="zlist_item number" style="order:-1;" >{{i.id}}</div>
-<div id="{{i.id}}__view" model="{{model|lower}}" class="zlist_item normal list_action" style="order:0; text-align:left;" title="view"><i class="fa fa-eye"></i></div>
-<div id="{{i.id}}__edit" model="{{model|lower}}" class="zlist_item normal list_action" style="order:0; text-align:left;" title="edit"><i class="fa fa-cog"></i></div>
-<div class="zlist_item label" model="{{model|lower}}" style="order:0">{% if i.misc.title %}{{i.misc.title}}&nbsp;{%endif%}{{ i.name }}{% if i.features.AKA %}<br/>&laquo; {{i.features.AKA}} &raquo;{%endif%}</div>
-<div class="zlist_item label" model="{{model|lower}}" style="order:3">{{i.sogni}}</div>
+<div model="{{i.type}}" class="zlist_item number">{{i.id}}</div>
+<div id="{{i.type}}__{{i.id}}__view" class="zlist_item normal list_action" title="view"><i class="fa fa-eye"></i></div>
+<div id="{{i.type}}__{{i.id}}__edit" class="zlist_item normal list_action" title="edit"><i class="fa fa-cog"></i></div>
+<div class="zlist_item label">{{ i.title }}</div>
+<div class="zlist_item label">{{ i.name }}</div>
+<div class="zlist_item label">{{ i.aka }}</div>
+<div class="zlist_item label">{{i.sogni}}</div>
 
-<div id="{{i.id}}__entrance"  srcval="{{i.entrance|encoded_z|safe}}" action="value"  class="zlist_item text editor" model="{{model|lower}}" style="order:3; text-align:left;">{{ i.misc.ENTRANCE|render_text|safe }}</div>
-<div class="zlist_item number" model="{{model|lower}}" style="order:6" title="is female">{{ i.is_female|as_bool|safe }}</div>
-<div class="zlist_item number" model="{{model|lower}}" style="order:6" title="nameless">{{ i.nameless|as_bool|safe }}</div>
-<div class="zlist_item number" model="{{model|lower}}" style="order:6" title="has bug">{{ i.has_bug|as_bool|safe }}</div>
+<div id="{{i.type}}__{{i.id}}__entrance"  srcval="{{i.entrance|encoded_z|safe}}" action="value"  class="zlist_item text editor">{{ i.entrance|render_text|safe }}</div>
+<div class="zlist_item number" model="{{i.type}}" style="order:6" title="is female">{{ i.is_female|as_bool|safe }}</div>
+<div class="zlist_item number" model="{{i.type}}" style="order:6" title="nameless">{{ i.nameless|as_bool|safe }}</div>
+<div class="zlist_item number" model="{{i.type}}" style="order:6" title="has bug">{{ i.has_bug|as_bool|safe }}</div>
 <div class="zlist_item buffer"></div>
-<div class="zlist_item number" model="{{model|lower}}" style="order:10">ATR.<br/>{{ i.misc.total_attributes }}</div>
-<div class="zlist_item number" model="{{model|lower}}" style="order:10">CMP.<br/>{{ i.misc.total_skills }}</div>
+<div class="zlist_item number" model="{{i.type}}" style="order:10">ATR.<br/>{{ i.total_attributes }}</div>
+<div class="zlist_item number" model="{{i.type}}" style="order:10">CMP.<br/>{{ i.total_skills }}</div>
+
 
 {% else %}
 {% if model == "Viaggiatore" %}
-<div id="{{model|lower}}__{{i.id}}__edit" class="zlist_item icon list_action" title="edit"><i class="fa fa-cog"></i></div>
+<div id="{{i.type}}__{{i.id}}__edit" class="zlist_item icon list_action" title="edit"><i class="fa fa-cog"></i></div>
 <div class="zlist_item label">{{ i.name }}
     {% if i.aka %}
     <br/>aka &laquo;&nbsp;{{i.aka}}&nbsp;&raquo;
@@ -59,67 +62,73 @@
 </div>
 
 <div class="zlist_item label">{{i.sogni}}</div>
-<div id="{{model|lower}}__{{i.id}}__entrance"  srcval="{{i.entrance|encoded_z|safe}}" action="value"  class="zlist_item text editor">{{ i.entrance|render_text|safe }}</div>
-<div class="zlist_item number" model="{{model|lower}}" title="Destiny & Travel Points"">DEST.<br/>{{ i.destiny|colorize_abs|safe }} ({{i.travel_points}})</div>
-<div class="zlist_item number" model="{{model|lower}}" title="Sex">{{ i.is_female|as_sex|safe }}</div>
-<div class="zlist_item number" model="{{model|lower}}" title="Skills & Attributes Status">{{ i.skills_creation_ok|as_okko|safe }}<br/>{{ i.attributes_creation_ok|as_okko|safe }}</div>
-<div class="zlist_item number" model="{{model|lower}}">+AT.<br/>{{ i.total_attributes|signed }}</div>
-<div class="zlist_item number" model="{{model|lower}}">+CO.<br/>{{ i.total_skills|signed }}</div>
-<div class="zlist_item number" model="{{model|lower}}">$A<br/>{{ i.stress_acquired }}</div>
-<div class="zlist_item number" model="{{model|lower}}">$U<br/>{{ i.stress_used }}</div>
-<div class="zlist_item number" model="{{model|lower}}">$R<br/>{{ i.stress_remaining }}</div>
+<div id="{{i.type}}__{{i.id}}__entrance"  srcval="{{i.entrance|encoded_z|safe}}" action="value"  class="zlist_item text editor">{{ i.entrance|render_text|safe }}</div>
+<div class="zlist_item number" model="{{i.type}}" title="Destiny & Travel Points"">DEST.<br/>{{ i.destiny|colorize_abs|safe }} ({{i.travel_points}})</div>
+<div class="zlist_item number" model="{{i.type}}" title="Sex">{{ i.is_female|as_sex|safe }}</div>
+<div class="zlist_item number" model="{{i.type}}" title="Skills & Attributes Status">{{ i.skills_creation_ok|as_okko|safe }}<br/>{{ i.attributes_creation_ok|as_okko|safe }}</div>
+<div class="zlist_item number" model="{{i.type}}">+AT.<br/>{{ i.total_attributes|signed }}</div>
+<div class="zlist_item number" model="{{i.type}}">+CO.<br/>{{ i.total_skills|signed }}</div>
+<div class="zlist_item number" model="{{i.type}}">$A<br/>{{ i.stress_acquired }}</div>
+<div class="zlist_item number" model="{{i.type}}">$U<br/>{{ i.stress_used }}</div>
+<div class="zlist_item number" model="{{i.type}}">$R<br/>{{ i.stress_remaining }}</div>
 <div class="zlist_item buffer"></div>
-<div class="zlist_item text" model="{{model|lower}}">{{ i.bug_list|render_text|safe}}</div>
+<div class="zlist_item text" model="{{i.type}}">{{ i.bug_list|render_text|safe}}</div>
 {% else %}
 {% if model == "Creatura" %}
-<div id="{{model|lower}}__{{i.id}}__edit" model="{{model|lower}}" class="zlist_item normal list_action" style="order:0; text-align:left;" title="edit"><i class="fa fa-cog"></i></div>
-<div class="zlist_item number" model="{{model|lower}}" style="order:6" title="has bug">{{ i.has_bug|as_bool|safe }}</div>
-<div class="zlist_item label" model="{{model|lower}}" style="order:0">{{ i.name }}{% if i.AKA %}<br/>&laquo; {{i.AKA}} &raquo;{%endif%}</div>
-<div class="zlist_item label" model="{{model|lower}}" style="order:0">{{ i.creature_type_str }}</div>
+<div id="{{i.type}}__{{i.id}}__edit" model="{{i.type}}" class="zlist_item normal list_action" style="order:0; text-align:left;" title="edit"><i class="fa fa-cog"></i></div>
+<div class="zlist_item number" model="{{i.type}}" style="order:6" title="has bug">{{ i.has_bug|as_bool|safe }}</div>
+<div class="zlist_item label" model="{{i.type}}" style="order:0">{{ i.name }}{% if i.AKA %}<br/>&laquo; {{i.AKA}} &raquo;{%endif%}</div>
+<div class="zlist_item label" model="{{i.type}}" style="order:0">{{ i.creature_type_str }}</div>
 
-<div id="{{model|lower}}__{{i.id}}__description"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" model="{{model|lower}}" style="order:3; text-align:left;">{{ i.misc.DESCRIPTION|render_text|safe }}</div>
+<div id="{{i.type}}__{{i.id}}__description"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" model="{{i.type}}" style="order:3; text-align:left;">{{ i.misc.DESCRIPTION|render_text|safe }}</div>
 
 
-<div class="zlist_item text editor" model="{{model|lower}}" style="order:3; text-align:left;">{{ i.bug_list|render_text|safe }}</div>
+<div class="zlist_item text editor" model="{{i.type}}" style="order:3; text-align:left;">{{ i.bug_list|render_text|safe }}</div>
 
-<div class="zlist_item number" model="{{model|lower}}" style="order:10">ATR.<br/>{{ i.total_attributes }}</div>
-<div class="zlist_item number" model="{{model|lower}}" style="order:10">CMP.<br/>{{ i.total_skills }}</div>
+<div class="zlist_item number" model="{{i.type}}" style="order:10">ATR.<br/>{{ i.total_attributes }}</div>
+<div class="zlist_item number" model="{{i.type}}" style="order:10">CMP.<br/>{{ i.total_skills }}</div>
 
 {% else %}
 {% if model == "Artefatto" %}
-<div model="{{model|lower}}" class="zlist_item number" style="order:-1;" >{{i.id}}</div>
-<div id="{{model|lower}}__{{i.id}}__view" model="{{model|lower}}" class="zlist_item normal list_action" style="order:0; text-align:left;" title="view"><i class="fa fa-eye"></i></div>
-<div class="zlist_item label" model="{{model|lower}}" style="order:0">{{ i.category }}</div>
-<div class="zlist_item label" model="{{model|lower}}" style="order:0">{% if i.misc.title %}{{i.misc.title}}&nbsp;{%endif%}{{ i.name }}{% if i.features.AKA %}<br/>&laquo; {{i.features.AKA}} &raquo;{%endif%}</div>
+<div model="{{i.type}}" class="zlist_item number" style="order:-1;" >{{i.id}}</div>
+<div id="{{i.type}}__{{i.id}}__view" model="{{i.type}}" class="zlist_item normal list_action" style="order:0; text-align:left;" title="view"><i class="fa fa-eye"></i></div>
+<div class="zlist_item label" model="{{i.type}}" style="order:0">{{ i.category }}</div>
+<div class="zlist_item label" model="{{i.type}}" style="order:0">{% if i.misc.title %}{{i.misc.title}}&nbsp;{%endif%}{{ i.name }}{% if i.features.AKA %}<br/>&laquo; {{i.features.AKA}} &raquo;{%endif%}</div>
 
-<div id="{{model|lower}}__{{i.id}}__glance"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" >{{ i.glance|render_text|safe }}</div>
-<div id="{{model|lower}}__{{i.id}}__description"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" >{{ i.description|render_text|safe }}</div>
-<div id="{{model|lower}}__{{i.id}}__rules"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" >{{ i.rules|render_text|safe }}</div>
-<div id="{{model|lower}}__{{i.id}}__notes"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" >{{ i.notes|render_text|safe }}</div>
-
-<div class="zlist_item symbol" model="{{model|lower}}" style="order:6" title="has bug">{{ i.has_bug|as_bool|safe }}</div>
+<div id="{{i.type}}__{{i.id}}__glance"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" >{{ i.glance|render_text|safe }}</div>
+<div id="{{i.type}}__{{i.id}}__description"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" >{{ i.description|render_text|safe }}</div>
+<div id="{{i.type}}__{{i.id}}__rules"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" >{{ i.rules|render_text|safe }}</div>
+<div id="{{i.type}}__{{i.id}}__notes"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" >{{ i.notes|render_text|safe }}</div>
+<div class="zlist_item buffer"></div>
+<div class="zlist_item symbol" model="{{i.type}}" style="order:6" title="has bug">{{ i.has_bug|as_bool|safe }}</div>
 
 
 
 {% else %}
 {% if model == "Oggetto" %}
-<div model="{{model|lower}}" class="zlist_item number" style="order:-1;" >{{i.id}}</div>
-<div id="{{model|lower}}__{{i.id}}__edit" class="zlist_item normal list_action" title="edit"><i class="fa fa-cog"></i></div>
-<div class="zlist_item label" model="{{model|lower}}" style="order:0">{{ i.category_text }}</div>
-<div class="zlist_item label" model="{{model|lower}}" style="order:0">{% if i.misc.title %}{{i.misc.title}}&nbsp;{%endif%}{{ i.name }}{% if i.features.AKA %}<br/>&laquo; {{i.features.AKA}} &raquo;{%endif%}</div>
+<div model="{{i.type}}" class="zlist_item number" style="order:-1;" >{{i.id}}</div>
+<div id="{{i.type}}__{{i.id}}__edit" class="zlist_item normal list_action" title="edit"><i class="fa fa-cog"></i></div>
+<div class="zlist_item label">{{ i.category_text }}</div>
+<div class="zlist_item label">{% if i.misc.title %}{{i.misc.title}}&nbsp;{%endif%}{{ i.name }}{% if i.features.AKA %}<br/>&laquo; {{i.features.AKA}} &raquo;{%endif%}</div>
+<div id="{{i.type}}__{{i.id}}__description__value"  srcval="{{i.description|encoded_z|safe}}" class="zlist_item text editor">{{ i.description|render_text|safe }}</div>
+<div class="zlist_item buffer"></div>
+<div class="zlist_item number">Enc.<br/>{{ i.enc }}</div>
+<div class="zlist_item text">Prix.<br/>{{ i.price|as_money }}</div>
 {% if i.category == 21%}
-<div class="zlist_item label" model="{{model|lower}}" style="order:0">{{ i.materiaux }}</div>
-<div class="zlist_item number" model="{{model|lower}}" style="order:0">PROT.<br/>{{ i.prot }}</div>
-<div class="zlist_item number" model="{{model|lower}}" style="order:0">RES.<br/>{{ i.resistance }}</div>
-<div class="zlist_item number" model="{{model|lower}}" style="order:0">QUAL.<br/>{{ i.quality }}</div>
-<div class="zlist_item symbol" model="{{model|lower}}" style="order:0">{{ i.cover|as_cover|safe }}</div>
-<div class="zlist_item label" model="{{model|lower}}" style="order:0">{{ i.cover|as_text_cover|safe }}</div>
-<div class="zlist_item number" model="{{model|lower}}" style="order:0">AGI<br/>{{ i.malus_AGI }}</div>
-<div class="zlist_item number" model="{{model|lower}}" style="order:0">DEX<br/>{{ i.malus_DEX }}</div>
-<div class="zlist_item number" model="{{model|lower}}" style="order:0">VUE<br/>{{ i.malus_VUE }}</div>
-<div class="zlist_item number" model="{{model|lower}}" style="order:0">OUI.<br/>{{ i.malus_OUI }}</div>
+
+<div class="zlist_item label" model="{{i.type}}" style="order:0">{{ i.materiaux }}</div>
+<div class="zlist_item number" model="{{i.type}}" style="order:0">PROT.<br/>{{ i.prot }}</div>
+<div class="zlist_item number" model="{{i.type}}" style="order:0">RES.<br/>{{ i.resistance }}</div>
+<div class="zlist_item number" model="{{i.type}}" style="order:0">QUAL.<br/>{{ i.quality }}</div>
+<div class="zlist_item symbol" model="{{i.type}}" style="order:0">{{ i.cover|as_cover|safe }}</div>
+<div class="zlist_item label" model="{{i.type}}" style="order:0">{{ i.cover|as_text_cover|safe }}</div>
+<div class="zlist_item number" model="{{i.type}}" style="order:0">AGI<br/>{{ i.malus_AGI }}</div>
+<div class="zlist_item number" model="{{i.type}}" style="order:0">DEX<br/>{{ i.malus_DEX }}</div>
+<div class="zlist_item number" model="{{i.type}}" style="order:0">VUE<br/>{{ i.malus_VUE }}</div>
+<div class="zlist_item number" model="{{i.type}}" style="order:0">OUI.<br/>{{ i.malus_OUI }}</div>
+
 {%endif%}
-<div id="{{model|lower}}__{{i.id}}__description"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" model="{{model|lower}}" style="order:3; text-align:left;">{{ i.description|render_text|safe }}</div>
+
 
 
 {% else %}
