@@ -50,6 +50,7 @@ class Character(models.Model, ChiaroscuroMixin):
     spells = models.TextField(max_length=1024, default="", blank=True)
     bug_list = models.TextField(default="", max_length=1024, blank=True)
     imc = models.FloatField(default=0, blank=True)
+    imc_boost = models.FloatField(default=0, blank=True)
     place = models.CharField(max_length=256, default="", blank=True)
     attributes = models.CharField(max_length=64, default="", blank=True)
     secondaries = models.CharField(max_length=64, default="", blank=True)
@@ -68,7 +69,7 @@ class Character(models.Model, ChiaroscuroMixin):
     priority = models.IntegerField(default=0, blank=True)
     klass = models.CharField(max_length=16, default="Character", blank=True)
     protection_map = models.CharField(max_length=256, blank=True, default="H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X")
-    skills_map_str = models.TextField(max_length=2048*4, default="{}", blank=True)
+    skills_map_str = models.TextField(max_length=2048*6, default="{}", blank=True)
     archetype_str = models.TextField(max_length=2048*2, default="{}", blank=True)
 
     old_creation_attributes = models.BooleanField(default=False, blank=True)
@@ -176,7 +177,7 @@ class Character(models.Model, ChiaroscuroMixin):
             h = 170
         height = h / 100
         IMC = 15 + int(self.value_for("CON"))*0.5 + int(self.value_for("FOR")) - int(self.value_for("AGI"))*1 + int(self.value_for("AGI")) + (5-int(self.value_for("APP")))
-        weight = IMC * height ** 2
+        weight = (IMC+float(self.imc_boost)) * height ** 2
         self.imc = IMC
         self.weight = round(weight)
 
@@ -865,7 +866,7 @@ class Character(models.Model, ChiaroscuroMixin):
         """
         # 1) Get all non default characteristics, ordered by absolute
         root = CHARACTER_STATISTICS["SKILLS"]
-        for x in range(20,0,-1):
+        for x in range(12,1,-1):
             self.skills_map["values"][f"{x:02}"] = {"perfects": [], "enhanced": [], "low": [], "default": []}
         use_archetype = False
         if self.archetype_str != "{}":
@@ -878,69 +879,94 @@ class Character(models.Model, ChiaroscuroMixin):
         # 3) Spots (-5,-4,-3,-2,-1)
         creation_spots = [-5]+[-4 for _ in range(3)]+[-3 for _ in range(6)]+[-2 for _ in range(8)]+[-1 for _ in range(10)]
 
-        for branch_key, branch in root.items():
-            # check all levels in the reference
-            for level_key, level in levels.items():
+        # Archetype not yet defined
+        if not use_archetype:
+            print("*** NO ARCHETYPE ***")
+            # We check only the mapping here
+            # for level_key, level in levels.items():
+            for level_key in range(20, 0, -1):
                 # For each level of the mapping
+                for branch_key, branch in root.items():
+                    # check all levels in the reference
+                    default = branch["DEFAULT"]
+                    for stat in branch["LIST"]:
+                        tgt = stat["NAME"]
+                        val = int(self.value_for(tgt))
+                        lvl = level_key
+                        absolute = val - default
+                        # The pool contains all the values skills already placed
+                        if tgt not in self.skills_map["all"]:
+                            if val >= 1:
+                                if lvl in creation_values:
+                                    if default in creation_spots:
+                                        if val == lvl:
+                                            # Perfect
+                                            creation_values.remove(lvl)
+                                            creation_spots.remove(default)
+                                            self.skills_map["all"][tgt] = {"category": 3, "value": lvl, "rationale": "PERFECT", "code": tgt, "default":default, "stress":0, "archetype":1}
+                                        # elif absolute > lvl:
+                                        #     # Enhanced
+                                        #     creation_values.remove(lvl)
+                                        #     creation_spots.remove(default)
+                                        #     self.skills_map["all"][tgt] = {"category": 4, "value": lvl, "rationale": "ENHANCED", "code": tgt, "default":default, "stress":0, "archetype":1}
+                                # else:
+                                #     if default not in creation_spots:
+                                #         if use_archetype:
+                                #             if tgt in archetype:
+                                #                 entry = archetype[tgt]
+                                #                 if entry["value"] < val:
+                                #                     self.skills_map["all"][tgt] = {"category": 4, "value": val, "rationale": "ENHANCED", "code": tgt,
+                                #                                               "default": default, "stress":0, "archetype":0}
+                                #                 elif entry["value"] == val:
+                                #                     self.skills_map["all"][tgt] = {"category": 3, "value": val, "rationale": "PERFECT", "code": tgt,
+                                #                                               "default": default, "stress":0, "archetype":0}
+                                #                 else:
+                                #                     self.skills_map["all"][tgt] = {"category": 2, "value": val, "rationale": "LOW", "code": tgt, "default": default, "stress":0, "archetype":0}
+                                        # else:
+                                        #     # low
+                                        #     # level['low'].append(tgt)
+                                        #     self.skills_map["all"][tgt] = {"category": 2, "value": val, "rationale": "LOW", "code": tgt, "default":default, "archetype":0}
+        else:
+            # Archetype is Ok
+            # The mapping has been parsed... just tracking the low ones...
+            for branch_key, branch in root.items():
                 default = branch["DEFAULT"]
                 for stat in branch["LIST"]:
                     tgt = stat["NAME"]
                     val = int(self.value_for(tgt))
-                    lvl = int(level_key)
                     absolute = val - default
-                    # The pool contains all the values skills already placed
-                    if tgt not in self.skills_map["all"]:
-                        if val == default:
-                            # This is a default value, like -5 in draconic (-5) or -1 in weapons (-1)
-                            # Untouched values like this are always in the default sub pool
-                            if absolute == lvl:
-                                # level['default'].append(tgt)
-                                self.skills_map["all"][tgt] = {"category": 1, "value": val, "rationale": "DEFAULT", "code": tgt, "default":default, "stress":0}
-                        elif default < val < 1:
-                            # We are with a value between default and 1
-                            # e.g. -4 to 0 for a draconic (-5) or -3 to 0 for a knowledge (-4)
-                            # This is a low one, that will have nothing to do with the creation values
-                            if absolute == lvl:
-                                # level['low'].append(tgt)
-                                self.skills_map["all"][tgt] = {"category": 2, "value": val, "rationale": "LOW", "code": tgt, "default":default, "stress":0}
-                        elif val >= 1:
-                            if lvl in creation_values:
-                                if default in creation_spots:
-                                    if val == lvl:
-                                        # Perfect
-                                        creation_values.remove(lvl)
-                                        creation_spots.remove(default)
-                                        # level['perfects'].append(tgt)
-                                        self.skills_map["all"][tgt] = {"category": 3, "value": val, "rationale": "PERFECT", "code": tgt, "default":default, "stress":0}
-                                    elif val > lvl:
-                                        # Enhanced
-                                        creation_values.remove(lvl)
-                                        creation_spots.remove(default)
-                                        # level['enhanced'].append(tgt)
-                                        self.skills_map["all"][tgt] = {"category": 4, "value": lvl, "rationale": "ENHANCED", "code": tgt, "default":default, "stress":0}
-                                else:
-                                    # low
-                                    # level['low'].append(tgt)
-                                    self.skills_map["all"][tgt] = {"category": 2, "value": val, "rationale": "LOW", "code": tgt, "default":default, "stress":0}
-                            else:
-                                if default not in creation_spots:
-                                    if use_archetype:
-                                        if tgt in archetype:
-                                            entry = archetype[tgt]
-                                            if entry["value"] < val:
-                                                self.skills_map["all"][tgt] = {"category": 4, "value": val, "rationale": "ENHANCED", "code": tgt,
-                                                                          "default": default, "stress":0}
-                                            elif entry["value"] == val:
-                                                self.skills_map["all"][tgt] = {"category": 3, "value": val, "rationale": "PERFECT", "code": tgt,
-                                                                          "default": default, "stress":0}
-                                            else:
-                                                self.skills_map["all"][tgt] = {"category": 2, "value": val, "rationale": "LOW", "code": tgt, "default": default, "stress":0}
+                    # if tgt not in self.skills_map["all"]:
+                    if not tgt in archetype:
+                        if absolute > 0:
+                            self.skills_map["all"][tgt] = {"category": 2, "value": val, "rationale": "LOW", "code": tgt, "default": default, "archetype": 0}
+                        else:
+                            if use_archetype:
+                                if tgt in archetype:
+                                    entry = archetype[tgt]
+                                    if entry["value"] < val:
+                                        self.skills_map["all"][tgt] = {"category": 4, "value": val, "rationale": "ENHANCED", "code": tgt,
+                                                                   "default": default, "stress": 0, "archetype": 0}
+                    else:
+                        if tgt in archetype:
+                            entry = archetype[tgt]
+                            if entry["value"] < val:
+                                creation_values.remove(entry["value"])
+                                creation_spots.remove(default)
+                                self.skills_map["all"][tgt] = {"category": 4, "value": entry["value"], "rationale": "ENHANCED", "code": tgt,
+                                                          "default": default, "stress":0, "archetype":1}
+                            elif entry["value"] == val:
+                                creation_values.remove(entry["value"])
+                                creation_spots.remove(default)
+                                self.skills_map["all"][tgt] = {"category": 3, "value": entry["value"], "rationale": "PERFECT", "code": tgt,
+                                                          "default": default, "stress":0, "archetype":1}
+                                # else:
+                                #     self.skills_map["all"][tgt] = {"category": 1, "value": val, "rationale": "DEFAULT", "code": tgt, "default": default, "archetype": 0}
 
-                                    else:
-                                        # low
-                                        # level['low'].append(tgt)
-                                        self.skills_map["all"][tgt] = {"category": 2, "value": val, "rationale": "LOW", "code": tgt, "default":default}
         self.skills_creation_ok = len(creation_values)+len(creation_spots) == 0
+        if self.skills_creation_ok:
+            print("*** READY FOR ARCHETYPE ***")
+        else:
+            print("*** ARCHETYPE UNDEFINED ***")
         self.skills_map["values"] = levels
 
 
@@ -963,7 +989,6 @@ class Character(models.Model, ChiaroscuroMixin):
                 self.bugs.append("(---) Skills control ok.")
             else:
                 self.bugs.append("(???) Missing skills control")
-            # self.skills_map_str = json.dumps(self.skills_map)
             self.store_archetype()
             # Computing Stress
             self.compute_skills_stress()
@@ -981,7 +1006,7 @@ class Character(models.Model, ChiaroscuroMixin):
             retemp = [str(a) for a in arr]
             self.pure_skills_total = " ".join(retemp)
             self.skills_map_str = json.dumps(self.skills_map)
-            print(json.dumps(self.skills_map["all"],indent=2))
+            # print(json.dumps(self.skills_map["all"],indent=2))
 
     def store_archetype(self):
         if self.archetype_str == "{}":

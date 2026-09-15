@@ -60,17 +60,16 @@
     <br/>par {{i.player}}
     {%endif%}
 </div>
-
 <div class="zlist_item label">{{i.sogni}}</div>
 <div id="{{i.type}}__{{i.id}}__entrance"  srcval="{{i.entrance|encoded_z|safe}}" action="value"  class="zlist_item text editor">{{ i.entrance|render_text|safe }}</div>
-<div class="zlist_item number" model="{{i.type}}" title="Destiny & Travel Points"">DEST.<br/>{{ i.destiny|colorize_abs|safe }} ({{i.travel_points}})</div>
+<div class="zlist_item Label" title="Destiny & Travel Points"">DEST.<br/>{{ i.destiny|colorize_abs|safe }} ({{i.travel_points}})</div>
 <div class="zlist_item number" model="{{i.type}}" title="Sex">{{ i.is_female|as_sex|safe }}</div>
 <div class="zlist_item number" model="{{i.type}}" title="Skills & Attributes Status">{{ i.skills_creation_ok|as_okko|safe }}<br/>{{ i.attributes_creation_ok|as_okko|safe }}</div>
 <div class="zlist_item number" model="{{i.type}}">+AT.<br/>{{ i.total_attributes|signed }}</div>
 <div class="zlist_item number" model="{{i.type}}">+CO.<br/>{{ i.total_skills|signed }}</div>
-<div class="zlist_item number" model="{{i.type}}">$A<br/>{{ i.stress_acquired }}</div>
-<div class="zlist_item number" model="{{i.type}}">$U<br/>{{ i.stress_used }}</div>
-<div class="zlist_item number" model="{{i.type}}">$R<br/>{{ i.stress_remaining }}</div>
+<div class="zlist_item number" model="{{i.type}}">S.A<br/>{{ i.stress_acquired }}</div>
+<div class="zlist_item number" model="{{i.type}}">S.U<br/>{{ i.stress_used }}</div>
+<div class="zlist_item number" model="{{i.type}}">S.R<br/>{{ i.stress_remaining }}</div>
 <div class="zlist_item buffer"></div>
 <div class="zlist_item text" model="{{i.type}}">{{ i.bug_list|render_text|safe}}</div>
 {% else %}

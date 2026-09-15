@@ -116,7 +116,13 @@
             </div>
             <div class="stat">
                 <div class="label fixed">Poids</div>
-                <div class="data auto">{{a.weight}}&nbsp;kg</div>
+                <div class="data auto">{{a.weight}}&nbsp;kg (IMC:{{a.imc}})</div>
+            </div>
+            <div class="stat">
+                <div class="label fixed">Modif. IMC</div>
+                <div class="data auto interactive_element">
+                    <span class="editor" id="{{a.type}}__{{a.id}}__imc_boost__value" srcval="{{a.imc_boost}}">{{a.imc_boost}}</span>
+                </div>
             </div>
             <div class="stat">
                 <div class="label fixed">Main forte</div>

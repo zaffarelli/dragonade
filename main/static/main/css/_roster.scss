@@ -302,7 +302,7 @@
                         &.interactive_element{
                             cursor:crosshair;
                             border:1pt dotted $hlco;
-                            color:$hlco;
+//                             color:$hlco;
                             &.selected{
                                 border:1pt solid $hlco;
                                 background: $hlbg;

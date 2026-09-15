@@ -3,13 +3,12 @@
 
 
 <div class="stat">
-    <div class="label lazy" style="color:#a0a0a0;" title="{{sk}} ({{cv.rationale|title}})">{{sk|as_skill|safe}}
+    <div class="label lazy" style="color:#a0a0a0;" title="{{sk}} ({{cv.rationale|title}}) [stress dépensé = {{cv.stress}}]">{{sk|as_skill|safe}}
         <span class="creation_value cv{{cv.value}}" param="cv{{cv.value}}">
             {% if cv %}&nbsp;
-
-                    {% if cv.category == 1 %}
+                    {%if cv.category == 1 %}
                         <i class="fa fa-circle-dot"
-                        style="color:#1b1b1b;"
+                            style="color:#101010;"
                         >
                     {%elif cv.category == 2 %}
                         <i class="fa fa-circle-plus"
@@ -30,11 +29,10 @@
                            {%else%}
                             style="color:darkkhaki;"
                            {%endif%}
-
                         >
                     {%endif%}
 
-                </i>&nbsp;{{cv.value}} [${{cv.stress}}]
+                </i>&nbsp;{{cv.value}}
         {%endif%}
         </span>
     </div>

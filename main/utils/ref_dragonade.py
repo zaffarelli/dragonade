@@ -79,6 +79,7 @@ CHARACTER_STATISTICS = {
             {"NAME": "sogni", "TEXT": "Rêves Joués", "RATIONALE": "-"},
             {"NAME": "stress_acquired", "TEXT": "Stress acquis", "RATIONALE": "-"},
             {"NAME": "travel_points", "TEXT": "Points de Voyage", "RATIONALE": "-"},
+            {"NAME": "imc_boost", "TEXT": "Modificateur IMC (+5/-5)", "RATIONALE": "-"},
         ]
     },
     "SKILLS": {
