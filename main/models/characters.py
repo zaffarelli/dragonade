@@ -69,8 +69,8 @@ class Character(models.Model, ChiaroscuroMixin):
     priority = models.IntegerField(default=0, blank=True)
     klass = models.CharField(max_length=16, default="Character", blank=True)
     protection_map = models.CharField(max_length=256, blank=True, default="H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X")
-    skills_map_str = models.TextField(max_length=2048*6, default="{}", blank=True)
-    archetype_str = models.TextField(max_length=2048*2, default="{}", blank=True)
+    skills_map_str = models.TextField(max_length=2048 * 6, default="{}", blank=True)
+    archetype_str = models.TextField(max_length=2048 * 2, default="{}", blank=True)
 
     old_creation_attributes = models.BooleanField(default=False, blank=True)
 
@@ -176,8 +176,9 @@ class Character(models.Model, ChiaroscuroMixin):
         if h <= 0:
             h = 170
         height = h / 100
-        IMC = 15 + int(self.value_for("CON"))*0.5 + int(self.value_for("FOR")) - int(self.value_for("AGI"))*1 + int(self.value_for("AGI")) + (5-int(self.value_for("APP")))
-        weight = (IMC+float(self.imc_boost)) * height ** 2
+        IMC = 15 + int(self.value_for("CON")) * 0.5 + int(self.value_for("FOR")) - int(self.value_for("AGI")) * 1 + int(self.value_for("AGI")) + (
+                    5 - int(self.value_for("APP")))
+        weight = (IMC + float(self.imc_boost)) * height ** 2
         self.imc = IMC
         self.weight = round(weight)
 
@@ -375,7 +376,7 @@ class Character(models.Model, ChiaroscuroMixin):
         self._data["skills_summary"] = self.skills_summary()
         self._data['roster_text'] = self.roster_as_text()
 
-        if self.type=="Viaggiatore":
+        if self.type == "Viaggiatore":
             t = self.pure_skills_total.split(" ")
             tt = [int(x) for x in t]
             self._data['pure_total_weapons'] = tt[0]
@@ -435,8 +436,8 @@ class Character(models.Model, ChiaroscuroMixin):
             d['stat_value'] = stat_value
             d['stat_name'] = svs[str(weapon.category)]
             d['IMP'] = self.IMP
-            d['base_score'] = int(stat_value) + int(d['related_skill_value'])
-            d['stat_skill'] = f"{svs[str(weapon.category)]}+{d['related_skill_value']}={int(stat_value) + int(d['related_skill_value'])}"
+            d['base_score'] = int(stat_value) + int(d['related_skill_value']) + int(d["mod_att"]) + int(d['maneuver'])
+            d['stat_skill'] = f"{svs[str(weapon.category)]}+{d['related_skill_value']}+Man={int(stat_value) + int(d['related_skill_value'])}"
             list.append(d)
             # print(d)
         return list
@@ -597,25 +598,6 @@ class Character(models.Model, ChiaroscuroMixin):
         #     else:
         #         print(f"We might be lost in `entry_for` str=[{str}] stat=[{stat}]: [{root}]")
         return found, statistic_property
-
-    # def index_for(self, str):
-    #     """
-    #     :param str: The code for the stat
-    #     :returns: the position in the description as a:b:c
-    #     """
-    #     result = None
-    #     print("INDEX FOR",str)
-    #     from main.utils.ref_dragonade import known
-    #     choices = ["ATTRIBUTES", "SKILLS:WEAPONS", "SKILLS:GENERIC", "SKILLS:PECULIAR", "SKILLS:SPECIALIZED", "SKILLS:KNOWLEDGE", "SKILLS:DRACONIC",
-    #                "SECONDARIES", "MISC", "FEATURES"]
-    #     for choice in choices:
-    #         root = CHARACTER_STATISTICS[choice]
-    #         # result = known(choice, str)
-    #         for item in root["LIST"]:
-    #             if item["NAME"] == str:
-    #                 result = item
-    #                 break
-    #     return result
 
     def roster(self):
         """
@@ -856,7 +838,6 @@ class Character(models.Model, ChiaroscuroMixin):
     def randomize(self):
         pass
 
-
     def track_skills_at_creation(self):
         """
             From a root in CHARACTER_STATISTICS:
@@ -866,7 +847,7 @@ class Character(models.Model, ChiaroscuroMixin):
         """
         # 1) Get all non default characteristics, ordered by absolute
         root = CHARACTER_STATISTICS["SKILLS"]
-        for x in range(12,1,-1):
+        for x in range(12, 1, -1):
             self.skills_map["values"][f"{x:02}"] = {"perfects": [], "enhanced": [], "low": [], "default": []}
         use_archetype = False
         if self.archetype_str != "{}":
@@ -877,7 +858,7 @@ class Character(models.Model, ChiaroscuroMixin):
         # 2) Values
         creation_values = [7, 6, 6, 5, 5, 5, 4, 4, 4, 4, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1]
         # 3) Spots (-5,-4,-3,-2,-1)
-        creation_spots = [-5]+[-4 for _ in range(3)]+[-3 for _ in range(6)]+[-2 for _ in range(8)]+[-1 for _ in range(10)]
+        creation_spots = [-5] + [-4 for _ in range(3)] + [-3 for _ in range(6)] + [-2 for _ in range(8)] + [-1 for _ in range(10)]
 
         # Archetype not yet defined
         if not use_archetype:
@@ -903,29 +884,8 @@ class Character(models.Model, ChiaroscuroMixin):
                                             # Perfect
                                             creation_values.remove(lvl)
                                             creation_spots.remove(default)
-                                            self.skills_map["all"][tgt] = {"category": 3, "value": lvl, "rationale": "PERFECT", "code": tgt, "default":default, "stress":0, "archetype":1}
-                                        # elif absolute > lvl:
-                                        #     # Enhanced
-                                        #     creation_values.remove(lvl)
-                                        #     creation_spots.remove(default)
-                                        #     self.skills_map["all"][tgt] = {"category": 4, "value": lvl, "rationale": "ENHANCED", "code": tgt, "default":default, "stress":0, "archetype":1}
-                                # else:
-                                #     if default not in creation_spots:
-                                #         if use_archetype:
-                                #             if tgt in archetype:
-                                #                 entry = archetype[tgt]
-                                #                 if entry["value"] < val:
-                                #                     self.skills_map["all"][tgt] = {"category": 4, "value": val, "rationale": "ENHANCED", "code": tgt,
-                                #                                               "default": default, "stress":0, "archetype":0}
-                                #                 elif entry["value"] == val:
-                                #                     self.skills_map["all"][tgt] = {"category": 3, "value": val, "rationale": "PERFECT", "code": tgt,
-                                #                                               "default": default, "stress":0, "archetype":0}
-                                #                 else:
-                                #                     self.skills_map["all"][tgt] = {"category": 2, "value": val, "rationale": "LOW", "code": tgt, "default": default, "stress":0, "archetype":0}
-                                        # else:
-                                        #     # low
-                                        #     # level['low'].append(tgt)
-                                        #     self.skills_map["all"][tgt] = {"category": 2, "value": val, "rationale": "LOW", "code": tgt, "default":default, "archetype":0}
+                                            self.skills_map["all"][tgt] = {"category": 3, "value": lvl, "rationale": "PERFECT", "code": tgt, "default": default,
+                                                                           "stress": 0, "archetype": 1}
         else:
             # Archetype is Ok
             # The mapping has been parsed... just tracking the low ones...
@@ -945,7 +905,7 @@ class Character(models.Model, ChiaroscuroMixin):
                                     entry = archetype[tgt]
                                     if entry["value"] < val:
                                         self.skills_map["all"][tgt] = {"category": 4, "value": val, "rationale": "ENHANCED", "code": tgt,
-                                                                   "default": default, "stress": 0, "archetype": 0}
+                                                                       "default": default, "stress": 0, "archetype": 0}
                     else:
                         if tgt in archetype:
                             entry = archetype[tgt]
@@ -953,24 +913,21 @@ class Character(models.Model, ChiaroscuroMixin):
                                 creation_values.remove(entry["value"])
                                 creation_spots.remove(default)
                                 self.skills_map["all"][tgt] = {"category": 4, "value": entry["value"], "rationale": "ENHANCED", "code": tgt,
-                                                          "default": default, "stress":0, "archetype":1}
+                                                               "default": default, "stress": 0, "archetype": 1}
                             elif entry["value"] == val:
                                 creation_values.remove(entry["value"])
                                 creation_spots.remove(default)
                                 self.skills_map["all"][tgt] = {"category": 3, "value": entry["value"], "rationale": "PERFECT", "code": tgt,
-                                                          "default": default, "stress":0, "archetype":1}
+                                                               "default": default, "stress": 0, "archetype": 1}
                                 # else:
                                 #     self.skills_map["all"][tgt] = {"category": 1, "value": val, "rationale": "DEFAULT", "code": tgt, "default": default, "archetype": 0}
 
-        self.skills_creation_ok = len(creation_values)+len(creation_spots) == 0
+        self.skills_creation_ok = len(creation_values) + len(creation_spots) == 0
         if self.skills_creation_ok:
             print("*** READY FOR ARCHETYPE ***")
         else:
             print("*** ARCHETYPE UNDEFINED ***")
         self.skills_map["values"] = levels
-
-
-
 
     def challenge_skills(self):
         """
@@ -1013,15 +970,13 @@ class Character(models.Model, ChiaroscuroMixin):
             if self.skills_creation_ok:
                 archetype = {}
                 # skills_map = json.loads(self.skills_map_str)
-                for k,v in self.skills_map["all"].items():
+                for k, v in self.skills_map["all"].items():
                     if v["category"] == 3:
                         archetype[k] = v
                 self.archetype_str = json.dumps(archetype)
                 print(f"Archetype for {self.name} updated.")
         else:
             print(f"Archetype already exists for [{self.name}].")
-
-
 
     def compute_attributes_stress(self):
         # Check Attributes
@@ -1072,7 +1027,7 @@ class Character(models.Model, ChiaroscuroMixin):
         stress = 0
         for k, v in self.skills_map["all"].items():
             self.skills_map["all"][k]["stress"] = 0
-            if v["category"] == 4: # ENHANCED
+            if v["category"] == 4:  # ENHANCED
                 next_val = int(self.value_for(k))
                 cur = v['value']
                 d = v['default']
@@ -1081,7 +1036,7 @@ class Character(models.Model, ChiaroscuroMixin):
                     s = cur - d
                     stress += s
                     self.skills_map["all"][k]["stress"] += s
-            elif v["category"] == 2: # LOW
+            elif v["category"] == 2:  # LOW
                 next_val = int(self.value_for(k))
                 cur = v['default']
                 d = v['default']
@@ -1091,7 +1046,6 @@ class Character(models.Model, ChiaroscuroMixin):
                     stress += s
                     self.skills_map["all"][k]["stress"] += s
         self.stress_used = stress
-
 
     def pure_total(self, arr):
         temp = arr.split(" ")

@@ -108,7 +108,7 @@ class Oggetto(models.Model, ChiaroscuroMixin):
 
     def fix(self):
         self.chiaroscuro()
-        self.rid = as_rid(f"{self.name}_{self.category}")
+        self.rid = as_rid(f"{self.name}")
         # if self.cover != "":
         #     new_covers = []
         #     covers = self.cover.upper().split(" ")
@@ -268,15 +268,14 @@ class OggettoAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ['category', 'related_attribute', 'name']
     # Armors
-    list_display = ["rid","name", "id", "category", "cover", "enc", "price", "resistance", "materiaux", "prot", "quality",
-                    "malus_AGI", "malus_DEX",
-                    "malus_VUE", "malus_OUI","force_min"
-                    ]
-    list_editable = ["category", "cover", "materiaux", "resistance","quality","force_min"]
-    # Weapons
-    # list_display = ["rid", "id", "category", "name", "maneuver","related_skill", "related_skill_name", "engagement", "enc", "price", "resistance","force_min"
+    # list_display = ["rid","name", "id", "category", "cover", "enc", "price", "resistance", "materiaux", "prot", "quality",
+    #                 "malus_AGI", "malus_DEX",
+    #                 "malus_VUE", "malus_OUI","force_min"
     #                 ]
-    # list_editable = ["category", "related_skill","maneuver","engagement", "enc", "price", "resistance","force_min"]
+    # list_editable = ["category", "cover", "materiaux", "resistance","quality","force_min"]
+    # Weapons
+    list_display = ["rid", "category", "name", "engagement","maneuver","plus_dom","plus_dom_2m","mod_ini","mod_att","mod_dom", "related_skill_name",  "enc", "price", "resistance","force_min"]
+    list_editable = ["maneuver","engagement", "enc", "price"]
     list_filter = ["category", "can_be_thrown", "special", "materiaux", "cover"]
     search_fields = ['name']
     actions = [refix, cat_from_first]

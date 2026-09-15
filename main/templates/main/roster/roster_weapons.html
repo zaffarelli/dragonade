@@ -13,7 +13,7 @@
         </div>
         <div class="stat">
             <div class="label fixed">Attaque<br/>Score</div>
-            <div class="data auto">{{w.stat_name}} + {{w.related_skill_text}}<br/>{{w.stat_value}} + {{w.related_skill_value}} = {{w.base_score}}</div>
+            <div class="data auto">{{w.stat_name}} + {{w.related_skill_text}}<br/>{{w.stat_value}} + {{w.related_skill_value}} + MAN = {{w.base_score}}</div>
         </div>
         {% if w.category == "mel" %}
         <div class="stat">
@@ -40,11 +40,11 @@
         </div>
         <div class="stat">
             <div class="label fixed">Manoeuvre</div>
-            <div class="data auto"> {{w.maneuver|signed}}</div>
+            <div class="data auto"> {{w.maneuver|signed}} {{w.mod_att|signed}}</div>
         </div>
         <div class="stat">
             <div class="label fixed">Engagement</div>
-            <div class="data auto"> {{w.class_engagement|signed}}</div>
+            <div class="data auto"> {{w.engagement|signed}}</div>
         </div>
         {% endif %}
         <div class="stat">
