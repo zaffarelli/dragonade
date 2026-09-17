@@ -257,7 +257,7 @@ def svg_item(x):
     # print(x)
     y = "generique" if x.lower() == "générique" else x
     return f'<span class="" title="{x}" style="display:inline-block;">' \
-           f'<img src="static/main/svg/2026/{y}.svg" style="display:inline-block; width:100px;">' \
+           f'<img src="static/main/svg/2026/{y}.svg" style="display:inline-block; width:75pt;">' \
            f'</span>'
 
 
@@ -436,7 +436,7 @@ def render_text(value):
         v = value.split("§")
         result = "<br/>".join(v)
     if len(result)==0:
-        result = f'N/A'
+        result = f'-'
     return result
 
 
@@ -547,3 +547,19 @@ def as_text_cover(value):
             elif c == "M":
                 s.append("Jambe")
     return ", ".join(s)
+
+
+@register.filter(name='as_diff')
+def as_diff(value):
+    return f'<div class="diff_{value}">{value}</div>'
+
+@register.filter(name='as_sogni')
+def as_sogni(value):
+    x = str(value).split(" ")
+    result = []
+    from main.models.sogni import Sogno
+    sogni = Sogno.objects.all()
+    for sogno in sogni:
+        if sogno.acronym in x:
+            result.append(sogno.title)
+    return "<br/>".join(result)

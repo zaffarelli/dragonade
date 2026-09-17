@@ -176,21 +176,16 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
     code = models.CharField(default="", max_length=16, blank=True)
     alternative_names = models.CharField(default="", max_length=512, blank=True)
     casting_time = models.PositiveIntegerField(default=1, blank=True)
-    ground_charge = models.PositiveIntegerField(default=DragonadeGround.NONE, choices=DragonadeGround.choices,
-                                                blank=True)
+    ground_charge = models.PositiveIntegerField(default=DragonadeGround.NONE, choices=DragonadeGround.choices, blank=True)
     hour_charge = models.PositiveIntegerField(default=DragonadeHour.NONE, choices=DragonadeHour.choices, blank=True)
-    emanation_charge = models.PositiveIntegerField(default=DragonadeEmanation.NONE, choices=DragonadeEmanation.choices,
-                                                   blank=True)
-    consistency_charge = models.PositiveIntegerField(default=DragonadeConsistency.NONE,
-                                                     choices=DragonadeConsistency.choices, blank=True)
-    elemental_charge = models.PositiveIntegerField(default=DragonadeElement.NONE, choices=DragonadeElement.choices,
-                                                   blank=True)
+    emanation_charge = models.PositiveIntegerField(default=DragonadeEmanation.NONE, choices=DragonadeEmanation.choices, blank=True)
+    consistency_charge = models.PositiveIntegerField(default=DragonadeConsistency.NONE, choices=DragonadeConsistency.choices, blank=True)
+    elemental_charge = models.PositiveIntegerField(default=DragonadeElement.NONE, choices=DragonadeElement.choices, blank=True)
     dps = models.PositiveIntegerField(default=3, blank=True)
     charge = models.PositiveIntegerField(default=0, blank=True)
     songe = models.PositiveIntegerField(default=0, blank=True)
     resistance = models.CharField(default="-", max_length=128, blank=True)
-    diff = models.PositiveIntegerField(default=DragonadeDifficulty.AVERAGE, choices=DragonadeDifficulty.choices,
-                                       blank=True)
+    diff = models.PositiveIntegerField(default=DragonadeDifficulty.AVERAGE, choices=DragonadeDifficulty.choices, blank=True)
     original_casting_cost = models.CharField(default="-", max_length=1024, blank=True)
     description = models.TextField(default="", max_length=1024, blank=True)
     composantes = models.TextField(default="-", max_length=1024, blank=True)
@@ -210,7 +205,7 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
     avoid_original_cost = models.BooleanField(default=False, blank=True)
     famous_high_dreamers = models.TextField(default="", max_length=512, blank=True)
     sogni = models.CharField(max_length=256, default="DEF", blank=True)
-    data = {}
+    # data = {}
 
     def fix(self):
         self.chiaroscuro()
@@ -233,13 +228,6 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
                 self.diff = diff
                 self.dps = dps
                 str = f'{old_diff} {old_dps} / {diff} {diff_pen} {dps}'
-        # z = 0
-        # z += 1 if self.ground_charge != DragonadeGround.NONE else 0
-        # z += 1 if self.hour_charge != DragonadeHour.NONE else 0
-        # z += 1 if self.emanation_charge != DragonadeEmanation.NONE else 0
-        # z += 1 if self.consistency_charge != DragonadeConsistency.NONE else 0
-        # z += 1 if self.elemental_charge != DragonadeElement.NONE else 0
-
         self.charge = 0
         self.charge += 1 if self.ground_charge != DragonadeGround.NONE else 0
         self.charge += 1 if self.hour_charge != DragonadeHour.NONE else 0
@@ -247,24 +235,26 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
         self.charge += 1 if self.consistency_charge != DragonadeConsistency.NONE else 0
         self.charge += 1 if self.elemental_charge != DragonadeElement.NONE else 0
 
+        charges_ok = True
         if self.category == IncantessimoCategory.INCANTATION:
             if self.charge != 3:
-                self.spell_ready = False
+                charges_ok = False
             if self.ti > IncantessimoCastingTime.TURN:
                 self.duration = IncantessimoCastingTime.TURN
         elif self.category == IncantessimoCategory.RITUAL:
             if self.charge != 4:
-                self.spell_ready = False
+                charges_ok = False
             if self.ti < IncantessimoCastingTime.MINUTE:
                 self.ti = IncantessimoCastingTime.MINUTE
         elif self.category == IncantessimoCategory.PENTACLE:
             if self.charge != 5:
-                self.spell_ready = False
+                charges_ok = False
             self.ti = IncantessimoCastingTime.INSTANT
             self.duration = IncantessimoDuration.NEXT_BIRTH_HOUR
 
-        self.power = math.floor(self.diff / 5 + self.dps + self.songe * 2 + self.power_boost)
+        self.power = math.ceil(self.diff / 5 + self.dps + self.songe * 3 + self.charge + self.ti + self.area + self.range + self.duration - self.fallback) + self.power_boost
 
+        self.spell_ready = len(self.description) > 0 and charges_ok
 
     @classmethod
     def all_dreams(cls):
@@ -276,7 +266,6 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
     def __str__(self):
         return f"{self.name} ({self.get_path_display()} {self.get_category_display()}) "
 
-
     @property
     def str_charges(self):
         str = f"{self.get_ground_charge_display()} {self.get_hour_charge_display()} {self.get_emanation_charge_display()} {self.get_consistency_charge_display()} {self.get_elemental_charge_display()}"
@@ -285,7 +274,6 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
     def export_to_json(self):
         self.model_to_data()
         return self._data
-
 
     def co_push(self):
         """
@@ -298,10 +286,6 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
         self._data['roll'] = self.get_roll_display()
         self._data['path'] = self.get_path_display()
         self._data['category'] = self.get_category_display()
-
-
-
-
 
     def toJson(self):
         import json

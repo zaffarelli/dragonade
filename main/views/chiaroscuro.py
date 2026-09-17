@@ -355,7 +355,7 @@ def items_list(request, options={}):
         }
         if options["model"] in ['Viaggiatore', 'Nativo']:
             filters[f"sogni__contains"] = sa
-        for i in k.objects.order_by("name").filter(**filters):
+        for i in k.objects.filter(**filters).order_by("name"):
             datum = i.export_to_json()
             items.append(datum)
         context["title"] = k.__name__

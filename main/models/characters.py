@@ -334,7 +334,7 @@ class Character(models.Model, ChiaroscuroMixin):
                         if v > default:
                             count_postes[default * (-1)] += 1
                             count_vals[v] += 1
-                            all.append({"value": v, "category": REF['NAME'][:1], "text": item["TEXT"]})
+                            all.append({"value": v, "category": REF['NAME'][:1], "default":default, "abs": v-default, "text": item["TEXT"]})
             else:
                 self.bugs.append(f"{self.rid} doesn't have the correct property for [{skill_set}].")
         sorted_all = sorted(all, key=lambda k: k['value'], reverse=True)
@@ -648,15 +648,15 @@ class Character(models.Model, ChiaroscuroMixin):
         lines.append(attributes)
 
         categories = {
-            "M": {"title": "Martiales (-1)", "list": []},
-            "G": {"title": "Génériques (-1)", "list": []},
-            "P": {"title": "Particulières (-2)", "list": []},
-            "S": {"title": "Spécifiques (-3)", "list": []},
-            "C": {"title": "Connaissances (-4)", "list": []},
-            "D": {"title": "Draconiques (-5)", "list": []}
+            "M": {"title": "Martiales (-1)","default":-1, "list": []},
+            "G": {"title": "Générales (-1)","default":-1, "list": []},
+            "P": {"title": "Particulières (-2)","default":-2, "list": []},
+            "S": {"title": "Spécialisées (-3)","default":-3, "list": []},
+            "C": {"title": "Connaissances (-4)","default":-4, "list": []},
+            "D": {"title": "Draconiques (-5)","default":-5, "list": []}
         }
         for v in self._data["skills_summary"]:
-            categories[v["category"]]["list"].append(f"{v['text']} {v['value']:2}")
+            categories[v["category"]]["list"].append(f"{v['text']} [{v['abs']}] {v['value']:2}")
 
         skills = ""
         for k, v in categories.items():

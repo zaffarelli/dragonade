@@ -1,13 +1,14 @@
-$list-font_size: 10pt;
-$title-font_size: 16pt;
+$list_font_size: 10pt;
+$title_font_size: 16pt;
+$mid_font_size: 12pt;
 
 
 
 .zlist_container, .zlist_header, .zlist_footer{
     width:96vw;
-    margin:5pt;
+    margin:2pt;
     font-family:$font;
-    font-height:$list-font_size;
+    font-height:$list_font_size;
     background:transparent;
     height:auto;
 
@@ -19,20 +20,27 @@ $title-font_size: 16pt;
         align-items: stretch;
         align-content: stretch;
 //         border:1pt solid pink;
-        gap:3pt;
+        gap:1pt;
 //         width:auto;
         &.even{
-            background:#1020207f;
+            background:#2020207f;
         }
         &.odd{
-            background:#2010207f;
+            background:#6060607f;
+        }
+
+        &.buffer{
+            flex:10 10 auto;
+            min-height: 20em;
+            background:#4040407f;
+            background-image: repeating-linear-gradient(45deg, #1010107f 0pt, #1010107f 3pt, transparent 1pt, transparent 12pt),
+                    repeating-linear-gradient(135deg, #1010107f 0pt, #1010107f 3pt, transparent 1pt, transparent 12pt);
         }
 
         & .zlist_item{
             padding:3pt;
             border-radius:3pt;
             flex:0 1 auto;
-            display:inline-block;
             color:white;
             vertical-align:middle;
             text-align:center;
@@ -48,8 +56,7 @@ $title-font_size: 16pt;
             }
             &.text{
                 width:40ex;
-                height:auto;
-                bottom:2px;
+                max-height:8em;
                 padding:3pt;
 
                 overflow-y:scroll;
@@ -58,17 +65,36 @@ $title-font_size: 16pt;
             }
             &.label{
                 width:20ex;
-                font-size:$title-font_size;
+                font-size:$title_font_size;
             }
             &.symbol{
                 background:#9080907f;
             }
             &.simple{
-                text-align:left;
+                display:flex;
+
+                flex-flow: column wrap;
+                justify-content:space-between;
+                align-items:stretch;
+                align-content:stretch;
                 color:silver;
-                & b{
-                    font-size:$title-font_size;
+                width:20ex;
+                & .txt{
+                    flex:1 0 1.2em;
+                    font-size:$mid_font_size;
                     color:white;
+                    background:#202020;
+
+                    border-radius:3pt;
+                    padding:3pt;
+                }
+                & .val{
+                    flex: 1 1 auto;
+                    font-size:$title_font_size;
+                    color:silver;
+                    background:#101010;
+
+                    padding:3pt;
                 }
             }
 
@@ -79,7 +105,7 @@ $title-font_size: 16pt;
 
 
             &.normal{
-                font-size:$title-font_size;
+                font-size:$title_font_size;
                 cursor:pointer;
             }
 
@@ -98,7 +124,7 @@ $title-font_size: 16pt;
                 border:none;
             }
             &.number{
-                font-height:$title-font_size;
+                font-height:$title_font_size;
                 width:4ex;
             }
             border:2pt solid #202020;
@@ -117,7 +143,7 @@ $title-font_size: 16pt;
     justify-content:flex-start;
     align-items: flex-start;
     align-content: flex-start;
-
+    background:#505050;
 
 
     & .zlist_entry{
@@ -132,14 +158,14 @@ $title-font_size: 16pt;
 
 .zlist_container{
     order:2;
-    flex:0 0 81vh;
+    flex:0 0 84vh;
     overflow-y:scroll;
     display:flex;
     flex-flow:column nowrap;
     justify-content: flex-start;
     align-items: stretch;
-
     gap:3pt;
+    background:#1010107f;
 }
 
 .zlist_footer{
@@ -150,7 +176,7 @@ $title-font_size: 16pt;
     align-items: flex-start;
     align-content: flex-start;
     height:3vh;
-    background:#3030307f;
+    background:#505050;
     & .zlist_entry{
         display:flex;
         flex-flow:row wrap;
@@ -159,5 +185,12 @@ $title-font_size: 16pt;
         align-content: flex-start;
         background:#3030307f;
         }
-    background:#3030307f;
+
 }
+
+.diff_{color:gray;}
+.diff_5{ color:#20A060;}
+.diff_10{color:#408060;}
+.diff_15{color:#606060;}
+.diff_20{color:#804060;}
+.diff_25{color:#A02060;}

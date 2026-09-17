@@ -1,0 +1,4 @@
+{% load static %}
+{% load dragonade_filters%}
+
+<div id="{{i.type}}__{{i.id}}__{{prop}}__value"  srcval="{{val|encoded_z|safe}}" class="zlist_item text editor">{{val|render_text|safe }}</div>
