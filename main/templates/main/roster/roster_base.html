@@ -136,6 +136,12 @@
                     <span class="editor" id="{{a.type}}__{{a.id}}__birthhour__value" srcval="{{a.birthhour}}">{{a.birthhour|as_hour|safe}}</span>
                 </div>
             </div>
+            <div class="stat">
+                <div class="label fixed">Titre</div>
+                <div class="data auto interactive_element">
+                    <span class="editor" id="{{a.type}}__{{a.id}}__title__value" srcval="{{a.title}}">{{a.title|no_blank}}</span>
+                </div>
+            </div>
 
         </div>
         <div class="block_third" style="order:7;">

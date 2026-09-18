@@ -1,0 +1,30 @@
+Arniel de Roquemaure
+Stilgar
+Le Redoutable
+(Gardien des Rêves)
+AGI  6 EMP  4 APP  4 | TIR  5 | VIE 15 | IMP  1 
+CON  7 ODG  5 DEX  5 | MEL  7 | FAT  6 | ENC 15.0 
+FOR  7 OUI  4 INT  5 | DER  5 | SUS  3 | FAB  6 
+TAI  8 VUE  5 VOL  6 | LAN  6 | RES  3 | REV  7 
+
+Martiales (-1): Armes d'Hast [7]  6, Javelots [7]  6, Armes à deux mains [6]  5.
+Générales (-1): Course [6]  5, Escalade [6]  5, Séduction [5]  4, Concentration [4]  3, Discrétion [4]  3, Pièges [3]  2, Sculpture [3]  2, Tactique [1]  0, Vigilance [1]  0.
+Particulières (-2): Survie dans les Marais [6]  4, Musique [4]  2, Survie en Montagnes [4]  2, Charpenterie [3]  1, Comédie [3]  1, Commerce [3]  1, Déguisement [3]  1, Jeu de Mains [3]  1.
+Spécialisées (-3): Natation [10]  7, Acrobatie [7]  4, Jeu [6]  3, Médecine [6]  3, Métallurgie [5]  2, Navigation [5]  2.
+Connaissances (-4): Mathématiques [8]  4, Chirurgie [5]  1, Légendes [5]  1, Stratégie [4]  0.
+Draconiques (-5): Génératif [8]  3.
+
+Arme                   DOMA     2M   INIT        Jet    Score
+
+Armure/Protection                                      Malus  Prot
+
+Description: 
+
+PdV (15)      PdF (6)             PdR (7)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤       
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤       
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤ ¤ ¤       
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

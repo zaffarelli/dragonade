@@ -1,0 +1,28 @@
+Brie-Anne la Douce
+(Marion (@Marion))
+AGI  8 EMP  4 APP  5 | TIR  6 | VIE 12 | IMP  1 
+CON  7 ODG  6 DEX  6 | MEL  8 | FAT  6 | ENC 12.0 
+FOR  7 OUI  4 INT  4 | DER  8 | SUS  3 | FAB  5 
+TAI  5 VUE  5 VOL  5 | LAN  7 | RES  2 | REV  5 
+
+Martiales (-1): Armes à deux mains [8]  7, Esquive [6]  5, Lames Longues [6]  5, Boucliers [4]  3, Lames Courtes [4]  3.
+Générales (-1): Discrétion [7]  6, Vigilance [7]  6, Escalade [5]  4, Concentration [4]  3, Eloquence [2]  1.
+Particulières (-2): Survie en Cité [6]  4, Equitation [4]  2, Survie en Forêt [4]  2, Survie en Montagnes [4]  2, Comédie [3]  1, Survie dans le Désert [3]  1, Survie dans les Glaces [3]  1, Survie dans les Marais [3]  1.
+Spécialisées (-3): Acrobatie [8]  5, Métallurgie [6]  3, Médecine [5]  2, Navigation [5]  2, Jeu [4]  1, Serrurerie [4]  1.
+Connaissances (-4): Légendes [8]  4, Plantes [7]  3, Ecriture [6]  2.
+Draconiques (-5): Contemplatif [9]  4.
+
+Arme                   DOMA     2M   INIT        Jet    Score
+
+Armure/Protection                                      Malus  Prot
+
+Description: 
+
+PdV (12)      PdF (6)             PdR (5)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤           
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤           
+¤ ¤           ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤           
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

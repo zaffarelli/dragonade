@@ -766,7 +766,9 @@ class Character(models.Model, ChiaroscuroMixin):
 
     def roster_as_text(self):
         roster = "<br/>".join(self.roster())
-        roster = roster.replace("§", " ").replace("<br/>", "\n").replace("<BR/>", "\n")
+        roster = roster.replace("§", " ").replace("<br/>", "\n").replace("<BR/>", "\n").replace("&#9744;","¤")
+        with open(f"main/rosters/roster_{self.rid}.txt", "w") as f:
+            f.write(roster)
         return roster
 
     @classmethod

@@ -1,0 +1,24 @@
+Diable des Roches
+Créature (Animal)
+AGI  1 EMP  1 APP  1 | TIR  1 | VIE  2 | IMP -2 
+CON  1 ODG  1 DEX  1 | MEL  1 | FAT  1 | ENC 2.0 
+FOR  1 OUI  1 INT  1 | DER  6 | SUS  2 | FAB  1 
+TAI  1 VUE  1 VOL  1 | LAN  1 | RES  0 | REV  1 
+
+Martiales (-1): .
+Générales (-1): .
+Particulières (-2): .
+Spécialisées (-3): .
+Connaissances (-4): .
+Draconiques (-5): .
+
+Arme                   DOMA     2M   INIT        Jet    Score
+
+Armure/Protection                                      Malus  Prot
+
+Description: 
+
+PdV (2)       PdF (1)             PdR (1)             
+¤ ¤           ¤ ¤ ¤               ¤                   
+                                  ¤                   
+                                  ¤                   

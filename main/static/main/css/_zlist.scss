@@ -78,7 +78,7 @@ $mid_font_size: 12pt;
                 align-items:stretch;
                 align-content:stretch;
                 color:silver;
-                width:20ex;
+                width:10ex;
                 & .txt{
                     flex:1 0 1.2em;
                     font-size:$mid_font_size;
@@ -143,7 +143,7 @@ $mid_font_size: 12pt;
     justify-content:flex-start;
     align-items: flex-start;
     align-content: flex-start;
-    background:#505050;
+    background:#5050507f;
 
 
     & .zlist_entry{
@@ -151,7 +151,7 @@ $mid_font_size: 12pt;
         border-radius:5pt;
         display:inline-block;
         font-weight:normal;
-        background:#3030307f;
+//         background:#3030307f;
 
     }
 }
@@ -176,14 +176,14 @@ $mid_font_size: 12pt;
     align-items: flex-start;
     align-content: flex-start;
     height:3vh;
-    background:#505050;
+    background:#5050507f;
     & .zlist_entry{
         display:flex;
         flex-flow:row wrap;
         justify-content: flex-start;
         align-items: stretch;
         align-content: flex-start;
-        background:#3030307f;
+//         background:#3030307f;
         }
 
 }

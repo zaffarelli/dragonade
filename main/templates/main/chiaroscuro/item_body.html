@@ -3,7 +3,7 @@
 
 
 {% if model == "Incantessimo" %}
-<div class="zlist_item icon list_action" id="{{i.type}}__{{i.id}}__view" title="view"><i class="fa fa-eye"></i></div>
+    {% include "main/chiaroscuro/zlist_item_button.html" with txt="Voir" val="view" icon="fa fa-eye" %}
 <div class="zlist_item symbol shifter" id="{{i.type}}__{{i.id}}__category">{{ i.category|as_category|safe }}</div>
 <div class="zlist_item symbol shifter" id="{{i.type}}__{{i.id}}__path">{{ i.path|as_category|safe }}</div>
 <div class="zlist_item number">{% include "main/svg/incantessimo_roll.svg" with value=i.roll %}</div>
@@ -27,80 +27,53 @@
 <div id="{{i.type}}__{{i.id}}__emanation_charge" class="zlist_item symbol shifter">{{ i.emanation_charge|as_emanation_charge|safe }}</div>
 <div id="{{i.type}}__{{i.id}}__consistency_charge" class="zlist_item symbol shifter">{{ i.consistency_charge|as_consistency_charge|safe }}</div>
 <div id="{{i.type}}__{{i.id}}__elemental_charge" class="zlist_item symbol shifter">{{ i.elemental_charge|as_elemental_charge|safe }}</div>
-
-
-
-
-
-
-
-
 {% else %}
 {% if model == "Nativo" %}
-<div model="{{i.type}}" class="zlist_item number">{{i.id}}</div>
-<div id="{{i.type}}__{{i.id}}__view" class="zlist_item normal list_action" title="view"><i class="fa fa-eye"></i></div>
-<div id="{{i.type}}__{{i.id}}__edit" class="zlist_item normal list_action" title="edit"><i class="fa fa-cog"></i></div>
-<div class="zlist_item label">{{ i.title }}</div>
-<div class="zlist_item label">{{ i.name }}</div>
-<div class="zlist_item label">{{ i.aka }}</div>
-<div class="zlist_item label">{{i.sogni}}</div>
-
-{% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="entrance" val=i.entrance %}
-<div class="zlist_item number" model="{{i.type}}" style="order:6" title="is female">{{ i.is_female|as_bool|safe }}</div>
-<div class="zlist_item number" model="{{i.type}}" style="order:6" title="nameless">{{ i.nameless|as_bool|safe }}</div>
-<div class="zlist_item number" model="{{i.type}}" style="order:6" title="has bug">{{ i.has_bug|as_bool|safe }}</div>
-<div class="zlist_item buffer"></div>
-<div class="zlist_item number" model="{{i.type}}" style="order:10">ATR.<br/>{{ i.total_attributes }}</div>
-<div class="zlist_item number" model="{{i.type}}" style="order:10">CMP.<br/>{{ i.total_skills }}</div>
-
-
+    {% include "main/chiaroscuro/zlist_item_button.html" with txt="Voir" val="view" icon="fa fa-eye" %}
+    {% include "main/chiaroscuro/zlist_item_button.html" with txt="Editer" val="edit" icon="fa fa-cog" %}
+    {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Titre" val=i.title %}
+    {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Nom" val=i.name %}
+    {% include "main/chiaroscuro/zlist_item_text_value.html" with txt="Rêve" val=i.sogni|as_sogni|safe %}
+    {% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="entrance" val=i.entrance %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Sexe" val=i.is_female|as_sex|safe %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Sans nom" val=i.nameless|as_okko|safe %}
+    {% include "main/chiaroscuro/zlist_item_buffer.html" %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Total Attributs" val=i.total_attributes|signed %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Total Compétences" val=i.total_skills|signed %}
 {% else %}
-{% if model == "Viaggiatore" %}
-<div id="{{i.type}}__{{i.id}}__edit" class="zlist_item icon list_action" title="edit"><i class="fa fa-cog"></i></div>
-<div class="zlist_item label">{{ i.name }}
-    {% if i.aka %}
-    <br/>aka &laquo;&nbsp;{{i.aka}}&nbsp;&raquo;
-    {%endif%}
-    {% if i.is_storyteller == False %}
-    <br/>par {{i.player}}
-    {%endif%}
-</div>
-{% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Rêve" val=i.sogni|as_sogni|safe %}
-
-{% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="entrance" val=i.entrance %}
-
-
-{% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Destinée" val=i.destiny|colorize_abs|safe %}
-{% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Points de Voyage" val=i.travel_points %}
-{% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Sexe" val=i.is_female|as_sex|safe %}
-
-<div class="zlist_item number" title="Skills & Attributes Status">{{ i.skills_creation_ok|as_okko|safe }}<br/>{{ i.attributes_creation_ok|as_okko|safe }}</div>
-
-{% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Total Attributs" val=i.total_attributes|signed %}
-{% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Total Compétences" val=i.total_skills|signed %}
-{% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Stress Acquis" val=i.stress_acquired|as_stress %}
-{% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Stress Utilisé" val=i.stress_used %}
-{% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Stress Restant" val=i.stress_remaining|as_stress %}
-<div class="zlist_item buffer"></div>
-<div class="zlist_item text">{{ i.bug_list|render_text|safe}}</div>
+{% if i.type == "viaggiatore" %}
+    {% include "main/chiaroscuro/zlist_item_button.html" with txt="Editer" val="edit" icon="fa fa-cog" %}
+    {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Titre" val=i.title %}
+    {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Nom" val=i.name %}
+    {% include "main/chiaroscuro/zlist_item_text_value.html" with txt="Joueur" val=i.player %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Destinée" val=i.destiny|colorize_abs|safe %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Points de Voyage" val=i.travel_points %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Sexe" val=i.is_female|as_sex|safe %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Songe" val=i.SON %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Status Attributs" val=i.attributes_creation_ok|as_okko|safe %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Status Compétences" val=i.skills_creation_ok|as_okko|safe %}
+    {% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="entrance" val=i.entrance %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Total Attributs" val=i.total_attributes|signed %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Total Compétences" val=i.total_skills|signed %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Stress Acquis" val=i.stress_acquired|as_stress %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Stress Utilisé" val=i.stress_used %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Stress Restant" val=i.stress_remaining|as_stress %}
+    {% include "main/chiaroscuro/zlist_item_buffer.html" %}
+    {% include "main/chiaroscuro/zlist_item_text_value.html" with txt="Rêve" val=i.sogni|as_sogni|safe %}
+    {% include "main/chiaroscuro/zlist_item_text_value.html" with txt="Bugs" val=i.bug_list %}
 {% else %}
 {% if model == "Creatura" %}
-<div id="{{i.type}}__{{i.id}}__edit" model="{{i.type}}" class="zlist_item normal list_action" style="order:0; text-align:left;" title="edit"><i class="fa fa-cog"></i></div>
-<div class="zlist_item number" model="{{i.type}}" style="order:6" title="has bug">{{ i.has_bug|as_bool|safe }}</div>
-<div class="zlist_item label" model="{{i.type}}" style="order:0">{{ i.name }}{% if i.AKA %}<br/>&laquo; {{i.AKA}} &raquo;{%endif%}</div>
-<div class="zlist_item label" model="{{i.type}}" style="order:0">{{ i.creature_type_str }}</div>
-
-<div id="{{i.type}}__{{i.id}}__description"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" model="{{i.type}}" style="order:3; text-align:left;">{{ i.misc.DESCRIPTION|render_text|safe }}</div>
-
-
-<div class="zlist_item text editor" model="{{i.type}}" style="order:3; text-align:left;">{{ i.bug_list|render_text|safe }}</div>
-
-<div class="zlist_item number" model="{{i.type}}" style="order:10">ATR.<br/>{{ i.total_attributes }}</div>
-<div class="zlist_item number" model="{{i.type}}" style="order:10">CMP.<br/>{{ i.total_skills }}</div>
-
+    {% include "main/chiaroscuro/zlist_item_button.html" with txt="Editer" val="edit" icon="fa fa-cog" %}
+    {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Nom" val=i.name %}
+    {% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="creature_type" txt="Type de Créature" val=i.creature_type_str %}
+    {% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="Description" val=i.description %}
+    {% include "main/chiaroscuro/zlist_item_buffer.html" %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Total Attributs" val=i.total_attributes|signed %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Total Compétences" val=i.total_skills|signed %}
 {% else %}
 {% if model == "Artefatto" %}
-<div model="{{i.type}}" class="zlist_item number" style="order:-1;" >{{i.id}}</div>
+    {% include "main/chiaroscuro/zlist_item_button.html" with txt="Editer" val="edit" icon="fa fa-cog" %}
+    {% include "main/chiaroscuro/zlist_item_button.html" with txt="Voir" val="view" icon="fa fa-eye" %}
 <div id="{{i.type}}__{{i.id}}__view" model="{{i.type}}" class="zlist_item normal list_action" style="order:0; text-align:left;" title="view"><i class="fa fa-eye"></i></div>
 <div class="zlist_item label" model="{{i.type}}" style="order:0">{{ i.category }}</div>
 <div class="zlist_item label" model="{{i.type}}" style="order:0">{% if i.misc.title %}{{i.misc.title}}&nbsp;{%endif%}{{ i.name }}{% if i.features.AKA %}<br/>&laquo; {{i.features.AKA}} &raquo;{%endif%}</div>
@@ -116,31 +89,26 @@
 
 {% else %}
 {% if model == "Oggetto" %}
-<div model="{{i.type}}" class="zlist_item number" style="order:-1;" >{{i.id}}</div>
-<div id="{{i.type}}__{{i.id}}__edit" class="zlist_item normal list_action" title="edit"><i class="fa fa-cog"></i></div>
-<div class="zlist_item label">{{ i.category_text }}</div>
-<div class="zlist_item label">{% if i.misc.title %}{{i.misc.title}}&nbsp;{%endif%}{{ i.name }}{% if i.features.AKA %}<br/>&laquo; {{i.features.AKA}} &raquo;{%endif%}</div>
-<div id="{{i.type}}__{{i.id}}__description__value"  srcval="{{i.description|encoded_z|safe}}" class="zlist_item text editor">{{ i.description|render_text|safe }}</div>
-<div class="zlist_item buffer"></div>
-<div class="zlist_item number">Enc.<br/>{{ i.enc }}</div>
-<div class="zlist_item text">Prix.<br/>{{ i.price|as_money }}</div>
-{% if i.category == 21%}
-
-<div class="zlist_item label" model="{{i.type}}" style="order:0">{{ i.materiaux }}</div>
-<div class="zlist_item number" model="{{i.type}}" style="order:0">PROT.<br/>{{ i.prot }}</div>
-<div class="zlist_item number" model="{{i.type}}" style="order:0">RES.<br/>{{ i.resistance }}</div>
-<div class="zlist_item number" model="{{i.type}}" style="order:0">QUAL.<br/>{{ i.quality }}</div>
-<div class="zlist_item symbol" model="{{i.type}}" style="order:0">{{ i.cover|as_cover|safe }}</div>
-<div class="zlist_item label" model="{{i.type}}" style="order:0">{{ i.cover|as_text_cover|safe }}</div>
-<div class="zlist_item number" model="{{i.type}}" style="order:0">AGI<br/>{{ i.malus_AGI }}</div>
-<div class="zlist_item number" model="{{i.type}}" style="order:0">DEX<br/>{{ i.malus_DEX }}</div>
-<div class="zlist_item number" model="{{i.type}}" style="order:0">VUE<br/>{{ i.malus_VUE }}</div>
-<div class="zlist_item number" model="{{i.type}}" style="order:0">OUI.<br/>{{ i.malus_OUI }}</div>
-
-{%endif%}
-
-
-
+    {% include "main/chiaroscuro/zlist_item_button.html" with txt="Editer" val="edit" icon="fa fa-cog" %}
+    {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Nom" val=i.name %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Catégorie" val=i.category_text %}
+    {% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="description" val=i.description %}
+    {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with prop="enc" txt="Enc." val=i.enc %}
+    {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with prop="price" txt="Prix" val=i.real_price|as_money %}
+    {% if i.category == 21%}
+        {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with prop="mod_adjust" txt="Ajustement TAI +/-" val=i.real_mod_adjust %}
+        {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with prop="materiaux" txt="Matériaux" val=i.materiaux %}
+        {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with prop="malus_AGI" txt="AGI" val=i.malus_AGI %}
+        {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with prop="malus_DEX" txt="DEX" val=i.malus_DEX %}
+        {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with prop="malus_VUE" txt="VUE" val=i.malus_VUE %}
+        {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with prop="malus_OUI" txt="OUI" val=i.malus_OUI %}
+        {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with prop="protection" txt="Protection" val=i.prot %}
+        {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with prop="resistance" txt="Résistance" val=i.resistance %}
+        {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with prop="quality" txt="Qualité" val=i.quality|as_quality|safe %}
+        {% include "main/chiaroscuro/zlist_item_simple_value.html" with prop="cover" txt="Couverture" val=i.cover|as_cover|safe %}
+        {# include "main/chiaroscuro/zlist_item_editable_value.html" with prop="cover" txt="Couverture" val=i.cover|as_text_cover|safe #}
+    {%endif%}
+    {% include "main/chiaroscuro/zlist_item_buffer.html" %}
 {% else %}
 <div class="zlist_item">{{model}} n'est pas géré...</div>
 {% endif %}

@@ -88,6 +88,8 @@ class Oggetto(models.Model, ChiaroscuroMixin):
     malus_DEX = models.IntegerField(default=0, null=True, blank=True)
     malus_VUE = models.IntegerField(default=0, null=True, blank=True)
     malus_OUI = models.IntegerField(default=0, null=True, blank=True)
+    mod_adjust = models.IntegerField(default=0, null=True, blank=True)
+    real_mod_adjust = models.IntegerField(default=0, null=True, blank=True)
     sogni = models.CharField(max_length=256, default="DEF", blank=True)
 
     range = models.IntegerField(default=0, null=True, blank=True)
@@ -97,6 +99,7 @@ class Oggetto(models.Model, ChiaroscuroMixin):
     resistance = models.IntegerField(default=0, blank=True)
     description = models.TextField(default="", max_length=1024, blank=True)
     price = models.FloatField(default=0, blank=True)
+    real_price = models.FloatField(default=0, blank=True)
     quantity = models.FloatField(default=0.1, blank=True)
     mod_ini = models.IntegerField(default=0, blank=True)
     mod_dom = models.IntegerField(default=0, blank=True)
@@ -170,6 +173,10 @@ class Oggetto(models.Model, ChiaroscuroMixin):
                     elif cov in ["M", "WL", "LW"]:
                         updated_cover.append("M")
                 self.cover = " ".join(updated_cover)
+
+            self.real_price = self.price ** (self.quality+1)
+
+            self.real_mod_adjust = int(self.mod_adjust) + math.floor(int(self.quality)/2)
             if len(self.materiaux) > 0:
                 tr = 0
                 cnt = 0
@@ -268,14 +275,15 @@ class OggettoAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ['category', 'related_attribute', 'name']
     # Armors
-    # list_display = ["rid","name", "id", "category", "cover", "enc", "price", "resistance", "materiaux", "prot", "quality",
-    #                 "malus_AGI", "malus_DEX",
-    #                 "malus_VUE", "malus_OUI","force_min"
-    #                 ]
-    # list_editable = ["category", "cover", "materiaux", "resistance","quality","force_min"]
+    list_display = ["name", "category", "cover", "enc", "price", "materiaux",'mod_adjust', "prot", "quality",
+                    "malus_AGI", "malus_DEX",
+                    "malus_VUE", "malus_OUI", "force_min"
+                    ]
+    list_editable = ["category", "cover", "materiaux", "prot", "quality", "force_min", "malus_AGI", "malus_DEX",
+                     "malus_VUE", "malus_OUI",'mod_adjust',"enc", "price"]
     # Weapons
-    list_display = ["rid", "category", "name", "engagement","maneuver","plus_dom","plus_dom_2m","mod_ini","mod_att","mod_dom", "related_skill_name",  "enc", "price", "resistance","force_min"]
-    list_editable = ["maneuver","engagement", "enc", "price"]
-    list_filter = ["category", "can_be_thrown", "special", "materiaux", "cover"]
+    # list_display = ["rid", "category", "name", "engagement","maneuver","plus_dom","plus_dom_2m","mod_ini","mod_att","mod_dom", "related_skill_name",  "enc", "price", "resistance","force_min"]
+    # list_editable = ["maneuver","engagement", "enc", "price"]
+    list_filter = ["category", "can_be_thrown", "special", "materiaux", "cover","quality"]
     search_fields = ['name']
     actions = [refix, cat_from_first]

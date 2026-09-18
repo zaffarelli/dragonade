@@ -563,3 +563,23 @@ def as_sogni(value):
         if sogno.acronym in x:
             result.append(sogno.title)
     return "<br/>".join(result)
+
+@register.filter(name='no_blank')
+def no_blank(value):
+    result = value
+    if len(result)==0:
+        result = "n/a"
+    return result
+
+@register.filter(name='as_quality')
+def as_quality(value):
+    result = value
+    if isinstance(value,int):
+        result = ""
+        if value == 0:
+            result = "basique"
+        else:
+            colors = ["silver","blue","green","purple"]
+            for _ in range(value):
+                result += f"<i class='fa fa-star' style='color:{colors[value]};'></i>"
+    return result

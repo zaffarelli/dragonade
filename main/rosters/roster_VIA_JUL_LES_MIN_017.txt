@@ -1,0 +1,30 @@
+Julie Anne les Mines
+Yu Lian Lee Minh
+(Gardien des Rêves)
+AGI  5 EMP  5 APP  7 | TIR  6 | VIE 10 | IMP  0 
+CON  6 ODG  5 DEX  4 | MEL  6 | FAT  7 | ENC 10.0 
+FOR  6 OUI  5 INT  5 | DER  7 | SUS  3 | FAB  6 
+TAI  4 VUE  7 VOL  8 | LAN  6 | RES  2 | REV  6 
+
+Martiales (-1): Poignards [5]  4, Masses [4]  3, Arbalètes [2]  1, Javelots [2]  1.
+Générales (-1): Eloquence [7]  6, Concentration [6]  5, Séduction [6]  5, Course [3]  2, Discrétion [2]  1, Tactique [2]  1, Vigilance [2]  1.
+Particulières (-2): Couture [8]  6, Commerce [5]  3, Jeu de Mains [5]  3, Déguisement [4]  2, Survie en Cité [4]  2, Survie dans les Marais [4]  2, Survie en Sous-sols [4]  2, Survie en Forêt [3]  1.
+Spécialisées (-3): Navigation [9]  6, Acrobatie [8]  5, Serrurerie [8]  5, Jonglerie [7]  4, Jeu [4]  1, Orfèvrerie [4]  1.
+Connaissances (-4): Chirurgie [10]  6, Stratégie [8]  4, Astrologie [7]  3.
+Draconiques (-5): Mnémonique [6]  1.
+
+Arme                   DOMA     2M   INIT        Jet    Score
+
+Armure/Protection                                      Malus  Prot
+
+Description: 
+
+PdV (10)      PdF (7)             PdR (6)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤ ¤ ¤ ¤         
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤         
+              ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤         
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

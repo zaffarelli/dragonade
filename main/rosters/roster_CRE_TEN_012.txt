@@ -1,0 +1,31 @@
+Tentaculaire
+Tant que vous n'en avez pas rencontré vous êtes en général content...
+Créature (Créature de Cauchemard)
+AGI  9 EMP  0 APP  0 | TIR  2 | VIE 14 | IMP  1 
+CON  7 ODG  8 DEX  4 | MEL  7 | FAT  8 | ENC 14.0 
+FOR  5 OUI  6 INT  3 | DER  7 | SUS  3 | FAB  3 
+TAI  7 VUE  0 VOL  8 | LAN  4 | RES  2 | REV  3 
+
+Martiales (-1): Poignards [8]  7, Armes d'Hast [6]  5, Lames Courtes [4]  3.
+Générales (-1): .
+Particulières (-2): .
+Spécialisées (-3): Acrobatie [6]  3.
+Connaissances (-4): .
+Draconiques (-5): .
+
+Arme                   DOMA     2M   INIT        Jet    Score
+
+Armure/Protection                                      Malus  Prot
+
+Description: 
+
+PdV (14)      PdF (8)             PdR (3)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤               
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤               
+¤ ¤ ¤ ¤       ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤               
+              ¤ ¤ ¤ ¤ ¤                               
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

@@ -1,0 +1,28 @@
+Enguerrand le Pêcheur
+Ennemi du Mal Ventriloque, Libérateur de la Trempe
+(Alan [@Kastor])
+AGI  6 EMP  8 APP  6 | TIR  6 | VIE 10 | IMP  0 
+CON  5 ODG  4 DEX  4 | MEL  5 | FAT  5 | ENC 10.0 
+FOR  4 OUI  4 INT  9 | DER  7 | SUS  3 | FAB  7 
+TAI  5 VUE  7 VOL  5 | LAN  5 | RES  2 | REV  9 
+
+Martiales (-1): Esquive [5]  4, Javelots [3]  2, Lutte [2]  1, Lames Courtes [2]  1, Poignards [1]  0.
+Générales (-1): Concentration [6]  5, Eloquence [6]  5, Discrétion [5]  4, Pièges [4]  3, Artisanat [3]  2, Cuisine [2]  1, Séduction [2]  1, Vigilance [2]  1, Escalade [1]  0.
+Particulières (-2): .
+Spécialisées (-3): Natation [9]  6, Navigation [9]  6, Jeu [7]  4, Acrobatie [5]  2, Métallurgie [5]  2, Orfèvrerie [4]  1.
+Connaissances (-4): Astrologie [11]  7, Animaux [9]  5, Légendes [8]  4.
+Draconiques (-5): Contemplatif [7]  2, Génératif [2] -3, Mnémonique [2] -3.
+
+Arme                   DOMA     2M   INIT        Jet    Score
+
+Armure/Protection                                      Malus  Prot
+
+Description: 
+
+PdV (10)      PdF (5)             PdR (9)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤   
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤   
+              ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤   
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

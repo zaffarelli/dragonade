@@ -1,0 +1,30 @@
+Guilbert l'Aumonier
+Libérateur de la Trempe
+(Arthur (@Belphegora))
+AGI  4 EMP  5 APP  4 | TIR  5 | VIE 12 | IMP  1 
+CON  6 ODG  4 DEX  5 | MEL  6 | FAT  7 | ENC 12.0 
+FOR  7 OUI  5 INT  7 | DER  5 | SUS  3 | FAB  6 
+TAI  6 VUE  5 VOL  8 | LAN  6 | RES  2 | REV  7 
+
+Martiales (-1): Lances [7]  6, Esquive [6]  5, Boucliers [6]  5, Lutte [2]  1, Javelots [2]  1.
+Générales (-1): Concentration [5]  4, Course [4]  3, Discrétion [4]  3, Escalade [4]  3, Dessin [3]  2, Eloquence [3]  2, Vigilance [3]  2, Chant [2]  1, Saut [2]  1, Séduction [2]  1, Tactique [2]  1, Danse [1]  0.
+Particulières (-2): Couture [6]  4, Survie en Cité [6]  4, Commerce [5]  3, Equitation [4]  2, Jeu de Mains [4]  2, Comédie [3]  1, Déguisement [3]  1, Survie en Forêt [3]  1.
+Spécialisées (-3): Médecine [9]  6, Natation [6]  3, Acrobatie [5]  2, Jonglerie [5]  2, Jeu [4]  1, Métallurgie [4]  1.
+Connaissances (-4): Chirurgie [11]  7, Plantes [8]  4, Alchimie [7]  3, Stratégie [3] -1.
+Draconiques (-5): Statique [10]  5, Contemplatif [1] -4, Destructif [1] -4, Dynamique [1] -4, Génératif [1] -4, Mnémonique [1] -4.
+
+Arme                   DOMA     2M   INIT        Jet    Score
+
+Armure/Protection                                      Malus  Prot
+
+Description: 
+
+PdV (12)      PdF (7)             PdR (7)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤ ¤ ¤ ¤ ¤       
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤       
+¤ ¤           ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤       
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

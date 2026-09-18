@@ -1,0 +1,28 @@
+Ursula Vendiem
+(Gardien des Rêves)
+AGI  4 EMP  5 APP  6 | TIR  7 | VIE  9 | IMP  0 
+CON  4 ODG  5 DEX  7 | MEL  4 | FAT  6 | ENC 9.0 
+FOR  4 OUI  5 INT  7 | DER  6 | SUS  3 | FAB  6 
+TAI  5 VUE  6 VOL  8 | LAN  6 | RES  1 | REV  8 
+
+Martiales (-1): Esquive [2]  1, Lutte [2]  1, Pugilat [2]  1, Arbalètes [1]  0.
+Générales (-1): Discrétion [5]  4, Artisanat [4]  3, Cuisine [3]  2, Danse [3]  2, Dessin [3]  2, Course [2]  1, Eloquence [2]  1.
+Particulières (-2): Survie en Sous-sols [7]  5, Commerce [6]  4, Musique [5]  3, Survie dans le Désert [5]  3, Survie dans les Glaces [5]  3, Equitation [4]  2, Survie en Montagnes [4]  2, Jeu de Mains [3]  1.
+Spécialisées (-3): Jeu [9]  6, Natation [8]  5, Navigation [8]  5, Métallurgie [6]  3, Médecine [5]  2, Maroquinerie [4]  1.
+Connaissances (-4): Astrologie [11]  7, Mathématiques [10]  6, Ecriture [8]  4.
+Draconiques (-5): Mnémonique [9]  4.
+
+Arme                   DOMA     2M   INIT        Jet    Score
+
+Armure/Protection                                      Malus  Prot
+
+Description: Ursula est une voyageuse timide qui ne communiquera avec les voyageurs au travers des Carnets de la Rose Pourpre que si cela est vraiment nécessaire.   La rencontrer pourrait améliorer son attitude vis-à-vis des voyageurs.
+
+PdV (9)       PdF (6)             PdR (8)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤     
+¤ ¤ ¤ ¤       ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤     
+              ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤     
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

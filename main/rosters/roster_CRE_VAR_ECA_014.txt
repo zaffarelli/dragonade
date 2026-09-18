@@ -1,0 +1,24 @@
+Varan Ecarlate
+Créature (Créature fabuleuse)
+AGI  3 EMP  1 APP  1 | TIR  2 | VIE  7 | IMP -1 
+CON  4 ODG  8 DEX  3 | MEL  4 | FAT  2 | ENC 7.0 
+FOR  4 OUI  6 INT  2 | DER  6 | SUS  3 | FAB  2 
+TAI  3 VUE  1 VOL  1 | LAN  3 | RES  1 | REV  2 
+
+Martiales (-1): Lames Courtes [4]  3, Armes d'Hast [3]  2, Poignards [3]  2.
+Générales (-1): .
+Particulières (-2): Survie dans les Marais [6]  4, Survie en Montagnes [6]  4.
+Spécialisées (-3): Orfèvrerie [11]  8, Acrobatie [5]  2.
+Connaissances (-4): .
+Draconiques (-5): .
+
+Arme                   DOMA     2M   INIT        Jet    Score
+
+Armure/Protection                                      Malus  Prot
+
+Description: Le varan écarlate est un cousin de la vouivre qui vit dans les souterrains du sud de la Haute-Styrie. La plupart des individu font la taille d'un chien, et on ne rencontre en général que les males. Leur organisation sociale est le même que la ruche, une seule femelle étant fertile. Elle est de plus grosse taille et dispose d'ailes. Lorsque la reine est malade, un ou plusieurs males change de sexe pour devenir des femelles immatures. On reconnait l'âge de la maturité chez une femelle à l'apparition des membranes sous les pattes avant qui deviendront dles ailes.
+
+PdV (7)       PdF (2)             PdR (2)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤               ¤ ¤                 
+¤ ¤           ¤ ¤ ¤               ¤ ¤                 
+                                  ¤ ¤                 

@@ -1,0 +1,27 @@
+Gontran le Passe-Muraille
+Escorte de la Dona Real, Invité d'Exaldarian, Libérateur de la Trempe
+(Fabien [@Zaharielle])
+AGI  9 EMP  4 APP  5 | TIR  7 | VIE 11 | IMP  1 
+CON  5 ODG  3 DEX  8 | MEL  8 | FAT  4 | ENC 11.0 
+FOR  6 OUI  5 INT  8 | DER  8 | SUS  3 | FAB  6 
+TAI  6 VUE  5 VOL  4 | LAN  7 | RES  2 | REV  8 
+
+Martiales (-1): Lames Courtes [9]  8, Esquive [7]  6, Arcs [7]  6, Poignards [2]  1.
+Générales (-1): Vigilance [9]  8, Artisanat [6]  5, Discrétion [6]  5, Escalade [5]  4, Saut [5]  4, Concentration [3]  2, Dessin [3]  2, Course [2]  1, Danse [2]  1, Cuisine [1]  0, Sculpture [1]  0.
+Particulières (-2): Charpenterie [8]  6, Maçonnerie [8]  6, Equitation [7]  5, Survie en Cité [4]  2, Survie dans les Marais [4]  2, Survie en Sous-sols [4]  2, Commerce [3]  1, Survie en Forêt [3]  1, Comédie [2]  0, Jeu de Mains [2]  0.
+Spécialisées (-3): Acrobatie [8]  5, Métallurgie [6]  3, Orfèvrerie [6]  3, Serrurerie [6]  3, Jeu [4]  1, Médecine [4]  1.
+Connaissances (-4): Architecture [11]  7, Mathématiques [9]  5, Ecriture [7]  3, Légendes [4]  0.
+Draconiques (-5): Contemplatif [8]  3, Statique [8]  3, Génératif [5]  0, Mnémonique [5]  0.
+
+Arme                   DOMA     2M   INIT        Jet    Score
+
+Armure/Protection                                      Malus  Prot
+
+Description: 
+
+PdV (11)      PdF (4)             PdR (8)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤     
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤     
+¤             ¤ ¤ ¤               ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤     
+              ¤ ¤ ¤                                   
+                                                      

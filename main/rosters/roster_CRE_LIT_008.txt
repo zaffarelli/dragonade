@@ -1,0 +1,31 @@
+Lithique
+Créature (Elémentaire)
+AGI  5 EMP  1 APP  0 | TIR  7 | VIE 20 | IMP  3 
+CON 10 ODG  1 DEX  8 | MEL  8 | FAT  9 | ENC 20.0 
+FOR 10 OUI  6 INT  2 | DER  4 | SUS  4 | FAB  6 
+TAI 10 VUE  6 VOL  8 | LAN  9 | RES  4 | REV  6 
+
+Martiales (-1): Lames Courtes [9]  8, Poignards [9]  8, Armes d'Hast [6]  5.
+Générales (-1): .
+Particulières (-2): Equitation [12] 10, Charpenterie [7]  5.
+Spécialisées (-3): Métallurgie [13] 10, Orfèvrerie [8]  5.
+Connaissances (-4): .
+Draconiques (-5): .
+
+Arme                   DOMA     2M   INIT        Jet    Score
+
+Armure/Protection                                      Malus  Prot
+
+Description: Le lithique est un élémentaire de terre. Il est constitué de roche, de terre et de métal au gré de ce qui est disponible pour sa formation.   Il donne l'impression d'être consistué uniquement d'éléments en équilibres, de masses et de tailles différentes.   Par rapport à un humain, sa taille est en général beaucoup plus imposante. Un lithique pèse 100kg par point de TAI.
+
+PdV (20)      PdF (9)             PdR (6)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤ ¤       ¤ ¤ ¤ ¤ ¤ ¤         
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤ ¤ ¤ ¤         
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤ ¤ ¤ ¤         
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤                               
+              ¤ ¤ ¤ ¤ ¤                               
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

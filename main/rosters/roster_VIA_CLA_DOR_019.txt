@@ -1,0 +1,29 @@
+Clariella Dormerose
+mouhahahahaha
+(Gardien des Rêves)
+AGI  5 EMP  7 APP  5 | TIR  5 | VIE 10 | IMP  0 
+CON  4 ODG  6 DEX  5 | MEL  5 | FAT  6 | ENC 10.0 
+FOR  5 OUI  8 INT  4 | DER  6 | SUS  3 | FAB  5 
+TAI  6 VUE  5 VOL  7 | LAN  5 | RES  2 | REV  5 
+
+Martiales (-1): Boucliers [6]  5, Lutte [4]  3, Arcs [3]  2, Masses [3]  2.
+Générales (-1): Dessin [8]  7, Eloquence [5]  4, Pièges [4]  3, Séduction [4]  3, Escalade [3]  2, Tactique [3]  2.
+Particulières (-2): Commerce [7]  5, Couture [6]  4, Déguisement [5]  3, Survie dans les Glaces [5]  3, Maçonnerie [4]  2, Charpenterie [3]  1, Musique [3]  1, Survie dans le Désert [3]  1.
+Spécialisées (-3): Médecine [10]  7, Orfèvrerie [7]  4, Navigation [5]  2, Acrobatie [4]  1, Métallurgie [4]  1, Natation [4]  1.
+Connaissances (-4): Animaux [9]  5, Plantes [9]  5, Alchimie [8]  4.
+Draconiques (-5): Statique [6]  1.
+
+Arme                   DOMA     2M   INIT        Jet    Score
+
+Armure/Protection                                      Malus  Prot
+
+Description: 
+
+PdV (10)      PdF (6)             PdR (5)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤           
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤           
+              ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤           
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

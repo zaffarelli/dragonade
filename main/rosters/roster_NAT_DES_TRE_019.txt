@@ -1,0 +1,28 @@
+Desiderus Trempolin
+Héritier légitime du Comté de la Trempe
+Comte
+Nativo
+AGI  4 EMP  4 APP  4 | TIR  4 | VIE  8 | IMP  0 
+CON  4 ODG  4 DEX  4 | MEL  4 | FAT  4 | ENC 8.0 
+FOR  4 OUI  4 INT  4 | DER  6 | SUS  3 | FAB  4 
+TAI  4 VUE  4 VOL  4 | LAN  4 | RES  1 | REV  4 
+
+Martiales (-1): Esquive [1]  0, Lutte [1]  0, Pugilat [1]  0, Arbalètes [1]  0, Arcs [1]  0, Armes à deux mains [1]  0, Armes d'Hast [1]  0, Bâtons [1]  0, Boucliers [1]  0, Fouets [1]  0, Frondes [1]  0, Hâches [1]  0, Javelots [1]  0, Lames Courtes [1]  0, Lames Longues [1]  0, Masses [1]  0, Lances [1]  0, Poignards [1]  0.
+Générales (-1): .
+Particulières (-2): .
+Spécialisées (-3): .
+Connaissances (-4): .
+Draconiques (-5): .
+
+Arme                   DOMA     2M   INIT        Jet    Score
+
+Armure/Protection                                      Malus  Prot
+
+Description: 
+
+PdV (8)       PdF (4)             PdR (4)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤             
+¤ ¤ ¤         ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤             
+              ¤ ¤ ¤               ¤ ¤ ¤ ¤             
+              ¤ ¤ ¤                                   
+                                                      
