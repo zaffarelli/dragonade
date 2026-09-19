@@ -1,9 +1,7 @@
 from django.db import models
 from django.contrib import admin
-
 from main.mixins.chiaroscuro_mixin import ChiaroscuroMixin
 from main.utils.mechanics import as_rid
-from django.utils import timezone
 import math
 
 
@@ -205,7 +203,6 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
     avoid_original_cost = models.BooleanField(default=False, blank=True)
     famous_high_dreamers = models.TextField(default="", max_length=512, blank=True)
     sogni = models.CharField(max_length=256, default="DEF", blank=True)
-    # data = {}
 
     def fix(self):
         self.chiaroscuro()
@@ -251,9 +248,8 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
                 charges_ok = False
             self.ti = IncantessimoCastingTime.INSTANT
             self.duration = IncantessimoDuration.NEXT_BIRTH_HOUR
-
-        self.power = math.ceil(self.diff / 5 + self.dps + self.songe * 3 + self.charge + self.ti + self.area + self.range + self.duration - self.fallback) + self.power_boost
-
+        self.power = math.ceil(
+            self.diff / 5 + self.dps + self.songe * 3 + self.charge + self.ti + self.area + self.range + self.duration - self.fallback) + self.power_boost
         self.spell_ready = len(self.description) > 0 and charges_ok
 
     @classmethod

@@ -331,6 +331,35 @@ def as_elemental_charge(value):
         result = f'ld_{v}'
     return svg_item(result)
 
+@register.filter(name='as_unique_scale')
+def as_unique_scale(value):
+    result = f'blank'
+    if value in ["e","a","p","g","ge","ga","gp","gg"]:
+        result = f"{value}"
+    return svg_item(result)
+
+@register.filter(name='as_unique_scale_str')
+def as_unique_scale_str(value):
+    result = f'Ecaille'
+    if value in ["e","a","p","g","ge","ga","gp","gg"]:
+        if value == "e":
+            result = "Ecaille d'Efficacité"
+        elif value == "ge":
+            result = "Grande Ecaille d'Efficacité"
+        elif value == "a":
+            result = "Ecaille d'Activité"
+        elif value == "ga":
+            result = "Grande Ecaille d'Activité"
+        elif value == "p":
+            result = "Ecaille de Protection"
+        elif value == "gp":
+            result = "Grande Ecaille de Protection"
+        elif value == "g":
+            result = "Griffe de Thanatos"
+        elif value == "gg":
+            result = "Grande Griffe de Thanatos"
+    return result
+
 
 @register.filter(name='encoded_z')
 def encoded_z(value):

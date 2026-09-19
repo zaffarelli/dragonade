@@ -1,41 +1,8 @@
 from django.db import models
 from django.contrib import admin
-
 from main.mixins.chiaroscuro_mixin import ChiaroscuroMixin
 from main.utils.mechanics import as_rid
 import math
-from django.utils import timezone
-
-
-# from main.utils.ref_dragonade import GEAR_CAT
-
-#
-# GEAR_CAT = (
-#     ("---", "Unsorted"),
-#     ("bag", "Cuirs & Bagages"),
-#     ("jut", "Jute, Fils & Cordes"),
-#     ("lai", "Laine & lin"),
-#     ("vel", "Velours & Soies"),
-#     ("feu", "Feux"),
-#     ("cui", "Poterie, Cuisine"),
-#     ("out", "Outillage"),
-#     ("soi", "Soins"),
-#     ("ecr", "Ecriture"),
-#     ("jou", "Jouer"),
-#     ("loc", "Locomotion"),
-#     ("sus", "Sustentation"),
-#     ("hbs", "Herbes de Soins"),
-#     ("hbd", "Herbes Diverses"),
-#     ("ReD", "Remèdes & Antidotes"),
-#     ("sel", "Sels Alchimiques"),
-#     ("mel", "Armes de Mêlée"),
-#     ("tir", "Armes de Tir"),
-#     ("lan", "Armes de Lancer"),
-#     ("amu", "Armures"),
-#     ("ana", "Armes Naturelles"),
-#     ("gem", "Gemmes & Joyaux"),
-#
-# )
 
 
 class OggettoCategory(models.IntegerChoices):
@@ -112,15 +79,6 @@ class Oggetto(models.Model, ChiaroscuroMixin):
     def fix(self):
         self.chiaroscuro()
         self.rid = as_rid(f"{self.name}")
-        # if self.cover != "":
-        #     new_covers = []
-        #     covers = self.cover.upper().split(" ")
-        #     for cover in covers:
-        #         if cover.startswith("H") == False and cover.startswith("P") == False:
-        #             new_covers.append(cover)
-        #     self.cover = " ".join(new_covers)
-        #     self.cover = self.cover.replace("T","H").replace("B","A").replace("J","L").replace("1","S").replace("2","W")
-
         self.name = self.name.replace("  ", " ")
         self.name = self.name.strip()
         if self.category in [OggettoCategory.ANA]:  # Armes naturelles

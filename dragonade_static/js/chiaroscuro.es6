@@ -263,6 +263,7 @@ class Chiaroscuro {
                     me.registerActions()
                     break
                 case "randomize":
+                    console.log("Randomize")
                     me.axiomaticPerformers.forEach((m) => {
                         m.randomize(model, id)
                     })

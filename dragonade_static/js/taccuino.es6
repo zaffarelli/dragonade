@@ -33,7 +33,7 @@ class Taccuino extends Modulo {
                 me.datum['type'] = answer['type']
                 me.datum['payload'] = answer['payload']
                 $("<div id='svg_area'></div>").insertBefore('.zlist_container')
-                console.log(answer.html)
+                // console.log(answer.html)
                 $('#svg_area').html(answer.html)
                 $('.roster').removeClass("hidden")
                 me.postEdit()
@@ -50,7 +50,7 @@ class Taccuino extends Modulo {
     randomize(model,id){
         let data = super.edit(model,id)
         let me = this
-        console.log(`[${me.name}] is ready to edit [${model}::${rid}] !`)
+        console.log(`[${me.name}] is ready to edit [${model}::${id}] !`)
         $.ajax({
             url: 'ajax/randomize',
             method: 'POST',
@@ -59,7 +59,7 @@ class Taccuino extends Modulo {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             data: {
-                "id": rid,
+                "id": id,
                 "model": model,
             },
             dataType: 'json',

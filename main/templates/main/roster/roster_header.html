@@ -6,7 +6,9 @@
         <div class="whole name">
             {{a.name}}
             <span class="closer" id="{{a.id}}__switch" style="float:right;"><i class="fa fa-times"></i></span>
-            <span class="closer" id="{{a.id}}__randomize" style="float:left;" title="Randomize this!!">
+        </div>
+        <div class="whole name">
+        <span class="list_action" id="{{a.type}}__{{a.id}}__randomize__" style="float:left;" title="Randomize this!!">
                 {%if model == "Viaggiatore" %}
                     <i class="fa fa-chess-queen"></i>
                 {%else%}

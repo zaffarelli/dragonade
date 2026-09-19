@@ -34,97 +34,10 @@ class Appartus extends Modulo {
         ;
     }
 
-    drawMajorScale(tgt,x,y,scale){
-        let me = this
-        let sc = tgt.append('g')
-            .attr('class',"scale")
-        let icon = sc.append('g')
-            .attr('class','icon')
-            .attr('transform','translate('+x+','+y+')')
-            .styles({"stroke-width":"3pt","stroke-linejoin":"round","stroke-linecap":"round"})
-        icon.append('path')
-            .styles({"fill":"#603060", "stroke":"#401040"})
-            .attr("d","m 0,-38 l -25,5 3,45 22,27 22,-27 3,-45  z")
-        icon.append('path')
-            .styles({"fill":"#F0C040", "stroke":"#401040", "stroke-width":"3pt"})
-            .attr("d","M 0,0 l -18,-30 l -20,20 20,20 15,-10 6,0 15,10 l 20,-20 -20,-20 -18,30 ")
-        icon.append('path')
-            .styles({"fill":"#401040", "stroke":"#401040"})
-            .attr("d","M -30,-10 l 30,-30 30,30 -30,30 z")
-        switch(scale){
-            case "ge":
-                icon.append('path')
-                    .styles({"fill":"none", "stroke":"#F0F0F0","stroke-width":"3pt"})
-                    .attr("d","M 0,0 m -10,-25 l 10,10 5,-5 -5,-5 -15,15 30,0 -15,15 -5,-5 5,-5 10,10 ");
-                break;
-            case "gp":
-                icon.append('path')
-                    .styles({"fill":"none", "stroke":"#F0F0F0","stroke-width":"3pt"})
-                    .attr("d","M 0,0 m 0,0 l -10,-10 10,-10 m 0,-10 l 20,20 -20,20 -10,-10 10,-10 -10,-10 10,-10");
-                break;
-            case "ga":
-                icon.append('path')
-                    .styles({"fill":"none", "stroke":"#F0F0F0","stroke-width":"3pt"})
-                    .attr("d","M 0,0 m -5,-5 l -5,5 -10,-10 20,0 10,-10 -10,-10 -10,10 10,10 20,0 -10,10 -5,-5  ");
-                break;
-            case "gl":
-                icon.append('path')
-                    .styles({"fill":"none", "stroke":"#F0F0F0","stroke-width":"3pt"})
-                    .attr("d","M 0,0 m -5,-20 l 5,-5 5,5 -3,3 12,12 -12,12 -2,0 -12,-12 10,-10 z  ");
-                break;
-            default:
-                break;
-        }
-    }
 
-    drawScale(tgt,x,y,scale){
-        let me = this
-        if (scale[0]=="g"){
-            me.drawMajorScale(tgt,x,y,scale)
-        }else{
-            let sc = tgt.append('g')
-                .attr('class',"scale")
-            let icon = sc.append('g')
-                .attr('class','icon')
-                .attr('transform','translate('+x+','+y+')')
-                .styles({"stroke-width":"3pt","stroke-linejoin":"round","stroke-linecap":"round"})
-            icon.append('path')
-                .styles({"fill":"#c08020", "stroke":"#803010"})
-                .attr("d","m 0,-38 l -25,5 3,45 22,27 22,-27 3,-45 z")
-            icon.append('path')
-                .styles({"fill":"#401040", "stroke":"#401040"})
-                .attr("d","M -30,-10 l 30,-30 30,30 -30,30 z")
-            switch(scale){
-                case "e":
-                    icon.append('path')
-                        .styles({"fill":"none", "stroke":"#F0C040","stroke-width":"3pt"})
-                        .attr("d","M 0,0 m 0,-25 l -15,15 30,0 -15,15 ");
-                    break;
-                case "p":
-                    icon.append('path')
-                        .styles({"fill":"none", "stroke":"#F0C040","stroke-width":"3pt"})
-                        .attr("d","M 0,0 m 0,0 l -10,-10 10,-10 m 0,-10 l 20,20 -20 20");
-                    break;
-                case "a":
-                    icon.append('path')
-                        .styles({"fill":"none", "stroke":"#F0C040","stroke-width":"3pt"})
-                        .attr("d","M 0,0 m -10,0 l -10,-10 40,0 -10,10 M 0,0 m 0,-20 l -10,0 10,-10 10,10 -10,0");
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
 
     drawAppartus(){
         let me = this;
-        // let a = {}
-        // _.forEach(me.config.data, (v,k) => {
-        //     if (v.rid == me.code){
-        //         a = v
-        //         return false
-        //     }
-        // });
         let a = me.datum.payload
         let ox = 0.5, oy = 1.5
         // Statistics
@@ -149,29 +62,6 @@ class Appartus extends Modulo {
             .attrs({"x":me.step*0.25, "y":(-0.25)*me.step})
             .styles({"font-family":me.titleFont, "font-size":me.fontSize*4+"pt", "text-anchor":"start"})
             .text(a.name)
-
-        // // Statistics
-        // me.appartus = me.back.append("g")
-        //     .attr("class","appartus")
-        //     .attr("id","appartus "+a.id)
-        //     .attr("transform","translate("+me.step*ox+","+me.step*oy+")")
-        // me.appartus.append('rect')
-        //     .attr("class","green_top")
-        //     .attrs({"x":0, "y":me.step*0,"rx":me.step*0.05,"ry":me.step*0.05,"width":me.step*14,"height":me.step*4})
-        //     .style("fill", "none")
-        //     .style("stroke", "#808080")
-        //     .style("stroke-width", "3pt")
-        // me.appartus.append('rect')
-        //     .attr("class","rectangle_bottom")
-        //     .attr("id","rectbot")
-        //     .attrs({"x":0*me.step, "y":me.step*5,"rx":me.step*0.05,"ry":me.step*0.05,"width":me.step*14,"height":me.step*4})
-        //     .style("fill", "none")
-        //     .style("stroke", "#808080")
-        //     .style("stroke-width", "3pt")
-        // me.appartus.append('text')
-        //     .attrs({"x":me.step*0.25, "y":(-0.25)*me.step})
-        //     .styles({"font-family":me.titleFont, "font-size":me.fontSize*4+"pt", "text-anchor":"start"})
-        //     .text(a.name)
         me.appartus.append('text')
             .attrs({"x":me.step*13.75, "y":-0.25*me.step})
             .styles({"font-family":"Wellfleet", "font-size":me.fontSize*4+"pt", "text-anchor":"end"})
@@ -207,23 +97,25 @@ class Appartus extends Modulo {
         _.forEach(metrics, (e) => {
             me.drawSmallNumericBlock(me.appartus,e.x,e.y,e.label,e.value,e.id)
         });
-        // Emplacements Ecailles
+        // Emplacements des écailles
         _.forEach([1,2,3,4,5,6,7], (e) => {
+            let offset_x = (e*1.5-0.5)*me.step
             me.appartus.append("circle")
-                .attrs({"cx":(e*2-1)*me.step,"cy":4.65*me.step,"r":0.5*me.step})
+                .attrs({"cx": offset_x,"cy":4.65*me.step,"r":0.6*me.step})
                 .styles({"fill":"#F0F0F0","stroke-width":"5pt","stroke":"#808080"})
             me.appartus.append("circle")
-                .attrs({"cx":(e*2-1)*me.step,"cy":4.0*me.step,"r":0.2*me.step})
+                .attrs({"cx":offset_x,"cy":3.9*me.step,"r":0.2*me.step})
                 .styles({"fill":"#808080","stroke":"none"})
             me.appartus.append('text')
-                .attrs({"x":me.step*(e*2-1),"y":me.step*4.00, "dy":"3pt"})
+                .attrs({"x":offset_x,"y":me.step*3.9, "dy":"3pt"})
                 .styles({"fill":"#101010","stroke":"#404040","stroke-width":"0.5pt", "font-family":"Wellfleet", "font-size":"8pt", "text-anchor":"middle"})
                 .text(e)
         });
         // Ecailles
         let ecailles = a.scales.split(" ")
         _.forEach(ecailles, (v,k) => {
-            me.drawScale(me.appartus,me.step*(1+2*k), me.step*4.70,v);
+            let offset_x = ((k+1)*1.5-0.5)*me.step
+            me.drawScale(me.appartus,offset_x, me.step*4.70,v);
         })
         let cnt5 = me.wrap("#att5",10.5*me.step)+1;
         let cnt6 = me.wrap("#att6",10.5*me.step)+1;
@@ -254,6 +146,22 @@ class Appartus extends Modulo {
             .attrs({"x":18*me.step,"y":19*me.step})
             .styles({"font-family":"Neucha","text-anchor":"end","font-size":"12pt"})
             .text("Dragonade - Aide de jeu - Appartus - "+a.rid+" - Edition du "+dt)
+    }
+
+    drawScale(tgt,x,y,scale){
+        let me = this
+        let sc = tgt.append('g')
+            .attr('class',"scale")
+        let icon = sc.append('g')
+            .attr('class','icon')
+            .attr('transform','translate('+(x)+','+(y)+')')
+        icon.append("image")
+            .attr('transform','translate('+(-33)+','+(-36)+')')
+            .attr("xlink:href", "static/main/svg/2026/"+scale+".svg" )
+            .style('width',(me.step)+"pt")
+        icon.append("circle")
+            .attr("r","1pt")
+            .styles({"stroke-width":"1pt","stroke":"none","fill":"red"})
     }
 
     perform(code){

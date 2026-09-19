@@ -34,6 +34,7 @@
     {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Titre" val=i.title %}
     {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Nom" val=i.name %}
     {% include "main/chiaroscuro/zlist_item_text_value.html" with txt="Rêve" val=i.sogni|as_sogni|safe %}
+    {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with prop="place" txt="Lieu" val=i.place %}
     {% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="entrance" val=i.entrance %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Sexe" val=i.is_female|as_sex|safe %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Sans nom" val=i.nameless|as_okko|safe %}
@@ -72,11 +73,12 @@
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Total Compétences" val=i.total_skills|signed %}
 {% else %}
 {% if model == "Artefatto" %}
-    {% include "main/chiaroscuro/zlist_item_button.html" with txt="Editer" val="edit" icon="fa fa-cog" %}
     {% include "main/chiaroscuro/zlist_item_button.html" with txt="Voir" val="view" icon="fa fa-eye" %}
-<div id="{{i.type}}__{{i.id}}__view" model="{{i.type}}" class="zlist_item normal list_action" style="order:0; text-align:left;" title="view"><i class="fa fa-eye"></i></div>
-<div class="zlist_item label" model="{{i.type}}" style="order:0">{{ i.category }}</div>
-<div class="zlist_item label" model="{{i.type}}" style="order:0">{% if i.misc.title %}{{i.misc.title}}&nbsp;{%endif%}{{ i.name }}{% if i.features.AKA %}<br/>&laquo; {{i.features.AKA}} &raquo;{%endif%}</div>
+    {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Nom" val=i.name %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Catégorie" val=i.category_str %}
+    {%for s in i.all_scales %}
+        {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with txt=s|as_unique_scale_str|safe val=s|as_unique_scale|safe %}
+    {%endfor%}
 
 <div id="{{i.type}}__{{i.id}}__glance"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" >{{ i.glance|render_text|safe }}</div>
 <div id="{{i.type}}__{{i.id}}__description"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" >{{ i.description|render_text|safe }}</div>

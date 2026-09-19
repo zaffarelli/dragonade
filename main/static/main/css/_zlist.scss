@@ -98,6 +98,35 @@ $mid_font_size: 12pt;
                 }
             }
 
+            &.shifter{
+                display:flex;
+
+                flex-flow: column wrap;
+                justify-content:space-between;
+                align-items:stretch;
+                align-content:stretch;
+                color:silver;
+                width:12ex;
+                & .txt{
+                    flex:1 0 1.2em;
+                    font-size:$mid_font_size;
+                    color:white;
+                    background:#202020;
+
+                    border-radius:3pt;
+                    padding:3pt;
+                }
+                & .val{
+                    flex: 1 1 auto;
+                    font-size:$title_font_size;
+                    color:silver;
+                    background:#101010;
+
+                    padding:3pt;
+                }
+            }
+
+
             &.icon{
                 font-size:2em;
                 cursor:pointer;

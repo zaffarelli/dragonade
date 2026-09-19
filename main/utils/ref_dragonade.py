@@ -81,6 +81,7 @@ CHARACTER_STATISTICS = {
             {"NAME": "travel_points", "TEXT": "Points de Voyage", "RATIONALE": "-"},
             {"NAME": "imc_boost", "TEXT": "Modificateur IMC (+5/-5)", "RATIONALE": "-"},
             {"NAME": "title", "TEXT": "Titre", "RATIONALE": "-"},
+            {"NAME": "place", "TEXT": "Lieu de résidence", "RATIONALE": "-"},
         ]
     },
     "SKILLS": {

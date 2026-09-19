@@ -293,6 +293,11 @@ def creature_filters(request):
 # Artefatto
 def artefatti_options():
     zfilters = []
+    from main.models.artefatti import ArtefattoCategory
+    for k, p in enumerate(ArtefattoCategory.values):
+        if p > 0:
+            pa = {"param": "category", "value": p, "label": ArtefattoCategory.labels[k]}
+            zfilters.append(pa)
     return zfilters
 
 
@@ -443,6 +448,7 @@ def edit(request):
 
 def randomize(request):
     answer = {'id': "", "model": "", "payload": {}}
+    print("randomize")
     if is_ajax(request):
         id = request.POST.get('id')
         model = request.POST.get('model').title()
@@ -453,7 +459,7 @@ def randomize(request):
                 i = items.first()
                 i.randomize()
                 i.save()
-                answer['id'] = rid
+                answer['id'] = id
                 answer['model'] = k.__name__
                 answer['payload'] = i.export_to_json()
                 context = {}
