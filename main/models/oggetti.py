@@ -3,6 +3,7 @@ from django.contrib import admin
 from main.mixins.chiaroscuro_mixin import ChiaroscuroMixin
 from main.utils.mechanics import as_rid
 import math
+from colorfield.fields import ColorField
 
 
 class OggettoCategory(models.IntegerChoices):
@@ -48,6 +49,8 @@ class Oggetto(models.Model, ChiaroscuroMixin):
     engagement = models.IntegerField(default=0, null=True, blank=True)
     maneuver = models.IntegerField(default=0, null=True, blank=True)
     cover = models.CharField(default="", max_length=64, blank=True)
+    color = ColorField(default="#808080ff")
+    gcode = models.CharField(default="xxx", max_length=3, blank=True)
     materiaux = models.CharField(default="", max_length=64, blank=True)
     related_skill = models.CharField(default="", max_length=32, blank=True)
     related_attribute = models.CharField(default="", max_length=8, blank=True)
@@ -75,6 +78,10 @@ class Oggetto(models.Model, ChiaroscuroMixin):
     similitude = models.TextField(default="", max_length=1024, blank=True)
 
     skill_match = models.CharField(default="", max_length=32, blank=True)
+    min_size = models.IntegerField(default=1, blank=True)
+    max_size = models.IntegerField(default=20, blank=True)
+    min_purity = models.IntegerField(default=1, blank=True)
+    max_purity = models.IntegerField(default=7, blank=True)
 
     def fix(self):
         self.chiaroscuro()
@@ -233,15 +240,18 @@ class OggettoAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ['category', 'related_attribute', 'name']
     # Armors
-    list_display = ["name", "category", "cover", "enc", "price", "materiaux",'mod_adjust', "prot", "quality",
-                    "malus_AGI", "malus_DEX",
-                    "malus_VUE", "malus_OUI", "force_min"
-                    ]
-    list_editable = ["category", "cover", "materiaux", "prot", "quality", "force_min", "malus_AGI", "malus_DEX",
-                     "malus_VUE", "malus_OUI",'mod_adjust',"enc", "price"]
+    # list_display = ["name", "category", "cover", "enc", "price", "materiaux",'mod_adjust', "prot", "quality",
+    #                 "malus_AGI", "malus_DEX",
+    #                 "malus_VUE", "malus_OUI", "force_min"
+    #                 ]
+    # list_editable = ["category", "cover", "materiaux", "prot", "quality", "force_min", "malus_AGI", "malus_DEX",
+    #                  "malus_VUE", "malus_OUI",'mod_adjust',"enc", "price"]
     # Weapons
-    # list_display = ["rid", "category", "name", "engagement","maneuver","plus_dom","plus_dom_2m","mod_ini","mod_att","mod_dom", "related_skill_name",  "enc", "price", "resistance","force_min"]
-    # list_editable = ["maneuver","engagement", "enc", "price"]
+    list_display = ["rid", "category", "name", "engagement","maneuver","plus_dom","plus_dom_2m","mod_ini","mod_att","mod_dom", "related_skill_name",  "enc", "price", "resistance","force_min"]
+    list_editable = ["maneuver","engagement", "enc", "price"]
+    # Gems
+    # list_display = ["name", "category", "rid","gcode","color","min_size","max_size","min_purity","max_purity"]
+    # list_editable = ["gcode","min_size","max_size","min_purity","max_purity","color"]
     list_filter = ["category", "can_be_thrown", "special", "materiaux", "cover","quality"]
     search_fields = ['name']
     actions = [refix, cat_from_first]

@@ -112,12 +112,13 @@ def value_push(request):
                 answer['id'] = item.id
                 answer['change_result'] = change_result
                 answer['data'] = new_roster
-                context = {}
+                # context = {}
                 context['a'] = x
-                context['model'] = model
+                # context['model'] = model
                 template = get_template("main/objects/roster.html")
                 html = template.render(context, request)
                 answer['html'] = html
+                answer['model'] = model
                 return JsonResponse(answer)
     return HttpResponse(status=204)
 
@@ -295,9 +296,8 @@ def artefatti_options():
     zfilters = []
     from main.models.artefatti import ArtefattoCategory
     for k, p in enumerate(ArtefattoCategory.values):
-        if p > 0:
-            pa = {"param": "category", "value": p, "label": ArtefattoCategory.labels[k]}
-            zfilters.append(pa)
+        pa = {"param": "category", "value": p, "label": ArtefattoCategory.labels[k]}
+        zfilters.append(pa)
     return zfilters
 
 

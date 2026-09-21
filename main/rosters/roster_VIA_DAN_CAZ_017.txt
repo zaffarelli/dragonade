@@ -1,23 +1,30 @@
 Dantelin Cazegute
 Chasseur de Profils pour la galerie d'Embordine
 (Gardien des Rêves)
+Destinée: 2 (0)
+Stress: -1 = 0(U) + -1(R)
+Heure de Naissance: Epées
+Taille/Poids: 170 cm/65 kg
+Totaux Attributs/Compétences: 0 / 8
+
 AGI  8 EMP  4 APP  5 | TIR  6 | VIE 11 | IMP  0 
 CON  5 ODG  4 DEX  7 | MEL  7 | FAT  6 | ENC 11.0 
-FOR  5 OUI  6 INT  4 | DER  7 | SUS  3 | FAB  5 
-TAI  6 VUE  5 VOL  7 | LAN  6 | RES  2 | REV  5 
+FOR  5 OUI  6 INT  4 | LAN  7 | SUS  3 | FAB  5 
+TAI  6 VUE  5 VOL  7 | DER  6 | RES  2 | REV  5 
 
-Martiales (-1): Lutte [7]  6, Pugilat [7]  6, Arcs [2]  1, Lames Longues [2]  1.
-Générales (-1): Dessin [7]  6, Sculpture [7]  6, Concentration [2]  1, Eloquence [2]  1, Pièges [2]  1, Séduction [2]  1.
-Particulières (-2): Survie dans les Marais [7]  5, Survie dans les Glaces [6]  4, Charpenterie [5]  3, Maçonnerie [5]  3, Survie en Montagnes [5]  3, Comédie [4]  2, Couture [4]  2, Jeu de Mains [3]  1.
-Spécialisées (-3): Métallurgie [8]  5, Orfèvrerie [8]  5, Acrobatie [7]  4, Médecine [7]  4, Navigation [6]  3, Maroquinerie [5]  2.
-Connaissances (-4): Astrologie [9]  5, Légendes [6]  2, Mathématiques [6]  2.
-Draconiques (-5): Génératif [12]  7.
+Martiales (-1): Lutte [7] 6, Pugilat [7] 6, Arcs [2] 1, Lames Longues [2] 1.
+Générales (-1): Dessin [7] 6, Sculpture [7] 6, Concentration [2] 1, Eloquence [2] 1, Pièges [2] 1, Séduction [2] 1.
+Particulières (-2): Survie dans les Marais [7] 5, Survie dans les Glaces [6] 4, Charpenterie [5] 3, Maçonnerie [5] 3, Survie en Montagnes [5] 3, Comédie [4] 2, Couture [4] 2, Jeu de Mains [3] 1.
+Spécialisées (-3): Métallurgie [8] 5, Orfèvrerie [8] 5, Acrobatie [7] 4, Médecine [7] 4, Navigation [6] 3, Maroquinerie [5] 2.
+Connaissances (-4): Astrologie [9] 5, Légendes [6] 2, Mathématiques [6] 2.
+Draconiques (-5): Génératif [12] 7.
 
-Arme                   DOMA     2M   INIT        Jet    Score
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
 
-Armure/Protection                                      Malus  Prot
-
-Description: 
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
 
 PdV (11)      PdF (6)             PdR (5)             
 ¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤           

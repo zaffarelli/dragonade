@@ -4,8 +4,8 @@ class Modulo {
         this.co = co;
         this.config = config;
         this.name = "Modulo";
-        this.baseFont = "Roboto"
-        this.altFont = "Roboto Flex"
+        this.baseFont = "Fira Sans"
+        this.altFont = "Fira Sans Condensed"
         this.titleFont = "Khand"
         this.category = ""
         this.datum = {}
@@ -497,23 +497,22 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             oy = parseFloat(item.attr("y")),
             tspan = item.text(null).append("tspan").attr("x", ox).attr("y", oy).attr("dy", dy + "em");
         while (word = words.pop()) {
-            line.push(word);
-            tspan.text(line.join(' '));
+            line.push(word)
+            tspan.text(line.join(' '))
             if ((tspan.node().getComputedTextLength() >= width) || (word == "§")) {
-                line.pop();
-                tspan.text(line.join(" "));
+                line.pop()
+                tspan.text(line.join(" "))
                 if (word == "§") {
                     line = []
                 } else {
-                    line = [word];
+                    line = [word]
                 }
-                lineNumber += 1;
+                lineNumber += 1
                 tspan = item.append("tspan")
                     .attr("x", ox)
                     .attr("y", oy)
                     .attr("dy", lineNumber * lineHeight + "em")
-                    .text(word + " ");
-            }
+                    .text(word + " ")            }
         }
         let bb = d3.select(tgt).node().getBoundingClientRect()
         if (this.debug) {
@@ -521,8 +520,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
                 .attrs({"x": 0, "y": 0, "width": bb.width, "height": bb.height})
                 .styles({"fill": "#a020202f", "stroke": "#a02020", "stroke-width": "1pt"})
         }
-        console.log("Superwrap >>", bb)
-
+        // console.log("Superwrap >>", bb)
+        console.log(`Lines number > ${tgt} > ${lineNumber}`)
         return lineNumber
     }
 
@@ -553,8 +552,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             .attr("height", me.height)
             .style('stroke-width', '1pt')
             .style('stroke-dasharray', '')
-            .style('stroke', '#000000')
-            .style('fill', '#F0F0F0')
+            .style('stroke', 'black')
+            .style('fill', 'white')
             //.attr('opacity', 0.75)
         ;
         me.drawPrint();
@@ -673,6 +672,11 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
                 me.co.registerActions()
             },
         })
+    }
+
+    signed(x){
+        let result = x<0? ("-"+x): "+"+x
+        return result
     }
 
 }

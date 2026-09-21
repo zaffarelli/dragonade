@@ -1,23 +1,30 @@
 Gorion le Vif
 Maître Maroquinier à la recherche des tanneries de Renfir
 (Gardien des Rêves)
+Destinée: 2 (0)
+Stress: -1 = 86(U) + -87(R)
+Heure de Naissance: Vaisseau
+Taille/Poids: 165 cm/44 kg
+Totaux Attributs/Compétences: 0 / 25
+
 AGI  8 EMP  6 APP  6 | TIR  6 | VIE 10 | IMP  0 
 CON  5 ODG  4 DEX  7 | MEL  6 | FAT  5 | ENC 10.0 
-FOR  4 OUI  4 INT  7 | DER  8 | SUS  3 | FAB  5 
-TAI  5 VUE  5 VOL  5 | LAN  5 | RES  2 | REV  8 
+FOR  4 OUI  4 INT  7 | LAN  8 | SUS  3 | FAB  5 
+TAI  5 VUE  5 VOL  5 | DER  5 | RES  2 | REV  8 
 
-Martiales (-1): Esquive [7]  6, Poignards [7]  6, Lutte [4]  3, Bâtons [4]  3, Frondes [4]  3, Pugilat [3]  2.
-Générales (-1): Discrétion [7]  6, Artisanat [5]  4, Eloquence [5]  4, Escalade [5]  4, Vigilance [4]  3, Séduction [2]  1, Course [1]  0, Cuisine [1]  0.
-Particulières (-2): Jeu de Mains [8]  6, Maçonnerie [6]  4, Commerce [5]  3, Comédie [4]  2, Survie en Cité [4]  2, Déguisement [3]  1, Survie dans les Marais [3]  1, Survie en Sous-sols [3]  1, Couture [2]  0, Musique [1] -1.
-Spécialisées (-3): Maroquinerie [13] 10, Serrurerie [8]  5, Acrobatie [7]  4, Orfèvrerie [6]  3, Médecine [4]  1, Natation [4]  1.
-Connaissances (-4): Animaux [8]  4, Alchimie [7]  3, Plantes [6]  2.
-Draconiques (-5): Contemplatif [9]  4.
+Martiales (-1): Esquive [7] 6, Poignards [7] 6, Lutte [4] 3, Bâtons [4] 3, Frondes [4] 3, Pugilat [3] 2.
+Générales (-1): Discrétion [7] 6, Artisanat [5] 4, Eloquence [5] 4, Escalade [5] 4, Vigilance [4] 3, Séduction [2] 1, Course [1] 0, Cuisine [1] 0.
+Particulières (-2): Jeu de Mains [8] 6, Maçonnerie [6] 4, Commerce [5] 3, Comédie [4] 2, Survie en Cité [4] 2, Déguisement [3] 1, Survie dans les Marais [3] 1, Survie en Sous-sols [3] 1, Couture [2] 0, Musique [1] -1.
+Spécialisées (-3): Maroquinerie [13] 10, Serrurerie [8] 5, Acrobatie [7] 4, Orfèvrerie [6] 3, Médecine [4] 1, Natation [4] 1.
+Connaissances (-4): Animaux [8] 4, Alchimie [7] 3, Plantes [6] 2.
+Draconiques (-5): Contemplatif [9] 4.
 
-Arme                   DOMA     2M   INIT        Jet    Score
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
 
-Armure/Protection                                      Malus  Prot
-
-Description: Un homme à la taille et au gabarit en dessous de la moyenne, et pour lequel il ne fait aucun doute d'où provient son surnom. Semble uniquement armé de dagues.
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0  -1
+Protection: H-1-X C-2-X A-2-X B-2-X L-2-X M-2-X
 
 PdV (10)      PdF (5)             PdR (8)             
 ¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤     

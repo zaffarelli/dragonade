@@ -622,8 +622,15 @@ class Character(models.Model, ChiaroscuroMixin):
         if self.type == "Creatura":
             subty = (f" ({self.get_creature_type_display()})")
             ty += subty
-
         lines.append(f"{ty}")
+
+        from main.templatetags.dragonade_filters import as_hour
+        lines.append(f"Destinée: {self.destiny} ({self.travel_points})")
+        lines.append(f"Stress: {self.stress_acquired} = {self.stress_used}(U) + {self.stress_remaining}(R)")
+        lines.append(f"Heure de Naissance: {as_hour(self.birthhour)}")
+        lines.append(f"Taille/Poids: {self.height} cm/{self.weight} kg")
+        lines.append(f"Totaux Attributs/Compétences: {self.total_attributes} / {self.total_skills}")
+        lines.append("")
         space = "§"
         x = 0
         a = ["", "", "", ""]
@@ -656,7 +663,7 @@ class Character(models.Model, ChiaroscuroMixin):
             "D": {"title": "Draconiques (-5)","default":-5, "list": []}
         }
         for v in self._data["skills_summary"]:
-            categories[v["category"]]["list"].append(f"{v['text']} [{v['abs']}] {v['value']:2}")
+            categories[v["category"]]["list"].append(f"{v['text']} [{v['abs']}] {v['value']}")
 
         skills = ""
         for k, v in categories.items():
@@ -664,34 +671,39 @@ class Character(models.Model, ChiaroscuroMixin):
             skills += ", ".join(v["list"]) + ".<br/>"
         lines.append(skills)
 
-        weapons = f"{'Arme':{space}<20} {'DOMA':{space}>6} {'2M':{space}>6} {'INIT':>6} {'Jet':>10} {'Score':>8}<br/>"
+
+        weapons = f"{'Arme':{space}<20} {'1M':{space}>6} {'2M':{space}>6} {'INI':<3} {'ENG':<3} {'ATT':<3} {'MAN':<3} {'DMG':<3} {'Jet':<14} {'Score':<5}<br/>"
         for w in self._data["weapons"]:
             weapons += f"{w['name']:{space}<20} "
             # print(w)
-            if w['category'] == "mel":
+            if w['category'] == OggettoCategory.MEL:
                 if w['plus_dom'] != 0:
                     d1 = f"{w['plus_dom']}+{self.IMP}"
                     weapons += f"{d1:{space}>6} "
                 else:
                     weapons += f"{'-':{space}>6} "
-
                 if w['plus_dom_2m'] != 0:
-                    d2 = f"{w['plus_dom_2m']}+{math.floor(self.IMP * 1.5)}"
+                    d2 = f"{w['plus_dom_2m']}+{math.floor(self.IMP * 2)}"
                     weapons += f"{d2:{space}>6} "
                 else:
                     weapons += f"{'-':{space}>6} "
             else:
                 weapons += f"{w['plus_dom']:{space}>13} "
-            weapons += f"{w['mod_ini']:{space}>6} {w['stat_skill']:{space}>10} {w['base_score']:{space}>8}<br/>"
+            weapons += f"{w['mod_ini']:3} {w['engagement']:3} {w['mod_att']:3} {w['maneuver']:3} {w['mod_dom']:3} {w['stat_skill']:{space}<14} {w['base_score']:5}<br/>"
         lines.append(weapons)
 
-        protection = f'{"Armure/Protection":{space}<35}{"Malus":{space}>25}{"Prot":{space}>6}<br/>'
+        protection =  f"{'':{space}<35} Malus<br/>"
+        protection += f'{"Armure/Protection":{space}<35} AGI DEX VUE OUI {"Pr.":3} {"Couverture":<12}<br/>'
         for a in self._data['armors']:
-            all_malus = f'AGI {a["malus_AGI"]} DEX {a["malus_DEX"]} VUE {a["malus_VUE"]} OUI {a["malus_OUI"]}'
-            protection += f"{a['name']:{space}<35}{all_malus:{space}>25}{a['prot']:{space}>6}<br/>"
+            all_malus = f'{a["malus_AGI"]:3} {a["malus_DEX"]:3} {a["malus_VUE"]:3} {a["malus_OUI"]:3}'
+            protection += f"{a['name']:{space}<35} {all_malus} {a['prot']:3} {a['cover']:<12}<br/>"
+        protection += f'{"Cumuls Malus":{space}<35} {self.malus_AGI:3} {self.malus_DEX:3} {self.malus_VUE:3} {self.malus_OUI:3}<br/>'
+        protection += f"Protection: {self.protection_map}<br/>"
+
+
         lines.append(protection)
 
-        lines.append(f"Description: {self.description}<br/>")
+
 
         lines_VIE = []
         life = ""

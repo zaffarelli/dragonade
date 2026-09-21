@@ -1,23 +1,30 @@
 Mariannah Tendremine
 Chercheuse d'Aigredonts, Maître Joaillière de la Principauté de Gorneliand
 (Gardien des Rêves)
+Destinée: 3 (0)
+Stress: -1 = 0(U) + -1(R)
+Heure de Naissance: Serpent
+Taille/Poids: 160 cm/55 kg
+Totaux Attributs/Compétences: 0 / -44
+
 AGI  4 EMP  7 APP  5 | TIR  6 | VIE 11 | IMP  0 
 CON  5 ODG  4 DEX  7 | MEL  4 | FAT  6 | ENC 11.0 
-FOR  4 OUI  5 INT  8 | DER  5 | SUS  3 | FAB  6 
-TAI  6 VUE  5 VOL  6 | LAN  5 | RES  2 | REV  8 
+FOR  4 OUI  5 INT  8 | LAN  5 | SUS  3 | FAB  6 
+TAI  6 VUE  5 VOL  6 | DER  5 | RES  2 | REV  8 
 
-Martiales (-1): Esquive [7]  6, Poignards [7]  6, Lutte [3]  2, Armes d'Hast [2]  1.
+Martiales (-1): Esquive [7] 6, Poignards [7] 6, Lutte [3] 2, Armes d'Hast [2] 1.
 Générales (-1): .
-Particulières (-2): Musique [7]  5, Survie en Sous-sols [6]  4, Charpenterie [5]  3, Survie dans le Désert [5]  3, Jeu de Mains [3]  1, Maçonnerie [3]  1, Survie en Cité [3]  1, Survie en Forêt [3]  1.
-Spécialisées (-3): Orfèvrerie [10]  7, Jeu [7]  4, Métallurgie [6]  3, Maroquinerie [5]  2, Natation [5]  2, Jonglerie [4]  1.
+Particulières (-2): Musique [7] 5, Survie en Sous-sols [6] 4, Charpenterie [5] 3, Survie dans le Désert [5] 3, Jeu de Mains [3] 1, Maçonnerie [3] 1, Survie en Cité [3] 1, Survie en Forêt [3] 1.
+Spécialisées (-3): Orfèvrerie [10] 7, Jeu [7] 4, Métallurgie [6] 3, Maroquinerie [5] 2, Natation [5] 2, Jonglerie [4] 1.
 Connaissances (-4): .
-Draconiques (-5): Dynamique [10]  5.
+Draconiques (-5): Dynamique [10] 5.
 
-Arme                   DOMA     2M   INIT        Jet    Score
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
 
-Armure/Protection                                      Malus  Prot
-
-Description: 
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
 
 PdV (11)      PdF (6)             PdR (8)             
 ¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤     

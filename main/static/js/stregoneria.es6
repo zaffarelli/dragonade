@@ -7,13 +7,12 @@ class Stregoneria extends Modulo {
     }
 
 init() {
-        super.init();
+        super.init()
         let me = this
-        me.version = "1.0.0";
-        me.supertitle = "";
+        me.version = "1.0.0"
+        me.supertitle = ""
         me.category = "stregoneria"
-
-        me.fontSize = 10 //me.step / 6
+        me.fontSize = 10
         // Drawing Size
         me.height = me.step * 21.0
         me.width = me.step * 29.7/2
@@ -26,7 +25,7 @@ init() {
         me.vis = d3.select(me.parent).append("svg")
             .attr("viewBox", "0 0 " + me.w + " " + me.h)
             .attr("width", me.w)
-            .attr("height", me.h);
+            .attr("height", me.h)
         me.svg = me.vis.append('g')
             .attr("id", me.code)
             .attr("width", me.width)
@@ -34,26 +33,15 @@ init() {
             .append("svg:g")
             .attr("id","print_area")
             .attr("transform", "translate(0,0)")
-        ;
+
     }
 
     drawStregoneria(){
         let me = this;
         let s = {}
         me.klass = "Stregoneria"
-        // me.rid = s.rid
         console.log("DRAW STREGONERIA")
-        // if (me.fetched == true) {
-        //     _.forEach(me.config.data, (v, k) => {
-        //         if (v.rid == me.code) {
-        //             s = v
-        //             return false
-        //         }
-        //     })
-        // }else{
-        //     console.log("DATUM FETCHED!!!")
         s = me.datum.payload
-        // }
         console.log(s)
         let ox = 0.5, oy = 1.5
         // Statistics
@@ -64,7 +52,7 @@ init() {
         me.stregoneria.append('rect')
             .attr("class","rect_top")
             .attrs({"x":0*me.step, "y":me.step*0,"rx":me.step*0.1,"ry":me.step*0.1,"width":me.step*(29.7/2-1.75),"height":me.step*3.0})
-            .style("fill", "#ffffff")
+            .style("fill", "white")
             .style("stroke", "black")
             .style("stroke-width", "1pt")
         me.stregoneria.append('rect')
@@ -79,15 +67,6 @@ init() {
             .styles({"font-family":me.titleFont, "font-size":me.fontSize*4+"pt", "text-anchor":"start"})
             .text(s.name)
 
-        let lh = 0.5*2/3*me.step
-        let stack_y = 7.5
-        let text_metrics = [
-            // {"x":0.25, "y":0.5, "label":"Catégorie", "value":s.category+" (Voie: "+s.path+")","id":"des1", edit_field: ""},
-            {"x":0.25, "y":0.5, "label":"Jet", "value":"Rêve + "+s.roll,"id":"des2", edit_field: "" },
-            {"x":0.25, "y":stack_y, "label":"Description", "value": s.description,"id":"des4", edit_field: "description" },
-            {"x":0.25, "y":stack_y, "label":"Notes", "value": s.composantes,"id":"des5", edit_field: "composantes" },
-            // {"x":0.25, "y":stack_y, "label":"Autres noms", "value": s.alternative_names,"id":"des6", edit_field: "alternative_names" },
-        ]
         let delx = 4
         let metrics = [
             {"x":(delx * 0) + 0.25, "y":1.5, "label":"Difficulté", "value":s.diff,"id":s.rid+"met1"},
@@ -100,15 +79,24 @@ init() {
 
             {"x":(delx * 2) + 0.25, "y":1.5, "label":"Portée", "value":s.range_str,"id":s.rid+"met7"},
             {"x":(delx * 2) + 0.25, "y":2.0, "label":"Coût en Songe", "value":s.songe,"id":s.rid+"met8"},
-
-            // {"x":(delx * 1) + 0.25, "y":2.5, "label":"", "value":"","id":s.rid+"met8"},
+            {"x":(delx * 2) + 0.25, "y":2.5, "label":"Pentacle", "value":s.pentacle_code,"id":s.rid+"met9"},
+        ]
+        _.forEach(metrics, (e) => {
+            me.drawSmallNumericBlock(me.stregoneria,e.x,e.y,e.label,e.value)
+        })
+        let stack_y = 7.5
+        let text_metrics = [
+            {"x":0.25, "y":0.5, "label":"Jet", "value":"Rêve + "+s.roll,"id":"des2", edit_field: "" },
+            {"x":0.25, "y":stack_y, "label":"Description", "value": s.description,"id":"des4", edit_field: "description" },
+            {"x":0.25, "y":stack_y, "label":"Notes", "value": s.composantes,"id":"des5", edit_field: "composantes" },
         ]
         _.forEach(text_metrics, (e) => {
             me.drawLongTextBlock(me.stregoneria,e.x,e.y,e.label,e.value,e.id,e.edit_field)
-        });
-
-        let cnt4 = me.superwrap("#des4",9*me.step)+1;
-        let cnt5 = me.superwrap("#des5",9*me.step)+1;
+        })
+        let lh = 0.5*2/3*me.step
+        let ww = 9.5*me.step
+        let cnt4 = me.superwrap("#des4",ww)+1;
+        let cnt5 = me.superwrap("#des5",ww)+1;
         // let cnt6 = me.superwrap("#des6",8*me.step)+1;
         d3.select("#des4_rect").attr("height",lh*cnt4)
         d3.select("#des5_rect").attr("height",lh*cnt5)
@@ -119,9 +107,6 @@ init() {
             .attr("transform","translate("+(0.25*me.step)+","+(0.5*me.step*stack_y+(cnt4+1)*lh)+")")
         // d3.select("#des6_grp")
         //     .attr("transform","translate("+(0.25*me.step)+","+(0.5*me.step*stack_y+(cnt4+cnt5+2)*lh)+")")
-        _.forEach(metrics, (e) => {
-            me.drawSmallNumericBlock(me.stregoneria,e.x,e.y,e.label,e.value)
-        });
         // Emplacements des charges
         let basex = 0.5
         let basey = 15.5
@@ -188,7 +173,7 @@ init() {
         me.stregoneria.append('text')
             .attrs({"x":(basex+12.5)*me.step,"y":(basey-15.4)*me.step})
             .styles({"font-family":me.altFont, "font-size":me.fontSize*2+"pt", "text-anchor":"middle"})
-            .text(s.puissance)
+            .text(s.power)
 
         // Signature
         me.dragonadeSignature(.75,20,s.rid,"Fiche de Sortilège: "+s.name)
@@ -210,9 +195,6 @@ init() {
     postFetch(){
         super.postFetch()
         let me = this
-        console.log("POST FETCH STREGONERIA")
-        console.log(me.datum)
-        console.log(`${me.code} ${me.name}`)
         me.fetched = true
         me.drawBack()
         me.drawStregoneria()
@@ -221,22 +203,18 @@ init() {
 
     goBack(){
         super.goBack()
-        // $(".zlist_container").css('display','flex')
         $("#svg_area").remove()
     }
 
     handle(code){
-        console.log()
         super.handle()
         let me = this
         me.code = code
         me.fileprefix = "incantessimo"
         me.filename = me.code
-        // $(".zlist_container").css('display','none')
         $("<div id='svg_area'></div>").insertBefore('.zlist_container')
         me.init()
         me.fetch("incantessimo",code)
-
     }
 
 }

@@ -1,23 +1,30 @@
 Elyanna des Sables
 Bienfaitrice de la Confrérie du Crépuscule, Gardienne du Savoir de Tornel la Fabuleuse
 (Gardien des Rêves)
+Destinée: 3 (0)
+Stress: -1 = 181(U) + -182(R)
+Heure de Naissance: Faucon
+Taille/Poids: 168 cm/54 kg
+Totaux Attributs/Compétences: 4 / 31
+
 AGI  5 EMP  6 APP 10 | TIR  5 | VIE 10 | IMP  0 
 CON  4 ODG  5 DEX  5 | MEL  5 | FAT  6 | ENC 10.0 
-FOR  5 OUI  4 INT  7 | DER  6 | SUS  3 | FAB  6 
-TAI  6 VUE  5 VOL  8 | LAN  5 | RES  2 | REV  9 
+FOR  5 OUI  4 INT  7 | LAN  6 | SUS  3 | FAB  6 
+TAI  6 VUE  5 VOL  8 | DER  5 | RES  2 | REV  9 
 
-Martiales (-1): Arcs [5]  4, Poignards [5]  4, Esquive [4]  3, Lutte [3]  2, Pugilat [2]  1.
-Générales (-1): Danse [8]  7, Eloquence [6]  5, Séduction [6]  5, Concentration [5]  4, Sculpture [3]  2, Vigilance [1]  0.
-Particulières (-2): Commerce [5]  3, Déguisement [5]  3, Musique [5]  3, Comédie [4]  2, Jeu de Mains [4]  2, Survie en Sous-sols [4]  2, Survie en Cité [3]  1, Survie en Forêt [3]  1.
-Spécialisées (-3): Natation [8]  5, Orfèvrerie [6]  3, Acrobatie [4]  1, Jonglerie [4]  1, Maroquinerie [4]  1, Métallurgie [4]  1.
-Connaissances (-4): Ecriture [10]  6, Légendes [8]  4, Mathématiques [7]  3.
-Draconiques (-5): Dynamique [13]  8, Statique [9]  4, Mnémonique [7]  2, Contemplatif [6]  1, Destructif [3] -2, Génératif [2] -3.
+Martiales (-1): Arcs [5] 4, Poignards [5] 4, Esquive [4] 3, Lutte [3] 2, Pugilat [2] 1.
+Générales (-1): Danse [8] 7, Eloquence [6] 5, Séduction [6] 5, Concentration [5] 4, Sculpture [3] 2, Vigilance [1] 0.
+Particulières (-2): Commerce [5] 3, Déguisement [5] 3, Musique [5] 3, Comédie [4] 2, Jeu de Mains [4] 2, Survie en Sous-sols [4] 2, Survie en Cité [3] 1, Survie en Forêt [3] 1.
+Spécialisées (-3): Natation [8] 5, Orfèvrerie [6] 3, Acrobatie [4] 1, Jonglerie [4] 1, Maroquinerie [4] 1, Métallurgie [4] 1.
+Connaissances (-4): Ecriture [10] 6, Légendes [8] 4, Mathématiques [7] 3.
+Draconiques (-5): Dynamique [13] 8, Statique [9] 4, Mnémonique [7] 2, Contemplatif [6] 1, Destructif [3] -2, Génératif [2] -3.
 
-Arme                   DOMA     2M   INIT        Jet    Score
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
 
-Armure/Protection                                      Malus  Prot
-
-Description: 
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                         -1   0   0   0
+Protection: H-1-X C-3-X A-2-X B-2-X L-1-X M-1-X
 
 PdV (10)      PdF (6)             PdR (9)             
 ¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤   

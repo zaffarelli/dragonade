@@ -561,9 +561,14 @@ class Chiaroscuro {
                 },
                 dataType: 'json',
                 success: function (answer) {
+                    console.log("Value Push Editor")
                     $('#roster__' + answer.id).remove()
                     $('#svg_area').append(answer.html);
                     $('#roster__' + answer.id).removeClass("hidden")
+
+                    $("#" + answer.model.toLowerCase() + "__" + answer.id).html(answer.data)
+
+
                     $("#target_ed").val("")
                     $("#ed").val("")
                     me.registerActions()

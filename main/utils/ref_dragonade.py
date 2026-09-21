@@ -27,12 +27,13 @@ CHARACTER_STATISTICS = {
             {"NAME": "MEL", "TEXT": "Mêlée", "RATIONALE": " (FOR + AGI) / 2", "PARAMS": "FOR AGI",
              "FORMULA": lambda p: math.ceil((p[0] + p[1]) / 2), "ORDER": 1
              },
+            {"NAME": "LAN", "TEXT": "Lancer", "RATIONALE": " (TIR + FOR) / 2", "PARAMS": "TIR FOR",
+             "FORMULA": lambda p: math.ceil((p[0] + p[1]) / 2), "ORDER": 3
+             },
             {"NAME": "DER", "TEXT": "Dérobade", "RATIONALE": " (12 - TAI + AGI) / 2", "PARAMS": "TAI AGI",
              "FORMULA": lambda p: math.ceil((12 - p[0] + p[1]) / 2), "ORDER": 2
              },
-            {"NAME": "LAN", "TEXT": "Lancer", "RATIONALE": " (TIR + FOR) / 2", "PARAMS": "TIR FOR",
-             "FORMULA": lambda p: math.ceil((p[0] + p[1]) / 2), "ORDER": 3
-             }
+
         ]
     },
     "MISC": {
@@ -44,7 +45,7 @@ CHARACTER_STATISTICS = {
              "FORMULA": lambda p: p[0] + p[1]
              },
             {"NAME": "FAT", "TEXT": "Fatigue", "RATIONALE": " (CON + VOL) / 2", "PARAMS": "CON VOL",
-             "FORMULA": lambda p: round((p[0] + p[1]) / 2)
+             "FORMULA": lambda p: math.ceil((p[0] + p[1]) / 2)
              },
             {"NAME": "IMP", "TEXT": "Impact", "RATIONALE": " ArrondiBas((FOR + TAI) / 4) - 2", "PARAMS": "FOR TAI",
              "FORMULA": lambda p: math.floor((p[0] + p[1]) / 4) - 2
@@ -485,7 +486,8 @@ def comp_table_json(cat=""):
 
 def gear_table_json(cat=""):
     title = "Matériel"
-    for x in GEAR_CAT:
+    from main.models.oggetti import Oggetto, OggettoCategory
+    for x in OggettoCategory.values:
         if x[0] == cat:
             title = x[1]
             break
@@ -498,8 +500,8 @@ def gear_table_json(cat=""):
     }
     rows = []
     values = []
-    from main.models.equipment import Equipment
-    for c in Equipment.objects.filter(category=cat, special=False):
+
+    for c in Oggetto.objects.filter(category=cat, special=False):
         rows.append(f"{c.rid}")
         values.append(f"{c.name}")
         values.append(f"{c.plus_dom}")

@@ -2,23 +2,30 @@ Lorfin Quartefigue
 Défenseur des Opprimés, Honorable Pair de la Confrérie d'Ambroisie., Humble Piloufacier de Barneby le Prédicateur, Spadassin de l'Ordre du Bailleux de Médasse
 Sire
 (Gardien des Rêves)
+Destinée: 5 (0)
+Stress: -1 = 383(U) + -384(R)
+Heure de Naissance: n/a
+Taille/Poids: 180 cm/78 kg
+Totaux Attributs/Compétences: 8 / 75
+
 AGI  8 EMP  9 APP  7 | TIR  5 | VIE 13 | IMP  1 
 CON  6 ODG  4 DEX  5 | MEL  8 | FAT  6 | ENC 13.0 
-FOR  8 OUI  5 INT  4 | DER  7 | SUS  3 | FAB  6 
-TAI  7 VUE  5 VOL  6 | LAN  7 | RES  2 | REV  8 
+FOR  8 OUI  5 INT  4 | LAN  7 | SUS  3 | FAB  6 
+TAI  7 VUE  5 VOL  6 | DER  7 | RES  2 | REV  8 
 
-Martiales (-1): Lames Longues [10]  9, Armes à deux mains [9]  8, Boucliers [8]  7, Esquive [6]  5, Lutte [2]  1, Lances [2]  1, Poignards [2]  1.
-Générales (-1): Tactique [8]  7, Eloquence [7]  6, Séduction [6]  5, Cuisine [5]  4, Discrétion [4]  3, Escalade [4]  3, Vigilance [4]  3, Chant [3]  2, Course [3]  2, Saut [3]  2.
-Particulières (-2): Survie en Cité [8]  6, Equitation [7]  5, Survie en Montagnes [6]  4, Survie en Sous-sols [6]  4, Comédie [5]  3, Survie en Forêt [4]  2, Charpenterie [3]  1, Déguisement [3]  1, Maçonnerie [3]  1, Survie dans les Glaces [1] -1, Survie dans les Marais [1] -1.
-Spécialisées (-3): Jonglerie [9]  6, Métallurgie [8]  5, Natation [8]  5, Maroquinerie [6]  3, Acrobatie [4]  1, Médecine [4]  1, Orfèvrerie [3]  0.
-Connaissances (-4): Animaux [7]  3, Chirurgie [6]  2, Alchimie [5]  1, Légendes [5]  1.
-Draconiques (-5): Génératif [10]  5, Dynamique [5]  0, Mnémonique [5]  0, Contemplatif [2] -3.
+Martiales (-1): Lames Longues [10] 9, Armes à deux mains [9] 8, Boucliers [8] 7, Esquive [6] 5, Lutte [2] 1, Lances [2] 1, Poignards [2] 1.
+Générales (-1): Tactique [8] 7, Eloquence [7] 6, Séduction [6] 5, Cuisine [5] 4, Discrétion [4] 3, Escalade [4] 3, Vigilance [4] 3, Chant [3] 2, Course [3] 2, Saut [3] 2.
+Particulières (-2): Survie en Cité [8] 6, Equitation [7] 5, Survie en Montagnes [6] 4, Survie en Sous-sols [6] 4, Comédie [5] 3, Survie en Forêt [4] 2, Charpenterie [3] 1, Déguisement [3] 1, Maçonnerie [3] 1, Survie dans les Glaces [1] -1, Survie dans les Marais [1] -1.
+Spécialisées (-3): Jonglerie [9] 6, Métallurgie [8] 5, Natation [8] 5, Maroquinerie [6] 3, Acrobatie [4] 1, Médecine [4] 1, Orfèvrerie [3] 0.
+Connaissances (-4): Animaux [7] 3, Chirurgie [6] 2, Alchimie [5] 1, Légendes [5] 1.
+Draconiques (-5): Génératif [10] 5, Dynamique [5] 0, Mnémonique [5] 0, Contemplatif [2] -3.
 
-Arme                   DOMA     2M   INIT        Jet    Score
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
 
-Armure/Protection                                      Malus  Prot
-
-Description: 
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
 
 PdV (13)      PdF (6)             PdR (8)             
 ¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤     
