@@ -11,7 +11,7 @@ class Nativo(Character, JsonableMixin):
         verbose_name = "Nativo"
         verbose_name_plural = "Nativi"
 
-    dream = models.CharField(max_length=264, default="", blank=True)
+    # dream = models.CharField(max_length=264, default="", blank=True)
     spotlight = models.BooleanField(default=False, blank=True)
     nameless = models.BooleanField(default=False, blank=True)
 
@@ -28,10 +28,7 @@ class Nativo(Character, JsonableMixin):
         if self.randomize:
             self.initial_randomize()
             self.randomize = False
-        if self.dream == "6":
-            self.dream = "RDC"
-        if self.dream == "9":
-            self.dream = "RHS"
+
 
 
     def randomize(self):
@@ -74,13 +71,19 @@ class Nativo(Character, JsonableMixin):
         self.skills_generic = " ".join(skills[4])
         self.skills_weapons = " ".join(skills[5])
 
+    @classmethod
+    def spawn(cls):
+        item = cls()
+        item.name = f"Nouveau ({roll(faces=12)}-{roll(faces=12)}-{roll(faces=12)})"
+        item.save()
+        return item.id
 
 
 class NativoAdmin(admin.ModelAdmin):
     from main.utils.mechanics import pre_sim, refix
     ordering = ['factions', 'group', 'team_color', 'name']
-    list_display = ['id', 'rid', 'name', "sogni",'skills_generic', 'skills_knowledge', 'entrance', 'title', 'aka', 'is_female', "age", 'group', 'nameless', 'dream']
-    list_editable = ['title', 'aka', "sogni",'skills_generic', 'skills_knowledge','group', 'age', "entrance", 'is_female', 'nameless', "dream"]
-    list_filter = ['dream', 'group', 'team_color', 'factions', 'nameless', "is_female", "is_battle_ready"]
+    list_display = ['name','rid', "sogni",'is_new','nameless', 'entrance', 'title', 'aka', 'is_female', "age", 'group']
+    list_editable = ['is_new','sogni','title', 'aka', 'age']
+    list_filter = ['team_color', 'factions', 'nameless', "is_female", "is_battle_ready", 'sogni','is_new']
     search_fields = ['name', 'title', 'factions', 'aka', 'sogni']
     actions = [refix, pre_sim]

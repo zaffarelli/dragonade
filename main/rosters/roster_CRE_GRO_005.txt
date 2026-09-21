@@ -1,9 +1,13 @@
 Groin
 Créature (Humanoïde)
+Heure de Naissance: Serpent
+Taille/Poids: 170 cm/75 kg
+Totaux Attributs/Compétences: 41 / -123
+
 AGI  4 EMP  1 APP  1 | TIR  4 | VIE  9 | IMP  0 
 CON  4 ODG  4 DEX  4 | MEL  5 | FAT  4 | ENC 9.0 
-FOR  5 OUI  4 INT  1 | DER  6 | SUS  3 | FAB  3 
-TAI  5 VUE  4 VOL  4 | LAN  5 | RES  1 | REV  3 
+FOR  5 OUI  4 INT  1 | LAN  6 | SUS  3 | FAB  3 
+TAI  5 VUE  4 VOL  4 | DER  5 | RES  1 | REV  3 
 
 Martiales (-1): .
 Générales (-1): .
@@ -12,11 +16,12 @@ Spécialisées (-3): .
 Connaissances (-4): .
 Draconiques (-5): .
 
-Arme                   DOMA     2M   INIT        Jet    Score
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
 
-Armure/Protection                                      Malus  Prot
-
-Description: 
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X AS-0-X AW-0-X LS-0-X LW-0-X
 
 PdV (9)       PdF (4)             PdR (3)             
 ¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤             ¤ ¤ ¤               

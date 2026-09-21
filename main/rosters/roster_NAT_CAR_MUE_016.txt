@@ -1,0 +1,33 @@
+Carprica Muendes
+El Cuervo
+Dona
+Nativo
+Heure de Naissance: Dragon
+Taille/Poids: 10 cm/0 kg
+Totaux Attributs/Compétences: -8 / -50
+
+AGI  4 EMP  4 APP  4 | TIR  3 | VIE  9 | IMP  0 
+CON  4 ODG  4 DEX  4 | MEL  6 | FAT  4 | ENC 9.0 
+FOR  4 OUI  4 INT  4 | LAN  6 | SUS  3 | FAB  4 
+TAI  4 VUE  4 VOL  4 | DER  5 | RES  1 | REV  4 
+
+Martiales (-1): .
+Générales (-1): .
+Particulières (-2): .
+Spécialisées (-3): .
+Connaissances (-4): .
+Draconiques (-5): .
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (9)       PdF (4)             PdR (4)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤             
+¤ ¤ ¤ ¤       ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤             
+              ¤ ¤ ¤               ¤ ¤ ¤ ¤             
+              ¤ ¤ ¤                                   
+                                                      

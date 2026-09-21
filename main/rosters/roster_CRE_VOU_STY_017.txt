@@ -1,22 +1,27 @@
 Vouivre Styrienne
 Créature (Créature fabuleuse)
+Heure de Naissance: Faucon
+Taille/Poids: 10 cm/50 kg
+Totaux Attributs/Compétences: 157 / 94
+
 AGI 12 EMP  6 APP  1 | TIR  4 | VIE 28 | IMP  4 
 CON 12 ODG  7 DEX  4 | MEL 10 | FAT 11 | ENC 28.0 
-FOR  8 OUI 15 INT  2 | DER  4 | SUS  5 | FAB  5 
-TAI 16 VUE  4 VOL 10 | LAN  6 | RES  5 | REV  5 
+FOR  8 OUI 15 INT  2 | LAN  4 | SUS  5 | FAB  5 
+TAI 16 VUE  4 VOL 10 | DER  6 | RES  5 | REV  5 
 
-Martiales (-1): Lames Courtes [11] 10, Armes d'Hast [10]  9, Poignards [7]  6.
+Martiales (-1): Lames Courtes [11] 10, Armes d'Hast [10] 9, Poignards [7] 6.
 Générales (-1): .
-Particulières (-2): Survie dans les Marais [8]  6.
-Spécialisées (-3): Acrobatie [11]  8, Navigation [11]  8.
+Particulières (-2): Survie dans les Marais [8] 6.
+Spécialisées (-3): Acrobatie [11] 8, Navigation [11] 8.
 Connaissances (-4): .
 Draconiques (-5): .
 
-Arme                   DOMA     2M   INIT        Jet    Score
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
 
-Armure/Protection                                      Malus  Prot
-
-Description: 
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
 
 PdV (28)      PdF (11)            PdR (5)             
 ¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           

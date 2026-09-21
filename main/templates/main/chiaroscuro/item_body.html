@@ -32,6 +32,7 @@
 {% if model == "Nativo" %}
     {% include "main/chiaroscuro/zlist_item_button.html" with txt="Voir" val="view" icon="fa fa-eye" %}
     {% include "main/chiaroscuro/zlist_item_button.html" with txt="Editer" val="edit" icon="fa fa-cog" %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Nouveau" val=i.is_new|as_okko|safe %}
     {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Titre" val=i.title %}
     {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Nom" val=i.name %}
     {% include "main/chiaroscuro/zlist_item_text_value.html" with txt="Rêve" val=i.sogni|as_sogni|safe %}
@@ -45,6 +46,7 @@
 {% else %}
 {% if i.type == "viaggiatore" %}
     {% include "main/chiaroscuro/zlist_item_button.html" with txt="Editer" val="edit" icon="fa fa-cog" %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Nouveau" val=i.is_new|as_okko|safe %}
     {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Titre" val=i.title %}
     {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Nom" val=i.name %}
     {% include "main/chiaroscuro/zlist_item_text_value.html" with txt="Joueur" val=i.player %}
@@ -66,6 +68,7 @@
 {% else %}
 {% if model == "Creatura" %}
     {% include "main/chiaroscuro/zlist_item_button.html" with txt="Editer" val="edit" icon="fa fa-cog" %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Nouveau" val=i.is_new|as_okko|safe %}
     {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Nom" val=i.name %}
     {% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="creature_type" txt="Type de Créature" val=i.creature_type_str %}
     {% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="Description" val=i.description %}

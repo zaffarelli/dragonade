@@ -87,7 +87,6 @@ class Chiaroscuro {
             name = me.name;
         }
         let str = "[" + name + "] > " + txt;
-//          console.log(str);
     }
 
     prepareAjax() {
@@ -104,25 +103,16 @@ class Chiaroscuro {
 
     revealUI() {
         let me = this;
-//         console.log("Reveal UI");
         $('.world').addClass('shownflex');
         $('.world').removeClass('hidden');
-//         $('.universe').addClass('hidden');
-//         $('.universe').removeClass('shown');
         $('.sheet').addClass('hidden');
     }
 
     revealUniverse() {
         let me = this;
-//         console.log("Reveal Universe");
         $('.world').addClass('shownflex');
         $('.world').removeClass('hidden');
-//         $('.universe').addClass('shownflex');
         $('.universe').removeClass('hidden');
-
-        //$('.world').addClass('hidden');
-        //$('.universe').addClass('shown');
-
     }
 
 
@@ -130,53 +120,14 @@ class Chiaroscuro {
         let me = this;
         me.prepareAjax()
         me.registerShortcuts()
-        me.registerEditables()
         me.registerEditor()
         me.registerStackPull()
-        me.registerValuePush()
         me.registerValuePushEditor()
-        me.registerSheets()
+        // me.registerSheets()
         me.registerLinks()
-        me.registerMiniItems()
         me.registerShowHide()
-        me.registerPaginator()
-        me.registerModelForm()
         me.registerShifters()
-        me.registerTabs()
         me.registerListActions()
-        me.registerHighlight()
-
-    }
-
-    registerHighlight() {
-        let me = this
-        // $(".creation_value").off("mouseout")
-        //     .on("mouseout", (e) => {
-        //         let val=$(this).attr("rotofil")
-        //         console.log("Mouseout "+val)
-        //         e.preventDefault()
-        //         e.stopPropagation()
-        //
-        //         if (e.ctrlKey) {
-        //             $('.creation_value').removeClass("hidden")
-        //         }
-        //     })
-        $(".creation_value").off("mouseover")
-            .on("mouseover", function (e) {
-                let specific_class = $(this).attr("param")
-                console.log("Mouseover " + specific_class)
-                e.preventDefault()
-                e.stopPropagation()
-
-                if (e.ctrlKey) {
-                    $('.creation_value').addClass("hidden")
-                    console.log(specific_class)
-                    $('.' + specific_class).removeClass("hidden")
-                } else {
-                    $('.creation_value').removeClass("hidden")
-                }
-            })
-
     }
 
     registerShortcuts() {
@@ -187,17 +138,20 @@ class Chiaroscuro {
             if (e.ctrlKey && e.altKey) {
                 switch (e.key) {
                     case "o":
-                        console.log("Code:" + e.code, "Key:" + e.key)
                         $("#options_showhide").trigger('click')
                         break
                 }
             }
-
         })
-    }
-
-    registerTabs() {
-        let me = this;
+        $('.closer').off().on('click', function (e) {
+            e.preventDefault()
+            e.stopPropagation()
+            let id = $(this).attr('id')
+            let words = id.split('__')
+            $("#roster__" + words[0]).remove()
+            $("#svg_area").remove()
+            me.registerActions()
+        })
         $('.tabbutton').off().on('click', function (e) {
             let tgt = $(this).attr("param")
             $(".tabbutton").removeClass("on")
@@ -205,10 +159,8 @@ class Chiaroscuro {
             $(".tabpanel").addClass("hidden")
             $("#tabpanel_" + tgt).removeClass("hidden")
             me.last_tabbutton = $(this).attr("id")
-            console.log(`Last tab button is [${me.last_tabbutton}].`)
         })
     }
-
 
     registerStackPull() {
         let me = this;
@@ -219,7 +171,6 @@ class Chiaroscuro {
             $("#target_ed").val(action);
         })
         $('.stackpush').off().on('click', function (e) {
-            console.log("stackpush")
             let list = $("#ed").val()
             let words = list.split(" ")
             let word = $(this).attr('param')
@@ -245,10 +196,9 @@ class Chiaroscuro {
             let action = words[2]
             let param = words[3]
             let value = words[4]
-
+            console.log(`List action: [${words[0]}:${words[2]}=${words[3]}] required.`)
             switch (action) {
                 case "view":
-                    console.log(`Viewing for [${id}] required.`)
                     me.axiomaticPerformers.forEach((m) => {
                         console.log(`[${m.name}] is ready to handle [${id}]!`)
                         m.handle(id)
@@ -259,22 +209,39 @@ class Chiaroscuro {
                     me.axiomaticPerformers.forEach((m) => {
                         m.edit(model, id)
                     })
-
                     me.registerActions()
                     break
                 case "randomize":
-                    console.log("Randomize")
                     me.axiomaticPerformers.forEach((m) => {
                         m.randomize(model, id)
                     })
-
                     me.registerActions()
                     break
                 case "export":
                     console.log(`Exporting for [${words[0]}] required.`)
                     break
+                case "new":
+                    $.ajax({
+                        url: 'ajax/new',
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        data: {
+                            model: model,
+                        },
+                        dataType: 'json',
+                        success: function (answer) {
+                            $(".zlist_container").html(answer.data)
+                            me.registerActions()
+                        },
+                        error: function (answer) {
+                            console.error('Error... ' + answer);
+                        },
+                    })
+                    break
                 case "filter":
-                    console.log(`Filtrering for [${words[0]}:${words[2]}=${words[3]}] required.`)
                     $.ajax({
                         url: 'ajax/' + words[0].toLowerCase() + '_filter',
                         method: 'POST',
@@ -397,9 +364,9 @@ class Chiaroscuro {
                         let value = $(this).attr("srcval")
                         let encoded_value = me.zaff_decode(value)
                         let data = params[0] + "__" + params[1] + "__" + params[2]
-                        console.log("RegisterEditor")
-                        console.log(data)
-                        console.log(">>>",encoded_value)
+                        // console.log("RegisterEditor")
+                        // console.log(data)
+                        // console.log(">>>",encoded_value)
                         $("#ed").val(encoded_value)
                         $("#target_ed").val(data)
                         $(this).parent(".interactive_element").addClass("selected")
@@ -422,8 +389,8 @@ class Chiaroscuro {
             let xxx = $(this).attr('id')
             // let model = $(this).attr('model')
             let words = xxx.split('__')
-            console.log(words)
-            console.log(words)
+            // console.log(words)
+            // console.log(words)
             if (e.ctrlKey || e.altKey) {
                 let back = (e.altKey ? -1 : 1)
                 $.ajax({
@@ -441,8 +408,8 @@ class Chiaroscuro {
                     },
                     dataType: 'json',
                     success: function (answer) {
-                        console.log(answer.model,answer.id)
-                        console.log(answer.data)
+                        // console.log(answer.model,answer.id)
+                        // console.log(answer.data)
                         $("#" + answer.model.toLowerCase() + "__" + answer.id).html(answer.data)
                         me.registerActions()
                     },
@@ -453,82 +420,6 @@ class Chiaroscuro {
                 })
             }
         })
-    }
-
-    registerValuePush() {
-        let me = this
-        $('#valuepush_ed').off().on('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            let new_value = $('#ed').val()
-            let value = me.zaff_encode(new_value)
-            let refs = $("#target_ed").val();
-            let words = refs.split("__")
-            if (words.includes("bulk")) {
-                value = me.zaff_encode($("#ed").val())
-
-            }
-            $.ajax({
-                url: 'ajax/value_push',
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                data: {
-                    "new_value": value,
-                    "refs": refs
-                },
-                dataType: 'json',
-                success: function (answer) {
-                    $('#roster__' + answer.id).remove()
-                    // $('#svg_area').append(answer.html);
-                    $('#roster__' + answer.id).removeClass("hidden")
-                    $("#target_ed").val("")
-                    $("#ed").val("")
-                    me.registerActions()
-                    if (me.last_tabbutton != "") {
-                        $("#" + me.last_tabbutton).trigger("click")
-                    }
-                },
-                error: function (answer) {
-                    console.error('Error... ' + answer);
-                },
-            });
-
-        });
-    }
-
-    registerPaginator() {
-        let me = this;
-        $('.paginator').off().on('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            let page = $(this).attr("page")
-            let target = $(this).attr("target")
-            let purpose = $(this).attr("purpose")
-            $.ajax({
-                url: 'ajax/paginator',
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                data: {
-                    "page": page,
-                    "params": target,
-                    "purpose": purpose
-                },
-                dataType: 'json',
-                success: function (answer) {
-                    $('.list.' + target).html(answer.html);
-                    me.registerActions();
-                },
-                error: function (answer) {
-                    console.error('Error... ' + answer);
-                },
-            });
-        });
     }
 
     registerValuePushEditor() {
@@ -545,7 +436,6 @@ class Chiaroscuro {
             if (words.includes("bulk")) {
                 value = me.zaff_encode($("#ed").val())
             }
-            console.log(refs)
             $.ajax({
                 url: 'ajax/value_push',
                 method: 'POST',
@@ -561,9 +451,14 @@ class Chiaroscuro {
                 },
                 dataType: 'json',
                 success: function (answer) {
+                    console.log("Value Push Editor")
                     $('#roster__' + answer.id).remove()
                     $('#svg_area').append(answer.html);
                     $('#roster__' + answer.id).removeClass("hidden")
+
+                    $("#" + answer.model.toLowerCase() + "__" + answer.id).html(answer.data)
+
+
                     $("#target_ed").val("")
                     $("#ed").val("")
                     me.registerActions()
@@ -586,102 +481,26 @@ class Chiaroscuro {
         })
     }
 
-
-    registerSheets() {
-        let me = this;
-        $('.list_entry').off().on('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            let miniid = $(this).attr('id');
-            let words = miniid.split('__');
-            let code = $(this).attr('code');
-            let id = words[1];
-            $('.list_entry').removeClass('mark');
-            $(this).addClass('mark');
-            let klass = ""
-            if ($(this).hasClass("stregoneria")) {
-                klass = "stregoneria"
-            }
-            switch (klass) {
-                case "stregoneria":
-                    console.log("Stregoneria")
-                    me.axiomaticPerformers.forEach((m) => {
-                        m.perform(code)
-                    });
-                    me.registerActions()
-                    break
-                default:
-                    $(".roster").addClass('hidden')
-                    $("#roster_" + id).removeClass('hidden')
-                    $("#roster_" + id + " .sheet").removeClass('hidden')
-                    me.registerActions()
-                    break
-            }
-
-
-//             $(".for_display_" + id).removeClass('hidden');
-//             $(".for_edit_" + id).addClass('hidden');
-
-
-        });
-        $('.minisheet').off().on('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            let miniid = $(this).attr('id');
-            let words = miniid.split('__');
-            let id = words[1];
-            $('.roster .sheet').addClass('hidden');
-            //$('.sheet.skills').addClass('hidden');
-            $('.minisheet').removeClass('mark');
-            $(this).addClass('mark');
-            $(".roster").addClass('hidden');
-            $("#roster_" + id).removeClass('hidden');
-            $("#roster_" + id + " .sheet").removeClass('hidden');
-
-            //$("#sb_"+id).removeClass('hidden');
-            $(".for_display_" + id).removeClass('hidden');
-            $(".for_edit_" + id).addClass('hidden');
-            console.debug("Showing #roster_" + id + ".sheet")
-            me.registerActions();
-        });
-        $('.closer').off().on('click', function (e) {
-            e.preventDefault()
-            e.stopPropagation()
-            let id = $(this).attr('id')
-            let words = id.split('__')
-            console.log(`skill_switch ${words[0]}`)
-            $("#roster__" + words[0]).remove()
-            $("#svg_area").remove()
-            // let id = words[0];
-            // $(".roster").addClass('hidden');
-            // $("#roster_" + id).removeClass('hidden');
-            // $(".for_display_" + id).toggleClass('hidden');
-            // $(".for_edit_" + id).toggleClass('hidden');
-            me.registerActions();
-        });
-    }
-
-
     registerMiniItems() {
         let me = this;
-        $('.mini').off().on('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            let miniid = $(this).attr('id');
-            let code = $(this).attr('code');
-            let words = miniid.split('__');
-            let id = words[1];
-            $(".item").addClass('hidden');
-            $(".mini").removeClass('mark');
-            $("#mini__" + id).addClass('mark');
-            $("#item__" + id).removeClass('hidden');
-            $(".for_display_" + id).removeClass('hidden');
-            $(".for_edit_" + id).addClass('hidden');
-            me.axiomaticPerformers.forEach((m) => {
-                m.perform(code)
-            });
-            me.registerActions();
-        });
+        // $('.mini').off().on('click', function (e) {
+        //     e.preventDefault();
+        //     e.stopPropagation();
+        //     let miniid = $(this).attr('id');
+        //     let code = $(this).attr('code');
+        //     let words = miniid.split('__');
+        //     let id = words[1];
+        //     $(".item").addClass('hidden');
+        //     $(".mini").removeClass('mark');
+        //     $("#mini__" + id).addClass('mark');
+        //     $("#item__" + id).removeClass('hidden');
+        //     $(".for_display_" + id).removeClass('hidden');
+        //     $(".for_edit_" + id).addClass('hidden');
+        //     me.axiomaticPerformers.forEach((m) => {
+        //         m.perform(code)
+        //     });
+        //     me.registerActions();
+        // });
 
         $('.kicker').off().on('click', function (e) {
             e.preventDefault();
@@ -831,17 +650,14 @@ class Chiaroscuro {
     }
 
     resizeEvent() {
-        console.log("Chiaroscuro Resize Event")
         let me = this;
         _.forEach(me.globalPerformers,
             (m) => {
-                console.log(m.name, " Resize Event")
                 m.resizeEvent();
             }
         );
         _.forEach(me.axiomaticPerformers,
             (m) => {
-                console.log(m.name, " Resize Event")
                 m.resizeEvent();
             }
         );
@@ -856,6 +672,22 @@ class Chiaroscuro {
             }
         );
 
+    }
+
+    zaff_encode(str) {
+        let zstr = str
+        _.forEach(ZAFF_MATCHES, (m) => {
+            zstr = zstr.replaceAll(m[0], m[1])
+        })
+        return zstr
+    }
+
+    zaff_decode(zstr) {
+        let str = zstr
+        _.forEach(ZAFF_MATCHES, (m) => {
+            str = str.replaceAll(m[1], m[0])
+        })
+        return str
     }
 
     perform() {
@@ -895,93 +727,5 @@ class Chiaroscuro {
         console.log("Check WS")
     }
 
-    zaff_encode(str) {
-        let zstr = str
-        _.forEach(ZAFF_MATCHES, (m) => {
-            zstr = zstr.replaceAll(m[0], m[1])
-        })
-        return zstr
-    }
 
-    zaff_decode(zstr) {
-        let str = zstr
-        _.forEach(ZAFF_MATCHES, (m) => {
-            str = str.replaceAll(m[1], m[0])
-        })
-        return str
-    }
-
-
-    fetchExternalSvgResource(file, tgt) {
-        let me = this;
-        d3.xml(file).then(data => {
-            d3.select(tgt).node().append(data.documentElement)
-        })
-//         d3.xml(file, function(error, documentFragment) {
-//                 if (error) {
-//                     console.log(error);
-//                     return;
-//                 }
-//                 let svgNode = documentFragment
-//                     .getElementsByTagName("svg")[0];
-//                 me.back.node().appendChild(svgNode);
-//                 let innerSVG = me.back.select("svg");
-//                 innerSVG.transition().duration(1000).delay(1000)
-//                       .select("circle")
-//                       .attr("r", 100);
-//
-//             });
-    }
-
-    registerModelForm() {
-        let me = this
-        $(".model_form_validate").off().on("click", function (e) {
-            let target = $("#editor").attr("param")
-            let target_words = target.split("__")
-            console.log(target)
-
-            let model = target_words[0]
-            let code = target_words[1]
-            let rid = target_words[2]
-            console.log(model)
-            let json_data = {
-                model: model,
-                code: code,
-                rid: rid,
-                properties: {}
-            }
-
-//             let properties = {}
-            $("#editor textarea.modifiable").each(function (e) {
-                let p = $(this).attr("param")
-                let v = $(this).val()
-                json_data.properties[p] = v
-
-            })
-//             console.log("Properties: ",properties)
-//              json_data.properties = properties
-            let js = JSON.stringify(json_data)
-//             let j = JSON.stringify(json_data)
-//             let k = JSON.parse(j)
-            console.info(js)
-            $.ajax({
-                url: 'ajax/overlay/edit/',
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                data: {item_info: js},
-                dataType: 'json',
-                success: function (answer) {
-                    console.log(answer)
-                    me.registerActions();
-                },
-                error: function (answer) {
-                    console.error('Error... ')
-                    console.error(answer);
-                },
-            })
-        })
-    }
 }

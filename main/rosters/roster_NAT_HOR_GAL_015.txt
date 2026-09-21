@@ -1,0 +1,35 @@
+Horus Gallimard
+Serviteur de la Menace
+Commandeur
+Nativo
+Heure de Naissance: Dragon
+Taille/Poids: 10 cm/0 kg
+Totaux Attributs/Compétences: 13 / -37
+
+AGI  4 EMP  4 APP  4 | TIR  6 | VIE 13 | IMP  1 
+CON  4 ODG  4 DEX  4 | MEL  7 | FAT  6 | ENC 13.0 
+FOR  4 OUI  4 INT  4 | LAN  6 | SUS  3 | FAB  5 
+TAI  4 VUE  4 VOL  4 | DER  6 | RES  2 | REV  5 
+
+Martiales (-1): .
+Générales (-1): .
+Particulières (-2): .
+Spécialisées (-3): Natation [11] 8, Navigation [7] 4.
+Connaissances (-4): .
+Draconiques (-5): .
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (13)      PdF (6)             PdR (5)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤           
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤           
+¤ ¤ ¤         ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤           
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

@@ -1,0 +1,29 @@
+Carignon
+Nativo
+Heure de Naissance: Vaisseau
+Taille/Poids: 10 cm/0 kg
+Totaux Attributs/Compétences: -42 / -50
+
+AGI  4 EMP  4 APP  4 | TIR  1 | VIE  2 | IMP -2 
+CON  4 ODG  4 DEX  4 | MEL  1 | FAT  1 | ENC 2.0 
+FOR  4 OUI  4 INT  4 | LAN  6 | SUS  2 | FAB  1 
+TAI  4 VUE  4 VOL  4 | DER  1 | RES  0 | REV  1 
+
+Martiales (-1): .
+Générales (-1): .
+Particulières (-2): .
+Spécialisées (-3): .
+Connaissances (-4): .
+Draconiques (-5): .
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (2)       PdF (1)             PdR (1)             
+¤ ¤           ¤ ¤ ¤               ¤                   
+                                  ¤                   
+                                  ¤                   

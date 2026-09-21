@@ -1,0 +1,35 @@
+Garde d'Argent
+Soldats de Haute-Styrie
+Nativo
+Heure de Naissance: Roseau
+Taille/Poids: 10 cm/0 kg
+Totaux Attributs/Compétences: 12 / 6
+
+AGI  4 EMP  4 APP  4 | TIR  6 | VIE 12 | IMP  0 
+CON  4 ODG  4 DEX  4 | MEL  6 | FAT  7 | ENC 12.0 
+FOR  4 OUI  4 INT  4 | LAN  6 | SUS  3 | FAB  5 
+TAI  4 VUE  4 VOL  4 | DER  6 | RES  2 | REV  5 
+
+Martiales (-1): Bâtons [7] 6, Masses [7] 6, Armes à deux mains [5] 4, Hâches [5] 4, Armes d'Hast [4] 3.
+Générales (-1): Concentration [6] 5, Escalade [6] 5.
+Particulières (-2): Déguisement [7] 5.
+Spécialisées (-3): Acrobatie [9] 6.
+Connaissances (-4): .
+Draconiques (-5): .
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (12)      PdF (7)             PdR (5)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤ ¤ ¤           
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤           
+¤ ¤           ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤           
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

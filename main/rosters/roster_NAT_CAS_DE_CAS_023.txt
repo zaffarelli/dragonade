@@ -1,0 +1,36 @@
+Casterand de Castagnède
+Le Chevalier à l'Anguille
+Nativo
+Heure de Naissance: Dragon
+Taille/Poids: 10 cm/0 kg
+Totaux Attributs/Compétences: 21 / -50
+
+AGI  4 EMP  4 APP  4 | TIR  5 | VIE 16 | IMP  2 
+CON  4 ODG  4 DEX  4 | MEL  9 | FAT  8 | ENC 16.0 
+FOR  4 OUI  4 INT  4 | LAN  7 | SUS  4 | FAB  6 
+TAI  4 VUE  4 VOL  4 | DER  7 | RES  3 | REV  8 
+
+Martiales (-1): .
+Générales (-1): .
+Particulières (-2): .
+Spécialisées (-3): .
+Connaissances (-4): .
+Draconiques (-5): .
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (16)      PdF (8)             PdR (8)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤     
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤     
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤     
+¤             ¤ ¤ ¤ ¤ ¤                               
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

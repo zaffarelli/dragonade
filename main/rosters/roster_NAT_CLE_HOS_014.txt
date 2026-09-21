@@ -1,0 +1,33 @@
+Cleria Hoschen
+Capitaine de la Garde de la Rose Pourpre
+Capitaine
+Nativo
+Heure de Naissance: Sirène
+Taille/Poids: 10 cm/0 kg
+Totaux Attributs/Compétences: -6 / 20
+
+AGI  4 EMP  4 APP  4 | TIR  4 | VIE  8 | IMP  0 
+CON  4 ODG  4 DEX  4 | MEL  4 | FAT  4 | ENC 8.0 
+FOR  4 OUI  4 INT  4 | LAN  6 | SUS  3 | FAB  4 
+TAI  4 VUE  4 VOL  4 | DER  5 | RES  1 | REV  4 
+
+Martiales (-1): Javelots [6] 5, Lames Courtes [6] 5, Armes à deux mains [5] 4, Armes d'Hast [4] 3, Poignards [2] 1, Hâches [1] 0.
+Générales (-1): Eloquence [4] 3, Séduction [4] 3, Concentration [3] 2, Course [3] 2, Discrétion [3] 2.
+Particulières (-2): Déguisement [7] 5, Commerce [2] 0.
+Spécialisées (-3): Serrurerie [5] 2, Natation [3] 0.
+Connaissances (-4): Alchimie [4] 0, Chirurgie [4] 0, Mathématiques [4] 0.
+Draconiques (-5): .
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (8)       PdF (4)             PdR (4)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤             
+¤ ¤ ¤         ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤             
+              ¤ ¤ ¤               ¤ ¤ ¤ ¤             
+              ¤ ¤ ¤                                   
+                                                      

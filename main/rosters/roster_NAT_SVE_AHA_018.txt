@@ -1,0 +1,34 @@
+Svenol Aharangaard
+Confesseur de Dame Mathilde
+Consigliere
+Nativo
+Heure de Naissance: Poisson-Acrobate
+Taille/Poids: 160 cm/59 kg
+Totaux Attributs/Compétences: -5 / 16
+
+AGI  4 EMP  4 APP  4 | TIR  5 | VIE  8 | IMP  0 
+CON  4 ODG  4 DEX  4 | MEL  4 | FAT  5 | ENC 8.0 
+FOR  4 OUI  4 INT  4 | LAN  6 | SUS  3 | FAB  4 
+TAI  4 VUE  4 VOL  4 | DER  5 | RES  1 | REV  4 
+
+Martiales (-1): .
+Générales (-1): .
+Particulières (-2): .
+Spécialisées (-3): Acrobatie [3] 0, Jeu [3] 0, Jonglerie [3] 0, Maroquinerie [3] 0, Médecine [3] 0, Métallurgie [3] 0, Natation [3] 0, Navigation [3] 0, Orfèvrerie [3] 0, Serrurerie [3] 0.
+Connaissances (-4): .
+Draconiques (-5): Contemplatif [5] 0, Destructif [5] 0, Dynamique [5] 0, Génératif [5] 0, Mnémonique [5] 0, Statique [5] 0.
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (8)       PdF (5)             PdR (4)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤             
+¤ ¤ ¤         ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤             
+              ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤             
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

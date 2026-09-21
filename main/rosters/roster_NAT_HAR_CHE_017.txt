@@ -1,0 +1,33 @@
+Harriette Chester
+Voleuse & Haut-Rêvante
+Nativo
+Heure de Naissance: Faucon
+Taille/Poids: 168 cm/48 kg
+Totaux Attributs/Compétences: 14 / -6
+
+AGI  4 EMP  4 APP  4 | TIR  6 | VIE  9 | IMP  0 
+CON  4 ODG  4 DEX  4 | MEL  5 | FAT  5 | ENC 9.0 
+FOR  4 OUI  4 INT  4 | LAN  6 | SUS  3 | FAB  5 
+TAI  4 VUE  4 VOL  4 | DER  5 | RES  1 | REV  8 
+
+Martiales (-1): .
+Générales (-1): .
+Particulières (-2): .
+Spécialisées (-3): Acrobatie [7] 4, Natation [7] 4, Orfèvrerie [6] 3, Jonglerie [4] 1.
+Connaissances (-4): .
+Draconiques (-5): Contemplatif [12] 7, Mnémonique [11] 6.
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (9)       PdF (5)             PdR (8)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤     
+¤ ¤ ¤ ¤       ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤     
+              ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤     
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

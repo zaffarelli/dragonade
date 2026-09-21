@@ -74,7 +74,7 @@ def value_shift(request):
                 template = get_template("main/chiaroscuro/item_body.html")
                 answer['data'] = template.render(context)
         else:
-            print(model,k,"Class not found")
+            print(model, k, "Class not found")
         answer["model"] = model.title()
         answer['id'] = id
     return JsonResponse(answer)
@@ -145,6 +145,7 @@ def svg_to_pdf(request, slug):
         response['status'] = 'ok'
     return JsonResponse(response)
 
+
 #
 # def paginator_switch(request):
 #     if is_ajax(request):
@@ -196,7 +197,7 @@ def incantessimi_options():
             zfilters.append(pa)
     for incantessimo in Incantessimo.objects.filter(category=IncantessimoCategory.PENTACLE):
         if incantessimo.pentacle_code != "":
-            zfilters.append({"param":"pentacle_code","value":incantessimo.pentacle_code,"label":incantessimo.name,"icon":"fa-star"})
+            zfilters.append({"param": "pentacle_code", "value": incantessimo.pentacle_code, "label": incantessimo.name, "icon": "fa-star"})
 
     return zfilters
 
@@ -245,10 +246,16 @@ def viaggiatori_filters(request):
 # Nativi
 def nativi_options():
     zfilters = []
-    pa = {"param": "dream", "value": "RDC", "label": "Royaume du Coint"}
+    # pa = {"param": "dream", "value": "RDC", "label": "Royaume du Coint"}
+    # zfilters.append(pa)
+    # pa = {"param": "dream", "value": "RHS", "label": "Royaume de Haute-Styrie"}
+    # zfilters.append(pa)
+    pa = {"param": "is_new", "value": True, "label": "Nouveau"}
     zfilters.append(pa)
-    pa = {"param": "dream", "value": "RHS", "label": "Royaume de Haute-Styrie"}
-    zfilters.append(pa)
+    from main.models.sogni import Sogno
+    for s in Sogno.objects.all():
+        pa = {"param": "sogni", "value": s.acronym, "label": s.title, "rule": "contains"}
+        zfilters.append(pa)
     return zfilters
 
 
@@ -355,7 +362,7 @@ def items_list(request, options={}):
         else:
             context['config']['modules'].append('taccuino')
         items = []
-        sa,st = get_sogno()
+        sa, st = get_sogno()
         filters = {
         }
         if options["model"] in ['Viaggiatore', 'Nativo']:
@@ -385,18 +392,22 @@ def items_filters(request, options={}):
     answer = {}
     if is_ajax(request):
         context = {}
-        sa,st = get_sogno()
+        sa, st = get_sogno()
         param = request.POST.get('param')
         value = request.POST.get('value')
+        rule = request.POST.get('rule')
         if value.lower() in ["true", "false"]:
             v = value == "true"
         else:
             v = value
+        more = ""
+        if rule:
+            more = f"__{rule}"
         filters = {
-            f"{param}": v
+            f"{param}{more}": v
         }
-        if options["model"] in ['Viaggiatore', 'Nativo']:
-            filters[f"sogni__contains"] = sa
+        # if options["model"] in ['Viaggiatore', 'Nativo']:
+        #     filters[f"sogni__contains"] = sa
         items = []
         k = model_to_class(options["model"])
         if k:
@@ -412,15 +423,29 @@ def items_filters(request, options={}):
             return JsonResponse(answer)
     return HttpResponse(status=204)
 
+
+def new_item(request):
+    answer = {}
+    if is_ajax(request):
+        context = {}
+        model = request.POST.get('model')
+        k = model_to_class(model)
+        if k:
+            id = k.spawn()
+            answer['id'] = id
+            return JsonResponse(answer)
+    return HttpResponse(status=204)
+
+
 def get_sogno():
     from main.models.sogni import Sogno
     sogno_acro = "DEF"
-    sogno_txt  = "FICS 11"
+    sogno_txt = "FICS 11"
     sogni = Sogno.objects.filter(current=True)
-    if len(sogni)>0:
+    if len(sogni) > 0:
         sogno = sogni.first()
         sogno_acro = sogno.acronym
-        sogno_txt  = sogno.title
+        sogno_txt = sogno.title
     return sogno_acro, sogno_txt
 
 
@@ -446,6 +471,7 @@ def edit(request):
                 return JsonResponse(answer)
     return HttpResponse(status=204)
 
+
 def randomize(request):
     answer = {'id': "", "model": "", "payload": {}}
     print("randomize")
@@ -470,7 +496,6 @@ def randomize(request):
                 answer['html'] = html
                 return JsonResponse(answer)
     return HttpResponse(status=204)
-
 
 
 def inc_dec(request):
@@ -532,18 +557,20 @@ def fetch(request):
                 return JsonResponse(answer)
     return HttpResponse(status=204)
 
+
 def sogno_nuovo(request):
     # todo
     return HttpResponse(status=204)
 
+
 def sogno_precedente(request):
-    return sogno_nav(request,-1)
+    return sogno_nav(request, -1)
 
 
 def sogno_seguente(request):
-    return sogno_nav(request,1)
+    return sogno_nav(request, 1)
 
 
-def sogno_nav(request,x):
+def sogno_nav(request, x):
     Sogno.nav(x)
     return HttpResponse(status=204)

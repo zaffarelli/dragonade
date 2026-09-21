@@ -3,7 +3,7 @@ from django.contrib import admin
 
 from main.mixins.chiaroscuro_mixin import ChiaroscuroMixin
 from main.models.oggetti import Oggetto
-from main.utils.mechanics import as_rid
+from main.utils.mechanics import as_rid, roll
 import json
 
 class ArtefattoCategory(models.IntegerChoices):
@@ -150,6 +150,13 @@ class Artefatto(models.Model,ChiaroscuroMixin):
     def export_to_json(self):
         self.model_to_data()
         return self._data
+
+    @classmethod
+    def spawn(cls):
+        item = cls()
+        item.name = f"Nouveau ({roll(faces=12)}-{roll(faces=12)}-{roll(faces=12)})"
+        item.save()
+        return item.id
 
 class ArtefattoAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix

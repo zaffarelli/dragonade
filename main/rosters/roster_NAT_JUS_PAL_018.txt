@@ -1,0 +1,34 @@
+Justinien Palefroi
+Haut-Couturier
+Maître Couturier
+Nativo
+Heure de Naissance: Lyre
+Taille/Poids: 160 cm/51 kg
+Totaux Attributs/Compétences: -1 / -29
+
+AGI  4 EMP  4 APP  4 | TIR  7 | VIE  8 | IMP -1 
+CON  4 ODG  4 DEX  4 | MEL  4 | FAT  5 | ENC 8.0 
+FOR  4 OUI  4 INT  4 | LAN  6 | SUS  3 | FAB  5 
+TAI  4 VUE  4 VOL  4 | DER  5 | RES  1 | REV  5 
+
+Martiales (-1): .
+Générales (-1): .
+Particulières (-2): .
+Spécialisées (-3): Médecine [8] 5, Orfèvrerie [8] 5, Métallurgie [6] 3.
+Connaissances (-4): .
+Draconiques (-5): .
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (8)       PdF (5)             PdR (5)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤           
+¤ ¤ ¤         ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤           
+              ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤           
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

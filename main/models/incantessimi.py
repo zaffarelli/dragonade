@@ -329,6 +329,12 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
         item.save()
         return item
 
+    @classmethod
+    def spawn(cls):
+        item = cls()
+        item.name = f"Nouveau ({roll(faces=12)}-{roll(faces=12)}-{roll(faces=12)})"
+        item.save()
+        return item.id
 
 class IncantessimoAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix

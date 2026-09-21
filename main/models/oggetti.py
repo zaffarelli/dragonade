@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib import admin
 from main.mixins.chiaroscuro_mixin import ChiaroscuroMixin
-from main.utils.mechanics import as_rid
+from main.utils.mechanics import as_rid, roll
 import math
 from colorfield.fields import ColorField
 
@@ -223,6 +223,12 @@ class Oggetto(models.Model, ChiaroscuroMixin):
             print(f"{item.name.strip():30}µ{item.rid:30}µ{item.get_category_display():50}µ{price:20} µ{item.enc:5}§")
         return list
 
+    @classmethod
+    def spawn(cls):
+        item = cls()
+        item.name = f"Nouveau ({roll(faces=12)}-{roll(faces=12)}-{roll(faces=12)})"
+        item.save()
+        return item.id
 
 def cat_from_first(modeladmin, request, queryset):
     if len(queryset) > 2:

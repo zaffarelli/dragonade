@@ -1,0 +1,37 @@
+Lucas Huygens
+Es Draconae Maxima
+Partisan - Doctus Ex Draconis Major
+Sire
+Nativo
+Heure de Naissance: Dragon
+Taille/Poids: 184 cm/80 kg
+Totaux Attributs/Compétences: 22 / -41
+
+AGI  4 EMP  4 APP  4 | TIR  5 | VIE 15 | IMP  2 
+CON  4 ODG  4 DEX  4 | MEL  8 | FAT  7 | ENC 15.0 
+FOR  4 OUI  4 INT  4 | LAN  6 | SUS  3 | FAB  6 
+TAI  4 VUE  4 VOL  4 | DER  7 | RES  3 | REV  6 
+
+Martiales (-1): .
+Générales (-1): .
+Particulières (-2): .
+Spécialisées (-3): Médecine [7] 4, Acrobatie [6] 3, Natation [4] 1, Maroquinerie [2] -1.
+Connaissances (-4): .
+Draconiques (-5): .
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (15)      PdF (7)             PdR (6)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤ ¤ ¤ ¤         
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤         
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤         
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

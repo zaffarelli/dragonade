@@ -1,0 +1,38 @@
+Enrique della Puente
+El Aguila
+Grand Botteur du Real de Merid
+Don
+Nativo
+Heure de Naissance: Serpent
+Taille/Poids: 175 cm/78 kg
+Totaux Attributs/Compétences: 27 / -28
+
+AGI  4 EMP  4 APP  4 | TIR  5 | VIE 14 | IMP  1 
+CON  4 ODG  4 DEX  4 | MEL  9 | FAT  8 | ENC 14.0 
+FOR  4 OUI  4 INT  4 | LAN  8 | SUS  3 | FAB  6 
+TAI  4 VUE  4 VOL  4 | DER  7 | RES  2 | REV  7 
+
+Martiales (-1): .
+Générales (-1): .
+Particulières (-2): .
+Spécialisées (-3): Acrobatie [10] 7, Serrurerie [7] 4, Médecine [6] 3, Natation [6] 3, Maroquinerie [5] 2, Navigation [4] 1, Métallurgie [2] -1, Orfèvrerie [2] -1.
+Connaissances (-4): .
+Draconiques (-5): Contemplatif [2] -3, Mnémonique [1] -4.
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (14)      PdF (8)             PdR (7)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤ ¤ ¤ ¤ ¤       
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤ ¤ ¤ ¤ ¤       
+¤ ¤ ¤ ¤       ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤       
+              ¤ ¤ ¤ ¤ ¤                               
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

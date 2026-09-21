@@ -27,6 +27,7 @@ class Character(models.Model, ChiaroscuroMixin):
     birthhour = models.IntegerField(default=0, blank=True)
     is_female = models.BooleanField(default=False, blank=True)
     is_lefty = models.BooleanField(default=False, blank=True)
+    is_new = models.BooleanField(default=True, blank=True)
     skills_creation_ok = models.BooleanField(default=False, blank=True)
     attributes_creation_ok = models.BooleanField(default=False, blank=True)
     is_battle_ready = models.BooleanField(default=False, blank=True)
@@ -247,14 +248,17 @@ class Character(models.Model, ChiaroscuroMixin):
         self.total_skills = 0
         default = 0
         nondefault_cnt = 0
-        for kc, vc in CHARACTER_STATISTICS['SKILLS'].items():
-            for ks in vc['LIST']:
-                v = int(self.value_for(ks['NAME']))
-                base = vc['DEFAULT']
-                default += base
-                if v != base:
-                    nondefault_cnt += 1
-                    self.total_skills += v - base
+        try:
+            for kc, vc in CHARACTER_STATISTICS['SKILLS'].items():
+                for ks in vc['LIST']:
+                    v = int(self.value_for(ks['NAME']))
+                    base = vc['DEFAULT']
+                    default += base
+                    if v != base:
+                        nondefault_cnt += 1
+                        self.total_skills += v - base
+        except:
+            pass
         self.REV = int(self.SON) + int(self.FAB)
         a, s = self.expected_totals()
         self.total_attributes -= a
@@ -625,8 +629,9 @@ class Character(models.Model, ChiaroscuroMixin):
         lines.append(f"{ty}")
 
         from main.templatetags.dragonade_filters import as_hour
-        lines.append(f"Destinée: {self.destiny} ({self.travel_points})")
-        lines.append(f"Stress: {self.stress_acquired} = {self.stress_used}(U) + {self.stress_remaining}(R)")
+        if self.type == "viaggiatore":
+            lines.append(f"Destinée: {self.destiny} ({self.travel_points})")
+            lines.append(f"Stress: {self.stress_acquired} = {self.stress_used}(U) + {self.stress_remaining}(R)")
         lines.append(f"Heure de Naissance: {as_hour(self.birthhour)}")
         lines.append(f"Taille/Poids: {self.height} cm/{self.weight} kg")
         lines.append(f"Totaux Attributs/Compétences: {self.total_attributes} / {self.total_skills}")

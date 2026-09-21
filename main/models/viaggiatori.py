@@ -71,6 +71,12 @@ class Viaggiatore(Character):
             self.skills_generic = " ".join(skills[4])
             self.skills_weapons = " ".join(skills[5])
 
+    @classmethod
+    def spawn(cls):
+        item = cls()
+        item.name = f"Nouveau ({roll(faces=12)}-{roll(faces=12)}-{roll(faces=12)})"
+        item.save()
+        return item.id
 
 class ViaggiatoreAdmin(admin.ModelAdmin):
     from main.utils.mechanics import pre_sim, refix

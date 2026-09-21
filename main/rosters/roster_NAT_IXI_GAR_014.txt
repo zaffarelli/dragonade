@@ -3,23 +3,28 @@ Le Pisteur
 Chef de la Rébellion
 Commandeur
 Nativo
+Heure de Naissance: Poisson-Acrobate
+Taille/Poids: 10 cm/0 kg
+Totaux Attributs/Compétences: 17 / 16
+
 AGI  4 EMP  4 APP  4 | TIR  4 | VIE 18 | IMP  2 
 CON  4 ODG  4 DEX  4 | MEL  8 | FAT  9 | ENC 18.0 
-FOR  4 OUI  4 INT  4 | DER  5 | SUS  4 | FAB  5 
-TAI  4 VUE  4 VOL  4 | LAN  6 | RES  3 | REV  5 
+FOR  4 OUI  4 INT  4 | LAN  5 | SUS  4 | FAB  5 
+TAI  4 VUE  4 VOL  4 | DER  6 | RES  3 | REV  5 
 
-Martiales (-1): Pugilat [6]  5, Fouets [5]  4, Lames Longues [5]  4, Armes à deux mains [4]  3, Armes d'Hast [4]  3, Javelots [4]  3, Lames Courtes [4]  3, Poignards [3]  2, Lances [2]  1.
-Générales (-1): Concentration [6]  5, Séduction [4]  3, Eloquence [3]  2, Sculpture [3]  2, Discrétion [2]  1.
-Particulières (-2): Commerce [4]  2.
+Martiales (-1): Pugilat [6] 5, Fouets [5] 4, Lames Longues [5] 4, Armes à deux mains [4] 3, Armes d'Hast [4] 3, Javelots [4] 3, Lames Courtes [4] 3, Poignards [3] 2, Lances [2] 1.
+Générales (-1): Concentration [6] 5, Séduction [4] 3, Eloquence [3] 2, Sculpture [3] 2, Discrétion [2] 1.
+Particulières (-2): Commerce [4] 2.
 Spécialisées (-3): .
-Connaissances (-4): Ecriture [7]  3.
+Connaissances (-4): Ecriture [7] 3.
 Draconiques (-5): .
 
-Arme                   DOMA     2M   INIT        Jet    Score
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
 
-Armure/Protection                                      Malus  Prot
-
-Description: 
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
 
 PdV (18)      PdF (9)             PdR (5)             
 ¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤ ¤       ¤ ¤ ¤ ¤ ¤           

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib import admin
 from main.models.characters import Character
+from main.utils.mechanics import roll
 
 
 class DragonadeCreatureType(models.IntegerChoices):
@@ -29,7 +30,12 @@ class Creatura(Character):
         super().co_push()
         self._data["creature_type_str"] = self.get_creature_type_display()
 
-
+    @classmethod
+    def spawn(cls):
+        item = cls()
+        item.name = f"Nouveau ({roll(faces=12)}-{roll(faces=12)}-{roll(faces=12)})"
+        item.save()
+        return item.id
 
 class CreaturaAdmin(admin.ModelAdmin):
     ordering = ['name']

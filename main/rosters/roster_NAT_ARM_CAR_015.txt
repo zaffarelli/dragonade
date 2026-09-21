@@ -1,0 +1,37 @@
+Arman Carniflex
+Partisan - Tonnerre d'Andrealphie
+Sire
+Nativo
+Heure de Naissance: Serpent
+Taille/Poids: 160 cm/81 kg
+Totaux Attributs/Compétences: 25 / 74
+
+AGI  4 EMP  4 APP  4 | TIR  6 | VIE 19 | IMP  3 
+CON  4 ODG  4 DEX  4 | MEL  9 | FAT  8 | ENC 19.0 
+FOR  4 OUI  4 INT  4 | LAN  4 | SUS  4 | FAB  6 
+TAI  4 VUE  4 VOL  4 | DER  9 | RES  3 | REV  6 
+
+Martiales (-1): .
+Générales (-1): .
+Particulières (-2): .
+Spécialisées (-3): .
+Connaissances (-4): .
+Draconiques (-5): .
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (19)      PdF (8)             PdR (6)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤ ¤ ¤ ¤         
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤ ¤ ¤ ¤         
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤         
+¤ ¤ ¤ ¤       ¤ ¤ ¤ ¤ ¤                               
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

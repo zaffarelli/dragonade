@@ -1,0 +1,37 @@
+Yvan Boxleiter
+Le Maître des Soeurs
+Partisan - Maître des Soeurs
+Sire
+Nativo
+Heure de Naissance: Sirène
+Taille/Poids: 176 cm/79 kg
+Totaux Attributs/Compétences: 14 / -32
+
+AGI  4 EMP  4 APP  4 | TIR  5 | VIE 14 | IMP  1 
+CON  4 ODG  4 DEX  4 | MEL  7 | FAT  7 | ENC 14.0 
+FOR  4 OUI  4 INT  4 | LAN  6 | SUS  3 | FAB  6 
+TAI  4 VUE  4 VOL  4 | DER  6 | RES  2 | REV  8 
+
+Martiales (-1): .
+Générales (-1): .
+Particulières (-2): .
+Spécialisées (-3): Acrobatie [7] 4, Natation [3] 0, Orfèvrerie [3] 0, Jonglerie [2] -1, Métallurgie [2] -1.
+Connaissances (-4): .
+Draconiques (-5): Contemplatif [5] 0.
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (14)      PdF (7)             PdR (8)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤     
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤     
+¤ ¤ ¤ ¤       ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤     
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      
