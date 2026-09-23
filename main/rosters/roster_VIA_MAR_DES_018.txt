@@ -1,0 +1,31 @@
+Marilène Deschamps
+(Océane (@Mysti))
+Heure de Naissance: Faucon
+Taille/Poids: 10 cm/0 kg
+Totaux Attributs/Compétences: -27 / -121
+
+AGI  4 EMP  3 APP  3 | TIR  3 | VIE  7 | IMP -1 
+CON  4 ODG  3 DEX  3 | MEL  4 | FAT  4 | ENC 7.0 
+FOR  4 OUI  3 INT  3 | LAN  7 | SUS  3 | FAB  3 
+TAI  3 VUE  3 VOL  3 | DER  4 | RES  1 | REV  3 
+
+Martiales (-1): .
+Générales (-1): Tactique [1] 0, Vigilance [1] 0.
+Particulières (-2): .
+Spécialisées (-3): .
+Connaissances (-4): Stratégie [4] 0.
+Draconiques (-5): .
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (7)       PdF (4)             PdR (3)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤             ¤ ¤ ¤               
+¤ ¤           ¤ ¤ ¤ ¤             ¤ ¤ ¤               
+              ¤ ¤ ¤               ¤ ¤ ¤               
+              ¤ ¤ ¤                                   
+                                                      

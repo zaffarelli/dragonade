@@ -1,16 +1,14 @@
 Enguerrand le Pêcheur
 Ennemi du Mal Ventriloque, Libérateur de la Trempe.
 (Alan [@Kastor])
-Destinée: 1 (0)
-Stress: 40 = 40(U) + 0(R)
 Heure de Naissance: Dragon
 Taille/Poids: 170 cm/59 kg
 Totaux Attributs/Compétences: 1 / 16
 
 AGI  6 EMP  8 APP  6 | TIR  6 | VIE 10 | IMP  0 
-CON  5 ODG  4 DEX  4 | MEL  5 | FAT  5 | ENC 10.0 
-FOR  4 OUI  4 INT  9 | LAN  7 | SUS  3 | FAB  7 
-TAI  5 VUE  7 VOL  5 | DER  5 | RES  2 | REV  9 
+CON  5 ODG  4 DEX  4 | MEL  5 | FAT  5 | ENC 9.0 
+FOR  4 OUI  4 INT  9 | LAN  5 | SUS  3 | FAB  7 
+TAI  5 VUE  7 VOL  5 | DER  7 | RES  2 | REV  9 
 
 Martiales (-1): Esquive [5] 4, Javelots [3] 2, Lutte [2] 1, Lames Courtes [2] 1, Poignards [1] 0.
 Générales (-1): Concentration [6] 5, Eloquence [6] 5, Discrétion [5] 4, Pièges [4] 3, Artisanat [3] 2, Cuisine [2] 1, Séduction [2] 1, Vigilance [2] 1, Escalade [1] 0.

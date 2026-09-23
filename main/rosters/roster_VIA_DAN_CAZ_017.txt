@@ -1,16 +1,14 @@
 Dantelin Cazegute
 Chasseur de Profils pour la galerie d'Embordine
 (Gardien des Rêves)
-Destinée: 2 (0)
-Stress: -1 = 0(U) + -1(R)
 Heure de Naissance: Epées
 Taille/Poids: 170 cm/65 kg
 Totaux Attributs/Compétences: 0 / 8
 
 AGI  8 EMP  4 APP  5 | TIR  6 | VIE 11 | IMP  0 
 CON  5 ODG  4 DEX  7 | MEL  7 | FAT  6 | ENC 11.0 
-FOR  5 OUI  6 INT  4 | LAN  7 | SUS  3 | FAB  5 
-TAI  6 VUE  5 VOL  7 | DER  6 | RES  2 | REV  5 
+FOR  5 OUI  6 INT  4 | LAN  6 | SUS  3 | FAB  5 
+TAI  6 VUE  5 VOL  7 | DER  7 | RES  2 | REV  5 
 
 Martiales (-1): Lutte [7] 6, Pugilat [7] 6, Arcs [2] 1, Lames Longues [2] 1.
 Générales (-1): Dessin [7] 6, Sculpture [7] 6, Concentration [2] 1, Eloquence [2] 1, Pièges [2] 1, Séduction [2] 1.

@@ -49,7 +49,7 @@ class Oggetto(models.Model, ChiaroscuroMixin):
     engagement = models.IntegerField(default=0, null=True, blank=True)
     maneuver = models.IntegerField(default=0, null=True, blank=True)
     cover = models.CharField(default="", max_length=64, blank=True)
-    color = ColorField(default="#808080ff")
+    color = ColorField(default="#808080ff", blank=True)
     gcode = models.CharField(default="xxx", max_length=3, blank=True)
     materiaux = models.CharField(default="", max_length=64, blank=True)
     related_skill = models.CharField(default="", max_length=32, blank=True)

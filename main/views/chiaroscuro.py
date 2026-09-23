@@ -223,6 +223,12 @@ def viaggiatori_options():
         {"param": "is_storyteller", "value": True, "label": "Gardien des Rêves"},
         {"param": "is_storyteller", "value": False, "label": "Joueurs"},
     ]
+    pa = {"param": "is_new", "value": True, "label": "Nouveau"}
+    zfilters.append(pa)
+    from main.models.sogni import Sogno
+    for s in Sogno.objects.all():
+        pa = {"param": "sogni", "value": s.acronym, "label": s.title, "rule": "contains"}
+        zfilters.append(pa)
     for filter in filters:
         zfilters.append(filter)
 

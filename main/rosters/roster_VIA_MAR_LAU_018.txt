@@ -1,0 +1,33 @@
+Maric L'Aubergiste
+(Joseph [@Joseph93])
+Heure de Naissance: Vaisseau
+Taille/Poids: 160 cm/64 kg
+Totaux Attributs/Compétences: 1 / 94
+
+AGI  6 EMP  4 APP  6 | TIR  5 | VIE 16 | IMP  1 
+CON  7 ODG  8 DEX  4 | MEL  5 | FAT  6 | ENC 16.0 
+FOR  3 OUI  4 INT  6 | LAN  5 | SUS  3 | FAB  5 
+TAI  9 VUE  5 VOL  5 | DER  4 | RES  3 | REV  5 
+
+Martiales (-1): .
+Générales (-1): Cuisine [8] 7, Artisanat [5] 4, Concentration [5] 4, Sculpture [5] 4, Dessin [3] 2, Discrétion [3] 2, Chant [2] 1, Eloquence [2] 1, Saut [2] 1, Course [1] 0, Danse [1] 0, Escalade [1] 0, Pièges [1] 0, Tactique [1] 0, Vigilance [1] 0.
+Particulières (-2): .
+Spécialisées (-3): Médecine [7] 4, Jeu [6] 3, Navigation [6] 3, Orfèvrerie [6] 3, Serrurerie [6] 3, Jonglerie [4] 1, Acrobatie [3] 0, Maroquinerie [3] 0, Métallurgie [3] 0, Natation [3] 0.
+Connaissances (-4): Astrologie [10] 6, Mathématiques [7] 3, Légendes [6] 2, Alchimie [4] 0, Animaux [4] 0, Architecture [4] 0, Chirurgie [4] 0, Ecriture [4] 0, Plantes [4] 0, Stratégie [4] 0.
+Draconiques (-5): Génératif [6] 1, Contemplatif [5] 0, Destructif [5] 0, Dynamique [5] 0, Mnémonique [5] 0, Statique [5] 0.
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (16)      PdF (6)             PdR (5)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤           
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤           
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤           
+¤             ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

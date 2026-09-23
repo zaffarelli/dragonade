@@ -1,16 +1,14 @@
 Charles de Bonactif
 Ennemi du Mal Ventriloque, Escorte de la Dona Real, Invité d'Exaldarian, Libérateur de la Trempe
 (Aymeric [@Huitzy])
-Destinée: 6 (2)
-Stress: 340 = 340(U) + 0(R)
 Heure de Naissance: Araignée
 Taille/Poids: 195 cm/108 kg
 Totaux Attributs/Compétences: 4 / 69
 
 AGI  6 EMP  6 APP  3 | TIR  5 | VIE 13 | IMP  2 
 CON  5 ODG  6 DEX  5 | MEL  8 | FAT  5 | ENC 13.0 
-FOR  9 OUI  6 INT  8 | LAN  5 | SUS  3 | FAB  7 
-TAI  8 VUE  4 VOL  4 | DER  7 | RES  2 | REV 11 
+FOR  9 OUI  6 INT  8 | LAN  7 | SUS  3 | FAB  7 
+TAI  8 VUE  4 VOL  4 | DER  5 | RES  2 | REV 11 
 
 Martiales (-1): Boucliers [6] 5, Hâches [6] 5, Frondes [5] 4, Esquive [3] 2, Lutte [3] 2.
 Générales (-1): Cuisine [11] 10, Artisanat [6] 5, Course [5] 4, Eloquence [5] 4, Escalade [5] 4, Saut [5] 4, Vigilance [5] 4, Concentration [2] 1, Discrétion [2] 1.

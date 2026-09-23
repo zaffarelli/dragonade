@@ -1,16 +1,14 @@
 Guilbert l'Aumonier
 Libérateur de la Trempe
 (Arthur (@Belphegora))
-Destinée: 1 (4)
-Stress: 40 = 40(U) + 0(R)
 Heure de Naissance: Epées
 Taille/Poids: 172 cm/77 kg
 Totaux Attributs/Compétences: 0 / 24
 
 AGI  4 EMP  5 APP  4 | TIR  5 | VIE 12 | IMP  1 
-CON  6 ODG  4 DEX  5 | MEL  6 | FAT  7 | ENC 12.0 
-FOR  7 OUI  5 INT  7 | LAN  5 | SUS  3 | FAB  6 
-TAI  6 VUE  5 VOL  8 | DER  6 | RES  2 | REV  7 
+CON  6 ODG  4 DEX  5 | MEL  6 | FAT  7 | ENC 13.0 
+FOR  7 OUI  5 INT  7 | LAN  6 | SUS  3 | FAB  6 
+TAI  6 VUE  5 VOL  8 | DER  5 | RES  2 | REV  7 
 
 Martiales (-1): Lances [7] 6, Esquive [6] 5, Boucliers [6] 5, Lutte [2] 1, Javelots [2] 1.
 Générales (-1): Concentration [5] 4, Course [4] 3, Discrétion [4] 3, Escalade [4] 3, Dessin [3] 2, Eloquence [3] 2, Vigilance [3] 2, Chant [2] 1, Saut [2] 1, Séduction [2] 1, Tactique [2] 1, Danse [1] 0.

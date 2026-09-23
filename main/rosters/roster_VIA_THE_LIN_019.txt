@@ -1,15 +1,13 @@
 Theoric L'innatendu
 (Julien)
-Destinée: 0 (0)
-Stress: 0 = 0(U) + 0(R)
 Heure de Naissance: Dragon
 Taille/Poids: 150 cm/46 kg
 Totaux Attributs/Compétences: -54 / -145
 
 AGI  1 EMP  1 APP  1 | TIR  1 | VIE  2 | IMP -2 
 CON  1 ODG  1 DEX  1 | MEL  1 | FAT  1 | ENC 2.0 
-FOR  1 OUI  1 INT  1 | LAN  6 | SUS  2 | FAB  1 
-TAI  1 VUE  1 VOL  1 | DER  1 | RES  0 | REV  1 
+FOR  1 OUI  1 INT  1 | LAN  1 | SUS  2 | FAB  1 
+TAI  1 VUE  1 VOL  1 | DER  6 | RES  0 | REV  1 
 
 Martiales (-1): .
 Générales (-1): .

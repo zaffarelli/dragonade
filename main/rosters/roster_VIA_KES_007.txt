@@ -1,0 +1,35 @@
+Kessada
+Disciple de Kalikat, Ennemi du Mal Ventriloque, Escorte de la Dona Real, Exploratrice de la Cité d'Embordine, Invité d'Exaldarian
+(Maud [@Mdib])
+Heure de Naissance: Dragon
+Taille/Poids: 165 cm/76 kg
+Totaux Attributs/Compétences: 0 / 30
+
+AGI  8 EMP  6 APP  6 | TIR  6 | VIE 13 | IMP  0 
+CON  9 ODG  3 DEX  7 | MEL  6 | FAT  7 | ENC 13.0 
+FOR  4 OUI  5 INT  5 | LAN  8 | SUS  4 | FAB  4 
+TAI  4 VUE  4 VOL  5 | DER  5 | RES  2 | REV  5 
+
+Martiales (-1): .
+Générales (-1): Sculpture [8] 7, Course [7] 6, Eloquence [6] 5, Concentration [5] 4, Discrétion [5] 4, Séduction [5] 4, Artisanat [3] 2, Escalade [3] 2, Pièges [3] 2, Saut [2] 1, Chant [1] 0, Cuisine [1] 0, Dessin [1] 0, Tactique [1] 0, Vigilance [1] 0.
+Particulières (-2): .
+Spécialisées (-3): Acrobatie [9] 6, Natation [9] 6, Navigation [9] 6, Serrurerie [3] 0.
+Connaissances (-4): Chirurgie [9] 5, Architecture [7] 3, Légendes [7] 3, Ecriture [4] 0, Stratégie [4] 0.
+Draconiques (-5): Contemplatif [7] 2.
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (13)      PdF (7)             PdR (5)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤ ¤ ¤           
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤           
+¤ ¤ ¤         ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤           
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

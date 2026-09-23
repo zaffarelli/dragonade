@@ -1,0 +1,39 @@
+Bérangère de Blanchépine
+Grande Archiviste de la Bibliothèque de Solustran, Mécène de la Guilde des Relieurs, Soeur du Temple de l'Aurore
+(Clémence (@clemencec))
+Heure de Naissance: Faucon
+Taille/Poids: 153 cm/54 kg
+Totaux Attributs/Compétences: 0 / 0
+
+AGI  4 EMP  5 APP  4 | TIR  7 | VIE 11 | IMP  0 
+CON  6 ODG  5 DEX  6 | MEL  4 | FAT  7 | ENC  9 
+FOR  4 OUI  5 INT  8 | LAN  6 | SUS  3 | FAB  6 
+TAI  5 VUE  7 VOL  7 | DER  6 | RES  2 | REV  6 
+
+Martiales (-1): Esquive [6] 5, Lutte [4] 3, Arcs [4] 3, Poignards [4] 3.
+Générales (-1): Discrétion [7] 6, Concentration [6] 5, Eloquence [5] 4, Vigilance [5] 4, Dessin [4] 3, Tactique [3] 2.
+Particulières (-2): Survie en Cité [6] 4, Comédie [4] 2, Musique [4] 2, Commerce [3] 1, Déguisement [3] 1, Survie en Forêt [3] 1, Survie dans les Glaces [3] 1, Survie en Sous-sols [3] 1.
+Spécialisées (-3): Médecine [7] 4, Maroquinerie [5] 2, Orfèvrerie [5] 2, Serrurerie [5] 2, Natation [4] 1, Navigation [4] 1.
+Connaissances (-4): Ecriture [11] 7, Légendes [9] 5, Mathématiques [7] 3.
+Draconiques (-5): Génératif [11] 6.
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+Dague                   1+0      -   0   2   0   2   0 MEL+3+Man=7        9
+Arc                              2   0   0   0   0   0 TIR+3+Man=10      10
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cotte de drap matelassé               0   0   0   0   1 C A B       
+Chausses de Drap Matelassé            0   0   0   0   1 L M         
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-1-X A-1-X B-1-X L-1-X M-1-X
+
+PdV (11)      PdF (7)             PdR (6)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤ ¤ ¤ ¤         
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤         
+¤             ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤         
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

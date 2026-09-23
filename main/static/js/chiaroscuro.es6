@@ -121,6 +121,7 @@ class Chiaroscuro {
         me.prepareAjax()
         me.registerShortcuts()
         me.registerEditor()
+        me.registerEditables()
         me.registerStackPull()
         me.registerValuePushEditor()
         // me.registerSheets()
@@ -279,6 +280,7 @@ class Chiaroscuro {
             let action = $(this).attr('action');
             let id = $(this).attr('id');
             let change = ''
+            console.log("Editables")
             if (action == "inc_dec") {
                 let params = id.split("__");
                 if (params.length > 3) {

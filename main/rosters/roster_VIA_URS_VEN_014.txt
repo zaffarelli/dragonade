@@ -1,9 +1,7 @@
 Ursula Vendiem
 (Gardien des Rêves)
-Destinée: 2 (0)
-Stress: -1 = 0(U) + -1(R)
 Heure de Naissance: Epées
-Taille/Poids: 165 cm/63 kg
+Taille/Poids: 165 cm/54 kg
 Totaux Attributs/Compétences: 0 / 1
 
 AGI  4 EMP  5 APP  6 | TIR  7 | VIE  9 | IMP  0 
@@ -22,8 +20,8 @@ Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
 
                                     Malus
 Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
-Cumuls Malus                         -1   0   0   0
-Protection: H-1-X C-3-X A-2-X B-2-X L-1-X M-1-X
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
 
 PdV (9)       PdF (6)             PdR (8)             
 ¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤     

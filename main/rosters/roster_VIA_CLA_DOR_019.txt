@@ -1,16 +1,14 @@
 Clariella Dormerose
 mouhahahahaha
 (Gardien des Rêves)
-Destinée: 2 (0)
-Stress: -1 = 10(U) + -11(R)
 Heure de Naissance: Epées
 Taille/Poids: 165 cm/60 kg
 Totaux Attributs/Compétences: 1 / 0
 
 AGI  5 EMP  7 APP  5 | TIR  5 | VIE 10 | IMP  0 
 CON  4 ODG  6 DEX  5 | MEL  5 | FAT  6 | ENC 10.0 
-FOR  5 OUI  8 INT  4 | LAN  6 | SUS  3 | FAB  5 
-TAI  6 VUE  5 VOL  7 | DER  5 | RES  2 | REV  5 
+FOR  5 OUI  8 INT  4 | LAN  5 | SUS  3 | FAB  5 
+TAI  6 VUE  5 VOL  7 | DER  6 | RES  2 | REV  5 
 
 Martiales (-1): Boucliers [6] 5, Lutte [4] 3, Arcs [3] 2, Masses [3] 2.
 Générales (-1): Dessin [8] 7, Eloquence [5] 4, Pièges [4] 3, Séduction [4] 3, Escalade [3] 2, Tactique [3] 2.

@@ -1,14 +1,12 @@
 Marcus Bocusse
 Maître Queue
 (Valentin (@CptnRad))
-Destinée: 1 (2)
-Stress: 20 = 20(U) + 0(R)
 Heure de Naissance: Couronne
 Taille/Poids: 175 cm/89 kg
 Totaux Attributs/Compétences: 0 / 12
 
 AGI  5 EMP  7 APP  4 | TIR  6 | VIE 10 | IMP  1 
-CON  4 ODG  8 DEX  5 | MEL  6 | FAT  4 | ENC 10.0 
+CON  4 ODG  8 DEX  5 | MEL  6 | FAT  4 | ENC 12.0 
 FOR  6 OUI  5 INT  5 | LAN  6 | SUS  3 | FAB  6 
 TAI  6 VUE  7 VOL  4 | DER  6 | RES  2 | REV  6 
 
@@ -25,7 +23,7 @@ Fronde                           1   0   0   0   0   0 TIR+5+Man=11      11
 
                                     Malus
 Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
-Cotte de drap matelassé               0   0   0   0   2 C A B       
+Cotte de drap matelassé               0   0   0   0   1 C A B       
 Chausses de Drap Matelassé            0   0   0   0   1 L M         
 Cumuls Malus                          0   0   0   0
 Protection: H-0-X C-2-X A-2-X B-2-X L-1-X M-1-X

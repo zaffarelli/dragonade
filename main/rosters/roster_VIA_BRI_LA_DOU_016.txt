@@ -1,15 +1,13 @@
 Brie-Anne la Douce
 (Marion (@Marion))
-Destinée: 1 (0)
-Stress: 0 = 0(U) + 0(R)
 Heure de Naissance: Epées
 Taille/Poids: 165 cm/69 kg
 Totaux Attributs/Compétences: 0 / 0
 
 AGI  8 EMP  4 APP  5 | TIR  6 | VIE 12 | IMP  1 
 CON  7 ODG  6 DEX  6 | MEL  8 | FAT  6 | ENC 12.0 
-FOR  7 OUI  4 INT  4 | LAN  8 | SUS  3 | FAB  5 
-TAI  5 VUE  5 VOL  5 | DER  7 | RES  2 | REV  5 
+FOR  7 OUI  4 INT  4 | LAN  7 | SUS  3 | FAB  5 
+TAI  5 VUE  5 VOL  5 | DER  8 | RES  2 | REV  5 
 
 Martiales (-1): Armes à deux mains [8] 7, Esquive [6] 5, Lames Longues [6] 5, Boucliers [4] 3, Lames Courtes [4] 3.
 Générales (-1): Discrétion [7] 6, Vigilance [7] 6, Escalade [5] 4, Concentration [4] 3, Eloquence [2] 1.

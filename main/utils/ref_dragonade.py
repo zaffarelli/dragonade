@@ -28,10 +28,10 @@ CHARACTER_STATISTICS = {
              "FORMULA": lambda p: math.ceil((p[0] + p[1]) / 2), "ORDER": 1
              },
             {"NAME": "LAN", "TEXT": "Lancer", "RATIONALE": " (TIR + FOR) / 2", "PARAMS": "TIR FOR",
-             "FORMULA": lambda p: math.ceil((p[0] + p[1]) / 2), "ORDER": 3
+             "FORMULA": lambda p: math.ceil((p[0] + p[1]) / 2), "ORDER": 2
              },
             {"NAME": "DER", "TEXT": "Dérobade", "RATIONALE": " (12 - TAI + AGI) / 2", "PARAMS": "TAI AGI",
-             "FORMULA": lambda p: math.ceil((12 - p[0] + p[1]) / 2), "ORDER": 2
+             "FORMULA": lambda p: math.ceil((12 - p[0] + p[1]) / 2), "ORDER": 3
              },
 
         ]
@@ -56,8 +56,8 @@ CHARACTER_STATISTICS = {
             {"NAME": "RES", "TEXT": "Résilience", "RATIONALE": "ArrondiBas((CON + TAI) / 5)", "PARAMS": "CON TAI",
              "FORMULA": lambda p: math.floor((p[0] + p[1]) / 5)
              },
-            {"NAME": "ENC", "TEXT": "Encombrement", "RATIONALE": " (TAI + FOR)  [garder une décimale]", "PARAMS": "TAI CON",
-             "FORMULA": lambda p: ((p[0] + p[1]) / 2) * 2
+            {"NAME": "ENC", "TEXT": "Encombrement", "RATIONALE": " (TAI + FOR)  [garder une décimale]", "PARAMS": "TAI FOR",
+             "FORMULA": lambda p: (p[0] + p[1])
              },
             {"NAME": "SON", "TEXT": "Songe", "RATIONALE": "-"},
             {"NAME": "REV", "TEXT": "Rêve", "RATIONALE": "(SON + FAB)", "PARAMS": "SON FAB", "FORMULA": lambda p: p[0] + p[1]},

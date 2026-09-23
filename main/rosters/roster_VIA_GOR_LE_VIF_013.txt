@@ -1,16 +1,14 @@
 Gorion le Vif
 Maître Maroquinier à la recherche des tanneries de Renfir
 (Gardien des Rêves)
-Destinée: 2 (0)
-Stress: -1 = 86(U) + -87(R)
 Heure de Naissance: Vaisseau
-Taille/Poids: 165 cm/44 kg
+Taille/Poids: 165 cm/56 kg
 Totaux Attributs/Compétences: 0 / 25
 
 AGI  8 EMP  6 APP  6 | TIR  6 | VIE 10 | IMP  0 
 CON  5 ODG  4 DEX  7 | MEL  6 | FAT  5 | ENC 10.0 
-FOR  4 OUI  4 INT  7 | LAN  8 | SUS  3 | FAB  5 
-TAI  5 VUE  5 VOL  5 | DER  5 | RES  2 | REV  8 
+FOR  4 OUI  4 INT  7 | LAN  5 | SUS  3 | FAB  5 
+TAI  5 VUE  5 VOL  5 | DER  8 | RES  2 | REV  8 
 
 Martiales (-1): Esquive [7] 6, Poignards [7] 6, Lutte [4] 3, Bâtons [4] 3, Frondes [4] 3, Pugilat [3] 2.
 Générales (-1): Discrétion [7] 6, Artisanat [5] 4, Eloquence [5] 4, Escalade [5] 4, Vigilance [4] 3, Séduction [2] 1, Course [1] 0, Cuisine [1] 0.
@@ -23,8 +21,8 @@ Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
 
                                     Malus
 Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
-Cumuls Malus                          0   0   0  -1
-Protection: H-1-X C-2-X A-2-X B-2-X L-2-X M-2-X
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
 
 PdV (10)      PdF (5)             PdR (8)             
 ¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤     

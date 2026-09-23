@@ -1,0 +1,36 @@
+Gregorius Ogarth
+Grog
+Le voyageur
+(Bilal [@Bilal])
+Heure de Naissance: Poisson-Acrobate
+Taille/Poids: 10 cm/0 kg
+Totaux Attributs/Compétences: 0 / 20
+
+AGI  7 EMP  5 APP  4 | TIR  5 | VIE 13 | IMP  1 
+CON  8 ODG  5 DEX  4 | MEL  7 | FAT  7 | ENC 13.0 
+FOR  7 OUI  4 INT  6 | LAN  7 | SUS  4 | FAB  6 
+TAI  5 VUE  5 VOL  6 | DER  6 | RES  2 | REV  6 
+
+Martiales (-1): .
+Générales (-1): Concentration [7] 6, Eloquence [6] 5, Sculpture [6] 5, Séduction [6] 5, Discrétion [3] 2, Escalade [3] 2, Pièges [3] 2, Course [2] 1, Tactique [1] 0, Vigilance [1] 0.
+Particulières (-2): .
+Spécialisées (-3): Serrurerie [7] 4, Acrobatie [6] 3, Jeu [6] 3, Métallurgie [6] 3, Natation [6] 3, Jonglerie [4] 1.
+Connaissances (-4): Astrologie [5] 1, Mathématiques [5] 1, Plantes [5] 1, Stratégie [4] 0.
+Draconiques (-5): Destructif [9] 4.
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (13)      PdF (7)             PdR (6)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤ ¤ ¤ ¤         
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤         
+¤ ¤ ¤         ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤         
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

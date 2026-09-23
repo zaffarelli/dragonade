@@ -1,0 +1,32 @@
+Jean-Guy Cailleux
+Spadassin de la Garde Royale d'Aiguepine
+(Thomas [@veg_as#5704])
+Heure de Naissance: Vaisseau
+Taille/Poids: 170 cm/75 kg
+Totaux Attributs/Compétences: 0 / 16
+
+AGI  7 EMP  5 APP  5 | TIR  6 | VIE 10 | IMP  1 
+CON  4 ODG  5 DEX  8 | MEL  7 | FAT  4 | ENC 10.0 
+FOR  7 OUI  5 INT  6 | LAN  7 | SUS  3 | FAB  6 
+TAI  6 VUE  4 VOL  4 | DER  7 | RES  2 | REV  6 
+
+Martiales (-1): .
+Générales (-1): Escalade [5] 4, Pièges [5] 4, Artisanat [4] 3, Course [4] 3, Eloquence [4] 3, Concentration [3] 2, Dessin [2] 1, Tactique [1] 0, Vigilance [1] 0.
+Particulières (-2): .
+Spécialisées (-3): Jonglerie [7] 4, Natation [7] 4, Métallurgie [6] 3, Acrobatie [5] 2, Médecine [4] 1, Orfèvrerie [4] 1.
+Connaissances (-4): Plantes [10] 6, Chirurgie [7] 3, Légendes [6] 2, Stratégie [4] 0.
+Draconiques (-5): Génératif [7] 2.
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (10)      PdF (4)             PdR (6)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤ ¤         
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤ ¤         
+              ¤ ¤ ¤               ¤ ¤ ¤ ¤ ¤ ¤         
+              ¤ ¤ ¤                                   
+                                                      
