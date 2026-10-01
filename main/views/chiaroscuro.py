@@ -336,6 +336,8 @@ def oggetti_options():
         if p > 0:
             pa = {"param": "category", "value": p, "label": OggettoCategory.labels[k]}
             zfilters.append(pa)
+    pa = {"param": "is_basic", "value": True, "label": "Basique"}
+    zfilters.append(pa)
     return zfilters
 
 

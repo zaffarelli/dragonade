@@ -1,0 +1,33 @@
+Randal le Chasseur
+(Nicolas (@_ratapoil))
+Heure de Naissance: Dragon
+Taille/Poids: 170 cm/65 kg
+Totaux Attributs/Compétences: 0 / 0
+
+AGI  5 EMP  4 APP  6 | TIR  6 | VIE 12 | IMP  0 
+CON  7 ODG  6 DEX  8 | MEL  5 | FAT  6 | ENC 10 
+FOR  5 OUI  7 INT  4 | LAN  6 | SUS  3 | FAB  4 
+TAI  5 VUE  4 VOL  5 | DER  6 | RES  2 | REV  4 
+
+Martiales (-1): Arcs [6] 5, Poignards [3] 2.
+Générales (-1): Artisanat [8] 7, Vigilance [7] 6, Discrétion [5] 4, Escalade [5] 4, Course [4] 3, Saut [4] 3, Concentration [3] 2, Cuisine [2] 1.
+Particulières (-2): Survie en Forêt [6] 4, Couture [5] 3, Charpenterie [4] 2, Déguisement [4] 2, Equitation [3] 1, Survie dans le Désert [3] 1, Survie dans les Marais [3] 1, Survie en Montagnes [3] 1.
+Spécialisées (-3): Navigation [8] 5, Acrobatie [6] 3, Natation [6] 3, Maroquinerie [5] 2, Jonglerie [4] 1, Médecine [4] 1.
+Connaissances (-4): Animaux [10] 6, Plantes [9] 5, Astrologie [6] 2.
+Draconiques (-5): Contemplatif [9] 4.
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (12)      PdF (6)             PdR (4)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤             
+¤ ¤           ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤             
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

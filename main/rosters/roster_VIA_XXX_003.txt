@@ -1,0 +1,33 @@
+xxx
+(Virgile)
+Heure de Naissance: Sirène
+Taille/Poids: 180 cm/84 kg
+Totaux Attributs/Compétences: 0 / 0
+
+AGI  5 EMP  4 APP  5 | TIR  4 | VIE 13 | IMP  1 
+CON  6 ODG  7 DEX  4 | MEL  7 | FAT  6 | ENC 15 
+FOR  8 OUI  5 INT  6 | LAN  6 | SUS  3 | FAB  6 
+TAI  7 VUE  4 VOL  5 | DER  5 | RES  2 | REV  6 
+
+Martiales (-1): Lames Courtes [8] 7, Esquive [6] 5, Boucliers [5] 4.
+Générales (-1): Vigilance [7] 6, Tactique [6] 5, Course [5] 4, Artisanat [4] 3, Escalade [4] 3, Saut [3] 2, Danse [2] 1.
+Particulières (-2): Maçonnerie [5] 3, Charpenterie [4] 2, Jeu de Mains [4] 2, Survie en Montagnes [4] 2, Equitation [3] 1, Survie dans les Glaces [3] 1, Survie dans les Marais [3] 1, Survie en Sous-sols [3] 1.
+Spécialisées (-3): Acrobatie [7] 4, Métallurgie [6] 3, Jonglerie [5] 2, Natation [5] 2, Jeu [4] 1, Orfèvrerie [4] 1.
+Connaissances (-4): Chirurgie [10] 6, Architecture [8] 4, Animaux [7] 3.
+Draconiques (-5): Destructif [10] 5.
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (13)      PdF (6)             PdR (6)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤         
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤         
+¤ ¤ ¤         ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤ ¤         
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

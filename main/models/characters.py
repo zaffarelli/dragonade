@@ -394,6 +394,13 @@ class Character(models.Model, ChiaroscuroMixin):
         self._data['last_update'] = now
         self._data['bug_list'] = self.bug_list
 
+    def spells_analysis(self):
+        spells = self.collect_spells()
+        total = 0
+        for spell in spells:
+            total += spell["power"]
+        return total
+
     def computeFatigue(self, x):
         i = x
         pf_total = 0
@@ -488,9 +495,13 @@ class Character(models.Model, ChiaroscuroMixin):
     def collect_spells(self):
         from main.models.incantessimi import Incantessimo
         list = []
-        incantessimi = Incantessimo.objects.filter(rid__in=self.spells.split(" ")).order_by("category")
-        for incantessimo in incantessimi:
-            list.append(incantessimo.export_to_json())
+        if len(self.spells)>0:
+            arr = self.spells.split(" ")
+            incantessimi = Incantessimo.objects.filter(rid__in=arr).order_by("category")
+            for incantessimo in incantessimi:
+                list.append(incantessimo.export_to_json())
+        else:
+            print("No Spells")
         sorted_all = sorted(list, key=lambda k: k['path'], reverse=False)
         return sorted_all
 
@@ -881,7 +892,7 @@ class Character(models.Model, ChiaroscuroMixin):
 
         # Archetype not yet defined
         if not use_archetype:
-            print("*** NO ARCHETYPE ***")
+            # print("*** NO ARCHETYPE ***")
             # We check only the mapping here
             # for level_key, level in levels.items():
             for level_key in range(20, 0, -1):
@@ -944,8 +955,8 @@ class Character(models.Model, ChiaroscuroMixin):
         self.skills_creation_ok = len(creation_values) + len(creation_spots) == 0
         if self.skills_creation_ok:
             print("*** READY FOR ARCHETYPE ***")
-        else:
-            print("*** ARCHETYPE UNDEFINED ***")
+        # else:
+            # print("*** ARCHETYPE UNDEFINED ***")
         self.skills_map["values"] = levels
 
     def challenge_skills(self):
@@ -1040,7 +1051,7 @@ class Character(models.Model, ChiaroscuroMixin):
             current_attributes.remove(ca)
             starting_values.remove(bsv)
         self.stress_used += attr_stress
-        print(f"Attributes stress {attr_stress}")
+        # print(f"Attributes stress {attr_stress}")
 
     def compute_skills_stress(self):
         stress = 0

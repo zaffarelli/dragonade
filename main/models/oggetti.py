@@ -82,6 +82,7 @@ class Oggetto(models.Model, ChiaroscuroMixin):
     max_size = models.IntegerField(default=20, blank=True)
     min_purity = models.IntegerField(default=1, blank=True)
     max_purity = models.IntegerField(default=7, blank=True)
+    is_basic = models.BooleanField(default=False, blank=True)
 
     def fix(self):
         self.chiaroscuro()
@@ -253,8 +254,8 @@ class OggettoAdmin(admin.ModelAdmin):
     # list_editable = ["category", "cover", "materiaux", "prot", "quality", "force_min", "malus_AGI", "malus_DEX",
     #                  "malus_VUE", "malus_OUI",'mod_adjust',"enc", "price"]
     # Weapons
-    list_display = ["rid", "category", "name", "engagement","maneuver","plus_dom","plus_dom_2m","mod_ini","mod_att","mod_dom", "related_skill_name",  "enc", "price", "resistance","force_min"]
-    list_editable = ["maneuver","engagement", "enc", "price"]
+    list_display = ["rid", "category","is_basic","name", "engagement","maneuver","plus_dom","plus_dom_2m","mod_ini","mod_att","mod_dom", "related_skill_name",  "enc", "price", "resistance","force_min"]
+    list_editable = ["maneuver","engagement", "enc", "price","is_basic"]
     # Gems
     # list_display = ["name", "category", "rid","gcode","color","min_size","max_size","min_purity","max_purity"]
     # list_editable = ["gcode","min_size","max_size","min_purity","max_purity","color"]

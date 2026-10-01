@@ -78,6 +78,10 @@ class Viaggiatore(Character):
         item.save()
         return item.id
 
+
+
+
+
 class ViaggiatoreAdmin(admin.ModelAdmin):
     from main.utils.mechanics import pre_sim, refix
     ordering = ['-indice', 'name']
