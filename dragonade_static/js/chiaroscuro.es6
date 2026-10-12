@@ -129,6 +129,20 @@ class Chiaroscuro {
         me.registerShowHide()
         me.registerShifters()
         me.registerListActions()
+        me.registerVignette()
+    }
+
+    registerVignette(){
+        let me = this
+        $(".vignette").off().on("click", (e)=>{
+            e.preventDefault()
+            e.stopPropagation()
+            if (e.ctrlKey) {
+                $(".vignette").removeClass('zoom')
+                $(this).addClass('zoom')
+            }
+        })
+        console.log("Vignette")
     }
 
     registerShortcuts() {
@@ -197,7 +211,7 @@ class Chiaroscuro {
             let action = words[2]
             let param = words[3]
             let value = words[4]
-            console.log(`List action: [${words[0]}:${words[2]}=${words[3]}] required.`)
+            // console.log(`List action: [${words[0]}:${words[2]}=${words[3]}] required.`)
             switch (action) {
                 case "view":
                     me.axiomaticPerformers.forEach((m) => {
@@ -242,6 +256,28 @@ class Chiaroscuro {
                         },
                     })
                     break
+                case "to_pdf":
+                    $.ajax({
+                        url: 'ajax/to_pdf',
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        data: {
+                            model: model,
+                        },
+                        dataType: 'json',
+                        success: function (answer) {
+                            console.log('Extracted to PDF... ');
+                            me.registerActions()
+                        },
+                        error: function (answer) {
+                            console.error('Error... ' + answer);
+                        },
+                    })
+                    break
+
                 case "filter":
                     $.ajax({
                         url: 'ajax/' + words[0].toLowerCase() + '_filter',

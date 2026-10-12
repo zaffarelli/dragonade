@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     "fixture_magic",
     "colorfield",
     'fontawesomefree',
+    'xhtml2pdf',
     'main.apps.MainConfig',
 ]
 

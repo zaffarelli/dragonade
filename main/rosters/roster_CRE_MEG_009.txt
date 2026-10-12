@@ -1,0 +1,43 @@
+Megalithe
+Grincheux, Grognard
+Créature (Construct)
+Heure de Naissance: Dragon
+Taille/Poids: 150 cm/79 kg
+Totaux Attributs/Compétences: 140 / 91
+
+AGI  5 EMP  1 APP  5 | TIR  6 | VIE 35 | IMP  4 
+CON 20 ODG  1 DEX 10 | MEL  8 | FAT 15 | ENC 25.0 
+FOR 10 OUI  1 INT  1 | LAN  8 | SUS  7 | FAB  4 
+TAI 15 VUE  1 VOL 10 | DER  1 | RES  7 | REV  4 
+
+Martiales (-1): Pugilat [8] 7, Esquive [3] 2, Lutte [3] 2.
+Générales (-1): Artisanat [9] 8, Concentration [9] 8, Vigilance [8] 7, Course [6] 5, Escalade [4] 3, Saut [4] 3.
+Particulières (-2): Musique [12] 10, Jeu de Mains [8] 6, Survie en Cité [7] 5.
+Spécialisées (-3): .
+Connaissances (-4): .
+Draconiques (-5): Statique [10] 5.
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (35)      PdF (15)            PdR (4)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤   ¤ ¤ ¤ ¤             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤   ¤ ¤ ¤ ¤             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤                         
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤                         
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤ ¤                           
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤ ¤                           
+              ¤ ¤ ¤ ¤ ¤ ¤                             
+              ¤ ¤ ¤ ¤ ¤ ¤                             
+              ¤ ¤ ¤ ¤ ¤                               
+              ¤ ¤ ¤ ¤ ¤                               
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

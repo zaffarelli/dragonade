@@ -5,7 +5,7 @@ Taille/Poids: 10 cm/0 kg
 Totaux Attributs/Compétences: 0 / 17
 
 AGI  6 EMP  5 APP  7 | TIR  8 | VIE 10 | IMP  0 
-CON  5 ODG  4 DEX  7 | MEL  6 | FAT  4 | ENC 10.0 
+CON  5 ODG  4 DEX  7 | MEL  6 | FAT  5 | ENC 11.0 
 FOR  6 OUI  4 INT  5 | LAN  7 | SUS  3 | FAB  6 
 TAI  5 VUE  8 VOL  4 | DER  7 | RES  2 | REV  6 
 
@@ -23,9 +23,10 @@ Armure/Protection                   AGI DEX VUE OUI Pr. Couverture
 Cumuls Malus                          0   0   0   0
 Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
 
-PdV (10)      PdF (4)             PdR (6)             
+PdV (10)      PdF (5)             PdR (6)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤         
 ¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤ ¤         
-¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤ ¤         
-              ¤ ¤ ¤               ¤ ¤ ¤ ¤ ¤ ¤         
+              ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤ ¤         
+              ¤ ¤ ¤                                   
               ¤ ¤ ¤                                   
                                                       

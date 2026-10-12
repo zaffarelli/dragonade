@@ -1,0 +1,80 @@
+{% load static %}
+{% load dragonade_filters %}
+
+
+<H5>{{c.name}} [*{{c.power}}]</H5>
+{% if c.spell_ready %}
+<p>{{c.category}} ({{c.path}}, puissance {{c.power}})<br/><code>{{c.rid}}</code></p>
+<table class="charges">
+    <tr>
+        <th colspan="5">Charges</th>
+    </tr>
+    <tr>
+        <td>{{c.ground_charge_str}}</td>
+        <td>{{c.hour_charge_str}}</td>
+        <td>{{c.emanation_charge_str}}</td>
+        <td>{{c.consistency_charge_str}}</td>
+        <td>{{c.elemental_charge_str}}</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <td>{{c.id}}</td>
+        <th></th>
+        <td></td>
+
+    </tr>
+    <tr>
+        <th>Temps d'Incantation</th>
+        <td>{{c.ti_str}}</td>
+        <th>Portée</th>
+        <td>{{c.range_str}}</td>
+    </tr>
+    <tr>
+        <th>Zone d'Effet</th>
+        <td>{{c.area_str}}</td>
+        <th>Durée</th>
+        <td>{{c.duration_str}}</td>
+    </tr>
+    <tr>
+        <th>Difficulté</th>
+        <td>{{c.difficulty_val}} ({{c.difficulty_str}})</td>
+        <th>Jet</th>
+        <td>REV + {{c.roll}}</td>
+    </tr>
+    <tr>
+        <th>Points de Rêve</th>
+        <td>{{c.dps}}</td>
+        <th>Songe</th>
+        <td>{{c.songe}}</td>
+    </tr>
+    <tr>
+        <th>Contournement de l'échec</th>
+        <td>{{c.fallback_str}}</td>
+        <th>Source</th>
+        <td>{{c.source}} ({{c.ref}})</td>
+    </tr>
+    <tr>
+        <th>Code Pentacle</th>
+        <td>{{c.pentacle_code}}</td>
+        <th>Diff/Coût RDD</th>
+        <td>{%if c.avoid_original_cost%}<strike>{% endif %}{{c.original_casting_cost}}{%if c.avoid_original_cost%}</strike>{% endif %} </td>
+
+    </tr>
+</table>
+
+<h6>Description</h6>
+<p>{{c.description|render_text|safe}}</p>
+{% if c.composantes != "-" %}
+<h6>Notes</h6>
+<p>{{c.composantes|render_text|safe}}</p>
+{% endif %}
+{%else%}
+<code>{{c.rid}} en cours...</code>
+{% endif %}
+
+<hr/>
+
+

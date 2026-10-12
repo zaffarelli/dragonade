@@ -1,0 +1,68 @@
+{% load static %}
+{% load dragonade_filters %}
+
+
+<h5>{{c.name}}</h5>
+<p>Puissance <em>{{c.power}}</em></p>
+{% if c.aka %}
+<p>Appelé aussi... <em>{{c.aka}}</em></p>
+{%endif%}
+
+<table>
+    <tr>
+        <th>AGI</th>
+        <td>{{c.attr.AGI}}</td>
+        <th>EMP</th>
+        <td>{{c.attr.EMP}}</td>
+        <th>APP</th>
+        <td>{{c.attr.EMP}}</td>
+        <th>MEL</th>
+        <td>{{c.seco.MEL}}</td>
+    </tr><tr>
+        <th>CON</th>
+        <td>{{c.attr.CON}}</td>
+        <th>OGD</th>
+        <td>{{c.attr.ODG}}</td>
+        <th>DEX</th>
+        <td>{{c.attr.DEX}}</td>
+        <th>TIR</th>
+        <td>{{c.seco.TIR}}</td>
+    </tr><tr>
+        <th>FOR</th>
+        <td>{{c.attr.FOR}}</td>
+        <th>OUI</th>
+        <td>{{c.attr.OUI}}</td>
+        <th>INT</th>
+        <td>{{c.attr.INT}}</td>
+        <th>LAN</th>
+        <td>{{c.seco.LAN}}</td>
+    </tr><tr>
+        <th>TAI</th>
+        <td>{{c.attr.TAI}}</td>
+        <th>VUE</th>
+        <td>{{c.attr.VUE}}</td>
+        <th>VOL</th>
+        <td>{{c.attr.VOL}}</td>
+        <th>DER</th>
+        <td>{{c.seco.DER}}</td>
+    </tr>
+</table>
+<p>
+    <h6>Compétences</h6>
+{% for x in c.skills_summary %}
+    {{x.text}}&nbsp;{{x.value}}
+{% endfor %}
+</p>
+
+{% if c.description %}
+<h6>Description</h6>
+<p>{{c.description}}</p>
+{%endif%}
+<br/>
+
+
+
+
+
+
+

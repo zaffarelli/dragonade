@@ -1,9 +1,16 @@
+from main.models.characters import Character
+from main.utils.mechanics import roll
+import random
+import os
+import datetime
+import io
+from xhtml2pdf import pisa
+from django.conf import settings
 from django.db import models
 from django.contrib import admin
-from main.models.characters import Character
-import random
+from django.template.loader import get_template
 
-from main.utils.mechanics import roll
+
 
 
 class Viaggiatore(Character):
@@ -74,9 +81,31 @@ class Viaggiatore(Character):
     @classmethod
     def spawn(cls):
         item = cls()
-        item.name = f"Nouveau ({roll(faces=12)}-{roll(faces=12)}-{roll(faces=12)})"
+        item.name = f"Voyageur_{roll(explodes=False,faces=10)-1}{roll(explodes=False,faces=10)-1}{roll(explodes=False,faces=10)-1}"
+        item.is_storyteller = True
+        item.is_new = True
+        item.sogni = "DEF"
         item.save()
         return item.id
+
+    @classmethod
+    def export_to_pdf(cls):
+        context = {"full_name": "Voyageurs", "release_date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+        context["type"] = "viaggiatore"
+        context["categories"] = {}
+        context["categories"]["PNJ"] = [i.export_to_json() for i in cls.objects.filter(is_storyteller=True).order_by("name")]
+        context["categories"]["PJ"] = [i.export_to_json() for i in cls.objects.filter(is_storyteller=False).order_by("name")]
+        template = get_template('main/PDF/extract.html')
+        html = template.render(context)
+        filename = os.path.join(settings.MEDIA_ROOT, 'pdf/extracts/viaggiatori.pdf')
+        es_pdf = open(filename, 'wb')
+        pdf = pisa.pisaDocument(io.BytesIO(html.encode('utf-8')), es_pdf)
+        if not pdf.err:
+            es_pdf.close()
+            print(f"PDF exportation complete: {filename}")
+        else:
+            print(pdf.err)
+
 
 
 
@@ -85,7 +114,7 @@ class Viaggiatore(Character):
 class ViaggiatoreAdmin(admin.ModelAdmin):
     from main.utils.mechanics import pre_sim, refix
     ordering = ['-indice', 'name']
-    list_display = ['id', 'rid', 'name', "archetype_str", 'player', 'is_storyteller', 'color']
-    list_editable = ["archetype_str", 'color', 'is_storyteller']
+    list_display = ['id', 'rid', 'name', "archetype_str", 'player', 'is_new', 'is_storyteller', 'color']
+    list_editable = ["archetype_str", 'color', 'is_storyteller','is_new']
     list_filter = ["sogni",'is_storyteller', "old_creation_attributes" ]
     actions = [refix, pre_sim]

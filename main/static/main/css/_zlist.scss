@@ -1,6 +1,7 @@
-$list_font_size: 10pt;
-$title_font_size: 16pt;
-$mid_font_size: 12pt;
+$list_font_size: 9pt;
+$title_font_size: 12pt;
+$mid_font_size: 10pt;
+$mega_font_size: 16pt;
 
 
 
@@ -40,48 +41,32 @@ $mid_font_size: 12pt;
         & .zlist_item{
             padding:3pt;
             border-radius:3pt;
-            flex:0 1 auto;
+            flex:1 1 8ex;
             color:white;
             vertical-align:middle;
             text-align:center;
             font-family:$font;
+            font-size:$list_font_size;
             background:#4040407f;
             &.title{
                 flex: 5 5 auto;
                 font-family:$font_title;
-                font-size:18pt;
+                font-size:$title_font_size;
+                color:yellow;
             }
             &.buffer{
                 flex: 5 5 auto;
             }
             &.text{
-                width:40ex;
-                max-height:8em;
-                padding:3pt;
-
-                overflow-y:scroll;
-                text-align:left;
-                color:silver;
-            }
-            &.label{
-                width:20ex;
-                font-size:$title_font_size;
-            }
-            &.symbol{
-                background:#9080907f;
-            }
-            &.simple{
-                display:flex;
-
+                font-size:$list_font_size;
+                flex:1 0 10ex;
                 flex-flow: column wrap;
                 justify-content:space-between;
                 align-items:stretch;
                 align-content:stretch;
-                color:silver;
-                width:10ex;
                 & .txt{
                     flex:1 0 1.2em;
-                    font-size:$mid_font_size;
+                    font-size:$title_font_size;
                     color:white;
                     background:#202020;
 
@@ -90,7 +75,41 @@ $mid_font_size: 12pt;
                 }
                 & .val{
                     flex: 1 1 auto;
+                    font-size:$list_font_size;
+                    color:silver;
+                    background:#101010;
+                    overflow-y:scroll;
+                    text-align:left;
+
+                    padding:3pt;
+                }
+            }
+            &.label{
+                flex:1 1 12ex;
+                font-size:$title_font_size;
+            }
+            &.symbol{
+                background:#9080907f;
+            }
+            &.simple{
+                display:flex;
+                flex:1 0 10ex;
+                flex-flow: column wrap;
+                justify-content:space-between;
+                align-items:stretch;
+                align-content:stretch;
+                color:silver;
+                & .txt{
+                    flex:1 0 1.2em;
                     font-size:$title_font_size;
+                    color:white;
+                    background:#202020;
+                    border-radius:3pt;
+                    padding:3pt;
+                }
+                & .val{
+                    flex: 1 1 auto;
+                    font-size:$list_font_size;
                     color:silver;
                     background:#101010;
 
@@ -100,13 +119,13 @@ $mid_font_size: 12pt;
 
             &.shifter{
                 display:flex;
-
+                flex:0 0 8ex;
                 flex-flow: column wrap;
                 justify-content:space-between;
                 align-items:stretch;
                 align-content:stretch;
                 color:silver;
-                width:12ex;
+                border:2pt dashed purple;
                 & .txt{
                     flex:1 0 1.2em;
                     font-size:$mid_font_size;
@@ -128,32 +147,36 @@ $mid_font_size: 12pt;
 
 
             &.icon{
-                font-size:2em;
+                font-size:$mega_font_size;
+                flex:0 0 4ex;
                 cursor:pointer;
+            }
+            &.boolean{
+                flex:0 0 4ex;
+                border:none;
             }
 
 
             &.normal{
+
                 font-size:$title_font_size;
                 cursor:pointer;
+                color:purple;
             }
 
             &.filter{
-                width:24ex;
-                font-size:1.5em;
+                font-size:$title_font_size;
+                flex:0 0 12ex;
                 cursor:pointer;
                 &:hover{
                     background:$hlbg;
                     color:$hlco;
                 }
-                border:none;
-            }
-            &.boolean{
-                width:2ex;
-                border:none;
+                border:1pt solid black;
             }
             &.number{
                 font-height:$title_font_size;
+                color:fuchsia;
                 width:4ex;
             }
             border:2pt solid #202020;

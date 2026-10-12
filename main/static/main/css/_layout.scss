@@ -906,3 +906,28 @@ body {
     }
 }
 
+
+.flexmap{
+    margin-top:4vh;
+    display:flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: space-between;
+    align-content: flex-start;
+    gap:5pt;
+    width:90vw;
+    height:90vw;
+    & .vignette{
+        flex:0 1 300pt;
+        height:200pt;
+        border:2pt dotted silver;
+        border-radius:10pt;
+        cursor:pointer;
+        &.xxx{
+            flex: 1 1 900pt;
+            height:600pt;
+            border:2pt dotted red;
+        }
+    }
+
+}

@@ -2,13 +2,13 @@ Godefroy le Chaudronnier
 Escorte de la Dona Real, Invité d'Exaldarian
 (Loïc [@Ruum])
 Heure de Naissance: Faucon
-Taille/Poids: 183 cm/107 kg
+Taille/Poids: 183 cm/97 kg
 Totaux Attributs/Compétences: 0 / 48
 
 AGI  6 EMP  3 APP  4 | TIR  6 | VIE 14 | IMP  1 
-CON  8 ODG  5 DEX  5 | MEL  8 | FAT  6 | ENC 14.0 
-FOR  9 OUI  4 INT  5 | LAN  6 | SUS  4 | FAB  7 
-TAI  6 VUE  7 VOL  4 | DER  8 | RES  2 | REV  7 
+CON  8 ODG  5 DEX  5 | MEL  8 | FAT  6 | ENC 15.0 
+FOR  9 OUI  4 INT  5 | LAN  8 | SUS  4 | FAB  7 
+TAI  6 VUE  7 VOL  4 | DER  6 | RES  2 | REV  7 
 
 Martiales (-1): .
 Générales (-1): Séduction [7] 6, Concentration [6] 5, Pièges [4] 3, Sculpture [4] 3, Artisanat [3] 2, Course [3] 2, Cuisine [3] 2, Discrétion [2] 1, Escalade [2] 1, Tactique [1] 0, Vigilance [1] 0.

@@ -5,9 +5,9 @@ Taille/Poids: 16 cm/0 kg
 Totaux Attributs/Compétences: 128 / 206
 
 AGI  8 EMP  5 APP  8 | TIR  8 | VIE  6 | IMP -2 
-CON  5 ODG  8 DEX  8 | MEL  5 | FAT  4 | ENC 6.0 
-FOR  2 OUI  7 INT  7 | LAN 10 | SUS  3 | FAB  5 
-TAI  1 VUE  7 VOL  2 | DER  5 | RES  1 | REV  8 
+CON  5 ODG  8 DEX  8 | MEL  5 | FAT  4 | ENC 3.0 
+FOR  2 OUI  7 INT  7 | LAN  5 | SUS  3 | FAB  5 
+TAI  1 VUE  7 VOL  2 | DER 10 | RES  1 | REV  8 
 
 Martiales (-1): Esquive [7] 6, Lutte [7] 6, Pugilat [7] 6.
 Générales (-1): Chant [9] 8, Danse [9] 8, Séduction [9] 8, Discrétion [7] 6, Eloquence [7] 6, Escalade [7] 6, Concentration [4] 3, Vigilance [2] 1.

@@ -1,13 +1,13 @@
 Fiélon de la Marche
 Créature (Créature de Cauchemard)
 Heure de Naissance: Araignée
-Taille/Poids: 10 cm/50 kg
-Totaux Attributs/Compétences: 43 / -142
+Taille/Poids: 10 cm/0 kg
+Totaux Attributs/Compétences: 103 / 0
 
 AGI  3 EMP  1 APP  1 | TIR  3 | VIE 12 | IMP  2 
-CON  4 ODG  3 DEX  4 | MEL  6 | FAT  4 | ENC 12.0 
-FOR  8 OUI  5 INT  1 | LAN  4 | SUS  3 | FAB  3 
-TAI  8 VUE  1 VOL  4 | DER  6 | RES  2 | REV  3 
+CON  4 ODG  3 DEX  4 | MEL  6 | FAT  4 | ENC 16.0 
+FOR  8 OUI  5 INT  1 | LAN  6 | SUS  3 | FAB  3 
+TAI  8 VUE  1 VOL  4 | DER  4 | RES  2 | REV  3 
 
 Martiales (-1): .
 Générales (-1): .
@@ -21,7 +21,7 @@ Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
                                     Malus
 Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
 Cumuls Malus                          0   0   0   0
-Protection: H-0-X C-0-X AS-0-X AW-0-X LS-0-X LW-0-X
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
 
 PdV (12)      PdF (4)             PdR (3)             
 ¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤             ¤ ¤ ¤               

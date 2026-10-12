@@ -1,5 +1,11 @@
+import os
+
 from django.db import models
 from django.contrib import admin
+from django.template.loader import get_template
+import io
+from xhtml2pdf import pisa
+from django.conf import settings
 from main.mixins.chiaroscuro_mixin import ChiaroscuroMixin
 from main.utils.mechanics import as_rid, roll
 import math
@@ -49,7 +55,7 @@ class Oggetto(models.Model, ChiaroscuroMixin):
     engagement = models.IntegerField(default=0, null=True, blank=True)
     maneuver = models.IntegerField(default=0, null=True, blank=True)
     cover = models.CharField(default="", max_length=64, blank=True)
-    color = ColorField(default="#808080ff", blank=True)
+    color = ColorField(default="#808080ff", blank=True, null=True)
     gcode = models.CharField(default="xxx", max_length=3, blank=True)
     materiaux = models.CharField(default="", max_length=64, blank=True)
     related_skill = models.CharField(default="", max_length=32, blank=True)
@@ -140,9 +146,9 @@ class Oggetto(models.Model, ChiaroscuroMixin):
                         updated_cover.append("M")
                 self.cover = " ".join(updated_cover)
 
-            self.real_price = self.price ** (self.quality+1)
+            self.real_price = self.price ** (self.quality + 1)
 
-            self.real_mod_adjust = int(self.mod_adjust) + math.floor(int(self.quality)/2)
+            self.real_mod_adjust = int(self.mod_adjust) + math.floor(int(self.quality) / 2)
             if len(self.materiaux) > 0:
                 tr = 0
                 cnt = 0
@@ -208,6 +214,20 @@ class Oggetto(models.Model, ChiaroscuroMixin):
                             names.append(skill["TEXT"])
         return ", ".join(names)
 
+    # @classmethod
+    # def export_to_pdf(cls):
+    #     context = {"categories": [], "full_name": "Equipement"}
+    #     context["spells"] = [i.export_to_json() for i in cls.objects.all().order_by("category","name")]
+    #     template = get_template('main/PDF/extract.html')
+    #     html = template.render(context)
+    #     filename = os.path.join(settings.MEDIA_ROOT, 'pdf/extracts/incantessimi.pdf')
+    #     es_pdf = open(filename, 'wb')
+    #     pdf = pisa.pisaDocument(io.BytesIO(html.encode('utf-8')), es_pdf)
+    #     if not pdf.err:
+    #         es_pdf.close()
+    #     else:
+    #         print(pdf.err)
+
     @classmethod
     def references(klass):
         list = []
@@ -231,6 +251,28 @@ class Oggetto(models.Model, ChiaroscuroMixin):
         item.save()
         return item.id
 
+    @classmethod
+    def export_to_pdf(cls):
+        import datetime
+        context = {"full_name": "Equipment", "release_date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+        context["type"] = "oggetto"
+        context["categories"] = {}
+
+        for k, v in OggettoCategory.choices:
+            if k > 1:
+                context["categories"][v] = [i.export_to_json() for i in cls.objects.filter(category=k).exclude(special=True).order_by("name")]
+
+        template = get_template('main/PDF/extract.html')
+        html = template.render(context)
+        filename = os.path.join(settings.MEDIA_ROOT, 'pdf/extracts/oggetti.pdf')
+        es_pdf = open(filename, 'wb')
+        pdf = pisa.pisaDocument(io.BytesIO(html.encode('utf-8')), es_pdf)
+        if not pdf.err:
+            es_pdf.close()
+        else:
+            print(pdf.err)
+
+
 def cat_from_first(modeladmin, request, queryset):
     if len(queryset) > 2:
         cat = ""
@@ -245,7 +287,7 @@ def cat_from_first(modeladmin, request, queryset):
 
 class OggettoAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
-    ordering = ['category', 'related_attribute', 'name']
+    ordering = ['cover', "quality", 'name']
     # Armors
     # list_display = ["name", "category", "cover", "enc", "price", "materiaux",'mod_adjust', "prot", "quality",
     #                 "malus_AGI", "malus_DEX",
@@ -254,11 +296,13 @@ class OggettoAdmin(admin.ModelAdmin):
     # list_editable = ["category", "cover", "materiaux", "prot", "quality", "force_min", "malus_AGI", "malus_DEX",
     #                  "malus_VUE", "malus_OUI",'mod_adjust',"enc", "price"]
     # Weapons
-    list_display = ["rid", "category","is_basic","name", "engagement","maneuver","plus_dom","plus_dom_2m","mod_ini","mod_att","mod_dom", "related_skill_name",  "enc", "price", "resistance","force_min"]
-    list_editable = ["maneuver","engagement", "enc", "price","is_basic"]
+    list_display = ["rid", "name", "prot", "malus_AGI", "malus_DEX", "malus_VUE", "malus_OUI", "real_price", "category", "is_basic", "cover", "quality",
+                    "materiaux", "enc", "price", "resistance", "force_min"]
+    list_editable = ["name", "quality", "malus_AGI", "malus_DEX", "malus_VUE", "malus_OUI", "prot", "cover", "materiaux", "force_min", "enc", "price",
+                     "is_basic"]
     # Gems
     # list_display = ["name", "category", "rid","gcode","color","min_size","max_size","min_purity","max_purity"]
     # list_editable = ["gcode","min_size","max_size","min_purity","max_purity","color"]
-    list_filter = ["category", "can_be_thrown", "special", "materiaux", "cover","quality"]
+    list_filter = ["category", "quality", "is_basic", "can_be_thrown", "special", "materiaux", "cover"]
     search_fields = ['name']
     actions = [refix, cat_from_first]

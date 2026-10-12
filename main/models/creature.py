@@ -1,7 +1,12 @@
+import os
 from django.db import models
 from django.contrib import admin
+from django.template.loader import get_template
 from main.models.characters import Character
 from main.utils.mechanics import roll
+import io
+from xhtml2pdf import pisa
+from django.conf import settings
 
 
 class DragonadeCreatureType(models.IntegerChoices):
@@ -23,6 +28,7 @@ class Creatura(Character):
 
     creature_type = models.IntegerField(choices=DragonadeCreatureType.choices, default=DragonadeCreatureType.ANIMAL, blank=True)
 
+
     def __str__(self):
         return f"{self.rid}"
 
@@ -30,12 +36,45 @@ class Creatura(Character):
         super().co_push()
         self._data["creature_type_str"] = self.get_creature_type_display()
 
+    def value_shift(self,param,back):
+        current_value = getattr(self, param)
+        if param == "creature_type":
+            dataset = DragonadeCreatureType.values
+        else:
+            print(f"Unknown param {param} for {self.type}")
+        next_value_index = 0
+        for k, v in enumerate(dataset):
+            if v == current_value:
+                next_value_index = (k + back) % len(dataset)
+        setattr(self, param, dataset[next_value_index])
+        self.save()
+
+
     @classmethod
     def spawn(cls):
         item = cls()
         item.name = f"Nouveau ({roll(faces=12)}-{roll(faces=12)}-{roll(faces=12)})"
         item.save()
         return item.id
+
+    @classmethod
+    def export_to_pdf(cls):
+        import datetime
+        context = {"full_name": "Créatures", "release_date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+        context["type"] = "creatura"
+        context["categories"] = {}
+        for k,v in DragonadeCreatureType.choices:
+            context["categories"][v] = [i.export_to_json() for i in cls.objects.filter(creature_type=k).order_by("name")]
+        template = get_template('main/PDF/extract.html')
+        html = template.render(context)
+        filename = os.path.join(settings.MEDIA_ROOT, 'pdf/extracts/creature.pdf')
+        es_pdf = open(filename, 'wb')
+        pdf = pisa.pisaDocument(io.BytesIO(html.encode('utf-8')), es_pdf)
+        if not pdf.err:
+            es_pdf.close()
+        else:
+            print(pdf.err)
+
 
 class CreaturaAdmin(admin.ModelAdmin):
     ordering = ['name']

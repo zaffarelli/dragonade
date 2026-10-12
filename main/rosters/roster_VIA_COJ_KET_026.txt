@@ -1,0 +1,34 @@
+Cojürngänd Keträmsvälsgärd
+Coquette
+(Gardien des Rêves)
+Heure de Naissance: Sirène
+Taille/Poids: 180 cm/83 kg
+Totaux Attributs/Compétences: 6 / -26
+
+AGI  8 EMP  5 APP  4 | TIR  6 | VIE 11 | IMP  1 
+CON  5 ODG  7 DEX  6 | MEL  8 | FAT  6 | ENC 13.0 
+FOR  7 OUI  5 INT  7 | LAN  7 | SUS  3 | FAB  7 
+TAI  6 VUE  6 VOL  6 | DER  7 | RES  2 | REV  7 
+
+Martiales (-1): Arcs [8] 7, Lances [7] 6, Pugilat [6] 5, Lames Longues [2] 1.
+Générales (-1): Course [6] 5, Tactique [1] 0, Vigilance [1] 0.
+Particulières (-2): Survie dans les Glaces [7] 5, Equitation [6] 4, Déguisement [5] 3, Survie en Forêt [5] 3, Survie en Sous-sols [5] 3, Couture [4] 2, Commerce [3] 1, Musique [3] 1.
+Spécialisées (-3): Serrurerie [9] 6, Jonglerie [7] 4, Médecine [6] 3, Métallurgie [6] 3, Navigation [5] 2, Jeu [4] 1.
+Connaissances (-4): Stratégie [4] 0.
+Draconiques (-5): Génératif [9] 4.
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (11)      PdF (6)             PdR (7)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤       
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤       
+¤             ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤ ¤ ¤       
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

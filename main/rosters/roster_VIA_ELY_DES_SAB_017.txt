@@ -6,7 +6,7 @@ Taille/Poids: 168 cm/48 kg
 Totaux Attributs/Compétences: 4 / 31
 
 AGI  5 EMP  6 APP 10 | TIR  5 | VIE 10 | IMP  0 
-CON  4 ODG  5 DEX  5 | MEL  5 | FAT  6 | ENC 10.0 
+CON  4 ODG  5 DEX  5 | MEL  5 | FAT  6 | ENC 11.0 
 FOR  5 OUI  4 INT  7 | LAN  5 | SUS  3 | FAB  6 
 TAI  6 VUE  5 VOL  8 | DER  6 | RES  2 | REV  9 
 

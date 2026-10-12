@@ -12,6 +12,8 @@ from main.models.oggetti import Oggetto, OggettoAdmin
 from main.models.incantessimi import Incantessimo, IncantessimoAdmin
 from main.models.artefatti import Artefatto, ArtefattoAdmin
 from main.models.teams import Team, TeamAdmin
+from main.models.universes import Universe, UniverseAdmin
+from main.models.poteri_speciali import PotereSpeciale, PotereSpecialeAdmin
 
 admin.site.register(Nativo, NativoAdmin)
 admin.site.register(Viaggiatore, ViaggiatoreAdmin)
@@ -24,3 +26,5 @@ admin.site.register(Team, TeamAdmin)
 admin.site.register(Contestant, ContestantAdmin)
 admin.site.register(Combat, CombatAdmin)
 admin.site.register(CombatRound, CombatRoundAdmin)
+admin.site.register(Universe, UniverseAdmin)
+admin.site.register(PotereSpeciale, PotereSpecialeAdmin)

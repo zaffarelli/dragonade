@@ -1,0 +1,32 @@
+Cymbelline Le May
+(Gardien des Rêves)
+Heure de Naissance: Lyre
+Taille/Poids: 158 cm/61 kg
+Totaux Attributs/Compétences: 0 / 27
+
+AGI  7 EMP  8 APP  5 | TIR  5 | VIE 11 | IMP  1 
+CON  5 ODG  6 DEX  4 | MEL  7 | FAT  5 | ENC 13.0 
+FOR  7 OUI  4 INT  5 | LAN  6 | SUS  3 | FAB  6 
+TAI  6 VUE  5 VOL  4 | DER  7 | RES  2 | REV  6 
+
+Martiales (-1): Armes à deux mains [6] 5, Esquive [4] 3, Arbalètes [4] 3, Armes d'Hast [3] 2, Javelots [3] 2.
+Générales (-1): Chant [9] 8, Dessin [7] 6, Danse [6] 5, Course [5] 4, Cuisine [5] 4, Vigilance [5] 4, Séduction [4] 3, Discrétion [3] 2, Eloquence [3] 2, Artisanat [2] 1.
+Particulières (-2): Jeu de Mains [8] 6, Déguisement [7] 5, Survie en Forêt [6] 4, Survie dans le Désert [5] 3, Musique [4] 2, Charpenterie [3] 1, Survie dans les Glaces [3] 1, Survie en Montagnes [3] 1.
+Spécialisées (-3): Acrobatie [10] 7, Jeu [9] 6, Navigation [6] 3, Maroquinerie [4] 1, Médecine [4] 1, Orfèvrerie [4] 1.
+Connaissances (-4): Architecture [7] 3, Alchimie [6] 2, Ecriture [6] 2.
+Draconiques (-5): Statique [8] 3.
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (11)      PdF (5)             PdR (6)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤         
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤ ¤         
+¤             ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤ ¤         
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

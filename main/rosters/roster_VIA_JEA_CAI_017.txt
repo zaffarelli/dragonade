@@ -2,11 +2,11 @@ Jean-Guy Cailleux
 Spadassin de la Garde Royale d'Aiguepine
 (Thomas [@veg_as#5704])
 Heure de Naissance: Vaisseau
-Taille/Poids: 170 cm/75 kg
+Taille/Poids: 170 cm/69 kg
 Totaux Attributs/Compétences: 0 / 16
 
 AGI  7 EMP  5 APP  5 | TIR  6 | VIE 10 | IMP  1 
-CON  4 ODG  5 DEX  8 | MEL  7 | FAT  4 | ENC 10.0 
+CON  4 ODG  5 DEX  8 | MEL  7 | FAT  4 | ENC 13.0 
 FOR  7 OUI  5 INT  6 | LAN  7 | SUS  3 | FAB  6 
 TAI  6 VUE  4 VOL  4 | DER  7 | RES  2 | REV  6 
 

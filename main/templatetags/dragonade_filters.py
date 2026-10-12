@@ -124,31 +124,31 @@ def as_hour(v):
 
 @register.filter(name='as_skill')
 def as_skill(value):
-    from main.utils.ref_dragonade import CHARACTER_STATISTICS
+    from main.utils.ref_dragonade import DRAGONADE_CHARACTER_STATISTICS
     str = value
     words = value.split('_')
     if words[0] == 'WEA':
-        for ref in CHARACTER_STATISTICS['SKILLS']['WEAPONS']['LIST']:
+        for ref in DRAGONADE_CHARACTER_STATISTICS['SKILLS']['WEAPONS']['LIST']:
             if ref['NAME'] == value:
                 str = ref['TEXT']
     if words[0] == 'GEN':
-        for ref in CHARACTER_STATISTICS['SKILLS']['GENERIC']['LIST']:
+        for ref in DRAGONADE_CHARACTER_STATISTICS['SKILLS']['GENERIC']['LIST']:
             if ref['NAME'] == value:
                 str = ref['TEXT']
     if words[0] == 'PEC':
-        for ref in CHARACTER_STATISTICS['SKILLS']['PECULIAR']['LIST']:
+        for ref in DRAGONADE_CHARACTER_STATISTICS['SKILLS']['PECULIAR']['LIST']:
             if ref['NAME'] == value:
                 str = ref['TEXT']
     if words[0] == 'SPE':
-        for ref in CHARACTER_STATISTICS['SKILLS']['SPECIALIZED']['LIST']:
+        for ref in DRAGONADE_CHARACTER_STATISTICS['SKILLS']['SPECIALIZED']['LIST']:
             if ref['NAME'] == value:
                 str = ref['TEXT']
     if words[0] == 'KNO':
-        for ref in CHARACTER_STATISTICS['SKILLS']['KNOWLEDGE']['LIST']:
+        for ref in DRAGONADE_CHARACTER_STATISTICS['SKILLS']['KNOWLEDGE']['LIST']:
             if ref['NAME'] == value:
                 str = ref['TEXT']
     if words[0] == 'DRA':
-        for ref in CHARACTER_STATISTICS['SKILLS']['DRACONIC']['LIST']:
+        for ref in DRAGONADE_CHARACTER_STATISTICS['SKILLS']['DRACONIC']['LIST']:
             if ref['NAME'] == value:
                 str = ref['TEXT']
     return str
@@ -461,6 +461,7 @@ def as_avoidance(value):
 
 @register.filter(name='render_text')
 def render_text(value):
+    result = ""
     if isinstance(value, str):
         v = value.split("§")
         result = "<br/>".join(v)
@@ -582,6 +583,11 @@ def as_text_cover(value):
 def as_diff(value):
     return f'<div class="diff_{value}">{value}</div>'
 
+@register.filter(name='as_difficulty')
+def as_difficulty(value):
+    return f'<div class="diff_{value*5}">{value*5}</div>'
+
+
 @register.filter(name='as_sogni')
 def as_sogni(value):
     x = str(value).split(" ")
@@ -612,3 +618,46 @@ def as_quality(value):
             for _ in range(value):
                 result += f"<i class='fa fa-star' style='color:{colors[value]};'></i>"
     return result
+
+@register.filter(name='as_fatigue')
+def as_fatigue(value):
+    arr = value.split("__nl__")
+    v = "__nl__".join(filter(None,arr))
+    x = v.replace("__nl__","</span><BR/><span class='checkers'>").replace("o ","T ")
+    return "<span class='checkers'>"+x+"</span>"
+
+@register.filter(name='as_pdr')
+def as_pdr(value):
+    str = ""
+    for v in range(value):
+        str += "T T T <BR/>"
+    arr = str.split("<BR/>")
+    str = "<BR/>".join(filter(None,arr))
+    res =  "<span class='checkers'>"+str+"</span>"
+    return res
+
+@register.filter(name='as_pdv')
+def as_pdv(value):
+    str = ""
+    for v in range(value):
+        str += "T "
+        if v%5 == 4:
+            str+="<BR/>"
+    arr = str.split("<BR/>")
+
+    str = "<BR/>".join(filter(None,arr))
+    return "<span class='checkers'>"+str+"</span>"
+
+@register.filter(name='as_skill_cat')
+def as_skill_cat(value):
+    values =["weapons", "generic", "peculiar", "specialized", "knowledge", "draconic"]
+    translation = ["Martiale (-1)", "Générales (-1)", "Particulières (-2)", "Spécialisées (-3)", "Connaissances (-4)", "Draconiques (-5)"]
+    idx = values.index(value)
+    return translation[idx]
+
+@register.filter(name='with_list_punctuation')
+def with_list_punctuation(value):
+    arr = []
+    for y in value:
+        arr.append(f"{y['text']} {y['value']}")
+    return ", ".join(arr)+"."

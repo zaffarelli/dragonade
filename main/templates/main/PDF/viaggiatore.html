@@ -1,0 +1,91 @@
+{% load static %}
+{% load dragonade_filters %}
+
+
+<h5>{{c.name}}</h5>
+{% if c.is_storyteller %}
+{% else %}
+<p>par <em>{{c.player}}</em></p>
+{% endif %}
+<p>Puissance <em>{{c.power}}</em></p>
+{% if c.aka %}
+<p>Appelé aussi... <em>{{c.aka}}</em></p>
+{%endif%}
+<table>
+    <tr>
+        <th>AGI</th>
+        <td>{{c.attr.AGI}}</td>
+        <th>EMP</th>
+        <td>{{c.attr.EMP}}</td>
+        <th>APP</th>
+        <td>{{c.attr.EMP}}</td>
+        <th>MEL</th>
+        <td>{{c.seco.MEL}}</td>
+    </tr><tr>
+        <th>CON</th>
+        <td>{{c.attr.CON}}</td>
+        <th>OGD</th>
+        <td>{{c.attr.ODG}}</td>
+        <th>DEX</th>
+        <td>{{c.attr.DEX}}</td>
+        <th>TIR</th>
+        <td>{{c.seco.TIR}}</td>
+    </tr><tr>
+        <th>FOR</th>
+        <td>{{c.attr.FOR}}</td>
+        <th>OUI</th>
+        <td>{{c.attr.OUI}}</td>
+        <th>INT</th>
+        <td>{{c.attr.INT}}</td>
+        <th>LAN</th>
+        <td>{{c.seco.LAN}}</td>
+    </tr><tr>
+        <th>TAI</th>
+        <td>{{c.attr.TAI}}</td>
+        <th>VUE</th>
+        <td>{{c.attr.VUE}}</td>
+        <th>VOL</th>
+        <td>{{c.attr.VOL}}</td>
+        <th>DER</th>
+        <td>{{c.seco.DER}}</td>
+    </tr>
+</table>
+<h6>Compétences</h6>
+{% for cat,arr in c.skills_full.items %}
+    <p>
+    <b>{{cat|as_skill_cat|safe}}</b>:
+    {{arr|with_list_punctuation|safe}}
+    </p>
+{% endfor %}
+{% if c.description %}
+<h6>Description</h6>
+<p>{{c.description|render_text|safe}}</p>
+{%endif%}
+{% if c.weapons %}
+<h6>Armes</h6>
+<p>{{c.wepons}}</p>
+{%endif%}
+{% if c.armors %}
+<h6>Protection</h6>
+<ul>
+{% for armor in c.armors %}
+    <li>{{armor.name}} ({{armor.cover|as_text_cover|safe}}): {{armor.prot}}</li>
+{% endfor %}
+</ul>
+{%endif%}
+<table>
+    <tr>
+        <td style="vertical-align:top;border-width:0;text-align:left;"><b>Points de Vie ({{c.VIE}}):</b><br/>{{c.VIE|as_pdv|safe}}</td>
+        <td style="vertical-align:top;border-width:0;text-align:left;"><b>Fatigue ({{c.FAT}}):</b><br/>{{c.fatigue_map|as_fatigue|safe}}</td>
+        <td style="vertical-align:top;border-width:0;text-align:left;"><b>Points de Rêve ({{c.REV}}):</b><br/>{{c.REV|as_pdr|safe}}</td>
+    </tr>
+</table>
+
+<hr/>
+
+
+
+
+
+
+

@@ -10,6 +10,8 @@
     <link rel='icon' type="image/svg+xml" href='{% static "main/favicon.svg" %}'>
     <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
 
+
+
     <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -35,6 +37,10 @@
     {% compress css %}
     <link rel='stylesheet' type='text/x-scss' href='{% static "main/css/main.scss" %}'/>
     {% endcompress %}
+
+    <script src=" https://cdn.jsdelivr.net/npm/zoomist@2.2.0/zoomist.umd.min.js "></script>
+    <link href=" https://cdn.jsdelivr.net/npm/zoomist@2.2.0/zoomist.min.css " rel="stylesheet">
+
 </head>
 <body style="background:transparent url({% static 'main/images/back7.jpg' %}) fixed; opacity: 0.95;">
 

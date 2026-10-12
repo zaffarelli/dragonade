@@ -1,0 +1,34 @@
+Bjärn Vargläs
+Ennemi du Mal Ventriloque, Escorte de la Dona Real
+(Gardien des Rêves)
+Heure de Naissance: Epées
+Taille/Poids: 186 cm/78 kg
+Totaux Attributs/Compétences: 0 / 6
+
+AGI  4 EMP  5 APP  5 | TIR  6 | VIE 13 | IMP  0 
+CON  7 ODG  8 DEX  7 | MEL  4 | FAT  6 | ENC 10.0 
+FOR  4 OUI  5 INT  6 | LAN  5 | SUS  3 | FAB  5 
+TAI  6 VUE  4 VOL  5 | DER  5 | RES  2 | REV  7 
+
+Martiales (-1): Bâtons [5] 4, Fouets [3] 2, Poignards [3] 2, Lances [2] 1.
+Générales (-1): Concentration [5] 4, Sculpture [5] 4, Discrétion [4] 3, Eloquence [4] 3, Escalade [4] 3, Cuisine [3] 2, Saut [3] 2, Artisanat [2] 1, Danse [2] 1, Dessin [2] 1, Course [1] 0, Pièges [1] 0, Séduction [1] 0, Tactique [1] 0, Vigilance [1] 0.
+Particulières (-2): Commerce [9] 7, Comédie [7] 5, Musique [7] 5, Déguisement [6] 4, Couture [5] 3, Equitation [5] 3, Survie dans les Glaces [4] 2, Survie en Forêt [3] 1.
+Spécialisées (-3): Orfèvrerie [7] 4, Maroquinerie [6] 3, Médecine [5] 2, Acrobatie [4] 1, Natation [4] 1, Serrurerie [4] 1.
+Connaissances (-4): Architecture [6] 2, Mathématiques [4] 0, Stratégie [4] 0, Ecriture [2] -2, Chirurgie [1] -3.
+Draconiques (-5): Destructif [8] 3.
+
+Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+
+                                    Malus
+Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
+Cumuls Malus                          0   0   0   0
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+
+PdV (13)      PdF (6)             PdR (7)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤       
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤       
+¤ ¤ ¤         ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤ ¤ ¤       
+              ¤ ¤ ¤ ¤                                 
+              ¤ ¤ ¤                                   
+              ¤ ¤ ¤                                   
+                                                      

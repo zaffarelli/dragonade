@@ -25,10 +25,9 @@ Bouclier Moyen          3+1      -   0   2   0  -2   0 MEL+5+Man=11       9
                                     Malus
 Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
 Casque d'Acier                        0   0   0  -1   3 H           
-Chausses de Cuir Epais               -1   0   0   0   3 L M         
-Pourpoint de Cuir Epais               0  -2   0   0   3 C A B       
-Cumuls Malus                         -1  -2   0  -1
-Protection: H-3-X C-3-X A-3-X B-3-X L-3-X M-3-X
+Broigne Renforcé d'Exception          0   0   0   0   4 C A B       
+Cumuls Malus                          0   0   0  -1
+Protection: H-3-X C-4-X A-4-X B-4-X L-0-X M-0-X
 
 PdV (12)      PdF (7)             PdR (7)             
 ¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤ ¤ ¤ ¤ ¤       

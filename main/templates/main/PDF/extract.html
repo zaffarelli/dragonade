@@ -1,0 +1,318 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="utf-8"/>
+    <title>{{ c.full_name|safe }}</title>
+    <style>
+
+        @font-face {
+            font-family: 'Text';
+            src: url('main/static/main/fonts/FiraSansCondensed-Regular.ttf');
+        }
+
+        @font-face {
+            font-family: 'BoldText';
+            src: url('main/static/main/fonts/FiraSansCondensed-Bold.ttf');
+        }
+
+        @font-face {
+            font-family: 'Title';
+            src: url("main/static/main/fonts/Khand-Medium.ttf");
+        }
+
+        @font-face {
+            font-family: 'Checkers';
+            src: url("main/static/main/fonts/CheckIcons.ttf");
+        }
+
+
+
+        @page {
+            size: a4 portrait;
+            @frame col_left{
+                left: 0.8cm;
+                width: 9.5cm;
+                top: 1.5cm;
+                height: 27cm;
+                padding: 0.125cm;
+            }
+            @frame col_right{
+                left: 10.7cm;
+                width: 9.5cm;
+                top: 1.5cm;
+                height: 27cm;
+                padding: 0.125cm;
+            }
+            @frame header_frame{
+                -pdf-frame-content: header_content;
+                left: 13cm;
+                width: 7.6cm;
+                top: 0.5cm;
+                height: 0.8cm;
+                padding: 3pt;
+            /*-pdf-frame-border:1pt;*/
+            }
+            @frame footer_frame{
+                -pdf-frame-content: footer_content;
+                left: 0.4cm;
+                width: 20cm;
+                right: 0.4cm;
+                bottom: 0.6cm;
+                height: 0.5cm;
+            }
+        }
+
+        p, blockquote, ul, li {
+            font-family: Text;
+            font-size: 8pt;
+            line-height: 0.9em;
+            margin: 0;
+            padding: 1pt;
+            margin-left: 3ex;
+        }
+
+        p {
+            font-family: Text;
+            font-size: 8pt;
+            line-height: 1.0em;
+            margin: 0;
+            padding: 0;
+            -pdf-keep-with-next: true;
+        }
+
+        #header_content {
+            font-size: 9pt;
+            text-align: right;
+            font-weight: bold;
+            font-family: Text;
+        }
+
+
+        #footer_content {
+            font-size: 9pt;
+            text-align: center;
+            font-weight: bold;
+            font-family: Text;
+        }
+
+        .info {
+            padding: 0;
+            margin: 0;
+            font-size: 9pt;
+            margin-bottom: 0.8em;
+            font-family: Text;
+        }
+
+        em {
+            font-style: italic;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+
+        .info th {
+            text-align: left;
+            margin-right: 1ex;
+            font-family: Text;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: Title;
+            margin: 0;
+            padding: 0;
+            line-height: 0.8em;
+            padding: 0.25em 0;
+        }
+
+        h1 {
+            font-size: 28pt;
+            text-align: center;
+
+            line-height: 0.5em;
+        }
+
+        h2 {
+            font-size: 16pt;
+        }
+
+        h3 {
+            font-size: 14pt;
+        }
+
+        h4 {
+            font-size: 12pt;
+            text-decoration: underline;
+        }
+
+        h5 {
+            font-size: 11pt;
+            -pdf-keep-with-next: true;
+        }
+
+        h6 {
+            font-family: BoldText;
+            font-size: 9pt;
+            -pdf-keep-with-next: true;
+        }
+
+        blockquote {
+            padding-left: 1cm;
+        }
+
+        table{
+            -pdf-keep-with-next: true;
+        }
+
+        td {
+            font-family: Text;
+            font-size: 8pt;
+            border: 1pt dotted silver;
+            padding: 1pt 1pt 1pt 1pt;
+            border-radius: 2pt;
+            vertical-align: middle;
+            text-align:center;
+        }
+
+        b {
+            font-family: BoldText;
+        }
+
+        th {
+            font-family: BoldText;
+            font-size: 8pt;
+            border: 1pt solid silver;
+            padding: 1pt 1pt 1pt 1pt;
+            border-radius: 2pt;
+            vertical-align: middle;
+            background: silver;
+        }
+
+        code {
+            font-size: 8pt;
+        }
+
+        table {
+            margin: 2pt;
+
+        }
+
+        tr {
+            height: 1em;
+
+        }
+
+        .charges {
+            text-align: center;
+        }
+
+        .spell {
+            border-left: 2pt solid purple;
+            margin-bottom: 5pt;
+        }
+
+        hr {
+            color: #D0D0D0;
+
+        }
+
+        .checkers{
+            font-family:Checkers;
+        }
+
+    </style>
+</head>
+<body>
+
+{% block article %}
+<div id="header_content">{{release_date}}</div>
+<div id="footer_content">Page
+    <pdf:pagenumber/>
+    sur
+    <pdf:pagecount/>
+</div>
+
+<h1>{{full_name|safe}}</h1>
+
+{% if type == "incantessimo" %}
+
+    <h2>Abréviations et rappels</h2>
+    <ul>
+        <li>Le lancement d'un sort ne s'accentue pas.</li>
+        <li>EMP m: "Empathie" mètres</li>
+        <li>Demi HD: Demi heure draconique</li>
+        <li>HD: Heure draconique</li>
+        <li>HR: Haut-Rêvant(e)</li>
+        <li>PHN: Prochaine Heure de Naissance (du lanceur)</li>
+        <li>Contournement de l'Echec: est-ce que le sort dispose de "filet" en cas d'erreur?
+            <ul>
+                <li>N/A: Non, raté c'est raté :)</li>
+                <li>1 charge / Echec: En cas d'échec simple, dépenser une charge compense le lancement du sort (considéré comme succès)</li>
+                <li>toutes les charges / Notable: En cas d'échec notable, dépenser toutes les charges compense le lancement du sort (considéré comme succès). En cas
+                    de notable, voir précédent cas.
+                </li>
+                <li>On note que l'échec total n'est jamais compensable. C'est une queue de dragon dans ta tronche, mécréant(e) !</li>
+            </ul>
+        </li>
+        <li>VOL m: "Volonté" mètres</li>
+    </ul>
+    <h2>Incantations</h2>
+    {% for k,v in incantations.items %}
+        <h3>{{k|title}}</h3>
+        {% for spell in v %}
+            {% include "main/PDF/incantessimo.html" with c=spell %}
+        {%endfor%}
+    {% endfor %}
+
+    <pdf:nextpage/>
+    <h2>Rituels</h2>
+    {% for k,v in rituels.items %}
+        <h3>{{k|title}}</h3>
+        {% for spell in v %}
+            {% include "main/PDF/incantessimo.html" with c=spell %}
+        {%endfor%}
+    {% endfor %}
+
+    <pdf:nextpage/>
+    <h2>Pentacles</h2>
+    {% for k,v in pentacles.items %}
+        <h3>{{k|title}}</h3>
+        {% for spell in v %}
+            {% include "main/PDF/incantessimo.html" with c=spell %}
+        {%endfor%}
+    {% endfor %}
+{% endif %}
+
+{% if type == "oggetto" %}
+    {% for k,v in categories.items %}
+        <h3>{{k|title}}</h3>
+        {% for o in v %}
+            {% include "main/PDF/oggetto.html" with c=o %}
+        {%endfor%}
+    {% endfor %}
+{% endif %}
+
+{% if type == "creatura" %}
+    {% for k,v in categories.items %}
+        <h3>{{k|title}}</h3>
+        {% for o in v %}
+            {% include "main/PDF/creatura.html" with c=o %}
+        {%endfor%}
+    {% endfor %}
+{% endif %}
+
+{% if type == "viaggiatore" %}
+    {% for k,v in categories.items %}
+        <h3>{{k|upper}}</h3>
+        {% for o in v %}
+            {% include "main/PDF/viaggiatore.html" with c=o %}
+        {%endfor%}
+    {% endfor %}
+{% endif %}
+
+
+{% endblock article %}
+
+</body>
+</html>

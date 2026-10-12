@@ -11,6 +11,11 @@ FONTSET = [
     "Fira+Sans+Condensed",
     "Fira+Mono",
 ]
+
+ZAFF_MATCHES = [('é', 'WeA_'), ('è', 'WeG_'), ('à', 'WaG_'), ('ï', 'WiT_'), ('ë', 'WeT_'), ('ä', 'WaT_'), ('ù', 'WuG_'),
+                ('ç', 'WcC_'), ('ô', 'WoC_'), ('ê', 'WeC_'), ('â', 'WaC_'), (' ', 'Wsp_'), ("'", 'Wsq_'), ('"', 'Wdq_')
+                ]
+
 # Testing (Transfert to the previous one if valid)
 if settings.DEBUG == False:
     FONTSET += [
@@ -114,6 +119,7 @@ MAIN_MENU = [
             {"NAME": "Incantessimi", "LINK": "incantessimi_list"},
             {"NAME": "Artefatti", "LINK": "artefatti_list"},
             {"NAME": "Oggetti", "LINK": "oggetti_list"},
+            {"NAME": "Poteri Speciali", "LINK": "poteri_list"},
         ]},
         {"NAME": "Visuels", "SUB": [
             {"NAME": "Cartes", "LINK": "piani"},
@@ -148,21 +154,21 @@ def pre_sim(modeladmin, request, queryset):
 
 def fetch_maps():
     map_list = []
-    map_path = os.path.join(settings.MEDIA_ROOT, 'maps/')
-    # print(map_path)
+    path = 'images/SRP'
+    map_path = os.path.join("main/static/main/", path)
+
     id = 1
-    for filename in os.listdir(map_path):
+    for filename in os.listdir("main/static/main/"+path):
         if filename.endswith('.jpg'):
             words = filename.split(".")
-            file = map_path + filename
-            map_list.append({"id": id, "text": words[0], "file": file})
+            # file = map_path + "/"+filename
+            map_list.append({"id": id, "text": words[0], "width":"300pt" , "filename":filename, "path":path})
             id += 1
     return map_list
 
 
-ZAFF_MATCHES = [('é', 'WeA_'), ('è', 'WeG_'), ('à', 'WaG_'), ('ï', 'WiT_'), ('ë', 'WeT_'), ('ä', 'WaT_'), ('ù', 'WuG_'),
-                ('ç', 'WcC_'), ('ô', 'WoC_'), ('ê', 'WeC_'), ('â', 'WaC_'), (' ', 'Wsp_'), ("'", 'Wsq_'), ('"', 'Wdq_')
-                ]
+
+
 
 
 def zaff_encode(str):

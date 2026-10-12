@@ -15,3 +15,5 @@ class MainConfig(AppConfig):
         import main.signals.oggetti
         import main.signals.incantessimi
         import main.signals.artefatti
+        import main.signals.universes
+        import main.signals.poteri_speciali

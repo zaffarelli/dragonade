@@ -1,21 +1,37 @@
 from django.db import models
 from django.contrib import admin
+from django.template.loader import get_template
+
 from main.mixins.chiaroscuro_mixin import ChiaroscuroMixin
 from main.utils.mechanics import as_rid
 import math
+import io
+import os
+from django.conf import settings
+from xhtml2pdf import pisa
 
 
-class DragonadeDifficulty(models.IntegerChoices):
-    VERY_EASY = 5, "Très Facile"
-    EASY = 10, "Facile"
-    AVERAGE = 15, "Moyenne"
-    HARD = 20, "Difficile"
-    VERY_HARD = 25, "Très Difficile"
-    MYTHIC = 30, "Mythique"
-    LEGENDARY = 35, "Légendaire"
+# class IncantessimoDifficulty(models.IntegerChoices):
+#     VERY_EASY = 5, "Très Facile"
+#     EASY = 10, "Facile"
+#     AVERAGE = 15, "Moyenne"
+#     HARD = 20, "Difficile"
+#     VERY_HARD = 25, "Très Difficile"
+#     MYTHIC = 30, "Mythique"
+#     LEGENDARY = 35, "Légendaire"
+
+class IncantessimoDiff(models.IntegerChoices):
+    NONE = 0, "Indéterminé"
+    VERY_EASY = 1, "Très Facile"
+    EASY = 2, "Facile"
+    AVERAGE = 3, "Moyenne"
+    HARD = 4, "Difficile"
+    VERY_HARD = 5, "Très Difficile"
+    MYTHIC = 6, "Mythique"
+    LEGENDARY = 7, "Légendaire"
 
 
-class DragonadeGround(models.IntegerChoices):
+class IncantessimoGround(models.IntegerChoices):
     NONE = 0, "-"
     SANCTUARY = 1, "Sanctuaire"
     DESERT = 2, "Désert"
@@ -34,7 +50,7 @@ class DragonadeGround(models.IntegerChoices):
     SPECIAL = 666, "Voir Texte"
 
 
-class DragonadeHour(models.IntegerChoices):
+class IncantessimoHour(models.IntegerChoices):
     NONE = 0, "-"
     SHIP = 1, "Vaisseau"
     SIREN = 2, "Sirène"
@@ -51,7 +67,7 @@ class DragonadeHour(models.IntegerChoices):
     SPECIAL = 666, "Voir Texte"
 
 
-class DragonadeEmanation(models.IntegerChoices):
+class IncantessimoEmanation(models.IntegerChoices):
     NONE = 0, "-"
     WAVY = 1, "Ondée"
     FLOW = 2, "Flux"
@@ -63,7 +79,7 @@ class DragonadeEmanation(models.IntegerChoices):
     SPECIAL = 666, "Voir Texte"
 
 
-class DragonadeConsistency(models.IntegerChoices):
+class IncantessimoConsistency(models.IntegerChoices):
     NONE = 0, "-"
     SPIRIT = 1, "Humeur"
     STEAM = 2, "Vapeur"
@@ -75,7 +91,7 @@ class DragonadeConsistency(models.IntegerChoices):
     SPECIAL = 666, "Voir Texte"
 
 
-class DragonadeElement(models.IntegerChoices):
+class IncantessimoElement(models.IntegerChoices):
     NONE = 0, "-"
     WATER = 1, "Eau"
     FIRE = 2, "Feu"
@@ -149,6 +165,8 @@ class IncantessimoArea(models.IntegerChoices):
     NONE = 0, "N/A"
     PERSONAL = 1, "HR"
     WILLPOWER = 2, "VOL m"
+    CREATURE = 3, "Créature"
+    CREATURES = 4, "VOL Créatures"
 
 
 class IncantessimoRange(models.IntegerChoices):
@@ -174,16 +192,17 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
     code = models.CharField(default="", max_length=16, blank=True)
     alternative_names = models.CharField(default="", max_length=512, blank=True)
     casting_time = models.PositiveIntegerField(default=1, blank=True)
-    ground_charge = models.PositiveIntegerField(default=DragonadeGround.NONE, choices=DragonadeGround.choices, blank=True)
-    hour_charge = models.PositiveIntegerField(default=DragonadeHour.NONE, choices=DragonadeHour.choices, blank=True)
-    emanation_charge = models.PositiveIntegerField(default=DragonadeEmanation.NONE, choices=DragonadeEmanation.choices, blank=True)
-    consistency_charge = models.PositiveIntegerField(default=DragonadeConsistency.NONE, choices=DragonadeConsistency.choices, blank=True)
-    elemental_charge = models.PositiveIntegerField(default=DragonadeElement.NONE, choices=DragonadeElement.choices, blank=True)
+    ground_charge = models.PositiveIntegerField(default=IncantessimoGround.NONE, choices=IncantessimoGround.choices, blank=True)
+    hour_charge = models.PositiveIntegerField(default=IncantessimoHour.NONE, choices=IncantessimoHour.choices, blank=True)
+    emanation_charge = models.PositiveIntegerField(default=IncantessimoEmanation.NONE, choices=IncantessimoEmanation.choices, blank=True)
+    consistency_charge = models.PositiveIntegerField(default=IncantessimoConsistency.NONE, choices=IncantessimoConsistency.choices, blank=True)
+    elemental_charge = models.PositiveIntegerField(default=IncantessimoElement.NONE, choices=IncantessimoElement.choices, blank=True)
     dps = models.PositiveIntegerField(default=3, blank=True)
     charge = models.PositiveIntegerField(default=0, blank=True)
     songe = models.PositiveIntegerField(default=0, blank=True)
     resistance = models.CharField(default="-", max_length=128, blank=True)
-    diff = models.PositiveIntegerField(default=DragonadeDifficulty.AVERAGE, choices=DragonadeDifficulty.choices, blank=True)
+
+    difficulty = models.PositiveIntegerField(default=IncantessimoDiff.NONE, choices=IncantessimoDiff.choices, blank=True)
     original_casting_cost = models.CharField(default="-", max_length=1024, blank=True)
     description = models.TextField(default="", max_length=1024, blank=True)
     composantes = models.TextField(default="-", max_length=1024, blank=True)
@@ -204,6 +223,47 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
     famous_high_dreamers = models.TextField(default="", max_length=512, blank=True)
     sogni = models.CharField(max_length=256, default="DEF", blank=True)
 
+    def value_shift(self,param,back):
+        current_value = getattr(self, param)
+        if param == "ground_charge":
+            dataset = IncantessimoGround.values
+        elif param == "hour_charge":
+            dataset = IncantessimoHour.values
+        elif param == "elemental_charge":
+            dataset = IncantessimoElement.values
+        elif param == "emanation_charge":
+            dataset = IncantessimoEmanation.values
+        elif param == "consistency_charge":
+            dataset = IncantessimoConsistency.values
+        elif param == "category":
+            dataset = IncantessimoCategory.values
+        elif param == "ti":
+            dataset = IncantessimoCastingTime.values
+        elif param == "fallback":
+            dataset = IncantessimoFallback.values
+        elif param == "duration":
+            dataset = IncantessimoDuration.values
+        # elif param == "diff":
+        #     dataset = IncantessimoDifficulty.values
+        #     mod = 5
+        elif param == "difficulty":
+            dataset = IncantessimoDiff.values
+        elif param == "range":
+            dataset = IncantessimoRange.values
+        elif param == "area":
+            dataset = IncantessimoArea.values
+        elif param == "path":
+            dataset = IncantessimoPath.values
+        else:
+            print(f"Unknown param {param} for {self.type}")
+        next_value_index = 0
+        for k, v in enumerate(dataset):
+            if v == current_value:
+                next_value_index = (k + back) % len(dataset)
+        setattr(self, param, dataset[next_value_index])
+        self.save()
+
+
     def fix(self):
         self.chiaroscuro()
         from main.utils.mechanics import asB2B
@@ -212,25 +272,16 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
         self.name.strip()
         self.rid = as_rid(f"{self.name}")
         self.code = asB2B(self.name).decode('utf-8').upper()
+        if self.source == "Dragonade":
+            self.ref = "Zaffarelli"
         if not self.avoid_original_cost:
-            if len(self.original_casting_cost) > 1:
-                chunks = self.original_casting_cost.split(' ')
-                old_diff = int(chunks[0][1:])
-                old_dps = chunks[1][1:]
-                if '+' in old_dps:
-                    old_dps = old_dps[:1]
-                diff = int((-1 * math.ceil(old_diff / 2)) * 5)
-                diff_pen = old_diff % 2
-                dps = int(old_dps) + diff_pen
-                self.diff = diff
-                self.dps = dps
-                str = f'{old_diff} {old_dps} / {diff} {diff_pen} {dps}'
+            _ = self.conversion
         self.charge = 0
-        self.charge += 1 if self.ground_charge != DragonadeGround.NONE else 0
-        self.charge += 1 if self.hour_charge != DragonadeHour.NONE else 0
-        self.charge += 1 if self.emanation_charge != DragonadeEmanation.NONE else 0
-        self.charge += 1 if self.consistency_charge != DragonadeConsistency.NONE else 0
-        self.charge += 1 if self.elemental_charge != DragonadeElement.NONE else 0
+        self.charge += 1 if self.ground_charge != IncantessimoGround.NONE else 0
+        self.charge += 1 if self.hour_charge != IncantessimoHour.NONE else 0
+        self.charge += 1 if self.emanation_charge != IncantessimoEmanation.NONE else 0
+        self.charge += 1 if self.consistency_charge != IncantessimoConsistency.NONE else 0
+        self.charge += 1 if self.elemental_charge != IncantessimoElement.NONE else 0
 
         charges_ok = True
         if self.category == IncantessimoCategory.INCANTATION:
@@ -248,9 +299,13 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
                 charges_ok = False
             self.ti = IncantessimoCastingTime.INSTANT
             self.duration = IncantessimoDuration.NEXT_BIRTH_HOUR
-        self.power = math.ceil(
-            self.diff / 5 + self.dps + self.songe * 3 + self.charge + self.ti + self.area + self.range + self.duration - self.fallback) + self.power_boost
-        self.spell_ready = len(self.description) > 0 and charges_ok
+        self.update_power()
+        self.spell_ready = len(self.description)>0
+
+    def update_power(self):
+        self.power = self.difficulty  + self.dps + self.songe * 7 + self.category + (5-self.fallback)
+        self.power += self.power_boost
+
 
     @classmethod
     def all_dreams(cls):
@@ -273,15 +328,24 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
 
     def co_push(self):
         """
-            The Chiaroscuro push function add more fileds to the data structure prepared, like addition interpretation of values or alternative names.
+            The Chiaroscuro push function add more fields to the data structure prepared, like addition interpretation of values or alternative names.
         """
         self._data['duration_str'] = self.get_duration_display()
         self._data['range_str'] = self.get_range_display()
         self._data['area_str'] = self.get_area_display()
         self._data['ti_str'] = self.get_ti_display()
         self._data['roll'] = self.get_roll_display()
+        self._data['difficulty_str'] = self.get_difficulty_display()
+        self._data['difficulty_val'] = self.difficulty * 5
         self._data['path'] = self.get_path_display()
         self._data['category'] = self.get_category_display()
+        self._data['ground_charge_str'] = self.get_ground_charge_display()
+        self._data['hour_charge_str'] = self.get_hour_charge_display()
+        self._data['emanation_charge_str'] = self.get_emanation_charge_display()
+        self._data['consistency_charge_str'] = self.get_consistency_charge_display()
+        self._data['elemental_charge_str'] = self.get_elemental_charge_display()
+        self._data['fallback_str'] = self.get_fallback_display()
+
 
     def toJson(self):
         import json
@@ -306,7 +370,7 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
             diff = int((-1 * math.ceil(old_diff / 2)) * 5)
             diff_pen = old_diff % 2
             dps = int(old_dps) + diff_pen
-            self.diff = diff
+            self.difficulty = int(diff / 5)
             self.dps = dps
             str = f'{old_diff} {old_dps} / {diff} {diff_pen} {dps}'
         return str
@@ -336,16 +400,40 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
         item.save()
         return item.id
 
+    @classmethod
+    def export_to_pdf(cls):
+        import datetime
+        context = {"full_name": "Arts Draconiques", "release_date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+        context["type"] = "incantessimo"
+        context["incantations"] = {}
+        context["rituels"] = {}
+        context["pentacles"] = {}
+        for k,v in IncantessimoPath.choices:
+            if k>0:
+                context["incantations"][v] = [i.export_to_json() for i in cls.objects.filter(category=1,path=k).order_by("name")]
+                context["rituels"][v] = [i.export_to_json() for i in cls.objects.filter(category=2,path=k).order_by("name")]
+                context["pentacles"][v] = [i.export_to_json() for i in cls.objects.filter(category=3,path=k).order_by("name")]
+        template = get_template('main/PDF/extract.html')
+        html = template.render(context)
+        filename = os.path.join(settings.MEDIA_ROOT, 'pdf/extracts/incantessimi.pdf')
+        es_pdf = open(filename, 'wb')
+        pdf = pisa.pisaDocument(io.BytesIO(html.encode('utf-8')), es_pdf)
+        if not pdf.err:
+            es_pdf.close()
+        else:
+            print(pdf.err)
+
+
 class IncantessimoAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ["-spell_ready", "name"]
-    list_display = ['id', "rid", "code", "name", "avoid_original_cost", "pentacle_code", "ti", "duration", "charge", "spell_ready", "songe", "roll",
+    list_display = ['id', "rid", "code", "name", "avoid_original_cost", "pentacle_code", "difficulty", "ti", "duration", "charge", "spell_ready", "songe", "roll",
                     "original_casting_cost",
                     "conversion",
                     "str_charges",
                     "path", "ref", "category", "source"]
     list_editable = ["original_casting_cost", "avoid_original_cost", "ti", "pentacle_code", "songe", "roll", "spell_ready", "source"]
-    list_filter = ["spell_ready", "path", "pentacle_code", "roll", "category", "diff", "dps", "original_casting_cost", "ground_charge",
+    list_filter = ["spell_ready", "path", "pentacle_code", "roll", "category", "difficulty", "dps", "original_casting_cost", "ground_charge",
                    "elemental_charge", "emanation_charge",
                    "consistency_charge", "hour_charge", "source"]
     search_fields = ["name", "description", "source"]

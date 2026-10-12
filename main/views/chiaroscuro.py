@@ -1,6 +1,7 @@
 from django.template import RequestContext
 
 from main.models.oggetti import Oggetto
+from main.models.poteri_speciali import PotereSpeciale
 from main.utils.mechanics import is_ajax, zaff_decode
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
@@ -14,15 +15,27 @@ from main.models.incantessimi import Incantessimo, IncantessimoCategory
 from main.models.oggetti import Oggetto
 from main.models.sogni import Sogno
 
-ITEMS_PER_LIST = 15
+# ITEMS_PER_LIST = 15
 
 
 def model_to_class(cls_str):
-    klasses = [Incantessimo, Artefatto, Viaggiatore, Nativo, Creatura, Oggetto, Sogno]
+    klasses = [Incantessimo, Artefatto, Viaggiatore, Nativo, Creatura, Oggetto, Sogno, PotereSpeciale]
     for klass in klasses:
-        if klass.__name__ == cls_str:
+        if klass.__name__.lower() == cls_str.lower():
             return klass
     return None
+
+
+def to_pdf(request):
+    answer = {"model": None}
+    if is_ajax(request):
+        model = request.POST.get('model').title()
+        k = model_to_class(model)
+        if k:
+            k.export_to_pdf()
+            answer["model"] = model
+            return JsonResponse(answer)
+    return HttpResponse(status=200)
 
 
 def value_shift(request):
@@ -41,35 +54,8 @@ def value_shift(request):
             if len(items) == 1:
                 print("**** OBJECT FOUND !!!")
                 item = items.first()
-                current_value = getattr(item, param)
-                answer["id"] = id
-                from main.models.incantessimi import DragonadeGround, DragonadeEmanation, DragonadeHour, DragonadeElement, DragonadeConsistency, \
-                    IncantessimoCategory, IncantessimoPath, DragonadeDifficulty
-                if param == "ground_charge":
-                    dataset = DragonadeGround.values
-                elif param == "hour_charge":
-                    dataset = DragonadeHour.values
-                elif param == "elemental_charge":
-                    dataset = DragonadeElement.values
-                elif param == "emanation_charge":
-                    dataset = DragonadeEmanation.values
-                elif param == "consistency_charge":
-                    dataset = DragonadeConsistency.values
-                elif param == "category":
-                    dataset = IncantessimoCategory.values
-                elif param == "diff":
-                    dataset = DragonadeDifficulty.values
-                else:
-                    dataset = IncantessimoPath.values
-                next_value_index = 0
-                for k, v in enumerate(dataset):
-                    if v == current_value:
-                        next_value_index = (k + back) % len(dataset)
-                        print(dataset)
-                        print(f"{k} -> {next_value_index}")
-                setattr(item, param, dataset[next_value_index])
-                print(f"New values is [{dataset[next_value_index]}] for [{param}].")
-                item.save()
+                answer['id'] = id
+                item.value_shift(param, back)
                 context = {"i": item.export_to_json(), "model": model.title()}
                 template = get_template("main/chiaroscuro/item_body.html")
                 answer['data'] = template.render(context)
@@ -194,6 +180,11 @@ def incantessimi_options():
     for k, p in enumerate(IncantessimoPath.values):
         if p > 0:
             pa = {"param": "path", "value": p, "label": IncantessimoPath.labels[k]}
+            zfilters.append(pa)
+    from main.models.incantessimi import IncantessimoCategory
+    for k, p in enumerate(IncantessimoCategory.values):
+        if p > 0:
+            pa = {"param": "category", "value": p, "label": IncantessimoCategory.labels[k]}
             zfilters.append(pa)
     for incantessimo in Incantessimo.objects.filter(category=IncantessimoCategory.PENTACLE):
         if incantessimo.pentacle_code != "":
@@ -354,6 +345,33 @@ def oggetti_filters(request):
     options["zfilters"] = oggetti_options()
     return items_filters(request, options)
 
+# Poteri Speciali
+def poterispeciali_options():
+    zfilters = []
+    # from main.models.oggetti import OggettoCategory
+    # for k, p in enumerate(OggettoCategory.values):
+    #     if p > 0:
+    #         pa = {"param": "category", "value": p, "label": OggettoCategory.labels[k]}
+    #         zfilters.append(pa)
+    # pa = {"param": "is_basic", "value": True, "label": "Basique"}
+    # zfilters.append(pa)
+    return zfilters
+
+
+def poterispeciali_list(request):
+    options = {}
+    options['model'] = "PotereSpeciale"
+    options["zfilters"] = poterispeciali_options()
+    return items_list(request, options)
+
+
+def poterispeciali_filters(request):
+    options = {}
+    options['model'] = "PotereSpeciale"
+    options["zfilters"] = poterispeciali_options()
+    return items_filters(request, options)
+
+
 
 # Generics
 def items_list(request, options={}):
@@ -442,6 +460,8 @@ def new_item(request):
             id = k.spawn()
             answer['id'] = id
             return JsonResponse(answer)
+        else:
+            print("Model not found for new item")
     return HttpResponse(status=204)
 
 

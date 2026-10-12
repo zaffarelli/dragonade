@@ -1,11 +1,11 @@
-xxx
+Gauthier le Convoyeur
 (Virgile)
 Heure de Naissance: Sirène
 Taille/Poids: 180 cm/84 kg
 Totaux Attributs/Compétences: 0 / 0
 
 AGI  5 EMP  4 APP  5 | TIR  4 | VIE 13 | IMP  1 
-CON  6 ODG  7 DEX  4 | MEL  7 | FAT  6 | ENC 15 
+CON  6 ODG  7 DEX  4 | MEL  7 | FAT  6 | ENC 15.0 
 FOR  8 OUI  5 INT  6 | LAN  6 | SUS  3 | FAB  6 
 TAI  7 VUE  4 VOL  5 | DER  5 | RES  2 | REV  6 
 

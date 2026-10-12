@@ -23,7 +23,7 @@ Arc                              2   0   0   0   0   0 TIR+3+Man=10      10
 
                                     Malus
 Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
-Cotte de drap matelassé               0   0   0   0   1 C A B       
+Cotte de Drap matelassé              -1   0   0   0   1 C A B       
 Chausses de Drap Matelassé            0   0   0   0   1 L M         
 Cumuls Malus                          0   0   0   0
 Protection: H-0-X C-1-X A-1-X B-1-X L-1-X M-1-X

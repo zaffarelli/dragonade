@@ -6,7 +6,7 @@ Taille/Poids: 195 cm/108 kg
 Totaux Attributs/Compétences: 4 / 69
 
 AGI  6 EMP  6 APP  3 | TIR  5 | VIE 13 | IMP  2 
-CON  5 ODG  6 DEX  5 | MEL  8 | FAT  5 | ENC 13.0 
+CON  5 ODG  6 DEX  5 | MEL  8 | FAT  5 | ENC 17.0 
 FOR  9 OUI  6 INT  8 | LAN  7 | SUS  3 | FAB  7 
 TAI  8 VUE  4 VOL  4 | DER  5 | RES  2 | REV 11 
 
@@ -26,9 +26,8 @@ Fronde                           1   0   0   0   0   0 TIR+4+Man=9        9
                                     Malus
 Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
 Casque d'Acier                        0   0   0  -1   3 H           
-Broigne Renforcé Cuir et Metal       -1  -2   0   0   4 C A B       
-Cumuls Malus                         -1  -2   0  -1
-Protection: H-3-X C-4-X A-4-X B-4-X L-0-X M-0-X
+Cumuls Malus                          0   0   0  -1
+Protection: H-3-X C-0-X A-0-X B-0-X L-0-X M-0-X
 
 PdV (13)      PdF (5)             PdR (11)            
 ¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ 

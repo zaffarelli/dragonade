@@ -1,13 +1,13 @@
 Vouivre Styrienne
 Créature (Créature fabuleuse)
 Heure de Naissance: Faucon
-Taille/Poids: 10 cm/50 kg
-Totaux Attributs/Compétences: 157 / 94
+Taille/Poids: 10 cm/0 kg
+Totaux Attributs/Compétences: 157 / 0
 
 AGI 12 EMP  6 APP  1 | TIR  4 | VIE 28 | IMP  4 
-CON 12 ODG  7 DEX  4 | MEL 10 | FAT 11 | ENC 28.0 
-FOR  8 OUI 15 INT  2 | LAN  4 | SUS  5 | FAB  5 
-TAI 16 VUE  4 VOL 10 | DER  6 | RES  5 | REV  5 
+CON 12 ODG  7 DEX  4 | MEL 10 | FAT 11 | ENC 24.0 
+FOR  8 OUI 15 INT  2 | LAN  6 | SUS  5 | FAB  5 
+TAI 16 VUE  4 VOL 10 | DER  4 | RES  5 | REV  5 
 
 Martiales (-1): Lames Courtes [11] 10, Armes d'Hast [10] 9, Poignards [7] 6.
 Générales (-1): .

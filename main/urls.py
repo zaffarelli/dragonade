@@ -2,7 +2,7 @@ from django.urls import re_path
 from main.views.generic import index, maps, papers, card_reveal, gardiendesreves, combattants, overlay_edit, kicker
 from main.views.chiaroscuro import inc_dec, value_push, svg_to_pdf, value_shift, incantessimi_list, incantessimi_filters, nativi_list, \
     nativi_filters, viaggiatori_list, viaggiatori_filters, creature_list, creature_filters, artefatti_list, artefatti_filters, fetch, edit, randomize, \
-    oggetti_list, oggetti_filters, sogno_nuovo, sogno_precedente, sogno_seguente, new_item
+    oggetti_list, oggetti_filters, sogno_nuovo, sogno_precedente, sogno_seguente, new_item, to_pdf, poterispeciali_list, poterispeciali_filters
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -30,6 +30,7 @@ urlpatterns = [
                   re_path(r'^sogno_precedente', sogno_precedente, name="sogno_precedente"),
 
                   re_path(r'^ajax/new$', new_item, name='new_item'),
+                  re_path(r'^ajax/to_pdf', to_pdf, name='to_pdf'),
 
 
                   # Viaggiatori
@@ -50,4 +51,8 @@ urlpatterns = [
                   # Oggetti
                   re_path(r'^oggetti_list$', oggetti_list, name='oggetti_list'),
                   re_path(r'^ajax/oggetto_filter$', oggetti_filters, name='oggetti_filters'),
+                  # PoteriSpeciali
+                  re_path(r'^poteri_list$', poterispeciali_list, name='poterispeciali_list'),
+                  re_path(r'^ajax/poteri_filter$', poterispeciali_filters, name='poterispeciali_filter'),
+
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # + debug_toolbar_urls()

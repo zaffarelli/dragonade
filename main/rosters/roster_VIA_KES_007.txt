@@ -2,13 +2,13 @@ Kessada
 Disciple de Kalikat, Ennemi du Mal Ventriloque, Escorte de la Dona Real, Exploratrice de la Cité d'Embordine, Invité d'Exaldarian
 (Maud [@Mdib])
 Heure de Naissance: Dragon
-Taille/Poids: 165 cm/76 kg
+Taille/Poids: 165 cm/61 kg
 Totaux Attributs/Compétences: 0 / 30
 
 AGI  8 EMP  6 APP  6 | TIR  6 | VIE 13 | IMP  0 
-CON  9 ODG  3 DEX  7 | MEL  6 | FAT  7 | ENC 13.0 
-FOR  4 OUI  5 INT  5 | LAN  8 | SUS  4 | FAB  4 
-TAI  4 VUE  4 VOL  5 | DER  5 | RES  2 | REV  5 
+CON  9 ODG  3 DEX  7 | MEL  6 | FAT  7 | ENC 8.0 
+FOR  4 OUI  5 INT  5 | LAN  5 | SUS  4 | FAB  4 
+TAI  4 VUE  4 VOL  5 | DER  8 | RES  2 | REV  5 
 
 Martiales (-1): .
 Générales (-1): Sculpture [8] 7, Course [7] 6, Eloquence [6] 5, Concentration [5] 4, Discrétion [5] 4, Séduction [5] 4, Artisanat [3] 2, Escalade [3] 2, Pièges [3] 2, Saut [2] 1, Chant [1] 0, Cuisine [1] 0, Dessin [1] 0, Tactique [1] 0, Vigilance [1] 0.

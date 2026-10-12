@@ -5,19 +5,17 @@
 
 {% block east %}
 {% include "main/menu.html" with title=title %}
-<div class="middle"></div>
-<div class="list">
-     {% for m in config.maps %}
-        <div class="mini" id="mini__{{m.id}}" code="{{m.file|encoded_z|safe}}" title="{{m.text}}">
-            {{m.text}}<br/><span class="coded">{{m.file|encoded_z|safe}}</span>
-        </div>
-     {% endfor %}
-</div>
 {% endblock east %}
 
 
 {% block main %}
-<div id="svg_area"></div>
+<div id="svg_area">
+    <div class="flexmap">
+        {% for m in config.maps %}
+            <img class="vignette" src="static/main/images/SRP/{{m.filename}}" title="{{m.filename}}"/>
+        {% endfor %}
+    </div>
+</div>
 {% endblock main %}
 
 

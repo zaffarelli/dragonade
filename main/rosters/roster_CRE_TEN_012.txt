@@ -2,13 +2,13 @@ Tentaculaire
 Tant que vous n'en avez pas rencontré vous êtes en général content...
 Créature (Créature de Cauchemard)
 Heure de Naissance: Dragon
-Taille/Poids: 10 cm/50 kg
-Totaux Attributs/Compétences: 0 / 0
+Taille/Poids: 10 cm/0 kg
+Totaux Attributs/Compétences: 117 / 0
 
 AGI  9 EMP  0 APP  0 | TIR  2 | VIE 14 | IMP  1 
-CON  7 ODG  8 DEX  4 | MEL  7 | FAT  8 | ENC 14.0 
-FOR  5 OUI  6 INT  3 | LAN  7 | SUS  3 | FAB  3 
-TAI  7 VUE  0 VOL  8 | DER  4 | RES  2 | REV  3 
+CON  7 ODG  8 DEX  4 | MEL  7 | FAT  8 | ENC 12.0 
+FOR  5 OUI  6 INT  3 | LAN  4 | SUS  3 | FAB  3 
+TAI  7 VUE  0 VOL  8 | DER  7 | RES  2 | REV  3 
 
 Martiales (-1): Poignards [8] 7, Armes d'Hast [6] 5, Lames Courtes [4] 3.
 Générales (-1): .
@@ -22,7 +22,7 @@ Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
                                     Malus
 Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
 Cumuls Malus                          0   0   0   0
-Protection: H-0-X C-0-X AS-0-X AW-0-X LS-0-X LW-0-X
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
 
 PdV (14)      PdF (8)             PdR (3)             
 ¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤               

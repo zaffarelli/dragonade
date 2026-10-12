@@ -1,0 +1,67 @@
+{% load static %}
+{% load dragonade_filters %}
+
+
+{% if c.category == 18 %}
+<code><b>{{c.name}}</b> Prix: {{c.price|as_money|safe}} / Enc.:{{c.enc}}</code><br/>
+<table>
+    <tr>
+        <th>Engagement</th>
+        <td>{{c.engagement|signed}}</td>
+        <th>Manoeuvrabilité</th>
+        <td>{{c.maneuver|signed}}</td>
+        </tr><tr>
+        <th>DOMA (1m/2m)</th><td>{{c.plus_dom}} / {{c.plus_dom_2m}}</td>
+        <th>RES</th><td>{{c.resistance}}</td>
+
+    </tr>
+</table>
+<hr/>
+{%else %}
+{% if c.category == 21 %}
+<code><b>{{c.name}}</b> Prix: {{c.price|as_money|safe}} / Enc.:{{c.enc}}</code><br/>
+<table>
+    <tr>
+        <th>AGI</th>
+        <td>{{c.malus_AGI}}</td>
+        <th>DEX</th>
+        <td>{{c.malus_DEX}}</td>
+        <th>VUE</th>
+        <td>{{c.malus_VUE}}</td>
+        <th>OUI</th>
+        <td>{{c.malus_OUI}}</td>
+    </tr>
+    <tr>
+        <th>PROT</th>
+        <td>{{c.prot}}</td>
+        <th>RES</th>
+        <td>{{c.resistance}}</td>
+        <th>Qualité</th>
+        <td>{{c.quality|signed}}</td>
+        <th>TAI +/-</th>
+        <td>{{c.mod_adjust}}</td>
+    </tr>
+    <tr>
+        <th colspan="3">Couverture</th>
+        <td colspan="5">{{c.cover|as_text_cover|safe}}</td>
+</tr>
+    <tr>
+        <th colspan="3">Matériaux</th>
+        <td colspan="5">{{c.materiaux}}</td>
+
+
+    </tr>
+</table>
+{% if c.description %}<p>{{c.description|render_text|safe}}</p>{%endif%}
+<hr/>
+{%else %}
+<code><b>{{c.name}}</b> Prix: {{c.price|as_money|safe}} / Enc.:{{c.enc}}</code>
+{% if c.description %}<p>{{c.description}}</p>{%endif%}
+<br/>
+
+{%endif %}
+{%endif %}
+
+
+
+

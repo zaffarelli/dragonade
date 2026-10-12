@@ -3,7 +3,7 @@ from multiprocessing.util import abstract_sockets_supported
 from django.db import models
 from main.mixins.chiaroscuro_mixin import ChiaroscuroMixin
 from main.models.oggetti import OggettoCategory
-from main.utils.ref_dragonade import CHARACTER_STATISTICS, SHORTCUTS, stress_cost
+from main.utils.ref_dragonade import DRAGONADE_CHARACTER_STATISTICS, SHORTCUTS, stress_cost
 from main.utils.mechanics import as_rid, Nougardine, roll, Severity, Chaser
 from datetime import datetime
 import math
@@ -89,7 +89,10 @@ class Character(models.Model, ChiaroscuroMixin):
     malus_VUE = models.IntegerField(default=0, blank=True)
     malus_OUI = models.IntegerField(default=0, blank=True)
 
-    description = models.TextField(max_length=1024, default="", blank=True)
+    description = models.TextField(max_length=4096, default="", blank=True)
+
+    power = models.IntegerField(default=0, blank=True)
+
     bugs = []
 
     def __str__(self):
@@ -145,12 +148,12 @@ class Character(models.Model, ChiaroscuroMixin):
         self.initialize()
         self.make_rid()
         secondaries = [0, 0, 0, 0]
-        for k in CHARACTER_STATISTICS['SECONDARIES']['LIST']:
+        for k in DRAGONADE_CHARACTER_STATISTICS['SECONDARIES']['LIST']:
             if "FORMULA" in k:
                 val = self.from_formula(k['PARAMS'], k['FORMULA'])
                 secondaries[k['ORDER']] = str(val)
         self.secondaries = " ".join(secondaries)
-        for k in CHARACTER_STATISTICS['MISC']['LIST']:
+        for k in DRAGONADE_CHARACTER_STATISTICS['MISC']['LIST']:
             if "FORMULA" in k:
                 val = self.from_formula(k['PARAMS'], k['FORMULA'])
                 setattr(self, k["NAME"], val)
@@ -191,14 +194,14 @@ class Character(models.Model, ChiaroscuroMixin):
             - skills_x properties with default values according to reference.
             And do all of this according to the reference.
         """
-        from main.utils.ref_dragonade import CHARACTER_STATISTICS
+        from main.utils.ref_dragonade import DRAGONADE_CHARACTER_STATISTICS
         if len(self.attributes) == 0:
-            list = ["1" for _ in CHARACTER_STATISTICS['ATTRIBUTES']['LIST']]
+            list = ["1" for _ in DRAGONADE_CHARACTER_STATISTICS['ATTRIBUTES']['LIST']]
             self.attributes = " ".join(list)
         if len(self.secondaries) == 0:
-            list = ["1" for _ in CHARACTER_STATISTICS['SECONDARIES']['LIST']]
+            list = ["1" for _ in DRAGONADE_CHARACTER_STATISTICS['SECONDARIES']['LIST']]
             self.secondaries = " ".join(list)
-        for k, cat in CHARACTER_STATISTICS['SKILLS'].items():
+        for k, cat in DRAGONADE_CHARACTER_STATISTICS['SKILLS'].items():
             list = [f"{cat['DEFAULT']}" for _ in cat['LIST']]
             tgt_property = f"skills_{k.lower()}"
             if len(getattr(self, tgt_property)) == 0:
@@ -243,13 +246,15 @@ class Character(models.Model, ChiaroscuroMixin):
 
     def calc_indice(self):
         self.total_attributes = 0
+        self.power = 0
         for a in self.attributes.split(" "):
             self.total_attributes += int(a) + 5
+            self.power += int(a)
         self.total_skills = 0
         default = 0
         nondefault_cnt = 0
         try:
-            for kc, vc in CHARACTER_STATISTICS['SKILLS'].items():
+            for kc, vc in DRAGONADE_CHARACTER_STATISTICS['SKILLS'].items():
                 for ks in vc['LIST']:
                     v = int(self.value_for(ks['NAME']))
                     base = vc['DEFAULT']
@@ -257,12 +262,19 @@ class Character(models.Model, ChiaroscuroMixin):
                     if v != base:
                         nondefault_cnt += 1
                         self.total_skills += v - base
+                        self.power += v
         except:
             pass
         self.REV = int(self.SON) + int(self.FAB)
         a, s = self.expected_totals()
         self.total_attributes -= a
         self.total_skills -= s
+        self.power -= 12
+
+
+
+
+
 
     def ref_to_struct(self, src_ref):
         """        
@@ -277,7 +289,7 @@ class Character(models.Model, ChiaroscuroMixin):
             cvs = {}
         if len(src_ref) > 0:
             transversal = src_ref.split('_')
-            src_struct = CHARACTER_STATISTICS
+            src_struct = DRAGONADE_CHARACTER_STATISTICS
             for p in transversal:
                 src_struct = src_struct[p]
             tlow = transversal[0].lower()
@@ -312,36 +324,59 @@ class Character(models.Model, ChiaroscuroMixin):
             else:
                 print(f"!!! Error: Don't know what to do with [{src_ref}]...")
 
-    def skills_summary(self):
+    def skills_summary(self,full=False):
         """
             Select only skills with a non default value.
             :returns: JSON list of the skills with a non default value.
         """
-        all = []
-        SKILLS = CHARACTER_STATISTICS["SKILLS"]
-        count_vals = [0 for _ in range(20)]
-        count_postes = [0 for _ in range(6)]
-        skill_sets = ["weapons", "generic", "peculiar", "specialized", "knowledge", "draconic"]
-        for skill_set in skill_sets:
-            REF = SKILLS[skill_set.upper()]
-            data = getattr(self, "skills_" + skill_set)
+        SKILLS = DRAGONADE_CHARACTER_STATISTICS["SKILLS"]
 
-            default = REF["DEFAULT"]
-            arrtemp = data.split(" ")
-            arr = [int(x) for x in arrtemp]
-            # print(skill_set,arr)
-            if len(arr) == len(REF["LIST"]):
-                for item in REF["LIST"]:
-                    if "ORDER" in item:
-                        pos = item["ORDER"]
-                        v = arr[pos]
-                        if v > default:
-                            count_postes[default * (-1)] += 1
-                            count_vals[v] += 1
-                            all.append({"value": v, "category": REF['NAME'][:1], "default":default, "abs": v-default, "text": item["TEXT"]})
-            else:
-                self.bugs.append(f"{self.rid} doesn't have the correct property for [{skill_set}].")
-        sorted_all = sorted(all, key=lambda k: k['value'], reverse=True)
+        if full:
+            count_vals = [0 for _ in range(20)]
+            count_postes = [0 for _ in range(6)]
+            skill_sets = ["weapons", "generic", "peculiar", "specialized", "knowledge", "draconic"]
+            all = {"weapons":[], "generic":[], "peculiar":[], "specialized":[], "knowledge":[], "draconic":[]}
+            for skill_set in skill_sets:
+                REF = SKILLS[skill_set.upper()]
+                data = getattr(self, "skills_" + skill_set)
+                default = REF["DEFAULT"]
+                arrtemp = data.split(" ")
+                arr = [int(x) for x in arrtemp]
+                if len(arr) == len(REF["LIST"]):
+                    for item in REF["LIST"]:
+                        if "ORDER" in item:
+                            pos = item["ORDER"]
+                            v = arr[pos]
+                            if v > default:
+                                all[skill_set].append({"value": v, "category": REF['NAME'][:1], "default": default, "abs": v - default, "text": item["TEXT"]})
+                else:
+                    self.bugs.append(f"{self.rid} doesn't have the correct property for [{skill_set}].")
+            sorted_all = all
+        else:
+            all = []
+            count_vals = [0 for _ in range(20)]
+            count_postes = [0 for _ in range(6)]
+            skill_sets = ["weapons", "generic", "peculiar", "specialized", "knowledge", "draconic"]
+            for skill_set in skill_sets:
+                REF = SKILLS[skill_set.upper()]
+                data = getattr(self, "skills_" + skill_set)
+
+                default = REF["DEFAULT"]
+                arrtemp = data.split(" ")
+                arr = [int(x) for x in arrtemp]
+                # print(skill_set,arr)
+                if len(arr) == len(REF["LIST"]):
+                    for item in REF["LIST"]:
+                        if "ORDER" in item:
+                            pos = item["ORDER"]
+                            v = arr[pos]
+                            if v > default:
+                                count_postes[default * (-1)] += 1
+                                count_vals[v] += 1
+                                all.append({"value": v, "category": REF['NAME'][:1], "default":default, "abs": v-default, "text": item["TEXT"]})
+                else:
+                    self.bugs.append(f"{self.rid} doesn't have the correct property for [{skill_set}].")
+            sorted_all = sorted(all, key=lambda k: k['value'], reverse=True)
         return sorted_all
 
     def export_to_json(self):
@@ -378,6 +413,7 @@ class Character(models.Model, ChiaroscuroMixin):
         self._data['other'] = self.gear_to_other()
         self._data['armors'] = self.gear_to_armors()
         self._data["skills_summary"] = self.skills_summary()
+        self._data["skills_full"] = self.skills_summary(full=True)
         self._data['roster_text'] = self.roster_as_text()
 
         if self.type == "Viaggiatore":
@@ -500,8 +536,8 @@ class Character(models.Model, ChiaroscuroMixin):
             incantessimi = Incantessimo.objects.filter(rid__in=arr).order_by("category")
             for incantessimo in incantessimi:
                 list.append(incantessimo.export_to_json())
-        else:
-            print("No Spells")
+        # else:
+        #     print("No Spells")
         sorted_all = sorted(list, key=lambda k: k['path'], reverse=False)
         return sorted_all
 
@@ -569,10 +605,10 @@ class Character(models.Model, ChiaroscuroMixin):
             :param stat: the value that entry must match with property NAME
             :returns: the full entry, or {}
         """
-        from main.utils.ref_dragonade import CHARACTER_STATISTICS
+        from main.utils.ref_dragonade import DRAGONADE_CHARACTER_STATISTICS
         found = None
         statistic_property = None
-        root = CHARACTER_STATISTICS
+        root = DRAGONADE_CHARACTER_STATISTICS
         for bname, branch in root.items():
             if "LIST" in branch:
                 for item in branch["LIST"]:
@@ -870,13 +906,13 @@ class Character(models.Model, ChiaroscuroMixin):
 
     def track_skills_at_creation(self):
         """
-            From a root in CHARACTER_STATISTICS:
+            From a root in DRAGONADE_CHARACTER_STATISTICS:
                 - Tracks the scores that are greater than expected than the values that should be given at character creation.
                 - Tracks if those scores are matching the spots from character creation.
                 - This completes the full map of skills affectation at creation.
         """
         # 1) Get all non default characteristics, ordered by absolute
-        root = CHARACTER_STATISTICS["SKILLS"]
+        root = DRAGONADE_CHARACTER_STATISTICS["SKILLS"]
         for x in range(12, 1, -1):
             self.skills_map["values"][f"{x:02}"] = {"perfects": [], "enhanced": [], "low": [], "default": []}
         use_archetype = False

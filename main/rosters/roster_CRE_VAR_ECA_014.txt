@@ -1,13 +1,13 @@
 Varan Ecarlate
 Créature (Créature fabuleuse)
 Heure de Naissance: Roseau
-Taille/Poids: 10 cm/50 kg
-Totaux Attributs/Compétences: 97 / 58
+Taille/Poids: 10 cm/0 kg
+Totaux Attributs/Compétences: 97 / 0
 
 AGI  3 EMP  1 APP  1 | TIR  2 | VIE  7 | IMP -1 
-CON  4 ODG  8 DEX  3 | MEL  4 | FAT  2 | ENC 7.0 
-FOR  4 OUI  6 INT  2 | LAN  6 | SUS  3 | FAB  2 
-TAI  3 VUE  1 VOL  1 | DER  3 | RES  1 | REV  2 
+CON  4 ODG  8 DEX  3 | MEL  4 | FAT  3 | ENC 7.0 
+FOR  4 OUI  6 INT  2 | LAN  3 | SUS  3 | FAB  2 
+TAI  3 VUE  1 VOL  1 | DER  6 | RES  1 | REV  2 
 
 Martiales (-1): Lames Courtes [4] 3, Armes d'Hast [3] 2, Poignards [3] 2.
 Générales (-1): .
@@ -21,9 +21,10 @@ Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
                                     Malus
 Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
 Cumuls Malus                          0   0   0   0
-Protection: H-0-X C-0-X AS-0-X AW-0-X LS-0-X LW-0-X
+Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
 
-PdV (7)       PdF (2)             PdR (2)             
-¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤               ¤ ¤                 
+PdV (7)       PdF (3)             PdR (2)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤             ¤ ¤                 
 ¤ ¤           ¤ ¤ ¤               ¤ ¤                 
-                                  ¤ ¤                 
+              ¤ ¤ ¤               ¤ ¤                 
+                                                      

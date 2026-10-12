@@ -18,13 +18,14 @@
 {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Points de Rêve" val=i.dps %}
 
 {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="ti" txt="Temps d'incantation" val=i.ti_str %}
-{% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Temps d'Incantation"  val=i.ti_str %}
+{% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="range" txt="Portée" val=i.range_str %}
+{% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="area" txt="Zone d'Effet" val=i.area_str %}
+{% include "main/chiaroscuro/zlist_item_shiftable_value.html" with txt="Cont. Echec" prop="fallback" val=i.fallback_str %}
 
 
-{% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Portée" val=i.range_str %}
-{% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Zone d'Effet" val=i.area_str %}
-{% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Durée" val=i.duration_str %}
-{% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Difficulté" prop="diff" val=i.diff|as_diff|safe %}
+{% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="duration" txt="Durée" val=i.duration_str %}
+{% include "main/chiaroscuro/zlist_item_shiftable_value.html" with txt="Diff" prop="difficulty" val=i.difficulty|as_difficulty|safe %}
+
 
 {% include "main/chiaroscuro/zlist_item_buffer.html" %}
 
@@ -45,16 +46,20 @@
     {% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="entrance" val=i.entrance %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Sexe" val=i.is_female|as_sex|safe %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Sans nom" val=i.nameless|as_okko|safe %}
-    {% include "main/chiaroscuro/zlist_item_buffer.html" %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Total Attributs" val=i.total_attributes|signed %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Total Compétences" val=i.total_skills|signed %}
+    {% include "main/chiaroscuro/zlist_item_buffer.html" %}
 {% else %}
 {% if i.type == "viaggiatore" %}
     {% include "main/chiaroscuro/zlist_item_button.html" with txt="Editer" val="edit" icon="fa fa-cog" %}
-    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Nouveau" val=i.is_new|as_okko|safe %}
-    {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Titre" val=i.title %}
-    {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Nom" val=i.name %}
-    {% include "main/chiaroscuro/zlist_item_text_value.html" with txt="Joueur" val=i.player %}
+    {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Nouveau" val=i.is_new|as_okko|safe %}
+    {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Titre" prop="title" val=i.title %}
+    {% if i.is_new %}
+        {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Nom" prop="name" val=i.name %}
+    {%else%}
+        {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Nom" val=i.name %}
+    {%endif%}
+    {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Joueur" prop="player" val=i.player %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Destinée" val=i.destiny|colorize_abs|safe %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Points de Voyage" val=i.travel_points %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Sexe" val=i.is_female|as_sex|safe %}
@@ -67,19 +72,19 @@
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Stress Acquis" val=i.stress_acquired|as_stress %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Stress Utilisé" val=i.stress_used %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Stress Restant" val=i.stress_remaining|as_stress %}
-    {% include "main/chiaroscuro/zlist_item_buffer.html" %}
     {% include "main/chiaroscuro/zlist_item_text_value.html" with txt="Rêve" val=i.sogni|as_sogni|safe %}
     {% include "main/chiaroscuro/zlist_item_text_value.html" with txt="Bugs" val=i.bug_list %}
+    {% include "main/chiaroscuro/zlist_item_buffer.html" %}
 {% else %}
 {% if model == "Creatura" %}
     {% include "main/chiaroscuro/zlist_item_button.html" with txt="Editer" val="edit" icon="fa fa-cog" %}
-    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Nouveau" val=i.is_new|as_okko|safe %}
     {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Nom" val=i.name %}
-    {% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="creature_type" txt="Type de Créature" val=i.creature_type_str %}
-    {% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="Description" val=i.description %}
-    {% include "main/chiaroscuro/zlist_item_buffer.html" %}
+    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="creature_type" txt="Type" val=i.creature_type_str %}
+    {% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="description" val=i.description %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Total Attributs" val=i.total_attributes|signed %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Total Compétences" val=i.total_skills|signed %}
+    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Nouveau" val=i.is_new|as_okko|safe %}
+    {% include "main/chiaroscuro/zlist_item_buffer.html" %}
 {% else %}
 {% if model == "Artefatto" %}
     {% include "main/chiaroscuro/zlist_item_button.html" with txt="Voir" val="view" icon="fa fa-eye" %}
@@ -93,9 +98,9 @@
 <div id="{{i.type}}__{{i.id}}__description"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" >{{ i.description|render_text|safe }}</div>
 <div id="{{i.type}}__{{i.id}}__rules"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" >{{ i.rules|render_text|safe }}</div>
 <div id="{{i.type}}__{{i.id}}__notes"  srcval="{{i.description|encoded_z|safe}}" action="value"  class="zlist_item text editor" >{{ i.notes|render_text|safe }}</div>
-<div class="zlist_item buffer"></div>
-<div class="zlist_item symbol" model="{{i.type}}" style="order:6" title="has bug">{{ i.has_bug|as_bool|safe }}</div>
 
+<div class="zlist_item symbol" model="{{i.type}}" style="order:6" title="has bug">{{ i.has_bug|as_bool|safe }}</div>
+    {% include "main/chiaroscuro/zlist_item_buffer.html" %}
 
 
 {% else %}
@@ -121,7 +126,18 @@
     {%endif%}
     {% include "main/chiaroscuro/zlist_item_buffer.html" %}
 {% else %}
-<div class="zlist_item">{{model}} n'est pas géré...</div>
+{% if model == "PotereSpeciale" %}
+    {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Nom" val=i.name %}
+    {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with prop="pdr_cost" txt="Points de Rêve" val=i.pdr_cost %}
+    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="roll" txt="Jet" val=i.roll_str %}
+    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="usage_limit" txt="Limite d'Utilisation" val=i.usage_limit_str %}
+    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="power_type" txt="Type de Pouvoir" val=i.power_type_str %}
+    {% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="rationale" txt="Résumé" val=i.rationale %}
+    {% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="description" txt="Description" val=i.description %}
+    {% include "main/chiaroscuro/zlist_item_buffer.html" %}
+{% else %}
+    <div class="zlist_item">{{model}} n'est pas géré...</div>
+{% endif %}
 {% endif %}
 {% endif %}
 {% endif %}
