@@ -108,6 +108,10 @@ def value_push(request):
                 return JsonResponse(answer)
     return HttpResponse(status=204)
 
+def initialize_options():
+    options = {"sogno_filter":False}
+    return options
+
 
 def svg_to_pdf(request, slug):
     import cairosvg
@@ -131,48 +135,6 @@ def svg_to_pdf(request, slug):
         response['status'] = 'ok'
     return JsonResponse(response)
 
-
-#
-# def paginator_switch(request):
-#     if is_ajax(request):
-#         params = request.POST["params"]
-#         p = request.POST["purpose"]
-#         return paginate(request, t=params, purpose=p)
-#     return JsonResponse({"html": 'Bad Paginator!'})
-#
-#
-# def paginate(request, t="", purpose="view"):
-#     from main.views.generic import prepare_context, list_for
-#     context = prepare_context(request)
-#     items = list_for(t)
-#     page = int(request.POST["page"])
-#     context = prepare_pagination(context, items, page, t, purpose)
-#     local_context = {}
-#     local_context["list"] = context['list'][t]
-#     template = get_template("main/lists/list_content.html")
-#     html = template.render(local_context, request)
-#     return JsonResponse({"html": html})
-#
-#
-# def prepare_pagination(context, all_items, page=1, type="", purpose="view"):
-#     from django.core.paginator import Paginator
-#     if type == "":
-#         context['error'] = "Not type given to paginator"
-#     else:
-#         paginator = Paginator(all_items, ITEMS_PER_LIST)
-#         p = paginator.page(page)
-#         pagination = {}
-#         pagination['type'] = type
-#         pagination['purpose'] = purpose
-#         pagination['previous_page'] = p.previous_page_number() if p.has_previous() else page
-#         pagination['current_page'] = page
-#         pagination['next_page'] = p.next_page_number() if p.has_next() else page
-#         pagination['num_pages'] = paginator.num_pages
-#         pagination['elements'] = p.object_list
-#         context['list'][type] = pagination
-#     return context
-
-
 # Incantessimi
 def incantessimi_options():
     zfilters = []
@@ -194,14 +156,14 @@ def incantessimi_options():
 
 
 def incantessimi_list(request):
-    options = {}
+    options = initialize_options()
     options['model'] = "Incantessimo"
     options["zfilters"] = incantessimi_options
     return items_list(request, options)
 
 
 def incantessimi_filters(request):
-    options = {}
+    options = initialize_options()
     options['model'] = "Incantessimo"
     options["zfilters"] = incantessimi_options()
     return items_filters(request, options)
@@ -227,16 +189,18 @@ def viaggiatori_options():
 
 
 def viaggiatori_list(request):
-    options = {}
+    options = initialize_options()
     options['model'] = "Viaggiatore"
     options["zfilters"] = viaggiatori_options()
+    options["sogno_filter"] = True
     return items_list(request, options)
 
 
 def viaggiatori_filters(request):
-    options = {}
+    options = initialize_options()
     options['model'] = "Viaggiatore"
     options["zfilters"] = viaggiatori_options()
+    options["sogno_filter"] = True
     return items_filters(request, options)
 
 
@@ -257,16 +221,18 @@ def nativi_options():
 
 
 def nativi_list(request):
-    options = {}
+    options = initialize_options()
     options['model'] = "Nativo"
     options["zfilters"] = nativi_options()
+    options["sogno_filter"] = True
     return items_list(request, options)
 
 
 def nativi_filters(request):
-    options = {}
+    options = initialize_options()
     options['model'] = "Nativo"
     options["zfilters"] = nativi_options()
+    options["sogno_filter"] = True
     return items_filters(request, options)
 
 
@@ -282,14 +248,15 @@ def creature_options():
 
 
 def creature_list(request):
-    options = {}
+    options = initialize_options()
     options['model'] = "Creatura"
     options["zfilters"] = creature_options()
+    options["sogno_filter"] = False
     return items_list(request, options)
 
 
 def creature_filters(request):
-    options = {}
+    options = initialize_options()
     options['model'] = "Creatura"
     options["zfilters"] = creature_options()
     return items_filters(request, options)
@@ -306,14 +273,15 @@ def artefatti_options():
 
 
 def artefatti_list(request):
-    options = {}
+    options = initialize_options()
     options['model'] = "Artefatto"
     options["zfilters"] = artefatti_options()
+
     return items_list(request, options)
 
 
 def artefatti_filters(request):
-    options = {}
+    options = initialize_options()
     options['model'] = "Artefatto"
     options["zfilters"] = artefatti_options()
     return items_filters(request, options)
@@ -333,14 +301,15 @@ def oggetti_options():
 
 
 def oggetti_list(request):
-    options = {}
+    options = initialize_options()
     options['model'] = "Oggetto"
     options["zfilters"] = oggetti_options()
+
     return items_list(request, options)
 
 
 def oggetti_filters(request):
-    options = {}
+    options = initialize_options()
     options['model'] = "Oggetto"
     options["zfilters"] = oggetti_options()
     return items_filters(request, options)
@@ -359,14 +328,15 @@ def poterispeciali_options():
 
 
 def poterispeciali_list(request):
-    options = {}
+    options = initialize_options()
     options['model'] = "PotereSpeciale"
     options["zfilters"] = poterispeciali_options()
+
     return items_list(request, options)
 
 
 def poterispeciali_filters(request):
-    options = {}
+    options = initialize_options()
     options['model'] = "PotereSpeciale"
     options["zfilters"] = poterispeciali_options()
     return items_filters(request, options)

@@ -181,7 +181,7 @@ class Character(models.Model, ChiaroscuroMixin):
             h = 170
         height = h / 100
         IMC = 15 + int(self.value_for("CON")) * 0.5 + int(self.value_for("FOR")) - int(self.value_for("AGI")) * 1 + int(self.value_for("AGI")) + (
-                    5 - int(self.value_for("APP")))
+                5 - int(self.value_for("APP")))
         weight = (IMC + float(self.imc_boost)) * height ** 2
         self.imc = IMC
         self.weight = round(weight)
@@ -271,11 +271,6 @@ class Character(models.Model, ChiaroscuroMixin):
         self.total_skills -= s
         self.power -= 12
 
-
-
-
-
-
     def ref_to_struct(self, src_ref):
         """        
             self.attributes -> self._data['attributes'], self.skills_generic -> self._data['skills']['generic']
@@ -324,7 +319,7 @@ class Character(models.Model, ChiaroscuroMixin):
             else:
                 print(f"!!! Error: Don't know what to do with [{src_ref}]...")
 
-    def skills_summary(self,full=False):
+    def skills_summary(self, full=False):
         """
             Select only skills with a non default value.
             :returns: JSON list of the skills with a non default value.
@@ -335,7 +330,7 @@ class Character(models.Model, ChiaroscuroMixin):
             count_vals = [0 for _ in range(20)]
             count_postes = [0 for _ in range(6)]
             skill_sets = ["weapons", "generic", "peculiar", "specialized", "knowledge", "draconic"]
-            all = {"weapons":[], "generic":[], "peculiar":[], "specialized":[], "knowledge":[], "draconic":[]}
+            all = {"weapons": [], "generic": [], "peculiar": [], "specialized": [], "knowledge": [], "draconic": []}
             for skill_set in skill_sets:
                 REF = SKILLS[skill_set.upper()]
                 data = getattr(self, "skills_" + skill_set)
@@ -373,7 +368,7 @@ class Character(models.Model, ChiaroscuroMixin):
                             if v > default:
                                 count_postes[default * (-1)] += 1
                                 count_vals[v] += 1
-                                all.append({"value": v, "category": REF['NAME'][:1], "default":default, "abs": v-default, "text": item["TEXT"]})
+                                all.append({"value": v, "category": REF['NAME'][:1], "default": default, "abs": v - default, "text": item["TEXT"]})
                 else:
                     self.bugs.append(f"{self.rid} doesn't have the correct property for [{skill_set}].")
             sorted_all = sorted(all, key=lambda k: k['value'], reverse=True)
@@ -531,7 +526,7 @@ class Character(models.Model, ChiaroscuroMixin):
     def collect_spells(self):
         from main.models.incantessimi import Incantessimo
         list = []
-        if len(self.spells)>0:
+        if len(self.spells) > 0:
             arr = self.spells.split(" ")
             incantessimi = Incantessimo.objects.filter(rid__in=arr).order_by("category")
             for incantessimo in incantessimi:
@@ -707,12 +702,12 @@ class Character(models.Model, ChiaroscuroMixin):
         lines.append(attributes)
 
         categories = {
-            "M": {"title": "Martiales (-1)","default":-1, "list": []},
-            "G": {"title": "Générales (-1)","default":-1, "list": []},
-            "P": {"title": "Particulières (-2)","default":-2, "list": []},
-            "S": {"title": "Spécialisées (-3)","default":-3, "list": []},
-            "C": {"title": "Connaissances (-4)","default":-4, "list": []},
-            "D": {"title": "Draconiques (-5)","default":-5, "list": []}
+            "M": {"title": "Martiales (-1)", "default": -1, "list": []},
+            "G": {"title": "Générales (-1)", "default": -1, "list": []},
+            "P": {"title": "Particulières (-2)", "default": -2, "list": []},
+            "S": {"title": "Spécialisées (-3)", "default": -3, "list": []},
+            "C": {"title": "Connaissances (-4)", "default": -4, "list": []},
+            "D": {"title": "Draconiques (-5)", "default": -5, "list": []}
         }
         for v in self._data["skills_summary"]:
             categories[v["category"]]["list"].append(f"{v['text']} [{v['abs']}] {v['value']}")
@@ -722,7 +717,6 @@ class Character(models.Model, ChiaroscuroMixin):
             skills += v["title"] + ": "
             skills += ", ".join(v["list"]) + ".<br/>"
         lines.append(skills)
-
 
         weapons = f"{'Arme':{space}<20} {'1M':{space}>6} {'2M':{space}>6} {'INI':<3} {'ENG':<3} {'ATT':<3} {'MAN':<3} {'DMG':<3} {'Jet':<14} {'Score':<5}<br/>"
         for w in self._data["weapons"]:
@@ -744,7 +738,7 @@ class Character(models.Model, ChiaroscuroMixin):
             weapons += f"{w['mod_ini']:3} {w['engagement']:3} {w['mod_att']:3} {w['maneuver']:3} {w['mod_dom']:3} {w['stat_skill']:{space}<14} {w['base_score']:5}<br/>"
         lines.append(weapons)
 
-        protection =  f"{'':{space}<35} Malus<br/>"
+        protection = f"{'':{space}<35} Malus<br/>"
         protection += f'{"Armure/Protection":{space}<35} AGI DEX VUE OUI {"Pr.":3} {"Couverture":<12}<br/>'
         for a in self._data['armors']:
             all_malus = f'{a["malus_AGI"]:3} {a["malus_DEX"]:3} {a["malus_VUE"]:3} {a["malus_OUI"]:3}'
@@ -752,10 +746,7 @@ class Character(models.Model, ChiaroscuroMixin):
         protection += f'{"Cumuls Malus":{space}<35} {self.malus_AGI:3} {self.malus_DEX:3} {self.malus_VUE:3} {self.malus_OUI:3}<br/>'
         protection += f"Protection: {self.protection_map}<br/>"
 
-
         lines.append(protection)
-
-
 
         lines_VIE = []
         life = ""
@@ -830,7 +821,7 @@ class Character(models.Model, ChiaroscuroMixin):
 
     def roster_as_text(self):
         roster = "<br/>".join(self.roster())
-        roster = roster.replace("§", " ").replace("<br/>", "\n").replace("<BR/>", "\n").replace("&#9744;","¤")
+        roster = roster.replace("§", " ").replace("<br/>", "\n").replace("<BR/>", "\n").replace("&#9744;", "¤")
         with open(f"main/rosters/roster_{self.rid}.txt", "w") as f:
             f.write(roster)
         return roster
@@ -992,7 +983,7 @@ class Character(models.Model, ChiaroscuroMixin):
         if self.skills_creation_ok:
             print("*** READY FOR ARCHETYPE ***")
         # else:
-            # print("*** ARCHETYPE UNDEFINED ***")
+        # print("*** ARCHETYPE UNDEFINED ***")
         self.skills_map["values"] = levels
 
     def challenge_skills(self):

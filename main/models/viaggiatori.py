@@ -11,8 +11,6 @@ from django.contrib import admin
 from django.template.loader import get_template
 
 
-
-
 class Viaggiatore(Character):
     class Meta:
         verbose_name = "Viaggiatore"
@@ -81,7 +79,7 @@ class Viaggiatore(Character):
     @classmethod
     def spawn(cls):
         item = cls()
-        item.name = f"Voyageur_{roll(explodes=False,faces=10)-1}{roll(explodes=False,faces=10)-1}{roll(explodes=False,faces=10)-1}"
+        item.name = f"Voyageur_{roll(explodes=False, faces=10) - 1}{roll(explodes=False, faces=10) - 1}{roll(explodes=False, faces=10) - 1}"
         item.is_storyteller = True
         item.is_new = True
         item.sogni = "DEF"
@@ -90,11 +88,17 @@ class Viaggiatore(Character):
 
     @classmethod
     def export_to_pdf(cls):
+        from main.models.sogni import Sogno
+        s = Sogno.current_sogno()
+        if s:
+            sog = s.acronym
+        else:
+            sog = ""
         context = {"full_name": "Voyageurs", "release_date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
         context["type"] = "viaggiatore"
         context["categories"] = {}
-        context["categories"]["PNJ"] = [i.export_to_json() for i in cls.objects.filter(is_storyteller=True).order_by("name")]
-        context["categories"]["PJ"] = [i.export_to_json() for i in cls.objects.filter(is_storyteller=False).order_by("name")]
+        context["categories"]["PNJ"] = [i.export_to_json() for i in cls.objects.filter(is_storyteller=True, sogni__contains=sog).order_by("name")]
+        context["categories"]["PJ"] = [i.export_to_json() for i in cls.objects.filter(is_storyteller=False, sogni__contains=sog).order_by("name")]
         template = get_template('main/PDF/extract.html')
         html = template.render(context)
         filename = os.path.join(settings.MEDIA_ROOT, 'pdf/extracts/viaggiatori.pdf')
@@ -107,14 +111,10 @@ class Viaggiatore(Character):
             print(pdf.err)
 
 
-
-
-
-
 class ViaggiatoreAdmin(admin.ModelAdmin):
     from main.utils.mechanics import pre_sim, refix
     ordering = ['-indice', 'name']
     list_display = ['id', 'rid', 'name', "archetype_str", 'player', 'is_new', 'is_storyteller', 'color']
-    list_editable = ["archetype_str", 'color', 'is_storyteller','is_new']
-    list_filter = ["sogni",'is_storyteller', "old_creation_attributes" ]
+    list_editable = ["archetype_str", 'color', 'is_storyteller', 'is_new']
+    list_filter = ["sogni", 'is_storyteller', "old_creation_attributes"]
     actions = [refix, pre_sim]

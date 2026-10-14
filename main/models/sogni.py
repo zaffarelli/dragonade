@@ -55,7 +55,10 @@ class Sogno(models.Model, ChiaroscuroMixin):
                 s.current = False
             s.save()
 
-
+    @classmethod
+    def current_sogno(cls):
+        current = cls.objects.filter(current=True).first()
+        return current
 
 
 class SognoAdmin(admin.ModelAdmin):

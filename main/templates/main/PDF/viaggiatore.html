@@ -50,7 +50,7 @@
         <td>{{c.seco.DER}}</td>
     </tr>
 </table>
-<h6>Compétences</h6>
+<h6>Compétences:</h6>
 {% for cat,arr in c.skills_full.items %}
     <p>
     <b>{{cat|as_skill_cat|safe}}</b>:
@@ -58,21 +58,27 @@
     </p>
 {% endfor %}
 {% if c.description %}
-<h6>Description</h6>
+<h6>Description:</h6>
 <p>{{c.description|render_text|safe}}</p>
 {%endif%}
 {% if c.weapons %}
-<h6>Armes</h6>
-<p>{{c.wepons}}</p>
+<h6>Armes:</h6>
+<ul>
+{% for w in c.weapons %}
+    <li>{{w|as_weapon|safe}}</li>
+{% endfor %}
+</ul>
 {%endif%}
-{% if c.armors %}
-<h6>Protection</h6>
+
+<h6>Protection:</h6>
 <ul>
 {% for armor in c.armors %}
     <li>{{armor.name}} ({{armor.cover|as_text_cover|safe}}): {{armor.prot}}</li>
 {% endfor %}
+{{c.protection_map|as_protection_map|safe}}
 </ul>
-{%endif%}
+
+
 <table>
     <tr>
         <td style="vertical-align:top;border-width:0;text-align:left;"><b>Points de Vie ({{c.VIE}}):</b><br/>{{c.VIE|as_pdv|safe}}</td>

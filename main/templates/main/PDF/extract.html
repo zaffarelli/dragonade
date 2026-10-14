@@ -308,6 +308,7 @@
         {% for o in v %}
             {% include "main/PDF/viaggiatore.html" with c=o %}
         {%endfor%}
+        <pdf:nextpage/>
     {% endfor %}
 {% endif %}
 

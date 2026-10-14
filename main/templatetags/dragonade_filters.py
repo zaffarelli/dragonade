@@ -578,6 +578,19 @@ def as_text_cover(value):
                 s.append("Jambe")
     return ", ".join(s)
 
+@register.filter(name='as_protection_map')
+def as_protection_map(value):
+    str = "<li><b>Résumé</b>: "
+    if len(value)>0:
+        c = value.split(" ")
+        if len(c)==6:
+            str += f"TE={c[0][2]} "
+            str += f"TO={c[1][2]} BF={c[2][2]} BR={c[3][2]} "
+            str += f"JF={c[4][2]} JA={c[5][2]}"
+    str += "</li>"
+    return str
+
+
 
 @register.filter(name='as_diff')
 def as_diff(value):
@@ -661,3 +674,16 @@ def with_list_punctuation(value):
     for y in value:
         arr.append(f"{y['text']} {y['value']}")
     return ", ".join(arr)+"."
+
+
+@register.filter(name='as_weapon')
+def as_weapon(value):
+    str = f"{value['name']:<.12} = ENG.{value['engagement']:+2} MAN.{value['maneuver']:+2}"
+    if value['plus_dom']>0:
+        str += f" DOM:{value['plus_dom']:+2}"
+    if value['plus_dom_2m']>0:
+        str += f" DOM:{value['plus_dom_2m']:+2}"
+    if value["category"]!=18:
+        str += f" RNG:{value['range']}"
+    str += f" SCORE:{value['base_score']}"
+    return str

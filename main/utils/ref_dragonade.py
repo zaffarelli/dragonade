@@ -595,14 +595,14 @@ def load_from_file():
 
 
 
-FADINGSUNS_CHARACTER_STATISTICS = {
+FADINGEARTH_CHARACTER_STATISTICS = {
     "ATTRIBUTES": {
         "DEFAULT": 1,
         "LIST": [
             {"NAME": "BOD", "TEXT": "Body", "ORDER": 0},
             {"NAME": "CON", "TEXT": "Constitution", "ORDER": 1},
-            {"NAME": "STR", "TEXT": "Strength", "ORDER": 2},
-            {"NAME": "MOV", "TEXT": "Movement", "ORDER": 3},
+            {"NAME": "MOV", "TEXT": "Strength", "ORDER": 2},
+            {"NAME": "STR", "TEXT": "Movement", "ORDER": 3},
 
             {"NAME": "INT", "TEXT": "Intellect", "ORDER": 4},
             {"NAME": "PRE", "TEXT": "Presence", "ORDER": 5},
@@ -611,7 +611,7 @@ FADINGSUNS_CHARACTER_STATISTICS = {
 
             {"NAME": "AGI", "TEXT": "Agility", "ORDER": 8},
             {"NAME": "AWA", "TEXT": "Awareness", "ORDER": 9},
-            {"NAME": "REF", "TEXT": "Reflexes", "ORDER": 10},
+            {"NAME": "DEX", "TEXT": "Dexterity", "ORDER": 10},
             {"NAME": "TEC", "TEXT": "Technology", "ORDER": 11},
         ]
     },
@@ -626,7 +626,7 @@ FADINGSUNS_CHARACTER_STATISTICS = {
             {"NAME": "FIG", "TEXT": "Fight", "RATIONALE": " (BOD + MOV) / 2", "PARAMS": "BOD MOV",
              "FORMULA": lambda p: math.ceil((p[0] + p[1]) / 2), "ORDER": 2
              },
-            {"NAME": "AVO", "TEXT": "Avoidance", "RATIONALE": " (12 - BOD + AGI) / 2", "PARAMS": "BOD AGI",
+            {"NAME": "EVA", "TEXT": "Evasion", "RATIONALE": " (12 - BOD + AGI) / 2", "PARAMS": "BOD AGI",
              "FORMULA": lambda p: math.ceil((12 - p[0] + p[1]) / 2), "ORDER": 3
              },
 
@@ -637,7 +637,7 @@ FADINGSUNS_CHARACTER_STATISTICS = {
             {"NAME": "FAB", "TEXT": "Fable", "RATIONALE": " (VUE + FOR + INT) / 3", "PARAMS": "VUE FOR INT",
              "FORMULA": lambda p: round((p[0] + p[1] + p[2]) / 3)
              },
-            {"NAME": "VIE", "TEXT": "Points de Vie", "RATIONALE": " CON + TAI", "PARAMS": "CON TAI",
+            {"NAME": "HEA", "TEXT": "Health", "RATIONALE": " CON + TAI", "PARAMS": "CON TAI",
              "FORMULA": lambda p: p[0] + p[1]
              },
             {"NAME": "FAT", "TEXT": "Fatigue", "RATIONALE": " (CON + VOL) / 2", "PARAMS": "CON VOL",
@@ -649,14 +649,15 @@ FADINGSUNS_CHARACTER_STATISTICS = {
             {"NAME": "SUS", "TEXT": "Sustentation", "RATIONALE": " ArrondiBas((CON + 4) / 4) + 1", "PARAMS": "CON",
              "FORMULA": lambda p: math.floor((p[0] + 4) / 4) + 1
              },
-            {"NAME": "RES", "TEXT": "Résilience", "RATIONALE": "ArrondiBas((CON + TAI) / 5)", "PARAMS": "CON TAI",
+            {"NAME": "RES", "TEXT": "Resilience", "RATIONALE": "ArrondiBas((CON + TAI) / 5)", "PARAMS": "CON TAI",
              "FORMULA": lambda p: math.floor((p[0] + p[1]) / 5)
              },
-            {"NAME": "ENC", "TEXT": "Encombrement", "RATIONALE": " (TAI + FOR)  [garder une décimale]", "PARAMS": "TAI FOR",
+            {"NAME": "BUL", "TEXT": "Bulk", "RATIONALE": " (TAI + FOR)  [garder une décimale]", "PARAMS": "TAI FOR",
              "FORMULA": lambda p: (p[0] + p[1])
              },
-            {"NAME": "SON", "TEXT": "Songe", "RATIONALE": "-"},
-            {"NAME": "REV", "TEXT": "Rêve", "RATIONALE": "(SON + FAB)", "PARAMS": "SON FAB", "FORMULA": lambda p: p[0] + p[1]},
+            {"NAME": "BUR", "TEXT": "Burst", "RATIONALE": " (TAI + FOR)  [garder une décimale]", "PARAMS": "CON WIL TEM",
+             "FORMULA": lambda p: (p[0] + p[1] + p[2])
+             },
         ]
     },
     "FEATURES": {

@@ -920,12 +920,12 @@ body {
     & .vignette{
         flex:0 1 300pt;
         height:200pt;
-
         border:2pt dotted silver;
         border-radius:10pt;
-        &.zoom{
-            flex: 1 1 100%;
-            height:100%;
+        cursor:pointer;
+        &.xxx{
+            flex: 1 1 900pt;
+            height:600pt;
             border:2pt dotted red;
         }
     }

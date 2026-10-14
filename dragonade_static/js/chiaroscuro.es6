@@ -120,6 +120,7 @@ class Chiaroscuro {
         let me = this;
         me.prepareAjax()
         me.registerShortcuts()
+        me.registerVignette()
         me.registerEditor()
         me.registerEditables()
         me.registerStackPull()
@@ -129,7 +130,7 @@ class Chiaroscuro {
         me.registerShowHide()
         me.registerShifters()
         me.registerListActions()
-        me.registerVignette()
+
     }
 
     registerVignette(){
@@ -138,8 +139,9 @@ class Chiaroscuro {
             e.preventDefault()
             e.stopPropagation()
             if (e.ctrlKey) {
-                $(".vignette").removeClass('zoom')
-                $(this).addClass('zoom')
+                $("img.vignette").removeClass('xxx')
+                $(this).addClass('xxx')
+                console.log("Vignette clicked")
             }
         })
         console.log("Vignette")
