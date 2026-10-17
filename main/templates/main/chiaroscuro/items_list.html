@@ -31,11 +31,7 @@
 {% block custom_js %}
 <script>
     _.defer(function () {
-        let co = new Chiaroscuro({
-        {
-            config | safe
-        }
-    })
+        let co = new Chiaroscuro({{config | safe}})
         co.perform();
     });
 </script>

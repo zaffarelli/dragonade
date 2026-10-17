@@ -1,6 +1,8 @@
 Kessada
 Disciple de Kalikat, Ennemi du Mal Ventriloque, Escorte de la Dona Real, Exploratrice de la Cité d'Embordine, Invité d'Exaldarian
 (Maud [@Mdib])
+Destinée: 1 (0)
+Stress: 0 = 27(U) + -27(R)
 Heure de Naissance: Dragon
 Taille/Poids: 165 cm/61 kg
 Totaux Attributs/Compétences: 0 / 30

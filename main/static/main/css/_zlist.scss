@@ -58,15 +58,18 @@ $mega_font_size: 16pt;
                 flex: 5 5 auto;
             }
             &.text{
+                display:flex;
                 font-size:$list_font_size;
-                flex:1 0 10ex;
+                flex:1 0 20ex;
                 flex-flow: column wrap;
                 justify-content:space-between;
                 align-items:stretch;
                 align-content:stretch;
+                min-width:20ex;
+                border:1pt solid none;
                 & .txt{
-                    flex:1 0 1.2em;
-                    font-size:$title_font_size;
+                    flex:0 0 1.2em;
+                    font-size:$list_font_size;
                     color:white;
                     background:#202020;
 
@@ -75,13 +78,14 @@ $mega_font_size: 16pt;
                 }
                 & .val{
                     flex: 1 1 auto;
-                    font-size:$list_font_size;
+                    max-height:6em;
+                    font-size:$mid_font_size;
                     color:silver;
                     background:#101010;
                     overflow-y:scroll;
                     text-align:left;
-
                     padding:3pt;
+
                 }
             }
             &.label{
@@ -99,9 +103,11 @@ $mega_font_size: 16pt;
                 align-items:stretch;
                 align-content:stretch;
                 color:silver;
+                min-width:12ex;
+                border:1pt solid none;
                 & .txt{
-                    flex:1 0 1.2em;
-                    font-size:$title_font_size;
+                    flex:0 0 1.2em;
+                    font-size:$list_font_size;
                     color:white;
                     background:#202020;
                     border-radius:3pt;
@@ -109,7 +115,7 @@ $mega_font_size: 16pt;
                 }
                 & .val{
                     flex: 1 1 auto;
-                    font-size:$list_font_size;
+                    font-size:$title_font_size;
                     color:silver;
                     background:#101010;
 
@@ -125,10 +131,11 @@ $mega_font_size: 16pt;
                 align-items:stretch;
                 align-content:stretch;
                 color:silver;
-                border:2pt dashed purple;
+                min-width:10ex;
+                border:1pt solid none;
                 & .txt{
                     flex:1 0 1.2em;
-                    font-size:$mid_font_size;
+                    font-size:$list_font_size;
                     color:white;
                     background:#202020;
 
@@ -140,8 +147,8 @@ $mega_font_size: 16pt;
                     font-size:$title_font_size;
                     color:silver;
                     background:#101010;
-
                     padding:3pt;
+                    overflow:hidden;
                 }
             }
 
@@ -199,7 +206,8 @@ $mega_font_size: 16pt;
 
 
     & .zlist_entry{
-        flex:0 0 20ex;
+        flex: 0 2 48ex;
+        min-width:48ex;
         border-radius:5pt;
         display:inline-block;
         font-weight:normal;
@@ -226,7 +234,7 @@ $mega_font_size: 16pt;
     flex-flow:row nowrap;
     justify-content: flex-start;
     align-items: flex-start;
-    align-content: flex-start;
+//     align-content: flex-start;
     height:3vh;
     background:#5050507f;
     & .zlist_entry{
@@ -235,6 +243,7 @@ $mega_font_size: 16pt;
         justify-content: flex-start;
         align-items: stretch;
         align-content: flex-start;
+
 //         background:#3030307f;
         }
 

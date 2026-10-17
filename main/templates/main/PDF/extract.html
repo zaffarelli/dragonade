@@ -312,6 +312,16 @@
     {% endfor %}
 {% endif %}
 
+{% if type == "nativo" %}
+    {% for k,v in categories.items %}
+        <h3>{{k|upper}}</h3>
+        {% for o in v %}
+            {% include "main/PDF/nativo.html" with c=o %}
+            <pdf:nextframe/>
+        {%endfor%}
+        <pdf:nextpage/>
+    {% endfor %}
+{% endif %}
 
 {% endblock article %}
 

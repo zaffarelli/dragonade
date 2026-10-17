@@ -1,6 +1,8 @@
 Elyanna des Sables
 Bienfaitrice de la Confrérie du Crépuscule, Gardienne du Savoir de Tornel la Fabuleuse
 (Gardien des Rêves)
+Destinée: 3 (0)
+Stress: -1 = 215(U) + -216(R)
 Heure de Naissance: Faucon
 Taille/Poids: 168 cm/48 kg
 Totaux Attributs/Compétences: 4 / 31

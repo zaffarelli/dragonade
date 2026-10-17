@@ -77,8 +77,6 @@
 {% endfor %}
 {{c.protection_map|as_protection_map|safe}}
 </ul>
-
-
 <table>
     <tr>
         <td style="vertical-align:top;border-width:0;text-align:left;"><b>Points de Vie ({{c.VIE}}):</b><br/>{{c.VIE|as_pdv|safe}}</td>
@@ -86,8 +84,26 @@
         <td style="vertical-align:top;border-width:0;text-align:left;"><b>Points de Rêve ({{c.REV}}):</b><br/>{{c.REV|as_pdr|safe}}</td>
     </tr>
 </table>
+{% if c.spells_details %}
+    <h6>Arts Draconiques:</h6>
+    <ul>
+    {% for s in c.spells_details %}
+        <li><b>{{s.name}}</b> [{{s.category}}, {{s.path}}]<BR/>
+            <b>TI:</b>{{s.ti_str}}, <b>DU:</b>{{s.duration_str}}, <b>PO:</b>{{s.range_str}}, <b>ZO:</b>{{s.area_str}}, <b>FB:</b>{{s.fallback_str}}<br/>
+            <b>PdR:</b>{{s.dps}}, <b>Jet:</b> REV+{{s.roll}}/{{s.difficulty_val}}<BR/>
+            <b>Charges:</b> {{s.ground_charge_str}} | {{s.hour_charge_str}} | {{s.emanation_charge_str}} | {{s.consistency_charge_str}} | {{s.elemental_charge_str}}<br/>
+            <p><b>Description:</b> {{s.description|render_text|safe}}</p>
+            <p><b>Notes:</b> {{s.composantes|render_text|safe}}</p>
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+
+
 
 <hr/>
+
 
 
 

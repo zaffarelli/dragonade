@@ -111,7 +111,7 @@ class Character(models.Model, ChiaroscuroMixin):
             offset = 1
         elif chg == 'minus':
             offset = -1
-
+        print("applyIncDec")
         if offset:
             val = self.value_for(att)
             # print(f"{val} type:{type(val).__name__}")
@@ -119,6 +119,7 @@ class Character(models.Model, ChiaroscuroMixin):
                 val = int(val)
             val += offset
             result = self.overwrite_for(att, val)
+            print(f"Result = {att} => {val} = {result}")
             if result:
                 # self.updateFromStruct()
                 self.save()
@@ -277,7 +278,9 @@ class Character(models.Model, ChiaroscuroMixin):
             :param src_ref: source reference among the user filled properties o f the instance
             :returns: nothing / works directly on the instance
         """
+        debug = self.name.startswith("Estelle")
         j = json.loads(self.skills_map_str)
+
         if "all" in j:
             cvs = j["all"]
         else:
@@ -294,7 +297,14 @@ class Character(models.Model, ChiaroscuroMixin):
                     cnt = 0
                     arr = getattr(self, tlow).split(' ')
                     for item in src_struct['LIST']:
-                        self._data[branch][item['NAME']] = int(arr[cnt]) if cnt < len(arr) else src_struct['DEFAULT']
+
+                        val = int(arr[cnt])
+                        self._data[branch][item['NAME']] = val if cnt < len(arr) else src_struct['DEFAULT']
+                        if self.type == "Nativo":
+                            if val != 4:
+                                if debug:
+                                    print(f"{self.name} {self.type} {item['NAME']} {val}")
+                                self._data['quick_attr'][item['NAME']] = val
                         cnt += 1
                 elif tlow == "secondaries":
                     cnt = 0
@@ -392,6 +402,7 @@ class Character(models.Model, ChiaroscuroMixin):
         self._data["seco"] = {}
         self._data["skil"] = {}
         self._data["deri"] = {}
+        self._data['quick_attr'] = {"ALL": 4}
         self.ref_to_struct('ATTRIBUTES')
         self.ref_to_struct('SECONDARIES')
         self.ref_to_struct('SKILLS_WEAPONS')
@@ -583,10 +594,13 @@ class Character(models.Model, ChiaroscuroMixin):
         print(f"Entry for [{str}] is {statistic_property}: {entry}")
         if entry:
             if "ORDER" in entry:
+                print(f"Ordered entry is {entry['ORDER']}")
                 datalist = getattr(self, statistic_property)
+                print(f"[{datalist}]")
                 parts = datalist.split(" ")
                 parts[entry["ORDER"]] = f"{val}"
                 setattr(self, statistic_property, " ".join(parts))
+                print(f"{statistic_property} [{' '.join(parts)}]")
                 self.save()
                 result = True
             else:
@@ -671,7 +685,7 @@ class Character(models.Model, ChiaroscuroMixin):
         lines.append(f"{ty}")
 
         from main.templatetags.dragonade_filters import as_hour
-        if self.type == "viaggiatore":
+        if self.type == "Viaggiatore":
             lines.append(f"Destinée: {self.destiny} ({self.travel_points})")
             lines.append(f"Stress: {self.stress_acquired} = {self.stress_used}(U) + {self.stress_remaining}(R)")
         lines.append(f"Heure de Naissance: {as_hour(self.birthhour)}")
@@ -1109,3 +1123,19 @@ class Character(models.Model, ChiaroscuroMixin):
         vector = [int(a) for a in temp]
         total = sum(vector)
         return total
+
+
+
+    def value_shift(self,param,back):
+        current_value = getattr(self, param)
+        dataset = self.identify_value_by_name(param)
+        if dataset:
+            next_value_index = 0
+            for k, v in enumerate(dataset):
+                if v == current_value:
+                    next_value_index = (k + back) % len(dataset)
+            setattr(self, param, dataset[next_value_index])
+            self.save()
+        else:
+            print(f"Unhandled value {param} for {self.type}")
+

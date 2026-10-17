@@ -1,6 +1,8 @@
 Cojürngänd Keträmsvälsgärd
 Coquette
 (Gardien des Rêves)
+Destinée: 1 (0)
+Stress: -1 = 65(U) + -66(R)
 Heure de Naissance: Sirène
 Taille/Poids: 180 cm/83 kg
 Totaux Attributs/Compétences: 6 / -26

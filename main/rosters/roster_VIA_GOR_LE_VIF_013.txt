@@ -1,6 +1,8 @@
 Gorion le Vif
 Maître Maroquinier à la recherche des tanneries de Renfir
 (Gardien des Rêves)
+Destinée: 2 (0)
+Stress: -1 = 244(U) + -245(R)
 Heure de Naissance: Vaisseau
 Taille/Poids: 165 cm/56 kg
 Totaux Attributs/Compétences: 0 / 25

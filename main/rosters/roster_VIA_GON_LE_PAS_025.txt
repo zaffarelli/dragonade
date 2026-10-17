@@ -1,6 +1,8 @@
 Gontran le Passe-Muraille
 Escorte de la Dona Real, Invité d'Exaldarian, Libérateur de la Trempe
 (Fabien [@Zaharielle])
+Destinée: 7 (0)
+Stress: 260 = 260(U) + 0(R)
 Heure de Naissance: Faucon
 Taille/Poids: 170 cm/68 kg
 Totaux Attributs/Compétences: 2 / 59

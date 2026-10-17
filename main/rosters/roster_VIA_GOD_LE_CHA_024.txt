@@ -1,6 +1,8 @@
 Godefroy le Chaudronnier
 Escorte de la Dona Real, Invité d'Exaldarian
 (Loïc [@Ruum])
+Destinée: 3 (0)
+Stress: 0 = 27(U) + -27(R)
 Heure de Naissance: Faucon
 Taille/Poids: 183 cm/97 kg
 Totaux Attributs/Compétences: 0 / 48

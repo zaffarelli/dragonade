@@ -1,5 +1,7 @@
 Antelius Goldard
 (Gardien des Rêves)
+Destinée: 0 (0)
+Stress: -1 = 0(U) + -1(R)
 Heure de Naissance: Chateau-Dormant
 Taille/Poids: 150 cm/46 kg
 Totaux Attributs/Compétences: -54 / -145

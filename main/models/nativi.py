@@ -1,9 +1,17 @@
+import os
+
 from django.db import models
 from django.contrib import admin
+from django.template.loader import get_template
+
 from main.mixins.jsonable import JsonableMixin
 import random
 from main.models.characters import Character
 from main.utils.mechanics import roll
+from xhtml2pdf import pisa
+import io
+from django.conf import settings
+import datetime
 
 
 class Nativo(Character, JsonableMixin):
@@ -14,6 +22,7 @@ class Nativo(Character, JsonableMixin):
     # dream = models.CharField(max_length=264, default="", blank=True)
     spotlight = models.BooleanField(default=False, blank=True)
     nameless = models.BooleanField(default=False, blank=True)
+    occupation = models.CharField(default="",max_length=64, blank=True)
 
     def __str__(self):
         return f"{self.rid}"
@@ -25,15 +34,15 @@ class Nativo(Character, JsonableMixin):
 
     def fix(self):
         super().fix()
-        if self.randomize:
+        if self.is_new:
             self.initial_randomize()
-            self.randomize = False
+            self.is_new = False
 
 
 
     def randomize(self):
         print("Randomizing Nativo")
-        self.birthhour = roll(12)
+        self.birthhour = roll(explodes=False,faces=12)
         attributes = ["4", "4", "4", "4", "4", "4", "4", "4", "4", "6", "7", "8"]
         random.shuffle(attributes)
         self.attributes = " ".join(attributes)
@@ -43,7 +52,7 @@ class Nativo(Character, JsonableMixin):
             "4", "4", "4",
             "3", "3", "3", "3",]
         random.shuffle(all_values)
-        r = roll(1, 10)
+        # r = roll(False, faces=10)
         spots = [0, 1, 1, 2, 4, 2]
         skills = [[], [], [], [], [], []]
         skills[0] = ["-5" for _ in range(6)]
@@ -71,12 +80,51 @@ class Nativo(Character, JsonableMixin):
         self.skills_generic = " ".join(skills[4])
         self.skills_weapons = " ".join(skills[5])
 
+
+
     @classmethod
     def spawn(cls):
+        from main.models.sogni import Sogno
+        s = Sogno.current_sogno()
+        if s:
+            sog = s.acronym
+        else:
+            sog = "DEF"
         item = cls()
-        item.name = f"Nouveau ({roll(faces=12)}-{roll(faces=12)}-{roll(faces=12)})"
+        item.name = f"Autochtone_{roll(explodes=False, faces=10) - 1}{roll(explodes=False, faces=10) - 1}{roll(explodes=False, faces=10) - 1}"
+        item.is_storyteller = True
+        item.is_new = True
+        item.sogni = sog
         item.save()
         return item.id
+
+    @classmethod
+    def export_to_pdf(cls):
+        from main.models.sogni import Sogno
+        s = Sogno.current_sogno()
+        if s:
+            sog = s.acronym
+        else:
+            sog = ""
+        context = {"full_name": "Autochtones", "release_date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+        context["type"] = "nativo"
+        context["categories"] = {}
+
+        places = cls.objects.filter(sogni=sog).order_by("place").distinct().values_list("place", flat=True)
+        lieux = [place for place in places]
+        for lieu in lieux:
+            context["categories"][lieu] = [i.export_to_json() for i in cls.objects.filter(sogni=sog,place=lieu).order_by("name")]
+        template = get_template('main/PDF/extract.html')
+        html = template.render(context)
+        filename = os.path.join(settings.MEDIA_ROOT, 'pdf/extracts/nativi.pdf')
+        es_pdf = open(filename, 'wb')
+        pdf = pisa.pisaDocument(io.BytesIO(html.encode('utf-8')), es_pdf)
+        if not pdf.err:
+            es_pdf.close()
+            print(f"PDF exportation complete: {filename}")
+        else:
+            print(pdf.err)
+
 
 
 class NativoAdmin(admin.ModelAdmin):

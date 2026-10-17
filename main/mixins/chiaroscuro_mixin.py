@@ -40,3 +40,15 @@ class ChiaroscuroMixin:
     def co_update(self):
         import json
         self._co_str = json.dumps(self._data, default=self.chiaroscuro_default, sort_keys=True, indent=4)
+
+    def identify_value_by_name(self,param):
+        dataset = None
+        if param == "is_female":
+            dataset = [False,True]
+        elif param == "is_lefty":
+            dataset = [False,True]
+        elif param == "is_new":
+            dataset = [False,True]
+        elif param == "nameless":
+            dataset = [False,True]
+        return dataset

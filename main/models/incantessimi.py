@@ -141,9 +141,9 @@ class IncantessimoCastingTime(models.IntegerChoices):
 
 
 class IncantessimoFallback(models.IntegerChoices):
-    NONE = 0, "N/A"
-    CHARGE_1 = 1, "une charge / Echec"
-    CHARGE_3 = 2, "toutes les charges / Notable"
+    NONE = 0, "n/a"
+    CHARGE_1 = 1, "1C/E"
+    CHARGE_3 = 2, "*C/N"
 
 
 class IncantessimoDuration(models.IntegerChoices):

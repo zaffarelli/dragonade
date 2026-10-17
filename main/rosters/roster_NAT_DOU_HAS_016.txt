@@ -3,13 +3,13 @@ Officier Brite
 Colonel
 Nativo
 Heure de Naissance: Serpent
-Taille/Poids: 160 cm/55 kg
-Totaux Attributs/Compétences: -18 / -50
+Taille/Poids: 160 cm/56 kg
+Totaux Attributs/Compétences: -6 / -50
 
-AGI  4 EMP  4 APP  4 | TIR  3 | VIE  6 | IMP -1 
-CON  4 ODG  4 DEX  4 | MEL  3 | FAT  3 | ENC 6.0 
-FOR  4 OUI  4 INT  4 | LAN  6 | SUS  2 | FAB  3 
-TAI  4 VUE  4 VOL  4 | DER  3 | RES  1 | REV  3 
+AGI  4 EMP  4 APP  4 | TIR  4 | VIE  8 | IMP  0 
+CON  4 ODG  4 DEX  4 | MEL  4 | FAT  4 | ENC 8.0 
+FOR  4 OUI  4 INT  4 | LAN  4 | SUS  3 | FAB  4 
+TAI  4 VUE  4 VOL  4 | DER  6 | RES  1 | REV  4 
 
 Martiales (-1): .
 Générales (-1): .
@@ -25,8 +25,9 @@ Armure/Protection                   AGI DEX VUE OUI Pr. Couverture
 Cumuls Malus                          0   0   0   0
 Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
 
-PdV (6)       PdF (3)             PdR (3)             
-¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤             ¤ ¤ ¤               
-¤             ¤ ¤ ¤               ¤ ¤ ¤               
-              ¤ ¤ ¤               ¤ ¤ ¤               
+PdV (8)       PdF (4)             PdR (4)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤             
+¤ ¤ ¤         ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤             
+              ¤ ¤ ¤               ¤ ¤ ¤ ¤             
+              ¤ ¤ ¤                                   
                                                       

@@ -1,6 +1,8 @@
 Eliane Lancernet-Volvrige d'Aiguepine
 Escorte de la Dona Real, Noble Voyageuse
 (Gardien des Rêves)
+Destinée: 1 (0)
+Stress: -1 = 93(U) + -94(R)
 Heure de Naissance: Chateau-Dormant
 Taille/Poids: 162 cm/52 kg
 Totaux Attributs/Compétences: 8 / 47

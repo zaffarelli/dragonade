@@ -1,5 +1,7 @@
 Gauthier le Convoyeur
 (Virgile)
+Destinée: 0 (0)
+Stress: 0 = 0(U) + 0(R)
 Heure de Naissance: Sirène
 Taille/Poids: 180 cm/84 kg
 Totaux Attributs/Compétences: 0 / 0

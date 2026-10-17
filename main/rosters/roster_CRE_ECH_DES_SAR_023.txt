@@ -2,12 +2,12 @@ Echassier des Sarcasmes
 Créature (Créature de Cauchemard)
 Heure de Naissance: Epées
 Taille/Poids: 10 cm/0 kg
-Totaux Attributs/Compétences: 99 / 0
+Totaux Attributs/Compétences: 100 / 0
 
-AGI  4 EMP  3 APP  3 | TIR  3 | VIE  7 | IMP -1 
-CON  4 ODG  3 DEX  3 | MEL  4 | FAT  4 | ENC 7.0 
-FOR  4 OUI  3 INT  3 | LAN  4 | SUS  3 | FAB  3 
-TAI  3 VUE  3 VOL  3 | DER  7 | RES  1 | REV  3 
+AGI  4 EMP  3 APP  3 | TIR  3 | VIE  7 | IMP  0 
+CON  4 ODG  3 DEX  3 | MEL  5 | FAT  4 | ENC  8 
+FOR  5 OUI  3 INT  3 | LAN  4 | SUS  3 | FAB  4 
+TAI  3 VUE  3 VOL  3 | DER  7 | RES  1 | REV  4 
 
 Martiales (-1): Armes à deux mains [2] 1.
 Générales (-1): .
@@ -23,9 +23,9 @@ Armure/Protection                   AGI DEX VUE OUI Pr. Couverture
 Cumuls Malus                          0   0   0   0
 Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
 
-PdV (7)       PdF (4)             PdR (3)             
-¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤             ¤ ¤ ¤               
-¤ ¤           ¤ ¤ ¤ ¤             ¤ ¤ ¤               
-              ¤ ¤ ¤               ¤ ¤ ¤               
+PdV (7)       PdF (4)             PdR (4)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤             
+¤ ¤           ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤             
+              ¤ ¤ ¤               ¤ ¤ ¤ ¤             
               ¤ ¤ ¤                                   
                                                       

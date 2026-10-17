@@ -1,5 +1,24 @@
 from django import template
+
 register = template.Library()
+
+@register.filter(name='to_plural')
+def to_plural(value):
+    return value
+    # plurals = {
+    #     "viaggiatore": "Viaggiatori",
+    #     "nativo": "Nativi",
+    #     "creatura": "Creature",
+    #     "incantessimo": "Incantessimi",
+    #     "oggetto": "Oggetti",
+    #     "poterespeciale": "PoteriSpeciali",
+    #     "artefatto": "Artefatti",
+    # }
+    # if value.lower() in plurals:
+    #     str = plurals[value.lower()]
+    # else:
+    #     str = value
+    # return str
 
 
 @register.filter(name='colorize_val')
@@ -27,7 +46,7 @@ def colorize_val(value):
         if value > 10:
             idx = 15
         else:
-            idx = value +5
+            idx = value + 5
 
         str = f'<span style="color:{cols[idx]};">{value}</span>'
 
@@ -51,6 +70,7 @@ def colorize_val(value):
         #     str = f'<span style="color:maroon;">{value}</span>'
     return str
 
+
 @register.filter(name='colorize_abs')
 def colorize_abs(value):
     str = value
@@ -73,13 +93,12 @@ def colorize_abs(value):
             "#f080f0"
         ]
         idx = value
-        if idx>=len(cols):
-            idx = len(cols)-1
+        if idx >= len(cols):
+            idx = len(cols) - 1
         if idx < 0:
             idx = 0
         str = f'<span style="color:{cols[idx]};">{value}</span>'
     return str
-
 
 
 @register.filter(name='signed')
@@ -235,6 +254,7 @@ def genderize(value):
         result = "Féminin"
     return result
 
+
 @register.filter(name='as_stress')
 def as_stress(value):
     if int(value) < 0:
@@ -242,7 +262,6 @@ def as_stress(value):
     else:
         result = value
     return result
-
 
 
 @register.filter(name='as_sex')
@@ -257,7 +276,7 @@ def svg_item(x):
     # print(x)
     y = "generique" if x.lower() == "générique" else x
     return f'<span class="" title="{x}" style="display:inline-block;">' \
-           f'<img src="static/main/svg/2026/{y}.svg" style="display:inline-block; width:75pt;">' \
+           f'<img src="static/main/svg/2026/{y}.svg" style="display:inline-block; width:50pt;">' \
            f'</span>'
 
 
@@ -268,9 +287,10 @@ def as_category(value):
     result = f'blank'
     if isinstance(value, str):
         v = value
-        if len(v)>0:
+        if len(v) > 0:
             result = f'{v}'
     return svg_item(result.lower())
+
 
 @register.filter(name='as_ground_charge')
 def as_ground_charge(value):
@@ -331,17 +351,19 @@ def as_elemental_charge(value):
         result = f'ld_{v}'
     return svg_item(result)
 
+
 @register.filter(name='as_unique_scale')
 def as_unique_scale(value):
     result = f'blank'
-    if value in ["e","a","p","g","ge","ga","gp","gg"]:
+    if value in ["e", "a", "p", "g", "ge", "ga", "gp", "gg"]:
         result = f"{value}"
     return svg_item(result)
+
 
 @register.filter(name='as_unique_scale_str')
 def as_unique_scale_str(value):
     result = f'Ecaille'
-    if value in ["e","a","p","g","ge","ga","gp","gg"]:
+    if value in ["e", "a", "p", "g", "ge", "ga", "gp", "gg"]:
         if value == "e":
             result = "Ecaille d'Efficacité"
         elif value == "ge":
@@ -406,7 +428,7 @@ def as_stack_list(value):
     str = ""
     for item in items:
         str += f"<span class='gearit' item='{item}'>{item}</span> "
-    if len(str)==0:
+    if len(str) == 0:
         str = " "
     return str
 
@@ -457,18 +479,15 @@ def as_avoidance(value):
     return str
 
 
-
-
 @register.filter(name='render_text')
 def render_text(value):
     result = ""
     if isinstance(value, str):
         v = value.split("§")
         result = "<br/>".join(v)
-    if len(result)==0:
+    if len(result) == 0:
         result = f'-'
     return result
-
 
 
 @register.filter(name='as_bool')
@@ -478,6 +497,7 @@ def as_bool(value):
     else:
         str = "<i class='fa fa-times-circle' style='color:#903030;'></i>"
     return str
+
 
 @register.filter(name='as_okko')
 def as_okko(value):
@@ -491,9 +511,10 @@ def as_okko(value):
 @register.filter(name='as_filter_value')
 def as_filter_value(value):
     result = value
-    if isinstance(value,bool):
+    if isinstance(value, bool):
         result = "true" if value else "false"
     return result
+
 
 @register.filter(name='as_doma')
 def as_doma(value):
@@ -512,10 +533,11 @@ def as_doma(value):
         result = "6 (d20)"
     return result
 
+
 @register.filter(name='as_protection')
 def as_protection(value):
     from django.template.loader import get_template
-    if len(value)>0:
+    if len(value) > 0:
         covers = value.split(" ")
         x = {}
         for cover in covers:
@@ -531,13 +553,14 @@ def as_protection(value):
 def as_money(value):
     import math
     sols = math.floor(value)
-    deniers = math.floor((value - sols)*100)
+    deniers = math.floor((value - sols) * 100)
     s = ""
     if sols > 0:
         s += f"{sols} sols "
     if deniers > 0:
         s += f"{deniers} deniers "
     return s
+
 
 @register.filter(name='as_cover')
 def as_cover(value):
@@ -558,10 +581,11 @@ def as_cover(value):
     image = template.render(x, None)
     return image
 
+
 @register.filter(name='as_text_cover')
 def as_text_cover(value):
     s = []
-    if len(value)>0:
+    if len(value) > 0:
         cs = value.split(" ")
         for c in cs:
             if c == "C":
@@ -578,12 +602,13 @@ def as_text_cover(value):
                 s.append("Jambe")
     return ", ".join(s)
 
+
 @register.filter(name='as_protection_map')
 def as_protection_map(value):
     str = "<li><b>Résumé</b>: "
-    if len(value)>0:
+    if len(value) > 0:
         c = value.split(" ")
-        if len(c)==6:
+        if len(c) == 6:
             str += f"TE={c[0][2]} "
             str += f"TO={c[1][2]} BF={c[2][2]} BR={c[3][2]} "
             str += f"JF={c[4][2]} JA={c[5][2]}"
@@ -591,14 +616,14 @@ def as_protection_map(value):
     return str
 
 
-
 @register.filter(name='as_diff')
 def as_diff(value):
     return f'<div class="diff_{value}">{value}</div>'
 
+
 @register.filter(name='as_difficulty')
 def as_difficulty(value):
-    return f'<div class="diff_{value*5}">{value*5}</div>'
+    return f'<div class="diff_{value * 5}">{value * 5}</div>'
 
 
 @register.filter(name='as_sogni')
@@ -612,32 +637,36 @@ def as_sogni(value):
             result.append(sogno.title)
     return "<br/>".join(result)
 
+
 @register.filter(name='no_blank')
 def no_blank(value):
     result = value
-    if len(result)==0:
+    if len(result) == 0:
         result = "n/a"
     return result
+
 
 @register.filter(name='as_quality')
 def as_quality(value):
     result = value
-    if isinstance(value,int):
+    if isinstance(value, int):
         result = ""
         if value == 0:
             result = "basique"
         else:
-            colors = ["silver","blue","green","purple"]
+            colors = ["silver", "blue", "green", "purple"]
             for _ in range(value):
                 result += f"<i class='fa fa-star' style='color:{colors[value]};'></i>"
     return result
 
+
 @register.filter(name='as_fatigue')
 def as_fatigue(value):
     arr = value.split("__nl__")
-    v = "__nl__".join(filter(None,arr))
-    x = v.replace("__nl__","</span><BR/><span class='checkers'>").replace("o ","T ")
-    return "<span class='checkers'>"+x+"</span>"
+    v = "__nl__".join(filter(None, arr))
+    x = v.replace("__nl__", "</span><BR/><span class='checkers'>").replace("o ", "T ")
+    return "<span class='checkers'>" + x + "</span>"
+
 
 @register.filter(name='as_pdr')
 def as_pdr(value):
@@ -645,45 +674,50 @@ def as_pdr(value):
     for v in range(value):
         str += "T T T <BR/>"
     arr = str.split("<BR/>")
-    str = "<BR/>".join(filter(None,arr))
-    res =  "<span class='checkers'>"+str+"</span>"
+    str = "<BR/>".join(filter(None, arr))
+    res = "<span class='checkers'>" + str + "</span>"
     return res
+
 
 @register.filter(name='as_pdv')
 def as_pdv(value):
     str = ""
     for v in range(value):
         str += "T "
-        if v%5 == 4:
-            str+="<BR/>"
+        if v % 5 == 4:
+            str += "<BR/>"
     arr = str.split("<BR/>")
 
-    str = "<BR/>".join(filter(None,arr))
-    return "<span class='checkers'>"+str+"</span>"
+    str = "<BR/>".join(filter(None, arr))
+    return "<span class='checkers'>" + str + "</span>"
+
 
 @register.filter(name='as_skill_cat')
 def as_skill_cat(value):
-    values =["weapons", "generic", "peculiar", "specialized", "knowledge", "draconic"]
+    values = ["weapons", "generic", "peculiar", "specialized", "knowledge", "draconic"]
     translation = ["Martiale (-1)", "Générales (-1)", "Particulières (-2)", "Spécialisées (-3)", "Connaissances (-4)", "Draconiques (-5)"]
     idx = values.index(value)
     return translation[idx]
+
 
 @register.filter(name='with_list_punctuation')
 def with_list_punctuation(value):
     arr = []
     for y in value:
         arr.append(f"{y['text']} {y['value']}")
-    return ", ".join(arr)+"."
+    return ", ".join(arr) + "."
 
 
 @register.filter(name='as_weapon')
 def as_weapon(value):
     str = f"{value['name']:<.12} = ENG.{value['engagement']:+2} MAN.{value['maneuver']:+2}"
-    if value['plus_dom']>0:
+    if value['plus_dom'] > 0:
         str += f" DOM:{value['plus_dom']:+2}"
-    if value['plus_dom_2m']>0:
+    if value['plus_dom_2m'] > 0:
         str += f" DOM:{value['plus_dom_2m']:+2}"
-    if value["category"]!=18:
+    if value["category"] != 18:
         str += f" RNG:{value['range']}"
     str += f" SCORE:{value['base_score']}"
     return str
+
+

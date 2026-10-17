@@ -215,8 +215,19 @@ def nativi_options():
     zfilters.append(pa)
     from main.models.sogni import Sogno
     for s in Sogno.objects.all():
-        pa = {"param": "sogni", "value": s.acronym, "label": s.title, "rule": "contains"}
+        pa = {"param": "sogni", "value": s.acronym, "label": "Rêve="+s.title, "rule": "contains"}
         zfilters.append(pa)
+    from main.models.sogni import Sogno
+    s = Sogno.current_sogno()
+    if s:
+        sog = s.acronym
+    else:
+        sog = ""
+    places = Nativo.objects.filter(sogni__contains=sog).order_by("place").distinct().values_list("place")
+    for place in places:
+        if len(place[0])>0:
+            pa = {"param": "place", "value": place[0], "label": "Lieu="+place[0]}
+            zfilters.append(pa)
     return zfilters
 
 
@@ -512,29 +523,23 @@ def inc_dec(request):
                 attribute = params[2]
                 change = params[3]
                 item = None
-                if model.lower() == "nativo":
-                    item = Nativo.objects.get(id=id)
-                    cando = True
-                if model.lower() == "creatura":
-                    item = Creatura.objects.get(id=id)
-                    cando = True
-                if model.lower() == "incantessimo":
-                    item = Incantessimo.objects.get(id=id)
-                    cando = True
-                if model.lower() == "viaggiatore":
-                    item = Viaggiatore.objects.get(id=id)
-                    cando = True
-            if cando:
-                print("success!!")
-                change_result = item.applyIncDec(attribute, change)
-                context = {'a': item.export_to_json(), "model": model.title()}
-                template = get_template('main/objects/roster.html')
-                new_roster = template.render(context, request)
-                answer['id'] = item.id
-                answer['rid'] = item.rid
-                answer['change_result'] = change_result
-                answer['new_roster'] = new_roster
-                return JsonResponse(answer)
+
+                # model = request.POST.get('model').title()
+                k = model_to_class(model)
+                if k:
+                    items = k.objects.filter(id=id)
+                    if len(items) == 1:
+                        item = items.first()
+                        print("success!!")
+                        change_result = item.applyIncDec(attribute, change)
+                        context = {'a': item.export_to_json(), "model": model.title()}
+                        template = get_template('main/objects/roster.html')
+                        new_roster = template.render(context, request)
+                        answer['id'] = item.id
+                        answer['rid'] = item.rid
+                        answer['change_result'] = change_result
+                        answer['new_roster'] = new_roster
+                        return JsonResponse(answer)
 
     return HttpResponse(status=204)
 

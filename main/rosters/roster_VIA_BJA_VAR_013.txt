@@ -1,6 +1,8 @@
 Bjärn Vargläs
 Ennemi du Mal Ventriloque, Escorte de la Dona Real
 (Gardien des Rêves)
+Destinée: 1 (0)
+Stress: -1 = 0(U) + -1(R)
 Heure de Naissance: Epées
 Taille/Poids: 186 cm/78 kg
 Totaux Attributs/Compétences: 0 / 6

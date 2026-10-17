@@ -1,4 +1,5 @@
 Grégorien Rémoul
+Chasseur, pêcheur, cueilleur de champignon et éleveur d'abeilles
 Nativo
 Heure de Naissance: Couronne
 Taille/Poids: 10 cm/0 kg
@@ -6,8 +7,8 @@ Totaux Attributs/Compétences: -6 / 7
 
 AGI  4 EMP  4 APP  4 | TIR  4 | VIE  8 | IMP  0 
 CON  4 ODG  4 DEX  4 | MEL  4 | FAT  4 | ENC 8.0 
-FOR  4 OUI  4 INT  4 | LAN  6 | SUS  3 | FAB  4 
-TAI  4 VUE  4 VOL  4 | DER  4 | RES  1 | REV  4 
+FOR  4 OUI  4 INT  4 | LAN  4 | SUS  3 | FAB  4 
+TAI  4 VUE  4 VOL  4 | DER  6 | RES  1 | REV  4 
 
 Martiales (-1): Lutte [6] 5, Fouets [5] 4.
 Générales (-1): Cuisine [5] 4, Saut [5] 4, Course [4] 3, Vigilance [4] 3.

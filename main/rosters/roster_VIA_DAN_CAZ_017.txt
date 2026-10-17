@@ -1,6 +1,8 @@
 Dantelin Cazegute
 Chasseur de Profils pour la galerie d'Embordine
 (Gardien des Rêves)
+Destinée: 2 (0)
+Stress: -1 = 0(U) + -1(R)
 Heure de Naissance: Epées
 Taille/Poids: 170 cm/65 kg
 Totaux Attributs/Compétences: 0 / 8
