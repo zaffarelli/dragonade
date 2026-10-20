@@ -2,7 +2,7 @@ from django.template import RequestContext
 
 from main.models.oggetti import Oggetto
 from main.models.poteri_speciali import PotereSpeciale
-from main.utils.mechanics import is_ajax, zaff_decode
+from main.utils.mechanics import is_ajax, zaff_decode, get_profile, asB2B
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.template.loader import get_template
@@ -11,11 +11,11 @@ from main.models.nativi import Nativo
 from main.models.artefatti import Artefatto
 from main.models.creature import Creatura
 from main.models.viaggiatori import Viaggiatore
-from main.models.incantessimi import Incantessimo, IncantessimoCategory
+from main.models.incantessimi import Incantessimo
+from main.models.sogni import Sogno
 from main.models.oggetti import Oggetto
 from main.models.sogni import Sogno
-
-# ITEMS_PER_LIST = 15
+from main.views.generic import prepare_context
 
 
 def model_to_class(cls_str):
@@ -108,8 +108,9 @@ def value_push(request):
                 return JsonResponse(answer)
     return HttpResponse(status=204)
 
+
 def initialize_options():
-    options = {"sogno_filter":False}
+    options = {"sogno_filter": False}
     return options
 
 
@@ -135,22 +136,23 @@ def svg_to_pdf(request, slug):
         response['status'] = 'ok'
     return JsonResponse(response)
 
+
 # Incantessimi
 def incantessimi_options():
     zfilters = []
     from main.models.incantessimi import IncantessimoPath
     for k, p in enumerate(IncantessimoPath.values):
         if p > 0:
-            pa = {"param": "path", "value": p, "label": IncantessimoPath.labels[k]}
+            pa = {"param": "path", "value": p, "label": IncantessimoPath.labels[k], "on": False}
             zfilters.append(pa)
     from main.models.incantessimi import IncantessimoCategory
     for k, p in enumerate(IncantessimoCategory.values):
         if p > 0:
-            pa = {"param": "category", "value": p, "label": IncantessimoCategory.labels[k]}
+            pa = {"param": "category", "value": p, "label": IncantessimoCategory.labels[k], "on": False}
             zfilters.append(pa)
     for incantessimo in Incantessimo.objects.filter(category=IncantessimoCategory.PENTACLE):
         if incantessimo.pentacle_code != "":
-            zfilters.append({"param": "pentacle_code", "value": incantessimo.pentacle_code, "label": incantessimo.name, "icon": "fa-star"})
+            zfilters.append({"param": "pentacle_code", "value": incantessimo.pentacle_code, "label": incantessimo.name, "icon": "fa-star", "on": False})
 
     return zfilters
 
@@ -169,23 +171,52 @@ def incantessimi_filters(request):
     return items_filters(request, options)
 
 
-# Viaggiatori
+# OPTIONS
 def viaggiatori_options():
     zfilters = []
     filters = [
-        {"param": "is_storyteller", "value": True, "label": "Gardien des Rêves"},
-        {"param": "is_storyteller", "value": False, "label": "Joueurs"},
+        {"param": "is_storyteller", "value": True, "label": "Gardien des Rêves", "rule":"","on": False},
+        {"param": "is_storyteller", "value": False, "label": "Joueurs", "rule":"", "on": False},
+        {"param": "is_female", "value": True, "label": "Femmes", "rule": "", "on": False},
+        {"param": "is_female", "value": False, "label": "Hommes", "rule": "", "on": False},
     ]
+    pa = {"param": "is_new", "value": True, "label": "Nouveau", "rule":"", "on": False}
+
+    for s in Sogno.objects.all():
+        pa = {"param": "sogni", "value": s.acronym, "label": s.title, "rule": "contains", "on": False}
+        filters.append(pa)
+    for filter in filters:
+        code = asB2B(f'{filter["param"]}*{filter["value"]}')
+        filter["code"] = code.decode("utf-8")
+        zfilters.append(filter)
+    return zfilters
+
+# Nativi
+def nativi_options():
+    zfilters = []
+    filters = []
     pa = {"param": "is_new", "value": True, "label": "Nouveau"}
-    zfilters.append(pa)
+    filters.append(pa)
     from main.models.sogni import Sogno
     for s in Sogno.objects.all():
-        pa = {"param": "sogni", "value": s.acronym, "label": s.title, "rule": "contains"}
-        zfilters.append(pa)
+        pa = {"param": "sogni", "value": s.acronym, "label": "Rêve=" + s.title, "rule": "contains", "on": False}
+        filters.append(pa)
+    s = Sogno.current_sogno()
+    if s:
+        sog = s.acronym
+    else:
+        sog = ""
+    places = Nativo.objects.filter(sogni__contains=sog).order_by("place").distinct().values_list("place")
+    for place in places:
+        if len(place[0]) > 0:
+            pa = {"param": "place", "value": place[0], "label": "Lieu=" + place[0], "rule":"", "on": False}
+            filters.append(pa)
     for filter in filters:
+        code = asB2B(f'{filter["param"]}*{filter["value"]}')
+        filter["code"] = code.decode("utf-8")
         zfilters.append(filter)
-
     return zfilters
+
 
 
 def viaggiatori_list(request):
@@ -204,31 +235,6 @@ def viaggiatori_filters(request):
     return items_filters(request, options)
 
 
-# Nativi
-def nativi_options():
-    zfilters = []
-    # pa = {"param": "dream", "value": "RDC", "label": "Royaume du Coint"}
-    # zfilters.append(pa)
-    # pa = {"param": "dream", "value": "RHS", "label": "Royaume de Haute-Styrie"}
-    # zfilters.append(pa)
-    pa = {"param": "is_new", "value": True, "label": "Nouveau"}
-    zfilters.append(pa)
-    from main.models.sogni import Sogno
-    for s in Sogno.objects.all():
-        pa = {"param": "sogni", "value": s.acronym, "label": "Rêve="+s.title, "rule": "contains"}
-        zfilters.append(pa)
-    from main.models.sogni import Sogno
-    s = Sogno.current_sogno()
-    if s:
-        sog = s.acronym
-    else:
-        sog = ""
-    places = Nativo.objects.filter(sogni__contains=sog).order_by("place").distinct().values_list("place")
-    for place in places:
-        if len(place[0])>0:
-            pa = {"param": "place", "value": place[0], "label": "Lieu="+place[0]}
-            zfilters.append(pa)
-    return zfilters
 
 
 def nativi_list(request):
@@ -253,7 +259,7 @@ def creature_options():
     from main.models.creature import DragonadeCreatureType
     for k, p in enumerate(DragonadeCreatureType.values):
         if p > 0:
-            pa = {"param": "creature_type", "value": p, "label": DragonadeCreatureType.labels[k]}
+            pa = {"param": "creature_type", "value": p, "label": DragonadeCreatureType.labels[k], "on": False}
             zfilters.append(pa)
     return zfilters
 
@@ -278,7 +284,7 @@ def artefatti_options():
     zfilters = []
     from main.models.artefatti import ArtefattoCategory
     for k, p in enumerate(ArtefattoCategory.values):
-        pa = {"param": "category", "value": p, "label": ArtefattoCategory.labels[k]}
+        pa = {"param": "category", "value": p, "label": ArtefattoCategory.labels[k], "on": False}
         zfilters.append(pa)
     return zfilters
 
@@ -306,7 +312,7 @@ def oggetti_options():
         if p > 0:
             pa = {"param": "category", "value": p, "label": OggettoCategory.labels[k]}
             zfilters.append(pa)
-    pa = {"param": "is_basic", "value": True, "label": "Basique"}
+    pa = {"param": "is_basic", "value": True, "label": "Basique", "on": False}
     zfilters.append(pa)
     return zfilters
 
@@ -324,6 +330,7 @@ def oggetti_filters(request):
     options['model'] = "Oggetto"
     options["zfilters"] = oggetti_options()
     return items_filters(request, options)
+
 
 # Poteri Speciali
 def poterispeciali_options():
@@ -353,12 +360,8 @@ def poterispeciali_filters(request):
     return items_filters(request, options)
 
 
-
 # Generics
 def items_list(request, options={}):
-    """ Landing page for spells listing
-    """
-    from main.views.generic import prepare_context
     context = prepare_context(request)
     k = model_to_class(options["model"])
     if k:
@@ -370,10 +373,13 @@ def items_list(request, options={}):
             context['config']['modules'].append('taccuino')
         items = []
         sa, st = get_sogno()
-        filters = {
-        }
-        if options["model"] in ['Viaggiatore', 'Nativo']:
-            filters[f"sogni__contains"] = sa
+        user = get_profile(request)
+        if user:
+            print(user)
+            fs =  options["zfilters"]
+            options["zfilters"] = user.check_filters(options["model"],fs)
+        context["zfilters"] = options["zfilters"]
+        filters = adjust_filters(options)
         for i in k.objects.filter(**filters).order_by("name"):
             datum = i.export_to_json()
             items.append(datum)
@@ -388,46 +394,80 @@ def items_list(request, options={}):
         refs['equipment'] = equipment
         context["references"] = refs
 
-        context["zfilters"] = options["zfilters"]
         return render(request, 'main/chiaroscuro/items_list.html', context)
     return HttpResponse(status=204)
 
+def adjust_filters(options):
+    more = ""
+    filters = {}
+    for f in options["zfilters"]:
+        print(f)
+        if f["on"]:
+            if len(f["rule"]) > 0:
+                more = f"__{f['rule']}"
+            if ["value"] == "false":
+                v = False
+            elif ["value"] == "true":
+                v = True
+            else:
+                v = f"{f['value']}"
+            filters[f"{f['param']}{more}"] = v
+    print(f"current filters: {filters}")
+    return filters
 
 def items_filters(request, options={}):
     """ Spells listing update
     """
+    context = {}
     answer = {}
     if is_ajax(request):
-        context = {}
+        model = request.POST.get('model')
+        code = request.POST.get('code')
+        options["model"] = model
+        print("Filter clicked:"+code)
         sa, st = get_sogno()
-        param = request.POST.get('param')
-        value = request.POST.get('value')
-        rule = request.POST.get('rule')
-        if value.lower() in ["true", "false"]:
-            v = value == "true"
-        else:
-            v = value
-        more = ""
-        if rule:
-            more = f"__{rule}"
-        filters = {
-            f"{param}{more}": v
-        }
-        # if options["model"] in ['Viaggiatore', 'Nativo']:
-        #     filters[f"sogni__contains"] = sa
-        items = []
+        user = get_profile(request)
+        context = prepare_context(request)
         k = model_to_class(options["model"])
         if k:
+            if model.lower() == "viaggiatore":
+                options["zfilters"] = viaggiatori_options()
+            elif model.lower() == "nativo":
+                options["zfilters"] = nativi_options()
+            elif model.lower() == "creatura":
+                options["zfilters"] = creature_options()
+            elif model.lower() == "incantessimo":
+                options["zfilters"] = incantessimi_options()
+            elif model.lower() == "oggetto":
+                options["zfilters"] = oggetti_options()
+            elif model.lower() == "artefatto":
+                options["zfilters"] = artefatti_options()
+            elif model.lower() == "poterespeciale":
+                options["zfilters"] = poterispeciali_options()
+            if user:
+                print(user)
+                user.toggle_filter(options["model"], code)
+                options["zfilters"] = user.check_filters(options["model"], options["zfilters"])
+            filters = adjust_filters(options)
+            print(filters)
+            items = []
             for i in k.objects.filter(**filters).order_by("name"):
                 datum = i.export_to_json()
                 items.append(datum)
-            context["model"] = k.__name__
+            context["title"] = k.__name__
             context["sogno"] = st
+            context["model"] = options['model']
             context["items"] = items
-            context["zfilters"] = options["zfilters"]
+            spells_j = Incantessimo.references()
+            refs = {}
+            refs['incantessimi'] = spells_j
+            equipment = Oggetto.references()
+            refs['equipment'] = equipment
+            context["references"] = refs
             template = get_template("main/chiaroscuro/items_payload.html")
             answer['data'] = template.render(context)
             return JsonResponse(answer)
+
     return HttpResponse(status=204)
 
 

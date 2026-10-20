@@ -2,24 +2,6 @@ from django import template
 
 register = template.Library()
 
-@register.filter(name='to_plural')
-def to_plural(value):
-    return value
-    # plurals = {
-    #     "viaggiatore": "Viaggiatori",
-    #     "nativo": "Nativi",
-    #     "creatura": "Creature",
-    #     "incantessimo": "Incantessimi",
-    #     "oggetto": "Oggetti",
-    #     "poterespeciale": "PoteriSpeciali",
-    #     "artefatto": "Artefatti",
-    # }
-    # if value.lower() in plurals:
-    #     str = plurals[value.lower()]
-    # else:
-    #     str = value
-    # return str
-
 
 @register.filter(name='colorize_val')
 def colorize_val(value):
@@ -721,3 +703,20 @@ def as_weapon(value):
     return str
 
 
+@register.filter(name='pluralizer')
+def pluralizer(value):
+    p = value
+    if isinstance(value, str):
+        PLURALS = {
+            "viaggiatore": "Viaggiatori",
+            "nativo": "Nativi",
+            "creatura": "Creature",
+            "incantessimo": "Incantessimi",
+            "oggetto": "Oggetti",
+            "poterespeciale": "PoteriSpeciali",
+            "artefatto": "Artefatti",
+        }
+        v = value.lower()
+        if v in PLURALS:
+            p = PLURALS[v]
+    return p

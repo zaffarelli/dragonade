@@ -211,8 +211,17 @@ $mega_font_size: 16pt;
         border-radius:5pt;
         display:inline-block;
         font-weight:normal;
-//         background:#3030307f;
-
+         background:#2020207f;
+        & .zlist_item{
+            &.on{
+                background:#3010307f;
+                color:$hlco;
+                &:hover{
+                    background:#5010507f;
+                    color:$hlco;
+                }
+            }
+        }
     }
 }
 

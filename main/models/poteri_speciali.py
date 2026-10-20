@@ -1,5 +1,6 @@
-from django.db import models
 from django.contrib import admin
+from django.db import models
+
 from main.mixins.chiaroscuro_mixin import ChiaroscuroMixin
 from main.utils.mechanics import as_rid, roll
 
@@ -47,8 +48,8 @@ class PotereSpeciale(models.Model, ChiaroscuroMixin):
     def fix(self):
         self.chiaroscuro()
         self.rid = as_rid(f"{self.name}")
-        self.name = self.name.replace("  ", " ")
-        self.name = self.name.strip()
+        # self.name = self.name.replace("  ", " ")
+        # self.name = self.name.strip()
 
     def __str__(self):
         return f"{self.name}"
@@ -61,6 +62,11 @@ class PotereSpeciale(models.Model, ChiaroscuroMixin):
         self._data['power_type_str'] = self.get_power_type_display()
         self._data['usage_limit_str'] = self.get_usage_limit_display()
         self._data['roll'] = self.get_roll_display()
+
+    def applyValuePush(self, att, val):
+        setattr(self,att, val)
+        self.save()
+        return True
 
     @classmethod
     def extract_from_list(cls, str):

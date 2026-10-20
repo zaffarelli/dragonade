@@ -125,7 +125,7 @@
 {% endif %}
 
 {% if i.type == "poterespeciale" %}
-    {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Nom" val=i.name %}
+    {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Nom" prop="name" val=i.name %}
     {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with prop="pdr_cost" txt="Points de Rêve" val=i.pdr_cost %}
     {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="roll" txt="Jet" val=i.roll_str %}
     {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="usage_limit" txt="Limite d'Utilisation" val=i.usage_limit_str %}

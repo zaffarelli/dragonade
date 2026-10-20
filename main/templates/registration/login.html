@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block userzone %}
+<div id="user_wrapper">
+    <div id="user_panel">
+        {% if form.errors %}
+        <p>Erreur utilisateur et mot de passe ne correspondent pas.</p>
+        {%else%}
+        <p></p>
+        {% endif %}
+
+        {% if next %}
+        {% if user.is_authenticated %}
+        <p>Your account doesn't have access to this page. To proceed,
+            please login with an account that has access.</p>
+        {% else %}
+        <img src="/static/main/svg/2026/dragonade.svg" width="300pt"></img>
+        {% endif %}
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td>Utilisateur</td>
+                    <td>{{ form.username }}</td>
+                </tr>
+                <tr>
+                    <td>Mot de Passe</td>
+                    <td>{{ form.password }}</td>
+                </tr>
+            </table>
+            <p></p>
+            <input type="submit" value="login"/>
+            <input type="hidden" name="next" value="{{ next }}"/>
+
+        </form>
+
+
+
+    </div>
+</div>
+{% endblock userzone %}

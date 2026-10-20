@@ -61,6 +61,12 @@ DRAGONADE_CHARACTER_STATISTICS = {
              },
             {"NAME": "SON", "TEXT": "Songe", "RATIONALE": "-"},
             {"NAME": "REV", "TEXT": "Rêve", "RATIONALE": "(SON + FAB)", "PARAMS": "SON FAB", "FORMULA": lambda p: p[0] + p[1]},
+            {"NAME": "COM", "TEXT": "Commotion", "RATIONALE": "(VOL + CON)", "PARAMS": "VOL CON", "FORMULA": lambda p: p[0] - p[1]},
+            {"NAME": "EFF", "TEXT": "Effroi", "RATIONALE": "(VOL + 12 - EMP)", "PARAMS": "VOL EMP", "FORMULA": lambda p: p[0] + 12 - p[1]},
+            {"NAME": "COM", "TEXT": "Commotion", "RATIONALE": "(VOL + CON)", "PARAMS": "VOL CON", "FORMULA": lambda p: p[0] + p[1]},
+            {"NAME": "PAS", "TEXT": "Passion", "RATIONALE": "(VOL + EMP)", "PARAMS": "VOL EMP", "FORMULA": lambda p: p[0] + p[1]},
+            {"NAME": "RAI", "TEXT": "Raison", "RATIONALE": "(INT + VOL)", "PARAMS": "INT VOL", "FORMULA": lambda p: p[0] + p[1]},
+
         ]
     },
     "FEATURES": {

@@ -1,6 +1,8 @@
 Elioth Sarenine
 Prud'homme
 (Léo [@leo.4424])
+Destinée: 1 (0)
+Stress: 0 = 0(U) + 0(R)
 Heure de Naissance: Epées
 Taille/Poids: 10 cm/0 kg
 Totaux Attributs/Compétences: 0 / 16

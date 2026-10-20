@@ -207,6 +207,7 @@ class Chiaroscuro {
         let me = this
         $('.list_action').off().on('click', function (e) {
             let xxx = $(this).attr('id')
+            let tag = $(this).attr('code')
             let words = xxx.split('__')
             let model = words[0]
             let id = words[1]
@@ -290,13 +291,15 @@ class Chiaroscuro {
                         },
                         data: {
                             model: model,
-                            param: param,
-                            value: value,
+                            code: tag,
                         },
                         dataType: 'json',
                         success: function (answer) {
                             $(".zlist_container").html(answer.data)
+                            console.log(xxx)
+                            $("#"+xxx).toggleClass("on")
                             me.registerActions()
+
                         },
                         error: function (answer) {
                             console.error('Error... ' + answer);

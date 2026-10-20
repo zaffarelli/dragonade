@@ -100,7 +100,7 @@ MENU_ENTRIES = [
 ]
 
 MAIN_MENU = [
-    {"NAME": "DRAGONADE", "ICON": "fa-bars", "SUB": [
+    {"NAME": "MENU", "ICON": "fa-bars", "SUB": [
         {"NAME": "Parallaxe", "SUB": [
             {"NAME": "Gardien", "LINK": "gardiendesreves"},
             {"NAME": "Voyageurs", "LINK": "risorse"},
@@ -134,7 +134,7 @@ MAIN_MENU = [
             {"NAME": "Simulateurs", "SUB": [
                 {"NAME": "Mêlée", "LINK": "combattimento"},
             ]},
-        ]}
+        ]},
     ]}
 ]
 
@@ -209,6 +209,14 @@ def asShortB2B(str):
     h.update(bytes(str.encode('utf-8')))
     res = h.hexdigest().encode('utf-8')
     return res
+
+def get_profile(request):
+    """
+        Get Request user's profile
+    """
+    from main.models.profiles import Profile
+    p = Profile.objects.get(user=request.user)
+    return p
 
 
 def roll(explodes=True, faces=12, whole_details=False):
@@ -396,3 +404,4 @@ class Colorizer:
         blue = int.from_bytes(os.urandom(1))
         c = f'#{red:02x}{green:02x}{blue:02x}'
         return c
+

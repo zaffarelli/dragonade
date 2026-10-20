@@ -43,6 +43,12 @@ class Character(models.Model, ChiaroscuroMixin):
     RES = models.IntegerField(default=0, blank=True)
     FAT = models.IntegerField(default=0, blank=True)
     VIE = models.IntegerField(default=0, blank=True)
+
+    COM = models.IntegerField(default=0, blank=True)
+    EFF = models.IntegerField(default=0, blank=True)
+    PAS = models.IntegerField(default=0, blank=True)
+    RAI = models.IntegerField(default=0, blank=True)
+
     prot = models.IntegerField(default=0, blank=True)
     color = models.CharField(max_length=9, default="#808080", blank=True)
     team_color = models.CharField(max_length=10, default="", blank=True)

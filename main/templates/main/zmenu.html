@@ -29,10 +29,15 @@
                 <li>{% include "main/objects/zmenu_entry.html" with entry=d2 %}</li>
                 {% endif %}
             {% endfor %}
+            {% if d1.NAME == "MENU" %}
+                <li><span class="label" action="profile"><i class="fas fa-user"></i>&nbsp;Paramètres</span></li>
+                <li><span class="label"><form action="{% url 'logout' %}" method="POST">{% csrf_token %}<button type="submit" >Déconnecter {{request.user}}</button></form></span></li>
+            {% endif %}
         </ul>
     </li>
     {% else %}
     <li>{% include "main/objects/zmenu_entry.html" with entry=d1 %}</li>
     {%endif%}
     {% endfor %}
+
 </ul>
