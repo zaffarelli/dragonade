@@ -1,7 +1,7 @@
 {% load static %}
 {% load dragonade_filters %}
 
-
+<hr/>
 <h5>{{c.name}}</h5>
 {% if c.is_storyteller %}
 {% else %}
@@ -11,6 +11,7 @@
 {% if c.aka %}
 <p>Appelé aussi... <em>{{c.aka}}</em></p>
 {%endif%}
+<h6>Attributs</h6>
 <table>
     <tr>
         <th>AGI</th>
@@ -50,14 +51,46 @@
         <td>{{c.seco.DER}}</td>
     </tr>
 </table>
-
+<h6>Dérivées</h6>
+<table>
+    <tr>
+        <th>SUS</th>
+        <td>{{c.SUS}}</td>
+        <th>IMP</th>
+        <td>{{c.IMP|signed}}</td>
+        <th>ENC</th>
+        <td>{{c.ENC}}</td>
+        <th>RES</th>
+        <td>{{c.RES}}</td>
+    </tr>
+    <tr>
+        <th>REV</th>
+        <td>{{c.REV}}</td>
+        <th>SON</th>
+        <td>{{c.SON}}</td>
+        <th>FAB</th>
+        <td>{{c.FAB}}</td>
+        <th></th>
+        <td></td>
+    </tr>
+    <tr>
+        <th>FAT</th>
+        <td>{{c.FAT}}</td>
+        <th>VIE</th>
+        <td>{{c.VIE}}</td>
+        <th></th>
+        <td></td>
+        <th></th>
+        <td></td>
+    </tr>
+</table>
+<h6>Doublets</h6>
 <table>
     <tr>
         <th>EFF</th>
         <td>{{c.EFF}}</td>
         <th>COM</th>
         <td>{{c.COM}}</td>
-    </tr><tr>
         <th>PAS</th>
         <td>{{c.PAS}}</td>
         <th>RAI</th>
@@ -117,7 +150,7 @@
 
 
 
-<hr/>
+
 
 
 

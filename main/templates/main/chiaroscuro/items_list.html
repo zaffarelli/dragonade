@@ -23,7 +23,8 @@
     <div class="zlist_entry" id="{{model|lower}}__actions">
         <div id="{{model|lower}}____new" class="zlist_item filter list_action" title="Add item"><i class="fa fa-plus"></i> {{model}}</div>
         <div id="{{model|lower}}____to_pdf" class="zlist_item filter list_action" title="Extract items to PDF"><i class="fa fa-arrow-down"></i> Extract {{model|pluralizer}}</div>
-        <div class="zlist_item info list_action">ctrl+alt+o<br/>pour cacher les options</div>
+        <div class="zlist_item info list_action">ctrl+alt+o<br/>pour montrer/cacher les options</div>
+        <div class="zlist_item info list_action" id="table_count"></div>
         {% include "main/chiaroscuro/zlist_item_buffer.html" %}
     </div>
 </div>

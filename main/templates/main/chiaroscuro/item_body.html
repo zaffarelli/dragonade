@@ -30,6 +30,7 @@
     {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="elemental_charge" val=i.elemental_charge|as_elemental_charge|safe %}
 {% endif %}
 {% if i.type == "nativo" %}
+    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with txt="Selectionné" prop="is_selected" val=i.is_selected|as_okko|safe %}
     {% include "main/chiaroscuro/zlist_item_button.html" with txt="Editer" val="edit" icon="fa fa-cog" %}
     {% if i.is_new %}
         {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with txt="Nouveau" prop="is_new" val=i.is_new|as_okko|safe %}
@@ -48,6 +49,7 @@
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Total Compétences" val=i.total_skills|signed %}
 {% endif %}
 {% if i.type == "viaggiatore" %}
+    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with txt="Selectionné" prop="is_selected" val=i.is_selected|as_okko|safe %}
     {% include "main/chiaroscuro/zlist_item_button.html" with txt="Editer" val="edit" icon="fa fa-cog" %}
     {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Titre" prop="title" val=i.title %}
     {% if i.is_new %}
@@ -75,6 +77,7 @@
 {% endif %}
 
 {% if i.type == "creatura" %}
+    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with txt="Selectionné" prop="is_selected" val=i.is_selected|as_okko|safe %}
     {% include "main/chiaroscuro/zlist_item_button.html" with txt="Editer" val="edit" icon="fa fa-cog" %}
     {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Nom" val=i.name %}
     {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="creature_type" txt="Type" val=i.creature_type_str %}
@@ -86,9 +89,13 @@
 
 {% if i.type == "artefatto" %}
     {% include "main/chiaroscuro/zlist_item_button.html" with txt="Voir" val="view" icon="fa fa-eye" %}
-    {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Nom" val=i.name %}
+    {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Nom" prop="name" val=i.name %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with prop="power" txt="Puissance" val=i.power %}
-    {% include "main/chiaroscuro/zlist_item_editable_value.html" with txt="Catégorie" val=i.category_str %}
+    {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Rêve" prop="sogni" val=i.sogni|as_sogni|safe %}
+    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with txt="Catégorie" prop="category" val=i.category_str %}
+    {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Maîtrise" prop="mastery" val=i.mastery %}
+    {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Point de Rêve" prop="pdr" val=i.pdr %}
+    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with txt="Période" prop="period" val=i.period_str %}
     {%for s in i.all_scales %}
         {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with txt=s|as_unique_scale_str|safe val=s|as_unique_scale|safe %}
     {%endfor%}
@@ -126,6 +133,7 @@
 
 {% if i.type == "poterespeciale" %}
     {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Nom" prop="name" val=i.name %}
+    {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with prop="level" txt="Niveau" val=i.level %}
     {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with prop="pdr_cost" txt="Points de Rêve" val=i.pdr_cost %}
     {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="roll" txt="Jet" val=i.roll_str %}
     {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="usage_limit" txt="Limite d'Utilisation" val=i.usage_limit_str %}

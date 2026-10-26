@@ -99,10 +99,10 @@ class Oggetto(models.Model, ChiaroscuroMixin):
             self.price = 0
             self.enc = 0
         if self.category in [OggettoCategory.MEL, OggettoCategory.TIR, OggettoCategory.LAN]:
-            from main.utils.ref_dragonade import CHARACTER_STATISTICS
+            from main.utils.ref_dragonade import DRAGONADE_CHARACTER_STATISTICS
             self.skill_match = ""
             # print("SEARCH", self.name.upper())
-            for skill in CHARACTER_STATISTICS['SKILLS']['WEAPONS']['LIST']:
+            for skill in DRAGONADE_CHARACTER_STATISTICS['SKILLS']['WEAPONS']['LIST']:
                 # print(f'  Test: [{skill["TEXT"].upper()}]')
                 if skill["TEXT"].upper().strip() == self.name.upper().strip():
                     self.related_skill = skill["NAME"]
@@ -114,7 +114,7 @@ class Oggetto(models.Model, ChiaroscuroMixin):
                 skill_match = []
                 related_skills = self.related_skill.upper().split(" ")
                 for related_skill in related_skills:
-                    for skill in CHARACTER_STATISTICS['SKILLS']['WEAPONS']['LIST']:
+                    for skill in DRAGONADE_CHARACTER_STATISTICS['SKILLS']['WEAPONS']['LIST']:
                         if skill["NAME"].upper() == related_skill:
                             skill_match.append(skill["TEXT"])
                             break

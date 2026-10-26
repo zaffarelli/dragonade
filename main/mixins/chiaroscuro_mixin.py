@@ -51,4 +51,6 @@ class ChiaroscuroMixin:
             dataset = [False,True]
         elif param == "nameless":
             dataset = [False,True]
+        elif param == "is_selected":
+            dataset = [False,True]
         return dataset

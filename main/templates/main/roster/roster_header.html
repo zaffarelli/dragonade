@@ -4,7 +4,8 @@
 <div class="top" id="sh__{{a.id}}">
     <div class="row">
         <div class="whole name">
-            {{a.name}}
+            {{a.name}} {% if a.aka %}aka <i>{{a.aka}}</i>{% endif %}
+
             <span class="closer" id="{{a.id}}__switch" style="float:right;"><i class="fa fa-times"></i></span>
         </div>
         <div class="whole name">

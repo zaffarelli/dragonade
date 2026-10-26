@@ -1,10 +1,10 @@
 Vidard de Tyr
 (Gardien des Rêves)
 Destinée: 5 (3)
-Stress: -1 = 219(U) + -220(R)
+Stress: -1 = 232(U) + -233(R)
 Heure de Naissance: Poisson-Acrobate
 Taille/Poids: 175 cm/66 kg
-Totaux Attributs/Compétences: 8 / 39
+Totaux Attributs/Compétences: 8 / 41
 
 AGI  5 EMP  7 APP  7 | TIR  7 | VIE 14 | IMP  1 
 CON  7 ODG  6 DEX  7 | MEL  5 | FAT  8 | ENC 12.0 
@@ -16,7 +16,7 @@ Générales (-1): Discrétion [7] 6, Concentration [6] 5, Pièges [6] 5, Vigilan
 Particulières (-2): Commerce [6] 4, Equitation [6] 4, Survie en Forêt [6] 4, Couture [4] 2, Jeu de Mains [4] 2, Maçonnerie [4] 2, Survie en Cité [4] 2, Survie dans le Désert [3] 1, Survie en Montagnes [3] 1.
 Spécialisées (-3): Médecine [10] 7, Natation [7] 4, Jonglerie [6] 3, Navigation [6] 3, Orfèvrerie [6] 3, Métallurgie [5] 2, Acrobatie [3] 0.
 Connaissances (-4): Astrologie [9] 5, Légendes [9] 5, Architecture [8] 4, Stratégie [5] 1.
-Draconiques (-5): Destructif [11] 6, Dynamique [6] 1, Génératif [5] 0, Contemplatif [2] -3, Statique [2] -3.
+Draconiques (-5): Destructif [11] 6, Génératif [7] 2, Dynamique [6] 1, Contemplatif [2] -3, Statique [2] -3.
 
 Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
 Dague                   1+1      -   0   2   0   2   0 MEL+-1+Man=4       6

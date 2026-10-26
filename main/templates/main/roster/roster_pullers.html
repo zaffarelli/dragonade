@@ -16,5 +16,12 @@
                 {{a.spells|as_stack_list|safe}}
             </div>
         </fieldset>
+
+        <fieldset class="block_third raw">
+            <legend>Pouvoir Spéciaux</legend>
+            <div class="block_third  stackbox poteri stackpull" action="{{model|lower}}__{{a.id}}__poteri_speciali__bulk" param="{{a.poteri_speciali}}">
+                {{a.poterispeciali|as_stack_list|safe}}
+            </div>
+        </fieldset>
     </div>
 </div>

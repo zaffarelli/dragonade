@@ -3,22 +3,22 @@ Stilgar
 Le Redoutable
 (Gardien des Rêves)
 Destinée: 2 (0)
-Stress: -1 = 12(U) + -13(R)
+Stress: -1 = 138(U) + -139(R)
 Heure de Naissance: Serpent
-Taille/Poids: 195 cm/101 kg
-Totaux Attributs/Compétences: 0 / 6
+Taille/Poids: 190 cm/99 kg
+Totaux Attributs/Compétences: 2 / 34
 
-AGI  6 EMP  4 APP  4 | TIR  5 | VIE 15 | IMP  1 
-CON  7 ODG  5 DEX  5 | MEL  7 | FAT  7 | ENC 15.0 
-FOR  7 OUI  4 INT  5 | LAN  6 | SUS  3 | FAB  6 
-TAI  8 VUE  5 VOL  6 | DER  5 | RES  3 | REV  7 
+AGI  6 EMP  4 APP  4 | TIR  5 | VIE 16 | IMP  2 
+CON  7 ODG  5 DEX  5 | MEL  7 | FAT  7 | ENC 17.0 
+FOR  8 OUI  4 INT  5 | LAN  7 | SUS  3 | FAB  6 
+TAI  9 VUE  5 VOL  6 | DER  5 | RES  3 | REV  9 
 
-Martiales (-1): Armes d'Hast [7] 6, Javelots [7] 6, Armes à deux mains [6] 5.
-Générales (-1): Course [6] 5, Escalade [6] 5, Séduction [5] 4, Concentration [4] 3, Discrétion [4] 3, Pièges [3] 2, Sculpture [3] 2, Tactique [1] 0, Vigilance [1] 0.
-Particulières (-2): Survie dans les Marais [6] 4, Musique [4] 2, Survie en Montagnes [4] 2, Charpenterie [3] 1, Comédie [3] 1, Commerce [3] 1, Déguisement [3] 1, Jeu de Mains [3] 1.
+Martiales (-1): Lames Longues [10] 9, Boucliers [7] 6, Esquive [6] 5.
+Générales (-1): Course [6] 5, Escalade [6] 5, Tactique [6] 5, Concentration [4] 3, Discrétion [4] 3, Séduction [4] 3, Pièges [3] 2, Sculpture [3] 2, Vigilance [3] 2.
+Particulières (-2): Survie dans les Marais [6] 4, Musique [4] 2, Survie en Montagnes [4] 2, Charpenterie [3] 1, Comédie [3] 1, Commerce [3] 1, Déguisement [3] 1, Equitation [3] 1, Jeu de Mains [3] 1.
 Spécialisées (-3): Natation [10] 7, Acrobatie [7] 4, Jeu [6] 3, Médecine [6] 3, Métallurgie [5] 2, Navigation [5] 2.
-Connaissances (-4): Mathématiques [8] 4, Chirurgie [5] 1, Légendes [5] 1, Stratégie [4] 0.
-Draconiques (-5): Génératif [8] 3.
+Connaissances (-4): Mathématiques [8] 4, Animaux [5] 1, Chirurgie [5] 1, Légendes [5] 1, Stratégie [5] 1.
+Draconiques (-5): Génératif [9] 4, Destructif [5] 0, Contemplatif [2] -3, Statique [2] -3.
 
 Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
 
@@ -30,11 +30,11 @@ Chausses de Cuir Epais               -2   0   0   0   3 L M
 Cumuls Malus                         -2  -3   0  -1
 Protection: H-3-X C-4-X A-4-X B-4-X L-3-X M-3-X
 
-PdV (15)      PdF (7)             PdR (7)             
-¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤ ¤ ¤ ¤ ¤       
-¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤       
-¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤       
-              ¤ ¤ ¤ ¤                                 
+PdV (16)      PdF (7)             PdR (9)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤ ¤         ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤   
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤   
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤   
+¤             ¤ ¤ ¤ ¤                                 
               ¤ ¤ ¤ ¤                                 
               ¤ ¤ ¤                                   
               ¤ ¤ ¤                                   

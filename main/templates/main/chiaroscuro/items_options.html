@@ -26,4 +26,13 @@
         </div>
         {% endfor %}
     </fieldset>
+    <fieldset class="middleblock option_block">
+        <legend>Références: Pouvoir Spéciaux</legend>
+        {% for ps in references.poterispeciali %}
+        <div class="ref_entry poterispeciali stackpush" param="{{ps.rid}}">
+            <div class="name">{{ps.name}}</div>
+            <div class="rid">{{ps.rid}}</div>
+        </div>
+        {% endfor %}
+    </fieldset>
 </div>

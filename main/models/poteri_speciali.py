@@ -41,6 +41,7 @@ class PotereSpeciale(models.Model, ChiaroscuroMixin):
     power = models.PositiveIntegerField(default=0, blank=True)
     usage_limit = models.IntegerField(default=UsageLimit.NONE, choices=UsageLimit.choices, blank=True)
     power_type = models.IntegerField(default=PowerType.NAT, choices=PowerType.choices, blank=True)
+    level = models.IntegerField(default=0, blank=True)
     roll = models.IntegerField(default=Roll.NONE, choices=Roll.choices, blank=True)
     rationale = models.TextField(default="", max_length=1024, blank=True)
     description = models.TextField(default="", max_length=2048, blank=True)
@@ -50,6 +51,20 @@ class PotereSpeciale(models.Model, ChiaroscuroMixin):
         self.rid = as_rid(f"{self.name}")
         # self.name = self.name.replace("  ", " ")
         # self.name = self.name.strip()
+
+    def value_shift(self,param,back):
+        current_value = getattr(self, param)
+        if param == "power_type":
+            dataset = PowerType.values
+        else:
+            print(f"Unknown param {param} for {self.type}")
+        next_value_index = 0
+        for k, v in enumerate(dataset):
+            if v == current_value:
+                next_value_index = (k + back) % len(dataset)
+        setattr(self, param, dataset[next_value_index])
+        self.save()
+
 
     def __str__(self):
         return f"{self.name}"
@@ -100,6 +115,13 @@ class PotereSpeciale(models.Model, ChiaroscuroMixin):
         #     print(f"PDF exportation complete: {filename}")
         # else:
         #     print(pdf.err)
+
+    @classmethod
+    def references(cls):
+        json_list = []
+        for spell in cls.objects.order_by("name"):
+            json_list.append({"name": spell.name, "rid": spell.rid})
+        return json_list
 
 
 class PotereSpecialeAdmin(admin.ModelAdmin):

@@ -53,6 +53,6 @@ urlpatterns = [
                   re_path(r'^ajax/oggetto_filter$', oggetti_filters, name='oggetti_filters'),
                   # PoteriSpeciali
                   re_path(r'^poteri_list$', poterispeciali_list, name='poterispeciali_list'),
-                  re_path(r'^ajax/poteri_filter$', poterispeciali_filters, name='poterispeciali_filter'),
+                  re_path(r'^ajax/poterespeciale_filter$', poterispeciali_filters, name='poterispeciali_filter'),
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # + debug_toolbar_urls()

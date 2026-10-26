@@ -94,14 +94,22 @@ class Viaggiatore(Character):
             sog = s.acronym
         else:
             sog = ""
+        selected = len(cls.objects.filter(is_selected=True, sogni__contains=sog))
         context = {"full_name": "Voyageurs", "release_date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
         context["type"] = "viaggiatore"
         context["categories"] = {}
-        context["categories"]["PNJ"] = [i.export_to_json() for i in cls.objects.filter(is_storyteller=True, sogni__contains=sog).order_by("name")]
-        context["categories"]["PJ"] = [i.export_to_json() for i in cls.objects.filter(is_storyteller=False, sogni__contains=sog).order_by("name")]
+        if selected:
+            context["categories"]["PNJ"] = [i.export_to_json() for i in cls.objects.filter(is_storyteller=True, sogni__contains=sog, is_selected=True).order_by("name")]
+            context["categories"]["PJ"] = [i.export_to_json() for i in cls.objects.filter(is_storyteller=False, sogni__contains=sog, is_selected=True).order_by("name")]
+        else:
+            context["categories"]["PNJ"] = [i.export_to_json() for i in cls.objects.filter(is_storyteller=True, sogni__contains=sog).order_by("name")]
+            context["categories"]["PJ"] = [i.export_to_json() for i in cls.objects.filter(is_storyteller=False, sogni__contains=sog).order_by("name")]
         template = get_template('main/PDF/extract.html')
         html = template.render(context)
-        filename = os.path.join(settings.MEDIA_ROOT, 'pdf/extracts/viaggiatori.pdf')
+        file = 'pdf/extracts/viaggiatori.pdf'
+        if selected:
+            file = 'pdf/extracts/viaggiatori_subset.pdf'
+        filename = os.path.join(settings.MEDIA_ROOT, file)
         es_pdf = open(filename, 'wb')
         pdf = pisa.pisaDocument(io.BytesIO(html.encode('utf-8')), es_pdf)
         if not pdf.err:

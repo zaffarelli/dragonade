@@ -112,11 +112,19 @@ class Nativo(Character, JsonableMixin):
 
         places = cls.objects.filter(sogni=sog).order_by("place").distinct().values_list("place", flat=True)
         lieux = [place for place in places]
-        for lieu in lieux:
-            context["categories"][lieu] = [i.export_to_json() for i in cls.objects.filter(sogni=sog,place=lieu).order_by("name")]
+        selected = len(cls.objects.filter(sogni=sog,is_selected=True))
+        if selected:
+            for lieu in lieux:
+                context["categories"][lieu] = [i.export_to_json() for i in cls.objects.filter(sogni=sog,place=lieu,is_selected=True).order_by("name")]
+        else:
+            for lieu in lieux:
+                context["categories"][lieu] = [i.export_to_json() for i in cls.objects.filter(sogni=sog,place=lieu).order_by("name")]
         template = get_template('main/PDF/extract.html')
         html = template.render(context)
-        filename = os.path.join(settings.MEDIA_ROOT, 'pdf/extracts/nativi.pdf')
+        file = 'pdf/extracts/nativi.pdf'
+        if selected:
+            file = 'pdf/extracts/nativi_subset.pdf'
+        filename = os.path.join(settings.MEDIA_ROOT, file)
         es_pdf = open(filename, 'wb')
         pdf = pisa.pisaDocument(io.BytesIO(html.encode('utf-8')), es_pdf)
         if not pdf.err:

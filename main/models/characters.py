@@ -25,6 +25,7 @@ class Character(models.Model, ChiaroscuroMixin):
     factions = models.CharField(max_length=256, default="", blank=True)
     entrance = models.TextField(max_length=1024, default="", blank=True)
     birthhour = models.IntegerField(default=0, blank=True)
+    is_selected = models.BooleanField(default=False, blank=True)
     is_female = models.BooleanField(default=False, blank=True)
     is_lefty = models.BooleanField(default=False, blank=True)
     is_new = models.BooleanField(default=True, blank=True)
@@ -55,6 +56,7 @@ class Character(models.Model, ChiaroscuroMixin):
     gamers_team = models.BooleanField(default=False, blank=True)
     gear = models.TextField(max_length=1024, default="", blank=True)
     spells = models.TextField(max_length=1024, default="", blank=True)
+    poterispeciali = models.TextField(max_length=1024, default="", blank=True)
     bug_list = models.TextField(default="", max_length=1024, blank=True)
     imc = models.FloatField(default=0, blank=True)
     imc_boost = models.FloatField(default=0, blank=True)
@@ -552,6 +554,18 @@ class Character(models.Model, ChiaroscuroMixin):
         #     print("No Spells")
         sorted_all = sorted(list, key=lambda k: k['path'], reverse=False)
         return sorted_all
+
+    def collect_poteri(self):
+        from main.models.poteri_speciali import PotereSpeciale
+        list = []
+        if len(self.poterispeciali) > 0:
+            arr = self.poterispeciali.split(" ")
+            poteri = PotereSpeciale.objects.filter(rid__in=arr).order_by("power_type")
+            for potero in poteri:
+                list.append(potero.export_to_json())
+        sorted_all = sorted(list, key=lambda k: k['path'], reverse=False)
+        return sorted_all
+
 
     def shortcuts(self):
         list = []

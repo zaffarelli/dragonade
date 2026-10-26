@@ -151,6 +151,29 @@ class Artefatto(models.Model,ChiaroscuroMixin):
         self.model_to_data()
         return self._data
 
+    def applyValuePush(self, att, val):
+        setattr(self, att, val)
+        self.save()
+        return True
+
+    def value_shift(self,param,back):
+        current_value = getattr(self, param)
+        dataset = self.identify_value_by_name(param)
+        if dataset is None:
+            if param == "category":
+                dataset = ArtefattoCategory.values
+            elif param == "period":
+                dataset = ArtefattoPeriod.values
+            else:
+                print(f"Unknown param {param} for {self.type}")
+        next_value_index = 0
+        for k, v in enumerate(dataset):
+            if v == current_value:
+                next_value_index = (k + back) % len(dataset)
+        setattr(self, param, dataset[next_value_index])
+        self.save()
+
+
     @classmethod
     def spawn(cls):
         item = cls()
@@ -161,9 +184,9 @@ class Artefatto(models.Model,ChiaroscuroMixin):
 class ArtefattoAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ['name']
-    list_display = ["name", "gems_str","mastery","pdr", "charges", "equipment_code", "equipment_match", "mod_ini", "mod_man", "mod_dmg", "owner", "category", "glance",
-                    "materials", "description"]
+    list_display = ["name", "gems_str","mastery","sogni","pdr", "charges", "equipment_code", "equipment_match", "mod_ini", "mod_man", "mod_dmg", "owner", "category", "glance",
+                    "materials"]
     list_filter = ['category', 'category']
     search_fields = ['name', "description"]
-    list_editable = ["equipment_match","mastery","pdr", "charges", "gems_str", "category", "mod_ini", "mod_man", "mod_dmg"]
+    list_editable = ["equipment_match","mastery","pdr", "charges", "gems_str", "category", "mod_ini", "mod_man", "mod_dmg","sogni"]
     actions = [refix]

@@ -139,21 +139,21 @@ def svg_to_pdf(request, slug):
 
 # Incantessimi
 def incantessimi_options():
-    zfilters = []
+    filters = []
     from main.models.incantessimi import IncantessimoPath
     for k, p in enumerate(IncantessimoPath.values):
         if p > 0:
-            pa = {"param": "path", "value": p, "label": IncantessimoPath.labels[k], "on": False}
-            zfilters.append(pa)
+            pa = {"param": "path", "value": p, "label": IncantessimoPath.labels[k],"rule":"", "on": False}
+            filters.append(pa)
     from main.models.incantessimi import IncantessimoCategory
     for k, p in enumerate(IncantessimoCategory.values):
         if p > 0:
-            pa = {"param": "category", "value": p, "label": IncantessimoCategory.labels[k], "on": False}
-            zfilters.append(pa)
+            pa = {"param": "category", "value": p, "label": IncantessimoCategory.labels[k],"rule":"", "on": False}
+            filters.append(pa)
     for incantessimo in Incantessimo.objects.filter(category=IncantessimoCategory.PENTACLE):
         if incantessimo.pentacle_code != "":
-            zfilters.append({"param": "pentacle_code", "value": incantessimo.pentacle_code, "label": incantessimo.name, "icon": "fa-star", "on": False})
-
+            filters.append({"param": "pentacle_code", "value": incantessimo.pentacle_code,"rule":"", "label": incantessimo.name, "icon": "fa-star", "on": False})
+    zfilters = filter_push(filters)
     return zfilters
 
 
@@ -175,31 +175,43 @@ def incantessimi_filters(request):
 def viaggiatori_options():
     zfilters = []
     filters = [
-        {"param": "is_storyteller", "value": True, "label": "Gardien des Rêves", "rule":"","on": False},
-        {"param": "is_storyteller", "value": False, "label": "Joueurs", "rule":"", "on": False},
-        {"param": "is_female", "value": True, "label": "Femmes", "rule": "", "on": False},
-        {"param": "is_female", "value": False, "label": "Hommes", "rule": "", "on": False},
+        {"param": "is_storyteller", "value": True, "label": "Gardien des Rêves", "rule":"","on": False, "icon":"fa-map"},
+        {"param": "is_storyteller", "value": False, "label": "Joueurs", "rule":"", "on": False, "icon":"fa-user"},
+        {"param": "is_female", "value": True, "label": "Femmes", "rule": "", "on": False, "icon":"fa-female"},
+        {"param": "is_female", "value": False, "label": "Hommes", "rule": "", "on": False, "icon":"fa-male"},
     ]
     pa = {"param": "is_new", "value": True, "label": "Nouveau", "rule":"", "on": False}
 
     for s in Sogno.objects.all():
-        pa = {"param": "sogni", "value": s.acronym, "label": s.title, "rule": "contains", "on": False}
+        pa = {"param": "sogni", "value": s.acronym, "label": s.title, "rule": "contains", "icon":"fa-image", "on": False}
         filters.append(pa)
+    zfilters = filter_push(filters)
+    return zfilters
+
+def filter_push(filters):
+    res = []
     for filter in filters:
         code = asB2B(f'{filter["param"]}*{filter["value"]}')
         filter["code"] = code.decode("utf-8")
-        zfilters.append(filter)
-    return zfilters
+        if "rule" not in filter:
+            filter["rule"] = ""
+        if "icon" not in filter:
+            filter["icon"] = "fa-eye"
+        res.append(filter)
+    return res
+
 
 # Nativi
 def nativi_options():
     zfilters = []
     filters = []
-    pa = {"param": "is_new", "value": True, "label": "Nouveau"}
+    pa = {"param": "is_new", "value": True,  "icon":"fa-heart","label": "Nouveau"}
+    filters.append(pa)
+    pa = {"param": "is_selected", "value": True, "icon": "fa-circle-check", "label": "Sélection"}
     filters.append(pa)
     from main.models.sogni import Sogno
     for s in Sogno.objects.all():
-        pa = {"param": "sogni", "value": s.acronym, "label": "Rêve=" + s.title, "rule": "contains", "on": False}
+        pa = {"param": "sogni", "value": s.acronym, "label": s.title, "rule": "contains", "on": False, "icon":"fa-image"}
         filters.append(pa)
     s = Sogno.current_sogno()
     if s:
@@ -209,12 +221,21 @@ def nativi_options():
     places = Nativo.objects.filter(sogni__contains=sog).order_by("place").distinct().values_list("place")
     for place in places:
         if len(place[0]) > 0:
-            pa = {"param": "place", "value": place[0], "label": "Lieu=" + place[0], "rule":"", "on": False}
+            pa = {"param": "place", "value": place[0], "label": place[0], "rule":"", "on": False, "icon":"fa-location-pin"}
             filters.append(pa)
-    for filter in filters:
-        code = asB2B(f'{filter["param"]}*{filter["value"]}')
-        filter["code"] = code.decode("utf-8")
-        zfilters.append(filter)
+    zfilters = filter_push(filters)
+    return zfilters
+
+def creature_options():
+    filters = []
+    pa = {"param": "is_selected", "value": True, "icon": "fa-circle-check", "label": "Sélection"}
+    filters.append(pa)
+    from main.models.creature import DragonadeCreatureType
+    for k, p in enumerate(DragonadeCreatureType.values):
+        if p > 0:
+            pa = {"param": "creature_type", "value": p, "label": DragonadeCreatureType.labels[k], "rule":"", "on": False}
+            filters.append(pa)
+    zfilters = filter_push(filters)
     return zfilters
 
 
@@ -254,14 +275,6 @@ def nativi_filters(request):
 
 
 # Creature
-def creature_options():
-    zfilters = []
-    from main.models.creature import DragonadeCreatureType
-    for k, p in enumerate(DragonadeCreatureType.values):
-        if p > 0:
-            pa = {"param": "creature_type", "value": p, "label": DragonadeCreatureType.labels[k], "on": False}
-            zfilters.append(pa)
-    return zfilters
 
 
 def creature_list(request):
@@ -281,11 +294,15 @@ def creature_filters(request):
 
 # Artefatto
 def artefatti_options():
-    zfilters = []
+    filters = []
     from main.models.artefatti import ArtefattoCategory
     for k, p in enumerate(ArtefattoCategory.values):
-        pa = {"param": "category", "value": p, "label": ArtefattoCategory.labels[k], "on": False}
-        zfilters.append(pa)
+        pa = {"param": "category", "value": p, "label": ArtefattoCategory.labels[k], "rule":"","on": False, "icon":"fa-layer-group"}
+        filters.append(pa)
+    for s in Sogno.objects.all():
+        pa = {"param": "sogni", "value": s.acronym, "label": s.title, "rule": "contains", "icon":"fa-image", "on": False}
+        filters.append(pa)
+    zfilters = filter_push(filters)
     return zfilters
 
 
@@ -306,14 +323,15 @@ def artefatti_filters(request):
 
 # Oggetti
 def oggetti_options():
-    zfilters = []
+    filters = []
     from main.models.oggetti import OggettoCategory
     for k, p in enumerate(OggettoCategory.values):
         if p > 0:
-            pa = {"param": "category", "value": p, "label": OggettoCategory.labels[k]}
-            zfilters.append(pa)
-    pa = {"param": "is_basic", "value": True, "label": "Basique", "on": False}
-    zfilters.append(pa)
+            pa = {"param": "category", "value": p,  "rule":"","label": OggettoCategory.labels[k]}
+            filters.append(pa)
+    pa = {"param": "is_basic", "value": True, "label": "Basique", "rule":"", "on": False}
+    filters.append(pa)
+    zfilters = filter_push(filters)
     return zfilters
 
 
@@ -334,14 +352,15 @@ def oggetti_filters(request):
 
 # Poteri Speciali
 def poterispeciali_options():
-    zfilters = []
-    # from main.models.oggetti import OggettoCategory
-    # for k, p in enumerate(OggettoCategory.values):
-    #     if p > 0:
-    #         pa = {"param": "category", "value": p, "label": OggettoCategory.labels[k]}
-    #         zfilters.append(pa)
-    # pa = {"param": "is_basic", "value": True, "label": "Basique"}
-    # zfilters.append(pa)
+    filters = []
+    from main.models.poteri_speciali import PowerType, UsageLimit
+    for k, p in enumerate(PowerType.values):
+        pa = {"param": "power_type", "value": p, "label": PowerType.labels[k], "rule":"","icon":"fa-layer-group","on": False}
+        filters.append(pa)
+    for k, p in enumerate(UsageLimit.values):
+        pa = {"param": "usage_limit", "value": p, "label": UsageLimit.labels[k], "rule":"","icon":"fa-repeat","on": False}
+        filters.append(pa)
+    zfilters = filter_push(filters)
     return zfilters
 
 
@@ -376,8 +395,7 @@ def items_list(request, options={}):
         user = get_profile(request)
         if user:
             print(user)
-            fs =  options["zfilters"]
-            options["zfilters"] = user.check_filters(options["model"],fs)
+            options["zfilters"] = user.check_filters(options["model"],options["zfilters"])
         context["zfilters"] = options["zfilters"]
         filters = adjust_filters(options)
         for i in k.objects.filter(**filters).order_by("name"):
@@ -387,11 +405,8 @@ def items_list(request, options={}):
         context["sogno"] = st
         context["model"] = options['model']
         context["items"] = items
-        spells_j = Incantessimo.references()
-        refs = {}
-        refs['incantessimi'] = spells_j
-        equipment = Oggetto.references()
-        refs['equipment'] = equipment
+
+        refs = get_refs()
         context["references"] = refs
 
         return render(request, 'main/chiaroscuro/items_list.html', context)
@@ -424,7 +439,7 @@ def items_filters(request, options={}):
         model = request.POST.get('model')
         code = request.POST.get('code')
         options["model"] = model
-        print("Filter clicked:"+code)
+        # print("Filter clicked:"+code)
         sa, st = get_sogno()
         user = get_profile(request)
         context = prepare_context(request)
@@ -444,12 +459,13 @@ def items_filters(request, options={}):
                 options["zfilters"] = artefatti_options()
             elif model.lower() == "poterespeciale":
                 options["zfilters"] = poterispeciali_options()
+            # print(model.lower())
             if user:
                 print(user)
                 user.toggle_filter(options["model"], code)
                 options["zfilters"] = user.check_filters(options["model"], options["zfilters"])
             filters = adjust_filters(options)
-            print(filters)
+            # print(filters)
             items = []
             for i in k.objects.filter(**filters).order_by("name"):
                 datum = i.export_to_json()
@@ -458,11 +474,7 @@ def items_filters(request, options={}):
             context["sogno"] = st
             context["model"] = options['model']
             context["items"] = items
-            spells_j = Incantessimo.references()
-            refs = {}
-            refs['incantessimi'] = spells_j
-            equipment = Oggetto.references()
-            refs['equipment'] = equipment
+            refs = get_refs()
             context["references"] = refs
             template = get_template("main/chiaroscuro/items_payload.html")
             answer['data'] = template.render(context)
@@ -470,6 +482,16 @@ def items_filters(request, options={}):
 
     return HttpResponse(status=204)
 
+
+def get_refs():
+    refs = {}
+    i = Incantessimo.references()
+    refs['incantessimi'] = i
+    o = Oggetto.references()
+    refs['equipment'] = o
+    p = PotereSpeciale.references()
+    refs['poterispeciali'] = p
+    return refs
 
 def new_item(request):
     answer = {}
