@@ -1,8 +1,11 @@
-$list_font_size: 9pt;
-$title_font_size: 12pt;
+$list_font_size: 8pt;
 $mid_font_size: 10pt;
+$title_font_size: 12pt;
+
 $mega_font_size: 16pt;
 
+$label_color: #202020;
+$info_color: #101010;
 
 
 .zlist_container, .zlist_header, .zlist_footer{
@@ -16,9 +19,9 @@ $mega_font_size: 16pt;
     & .zlist_entry{
         flex:1 1 auto;
         display:flex;
-        flex-flow:row nowrap;
+        flex-flow:row wrap;
         justify-content: stretch;
-        align-items: stretch;
+        align-items: baseline;
         align-content: stretch;
 //         border:1pt solid pink;
         gap:1pt;
@@ -39,15 +42,16 @@ $mega_font_size: 16pt;
         }
 
         & .zlist_item{
-            padding:3pt;
+            padding:2pt;
             border-radius:3pt;
             flex:1 1 8ex;
+
             color:white;
             vertical-align:middle;
             text-align:center;
             font-family:$font;
             font-size:$list_font_size;
-            background:#4040407f;
+//             background:#4040407f;
             &.title{
                 flex: 5 5 auto;
                 font-family:$font_title;
@@ -65,27 +69,31 @@ $mega_font_size: 16pt;
                 justify-content:space-between;
                 align-items:stretch;
                 align-content:stretch;
-                min-width:20ex;
+                min-width:30ex;
                 border:1pt solid none;
+                background:$info_color;
                 & .txt{
                     flex:0 0 1.2em;
                     font-size:$list_font_size;
-                    color:white;
-                    background:#202020;
-
-                    border-radius:3pt;
-                    padding:3pt;
+                    color:#909090;
+                    text-align:left;
+//                     color:white;
+//                     background:$label_color;
+                    border:1pt solid none;
+                    border-radius:3pt 3pt 0 0;
+                    padding:1pt 3pt;
                 }
                 & .val{
                     flex: 1 1 auto;
                     max-height:6em;
                     font-size:$mid_font_size;
-                    color:silver;
-                    background:#101010;
+                    color:white;
+                    background:$info_color;
                     overflow-y:scroll;
                     text-align:left;
-                    padding:3pt;
-
+                    border:1pt solid none;
+                    border-radius:0 0 3pt 3pt;
+                    padding:1pt 3pt;
                 }
             }
             &.label{
@@ -93,7 +101,7 @@ $mega_font_size: 16pt;
                 font-size:$title_font_size;
             }
             &.symbol{
-                background:#9080907f;
+                background:$label_color;
             }
             &.simple{
                 display:flex;
@@ -103,23 +111,25 @@ $mega_font_size: 16pt;
                 align-items:stretch;
                 align-content:stretch;
                 color:silver;
-                min-width:12ex;
-                border:1pt solid none;
+                min-width:16ex;
+                border:1pt solid #303030;
                 & .txt{
                     flex:0 0 1.2em;
                     font-size:$list_font_size;
-                    color:white;
-                    background:#202020;
-                    border-radius:3pt;
-                    padding:3pt;
+                    color:#909090;
+                    text-align:left;
+                    background:$info_color;
+                    border-radius:3pt 3pt 0 0;
+                    padding:1pt 3pt;
                 }
                 & .val{
                     flex: 1 1 auto;
                     font-size:$title_font_size;
-                    color:silver;
-                    background:#101010;
-
-                    padding:3pt;
+                    color:white;
+                    text-align:left;
+                    background:$info_color;
+                    border-radius:0 0 3pt 3pt;
+                    padding:1pt 3pt;
                 }
             }
 
@@ -137,8 +147,7 @@ $mega_font_size: 16pt;
                     flex:1 0 1.2em;
                     font-size:$list_font_size;
                     color:white;
-                    background:#202020;
-
+                    background:$label_color;
                     border-radius:3pt;
                     padding:3pt;
                 }
@@ -146,7 +155,7 @@ $mega_font_size: 16pt;
                     flex: 1 1 auto;
                     font-size:$title_font_size;
                     color:silver;
-                    background:#101010;
+                    background:$info_color;
                     padding:3pt;
                     overflow:hidden;
                 }
@@ -165,7 +174,6 @@ $mega_font_size: 16pt;
 
 
             &.normal{
-
                 font-size:$title_font_size;
                 cursor:pointer;
                 color:purple;
@@ -186,7 +194,7 @@ $mega_font_size: 16pt;
                 color:fuchsia;
                 width:4ex;
             }
-            border:2pt solid #202020;
+//             border:2pt solid #202020;
             border-radius: 5pt;
         }
     }
@@ -211,14 +219,14 @@ $mega_font_size: 16pt;
         border-radius:5pt;
         display:inline-block;
         font-weight:normal;
-         background:#2020207f;
+        background:#2020207f;
         & .zlist_item{
             &.on{
-                background:#3010307f;
+                background:$hlbg;
                 color:$hlco;
                 &:hover{
-                    background:#5010507f;
-                    color:$hlco;
+                    background:$hlbgho;
+                    color:$hlcoho;
                 }
             }
         }
@@ -234,7 +242,6 @@ $mega_font_size: 16pt;
     justify-content: flex-start;
     align-items: stretch;
     gap:3pt;
-    background:#1010107f;
 }
 
 .zlist_footer{
@@ -243,7 +250,6 @@ $mega_font_size: 16pt;
     flex-flow:row nowrap;
     justify-content: flex-start;
     align-items: flex-start;
-//     align-content: flex-start;
     height:3vh;
     background:#5050507f;
     & .zlist_entry{
@@ -252,10 +258,7 @@ $mega_font_size: 16pt;
         justify-content: flex-start;
         align-items: stretch;
         align-content: flex-start;
-
-//         background:#3030307f;
-        }
-
+    }
 }
 
 .diff_{color:gray;}

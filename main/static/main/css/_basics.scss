@@ -1,10 +1,16 @@
 @charset "UTF-8";
 
-$hlbg: #600060;
-$hlco: #f0c080;
 
-$palette0: #101010; // Text
-$palette1: #2532377F; // Background
+
+
+$hlbgho: #404740;
+$hlcoho: #f0c080;
+$hlbg: desaturate($hlbgho,10%);
+$hlco: desaturate($hlcoho,10%);
+
+
+$palette0: #f0f0f0; // Text
+$palette1: #202720; // Background
 $palette10: #253237; // Background
 $palette2: desaturate($palette1,25%); // Panel
 $palette3: #a69cac; // Panel text
@@ -17,7 +23,7 @@ $mono:"Fira Mono";
 $font_height:10pt;
 
 
-$body_color: $palette4;
+$body_color: $palette0;
 $body_background: $palette1;
 
 
@@ -29,7 +35,7 @@ $shadow_color: darken($theme1,10%);
 @mixin body_background{
     background: $body_background;
     color: $body_color;
-    font-family:Wellfleet;
+    font-family:$font;
 }
 
 
@@ -192,4 +198,8 @@ $grav_ser:#b94d3b;
       }
     }
   }
+}
+
+body{
+    @include body_background;
 }

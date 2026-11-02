@@ -130,6 +130,7 @@ class Chiaroscuro {
         me.registerShowHide()
         me.registerShifters()
         me.registerListActions()
+        me.registerHelper()
 
     }
 
@@ -146,6 +147,22 @@ class Chiaroscuro {
         })
         console.log("Vignette")
     }
+
+    registerHelper(){
+        let me = this
+        _.forEach(["1","2","3","4","5","6","7"],function(l){
+            $(".cv"+l).off().on("mouseover", (e)=>{
+                if (e.ctrlKey) {
+                    $(".creation_value svg").addClass('hidden')
+                    $(".cv"+l+" svg").removeClass('hidden')
+                }else{
+                    $(".creation_value svg").removeClass('hidden')
+                }
+            })
+        })
+
+    }
+
 
     registerShortcuts() {
         let me = this

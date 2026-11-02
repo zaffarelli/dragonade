@@ -51,22 +51,22 @@
 {% if i.type == "viaggiatore" %}
     {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with txt="Selectionné" prop="is_selected" val=i.is_selected|as_okko|safe %}
     {% include "main/chiaroscuro/zlist_item_button.html" with txt="Editer" val="edit" icon="fa fa-cog" %}
-    {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Titre" prop="title" val=i.title %}
     {% if i.is_new %}
         {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with txt="Nouveau" prop="is_new" val=i.is_new|as_okko|safe %}
-        {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Nom" prop="name" val=i.name %}
 
     {%else%}
-        {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Nom" val=i.name %}
+
     {%endif%}
+    {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Nom" prop="name" val=i.name %}
     {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Joueur" prop="player" val=i.player %}
+    {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Titre" prop="title" val=i.title %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Destinée" val=i.destiny|colorize_abs|safe %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Points de Voyage" val=i.travel_points %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Sexe" val=i.is_female|as_sex|safe %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Songe" val=i.SON %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Status Attributs" val=i.attributes_creation_ok|as_okko|safe %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Status Compétences" val=i.skills_creation_ok|as_okko|safe %}
-    {% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="entrance" val=i.entrance %}
+    {% include "main/chiaroscuro/zlist_item_editable_value.html" with txt="Introduction" prop="entrance" val=i.entrance %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Total Attributs" val=i.total_attributes|signed %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Total Compétences" val=i.total_skills|signed %}
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Stress Acquis" val=i.stress_acquired|as_stress %}
@@ -96,17 +96,15 @@
     {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Maîtrise" prop="mastery" val=i.mastery %}
     {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Point de Rêve" prop="pdr" val=i.pdr %}
     {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with txt="Période" prop="period" val=i.period_str %}
+    {% include "main/chiaroscuro/zlist_item_editable_value.html" with txt="Ecailles" prop="scales" val=i.scales %}
+    {% include "main/chiaroscuro/zlist_item_editable_value.html" with txt="Gemmes" prop="gems_str" val=i.gems_str %}
     {%for s in i.all_scales %}
-        {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with txt=s|as_unique_scale_str|safe val=s|as_unique_scale|safe %}
+        {# include "main/chiaroscuro/zlist_item_shiftable_value.html" with txt=s|as_unique_scale_str|safe val=s|as_unique_scale|safe #}
     {%endfor%}
     {% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="glance" txt="Résumé" val=i.glance %}
     {% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="description" txt="Description" val=i.description %}
     {% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="rules" txt="Règles" val=i.rules %}
     {% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="notes" txt="Notes" val=i.notes %}
-
-
-
-
 {% endif %}
 
 {% if i.type == "oggetto" %}

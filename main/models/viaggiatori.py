@@ -125,4 +125,5 @@ class ViaggiatoreAdmin(admin.ModelAdmin):
     list_display = ['id', 'rid', 'name', "archetype_str", 'player', 'is_new', 'is_storyteller', 'color']
     list_editable = ["archetype_str", 'color', 'is_storyteller', 'is_new']
     list_filter = ["sogni", 'is_storyteller', "old_creation_attributes"]
+    search_fields = ["name"]
     actions = [refix, pre_sim]

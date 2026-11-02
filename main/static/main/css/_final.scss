@@ -1,14 +1,11 @@
 .interactive_element{
     cursor:crosshair;
-    background: $hlbg;
-    border:1pt solid transparent;
+    border:1pt ridge $hlbg;
     &.selected{
-        border:1pt solid $hlco;
-        background: $hlbg;
+        border-color:$hlbg;
     }
     &:hover{
-        border-color:cyan;
-        background:darkcyan;
+        border-color:$hlco;
     }
 }
 
