@@ -160,7 +160,7 @@ def incantessimi_options():
 def incantessimi_list(request):
     options = initialize_options()
     options['model'] = "Incantessimo"
-    options["zfilters"] = incantessimi_options
+    options["zfilters"] = incantessimi_options()
     return items_list(request, options)
 
 
@@ -395,10 +395,11 @@ def items_list(request, options={}):
         user = get_profile(request)
         if user:
             print(user)
+            print(options["zfilters"])
             options["zfilters"] = user.check_filters(options["model"],options["zfilters"])
         context["zfilters"] = options["zfilters"]
         filters = adjust_filters(options)
-        for i in k.objects.filter(**filters).order_by("name"):
+        for i in k.objects.filter(**filters).order_by("-power"):
             datum = i.export_to_json()
             items.append(datum)
         context["title"] = k.__name__
@@ -467,7 +468,7 @@ def items_filters(request, options={}):
             filters = adjust_filters(options)
             # print(filters)
             items = []
-            for i in k.objects.filter(**filters).order_by("name"):
+            for i in k.objects.filter(**filters).order_by("-power"):
                 datum = i.export_to_json()
                 items.append(datum)
             context["title"] = k.__name__
@@ -490,7 +491,9 @@ def get_refs():
     o = Oggetto.references()
     refs['equipment'] = o
     p = PotereSpeciale.references()
-    refs['poterispeciali'] = p
+    refs['poteri_speciali'] = p
+    p = Artefatto.references()
+    refs['artefatti'] = p
     return refs
 
 def new_item(request):

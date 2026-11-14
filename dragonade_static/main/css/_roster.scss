@@ -227,7 +227,8 @@
                     & .label{
                         order:1;
                         flex: 1 0 auto;
-                        background:$palette1;
+                        background:black;
+                        color:#909090;
                         border-radius:2pt;
                         padding:3pt;
 
@@ -247,7 +248,8 @@
                     & .data{
                         order:2;
                         flex: 0 0 8ex;
-                        background:$palette0;
+                        color:white;
+                        background:black;
                         padding:3pt;
                         font-size:14pt;
                         font-weight:bold;

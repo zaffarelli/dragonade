@@ -19,18 +19,10 @@
 <hr/>
 {%else %}
 {% if c.category == 21 %}
-<code><b>{{c.name}}</b> Prix: {{c.price|as_money|safe}} / Enc.:{{c.enc}}</code><br/>
+<p><b>{{c.name}}</b></p>
+<code>{{c.rid}}</code>
+<p><b>Prix:</b> {{c.price|as_money|safe}}</p>
 <table>
-    <tr>
-        <th>AGI</th>
-        <td>{{c.malus_AGI}}</td>
-        <th>DEX</th>
-        <td>{{c.malus_DEX}}</td>
-        <th>VUE</th>
-        <td>{{c.malus_VUE}}</td>
-        <th>OUI</th>
-        <td>{{c.malus_OUI}}</td>
-    </tr>
     <tr>
         <th>PROT</th>
         <td>{{c.prot}}</td>
@@ -41,18 +33,15 @@
         <th>TAI +/-</th>
         <td>{{c.mod_adjust}}</td>
     </tr>
-    <tr>
-        <th colspan="3">Couverture</th>
-        <td colspan="5">{{c.cover|as_text_cover|safe}}</td>
-</tr>
-    <tr>
-        <th colspan="3">Matériaux</th>
-        <td colspan="5">{{c.materiaux}}</td>
 
-
-    </tr>
 </table>
+<p><b>Modificateurs AGI/DEX/VUE/OUI:</b> {{c.malus_AGI}}/{{c.malus_DEX}}/{{c.malus_VUE}}/{{c.malus_OUI}}</p>
+<p><b>Couverture:</b> {{c.cover|as_text_cover|safe}}</p>
+<p><b>Matériaux:</b> {{c.materiaux}}</p>
+<p><b>Encombrement:</b> {{c.enc}} (revêtu), {{c.enc_worn}} (transporté)</p>
 {% if c.description %}<p>{{c.description|render_text|safe}}</p>{%endif%}
+
+
 <hr/>
 {%else %}
 <code><b>{{c.name}}</b> Prix: {{c.price|as_money|safe}} / Enc.:{{c.enc}}</code>

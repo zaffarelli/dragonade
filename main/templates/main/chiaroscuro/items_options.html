@@ -8,7 +8,7 @@
         <div id="echo" class="hidden"></div>
         <div class='btn option_btn' id="valuepush_editor"><i class="fas fa-circle-arrow-up"></i>&nbsp;Valider</div>
     </fieldset>
-    <fieldset class="middleblock option_block">
+    <fieldset class="middleblock references">
         <legend>Références: Equipement</legend>
         {% for s in references.equipment %}
         <div class="ref_entry gear stackpush" param="{{s.rid}}">
@@ -17,7 +17,16 @@
         </div>
         {% endfor %}
     </fieldset>
-    <fieldset class="middleblock option_block">
+    <fieldset class="middleblock references">
+        <legend>Références: Artefacts</legend>
+        {% for s in references.artefatti %}
+        <div class="ref_entry artefact stackpush" param="{{s.rid}}">
+            <div class="name">{{s.name}}</div>
+            <div class="rid">{{s.rid}}</div>
+        </div>
+        {% endfor %}
+    </fieldset>
+    <fieldset class="middleblock references">
         <legend>Références: Sortilèges</legend>
         {% for s in references.incantessimi %}
         <div class="ref_entry incantessimi stackpush" param="{{s.rid}}">
@@ -26,9 +35,9 @@
         </div>
         {% endfor %}
     </fieldset>
-    <fieldset class="middleblock option_block">
+    <fieldset class="middleblock references">
         <legend>Références: Pouvoir Spéciaux</legend>
-        {% for ps in references.poterispeciali %}
+        {% for ps in references.poteri_speciali %}
         <div class="ref_entry poterispeciali stackpush" param="{{ps.rid}}">
             <div class="name">{{ps.name}}</div>
             <div class="rid">{{ps.rid}}</div>

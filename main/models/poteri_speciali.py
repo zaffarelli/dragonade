@@ -53,17 +53,22 @@ class PotereSpeciale(models.Model, ChiaroscuroMixin):
         # self.name = self.name.strip()
 
     def value_shift(self,param,back):
+        done = False
         current_value = getattr(self, param)
         if param == "power_type":
             dataset = PowerType.values
+        elif param == "usage_limit":
+            dataset = UsageLimit.values
         else:
             print(f"Unknown param {param} for {self.type}")
-        next_value_index = 0
-        for k, v in enumerate(dataset):
-            if v == current_value:
-                next_value_index = (k + back) % len(dataset)
-        setattr(self, param, dataset[next_value_index])
-        self.save()
+            done = True
+        if not done:
+            next_value_index = 0
+            for k, v in enumerate(dataset):
+                if v == current_value:
+                    next_value_index = (k + back) % len(dataset)
+            setattr(self, param, dataset[next_value_index])
+            self.save()
 
 
     def __str__(self):

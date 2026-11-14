@@ -1,0 +1,25 @@
+{% load static %}
+{% load dragonade_filters %}
+
+<p><b>{{c.name}}</b></p>
+<code>{{c.rid}}</code>
+<p><b>Rêve:</b> {{c.sogni|as_sogni|safe}}</p>
+<p><b>Prix:</b> {{c.price|as_money|safe}}</p>
+<p><b>Gemmes:</b> {{c.all_gems}}</p>
+<p><b>Ecailles:</b> {{c.all_scales}}</p>
+<p><b>Points de Rêve:</b> {{c.pdr}} / {{c.period_str}}</p>
+<p><b>Maîtrise:</b> {{c.mastery}}</p>
+<p><b>Matériaux:</b> {{c.materials}}</p>
+<p><b>Créateur:</b> {{c.creator}}</p>
+{% if c.glance %}<p><b>Résumé :</b><br/>{{c.glance|render_text|safe}}</p>{%endif%}
+{% if c.description %}<p><b>Description :</b><br/>{{c.description|render_text|safe}}</p>{%endif%}
+{% if c.rules %}<p><b>Règles :</b><br/>{{c.rules|render_text|safe}}</p>{%endif%}
+{% if c.notes %}<p><b>Notes :</b><br/>{{c.notes|render_text|safe}}</p>{%endif%}
+<hr/>
+
+
+
+
+
+
+

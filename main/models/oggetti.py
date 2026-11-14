@@ -38,6 +38,21 @@ class OggettoCategory(models.IntegerChoices):
     GEM = 23, "Gemmes & Joyaux"
 
 
+class OggettoQuality(models.IntegerChoices):
+    STD = 0, "Standard"
+    QUA = 1, "de Qualité"
+    EXC = 2, "d'Exception"
+    MAI = 3, "de Maître"
+    LEG = 4, "Légendaire"
+
+class OggettoSubcategory(models.IntegerChoices):
+    NONE = 0, ""
+    LIGHT = 1, "Légère"
+    MEDIUM = 2, "Médiane"
+    HEAVY = 3, "Lourde"
+
+
+
 class Oggetto(models.Model, ChiaroscuroMixin):
     class Meta:
         ordering = ['category']
@@ -51,11 +66,14 @@ class Oggetto(models.Model, ChiaroscuroMixin):
     plus_dom = models.IntegerField(default=0, null=True, blank=True)
     plus_dom_2m = models.IntegerField(default=0, null=True, blank=True)
     prot = models.IntegerField(default=0, null=True, blank=True)
-    quality = models.IntegerField(default=0, null=True, blank=True)
+
+    quality = models.IntegerField(default=OggettoQuality.STD, choices=OggettoQuality.choices, null=True, blank=True)
+    has_qualities = models.BooleanField(default=False, blank=True)
+
     engagement = models.IntegerField(default=0, null=True, blank=True)
     maneuver = models.IntegerField(default=0, null=True, blank=True)
     cover = models.CharField(default="", max_length=64, blank=True)
-    color = ColorField(default="#808080ff", blank=True, null=True)
+    color = ColorField(default="#808080", blank=True, null=True)
     gcode = models.CharField(default="xxx", max_length=3, blank=True)
     materiaux = models.CharField(default="", max_length=64, blank=True)
     related_skill = models.CharField(default="", max_length=32, blank=True)
@@ -64,14 +82,18 @@ class Oggetto(models.Model, ChiaroscuroMixin):
     malus_DEX = models.IntegerField(default=0, null=True, blank=True)
     malus_VUE = models.IntegerField(default=0, null=True, blank=True)
     malus_OUI = models.IntegerField(default=0, null=True, blank=True)
+    subcat = models.CharField(default="",max_length=64,blank=True)
+    subcategory = models.IntegerField(default=OggettoSubcategory.NONE, choices=OggettoSubcategory.choices, blank=True)
     mod_adjust = models.IntegerField(default=0, null=True, blank=True)
     real_mod_adjust = models.IntegerField(default=0, null=True, blank=True)
     sogni = models.CharField(max_length=256, default="DEF", blank=True)
 
     range = models.IntegerField(default=0, null=True, blank=True)
+    derived_from = models.CharField(default="", max_length=256, blank=True)
 
     force_min = models.IntegerField(default=0, null=True, blank=True)
     enc = models.FloatField(default=0, blank=True)
+    enc_worn = models.FloatField(default=0, blank=True)
     resistance = models.IntegerField(default=0, blank=True)
     description = models.TextField(default="", max_length=1024, blank=True)
     price = models.FloatField(default=0, blank=True)
@@ -89,12 +111,15 @@ class Oggetto(models.Model, ChiaroscuroMixin):
     min_purity = models.IntegerField(default=1, blank=True)
     max_purity = models.IntegerField(default=7, blank=True)
     is_basic = models.BooleanField(default=False, blank=True)
+    forcefix = models.BooleanField(default=False, blank=True)
 
     def fix(self):
         self.chiaroscuro()
         self.rid = as_rid(f"{self.name}")
         self.name = self.name.replace("  ", " ")
         self.name = self.name.strip()
+        self.forcefix = False
+
         if self.category in [OggettoCategory.ANA]:  # Armes naturelles
             self.price = 0
             self.enc = 0
@@ -128,6 +153,12 @@ class Oggetto(models.Model, ChiaroscuroMixin):
                 self.malus_VUE = -self.malus_VUE
             if self.malus_OUI > 0:
                 self.malus_OUI = -self.malus_OUI
+
+            total = self.quality
+            if total > 0:
+                vals = [self.malus_AGI, self.malus_DEX, self.malus_VUE, self.malus_OUI]
+
+
             if len(self.cover) > 0:
                 covs = self.cover.upper().split(" ")
                 updated_cover = []
@@ -146,7 +177,7 @@ class Oggetto(models.Model, ChiaroscuroMixin):
                         updated_cover.append("M")
                 self.cover = " ".join(updated_cover)
 
-            self.real_price = self.price ** (self.quality + 1)
+            self.real_price = self.price * (self.quality + 1)**2
 
             self.real_mod_adjust = int(self.mod_adjust) + math.floor(int(self.quality) / 2)
             if len(self.materiaux) > 0:
@@ -175,6 +206,53 @@ class Oggetto(models.Model, ChiaroscuroMixin):
                 if cnt > 0:
                     self.resistance = math.ceil(tr / cnt) + self.quality
 
+        if self.has_qualities:
+            # Delete same objects with quality > 0
+            for x in Oggetto.objects.filter(derived_from=self.rid):
+                x.delete()
+        # if len(self.derived_from) > 0:
+        #     # If I'm a quality derivation, get data from parent
+        #     parent = Oggetto.objects.filter(rid=self.derived_from).first()
+        #     if parent:
+        #         self.prot = parent.prot
+        #         self.malus_AGI = parent.malus_AGI
+        #         self.malus_DEX = parent.malus_DEX
+        #         self.malus_VUE = parent.malus_VUE
+        #         self.malus_OUI = parent.malus_OUI
+        #         self.price = parent.price
+        #         self.enc = parent.enc
+        #         self.cover = parent.cover
+        #         self.is_basic = False
+        #         self.materiaux = parent.materiaux
+
+    def propagate(self):
+        if self.has_qualities:
+            print(f"After save for {self.rid}")
+            # Create objects with quality > 0
+            for q in OggettoQuality.values:
+                if q not in [0]:
+                    o = Oggetto()
+                    o.name = f"{self.name} {OggettoQuality.labels[q]}"
+                    o.derived_from = self.rid
+                    o.quality = q
+                    o.category = self.category
+                    o.has_qualities = False
+                    o.prot = self.prot
+                    o.subcategory = self.subcategory
+                    o.malus_AGI = self.malus_AGI
+                    o.malus_DEX = self.malus_DEX
+                    o.malus_VUE = self.malus_VUE
+                    o.malus_OUI = self.malus_OUI
+                    o.force_min = self.force_min
+                    o.description = f'Identique à <i>{self.name}</i> en qualité <i>{OggettoQuality.labels[q]}</i>'
+                    o.price = self.price
+                    o.enc = self.enc
+                    o.cover = self.cover
+                    o.is_basic = False
+                    o.subcat = self.subcat
+                    o.materiaux = self.materiaux
+                    o.save()
+
     def __str__(self):
         return f"{self.name} [{self.get_category_display()}]"
 
@@ -199,6 +277,7 @@ class Oggetto(models.Model, ChiaroscuroMixin):
 
     def co_push(self):
         self._data["category_text"] = self.get_category_display()
+        self._data["subcategory_text"] = self.get_subcategory_display()
 
     @property
     def related_skill_name(self):
@@ -260,7 +339,7 @@ class Oggetto(models.Model, ChiaroscuroMixin):
 
         for k, v in OggettoCategory.choices:
             if k > 1:
-                context["categories"][v] = [i.export_to_json() for i in cls.objects.filter(category=k).exclude(special=True).order_by("name")]
+                context["categories"][v] = [i.export_to_json() for i in cls.objects.filter(category=k).exclude(special=True).order_by("subcat","quality","name")]
 
         template = get_template('main/PDF/extract.html')
         html = template.render(context)
@@ -284,6 +363,13 @@ def cat_from_first(modeladmin, request, queryset):
                 item.save()
     short_description = "Category from the first item"
 
+def forcefix_all(modeladmin, request, queryset):
+    for item in queryset:
+        item.forcefix = True
+        item.save()
+    short_description = "Forcefix all"
+
+
 
 class OggettoAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
@@ -296,13 +382,14 @@ class OggettoAdmin(admin.ModelAdmin):
     # list_editable = ["category", "cover", "materiaux", "prot", "quality", "force_min", "malus_AGI", "malus_DEX",
     #                  "malus_VUE", "malus_OUI",'mod_adjust',"enc", "price"]
     # Weapons
-    list_display = ["rid", "name", "prot", "malus_AGI", "malus_DEX", "malus_VUE", "malus_OUI", "real_price", "category", "is_basic", "cover", "quality",
-                    "materiaux", "enc", "price", "resistance", "force_min"]
-    list_editable = ["name", "quality", "malus_AGI", "malus_DEX", "malus_VUE", "malus_OUI", "prot", "cover", "materiaux", "force_min", "enc", "price",
+    list_display = ["rid", "name","forcefix","subcat","subcategory", "has_qualities", "prot", "malus_AGI", "malus_DEX", "malus_VUE", "malus_OUI", "real_price",
+                    "category", "is_basic", "cover",
+                    "materiaux", "enc","enc_worn", "price", "resistance", "force_min"]
+    list_editable = ["name","forcefix", "has_qualities","subcat","subcategory", "prot", "enc", "price",
                      "is_basic"]
     # Gems
     # list_display = ["name", "category", "rid","gcode","color","min_size","max_size","min_purity","max_purity"]
     # list_editable = ["gcode","min_size","max_size","min_purity","max_purity","color"]
-    list_filter = ["category", "quality", "is_basic", "can_be_thrown", "special", "materiaux", "cover"]
+    list_filter = ["category","subcat", "subcategory","quality", "has_qualities", "is_basic", "can_be_thrown", "special", "materiaux", "cover"]
     search_fields = ['name']
-    actions = [refix, cat_from_first]
+    actions = [refix, cat_from_first,forcefix_all]

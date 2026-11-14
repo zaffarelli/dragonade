@@ -548,7 +548,7 @@ def as_money(value):
 def as_cover(value):
     from django.template.loader import get_template
     covers = value.split(" ")
-    base = "#2020207f"
+    base = "#9090907f"
     x = {
         "H": base,
         "C": base,
@@ -558,7 +558,7 @@ def as_cover(value):
         "M": base,
     }
     for cover in covers:
-        x[cover] = "#F0C080"
+        x[cover] = "#f0f0f0"
     template = get_template('main/roster/small_roster_armor_map.html')
     image = template.render(x, None)
     return image
@@ -636,9 +636,17 @@ def as_quality(value):
         if value == 0:
             result = "basique"
         else:
-            colors = ["silver", "blue", "green", "purple"]
+            colors = ["silver", "darkcyan", "green", "purple", "orange"]
             for _ in range(value):
                 result += f"<i class='fa fa-star' style='color:{colors[value]};'></i>"
+    return result
+
+@register.filter(name='col_per_quality')
+def col_per_quality(value):
+    result = "white"
+    if isinstance(value, int):
+        colors = ["silver", "darkcyan", "green", "purple", "orange"]
+        result = colors[value]
     return result
 
 
@@ -720,3 +728,24 @@ def pluralizer(value):
         if v in PLURALS:
             p = PLURALS[v]
     return p
+
+
+@register.filter(name='as_iconz')
+def as_iconz(value):
+    from django.template.loader import get_template
+    x = {"prop_"+value.lower():1}
+    template = get_template('main/svg/iconz/base_icon.svg')
+    image = template.render(x, None)
+    return ""
+
+@register.filter(name='as_spell_list')
+def as_spell_list(value):
+    from main.models.incantessimi import Incantessimo
+    if value:
+        spells_list = []
+        l = value.split(" ")
+        for incantessimo in Incantessimo.objects.filter(rid__in=l):
+            spells_list.append(f"{incantessimo.name} [{incantessimo.power}]")
+        return ", ".join(spells_list)
+    return ""
+

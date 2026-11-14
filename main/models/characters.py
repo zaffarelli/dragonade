@@ -56,7 +56,8 @@ class Character(models.Model, ChiaroscuroMixin):
     gamers_team = models.BooleanField(default=False, blank=True)
     gear = models.TextField(max_length=1024, default="", blank=True)
     spells = models.TextField(max_length=1024, default="", blank=True)
-    poterispeciali = models.TextField(max_length=1024, default="", blank=True)
+    poteri_speciali = models.TextField(max_length=1024, default="", blank=True)
+    artefatti = models.TextField(max_length=1024, default="", blank=True)
     bug_list = models.TextField(default="", max_length=1024, blank=True)
     imc = models.FloatField(default=0, blank=True)
     imc_boost = models.FloatField(default=0, blank=True)
@@ -278,7 +279,29 @@ class Character(models.Model, ChiaroscuroMixin):
         a, s = self.expected_totals()
         self.total_attributes -= a
         self.total_skills -= s
-        self.power -= 12
+        self.power = self.total_attributes*3 + self.total_skills + int(self.SON)*5
+        self.power += self.incantessimi_power()
+        self.power += self.artefatti_power()
+        self.power += self.poteri_speciali_power()
+
+    def incantessimi_power(self):
+        total = 0
+        if len(self.spells)>0:
+            from main.models.incantessimi import Incantessimo
+            incantessimi = Incantessimo.objects.filter(rid__in=self.spells.split(" "))
+            for incantessimo in incantessimi:
+                total += incantessimo.power
+            print(f"Incantessimi total power for {self.name} is {total}.")
+        return round(total/10)
+
+    def artefatti_power(self):
+        total = 0
+        return total
+
+
+    def poteri_speciali_power(self):
+        total = 0
+        return total
 
     def ref_to_struct(self, src_ref):
         """        
@@ -422,6 +445,7 @@ class Character(models.Model, ChiaroscuroMixin):
         self._data['fatigue_points'], self._data['fatigue_map'] = self.computeFatigue(self.FAT)
         self._data['has_bug'] = self.has_bug()
         self._data['spells_details'] = self.collect_spells()
+
         self._data['shortcuts'] = self.shortcuts()
         self._data['weapons'] = self.gear_to_weapons()
         self._data['other'] = self.gear_to_other()
@@ -558,8 +582,8 @@ class Character(models.Model, ChiaroscuroMixin):
     def collect_poteri(self):
         from main.models.poteri_speciali import PotereSpeciale
         list = []
-        if len(self.poterispeciali) > 0:
-            arr = self.poterispeciali.split(" ")
+        if len(self.poteri_speciali) > 0:
+            arr = self.poteri_speciali.split(" ")
             poteri = PotereSpeciale.objects.filter(rid__in=arr).order_by("power_type")
             for potero in poteri:
                 list.append(potero.export_to_json())

@@ -293,6 +293,15 @@
     {% endfor %}
 {% endif %}
 
+{% if type == "artefatto" %}
+    {% for k,v in categories.items %}
+        <h3>{{k|title}}</h3>
+        {% for o in v %}
+            {% include "main/PDF/artefatto.html" with c=o %}
+        {%endfor%}
+    {% endfor %}
+{% endif %}
+
 {% if type == "creatura" %}
     {% for k,v in categories.items %}
         <h3>{{k|title}}</h3>

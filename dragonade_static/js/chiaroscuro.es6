@@ -125,7 +125,6 @@ class Chiaroscuro {
         me.registerEditables()
         me.registerStackPull()
         me.registerValuePushEditor()
-        // me.registerSheets()
         me.registerLinks()
         me.registerShowHide()
         me.registerShifters()
@@ -381,18 +380,7 @@ class Chiaroscuro {
             } else if (action == "value") {
                 let params = id.split("__");
                 let value = $(this).attr("srcval");
-
                 let pvalue = me.zaff_decode(value)
-
-                //let pvalue = window.atob(bvalue);
-//                  let cvalue = pvalue.replace(/[\u00A0-\u9999<>\&]/g, function(i) {
-//                      return '&#'+i.charCodeAt(0)+';';
-//                  });
-                //let value = he.unescape(pvalue,{'strict':true})
-                //console.log("bvalue:",bvalue)
-//                 console.log("value:",value)
-//                 console.log("cvalue:",cvalue)
-                //console.log("value: ",value)
                 if (params.length > 3) {
                     if (e.ctrlKey) {
                         change = params[3];
@@ -424,9 +412,6 @@ class Chiaroscuro {
                         let value = $(this).attr("srcval")
                         let encoded_value = me.zaff_decode(value)
                         let data = params[0] + "__" + params[1] + "__" + params[2]
-                        // console.log("RegisterEditor")
-                        // console.log(data)
-                        // console.log(">>>",encoded_value)
                         $("#ed").val(encoded_value)
                         $("#target_ed").val(data)
                         $(this).parent(".interactive_element").addClass("selected")

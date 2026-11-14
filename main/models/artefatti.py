@@ -1,10 +1,15 @@
+import os
+
 from django.db import models
 from django.contrib import admin
-
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+import io
 from main.mixins.chiaroscuro_mixin import ChiaroscuroMixin
 from main.models.oggetti import Oggetto
 from main.utils.mechanics import as_rid, roll
 import json
+from django.conf import settings
 
 class ArtefattoCategory(models.IntegerChoices):
     WEAPON = 0, "Arme"
@@ -180,6 +185,36 @@ class Artefatto(models.Model,ChiaroscuroMixin):
         item.name = f"Nouveau ({roll(faces=12)}-{roll(faces=12)}-{roll(faces=12)})"
         item.save()
         return item.id
+
+    @classmethod
+    def references(cls):
+        json_list = []
+        for item in cls.objects.order_by("name"):
+            json_list.append({"name": item.name, "rid": item.rid})
+        return json_list
+
+    @classmethod
+    def export_to_pdf(cls):
+        import datetime
+        context = {"full_name": "Artefacts Draconiques", "release_date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+        context["type"] = "artefatto"
+        context["categories"] = {}
+
+        for k, v in ArtefattoCategory.choices:
+            if k > 1:
+                context["categories"][v] = [i.export_to_json() for i in cls.objects.filter(category=k).order_by("name")]
+
+        template = get_template('main/PDF/extract.html')
+        html = template.render(context)
+        filename = os.path.join(settings.MEDIA_ROOT, 'pdf/extracts/artefatti.pdf')
+        es_pdf = open(filename, 'wb')
+        pdf = pisa.pisaDocument(io.BytesIO(html.encode('utf-8')), es_pdf)
+        if not pdf.err:
+            es_pdf.close()
+        else:
+            print(pdf.err)
+
+
 
 class ArtefattoAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix

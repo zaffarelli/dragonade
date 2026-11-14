@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+        width="8mm"
+        height="8mm"
+        viewBox="-10 -8 20 20"
+        version="1.2"
+        class="iconz"
+        xmlns="http://www.w3.org/2000/svg">
+
+    <rect x="-8" y="-8" width="16" height="16" rx="2" ry="2" style="fill:#006000;"></rect>
+
+    {% if prop_range %}
+    <g>
+        <path
+                style="fill:none;stroke:white;stroke-width:1pt;stroke-linecap:round;stroke-linejoin:round;"
+                d="
+           M-4,-3 l3,3 -3,3
+           M-1,-3 l3,3 -3,3
+           M2,-3 l3,3 -3,3
+           "
+        />
+    </g>
+    {%else%}
+    {% if prop_difficulty %}
+    <g>
+        <path
+                style="fill:none;stroke:white;stroke-width:1pt;stroke-linecap:round;stroke-linejoin:round;"
+                d="
+            M-6,5 l6,-6 6,6
+            M-5,-3 l10,0
+            "
+        />
+    </g>
+    {%else%}
+    {% if prop_ti %}
+    <g>
+
+        <path
+                style="fill:none;stroke:white;stroke-width:1pt;stroke-linecap:round;stroke-linejoin:round;"
+                d="
+            M-4,4 l8,-8
+            M2,-4 l2,0 l0,2
+            "
+        />
+    </g>
+    {%else%}
+    {% if prop_area %}
+    <g>
+        <circle r="5"
+                style="fill:none;stroke:white;stroke-width:1pt;stroke-linecap:round;stroke-linejoin:round;"
+        />
+        <circle r="0.5"
+                style="fill:none;stroke:white;stroke-width:1pt;stroke-linecap:round;stroke-linejoin:round;"
+        />
+    </g>
+    {%else%}
+    {% if prop_price %}
+    <g>
+        <circle r="0.5" cx="-1" cy="-3"
+                style="fill:white;stroke:white;stroke-width:1pt;stroke-linecap:round;stroke-linejoin:round;"
+        />
+        <circle r="0.5" cx="-2" cy="2"
+                style="fill:white;stroke:white;stroke-width:1pt;stroke-linecap:round;stroke-linejoin:round;"
+        />
+        <circle r="1" cx="3" cy="-2"
+                style="fill:white;stroke:white;stroke-width:1pt;stroke-linecap:round;stroke-linejoin:round;"
+        />
+        <circle r="0.5" cx="1" cy="1"
+                style="fill:white;stroke:white;stroke-width:1pt;stroke-linecap:round;stroke-linejoin:round;"
+        />
+    </g>
+    {%else%}
+    {% if prop_duration %}
+    <g>
+        <circle r="5"
+                style="fill:none;stroke:white;stroke-width:1pt;stroke-linecap:round;stroke-linejoin:round;"
+        />
+        <path
+                style="fill:none;stroke:white;stroke-width:1pt;stroke-linecap:round;stroke-linejoin:round;"
+                d="
+           M0,0 l-3,0
+           M0,0 l3,-3
+           "
+        />
+    </g>
+    {%else%}
+    {% if prop_pentacle_code %}
+    <g>
+        <circle r="0.5" cx="5" cy="-1"               style="fill:none;stroke:white;stroke-width:1pt;stroke-linecap:round;stroke-linejoin:round;"       />
+        <circle r="0.5" cx="0" cy="-5"               style="fill:none;stroke:white;stroke-width:1pt;stroke-linecap:round;stroke-linejoin:round;"       />
+        <circle r="0.5" cx="-5" cy="-1"               style="fill:none;stroke:white;stroke-width:1pt;stroke-linecap:round;stroke-linejoin:round;"       />
+        <circle r="0.5" cx="-3" cy="4"               style="fill:none;stroke:white;stroke-width:1pt;stroke-linecap:round;stroke-linejoin:round;"       />
+        <circle r="0.5" cx="3" cy="4"               style="fill:none;stroke:white;stroke-width:1pt;stroke-linecap:round;stroke-linejoin:round;"       />
+
+    </g>
+    {%else%}
+    {% if prop_fallback %}
+    <g>
+        <circle r="1" cx="0" cy="-4"               style="fill:white;stroke:white;stroke-width:0pt;stroke-linecap:round;stroke-linejoin:round;"       />
+        <circle r="1.5" cx="0" cy="-1"               style="fill:white;stroke:white;stroke-width:0pt;stroke-linecap:round;stroke-linejoin:round;"       />
+        <circle r="2" cx="0" cy="3"               style="fill:white;stroke:white;stroke-width:0pt;stroke-linecap:round;stroke-linejoin:round;"       />
+
+
+    </g>
+    {%endif%}
+    {%endif%}
+    {%endif%}
+    {%endif%}
+    {%endif%}
+    {%endif%}
+    {%endif%}
+    {%endif%}
+</svg>
+

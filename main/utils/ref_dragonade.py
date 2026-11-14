@@ -79,6 +79,8 @@ DRAGONADE_CHARACTER_STATISTICS = {
             {"NAME": "is_lefty", "TEXT": "Entrée", "RATIONALE": "-"},
             {"NAME": "gear", "TEXT": "Equipement", "RATIONALE": "-"},
             {"NAME": "spells", "TEXT": "Magie", "RATIONALE": "-"},
+            {"NAME": "poteri_speciali", "TEXT": "Magie", "RATIONALE": "-"},
+            {"NAME": "artefatti", "TEXT": "Magie", "RATIONALE": "-"},
             {"NAME": "destiny", "TEXT": "Destinée", "RATIONALE": "-"},
             {"NAME": "entrance", "TEXT": "Entrée", "RATIONALE": "-"},
             {"NAME": "description", "TEXT": "Description", "RATIONALE": "-"},

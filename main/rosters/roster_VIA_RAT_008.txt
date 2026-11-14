@@ -1,34 +1,41 @@
 Randal le Chasseur
+Libérateur de la Trempe, Ami de Savignand de Lagres
 (Nicolas (@_ratapoil))
-Destinée: 0 (0)
-Stress: 0 = 0(U) + 0(R)
-Heure de Naissance: Dragon
+Destinée: 1 (3)
+Stress: 40 = 28(U) + 12(R)
+Heure de Naissance: Poisson-Acrobate
 Taille/Poids: 170 cm/65 kg
-Totaux Attributs/Compétences: 0 / 0
+Totaux Attributs/Compétences: 1 / 7
 
-AGI  5 EMP  4 APP  6 | TIR  6 | VIE 12 | IMP  0 
+AGI  5 EMP  4 APP  6 | TIR  7 | VIE 12 | IMP  0 
 CON  7 ODG  6 DEX  8 | MEL  5 | FAT  6 | ENC 10.0 
-FOR  5 OUI  7 INT  4 | LAN  6 | SUS  3 | FAB  4 
-TAI  5 VUE  4 VOL  5 | DER  6 | RES  2 | REV  4 
+FOR  5 OUI  7 INT  4 | LAN  6 | SUS  3 | FAB  5 
+TAI  5 VUE  5 VOL  5 | DER  6 | RES  2 | REV  5 
 
-Martiales (-1): Arcs [6] 5, Poignards [3] 2.
-Générales (-1): Artisanat [8] 7, Vigilance [7] 6, Discrétion [5] 4, Escalade [5] 4, Course [4] 3, Saut [4] 3, Concentration [3] 2, Cuisine [2] 1.
-Particulières (-2): Survie en Forêt [6] 4, Couture [5] 3, Charpenterie [4] 2, Déguisement [4] 2, Equitation [3] 1, Survie dans le Désert [3] 1, Survie dans les Marais [3] 1, Survie en Montagnes [3] 1.
+Martiales (-1): Arcs [6] 5, Poignards [3] 2, Esquive [1] 0.
+Générales (-1): Artisanat [9] 8, Vigilance [7] 6, Discrétion [5] 4, Escalade [5] 4, Course [4] 3, Saut [4] 3, Concentration [3] 2, Cuisine [3] 2, Danse [2] 1.
+Particulières (-2): Survie en Forêt [6] 4, Couture [5] 3, Charpenterie [4] 2, Déguisement [4] 2, Equitation [3] 1, Survie dans le Désert [3] 1, Survie dans les Marais [3] 1, Survie en Montagnes [3] 1, Survie en Cité [1] -1.
 Spécialisées (-3): Navigation [8] 5, Acrobatie [6] 3, Natation [6] 3, Maroquinerie [5] 2, Jonglerie [4] 1, Médecine [4] 1.
-Connaissances (-4): Animaux [10] 6, Plantes [9] 5, Astrologie [6] 2.
+Connaissances (-4): Animaux [10] 6, Plantes [9] 5, Astrologie [6] 2, Mathématiques [1] -3.
 Draconiques (-5): Contemplatif [9] 4.
 
 Arme                     1M     2M INI ENG ATT MAN DMG Jet            Score
+Dague                   1+0      -   0   2   0   2   0 MEL+2+Man=7        9
+Epée Gnome              2+0      -   0   4   0   1   0 MEL+-1+Man=4       5
+Arc                              2   0   0   0   0   0 TIR+5+Man=12      12
 
                                     Malus
 Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
-Cumuls Malus                          0   0   0   0
-Protection: H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X
+Casque d'Acier                        0   0   0  -1   3 H           
+Pourpoint de Cuir Souple              0  -1   0   0   2 C A B       
+Chausses de Cuir Souple              -1   0   0   0   2 L M         
+Cumuls Malus                         -1  -1   0  -1
+Protection: H-3-X C-2-X A-2-X B-2-X L-2-X M-2-X
 
-PdV (12)      PdF (6)             PdR (4)             
-¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤             
-¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤             
-¤ ¤           ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤             
+PdV (12)      PdF (6)             PdR (5)             
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤           
+¤ ¤ ¤ ¤ ¤     ¤ ¤ ¤ ¤ ¤           ¤ ¤ ¤ ¤ ¤           
+¤ ¤           ¤ ¤ ¤ ¤             ¤ ¤ ¤ ¤ ¤           
               ¤ ¤ ¤ ¤                                 
               ¤ ¤ ¤                                   
               ¤ ¤ ¤                                   

@@ -20,7 +20,14 @@
         <fieldset class="block_third raw">
             <legend>Pouvoir Spéciaux</legend>
             <div class="block_third  stackbox poteri stackpull" action="{{model|lower}}__{{a.id}}__poteri_speciali__bulk" param="{{a.poteri_speciali}}">
-                {{a.poterispeciali|as_stack_list|safe}}
+                {{a.poteri_speciali|as_stack_list|safe}}
+            </div>
+        </fieldset>
+
+        <fieldset class="block_third raw">
+            <legend>Artefacts Draconiques</legend>
+            <div class="block_third  stackbox artefatti stackpull" action="{{model|lower}}__{{a.id}}__artefatti__bulk" param="{{a.artefatti}}">
+                {{a.artefatti|as_stack_list|safe}}
             </div>
         </fieldset>
     </div>

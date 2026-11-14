@@ -1,4 +1,11 @@
 {% load static %}
 {% load dragonade_filters%}
 
-<div class="zlist_item text" title="{{txt}}">{{val}}</div>
+<div id="{{i.type}}__{{i.id}}__{{prop}}__value"  class="zlist_item text ">
+    {% if txt %}
+        <span class="txt">{{txt}}</span>
+        <span class="val">{{val|render_text|safe}}</span>
+    {% else %}
+        {{val|render_text|safe }}
+    {% endif %}
+</div>

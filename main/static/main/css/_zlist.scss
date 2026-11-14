@@ -21,16 +21,17 @@ $info_color: #101010;
         display:flex;
         flex-flow:row wrap;
         justify-content: stretch;
-        align-items: baseline;
+        align-items: stretch;
         align-content: stretch;
-//         border:1pt solid pink;
+        border-radius: 5pt;
         gap:1pt;
-//         width:auto;
         &.even{
-            background:#2020207f;
+            background:#4040407f;
+            border:1pt solid #404040;
         }
         &.odd{
             background:#6060607f;
+            border:1pt solid #606060;
         }
 
         &.buffer{
@@ -45,13 +46,11 @@ $info_color: #101010;
             padding:2pt;
             border-radius:3pt;
             flex:1 1 8ex;
-
             color:white;
             vertical-align:middle;
-            text-align:center;
             font-family:$font;
             font-size:$list_font_size;
-//             background:#4040407f;
+
             &.title{
                 flex: 5 5 auto;
                 font-family:$font_title;
@@ -66,7 +65,7 @@ $info_color: #101010;
                 font-size:$list_font_size;
                 flex:1 0 20ex;
                 flex-flow: column wrap;
-                justify-content:space-between;
+                justify-content:flex-start;
                 align-items:stretch;
                 align-content:stretch;
                 min-width:30ex;
@@ -85,7 +84,7 @@ $info_color: #101010;
                 }
                 & .val{
                     flex: 1 1 auto;
-                    max-height:6em;
+//                     max-height:4em;
                     font-size:$mid_font_size;
                     color:white;
                     background:$info_color;
@@ -102,6 +101,7 @@ $info_color: #101010;
             }
             &.symbol{
                 background:$label_color;
+
             }
             &.simple{
                 display:flex;
@@ -111,8 +111,8 @@ $info_color: #101010;
                 align-items:stretch;
                 align-content:stretch;
                 color:silver;
-                min-width:16ex;
-                border:1pt solid #303030;
+                max-width:16ex;
+//                 border:1pt solid none;
                 & .txt{
                     flex:0 0 1.2em;
                     font-size:$list_font_size;
@@ -135,37 +135,52 @@ $info_color: #101010;
 
             &.shifter{
                 display:flex;
-                flex:0 0 8ex;
+                flex:0 0 auto;
                 flex-flow: column wrap;
                 justify-content:space-between;
                 align-items:stretch;
                 align-content:stretch;
+                align-self:center;
                 color:silver;
-                min-width:10ex;
                 border:1pt solid none;
+                background:transparent;
                 & .txt{
-                    flex:1 0 1.2em;
+                    flex:0 0 1.2em;
                     font-size:$list_font_size;
-                    color:white;
-                    background:$label_color;
+                    color:silver;
+
+                    background:$info_color;
                     border-radius:3pt;
                     padding:3pt;
+                    self-align:top;
+
                 }
                 & .val{
                     flex: 1 1 auto;
                     font-size:$title_font_size;
-                    color:silver;
+                    color:white;
                     background:$info_color;
                     padding:3pt;
                     overflow:hidden;
+                    width:18ex;
+                }
+                & .loner{
+                    flex: 0 0 auto;
+                    font-size:2em;
+                    text-align:center;
+                    width:2ex;
                 }
             }
 
 
             &.icon{
                 font-size:$mega_font_size;
-                flex:0 0 4ex;
+                flex:0 1 4ex;
+                align-self:center;
                 cursor:pointer;
+//                 border:1pt solid darkcyan;
+                text-align:center;
+//                 vertical-align:middle;
             }
             &.boolean{
                 flex:0 0 4ex;
@@ -194,8 +209,7 @@ $info_color: #101010;
                 color:fuchsia;
                 width:4ex;
             }
-//             border:2pt solid #202020;
-            border-radius: 5pt;
+
         }
     }
 }
@@ -267,3 +281,8 @@ $info_color: #101010;
 .diff_15{color:#606060;}
 .diff_20{color:#804060;}
 .diff_25{color:#A02060;}
+
+
+.iconz{
+    float:left;
+}

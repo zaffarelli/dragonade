@@ -26,8 +26,8 @@ Dragonne                3+1      -   0   7   0   1   0 MEL+4+Man=9       10
                                     Malus
 Armure/Protection                   AGI DEX VUE OUI Pr. Couverture  
 Pourpoint de Cuir Epais d'Exception   0  -2   0   0   3 C A B       
-Chausses de Cuir Epais d'Exception    0   0   0   0   3 L M         
-Cumuls Malus                          0  -2   0   0
+Chausses de Cuir Epais d'Exception   -2   0   0   0   3 L M         
+Cumuls Malus                         -2  -2   0   0
 Protection: H-0-X C-3-X A-3-X B-3-X L-3-X M-3-X
 
 PdV (14)      PdF (8)             PdR (13)            

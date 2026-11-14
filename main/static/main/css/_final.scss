@@ -1,6 +1,6 @@
 .interactive_element{
     cursor:crosshair;
-    border:1pt ridge $hlbg;
+    border:1pt ridge none;
     &.selected{
         border-color:$hlbg;
     }

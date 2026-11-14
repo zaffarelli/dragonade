@@ -1,96 +1,97 @@
 body {
-  margin: 0;
   padding: 0;
+  margin: 0;
 
 
   & .universe{
+    top: 0;
     width: 99vw;
     height: 99vh;
-    top: 0;
-    gap: 0;
     padding: 3px;
     border: 3px solid transparent;
     border-radius:10px;
+    gap: 0;
 
   & .spare_top{
       position:fixed;
       top:0;
       right:0;
-      left:0;
       bottom:auto;
-      height:3vh;
+      left:0;
       z-index:400;
+      height:3vh;
   }
 
   & .world {
 //     background: $palette1;
-    margin-top: 0;
-    margin-bottom: 0;
-    z-index: 5;
     position: fixed;
-    color: $body_color;
-    font-family: $font;
+    top: 4vh;
+    z-index: 5;
 
     width: auto;
     height: auto;
-    top: 4vh;
-    gap: 0;
     padding: 3px;
+    margin-top: 0;
+    margin-bottom: 0;
     border: 3px solid transparent;
     border-radius:10px;
+    color: $body_color;
+    font-family: $font;
+    gap: 0;
     & .spare_right{
       position:fixed;
       top:0;
       right:0;
       bottom:0;
       left:auto;
+      display:flex;
+      z-index:50;
+      justify-content: flex-start;
+      align-items:stretch;
+      align-content:flex-start;
       width:$right_panel_width;
       height:auto;
-      border: 1px solid transparent;
-      background:#101010fe;
-      display:flex;
-      flex-flow:column nowrap;
-      justify-content: flex-start;
-      align-content:flex-start;
-      align-items:stretch;
       padding:5px;
-      z-index:50;
+      background:#101010f0;
+      border: 1px solid transparent;
+      border-radius:10pt 0 0 10pt;
+      flex-flow:column nowrap;
 
     }
     & .corpus {
 //       position: fixed;
-      width:auto;
-      height:auto;
       top:0;
       right:0;
       bottom:0;
       left:0;
-      padding:5pt;
-      border-radius: 5pt;
-      background:#1010107f;
-//       background:none;
-      color:$palette4;
-      border-radius:10px;
-      border:1px solid transparent;
-      z-index:10;
       display:flex;
-      flex-flow:column wrap;
+      z-index:10;
       justify-content: stretch;
       align-items: stretch;
       align-content: stretch;
+      width:auto;
+      height:auto;
+      padding:5pt;
+      background:#1010107f;
+      border:1px solid transparent;
+      border-radius: 5pt;
+      border-radius:10px;
+//       background:none;
+      color:$palette4;
+      flex-flow:column wrap;
       & #svg_area{
             position:fixed;
-            //background:$palette4;
-            background:#101010e0;
-            left:0;
-            right:0;
             top:0;
+            right:0;
             bottom:0;
+            left:0;
+            z-index:40;
             width:auto;
             height:auto;
-            border-radius: 10px;
-            z-index:40;
+            //background:$palette4;
+            background:#101010e0;
             border:none;
+            border-radius: 10px;
         }
 
 
@@ -104,104 +105,127 @@ body {
 
 
 #d3area{
-    order:8;
     flex:1 1 auto;
-    background:transparent;
+    order:8;
     width:auto;
+    background:transparent;
 }
 
 .title{
     @include dragonade_panel;
-    order:1;
     flex: 0 0 3fr;
+    order:1;
     text-align:center;
 }
 
 .middle{
 //     @include dragonade_panel;
-    order:2;
-    flex: 1 8 auto;
-    flex-flow:column nowrap;
     display:flex;
+    flex: 1 8 auto;
+    order:2;
     justify-content: flex-start;
-    align-content: stretch;
     align-items: stretch;
+    align-content: stretch;
+    flex-flow:column nowrap;
 
 
     & .middleblock{
 //        @include dragonade_panel;
         display:flex;
         flex: 1 8 auto;
-        flex-flow:column wrap;
         justify-content: space-between;
-        align-content: stretch;
         align-items: stretch;
-        margin:1ex;
+        align-content: stretch;
         width:auto;
-        display:block;
-        text-align:center;
+        margin:1ex;
+        flex-flow:column wrap;
+//         display:block;
+//
+//         & .list_block{
+//             height: 8em;
+//             border:1px solid #808080;
+//             border-radius:5px;
+//             margin-bottom:1em;
+//             padding:5px;
+//         }
 
-        & .list_block{
-            height: 15em;
-            border:1px solid #808080;
-            border-radius:5px;
-            margin-bottom:1em;
-            padding:5px;
-        }
-
-        &.limit_height{
-            max-height:20em;
-            overflow-y:scroll;
-            margin-bottom:1em;
-        }
+//         &.limit_height{
+//             max-height:12em;
+//             overflow-y:scroll;
+//             margin-bottom:1em;
+//         }
         &.references{
-            flex: 1 6 auto;
             display:flex;
-            flex-flow: column nowrap;
+            flex: 1 3 auto;
             justify-content: space-between;
-            align-content: stretch;
             align-items: stretch;
-
-            & .option_block{
+            align-content: stretch;
+            width:auto;
+            max-height:7em;
+            overflow-y:scroll;
+            flex-flow: column nowrap;
+            border-radius:5pt;
+            border:2pt solid #7070707f;
+            gap:3pt;
+            & .ref_entry{
+                display:flex;
                 flex: 1 8 auto;
+                justify-content: space-between;
+                align-items: stretch;
+                align-content: stretch;
+                flex-flow: row wrap;
+
+                & .name{
+                    flex: 0 0 32ex;
+                    order:1;
+                    border:1pt solid #7070707f;
+                    background:#2020207f;
+                    &:hover{
+                        color:$hlco;
+                        background:$hlbg;
+                        cursor:pointer;
+                    }
+                }
+                & .rid{
+                    flex: 1 8 auto;
+                    order:2;
+                    border-left:5pt solid transparent;
+                }
             }
+
 
         }
         &.options{
             flex: 0 1 auto;
-            border-radius:5pt;
             border:1pt solid #606060;
-            & legend{
-                font-family: $font_title;
-                font-size:1.2em;
-            }
-
+            border-radius:5pt;
         }
+
     }
 }
 
 .bottom{
     @include dragonade_panel;
-    order:3;
     flex: 0 5 3fr;
+    order:3;
 }
 
 #target_ed, #ed{
     //@include dragonade_panel;
     display:block;
+    width:70ex;
     height:1em;
+    padding:5pt;
     margin:3pt;
     background:black;
-    color:white;
     border:1pt solid #505050;
-    padding:5pt;
     border-radius:5pt;
-    width:70ex;
+    color:white;
     font-size:1.2em;
 }
 
 #ed{
-    height:32em;
+    height:8em;
     &:focus{
         background:#102030;
     }
@@ -220,25 +244,25 @@ body {
 
 .menu{
     @include dragonade_panel;
-    order:5;
-    flex: 0 0 auto;
     display:flex;
-    flex-flow:row wrap;
+    flex: 0 0 auto;
+    order:5;
     justify-content: space-around;
     align-items: stretch;
     align-content: flex-end;
+    flex-flow:row wrap;
     gap:0;
 
     & .menu_entry{
-        border-radius:2px;
-        border: 2px solid $palette1;
-        padding:0px;
         flex: 1 1 1.4cm;
+        padding:0px;
         background:#C0C0C020;
+        border: 2px solid $palette1;
+        border-radius:2px;
         text-align:center;
         & img{
-            height:1.4cm;
             width:1.4cm;
+            height:1.4cm;
         }
         &.off{
             background:$palette1;
@@ -253,14 +277,14 @@ body {
 
 .list{
     @include dragonade_panel;
-    order:4;
-    flex: 0 0 16vh;
     display:flex;
-    flex-flow:column nowrap;
+    flex: 0 0 16vh;
+    order:4;
 
 //     overflow:scroll;
     justify-content: flex-end;
     align-content: space-around;
+    flex-flow:column nowrap;
     gap:1px;
 
     & legend{
@@ -273,13 +297,13 @@ body {
         order:1;
         text-align:center;
         & .paginator{
-            border:1pt solid #303030;
-            border-radius:3pt;
-            background:black;
-            color:silver;
             display:inline-block;
             width:31%;
+            background:black;
+            border:1pt solid #303030;
+            border-radius:3pt;
             cursor:pointer;
+            color:silver;
             &.current{
                 background:transparent;
                 cursor:none;
@@ -291,14 +315,14 @@ body {
         order:10;
         text-align:center;
         & .paginator{
-            border:1pt solid #303030;
-            border-radius:3pt;
-            background:black;
-            color:silver;
             display:inline-block;
             width:31%;
+            background:black;
+            border:1pt solid #303030;
+            border-radius:3pt;
 
             cursor:pointer;
+            color:silver;
             &.current{
                 background:transparent;
                 cursor:none;
@@ -360,17 +384,17 @@ body {
 //
 //     }
     & .paginator{
-        font-family: $font;
-        font-size:8pt;
         flex:1 1 50ch;
-        text-align:center;
-        background:$palette4;
-        padding:2px;
         order:2;
         height:1.5em;
+        padding:2px;
+        background:$palette4;
         border:2px solid $palette2;
         border-radius: 3px;
         color:$palette0;
+        text-align:center;
+        font-family: $font;
+        font-size:8pt;
     }
 
 }
@@ -390,17 +414,17 @@ body {
 
 
 .container{
-    border:1px solid transparent;
-    border-radius:5px;
     display:flex;
-    flex-flow: column wrap;
     justify-content: stretch;
-    align-content: stretch;
     align-items: center;
-    gap: 5px;
-    margin:0;
+    align-content: stretch;
     height:100%;
+    margin:0;
+    border:1px solid transparent;
     border: 1px solid transparent;
+    border-radius:5px;
+    flex-flow: column wrap;
+    gap: 5px;
 
 }
 
@@ -430,25 +454,25 @@ body {
 
 
       .stacked {
-        order: 1;
         flex: 8 1 auto;
-        text-align:center;
-        border:2px solid green;
+        order: 1;
+        height:auto;
         margin-top:0;
         margin-bottom:0;
-        height:auto;
         background:green;
+        border:2px solid green;
+        text-align:center;
       }
 
 .heap{
     display:flex;
-    flex-flow: row wrap;
+    flex: 1 1 10vw;
     justify-content: space-between;
     align-items:flex-start;
     align-content:stretch;
+    flex-flow: row wrap;
 
     gap:5px;
-    flex: 1 1 10vw;
 
 }
 
@@ -477,38 +501,38 @@ body {
 
 .list_body{
     @include dragonade_panel;
-    height:12em;
+    display:flex;
+    align-items: space-between;
+    align-content: space-between;
     width:auto;
+    height:12em;
     margin-top:0;
     margin-bottom:0;
-    display:flex;
     flex-flow: row wrap;
     justify-items: flex-start;
-    align-content: space-between;
-    align-items: space-between;
     gap:1ex;
     & .list_entry, & .ref_entry{
-        order:2;
-        width:24ex;
         display:flex;
-        flex-flow: row wrap;
-        justify-items: flex-start;
-        align-content: stretch;
+        flex: 1 1 22ex;
+        order:2;
         align-items: space-around;
+        align-content: stretch;
+        width:24ex;
         border:2px solid #808080;
         border-radius:5px;
-        flex: 1 1 22ex;
+        flex-flow: row wrap;
+        justify-items: flex-start;
         & .ref, & .name{
-            text-align:center;
+            flex: 1 1 2ex;
             order:1;
             background:#101010;
-            flex: 1 1 2ex;
+            text-align:center;
             font-family: $mono;
         }
         & .base, & .rid{
+            flex: 1 1 20ex;
             order:2;
             background:#100707;
-            flex: 1 1 20ex;
         }
     }
     & .list_entry{
@@ -553,54 +577,54 @@ body {
             margin-top:5em;
             & .base{
                 font-height:7px;
-                border:1px solid white;
-                border-radius:5pt;
-                padding:5pt;
-                margin:auto;
-                width:70ex;
-                height:auto;
                 display:flex;
-                flex-flow:column nowrap;
                 justify-content:flex-start;
                 align-items:stretch;
                 align-content:stretch;
-                gap:1px;
+                width:70ex;
+                height:auto;
+                padding:5pt;
+                margin:auto;
                 background:#303030;
+                border:1px solid white;
+                border-radius:5pt;
+                flex-flow:column nowrap;
+                gap:1px;
                 & .box{
-                    flex: 1 1 1em;
                     display:flex;
-                    flex-flow:row wrap;
+                    flex: 1 1 1em;
                     justify-content:flex-start;
-                    align-content:flex-start;
                     align-items:stretch;
+                    align-content:flex-start;
+                    flex-flow:row wrap;
                     &.centered{
                         justify-content:space-between;
                         background:transparent;
                         }
                     gap:3px;
-                    color:white;
                     padding:5px;
+                    color:white;
                     & .label{
-                        background:#301030;
                         flex: 1 1 15ex;
                         padding:5pt;
+                        background:#301030;
                         border-radius:5pt;
                         &.first{
-                            order: 1;
                             flex: 1 1 8ex;
+                            order: 1;
                             }
                         &.second{
-                            order: 3;
                             flex: 1 1 8ex;
+                            order: 3;
                             }
                     }
                     & .info{
                         flex: 1 1 auto;
-                        background:#906090;
                         height:auto;
-                        color:white;
                         padding:5pt;
+                        background:#906090;
                         border-radius:5pt;
+                        color:white;
                         &.modifiable{
                             flex: 1 1 auto;
                             background:#909090;
@@ -610,12 +634,12 @@ body {
                             text-align:center;
                         }
                         &.first{
-                            order: 2;
                             flex: 1 1 auto;
+                            order: 2;
                             }
                         &.second{
-                            order: 4;
                             flex: 1 1 auto;
+                            order: 4;
                             }
                     }
                 }
@@ -625,52 +649,52 @@ body {
 
 .option_block{
     & legend{
+        padding: 0 3pt;
+        border: 1pt solid #80807f;
+//         font-variant:small-caps;
+        border-radius: 8pt;
         color:#F0F0F0;
         font-family:$font_title;
         font-size:12pt;
-//         font-variant:small-caps;
-        border-radius: 8pt;
-        border: 1pt solid #80807f;
-        padding: 0 3pt;
     }
-    overflow-y: scroll;
-    height:10em;
     display:flex;
+    align-items:stretch;
+    align-content:space-between;
+    height:10em;
+    border-color:#8080807f;
+    overflow-y: scroll;
     flex-flow:column nowrap;
     justify-items:flex-start;
-    align-content:space-between;
-    align-items:stretch;
     gap:1ex;
-    border-color:#8080807f;
     & .ref_entry{
-        border:1pt solid none;
-        font-family: $font;
+        display:flex;
 
         flex:1 1 auto;
-        display:flex;
+        align-items:flex-start;
+        align-content:flex-start;
+        border:1pt solid none;
+        font-family: $font;
         flex-flow:row wrap;
         justify-items:flex-start;
-        align-content:flex-start;
-        align-items:flex-start;
         gap:4pt;
         & .rid{
-            order:1;
             flex:1 1 15ex;
+            order:1;
+            padding:2pt;
             background:#303030;
-            color:white;
             border:1pt solid black;
             border-radius: 3pt;
-            padding:2pt;
+            color:white;
         }
         & .name{
-            order:2;
-            text-align:left;
             flex:1 1 30ex;
-            color:white;
+            order:2;
 //             border:2pt solid transparent;
 //             border-radius: 3pt;
             padding:2pt;
             background:#202020;
+            color:white;
+            text-align:left;
         }
 
     }
@@ -682,163 +706,163 @@ body {
     gap:2pt;
 
     & .mate{
-        border:2pt solid silver;
-        border-radius:3pt;
         width:20ex;
         height:auto;
-        background: #505050;
-        color:white;
         padding:2pt;
+        background: #505050;
+        border:2pt solid silver;
+        border-radius:3pt;
+        color:white;
 
 
         &.red{
-            border-color: #F02020;
             background: #905050;
+            border-color: #F02020;
         }
         &.green{
-            border-color: #20F020;
             background: #509050;
+            border-color: #20F020;
         }
         &.blue{
-            border-color: #2020F0;
             background: #505090;
+            border-color: #2020F0;
         }
     }
 }
 
 
 .battle{
-    background:#3030307f;
-    color::#F0F0F0;
 
-    border-radius:16pt;
+    display:flex;
+    justify-content:flex-start;
+    align-content:flex-start;
     //width:250ex;
     width:70vw;
     height:90vh;
     padding:16pt;
-    overflow-y: auto;
-
-    display:flex;
-    font-family:$font;
-    font-size:0.8em;
-    flex-flow:column nowrap;
-    justify-content:flex-start;
-    align-content:flex-start;
     margin:auto;
     margin-left:0.5vw;
+    background:#3030307f;
+
+    border-radius:16pt;
+    color::#F0F0F0;
+    font-family:$font;
+    font-size:0.8em;
+    overflow-y: auto;
+    flex-flow:column nowrap;
     gap:10pt;
     & .combat_info{
         }
     & .status_line{
-        order:1;
-        flex:0 1 auto;
         display:flex;
-        flex-flow:row nowrap;
-        gap:10pt;
+        flex:0 1 auto;
+        order:1;
+        justify-content:center;
+        align-items:stretch;
+        align-content:flex-start;
 
         padding:10pt;
         background:#9090907f;
         border-radius:16pt;
-        justify-content:center;
-        align-content:flex-start;
-        align-items:stretch;
+        flex-flow:row nowrap;
+        gap:10pt;
         & .battle_roster{
-            font-family:$font;
             flex:0 1 auto;
             width:40ex;
             padding:1ex;
             border:2pt solid white;
             border-radius:4pt;
+            font-family:$font;
             & .text_block{
                 flex: 1 0 16ex;
-                text-align:center;
                 padding:3pt;
+                text-align:center;
             }
             & .icon_block{
-                font-family:$mono;
-                border:2pt solid transparent;
-                background:#303030;
-                border-radius:3pt;
                 display:flex;
-                flex-flow:row wrap;
-                justify-content:center;
-                align-content:center;
-                align-items:stretch;
                 flex: 1 0 16ex;
+                justify-content:center;
+                align-items:stretch;
+                align-content:center;
+                background:#303030;
+                border:2pt solid transparent;
+                border-radius:3pt;
+                font-family:$mono;
+                flex-flow:row wrap;
 
                 & .icon{
-                    order:1;
                     flex: 1 0 auto;
+                    order:1;
                     width:4ex;
-                    font-size:16pt;
                     text-align:center;
+                    font-size:16pt;
                 }
                 & .value{
-                    order:2;
                     flex: 1 1 auto;
+                    order:2;
+                    vertical-align:middle;
                     width:8ex;
-                    font-size:12pt;
                     background:#6060607f;
                     text-align:center;
-                    vertical-align:middle;
+                    font-size:12pt;
                 }
             }
         }
     }
     & .rounds{
         display:flex;
-        flex-flow: column nowrap;
-        justify-content:flex-start;
 //         align-content:flex-start;
 //         align-items:space-between;
         flex:8 1 auto;
-        height:auto;
         order:2;
-        gap:10pt;
+        justify-content:flex-start;
+        height:auto;
         padding:10pt;
         background:#4040407f;
         border-radius:16pt;
+        flex-flow: column nowrap;
+        gap:10pt;
 //         overflow-y:display;
         & .battle_round{
-            font-family:$font;
-            padding:4pt;
-            border-radius:6pt;
+            display: flex;
+            justify-content:flex-start;
 //             flex:1 1 auto;
             width:auto;
+            padding:4pt;
 //             max-height:36em;
             padding:6pt;
-            border:2pt solid #202020;
             background:#2020207f;
+            border:2pt solid #202020;
             border-radius:6pt;
-            display: flex;
+            border-radius:6pt;
+            font-family:$font;
             flex-flow: row nowrap;
-            justify-content:flex-start;
 
 
             gap:4pt;
             & .battle_init{
                 & legend{
+                    padding:4pt 2ex;
                     background:#303030af;
                     border:1pt solid silver;
                     border-radius:6pt;
-                    padding:4pt 2ex;
                     color:white;
                 }
+                display:flex;
                 flex: 1 1 20ex;
+                justify-content:flex-start;
+                align-items:space-between;
+                align-content:stretch;
                 padding:1ex;
                 border:2pt solid #808080;
                 border-radius:12pt;
-                display:flex;
                 flex-flow:column wrap;
-                justify-content:flex-start;
-                align-content:stretch;
-                align-items:space-between;
                 gap:5pt;
                 & .info_block{
-                   text-align:center;
-                   border-radius:8pt;
                    padding:8pt;
                    background:#505050Af;
+                   border-radius:8pt;
+                   text-align:center;
 //                    flex: 1 1 auto;
 //                   min-width:12ex;
                    & .big{
@@ -846,8 +870,8 @@ body {
                        text-shadow:1pt 1pt #8080F0;
                    }
                    & .huge{
-                       font-size:36pt;
                        text-shadow:1pt 1pt #f02020;
+                       font-size:36pt;
                    }
                 }
             }
@@ -862,8 +886,8 @@ body {
     &:before{
         content:"Gravité ";
     }
-    background:#3030307f;
     padding:3pt;
+    background:#3030307f;
     border-radius:3pt;
     & .mod{color:$grav_min;}
     & .mod{color:$grav_mod;}
@@ -879,9 +903,9 @@ body {
 
 .avoidance{
     display:inline-block;
-    border-radius:3pt;
-    border:1pt solid white;
     padding:3pt;
+    border:1pt solid white;
+    border-radius:3pt;
     color:white;
     &.A{background:#606090;}
     &.B{background:#609060;}
@@ -897,9 +921,9 @@ body {
     .tabpanel{
         display:block;
         width:auto;
-        border-radius:5pt;
         padding:5pt;
         border:3pt ridge #C0C0C0;
+        border-radius:5pt;
         &.hidden{
             display:none;
         }
@@ -908,15 +932,15 @@ body {
 
 
 .flexmap{
-    margin-top:4vh;
     display:flex;
-    flex-flow: row wrap;
     justify-content: flex-start;
     align-items: space-between;
     align-content: flex-start;
-    gap:5pt;
     width:90vw;
     height:90vw;
+    margin-top:4vh;
+    flex-flow: row wrap;
+    gap:5pt;
     & .vignette{
         flex:0 1 300pt;
         height:200pt;
