@@ -1,7 +1,7 @@
 {% load static %}
 {% load dragonade_filters%}
 
-<div id="{{i.type}}__{{i.id}}__{{prop}}__shift" class="zlist_item symbol shifter interactive_element">
+<div id="{{i.type}}__{{i.id}}__{{prop}}__shift" class="zlist_item {%if sym%}symbol{%endif%} shifter interactive_element">
     {% if txt %}
     <span class="txt">{{prop|as_iconz|safe}}{{txt}}</span>
     <span class="val">{{val}}</span>

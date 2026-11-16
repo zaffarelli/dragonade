@@ -239,6 +239,13 @@ class Chiaroscuro {
                     })
                     me.registerActions()
                     break
+                case "spells":
+                    me.axiomaticPerformers.forEach((m) => {
+                        console.log(`[${m.name}] is ready to handle [${id}]!`)
+                        m.handleSpells(id)
+                    })
+                    me.registerActions()
+                    break
                 case "edit":
                     me.axiomaticPerformers.forEach((m) => {
                         m.edit(model, id)

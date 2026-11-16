@@ -257,34 +257,34 @@ xmlns:xlink="http://www.w3.org/1999/xlink"> \
         // me.svg.selectAll('.do_not_print').attr('opacity', 1);
     }
 
-    oldedit() {
-        let me = this;
-        let json_data = {
-            "category": this.category,
-            "item": this.filename
-        }
-        $.ajax({
-            url: 'ajax/edit/' + this.category + '/' + this.filename + '/',
-            type: 'GET',
-//             headers: {
-//                 'Accept': 'application/json',
-//                 'Content-Type': 'application/x-www-form-urlencoded'
+//     oldedit() {
+//         let me = this;
+//         let json_data = {
+//             "category": this.category,
+//             "item": this.filename
+//         }
+//         $.ajax({
+//             url: 'ajax/edit/' + this.category + '/' + this.filename + '/',
+//             type: 'GET',
+// //             headers: {
+// //                 'Accept': 'application/json',
+// //                 'Content-Type': 'application/x-www-form-urlencoded'
+// //             },
+// //             data: json_data,
+// //             dataType: 'json',
+//             success: function (answer) {
+//                 console.info(`Editing ${me.filename} ok...`)
+//                 $("#overlay").html(answer)
+//                 $("#overlay").removeClass("hidden")
+//                 me.co.registerActions()
 //             },
-//             data: json_data,
-//             dataType: 'json',
-            success: function (answer) {
-                console.info(`Editing ${me.filename} ok...`)
-                $("#overlay").html(answer)
-                $("#overlay").removeClass("hidden")
-                me.co.registerActions()
-            },
-            error: function (answer) {
-                console.error(`Error editing ${me.filename} ...`);
-                console.error(answer)
-                me.co.registerActions()
-            }
-        });
-    }
+//             error: function (answer) {
+//                 console.error(`Error editing ${me.filename} ...`);
+//                 console.error(answer)
+//                 me.co.registerActions()
+//             }
+//         });
+//     }
 
     createPDF() {
         let me = this;
@@ -354,6 +354,24 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
         me.drawBlock(tgt, x, y, label_attrs, value_attrs, label, value, id, edit_field)
     }
 
+    drawTinyLongTextBlock(tgt, x, y, label, value, id, edit_field = "") {
+        let me = this;
+        let label_attrs = {
+            "width": me.step * 1,
+            "height": me.step * 0.4,
+            "rx": me.step * 0.05,
+            "ry": me.step * 0.05
+        }
+        let value_attrs = {
+            "width": me.step * 4,
+            "height": me.step * 0.75,
+            "rx": me.step * 0.1,
+            "ry": me.step * 0.1
+        }
+        // console.log("(*Edit_Field*) ", edit_field)
+        me.drawTinyBlock(tgt, x, y, label_attrs, value_attrs, label, value, id, edit_field)
+    }
+
     drawSmallNumericBlock(tgt, x, y, label, value, id, edit_field = "") {
         let me = this;
         let label_attrs = {
@@ -370,6 +388,83 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
         }
         me.drawBlock(tgt, x, y, label_attrs, value_attrs, label, value, id, edit_field)
     }
+
+    drawTinyNumericBlock(tgt, x, y, label, value, id, edit_field = "") {
+        let me = this;
+        let label_attrs = {
+            "width": me.step * 1.9,
+            "height": me.step * 0.4,
+            "rx": me.step * 0.05,
+            "ry": me.step * 0.05
+        }
+        let value_attrs = {
+            "width": me.step * 0.7,
+            "height": me.step * 0.4,
+            "rx": me.step * 0.05,
+            "ry": me.step * 0.05,
+        }
+        me.drawTinyBlock(tgt, x, y, label_attrs, value_attrs, label, value, id, edit_field)
+    }
+
+    drawTinyBlock(tgt, x, y, label_attrs, value_attrs, label, value, id, edit_field = "") {
+        let me = this;
+        let label_styles = {
+            "fill": "#C0C0C0",
+            "stroke": "black",
+            "stroke-width": "0.5pt"
+        }
+        let value_styles = {
+            "fill": "none",
+            "stroke": "black",
+            "stroke-width": "0pt"
+
+        }
+        let label_text_styles = {
+            "font-family": me.baseFont,
+            "font-size": me.fontSize/2 + "pt",
+            "text-anchor": "start",
+            "fill": "black",
+            "stroke": "black",
+            "stroke-width": "0.25pt"
+        }
+        let value_text_styles = {
+            "font-family": me.altFont,
+            "font-size": me.fontSize/2 + "pt",
+            "text-anchor": "start",
+            "fill": "black",
+            "stroke": "#808080",
+            "stroke-width": "0.25pt",
+        }
+        let grp = tgt.append('g')
+            .attr("id", id + "_grp")
+            .attr("transform", "translate(" + x * me.step + "," + y * me.step + ")")
+        grp.append('rect')
+            .attrs({"x": 0, "y": me.step * (-0.4 / 2)})
+            .attrs(label_attrs)
+            .styles(label_styles)
+        grp.append('rect')
+            .attr("id", id + "_rect")
+            .attrs({"x": me.step * (1), "y": me.step * (-0.4 / 2)})
+            .attrs(value_attrs)
+            .styles(value_styles)
+        grp.append('text')
+            .attrs({"x": 0.1 * me.step, "y": 0, "dy": me.fontSize / 5 + "pt"})
+            .styles(label_text_styles)
+            .text(label)
+        grp.append('text')
+            .attr("class", "longwrap")
+            .attr("id", id)
+            .attrs({"x": 1.1 * me.step, "y": 0, "dy": me.fontSize / 5 + "pt"})
+            .styles(value_text_styles)
+            .text(value)
+        if (me.debug == true) {
+            grp.append('circle')
+                .attrs({"cx": 0, "cy": 0, "r": me.fontSize / 3 + "pt"})
+                .styles({"fill": "red", "stroke": "darkred", "stroke-width": 0.5 + "pt"})
+        }
+    }
+
+
 
     drawBlock(tgt, x, y, label_attrs, value_attrs, label, value, id, edit_field = "") {
         let me = this;
@@ -437,7 +532,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             .attr("id", "signature_spot_" + id)
         d3.select("#signature_spot_" + id).append("image")
             .attr("class", "relinkable")
-            .attr("xlink:href", "static/main/svg/2024/dragonade.svg")
+            .attr("xlink:href", "static/main/svg/2026/dragonade.svg")
             .attr("width", 2.3 * me.step)
             .attr("height", .6 * me.step)
             .attr("x", ox * me.step)
@@ -450,44 +545,45 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
     }
 
 
-    wrap(tgt, width) {
-        let item = d3.select(tgt),
-            words = item.text().split(/\s+/).reverse();
-        let word,
-            line = [],
-            lineNumber = 0,
-            lineHeight = 1.3, // ems
-            dy = 0,
-            ox = parseFloat(item.attr("x")),
-            oy = parseFloat(item.attr("y")),
-            tspan = item.text(null).append("tspan").attr("x", ox).attr("y", oy).attr("dy", dy + "em");
-        while (word = words.pop()) {
-            line.push(word);
-            tspan.text(line.join(' '));
-            if ((tspan.node().getComputedTextLength() >= width) || (word == "§")) {
-                line.pop();
-                tspan.text(line.join(" "));
-                if (word == "§") {
-                    line = []
-                } else {
-                    line = [word];
-                }
-                lineNumber += 1;
-                tspan = item.append("tspan")
-                    .attr("x", ox)
-                    .attr("y", lineNumber * lineHeight + "em")
-                    .attr("dy", 0)
-                    .text(word + " ");
-            }
-        }
-        return lineNumber
-    }
+    // wrap(tgt, width) {
+    //     let item = d3.select(tgt),
+    //         words = item.text().split(/\s+/).reverse();
+    //     let word,
+    //         line = [],
+    //         lineNumber = 0,
+    //         lineHeight = 1.3, // ems
+    //         dy = 0,
+    //         ox = parseFloat(item.attr("x")),
+    //         oy = parseFloat(item.attr("y")),
+    //         tspan = item.text(null).append("tspan").attr("x", ox).attr("y", oy).attr("dy", dy + "em");
+    //     while (word = words.pop()) {
+    //         line.push(word);
+    //         tspan.text(line.join(' '));
+    //         if ((tspan.node().getComputedTextLength() >= width) || (word == "§")) {
+    //             line.pop();
+    //             tspan.text(line.join(" "));
+    //             if (word == "§") {
+    //                 line = []
+    //             } else {
+    //                 line = [word];
+    //             }
+    //             lineNumber += 1;
+    //             tspan = item.append("tspan")
+    //                 .attr("x", ox)
+    //                 .attr("y", lineNumber * lineHeight + "em")
+    //                 .attr("dy", 0)
+    //                 .text(word + " ");
+    //         }
+    //     }
+    //     return lineNumber
+    // }
 
 
     superwrap(tgt, width) {
         let me = this
-        let item = d3.select(tgt),
-            words = item.text().split(/\s+/).reverse();
+        console.log(tgt)
+        let item = d3.select(tgt)
+        let words = item.text().split(/\s+/).reverse()
         let word,
             line = [],
             lineNumber = 0,
@@ -514,14 +610,6 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
                     .attr("dy", lineNumber * lineHeight + "em")
                     .text(word + " ")            }
         }
-        let bb = d3.select(tgt).node().getBoundingClientRect()
-        if (this.debug) {
-            item.append("rect")
-                .attrs({"x": 0, "y": 0, "width": bb.width, "height": bb.height})
-                .styles({"fill": "#a020202f", "stroke": "#a02020", "stroke-width": "1pt"})
-        }
-        // console.log("Superwrap >>", bb)
-        console.log(`Lines number > ${tgt} > ${lineNumber}`)
         return lineNumber
     }
 
@@ -617,6 +705,11 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
         console.log(me.name + " Handle");
     }
 
+    handleSpells() {
+        let me = this;
+        console.log(me.name + " Handle spells");
+    }
+
     goBack(){
         let me = this
         console.log("Going back!!")
@@ -646,7 +739,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
 
     fetch(model, id) {
         let me = this
-        console.log(`Fetching [${model}]`)
+        console.log(`Fetching [${model}] : ${id}`)
         $.ajax({
             url: 'ajax/fetch',
             method: 'POST',
@@ -677,6 +770,72 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
     signed(x){
         let result = x<0? ("-"+x): "+"+x
         return result
+    }
+
+
+    appendText(title,base_txt="",ox,oy,width,source,fontsize=1, opacity=1.0){
+        let me = this
+        let lines_written = 0
+        let max_lines = 30
+//         console.log("source:",source)
+        if (!source){
+            source = me.daddy
+            console.log("daddy")
+            console.log("source:",source)
+        }
+        if (!source){
+            return 0
+        }
+        let aline = source.append('line')
+            .attr('x1',ox)
+            .attr('y1',oy-0.05*me.step)
+            .attr('x2',ox+width)
+            .attr('y2',oy-0.05*me.step)
+            .style("stroke", "#E0E0E0")
+            .style("stroke-width", '3pt')
+            .style("stroke-linecap", 'round')
+            .attr("opacity",1)
+        let text = source.append('text')
+            .attr('x',ox-fontsize)
+            .attr('y',oy)
+            .attr('dx', 0)
+            .attr('dy', 0)
+
+            .style("text-anchor", 'start')
+            .style("font-family", me.altFont)
+            .style("font-size", fontsize + "pt")
+            .style("fill", "black")
+            .style("stroke", "#303030")
+            .style("stroke-width", '0.15pt')
+            .attr("opacity",opacity)
+            .text(title)
+        if (title.length>0) {
+            lines_written += 1
+            }
+        let txt_index = 0
+        let txt = base_txt.split("§")
+//         console.log("txt length:",txt.length)
+        while (txt.length>0){
+            let line = txt.shift()
+            let tspan = text.append("tspan")
+                .attr('x', ox)
+                .attr("dy",fontsize+"pt")
+                .text(line)
+                .attr("opacity",opacity)
+            let next_line = []
+            lines_written += 1
+            while (tspan.node().getComputedTextLength() > width) {
+                let parts = line.split(" ")
+                let word = parts.pop()
+                line = parts.join(" ")
+                tspan.text(line)
+                next_line.splice(0,0,word)
+            }
+            if (next_line.length>0){
+                txt.splice(0,0,next_line.join(" "))
+            }
+        }
+        return lines_written
     }
 
 }

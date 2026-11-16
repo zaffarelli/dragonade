@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.template.loader import get_template
 
 from main.mixins.chiaroscuro_mixin import ChiaroscuroMixin
-from main.utils.mechanics import as_rid
+from main.utils.mechanics import as_rid, roll
 import math
 import io
 import os
@@ -130,6 +130,17 @@ class IncantessimoRoll(models.IntegerChoices):
     STATIC = 6, "Statique"
 
 
+class IncantessimoResistance(models.IntegerChoices):
+    NONE = 0, "-"
+    CONTEMPLATIVE = 1, "Contemplatif"
+    DESTRUCTIVE = 2, "Destructif"
+    DYNAMIC = 3, "Dynamique"
+    GENERATIVE = 4, "Génératif"
+    MNEMONIC = 5, "Mnémonique"
+    STATIC = 6, "Statique"
+    SPECIAL = 7, "Spécial"
+
+
 class IncantessimoCastingTime(models.IntegerChoices):
     INSTANT = 0, "Instantané"
     TURN = 1, "Tour"
@@ -167,6 +178,7 @@ class IncantessimoArea(models.IntegerChoices):
     WILLPOWER = 2, "VOL m"
     CREATURE = 3, "Créature"
     CREATURES = 4, "VOL Créatures"
+    SPECIAL = 5, "Spécial"
 
 
 class IncantessimoRange(models.IntegerChoices):
@@ -178,6 +190,7 @@ class IncantessimoRange(models.IntegerChoices):
     EMPATHY3 = 5, "EMPx4 m"
     EMPATHY4 = 6, "EMPx6 m"
     EMPATHY5 = 7, "EMPx10 m"
+    SPECIAL = 8, "Spécial"
 
 
 class Incantessimo(models.Model, ChiaroscuroMixin):
@@ -200,11 +213,11 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
     dps = models.PositiveIntegerField(default=3, blank=True)
     charge = models.PositiveIntegerField(default=0, blank=True)
     songe = models.PositiveIntegerField(default=0, blank=True)
-    resistance = models.CharField(default="-", max_length=128, blank=True)
+    resistance = models.PositiveIntegerField(default=IncantessimoResistance.NONE, choices=IncantessimoResistance.choices, blank=True)
 
     difficulty = models.PositiveIntegerField(default=IncantessimoDiff.NONE, choices=IncantessimoDiff.choices, blank=True)
     original_casting_cost = models.CharField(default="-", max_length=1024, blank=True)
-    description = models.TextField(default="", max_length=1024, blank=True)
+    description = models.TextField(default="", max_length=2048, blank=True)
     composantes = models.TextField(default="-", max_length=1024, blank=True)
     path = models.PositiveIntegerField(default=IncantessimoPath.NONE, choices=IncantessimoPath.choices, blank=True)
     category = models.PositiveIntegerField(default=IncantessimoCategory.NONE, choices=IncantessimoCategory.choices, blank=True)
@@ -223,7 +236,7 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
     famous_high_dreamers = models.TextField(default="", max_length=512, blank=True)
     sogni = models.CharField(max_length=256, default="DEF", blank=True)
 
-    def value_shift(self,param,back):
+    def value_shift(self, param, back):
         current_value = getattr(self, param)
         if param == "ground_charge":
             dataset = IncantessimoGround.values
@@ -243,6 +256,10 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
             dataset = IncantessimoFallback.values
         elif param == "duration":
             dataset = IncantessimoDuration.values
+        elif param == "roll":
+            dataset = IncantessimoRoll.values
+        elif param == "resistance":
+            dataset = IncantessimoResistance.values
         # elif param == "diff":
         #     dataset = IncantessimoDifficulty.values
         #     mod = 5
@@ -263,7 +280,6 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
         setattr(self, param, dataset[next_value_index])
         self.save()
 
-
     def fix(self):
         self.chiaroscuro()
         from main.utils.mechanics import asB2B
@@ -283,6 +299,13 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
         self.charge += 1 if self.consistency_charge != IncantessimoConsistency.NONE else 0
         self.charge += 1 if self.elemental_charge != IncantessimoElement.NONE else 0
 
+        x = self.roll
+        if not type(x) == int:
+            self.roll = IncantessimoRoll.NONE
+        x = self.resistance
+        if not type(x) == int:
+            self.resistance = IncantessimoResistance.NONE
+
         charges_ok = True
         if self.category == IncantessimoCategory.INCANTATION:
             if self.charge != 3:
@@ -300,12 +323,12 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
             self.ti = IncantessimoCastingTime.INSTANT
             self.duration = IncantessimoDuration.NEXT_BIRTH_HOUR
         self.update_power()
-        self.spell_ready = len(self.description)>0
+        self.spell_ready = len(self.description) > 0
 
     def update_power(self):
-        self.power = self.difficulty  + self.dps + self.songe * 7 + self.category + (5-self.fallback)
-        self.power += self.power_boost
-
+        self.power = int(self.difficulty) + int(self.dps) + self.songe * 7 + self.category*2 + self.ti*2 + (self.fallback*3) + self.area+self.duration + int(self.range) + int(self.dps)*2
+        self.power += int(self.power_boost)
+        self.power = round(self.power/5)
 
     @classmethod
     def all_dreams(cls):
@@ -335,6 +358,7 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
         self._data['area_str'] = self.get_area_display()
         self._data['ti_str'] = self.get_ti_display()
         self._data['roll'] = self.get_roll_display()
+        self._data['resistance'] = self.get_resistance_display()
         self._data['difficulty_str'] = self.get_difficulty_display()
         self._data['difficulty_val'] = self.difficulty * 5
         self._data['path'] = self.get_path_display()
@@ -345,7 +369,6 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
         self._data['consistency_charge_str'] = self.get_consistency_charge_display()
         self._data['elemental_charge_str'] = self.get_elemental_charge_display()
         self._data['fallback_str'] = self.get_fallback_display()
-
 
     def toJson(self):
         import json
@@ -398,6 +421,20 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
         item = cls()
         item.name = f"Nouveau ({roll(faces=12)}-{roll(faces=12)}-{roll(faces=12)})"
         item.save()
+        cls.fix_texts()
+        return item.id
+
+    @classmethod
+    def fix_texts(cls):
+        for item in cls.objects.all():
+            sections = item.description.split("§")
+            item.description = " § ".join(sections)
+            item.description.replace("  ", " ")
+            sections = item.composantes.split("§")
+            item.composantes = " § ".join(sections)
+            item.composantes.replace("  ", " ")
+            item.save()
+
         return item.id
 
     @classmethod
@@ -408,11 +445,11 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
         context["incantations"] = {}
         context["rituels"] = {}
         context["pentacles"] = {}
-        for k,v in IncantessimoPath.choices:
-            if k>0:
-                context["incantations"][v] = [i.export_to_json() for i in cls.objects.filter(category=1,path=k).order_by("name")]
-                context["rituels"][v] = [i.export_to_json() for i in cls.objects.filter(category=2,path=k).order_by("name")]
-                context["pentacles"][v] = [i.export_to_json() for i in cls.objects.filter(category=3,path=k).order_by("name")]
+        for k, v in IncantessimoPath.choices:
+            if k > 0:
+                context["incantations"][v] = [i.export_to_json() for i in cls.objects.filter(category=1, path=k).order_by("name")]
+                context["rituels"][v] = [i.export_to_json() for i in cls.objects.filter(category=2, path=k).order_by("name")]
+                context["pentacles"][v] = [i.export_to_json() for i in cls.objects.filter(category=3, path=k).order_by("name")]
         template = get_template('main/PDF/extract.html')
         html = template.render(context)
         filename = os.path.join(settings.MEDIA_ROOT, 'pdf/extracts/incantessimi.pdf')
@@ -427,7 +464,8 @@ class Incantessimo(models.Model, ChiaroscuroMixin):
 class IncantessimoAdmin(admin.ModelAdmin):
     from main.utils.mechanics import refix
     ordering = ["-spell_ready", "name"]
-    list_display = ['id', "rid", "code", "name", "avoid_original_cost", "pentacle_code", "difficulty", "ti", "duration", "charge", "spell_ready", "songe", "roll",
+    list_display = ['id', "rid", "code", "name", "avoid_original_cost", "pentacle_code", "difficulty", "ti", "duration", "charge", "spell_ready", "songe",
+                    "roll",
                     "original_casting_cost",
                     "conversion",
                     "str_charges",

@@ -4,30 +4,34 @@
 
 {% if i.type == "incantessimo" %}
     {% include "main/chiaroscuro/zlist_item_button.html" with txt="Voir" val="view" icon="fa fa-eye" %}
-    {% include "main/chiaroscuro/zlist_item_label_value.html" with txt="Nom" val=i.name %}
-    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="category" val=i.category|as_category|safe %}
-    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="path" val=i.path|as_category|safe %}
-    <div class="zlist_item number">{% include "main/svg/incantessimo_roll.svg" with value=i.roll %}</div>
+    {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Nom" prop="name" val=i.name %}
+    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="category" txt="Cat." val=i.category|as_category|safe sym=1%}
+    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="path" txt="Voie" val=i.path|as_category|safe sym=1 %}
+
+
     {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Puissance" val=i.power %}
-    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="+Puis." val=i.power_boost %}
+    {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="+Puis." prop="power_boost"  val=i.power_boost %}
 <!--    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Sort Prêt" val=i.spell_ready|as_okko|safe %}-->
 
+    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="roll" txt="Jet" val=i.roll %}
+    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="resistance" txt="Résistance" val=i.resistance %}
     {% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="description" txt="Description" val=i.description %}
     {% include "main/chiaroscuro/zlist_item_editable_value.html" with prop="composantes" txt="Notes" val=i.composantes %}
     {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Coût O/RDD" prop="original_casting_cost" val=i.original_casting_cost %}
     {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Pentacle" prop="pentacle_code" val=i.pentacle_code %}
-    {% include "main/chiaroscuro/zlist_item_simple_value.html" with txt="Points de Rêve" val=i.dps %}
+    {% include "main/chiaroscuro/zlist_item_editable_value_short.html" with txt="Nom" prop="dps" txt="Points de Rêve" val=i.dps %}
     {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="ti" txt="Temps d'incantation" val=i.ti_str %}
     {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="range" txt="Portée" val=i.range_str %}
     {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="area" txt="Zone d'Effet" val=i.area_str %}
     {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with txt="Cont. Echec" prop="fallback" val=i.fallback_str %}
     {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="duration" txt="Durée" val=i.duration_str %}
     {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with txt="Diff" prop="difficulty" val=i.difficulty|as_difficulty|safe %}
-    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="ground_charge" val=i.ground_charge|as_ground_charge|safe %}
-    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="hour_charge" val=i.hour_charge|as_hour_charge|safe %}
-    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="emanation_charge" val=i.emanation_charge|as_emanation_charge|safe %}
-    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="consistency_charge" val=i.consistency_charge|as_consistency_charge|safe %}
-    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="elemental_charge" val=i.elemental_charge|as_elemental_charge|safe %}
+
+    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="ground_charge" txt="TM" val=i.ground_charge|as_ground_charge|safe  sym=1%}
+    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="hour_charge" txt="SD" val=i.hour_charge|as_hour_charge|safe  sym=1%}
+    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="emanation_charge" txt="ED" val=i.emanation_charge|as_emanation_charge|safe  sym=1%}
+    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="consistency_charge" txt="CD" val=i.consistency_charge|as_consistency_charge|safe  sym=1%}
+    {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="elemental_charge" txt="LD" val=i.elemental_charge|as_elemental_charge|safe  sym=1%}
 {% endif %}
 {% if i.type == "nativo" %}
     {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="is_selected" val=i.is_selected|as_okko|safe %}
@@ -52,6 +56,7 @@
 {% if i.type == "viaggiatore" %}
     {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="is_selected" val=i.is_selected|as_okko|safe %}
     {% include "main/chiaroscuro/zlist_item_button.html" with txt="Editer" val="edit" icon="fa fa-cog" %}
+    {% include "main/chiaroscuro/zlist_item_button.html" with txt="Sorts" val="spells" icon="fa fa-wand-sparkles" %}
     {% if i.is_new %}
         {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with txt="Nouveau" prop="is_new" val=i.is_new|as_okko|safe %}
     {%else%}

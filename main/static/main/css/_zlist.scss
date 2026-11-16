@@ -19,10 +19,10 @@ $info_color: #101010;
     & .zlist_entry{
         flex:1 1 auto;
         display:flex;
-        flex-flow:row wrap;
+        flex-flow:row nowrap;
         justify-content: stretch;
         align-items: stretch;
-        align-content: stretch;
+        align-content: flex-end;
         border-radius: 5pt;
         gap:1pt;
         &.even{
@@ -47,7 +47,7 @@ $info_color: #101010;
             border-radius:3pt;
             flex:1 1 8ex;
             color:white;
-            vertical-align:middle;
+//             vertical-align:middle;
             font-family:$font;
             font-size:$list_font_size;
 
@@ -88,6 +88,7 @@ $info_color: #101010;
                     font-size:$mid_font_size;
                     color:white;
                     background:$info_color;
+                    max-height:6em;
                     overflow-y:scroll;
                     text-align:left;
                     border:1pt solid none;
@@ -99,10 +100,10 @@ $info_color: #101010;
                 flex:1 1 12ex;
                 font-size:$title_font_size;
             }
-            &.symbol{
-                background:$label_color;
-
-            }
+//             &.symbol{
+//                 background:$label_color;
+//
+//             }
             &.simple{
                 display:flex;
                 flex:1 0 10ex;
@@ -140,9 +141,13 @@ $info_color: #101010;
                 justify-content:space-between;
                 align-items:stretch;
                 align-content:stretch;
-                align-self:center;
+                align-self:top;
                 color:silver;
                 border:1pt solid none;
+                width:16ex;
+                &.symbol{
+                    width:12ex;
+                }
                 background:transparent;
                 & .txt{
                     flex:0 0 1.2em;

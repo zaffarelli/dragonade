@@ -42,6 +42,7 @@ init() {
         me.klass = "Stregoneria"
         console.log("DRAW STREGONERIA")
         s = me.datum.payload
+        me.filename = s.rid
         console.log(s)
         let ox = 0.5, oy = 1.5
         // Statistics
@@ -186,7 +187,7 @@ init() {
         me.init();
         me.code = code;
         me.fileprefix = "sortilege"
-        me.filename = me.code
+        me.filename = me.rid
         me.drawBack()
         me.drawStregoneria()
         me.zoomActivate()
@@ -211,7 +212,7 @@ init() {
         let me = this
         me.code = code
         me.fileprefix = "incantessimo"
-        me.filename = me.code
+
         $("<div id='svg_area'></div>").insertBefore('.zlist_container')
         me.init()
         me.fetch("incantessimo",code)
