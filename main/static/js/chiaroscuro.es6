@@ -241,8 +241,15 @@ class Chiaroscuro {
                     break
                 case "spells":
                     me.axiomaticPerformers.forEach((m) => {
-                        console.log(`[${m.name}] is ready to handle [${id}]!`)
+                        console.log(`[${m.name}] is ready to handle spells for [${id}]!`)
                         m.handleSpells(id)
+                    })
+                    me.registerActions()
+                    break
+                case "artefacts":
+                    me.axiomaticPerformers.forEach((m) => {
+                        console.log(`[${m.name}] is ready to handle artefacts for [${id}]!`)
+                        m.handleArtefacts(id)
                     })
                     me.registerActions()
                     break

@@ -57,6 +57,7 @@
     {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with prop="is_selected" val=i.is_selected|as_okko|safe %}
     {% include "main/chiaroscuro/zlist_item_button.html" with txt="Editer" val="edit" icon="fa fa-cog" %}
     {% include "main/chiaroscuro/zlist_item_button.html" with txt="Sorts" val="spells" icon="fa fa-wand-sparkles" %}
+    {% include "main/chiaroscuro/zlist_item_button.html" with txt="Artefacts" val="artefacts" icon="fa fa-hammer" %}
     {% if i.is_new %}
         {% include "main/chiaroscuro/zlist_item_shiftable_value.html" with txt="Nouveau" prop="is_new" val=i.is_new|as_okko|safe %}
     {%else%}

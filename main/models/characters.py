@@ -81,25 +81,18 @@ class Character(models.Model, ChiaroscuroMixin):
     protection_map = models.CharField(max_length=256, blank=True, default="H-0-X C-0-X A-0-X B-0-X L-0-X M-0-X")
     skills_map_str = models.TextField(max_length=2048 * 6, default="{}", blank=True)
     archetype_str = models.TextField(max_length=2048 * 2, default="{}", blank=True)
-
     old_creation_attributes = models.BooleanField(default=False, blank=True)
-
     pure_skills_total = models.CharField(default="", max_length=32, blank=True)
-
     sogni = models.CharField(max_length=256, default="DEF", blank=True)
-
     travel_points = models.IntegerField(default=0, blank=True)
     stress_acquired = models.IntegerField(default=0, blank=True)
     stress_used = models.IntegerField(default=0, blank=True)
     stress_remaining = models.IntegerField(default=0, blank=True)
-
     malus_AGI = models.IntegerField(default=0, blank=True)
     malus_DEX = models.IntegerField(default=0, blank=True)
     malus_VUE = models.IntegerField(default=0, blank=True)
     malus_OUI = models.IntegerField(default=0, blank=True)
-
     description = models.TextField(max_length=4096, default="", blank=True)
-
     power = models.IntegerField(default=0, blank=True)
 
     bugs = []
@@ -445,6 +438,7 @@ class Character(models.Model, ChiaroscuroMixin):
         self._data['fatigue_points'], self._data['fatigue_map'] = self.computeFatigue(self.FAT)
         self._data['has_bug'] = self.has_bug()
         self._data['spells_details'] = self.collect_spells()
+        self._data['artefatti_details'] = self.collect_artefacts()
 
         self._data['shortcuts'] = self.shortcuts()
         self._data['weapons'] = self.gear_to_weapons()
@@ -578,6 +572,18 @@ class Character(models.Model, ChiaroscuroMixin):
         #     print("No Spells")
         sorted_all = sorted(list, key=lambda k: k['path'], reverse=False)
         return sorted_all
+
+    def collect_artefacts(self):
+        from main.models.artefatti import Artefatto
+        list = []
+        if len(self.artefatti) > 0:
+            arr = self.artefatti.split(" ")
+            artefatti = Artefatto.objects.filter(rid__in=arr)
+            for artefatto in artefatti:
+                list.append(artefatto.export_to_json())
+        sorted_all = sorted(list, key=lambda k: k['category'], reverse=False)
+        return sorted_all
+
 
     def collect_poteri(self):
         from main.models.poteri_speciali import PotereSpeciale
