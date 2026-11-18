@@ -170,6 +170,7 @@ class IncantessimoDuration(models.IntegerChoices):
     ONE_YEAR = 9, "Année"
     ONE_DECADE = 10, "Décade"
     PERMANENT = 11, "Permanent"
+    SPECIAL = 12, "Spécial"
 
 
 class IncantessimoArea(models.IntegerChoices):

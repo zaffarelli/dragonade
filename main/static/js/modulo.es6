@@ -18,33 +18,69 @@ class Modulo {
         let offsetx = 0 //me.step //((me.w - 3 * me.step) / 2) / me.step;
         let offsety = 3
         let click_1 = (e, d) => {
+            e.stopPropagation()
+            e.preventDefault()
             me.saveSVG();
         }
         let click_2 = (e, d) => {
+            e.stopPropagation()
+            e.preventDefault()
             me.createPDF();
         }
         // let click_3 = (e, d) => {
         //     me.edit();
         // }
         let click_4 = (e, d) => {
+            e.stopPropagation()
+            e.preventDefault()
             me.goBack();
         }
+        let click_5 = (e) => {
+            //me.changePage();
+            e.stopPropagation()
+            e.preventDefault()
+            let id = e.target.id.split("__")[0]
+            let page = $("#"+id).attr("page")
+            console.log(me.category)
+            me.page = parseInt(page)
+            me.init()
+            me.fetch(me.model, me.code)
+            //me.postFetch()
+            // switch(me.category){
+            //     case "viaggiatore_spells":
+            //         me.drawBack()
+            //         me.drawStregoneria()
+            //         break
+            //     default:
+            //         console.warn("Don't know how to handle "+me.category)
+            //         break
+            // }
+        }
         let localfont = me.step/4
+
+
+
         let buttons = [
-            {"id": "btn1", "label": "Sauver en SVG", "x": offsetx, "y": offsety, "click_action": click_1},
-            {"id": "btn2", "label": "Sauver en PDF", "x": offsetx, "y": offsety +1 , "click_action": click_2},
+            {"id": "btn1", "label": "Sauver en SVG", "x": offsetx, "y": offsety, "click_action": click_1, "page":-1},
+            {"id": "btn2", "label": "Sauver en PDF", "x": offsetx, "y": offsety +1 , "click_action": click_2, "page":-1},
             // {"id": "btn3", "label": "Editer", "x": offsetx, "y": offsety +2, "click_action": click_3},
-            {"id": "btn4", "label": "Retour", "x": offsetx, "y": offsety +2, "click_action": click_4}
+            {"id": "btn3", "label": "Retour", "x": offsetx, "y": offsety +2, "click_action": click_4, "page":-1}
         ]
+
+        _.forEach(new Array(me.pages_count), (w,k)=>{
+            buttons.push({"id": "btn"+(4+k), "label": "Page "+(k+1), "x": offsetx, "y": offsety +3+k, "click_action": click_5, "page":k})
+        })
         me.all_buttons = me.vis.append("g")
             .attr("class", "do_not_print")
             .attr("id", "all_buttons")
             .attr("transform", `translate(${me.ox * me.step},${me.oy * me.step})`)
         _.forEach(buttons, (v, k) => {
             let btn = me.all_buttons.append("g")
-                .on("click", v.click_action);
-            btn.append("rect")
                 .attr("id", v.id)
+                .on("click", v.click_action)
+                .attr('page', v.page)
+            btn.append("rect")
+                .attr("id", v.id+"__rect")
                 .attr("class", "do_not_print")
                 .attr("x", (v.x) * me.step)
                 .attr("y", (v.y) * me.step)
@@ -57,7 +93,7 @@ class Modulo {
                 .style('stroke', '#101010')
                 .style('fill', '#606060')
             btn.append("text")
-                .attr("id", "print_artefact")
+                .attr("id", v.id+"__text")
                 .attr("class", "do_not_print")
                 .attr("x", (v.x + 2.0) * me.step)
                 .attr("y", (v.y) * me.step)
@@ -243,12 +279,7 @@ xmlns="http://www.w3.org/2000/svg" version="1.1" \
 xmlns:xlink="http://www.w3.org/1999/xlink"> \
 ' + flist + base_svg + '</svg>';
 
-        if (me.page == 0) {
-            lpage = "_recto";
-        } else {
-            lpage = "_verso"
-        }
-        let fname = me.filename;
+        let fname = me.filename+"_"+me.page;
         let nuke = document.createElement("a");
         nuke.href = 'data:application/octet-stream;base64,' + btoa(me.formatXml(exportable_svg));
         nuke.setAttribute("download", fname);
@@ -308,8 +339,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
 
 //         lpage = "_" + (me.page + 1);
 
-        let svg_name = me.fileprefix + "__" + me.filename + ".svg"
-        let pdf_name = me.fileprefix + "__" + me.filename + ".pdf"
+        let svg_name = me.fileprefix + "__" + me.filename+"_"+me.page + ".svg"
+        let pdf_name = me.fileprefix + "__" + me.filename+"_"+me.page + ".pdf"
         let sheet_data = {
             'pdf_name': pdf_name,
             'svg_name': svg_name,
@@ -392,13 +423,13 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
     drawTinyNumericBlock(tgt, x, y, label, value, id, edit_field = "") {
         let me = this;
         let label_attrs = {
-            "width": me.step * 1.9,
+            "width": me.step * 3.20,
             "height": me.step * 0.4,
             "rx": me.step * 0.05,
             "ry": me.step * 0.05
         }
         let value_attrs = {
-            "width": me.step * 0.7,
+            "width": me.step * 1.6,
             "height": me.step * 0.4,
             "rx": me.step * 0.05,
             "ry": me.step * 0.05,
@@ -409,7 +440,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
     drawTinyBlock(tgt, x, y, label_attrs, value_attrs, label, value, id, edit_field = "") {
         let me = this;
         let label_styles = {
-            "fill": "#C0C0C0",
+            "fill": "#E0E0E0",
             "stroke": "black",
             "stroke-width": "0.5pt"
         }
@@ -421,7 +452,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
         }
         let label_text_styles = {
             "font-family": me.baseFont,
-            "font-size": me.fontSize/2 + "pt",
+            "font-size": me.fontSize*0.66 + "pt",
             "text-anchor": "start",
             "fill": "black",
             "stroke": "black",
@@ -429,7 +460,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
         }
         let value_text_styles = {
             "font-family": me.altFont,
-            "font-size": me.fontSize/2 + "pt",
+            "font-size": me.fontSize*0.82 + "pt",
             "text-anchor": "start",
             "fill": "black",
             "stroke": "#808080",
@@ -444,7 +475,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             .styles(label_styles)
         grp.append('rect')
             .attr("id", id + "_rect")
-            .attrs({"x": me.step * (1), "y": me.step * (-0.4 / 2)})
+            .attrs({"x": me.step * (1.8), "y": me.step * (-0.4 / 2)})
             .attrs(value_attrs)
             .styles(value_styles)
         grp.append('text')
@@ -454,7 +485,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
         grp.append('text')
             .attr("class", "longwrap")
             .attr("id", id)
-            .attrs({"x": 1.1 * me.step, "y": 0, "dy": me.fontSize / 5 + "pt"})
+            .attrs({"x": 1.75 * me.step, "y": 0, "dy": me.fontSize / 5 + "pt"})
             .styles(value_text_styles)
             .text(value)
         if (me.debug == true) {
@@ -544,6 +575,25 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
 
     }
 
+    dragonadeLargeSignature(ox, oy, id, txt) {
+        let me = this
+        let now = new Date()
+        me.signature = me.back.append("g")
+        me.back.append("g")
+            .attr("id", "signature_spot_" + id)
+        d3.select("#signature_spot_" + id).append("image")
+            .attr("class", "relinkable")
+            .attr("xlink:href", "static/main/svg/2026/dragonade.svg")
+            .attr("width", 2.3 * me.step)
+            .attr("height", .6 * me.step)
+            .attr("x", 18.5 * me.step)
+            .attr("y", oy * me.step)
+        me.signature.append("text")
+            .attrs({"x": (ox ) * me.step, "y": (oy + .4) * me.step})
+            .styles({"font-family": me.titleFont, "text-anchor": "start", "font-size": "16pt"})
+            .text(txt + " - [" + now.toLocaleDateString() + " " + now.toLocaleTimeString() + "] - Page "+(me.page+1)+"/"+me.pages_count+"")
+
+    }
 
     // wrap(tgt, width) {
     //     let item = d3.select(tgt),
@@ -632,15 +682,13 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
         ;
         me.back.append("rect")
             .attr("id", "pagerect")
-            .attr("x", me.ox * me.step)
-            .attr("y", me.oy * me.step)
-            .attr("rx", .5 * me.step)
-            .attr("ry", .5 * me.step)
-            .attr("width", me.width)
-            .attr("height", me.height)
+            .attr("x", me.ox * me.step*0.01)
+            .attr("y", me.oy * me.step*0.01)
+            .attr("width", me.width-me.step*0.02)
+            .attr("height", me.height-me.step*0.02)
             .style('stroke-width', '1pt')
             .style('stroke-dasharray', '')
-            .style('stroke', 'black')
+            .style('stroke', 'white')
             .style('fill', 'white')
             //.attr('opacity', 0.75)
         ;

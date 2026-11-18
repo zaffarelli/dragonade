@@ -11,12 +11,16 @@ class Taccuino extends Modulo {
         let me = this
         me.version = "1.0.0"
         me.supertitle = ""
-
-
-        me.fontSize = 10
+        me.fontSize = 14
         // Drawing Size
         me.width = me.step * 21.0
         me.height = me.step * 29.7
+        me.per_col = 2
+        me.per_row = me.per_col
+        me.margin = 0.05
+        me.header_size = 1
+        me.cardw = (21.0 - me.margin*2)/me.per_row
+        me.cardh = (29.7 - me.margin*2 - me.header_size)/me.per_col
         me.ox = 0
         me.oy = 0
         // View Size
@@ -51,26 +55,22 @@ class Taccuino extends Modulo {
         me.stregoneria = me.back.append("g")
             .attr("class", "stregoneria")
             .attr("id", "stregoneria_" + s.rid)
-            .attr("transform", "translate(" + ox * me.step + "," + oy * me.step + ")")
-        me.stregoneria.append('rect')
-            .attr("class", "main_rect")
-            .attrs({"x": 0, "y": 0, "width": (me.width - me.step * 2), "height": me.height - me.step * 3})
-            .style("fill", "white")
-            .style("stroke", "black")
-            .style("stroke-dasharray", "1 2")
-            .style("stroke-width", "1pt")
+            .attr("transform", "translate(" + (me.margin)*me.step +"," + (me.margin+me.header_size)*me.step + ")")
         if (s.spells.length == 0) {
             me.stregoneria.append('text')
-                .attrs({"x": me.step * (ox + 0.25), "y": (oy + 0.25) * me.step})
+                .attrs({"x": me.step * (ox + me.margin), "y": (oy + me.margin) * me.step})
                 .styles({"font-family": me.titleFont, "font-size": me.fontSize + "pt", "text-anchor": "start"})
                 .text("Pas de sortilèges pour " + s.name)
         } else {
             let spells = s.spells.split(" ")
             _.forEach(spells, (v, k) => {
-                let cardw = 6.35
-                let cardh = 8.8
-                let posx = ((k % 3) * cardw)
-                let posy = Math.round(((k - 1) / 3)) * cardh
+                console.log(k,me.page*me.per_col*me.per_row,(me.page+1)*me.per_col*me.per_row)
+                if ((k < me.page*me.per_col*me.per_row)||(k >= (me.page+1)*me.per_col*me.per_row)) return;
+                let cardw = me.cardw
+                let cardh = me.cardh
+                let l = k % (me.per_row*me.per_col)
+                let posx = ((l % me.per_row) * cardw)
+                let posy = Math.round(((l - 1) / me.per_col)) * cardh
                 let incant = me.stregoneria.append('g')
                     .attr("id", `incant_${k}`)
                 // .attr('transform',`translate(,${posx*me.step},${posy*me.step})`)
@@ -87,149 +87,68 @@ class Taccuino extends Modulo {
                     })
                     .style("fill", "#c0c0c0")
                     .style("stroke", "white")
-                    .style("stroke-width", "5pt")
+                    .style("stroke-width", "1pt")
                 incant.append('rect')
                     .attr("id", `rect_${k}`)
                     .attrs({
-                        "x": posx * me.step + me.step * 0.1,
-                        "y": posy * me.step + me.step * 0.1,
-                        "rx": me.step * 0.1,
-                        "ry": me.step * 0.1,
-                        "width": cardw * me.step - me.step * 0.2,
-                        "height": cardh * me.step - me.step * 0.2
+                        "x": (posx+me.margin) * me.step,
+                        "y": (posy+me.margin) * me.step,
+                        "rx": me.step * (me.margin),
+                        "ry": me.step * (me.margin),
+                        "width": (cardw-(me.margin*2)) * me.step,
+                        "height": (cardh-(me.margin*2)) * me.step
                     })
                     .style("fill", "white")
                     .style("stroke", "black")
-                    .style("stroke-width", "2pt")
+                    .style("stroke-width", "3pt")
                 // Name
                 incant.append('text')
-                    .attrs({"x": posx * me.step + 0.25 * me.step, "y": posy * me.step + 0.40 * me.step})
+                    .attrs({"x": posx * me.step + 0.25 * me.step, "y": posy * me.step + 0.45 * me.step})
                     .styles({"font-family": me.titleFont, "font-size": me.fontSize + "pt", "text-anchor": "start"})
                     .text(`${s.spells_details[k].name}`)
                 incant.append('text')
-                    .attrs({"x": (posx + cardw) * me.step - 0.25 * me.step, "y": posy * me.step + 0.40 * me.step})
+                    .attrs({"x": (posx + cardw) * me.step - 0.25 * me.step, "y": posy * me.step + 0.45 * me.step})
                     .styles({"font-family": me.titleFont, "font-size": me.fontSize + "pt", "text-anchor": "end"})
                     .text(`${s.spells_details[k].power}`)
                 // Basic Metrics
-                let delx = 2
-                let by = -0.25
+                let delx = 3.25
+                let by = 0.15
                 let metrics = [
-                    {
-                        "x": (delx * 0) + 0.1875,
-                        "y": 0 + by,
-                        "label": "Difficulté",
-                        "value": s.spells_details[k].difficulty_val,
-                        "id": s.spells_details[k].rid + "met1"
-                    },
-                    {"x": (delx * 0) + 0.1875, "y": 0.5 + by, "label": "PdR", "value": s.spells_details[k].dps, "id": s.spells_details[k].rid + "met2"},
-                    {
-                        "x": (delx * 0) + 0.1875,
-                        "y": 1 + by,
-                        "label": "Durée",
-                        "value": s.spells_details[k].duration_str,
-                        "id": s.spells_details[k].rid + "met3"
-                    },
-
-                    {
-                        "x": (delx * 1) + 0.1875,
-                        "y": 0 + by,
-                        "label": "Résistance",
-                        "value": s.spells_details[k].resistance,
-                        "id": s.spells_details[k].rid + "met4"
-                    },
-                    {
-                        "x": (delx * 1) + 0.1875,
-                        "y": 0.5 + by,
-                        "label": "Temps Incant.",
-                        "value": s.spells_details[k].ti_str,
-                        "id": s.spells_details[k].rid + "met5"
-                    },
-                    {
-                        "x": (delx * 1) + 0.1875,
-                        "y": 1 + by,
-                        "label": "Zone/Taille",
-                        "value": s.spells_details[k].area_str,
-                        "id": s.spells_details[k].rid + "met6"
-                    },
-
-                    {"x": (delx * 2) + 0.1875, "y": 0 + by, "label": "Portée", "value": s.spells_details[k].range_str, "id": s.spells_details[k].rid + "met7"},
-                    {
-                        "x": (delx * 2) + 0.1875,
-                        "y": 0.5 + by,
-                        "label": "Coût en Songe",
-                        "value": s.spells_details[k].songe,
-                        "id": s.spells_details[k].rid + "met8"
-                    },
-                    {
-                        "x": (delx * 2) + 0.1875,
-                        "y": 1 + by,
-                        "label": "Pentacle",
-                        "value": s.spells_details[k].pentacle_code,
-                        "id": s.spells_details[k].rid + "met9"
-                    },
-
-                    {"x": (delx * 0) + 0.1875, "y": 1.5 + by, "label": "Voie", "value": s.spells_details[k].path, "id": s.spells_details[k].rid + "met10"},
-                    {
-                        "x": (delx * 1) + 0.1875,
-                        "y": 1.5 + by,
-                        "label": "Catégorie",
-                        "value": s.spells_details[k].category,
-                        "id": s.spells_details[k].rid + "met11"
-                    },
-                    {
-                        "x": (delx * 2) + 0.1875,
-                        "y": 1.5 + by,
-                        "label": "Puissance",
-                        "value": s.spells_details[k].power,
-                        "id": s.spells_details[k].rid + "met12"
-                    },
-
-
+                    {"x": (delx * 0) + 0.1875,"y": 0 + by,"label": "Difficulté","value": s.spells_details[k].difficulty_val},
+                    {"x": (delx * 0) + 0.1875,"y": 0.5 + by, "label": "PdR", "value": s.spells_details[k].dps},
+                    {"x": (delx * 0) + 0.1875,"y": 1 + by, "label": "Durée", "value": s.spells_details[k].duration_str},
+                    {"x": (delx * 1) + 0.1875,"y": 0 + by,"label": "Résistance","value": s.spells_details[k].resistance},
+                    {"x": (delx * 1) + 0.1875,"y": 0.5 + by,"label": "Temps Incant.","value": s.spells_details[k].ti_str},
+                    {"x": (delx * 1) + 0.1875,"y": 1 + by,"label": "Zone/Taille","value": s.spells_details[k].area_str,},
+                    {"x": (delx * 2) + 0.1875,"y": 0 + by, "label": "Portée", "value": s.spells_details[k].range_str},
+                    {"x": (delx * 2) + 0.1875,"y": 0.5 + by,"label": "Coût en Songe","value": s.spells_details[k].songe},
+                    {"x": (delx * 2) + 0.1875,"y": 1 + by,"label": "Pentacle","value": s.spells_details[k].pentacle_code},
+                    {"x": (delx * 0) + 0.1875,"y": 1.5 + by, "label": "Voie", "value": s.spells_details[k].path},
+                    {"x": (delx * 1) + 0.1875,"y": 1.5 + by,"label": "Catégorie","value": s.spells_details[k].category},
+                    {"x": (delx * 2) + 0.1875,"y": 1.5 + by,"label": "Puissance","value": s.spells_details[k].power},
                 ]
                 _.forEach(metrics, (e) => {
                     me.drawTinyNumericBlock(incant, e.x + posx, e.y + posy + 1, e.label, e.value)
                 })
                 // Texts fields
-                let stack_y = 2.75
+                let stack = 3.25
                 let text_metrics = [
-                    {"x": 0, "y": 0, "label": "Jet", "value": "Rêve + " + s.spells_details[k].roll, "id": `j_${k}`, edit_field: "roll"},
-                    {"x": 0, "y": 0, "label": "Description", "value": s.spells_details[k].description, "id": `d_${k}`, edit_field: "description"},
-                    {"x": 0, "y": 0, "label": "Notes", "value": s.spells_details[k].composantes, "id": `n_${k}`, edit_field: "composantes"},
+                    {"x": (posx + 0.35) * me.step, "y": (posy + stack) * me.step, "label": "Jet", "value": "Rêve + " + s.spells_details[k].roll, "id": `j_${k}`, edit_field: "roll"},
+                    {"x": (posx + 0.35) * me.step, "y": (posy + stack) * me.step, "label": "Description", "value": s.spells_details[k].description, "id": `d_${k}`, edit_field: "description"},
+                    {"x": (posx + 0.35) * me.step, "y": (posy + stack) * me.step, "label": "Notes", "value": s.spells_details[k].composantes, "id": `n_${k}`, edit_field: "composantes"},
                 ]
-                // _.forEach(text_metrics, (e) => {
-                //     me.drawTinyLongTextBlock(incant, e.x + posx, e.y + posy + 1, e.label, e.value, e.id, e.edit_field)
-                // })
-                let fz = me.fontSize * 0.63
-                let lh = 0.24 * me.step
-                let ww = 5.75 * me.step
-                // let cntj = me.superwrap(`#j_${k}`, ww) + 1;
-                // let cntd = me.superwrap(`#d_${k}`, ww) + 1;
-
-                // let cntn = me.superwrap(`#n_${k}`, ww) + 1;
-
+                let fontratio =0.41
+                let fz = me.fontSize * fontratio*2
+                let lh = fontratio * me.step
+                let ww = (me.cardw-me.margin*15) * me.step
                 let lines = 0
-                let stack = stack_y;
-                lines = me.appendText("Jet", s.spells_details[k].roll, (posx + 0.35) * me.step, (posy + stack) * me.step + lines * lh, ww, incant, fz)
-                lines = me.appendText("Description", s.spells_details[k].description, (posx + 0.35) * me.step, (posy + stack) * me.step + lines * lh, ww, incant, fz)
-                lines = me.appendText("Notes", s.spells_details[k].composantes, (posx + 0.35) * me.step, (posy + stack) * me.step + lines * lh, ww, incant, fz)
+                _.forEach(text_metrics, (w)=> {
+                    lines = me.appendText(w['label'], w['value'], w['x'], w['y']+ lines * lh, ww, incant, fz)
+                })
 
-                // let cntn = global_last_lines
-                // let cntd = me.superwrap(`#d_${k}`, ww) + 1;
-                // let cntn = me.superwrap(`#n_${k}`, ww) + 1;
-
-
-                // d3.select(`#j_${k}_rect`).attr("height",lh*cntj)
-                // d3.select(`#d_${k}_rect`).attr("height",lh*cntd)
-                // d3.select(`#n_${k}_rect`).attr("height",lh*cntn)
-                // d3.select(`#j_${k}_grp`)
-                //     .attr("transform", "translate(" + (posx + 0.1875) * me.step + "," + (posy + stack_y) * me.step + ")")
-                // d3.select(`#d_${k}_grp`)
-                //     .attr("transform", "translate(" + (posx + 0.1875) * me.step + "," + ((posy + stack_y) * me.step + (cntj + 1) * lh) + ")")
-                // d3.select(`#n_${k}_grp`)
-                //     .attr("transform", "translate(" + (posx + 0.1875) * me.step + "," + ((posy + stack_y) * me.step + (cntd + 1) * lh) + ")")
                 // Emplacements des charges
-                let basex = 0.125 + posx
-                let basey = 7.8 + posy
+                let basex = 0.25 + posx
+                let basey = 13.0 + posy
                 let chup = 1.25
                 _.forEach([
                     {"code": "tm", "name": "terre", "charge": "ground_charge"},
@@ -241,34 +160,22 @@ class Taccuino extends Modulo {
                     me.spot_g = incant.append("g")
                         .attr("id", e.code + "_spot_" + s.spells_details[k].rid)
                     me.spot_g.append("circle")
-                        .attrs({"cx": (basex + 0.55 + (i * 1.25)) * me.step, "cy": (basey + 0.25) * me.step, "r": 0.5 * me.step})
+                        .attrs({"cx": (basex + 0.65 + (i * 1.5)) * me.step, "cy": (basey + 0.25) * me.step, "r": 0.65 * me.step})
                         .styles({"fill": "white", "stroke-width": "1pt", "stroke": "black", "stroke-dasharray": "1 3"})
-                    // me.spot_g.append("text")
-                    //     .attrs({"x":(basex+1+(i*2.5))*me.step,"y":(basey+2.5)*me.step})
-                    //     .styles({"fill":"black","stroke":"black", "stroke-width":"0.5pt", "text-anchor":"middle", "font-family":me.baseFont, "font-size":"8pt"})
-                    //     .text(e.name.toUpperCase())
                     if (s.spells_details[k][e.charge]) {
                         d3.select("#" + e.code + "_spot_" + s.spells_details[k].rid).append("image")
                             .attr("class", "relinkable")
                             .attr("xlink:href", "static/main/svg/2026/" + e.code + "_" + s.spells_details[k][e.charge] + ".svg")
                             .attr("width", me.step * 1)
                             .attr("height", me.step * 1)
-                            .attr("x", (basex + 0.05 + (i * 1.25)) * me.step)
+                            .attr("x", (basex + 0.15 + (i * 1.5)) * me.step)
                             .attr("y", (basey - 0.25) * me.step)
                     }
                 })
-
-                // me.showbb(`#j_${k}`,k)
-                // me.showbb(`#d_${k}`,k)
-                // me.showbb(`#n_${k}`,k)
-
-
             })
-
-
         }
         // Signature
-        me.dragonadeSignature(1, 1, s.rid, "Fiche de Sortilèges de " + s.name)
+        me.dragonadeLargeSignature(0.25, 0.25, s.rid, s.name+" - Fiches de Sortilèges")
     }
 
 
@@ -506,6 +413,7 @@ class Taccuino extends Modulo {
         me.fetched = true
         switch (me.fileprefix) {
             case "spells":
+                me.prepareSpells()
                 me.drawBack()
                 me.drawStregoneria()
                 break;
@@ -518,7 +426,6 @@ class Taccuino extends Modulo {
                 break
 
         }
-
         me.zoomActivate()
     }
 
@@ -527,26 +434,39 @@ class Taccuino extends Modulo {
         $("#svg_area").remove()
     }
 
+    prepareSpells(){
+        let me = this
+        let spells = me.datum.payload.spells.split(" ")
+        me.pages_count = Math.ceil(spells.length / (me.per_row*me.per_col))
+    }
+
     handleSpells(code) {
         super.handleSpells()
         let me = this
         me.code = code
+        me.model = "viaggiatore"
+        me.page = 0
         me.fileprefix = "spells"
         me.filename = me.code
         $("<div id='svg_area'></div>").insertBefore('.zlist_container')
         me.init()
-        me.fetch("viaggiatore", code)
+        me.fetch(me.model, code)
+
     }
 
     handleArtefacts(code) {
         super.handleArtefacts()
         let me = this
         me.code = code
+        me.page = 0
+        me.model = "viaggiatore"
         me.fileprefix = "artefatti"
         me.filename = me.code
         $("<div id='svg_area'></div>").insertBefore('.zlist_container')
         me.init()
         me.fetch("viaggiatore", code)
+        let artefatti = me.datum.payload.artefatti.split(" ")
+        me.pages_count = Math.ceil(artefatti.length / (me.per_row*me.per_col))
     }
 
 

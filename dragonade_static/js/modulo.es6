@@ -29,13 +29,26 @@ class Modulo {
         let click_4 = (e, d) => {
             me.goBack();
         }
+        let click_5 = (e, d) => {
+            //me.changePage();
+            console.log("Page ",e,d)
+        }
         let localfont = me.step/4
+
+
+
         let buttons = [
             {"id": "btn1", "label": "Sauver en SVG", "x": offsetx, "y": offsety, "click_action": click_1},
             {"id": "btn2", "label": "Sauver en PDF", "x": offsetx, "y": offsety +1 , "click_action": click_2},
             // {"id": "btn3", "label": "Editer", "x": offsetx, "y": offsety +2, "click_action": click_3},
-            {"id": "btn4", "label": "Retour", "x": offsetx, "y": offsety +2, "click_action": click_4}
+            {"id": "btn3", "label": "Retour", "x": offsetx, "y": offsety +2, "click_action": click_4}
         ]
+
+        _.forEach(new Array(me.pages_count), (w,k)=>{
+            buttons.push(
+                {"id": "btn"+(4+k), "label": "Page "+(k+1), "x": offsetx, "y": offsety +3+k, "click_action": click_5}
+            )
+        })
         me.all_buttons = me.vis.append("g")
             .attr("class", "do_not_print")
             .attr("id", "all_buttons")
@@ -392,13 +405,13 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
     drawTinyNumericBlock(tgt, x, y, label, value, id, edit_field = "") {
         let me = this;
         let label_attrs = {
-            "width": me.step * 1.9,
+            "width": me.step * 3.20,
             "height": me.step * 0.4,
             "rx": me.step * 0.05,
             "ry": me.step * 0.05
         }
         let value_attrs = {
-            "width": me.step * 0.7,
+            "width": me.step * 1.6,
             "height": me.step * 0.4,
             "rx": me.step * 0.05,
             "ry": me.step * 0.05,
@@ -421,7 +434,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
         }
         let label_text_styles = {
             "font-family": me.baseFont,
-            "font-size": me.fontSize/2 + "pt",
+            "font-size": me.fontSize*0.66 + "pt",
             "text-anchor": "start",
             "fill": "black",
             "stroke": "black",
@@ -429,7 +442,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
         }
         let value_text_styles = {
             "font-family": me.altFont,
-            "font-size": me.fontSize/2 + "pt",
+            "font-size": me.fontSize*0.82 + "pt",
             "text-anchor": "start",
             "fill": "black",
             "stroke": "#808080",
@@ -444,7 +457,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
             .styles(label_styles)
         grp.append('rect')
             .attr("id", id + "_rect")
-            .attrs({"x": me.step * (1), "y": me.step * (-0.4 / 2)})
+            .attrs({"x": me.step * (1.8), "y": me.step * (-0.4 / 2)})
             .attrs(value_attrs)
             .styles(value_styles)
         grp.append('text')
@@ -454,7 +467,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
         grp.append('text')
             .attr("class", "longwrap")
             .attr("id", id)
-            .attrs({"x": 1.1 * me.step, "y": 0, "dy": me.fontSize / 5 + "pt"})
+            .attrs({"x": 1.75 * me.step, "y": 0, "dy": me.fontSize / 5 + "pt"})
             .styles(value_text_styles)
             .text(value)
         if (me.debug == true) {
@@ -544,6 +557,25 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
 
     }
 
+    dragonadeLargeSignature(ox, oy, id, txt) {
+        let me = this
+        let now = new Date()
+        me.signature = me.back.append("g")
+        me.back.append("g")
+            .attr("id", "signature_spot_" + id)
+        d3.select("#signature_spot_" + id).append("image")
+            .attr("class", "relinkable")
+            .attr("xlink:href", "static/main/svg/2026/dragonade.svg")
+            .attr("width", 2.3 * me.step)
+            .attr("height", .6 * me.step)
+            .attr("x", ox * me.step)
+            .attr("y", oy * me.step)
+        me.signature.append("text")
+            .attrs({"x": (ox + 2.5) * me.step, "y": (oy + .4) * me.step})
+            .styles({"font-family": me.titleFont, "text-anchor": "start", "font-size": "12pt"})
+            .text(txt + " - [" + now.toLocaleDateString() + " " + now.toLocaleTimeString() + "] - Page "+(me.page+1)+"/"+me.pages_count+"")
+
+    }
 
     // wrap(tgt, width) {
     //     let item = d3.select(tgt),
@@ -632,15 +664,13 @@ xmlns:xlink="http://www.w3.org/1999/xlink" width="' + me.width + '" height="' + 
         ;
         me.back.append("rect")
             .attr("id", "pagerect")
-            .attr("x", me.ox * me.step)
-            .attr("y", me.oy * me.step)
-            .attr("rx", .5 * me.step)
-            .attr("ry", .5 * me.step)
-            .attr("width", me.width)
-            .attr("height", me.height)
+            .attr("x", me.ox * me.step*0.01)
+            .attr("y", me.oy * me.step*0.01)
+            .attr("width", me.width-me.step*0.02)
+            .attr("height", me.height-me.step*0.02)
             .style('stroke-width', '1pt')
             .style('stroke-dasharray', '')
-            .style('stroke', 'black')
+            .style('stroke', 'blue')
             .style('fill', 'white')
             //.attr('opacity', 0.75)
         ;
